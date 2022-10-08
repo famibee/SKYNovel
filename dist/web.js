@@ -102,7 +102,7 @@ var commonjsGlobal$1 = typeof globalThis < "u" ? globalThis : typeof window < "u
         "Tasman",
         "KHTML",
         "Gecko"
-      ]), St = le([
+      ]), St = he([
         "Adobe AIR",
         "Arora",
         "Avant Browser",
@@ -241,35 +241,35 @@ var commonjsGlobal$1 = typeof globalThis < "u" ? globalThis : typeof window < "u
         "Windows "
       ]);
       function ee(de) {
-        return Q(de, function(he, ie) {
-          return he || RegExp("\\b" + (ie.pattern || J(ie)) + "\\b", "i").exec(it) && (ie.label || ie);
+        return Q(de, function(ce, ie) {
+          return ce || RegExp("\\b" + (ie.pattern || J(ie)) + "\\b", "i").exec(it) && (ie.label || ie);
         });
       }
       function te(de) {
-        return Q(de, function(he, ie, Le) {
-          return he || (ie[Mt] || ie[/^[a-z]+(?: +[a-z]+\b)*/i.exec(Mt)] || RegExp("\\b" + J(Le) + "(?:\\b|\\w*\\d)", "i").exec(it)) && Le;
+        return Q(de, function(ce, ie, Le) {
+          return ce || (ie[Mt] || ie[/^[a-z]+(?: +[a-z]+\b)*/i.exec(Mt)] || RegExp("\\b" + J(Le) + "(?:\\b|\\w*\\d)", "i").exec(it)) && Le;
         });
       }
-      function le(de) {
-        return Q(de, function(he, ie) {
-          return he || RegExp("\\b" + (ie.pattern || J(ie)) + "\\b", "i").exec(it) && (ie.label || ie);
+      function he(de) {
+        return Q(de, function(ce, ie) {
+          return ce || RegExp("\\b" + (ie.pattern || J(ie)) + "\\b", "i").exec(it) && (ie.label || ie);
         });
       }
       function we(de) {
-        return Q(de, function(he, ie) {
+        return Q(de, function(ce, ie) {
           var Le = ie.pattern || J(ie);
-          return !he && (he = RegExp("\\b" + Le + "(?:/[\\d.]+|[ \\w.]*)", "i").exec(it)) && (he = X(he, Le, ie.label || ie)), he;
+          return !ce && (ce = RegExp("\\b" + Le + "(?:/[\\d.]+|[ \\w.]*)", "i").exec(it)) && (ce = X(ce, Le, ie.label || ie)), ce;
         });
       }
       function Be(de) {
-        return Q(de, function(he, ie) {
+        return Q(de, function(ce, ie) {
           var Le = ie.pattern || J(ie);
-          return !he && (he = RegExp("\\b" + Le + " *\\d+[.\\w_]*", "i").exec(it) || RegExp("\\b" + Le + " *\\w+-[\\w]*", "i").exec(it) || RegExp("\\b" + Le + "(?:; *(?:[a-z]+[_-])?[a-z]+\\d+|[^ ();-]*)", "i").exec(it)) && ((he = String(ie.label && !RegExp(Le, "i").test(ie.label) ? ie.label : he).split("/"))[1] && !/[\d.]+/.test(he[0]) && (he[0] += " " + he[1]), ie = ie.label || ie, he = Y(he[0].replace(RegExp(Le, "i"), ie).replace(RegExp("; *(?:" + ie + "[_-])?", "i"), " ").replace(RegExp("(" + ie + ")[-_.]?(\\w)", "i"), "$1 $2"))), he;
+          return !ce && (ce = RegExp("\\b" + Le + " *\\d+[.\\w_]*", "i").exec(it) || RegExp("\\b" + Le + " *\\w+-[\\w]*", "i").exec(it) || RegExp("\\b" + Le + "(?:; *(?:[a-z]+[_-])?[a-z]+\\d+|[^ ();-]*)", "i").exec(it)) && ((ce = String(ie.label && !RegExp(Le, "i").test(ie.label) ? ie.label : ce).split("/"))[1] && !/[\d.]+/.test(ce[0]) && (ce[0] += " " + ce[1]), ie = ie.label || ie, ce = Y(ce[0].replace(RegExp(Le, "i"), ie).replace(RegExp("; *(?:" + ie + "[_-])?", "i"), " ").replace(RegExp("(" + ie + ")[-_.]?(\\w)", "i"), "$1 $2"))), ce;
         });
       }
       function ne(de) {
-        return Q(de, function(he, ie) {
-          return he || (RegExp(ie + "(?:-[\\d.]+/|(?: for [\\w-]+)?[ /-])([\\d.]+[^ ();/_-]*)", "i").exec(it) || 0)[1] || null;
+        return Q(de, function(ce, ie) {
+          return ce || (RegExp(ie + "(?:-[\\d.]+/|(?: for [\\w-]+)?[ /-])([\\d.]+[^ ();/_-]*)", "i").exec(it) || 0)[1] || null;
         });
       }
       function Me() {
@@ -12161,7 +12161,7 @@ void main(void)\r
     for (var tt in vt) {
       var ht = vt[tt];
       if (this.anchor.x !== 0 || this.anchor.y !== 0)
-        for (var wt = 0, ee = this._textWidth * this.anchor.x, te = this._textHeight * this.anchor.y, le = 0; le < ht.total; le++)
+        for (var wt = 0, ee = this._textWidth * this.anchor.x, te = this._textHeight * this.anchor.y, he = 0; he < ht.total; he++)
           ht.vertices[wt++] -= ee, ht.vertices[wt++] -= te, ht.vertices[wt++] -= ee, ht.vertices[wt++] -= te, ht.vertices[wt++] -= ee, ht.vertices[wt++] -= te, ht.vertices[wt++] -= ee, ht.vertices[wt++] -= te;
       this._maxLineHeight = Q * T;
       var we = ht.mesh.geometry.getBuffer("aVertexPosition"), Be = ht.mesh.geometry.getBuffer("aTextureCoord"), ne = ht.mesh.geometry.getIndex();
@@ -16447,7 +16447,7 @@ Object.assign(lookup, {
   io: lookup,
   connect: lookup
 });
-var xr, Lr, Fr, un, ln, Ni, Mi, Di, fl, dl, Wa, Ts, pl, Ss, hn, vl, cn, Cs;
+var xr, Fr, Br, un, ln, Ni, Mi, Di, fl, dl, Wa, Ts, pl, Ss, hn, vl, cn, Cs;
 const gl = class {
   constructor(t = {}, e) {
     Pt(this, "hFactoryCls", {});
@@ -16459,8 +16459,8 @@ const gl = class {
     Pt(this, "val");
     Pt(this, "appPixi");
     et(this, xr, 0);
-    et(this, Lr, 0);
-    et(this, Fr, 1);
+    et(this, Fr, 0);
+    et(this, Br, 1);
     et(this, un, 0);
     et(this, ln, 0);
     et(this, Ni, 0);
@@ -16633,10 +16633,10 @@ const gl = class {
     return H(this, xr);
   }
   get cvsHeight() {
-    return H(this, Lr);
+    return H(this, Fr);
   }
   get cvsScale() {
-    return H(this, Fr);
+    return H(this, Br);
   }
   get ofsLeft4elm() {
     return H(this, un);
@@ -16664,18 +16664,18 @@ const gl = class {
     }
     const S = o.getBoundingClientRect();
     if (argChk_Boolean(CmnLib.hDip, "expanding", !0) || T || CmnLib.stageW > t || CmnLib.stageH > e)
-      if (CmnLib.stageW / CmnLib.stageH <= t / e ? (nt(this, Lr, e), nt(this, xr, CmnLib.stageW / CmnLib.stageH * e)) : (nt(this, xr, t), nt(this, Lr, CmnLib.stageH / CmnLib.stageW * t)), nt(this, Fr, H(this, xr) / CmnLib.stageW), T)
+      if (CmnLib.stageW / CmnLib.stageH <= t / e ? (nt(this, Fr, e), nt(this, xr, CmnLib.stageW / CmnLib.stageH * e)) : (nt(this, xr, t), nt(this, Fr, CmnLib.stageH / CmnLib.stageW * t)), nt(this, Br, H(this, xr) / CmnLib.stageW), T)
         nt(this, Ni, 0), nt(this, Mi, 0);
       else {
-        const U = 1 - H(this, Fr);
-        CmnLib.isMobile ? (nt(this, Ni, (t - H(this, xr)) / 2 * U), nt(this, Mi, (e - H(this, Lr)) / 2 * U)) : (nt(this, Ni, S.left * U), nt(this, Mi, S.top * U));
+        const U = 1 - H(this, Br);
+        CmnLib.isMobile ? (nt(this, Ni, (t - H(this, xr)) / 2 * U), nt(this, Mi, (e - H(this, Fr)) / 2 * U)) : (nt(this, Ni, S.left * U), nt(this, Mi, S.top * U));
       }
     else
-      nt(this, xr, CmnLib.stageW), nt(this, Lr, CmnLib.stageH), nt(this, Fr, 1), nt(this, Ni, 0), nt(this, Mi, 0);
+      nt(this, xr, CmnLib.stageW), nt(this, Fr, CmnLib.stageH), nt(this, Br, 1), nt(this, Ni, 0), nt(this, Mi, 0);
     const N = o.parentElement.style;
-    T || (N.position = "relative", N.width = `${H(this, xr)}px`, N.height = `${H(this, Lr)}px`);
+    T || (N.position = "relative", N.width = `${H(this, xr)}px`, N.height = `${H(this, Fr)}px`);
     const D = o.style;
-    D.width = N.width, D.height = N.height, T ? (nt(this, un, S.left), nt(this, ln, S.top)) : (nt(this, un, 0), nt(this, ln, 0)), this.isFullScr && (nt(this, un, H(this, un) + (t - H(this, xr)) / 2), nt(this, ln, H(this, ln) + (e - H(this, Lr)) / 2));
+    D.width = N.width, D.height = N.height, T ? (nt(this, un, S.left), nt(this, ln, S.top)) : (nt(this, un, 0), nt(this, ln, 0)), this.isFullScr && (nt(this, un, H(this, un) + (t - H(this, xr)) / 2), nt(this, ln, H(this, ln) + (e - H(this, Fr)) / 2));
   }
   attach_debug(t) {
     this.attach_debug = () => {
@@ -16726,10 +16726,10 @@ const gl = class {
     e.querySelectorAll(".sn_BounceIn, .sn_HopIn").forEach(($) => e.removeChild($));
     const o = document.createElement("img"), T = H(gl, dl)[t];
     o.src = `data:image/svg+xml;base64,${T.dat}`;
-    const S = Math.min(CmnLib.stageW, CmnLib.stageH) / 4 * H(this, Fr);
+    const S = Math.min(CmnLib.stageW, CmnLib.stageH) / 4 * H(this, Br);
     o.width = o.height = S, o.style.cssText = `position: absolute;
-left: ${(CmnLib.stageW - S) / 2 * H(this, Fr) + S * ((N = T.dx) != null ? N : 0)}px;
-top: ${(CmnLib.stageH - S) / 2 * H(this, Fr) + S * ((D = T.dy) != null ? D : 0)}px;`, o.classList.add("sn_toast", (B = T.ease) != null ? B : "sn_BounceInOut"), T.ease || o.addEventListener("animationend", () => e.removeChild(o), { once: !0, passive: !0 }), e.insertBefore(o, this.appPixi.view);
+left: ${(CmnLib.stageW - S) / 2 * H(this, Br) + S * ((N = T.dx) != null ? N : 0)}px;
+top: ${(CmnLib.stageH - S) / 2 * H(this, Br) + S * ((D = T.dy) != null ? D : 0)}px;`, o.classList.add("sn_toast", (B = T.ease) != null ? B : "sn_BounceInOut"), T.ease || o.addEventListener("animationend", () => e.removeChild(o), { once: !0, passive: !0 }), e.insertBefore(o, this.appPixi.view);
   }
   setFire(t) {
     this.fire = t;
@@ -16765,7 +16765,7 @@ top: ${(CmnLib.stageH - S) / 2 * H(this, Fr) + S * ((D = T.dy) != null ? D : 0)}
   }
 };
 let SysBase = gl;
-xr = new WeakMap(), Lr = new WeakMap(), Fr = new WeakMap(), un = new WeakMap(), ln = new WeakMap(), Ni = new WeakMap(), Mi = new WeakMap(), Di = new WeakMap(), fl = new WeakMap(), dl = new WeakMap(), Wa = new WeakMap(), Ts = new WeakMap(), pl = new WeakMap(), Ss = new WeakMap(), hn = new WeakMap(), vl = new WeakMap(), cn = new WeakMap(), Cs = new WeakMap(), Pt(SysBase, "VALNM_CFG_NS", "const.sn.cfg.ns"), et(SysBase, dl, {
+xr = new WeakMap(), Fr = new WeakMap(), Br = new WeakMap(), un = new WeakMap(), ln = new WeakMap(), Ni = new WeakMap(), Mi = new WeakMap(), Di = new WeakMap(), fl = new WeakMap(), dl = new WeakMap(), Wa = new WeakMap(), Ts = new WeakMap(), pl = new WeakMap(), Ss = new WeakMap(), hn = new WeakMap(), vl = new WeakMap(), cn = new WeakMap(), Cs = new WeakMap(), Pt(SysBase, "VALNM_CFG_NS", "const.sn.cfg.ns"), et(SysBase, dl, {
   \u63A5\u7D9A: { dx: -1, dat: "PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMCAyOTJ2NTUuODhoMTI3LjEzYzEyLjM3IDQ2IDU0LjEyIDc5Ljg3IDEwNCA3OS44N2g3Ny44N3YtMjE1LjYyYy00Ni43MyAwLTcyLjY4IDAtNzcuODggMC00OS43NCAwLTkxLjYyIDMzLjg3LTEwMy45OSA3OS44Ny0xNi45NSAwLTU5LjMzIDAtMTI3LjEzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im01MTIuODggMjkyYy0xMi4zOC00Ni01NC4xMy03OS44Ny0xMDQtNzkuODctNS4yMSAwLTMxLjIxIDAtNzggMHYyMTUuNzRoNzcuODdjNDkuODggMCA5MS43NS0zMy44NyAxMDQtNzkuODdoMTI3LjI1di01NmMtNzYuMjcgMC0xMTguNjUgMC0xMjcuMTIgMHoiLz48L2RlZnM+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9IiMzYWFiZDIiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYiIvPjx1c2UgZmlsbD0iIzNhYWJkMiIgeGxpbms6aHJlZj0iI2MiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNjIi8+PC9zdmc+" },
   \u5207\u65AD: { dat: "PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMTkxLjUzIDIyMS4yNGMtNDUuNjggMC04NC4wMSAzMS4wNC05NS4zIDczLjE2LTYuNDEgMC0zOC40OSAwLTk2LjIzIDB2NTEuMjFoOTYuMjNjMTEuMyA0Mi4xMSA0OS42MyA3My4xNiA5NS4zIDczLjE2aDcxLjMzdi00OC4yNGg1My43OHYtMTAxLjA1aC01My43OHYtNDguMjRjLTQyLjggMC02Ni41NyAwLTcxLjMzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im00NDguNDcgMjIxLjIzYy00Ljc2IDAtMjguNTMgMC03MS4zMyAwdjE5Ny41M2g3MS4zM2M0NS42OCAwIDgzLjk5LTMxLjA0IDk1LjI5LTczLjE1aDk2LjI0di01MS4yMWgtOTYuMjRjLTMzLjA4LTQ4Ljc4LTY0Ljg0LTczLjE3LTk1LjI5LTczLjE3eiIvPjwvZGVmcz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0iI2RmNTY1NiIgeGxpbms6aHJlZj0iI2IiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSIjZGY1NjU2IiB4bGluazpocmVmPSIjYyIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2MiLz48L3N2Zz4=" },
   \u518D\u751F: { dat: "PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0yNTguODMgMTExLjA1Yy0xLjI5Ljc5LTIuOTMuODMtNC4yNi4wNC0xLjI5LS43NC0yLjExLTIuMTItMi4xMS0zLjY3IDAtNy4xNiAwLTQyLjk3IDAtMTA3LjQzczAtMTAwLjI3IDAtMTA3LjQzYzAtMS41My44Mi0yLjkzIDIuMTEtMy42OCAxLjMzLS43NiAyLjk3LS43MiA0LjI2LjA0IDE4IDEwLjc1IDE2MiA5Ni43MSAxODAgMTA3LjQ2IDEuMjkuNzMgMi4wNSAyLjE0IDIuMDUgMy42MSAwIDEuNDktLjc2IDIuODgtMi4wNSAzLjYzLTM2IDIxLjQ5LTE2MiA5Ni42OS0xODAgMTA3LjQzeiIvPjwvZGVmcz48cGF0aCBkPSJtMTU0LjU3IDE3MC4xOWgzNDYuMTV2MzA3LjY5aC0zNDYuMTV6IiBmaWxsPSIjZmZmIi8+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4=" },
@@ -16930,10 +16930,10 @@ const Tf = class {
 };
 let Config = Tf;
 Ya = new WeakMap(), qa = new WeakMap(), _l = new WeakMap();
-var fn, Br, Za;
+var fn, kr, Za;
 const Pi = class {
   constructor() {
-    et(this, Br, () => {
+    et(this, kr, () => {
     });
   }
   static setting(t) {
@@ -16946,7 +16946,7 @@ const Pi = class {
     nt(Pi, fn, "\u30FD");
   }
   init(t) {
-    nt(this, Br, t);
+    nt(this, kr, t);
   }
   static setEscape(t) {
     nt(Pi, Za, new RegExp(
@@ -16970,36 +16970,36 @@ const Pi = class {
         continue;
       }
       if (D) {
-        H(this, Br).call(this, D.slice(1), "");
+        H(this, kr).call(this, D.slice(1), "");
         continue;
       }
       for (const $ of Array.from(B))
-        H(this, Br).call(this, $, "");
+        H(this, kr).call(this, $, "");
     }
   }
   putTxtRb(t, e) {
     if (/^\w+｜{"/.test(e)) {
-      H(this, Br).call(this, t, e);
+      H(this, kr).call(this, t, e);
       return;
     }
     const o = Array.from(t), T = o.length;
     if (/^\*.?$/.test(e)) {
       const B = "center\uFF5C" + (e === "*" ? H(Pi, fn) : e.charAt(1));
       for (let $ = 0; $ < T; ++$)
-        H(this, Br).call(this, o[$], B);
+        H(this, kr).call(this, o[$], B);
       return;
     }
     if (T === 1 || e.indexOf(" ") === -1) {
-      H(this, Br).call(this, t, decodeURIComponent(e));
+      H(this, kr).call(this, t, decodeURIComponent(e));
       return;
     }
     const S = e.split(" "), N = S.length, D = N > T ? N : T;
     for (let B = 0; B < D; ++B)
-      H(this, Br).call(this, B < T ? o[B] : "", B < N ? decodeURIComponent(S[B]) : "");
+      H(this, kr).call(this, B < T ? o[B] : "", B < N ? decodeURIComponent(S[B]) : "");
   }
 };
 let RubySpliter = Pi;
-fn = new WeakMap(), Br = new WeakMap(), Za = new WeakMap(), et(RubySpliter, fn, "\u30FD"), et(RubySpliter, Za, void 0);
+fn = new WeakMap(), kr = new WeakMap(), Za = new WeakMap(), et(RubySpliter, fn, "\u30FD"), et(RubySpliter, Za, void 0);
 const REG_TAG = /(?<name>[^\s;\]]+)/;
 function tagToken2Name_Args(r) {
   const t = REG_TAG.exec(r.slice(1, -1)), e = t == null ? void 0 : t.groups;
@@ -17303,8 +17303,8 @@ var parsimmon_umd_min = { exports: {} };
           for (var ke = 0; ke < Bt.length; ke++)
             be[Bt[ke]] = !0;
           var ti = [];
-          for (var rr in be)
-            ({}).hasOwnProperty.call(be, rr) && ti.push(rr);
+          for (var nr in be)
+            ({}).hasOwnProperty.call(be, nr) && ti.push(nr);
           return ti.sort(), ti;
         }(lt.expected, gt.expected) : gt.expected;
         return { status: lt.status, index: lt.index, value: lt.value, furthest: gt.furthest, expected: Tt };
@@ -17361,7 +17361,7 @@ var parsimmon_umd_min = { exports: {} };
         if (be === lt.length)
           return "Got the end of the input";
         if (tt(lt)) {
-          var ke = be - be % yt, ti = be - ke, rr = Ft(ke, ht, bt + yt, lt.length), ei = $(function(De) {
+          var ke = be - be % yt, ti = be - ke, nr = Ft(ke, ht, bt + yt, lt.length), ei = $(function(De) {
             return $(function(ps) {
               return It(ps.toString(16), 2, "0");
             }, De);
@@ -17372,10 +17372,10 @@ var parsimmon_umd_min = { exports: {} };
             for (var _s = 0; _s < vs; _s++)
               tn[gs] || tn.push([]), tn[gs].push(De[_s]), (_s + 1) % ps == 0 && gs++;
             return tn;
-          }(lt.slice(rr.from, rr.to).toJSON().data, yt));
+          }(lt.slice(nr.from, nr.to).toJSON().data, yt));
           Ut = function(De) {
             return De.from === 0 && De.to === 1 ? { from: De.from, to: De.to } : { from: De.from / yt, to: Math.floor(De.to / yt) };
-          }(rr), At = ke / yt, Tt = 3 * ti, ti >= 4 && (Tt += 1), ze = 2, Bt = $(function(De) {
+          }(nr), At = ke / yt, Tt = 3 * ti, ti >= 4 && (Tt += 1), ze = 2, Bt = $(function(De) {
             return De.length <= 4 ? De.join(" ") : De.slice(0, 4).join(" ") + "  " + De.slice(4).join(" ");
           }, ei), (Ht = (8 * (Ut.to > 0 ? Ut.to - 1 : Ut.to)).toString(16).length) < 2 && (Ht = 2);
         } else {
@@ -17509,7 +17509,7 @@ var parsimmon_umd_min = { exports: {} };
           return At.status ? it(Tt, 'not "' + Bt + '"') : st(Tt, null);
         });
       }
-      function le(lt) {
+      function he(lt) {
         return vt(lt), S(function(gt, Tt) {
           var At = pt(gt, Tt);
           return Tt < gt.length && lt(At) ? st(Tt + 1, At) : it(Tt, "a character/byte matching " + lt);
@@ -17666,7 +17666,7 @@ var parsimmon_umd_min = { exports: {} };
         return st(lt.length, lt.slice(gt));
       }), de = S(function(lt, gt) {
         return gt < lt.length ? it(gt, "EOF") : st(gt, null);
-      }), he = Mt(/[0-9]/).desc("a digit"), ie = Mt(/[0-9]*/).desc("optional digits"), Le = Mt(/[a-z]/i).desc("a letter"), Na = Mt(/[a-z]*/i).desc("optional letters"), Dc = Mt(/\s*/).desc("optional whitespace"), Vu = Mt(/\s+/).desc("whitespace"), Ma = St("\r"), Xu = St(`
+      }), ce = Mt(/[0-9]/).desc("a digit"), ie = Mt(/[0-9]*/).desc("optional digits"), Le = Mt(/[a-z]/i).desc("a letter"), Na = Mt(/[a-z]*/i).desc("optional letters"), Dc = Mt(/\s*/).desc("optional whitespace"), Vu = Mt(/\s+/).desc("whitespace"), Ma = St("\r"), Xu = St(`
 `), Wu = St(`\r
 `), Yu = Et(Wu, Xu, Ma).desc("newline"), Da = Et(Yu, de);
       S.all = ye, S.alt = Et, S.any = Me, S.cr = Ma, S.createLanguage = function(lt) {
@@ -17680,18 +17680,18 @@ var parsimmon_umd_min = { exports: {} };
         return gt;
       }, S.crlf = Wu, S.custom = function(lt) {
         return S(lt(st, it));
-      }, S.digit = he, S.digits = ie, S.empty = Be, S.end = Da, S.eof = de, S.fail = wt, S.formatError = Gt, S.index = ne, S.isParser = Q, S.lazy = we, S.letter = Le, S.letters = Na, S.lf = Xu, S.lookahead = ee, S.makeFailure = it, S.makeSuccess = st, S.newline = Yu, S.noneOf = function(lt) {
-        return le(function(gt) {
+      }, S.digit = ce, S.digits = ie, S.empty = Be, S.end = Da, S.eof = de, S.fail = wt, S.formatError = Gt, S.index = ne, S.isParser = Q, S.lazy = we, S.letter = Le, S.letters = Na, S.lf = Xu, S.lookahead = ee, S.makeFailure = it, S.makeSuccess = st, S.newline = Yu, S.noneOf = function(lt) {
+        return he(function(gt) {
           return lt.indexOf(gt) < 0;
         }).desc("none of '" + lt + "'");
       }, S.notFollowedBy = te, S.of = $t, S.oneOf = function(lt) {
         for (var gt = lt.split(""), Tt = 0; Tt < gt.length; Tt++)
           gt[Tt] = "'" + gt[Tt] + "'";
-        return le(function(At) {
+        return he(function(At) {
           return lt.indexOf(At) >= 0;
         }).desc(gt);
       }, S.optWhitespace = Dc, S.Parser = S, S.range = function(lt, gt) {
-        return le(function(Tt) {
+        return he(function(Tt) {
           return lt <= Tt && Tt <= gt;
         }).desc(lt + "-" + gt);
       }, S.regex = Mt, S.regexp = Mt, S.sepBy = zt, S.sepBy1 = Rt, S.seq = kt, S.seqMap = Nt, S.seqObj = function() {
@@ -17711,9 +17711,9 @@ var parsimmon_umd_min = { exports: {} };
         if (Tt === 0)
           throw new Error("seqObj expects at least one named parser, found zero");
         return S(function(be, ze) {
-          for (var ke, ti = {}, rr = 0; rr < Bt; rr += 1) {
+          for (var ke, ti = {}, nr = 0; nr < Bt; nr += 1) {
             var ei, ds;
-            if (rt(At[rr]) ? (ei = At[rr][0], ds = At[rr][1]) : (ei = null, ds = At[rr]), !(ke = at(ds._(be, ze), ke)).status)
+            if (rt(At[nr]) ? (ei = At[nr][0], ds = At[nr][1]) : (ei = null, ds = At[nr]), !(ke = at(ds._(be, ze), ke)).status)
               return ke;
             ei && (ti[ei] = ke.value), ze = ke.index;
           }
@@ -17725,7 +17725,7 @@ var parsimmon_umd_min = { exports: {} };
             At++;
           return st(At, gt.slice(Tt, At));
         });
-      }, S.test = le, S.whitespace = Vu, S["fantasy-land/empty"] = Be, S["fantasy-land/of"] = $t, S.Binary = { bitSeq: X, bitSeqObj: function(lt) {
+      }, S.test = he, S.whitespace = Vu, S["fantasy-land/empty"] = Be, S["fantasy-land/of"] = $t, S.Binary = { bitSeq: X, bitSeqObj: function(lt) {
         V();
         var gt = {}, Tt = 0, At = $(function(Ut) {
           if (rt(Ut)) {
@@ -18133,7 +18133,7 @@ class Areas {
     return t.slice(1);
   }
 }
-var Ae, sr, Ee, ri, Ie, Ye, kr, ro, Rl, io, Bc, no, so, Il, Lf, wl, Ff, pr, Dr, Pl, Bf, Al, kf, Ol, $f, Nl, Uf, Ml, Gf, Dl, Hf, Ll, jf, Fl, zf, ws, qu, ao, kc, oo, _n, uo, $c, Bl, kl, Ps, lo, As, Zu, $l, Vf, Ul, Xf, ho, Uc, co, Gc, Gl, Wf, Hl, Yf, Os, Ku;
+var Ae, or, Ee, ri, Ie, Ze, $r, ro, Rl, io, Bc, no, so, Il, Lf, wl, Ff, pr, Lr, Pl, Bf, Al, kf, Ol, $f, Nl, Uf, Ml, Gf, Dl, Hf, Ll, jf, Fl, zf, ws, qu, ao, kc, oo, _n, uo, $c, Bl, kl, Ps, lo, As, Zu, $l, Vf, Ul, Xf, ho, Uc, co, Gc, Gl, Wf, Hl, Yf, Os, Ku;
 const xs = class {
   constructor(t, e) {
     et(this, io);
@@ -18160,12 +18160,12 @@ const xs = class {
     et(this, Hl);
     et(this, Os);
     et(this, Ae, { sys: {}, save: {}, tmp: {}, mp: {} });
-    et(this, sr, H(this, Ae).save);
+    et(this, or, H(this, Ae).save);
     et(this, Ee, H(this, Ae).tmp);
     et(this, ri, void 0);
     et(this, Ie, { sys: {}, mark: {}, kidoku: {} });
-    et(this, Ye, void 0);
-    et(this, kr, {});
+    et(this, Ze, void 0);
+    et(this, $r, {});
     et(this, ro, void 0);
     et(this, Rl, {
       auth: (t, e) => ot(this, io, Bc).call(this, e.hBreakpoint.aData),
@@ -18189,7 +18189,7 @@ const xs = class {
     et(this, so, (t) => {
     });
     Pt(this, "getMark", (t) => H(this, Ie).mark[t]);
-    Pt(this, "getAreaKidoku", (t) => H(this, kr)[t]);
+    Pt(this, "getAreaKidoku", (t) => H(this, $r)[t]);
     et(this, oo, (t, e, o = !0) => {
       if (!t)
         throw "[\u5909\u6570\u306B\u5024\u30BB\u30C3\u30C8] name\u306F\u5FC5\u9808\u3067\u3059";
@@ -18282,7 +18282,7 @@ const xs = class {
       }
     });
     var S;
-    if (this.cfg = t, e.let = (N) => ot(this, pr, Dr).call(this, N), e.let_abs = (N) => ot(this, Pl, Bf).call(this, N), e.let_char_at = (N) => ot(this, Al, kf).call(this, N), e.let_index_of = (N) => ot(this, Ol, $f).call(this, N), e.let_length = (N) => ot(this, Nl, Uf).call(this, N), e.let_replace = (N) => ot(this, Ml, Gf).call(this, N), e.let_round = (N) => ot(this, Dl, Hf).call(this, N), e.let_search = (N) => ot(this, Ll, jf).call(this, N), e.let_substr = (N) => ot(this, Fl, zf).call(this, N), e.clearsysvar = () => ot(this, ws, qu).call(this), e.clearvar = () => ot(this, ao, kc).call(this), e.dump_val = () => H(this, kl).call(this), e.copybookmark = (N) => ot(this, Il, Lf).call(this, N), e.erasebookmark = (N) => ot(this, wl, Ff).call(this, N), H(this, sr)["sn.userFnTail"] = "", this.defTmp("const.sn.bookmark.json", () => {
+    if (this.cfg = t, e.let = (N) => ot(this, pr, Lr).call(this, N), e.let_abs = (N) => ot(this, Pl, Bf).call(this, N), e.let_char_at = (N) => ot(this, Al, kf).call(this, N), e.let_index_of = (N) => ot(this, Ol, $f).call(this, N), e.let_length = (N) => ot(this, Nl, Uf).call(this, N), e.let_replace = (N) => ot(this, Ml, Gf).call(this, N), e.let_round = (N) => ot(this, Dl, Hf).call(this, N), e.let_search = (N) => ot(this, Ll, jf).call(this, N), e.let_substr = (N) => ot(this, Fl, zf).call(this, N), e.clearsysvar = () => ot(this, ws, qu).call(this), e.clearvar = () => ot(this, ao, kc).call(this), e.dump_val = () => H(this, kl).call(this), e.copybookmark = (N) => ot(this, Il, Lf).call(this, N), e.erasebookmark = (N) => ot(this, wl, Ff).call(this, N), H(this, or)["sn.userFnTail"] = "", this.defTmp("const.sn.bookmark.json", () => {
       const N = [];
       for (const D of Object.keys(H(this, Ie).mark).sort()) {
         const B = { ...H(this, Ie).mark[D].json };
@@ -18300,14 +18300,14 @@ const xs = class {
       const o = this.cfg.getNs();
       nt(this, no, this.cfg.oCfg.debug.variable ? () => {
         const S = {};
-        for (const z of Object.keys(H(this, Ye))) {
-          const V = H(this, Ye)[z];
+        for (const z of Object.keys(H(this, Ze))) {
+          const V = H(this, Ze)[z];
           S["sys:" + z] = V instanceof Function ? V() : V;
         }
         sessionStorage[o + "sys"] = JSON.stringify(S);
         const N = {};
-        for (const z of Object.keys(H(this, sr))) {
-          const V = H(this, sr)[z];
+        for (const z of Object.keys(H(this, or))) {
+          const V = H(this, or)[z];
           N["save:" + z] = V instanceof Function ? V() : V;
         }
         sessionStorage[o + "save"] = JSON.stringify(N);
@@ -18344,10 +18344,10 @@ const xs = class {
     });
   }
   updateData(t) {
-    nt(this, Ie, t), nt(this, Ye, H(this, Ae).sys = H(this, Ie).sys), nt(this, kr, {});
+    nt(this, Ie, t), nt(this, Ze, H(this, Ae).sys = H(this, Ie).sys), nt(this, $r, {});
     for (const [e, o] of Object.entries(H(this, Ie).kidoku)) {
       const T = new Areas();
-      T.hAreas = { ...o }, H(this, kr)[e] = T;
+      T.hAreas = { ...o }, H(this, $r)[e] = T;
     }
   }
   flush() {
@@ -18373,13 +18373,13 @@ const xs = class {
   }
   mark2save(t) {
     var e;
-    nt(this, sr, H(this, Ae).save = { ...t.hSave }), nt(this, Ps, (e = H(this, sr)["sn.doRecLog"]) != null ? e : !1);
+    nt(this, or, H(this, Ae).save = { ...t.hSave }), nt(this, Ps, (e = H(this, or)["sn.doRecLog"]) != null ? e : !1);
   }
   loadScrWork(t) {
-    t in H(this, kr) || (H(this, kr)[t] = new Areas());
+    t in H(this, $r) || (H(this, $r)[t] = new Areas());
   }
   saveKidoku() {
-    for (const [t, { hAreas: e }] of Object.entries(H(this, kr)))
+    for (const [t, { hAreas: e }] of Object.entries(H(this, $r)))
       H(this, Ie).kidoku[t] = { ...e };
     this.flush();
   }
@@ -18406,7 +18406,7 @@ const xs = class {
   }
 };
 let Variable = xs;
-Ae = new WeakMap(), sr = new WeakMap(), Ee = new WeakMap(), ri = new WeakMap(), Ie = new WeakMap(), Ye = new WeakMap(), kr = new WeakMap(), ro = new WeakMap(), Rl = new WeakMap(), io = new WeakSet(), Bc = function(t) {
+Ae = new WeakMap(), or = new WeakMap(), Ee = new WeakMap(), ri = new WeakMap(), Ie = new WeakMap(), Ze = new WeakMap(), $r = new WeakMap(), ro = new WeakMap(), Rl = new WeakMap(), io = new WeakSet(), Bc = function(t) {
   nt(xs, _n, {});
   for (const e of t)
     H(xs, _n)[e.dataId] = 1;
@@ -18426,7 +18426,7 @@ Ae = new WeakMap(), sr = new WeakMap(), Ee = new WeakMap(), ri = new WeakMap(), 
   if (!e)
     throw "place\u306F\u5FC5\u9808\u3067\u3059";
   return delete H(this, Ie).mark[e], this.flush(), H(this, ri).eraseBMFolder(e), !1;
-}, pr = new WeakSet(), Dr = function(t) {
+}, pr = new WeakSet(), Lr = function(t) {
   if (!t.name)
     throw "name\u306F\u5FC5\u9808\u3067\u3059";
   let e = !0;
@@ -18453,50 +18453,50 @@ Ae = new WeakMap(), sr = new WeakMap(), Ee = new WeakMap(), ri = new WeakMap(), 
   return H(this, oo).call(this, t.name, t.text, e), !1;
 }, Pl = new WeakSet(), Bf = function(t) {
   const e = argChk_Num(t, "text", 0);
-  return t.text = String(e < 0 ? -e : e), ot(this, pr, Dr).call(this, t), !1;
+  return t.text = String(e < 0 ? -e : e), ot(this, pr, Lr).call(this, t), !1;
 }, Al = new WeakSet(), kf = function(t) {
   var e;
-  return t.text = ((e = t.text) != null ? e : "").charAt(argChk_Num(t, "pos", 0)), ot(this, pr, Dr).call(this, t), !1;
+  return t.text = ((e = t.text) != null ? e : "").charAt(argChk_Num(t, "pos", 0)), ot(this, pr, Lr).call(this, t), !1;
 }, Ol = new WeakSet(), $f = function(t) {
   var T;
   const { val: e } = t;
   if (!e)
     throw "val\u306F\u5FC5\u9808\u3067\u3059";
   const o = argChk_Num(t, "start", 0);
-  return t.text = String(((T = t.text) != null ? T : "").indexOf(e, o)), ot(this, pr, Dr).call(this, t), !1;
+  return t.text = String(((T = t.text) != null ? T : "").indexOf(e, o)), ot(this, pr, Lr).call(this, t), !1;
 }, Nl = new WeakSet(), Uf = function(t) {
   var e;
-  return t.text = String(((e = t.text) != null ? e : "").length), ot(this, pr, Dr).call(this, t), !1;
+  return t.text = String(((e = t.text) != null ? e : "").length), ot(this, pr, Lr).call(this, t), !1;
 }, Ml = new WeakSet(), Gf = function(t) {
   var T;
   if (!t.reg)
     throw "reg\u306F\u5FC5\u9808\u3067\u3059";
   const { flags: e } = t, o = e ? new RegExp(t.reg, e) : new RegExp(t.reg);
-  return t.text = String((T = t.text) != null ? T : "").replace(o, String(t.val)), ot(this, pr, Dr).call(this, t), !1;
+  return t.text = String((T = t.text) != null ? T : "").replace(o, String(t.val)), ot(this, pr, Lr).call(this, t), !1;
 }, Dl = new WeakSet(), Hf = function(t) {
   const e = argChk_Num(t, "text", 0);
-  return t.text = String(Math.round(e)), ot(this, pr, Dr).call(this, t), !1;
+  return t.text = String(Math.round(e)), ot(this, pr, Lr).call(this, t), !1;
 }, Ll = new WeakSet(), jf = function(t) {
   var T;
   if (!t.reg)
     throw "reg\u306F\u5FC5\u9808\u3067\u3059";
   const { flags: e } = t, o = e ? new RegExp(t.reg, e) : new RegExp(t.reg);
-  return t.text = String(((T = t.text) != null ? T : "").search(o)), ot(this, pr, Dr).call(this, t), !1;
+  return t.text = String(((T = t.text) != null ? T : "").search(o)), ot(this, pr, Lr).call(this, t), !1;
 }, Fl = new WeakSet(), zf = function(t) {
   var o, T;
   const e = argChk_Num(t, "pos", 0);
-  return t.text = t.len !== "all" ? ((o = t.text) != null ? o : "").slice(e, e + int(argChk_Num(t, "len", 1))) : ((T = t.text) != null ? T : "").slice(e), ot(this, pr, Dr).call(this, t), !1;
+  return t.text = t.len !== "all" ? ((o = t.text) != null ? o : "").slice(e, e + int(argChk_Num(t, "len", 1))) : ((T = t.text) != null ? T : "").slice(e), ot(this, pr, Lr).call(this, t), !1;
 }, ws = new WeakSet(), qu = function() {
   var o, T;
-  const t = nt(this, Ye, H(this, Ae).sys = H(this, Ie).sys = {});
+  const t = nt(this, Ze, H(this, Ae).sys = H(this, Ie).sys = {});
   typeof process < "u" || (this.setVal_Nochk("sys", "const.sn.window.x", 0), this.setVal_Nochk("sys", "const.sn.window.y", 0)), this.setVal_Nochk("sys", "sn.tagCh.doWait", !0), this.setVal_Nochk("sys", "sn.tagCh.doWait_Kidoku", !0), this.setVal_Nochk("sys", "sn.tagCh.msecWait", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.tagCh.msecWait_Kidoku", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.tagCh.canskip", !0), this.setVal_Nochk("sys", "sn.skip.mode", "s"), this.setVal_Nochk("sys", "sn.auto.msecPageWait", argChk_Num(t, "sn.auto.msecPageWait", (o = this.cfg.oCfg.init.auto_msecpagewait) != null ? o : 3500)), this.setVal_Nochk("sys", "sn.auto.msecPageWait_Kidoku", argChk_Num(t, "sn.auto.msecPageWait", (T = this.cfg.oCfg.init.auto_msecpagewait) != null ? T : 3500)), this.setVal_Nochk("sys", "sn.auto.msecLineWait", 500), this.setVal_Nochk("sys", "sn.auto.msecLineWait_Kidoku", 500), this.setVal_Nochk("sys", "const.sn.sound.BGM.volume", 1), this.setVal_Nochk("sys", "const.sn.sound.SE.volume", 1), this.setVal_Nochk("sys", "const.sn.sound.SYS.volume", 1);
   for (const [S, N] of Object.entries(H(this, Ie).kidoku))
-    N.hAreas = {}, H(this, kr)[S].clear();
+    N.hAreas = {}, H(this, $r)[S].clear();
   return this.setVal_Nochk("sys", "TextLayer.Back.Alpha", 0.5), H(this, Ae).mark = H(this, Ie).mark = {}, this.setVal_Nochk("sys", "const.sn.save.place", 1), this.flush(), !1;
 }, ao = new WeakSet(), kc = function() {
   var T, S, N;
-  const t = (T = H(this, sr)["const.sn.mesLayer"]) != null ? T : "", e = (S = H(this, sr)["sn.doRecLog"]) != null ? S : !1, o = (N = H(this, sr)["const.sn.sLog"]) != null ? N : "[]";
-  return nt(this, sr, H(this, Ae).save = {}), this.setVal_Nochk("save", "const.sn.mesLayer", t), this.setVal_Nochk("save", "sn.doRecLog", e), this.setVal_Nochk("save", "const.sn.sLog", o), !1;
+  const t = (T = H(this, or)["const.sn.mesLayer"]) != null ? T : "", e = (S = H(this, or)["sn.doRecLog"]) != null ? S : !1, o = (N = H(this, or)["const.sn.sLog"]) != null ? N : "[]";
+  return nt(this, or, H(this, Ae).save = {}), this.setVal_Nochk("save", "const.sn.mesLayer", t), this.setVal_Nochk("save", "sn.doRecLog", e), this.setVal_Nochk("save", "const.sn.sLog", o), !1;
 }, oo = new WeakMap(), _n = new WeakMap(), uo = new WeakSet(), $c = function(t) {
   const e = t;
   if (e === "true")
@@ -18508,25 +18508,25 @@ Ae = new WeakMap(), sr = new WeakMap(), Ee = new WeakMap(), ri = new WeakMap(), 
   if (e !== "undefined")
     return H(this, Bl).test(e) ? parseFloat(e) : t;
 }, Bl = new WeakMap(), kl = new WeakMap(), Ps = new WeakMap(), lo = new WeakMap(), As = new WeakSet(), Zu = function(t) {
-  argChk_Boolean(H(this, Ye), t, !0);
+  argChk_Boolean(H(this, Ze), t, !0);
 }, $l = new WeakSet(), Vf = function(t) {
-  argChk_Num(H(this, Ye), t, 10), H(this, Ye)["sn.tagCh.doWait"];
+  argChk_Num(H(this, Ze), t, 10), H(this, Ze)["sn.tagCh.doWait"];
 }, Ul = new WeakSet(), Xf = function(t) {
   argChk_Num(
-    H(this, Ye),
+    H(this, Ze),
     t,
     this.cfg.oCfg.init.tagch_msecwait === void 0 ? 10 : this.cfg.oCfg.init.tagch_msecwait
-  ), H(this, Ye)["sn.tagCh.doWait_Kidoku"];
+  ), H(this, Ze)["sn.tagCh.doWait_Kidoku"];
 }, ho = new WeakSet(), Uc = function(t) {
   argChk_Num(
-    H(this, Ye),
+    H(this, Ze),
     t,
     this.cfg.oCfg.init.auto_msecpagewait === void 0 ? 3500 : this.cfg.oCfg.init.auto_msecpagewait
   );
 }, co = new WeakSet(), Gc = function(t) {
-  argChk_Num(H(this, Ye), t, 500);
+  argChk_Num(H(this, Ze), t, 500);
 }, Gl = new WeakSet(), Wf = function(t) {
-  return argChk_Boolean(H(this, sr), t, !0);
+  return argChk_Boolean(H(this, or), t, !0);
 }, Hl = new WeakSet(), Yf = function(t) {
   argChk_Boolean(H(this, Ee), t, !0);
 }, Os = new WeakSet(), Ku = function(t) {
@@ -19861,7 +19861,7 @@ var y = function() {
   return s = r, r;
 }(new L());
 "extensions" in n ? extensions.add(y) : Loader.registerPlugin(y);
-var Se, $e, Bi, zl, qf, Ns, Ju, Vl, Zf, Xl, Kf, po, Hc, mn, La, vo, jc, Ms, Ds, Qu, yn, Fa, go, Ls, tl, Wl, Jf, $r, wi, Yl, Qf, _o, zc, bn, Ba, ql, td, mo, Vc, Zl, ed, Kl, rd, Fs, el;
+var Se, $e, Bi, zl, qf, Ns, Ju, Vl, Zf, Xl, Kf, po, Hc, mn, La, vo, jc, Ms, Ds, Qu, yn, Fa, go, Ls, tl, Wl, Jf, Ur, wi, Yl, Qf, _o, zc, bn, Ba, ql, td, mo, Vc, Zl, ed, Kl, rd, Fs, el;
 const Xa = class {
   constructor(t, e, o, T, S) {
     et(this, zl);
@@ -19875,7 +19875,7 @@ const Xa = class {
     et(this, yn);
     et(this, Ls);
     et(this, Wl);
-    et(this, $r);
+    et(this, Ur);
     et(this, Yl);
     et(this, _o);
     et(this, bn);
@@ -19891,7 +19891,7 @@ const Xa = class {
       R.volumeAll = Number(this.val.getVal("sys:sn.sound.global_volume", 1)), nt(this, go, () => {
       });
     });
-    this.cfg = t, this.val = o, this.main = T, this.sys = S, e.volume = (N) => ot(this, zl, qf).call(this, N), e.fadebgm = (N) => ot(this, po, Hc).call(this, N), e.fadeoutbgm = (N) => ot(this, Vl, Zf).call(this, N), e.fadeoutse = (N) => ot(this, Xl, Kf).call(this, N), e.fadese = (N) => ot(this, mn, La).call(this, N), e.playbgm = (N) => ot(this, vo, jc).call(this, N), e.playse = (N) => ot(this, Ds, Qu).call(this, N), e.stop_allse = () => ot(this, Ls, tl).call(this), e.stopbgm = (N) => ot(this, Wl, Jf).call(this, N), e.stopse = (N) => ot(this, $r, wi).call(this, N), e.wb = (N) => ot(this, Yl, Qf).call(this, N), e.wf = (N) => ot(this, _o, zc).call(this, N), e.stopfadese = (N) => ot(this, bn, Ba).call(this, N), e.wl = (N) => ot(this, ql, td).call(this, N), e.ws = (N) => ot(this, mo, Vc).call(this, N), e.xchgbuf = (N) => ot(this, Zl, ed).call(this, N), this.val.setVal_Nochk("save", "const.sn.loopPlaying", "{}"), o.setVal_Nochk("tmp", "const.sn.sound.codecs", JSON.stringify(I.supported));
+    this.cfg = t, this.val = o, this.main = T, this.sys = S, e.volume = (N) => ot(this, zl, qf).call(this, N), e.fadebgm = (N) => ot(this, po, Hc).call(this, N), e.fadeoutbgm = (N) => ot(this, Vl, Zf).call(this, N), e.fadeoutse = (N) => ot(this, Xl, Kf).call(this, N), e.fadese = (N) => ot(this, mn, La).call(this, N), e.playbgm = (N) => ot(this, vo, jc).call(this, N), e.playse = (N) => ot(this, Ds, Qu).call(this, N), e.stop_allse = () => ot(this, Ls, tl).call(this), e.stopbgm = (N) => ot(this, Wl, Jf).call(this, N), e.stopse = (N) => ot(this, Ur, wi).call(this, N), e.wb = (N) => ot(this, Yl, Qf).call(this, N), e.wf = (N) => ot(this, _o, zc).call(this, N), e.stopfadese = (N) => ot(this, bn, Ba).call(this, N), e.wl = (N) => ot(this, ql, td).call(this, N), e.ws = (N) => ot(this, mo, Vc).call(this, N), e.xchgbuf = (N) => ot(this, Zl, ed).call(this, N), this.val.setVal_Nochk("save", "const.sn.loopPlaying", "{}"), o.setVal_Nochk("tmp", "const.sn.sound.codecs", JSON.stringify(I.supported));
   }
   setEvtMng(t) {
     nt(this, Bi, t);
@@ -19956,20 +19956,20 @@ Se = new WeakMap(), $e = new WeakMap(), Bi = new WeakMap(), zl = new WeakSet(), 
   D && (ot(this, Fs, el).call(this, e), this.val.setVal_Nochk("save", "const.sn.sound." + e + ".fn", "")), this.val.flush();
   const B = argChk_Num(t, "time", NaN), $ = argChk_Num(t, "delay", 0);
   if (B === 0 && $ === 0 || this.val.getVal("tmp:sn.skip.enabled") || H(this, Bi).isSkippingByKeyDown())
-    return o.snd.volume = N, D && ot(this, $r, wi).call(this, t), !1;
+    return o.snd.volume = N, D && ot(this, Ur, wi).call(this, t), !1;
   const U = argChk_Num(t, "repeat", 1);
   return o.twFade = new Tween({ v: o.snd.volume }).to({ v: N }, B).delay($).easing(CmnTween.ease(t.ease)).repeat(U === 0 ? 1 / 0 : U - 1).yoyo(argChk_Boolean(t, "yoyo", !1)).onUpdate((z) => {
     o.playing() && (o.snd.volume = z.v);
   }).onComplete(() => {
     const z = H(this, Se)[t.buf = o.now_buf];
-    !(z != null && z.twFade) || (delete z.twFade, D && ot(this, $r, wi).call(this, t), z.resumeFade && this.main.resume());
+    !(z != null && z.twFade) || (delete z.twFade, D && ot(this, Ur, wi).call(this, t), z.resumeFade && this.main.resume());
   }).start(), !1;
 }, vo = new WeakSet(), jc = function(t) {
   return t.buf = "BGM", t.canskip = !1, argChk_Boolean(t, "loop", !0), ot(this, Ds, Qu).call(this, t);
 }, Ms = new WeakMap(), Ds = new WeakSet(), Qu = function(t) {
   var Z;
   const { buf: e = "SE", fn: o } = t;
-  if (ot(this, $r, wi).call(this, { buf: e }), !o)
+  if (ot(this, Ur, wi).call(this, { buf: e }), !o)
     throw `[playse] fn\u306F\u5FC5\u9808\u3067\u3059 buf:${e}`;
   if (argChk_Boolean(t, "canskip", !0) && H(this, Bi).isSkippingByKeyDown())
     return !1;
@@ -20123,11 +20123,11 @@ Se = new WeakMap(), $e = new WeakMap(), Bi = new WeakMap(), zl = new WeakSet(), 
   });
 }, go = new WeakMap(), Ls = new WeakSet(), tl = function() {
   for (const t of Object.keys(H(this, Se)))
-    ot(this, $r, wi).call(this, { buf: t });
+    ot(this, Ur, wi).call(this, { buf: t });
   return nt(this, Se, {}), R.stopAll(), !1;
 }, Wl = new WeakSet(), Jf = function(t) {
-  return t.buf = "BGM", ot(this, $r, wi).call(this, t);
-}, $r = new WeakSet(), wi = function(t) {
+  return t.buf = "BGM", ot(this, Ur, wi).call(this, t);
+}, Ur = new WeakSet(), wi = function(t) {
   var T;
   const { buf: e = "SE" } = t;
   ot(this, Fs, el).call(this, e);
@@ -20152,7 +20152,7 @@ Se = new WeakMap(), $e = new WeakMap(), Bi = new WeakMap(), zl = new WeakSet(), 
   const { buf: e = "SE" } = t, o = H(this, Se)[e];
   return !(o != null && o.playing()) || o.loop ? !1 : o.resume = H(this, Bi).waitEvent(
     () => {
-      t.buf = o.now_buf, ot(this, $r, wi).call(this, t);
+      t.buf = o.now_buf, ot(this, Ur, wi).call(this, t);
       const T = H(this, Se)[t.buf];
       !(T != null && T.playing()) || T.loop || T.onend();
     },
@@ -20178,24 +20178,24 @@ Se = new WeakMap(), $e = new WeakMap(), Bi = new WeakMap(), zl = new WeakSet(), 
 }, Fs = new WeakSet(), el = function(t) {
   delete H(this, $e)[t], this.val.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(H(this, $e))), this.val.flush();
 }, et(SoundMng, Ms, 999e3);
-var ce;
+var fe;
 const Cf = class {
   constructor(t, e, o, T, S, N, D, B) {
-    et(this, ce, void 0);
+    et(this, fe, void 0);
     Pt(this, "lay", (t) => this.getPage(t).lay(t));
-    Pt(this, "getPage", (t) => Cf.argChk_page(t, "fore") !== "back" ? H(this, ce).fore : H(this, ce).back);
+    Pt(this, "getPage", (t) => Cf.argChk_page(t, "fore") !== "back" ? H(this, fe).fore : H(this, fe).back);
     this.cls = e, this.hArg = S, this.sys = N, this.val = D, this.ret = B;
     const $ = N.hFactoryCls[e];
     if (!$)
       throw `\u5C5E\u6027 class\u3010${e}\u3011\u304C\u4E0D\u6B63\u3067\u3059`;
-    nt(this, ce, { fore: $(), back: $() }), H(this, ce).fore.layname = H(this, ce).back.layname = t;
+    nt(this, fe, { fore: $(), back: $() }), H(this, fe).fore.layname = H(this, fe).back.layname = t;
     const U = S[":id_tag"] = `layer:${t} cls:${e}`;
-    H(this, ce).fore.name = `${U} page:A`, H(this, ce).back.name = `${U} page:B`, o.addChild(this.fore.spLay), T.addChild(this.back.spLay), argChk_Boolean(S, "visible", !0), argChk_Boolean(S, "visible", !0), B.isWait = this.fore.lay(S) || this.back.lay(S);
+    H(this, fe).fore.name = `${U} page:A`, H(this, fe).back.name = `${U} page:B`, o.addChild(this.fore.spLay), T.addChild(this.back.spLay), argChk_Boolean(S, "visible", !0), argChk_Boolean(S, "visible", !0), B.isWait = this.fore.lay(S) || this.back.lay(S);
     const z = `const.sn.lay.${t}`;
-    D.setVal_Nochk("tmp", z, !0), D.defTmp(z + ".fore.alpha", () => H(this, ce).fore.alpha), D.defTmp(z + ".back.alpha", () => H(this, ce).back.alpha), D.defTmp(z + ".fore.height", () => H(this, ce).fore.height), D.defTmp(z + ".back.height", () => H(this, ce).back.height), D.defTmp(z + ".fore.visible", () => H(this, ce).fore.spLay.visible), D.defTmp(z + ".back.visible", () => H(this, ce).back.spLay.visible), D.defTmp(z + ".fore.width", () => H(this, ce).fore.width), D.defTmp(z + ".back.width", () => H(this, ce).back.width), D.defTmp(z + ".fore.x", () => H(this, ce).fore.x), D.defTmp(z + ".back.x", () => H(this, ce).back.x), D.defTmp(z + ".fore.y", () => H(this, ce).fore.y), D.defTmp(z + ".back.y", () => H(this, ce).back.y);
+    D.setVal_Nochk("tmp", z, !0), D.defTmp(z + ".fore.alpha", () => H(this, fe).fore.alpha), D.defTmp(z + ".back.alpha", () => H(this, fe).back.alpha), D.defTmp(z + ".fore.height", () => H(this, fe).fore.height), D.defTmp(z + ".back.height", () => H(this, fe).back.height), D.defTmp(z + ".fore.visible", () => H(this, fe).fore.spLay.visible), D.defTmp(z + ".back.visible", () => H(this, fe).back.spLay.visible), D.defTmp(z + ".fore.width", () => H(this, fe).fore.width), D.defTmp(z + ".back.width", () => H(this, fe).back.width), D.defTmp(z + ".fore.x", () => H(this, fe).fore.x), D.defTmp(z + ".back.x", () => H(this, fe).back.x), D.defTmp(z + ".fore.y", () => H(this, fe).fore.y), D.defTmp(z + ".back.y", () => H(this, fe).back.y);
   }
   destroy() {
-    H(this, ce).fore.destroy(), H(this, ce).back.destroy();
+    H(this, fe).fore.destroy(), H(this, fe).back.destroy();
   }
   static argChk_page(t, e) {
     var T;
@@ -20205,17 +20205,17 @@ const Cf = class {
     throw Error("\u5C5E\u6027 page\u3010" + o + "\u3011\u304C\u4E0D\u6B63\u3067\u3059");
   }
   get fore() {
-    return H(this, ce).fore;
+    return H(this, fe).fore;
   }
   get back() {
-    return H(this, ce).back;
+    return H(this, fe).back;
   }
   transPage(t) {
-    [H(this, ce).back, H(this, ce).fore] = [H(this, ce).fore, H(this, ce).back], H(this, ce).back.copy(H(this, ce).fore, t);
+    [H(this, fe).back, H(this, fe).fore] = [H(this, fe).fore, H(this, fe).back], H(this, fe).back.copy(H(this, fe).fore, t);
   }
 };
 let Pages = Cf;
-ce = new WeakMap();
+fe = new WeakMap();
 var Jl, Ql;
 const Ai = class {
   constructor() {
@@ -26052,8 +26052,8 @@ var Draggable = {
     }) && wt.every(function(ne) {
       return !ne;
     }))) {
-      var ee = Draggable.drag(r, setCustomDrag(t, r.state, wt, !!S, !1, "draggable")), te = ee.transform, le = Y + Ft, we = q + dt, Be = fillParams(r, t, __assign$2({
-        width: le,
+      var ee = Draggable.drag(r, setCustomDrag(t, r.state, wt, !!S, !1, "draggable")), te = ee.transform, he = Y + Ft, we = q + dt, Be = fillParams(r, t, __assign$2({
+        width: he,
         height: we,
         offsetWidth: Math.round(Nt),
         offsetHeight: Math.round(Et),
@@ -26067,7 +26067,7 @@ var Draggable = {
         drag: ee
       }, fillAfterTransform({
         style: {
-          width: "".concat(le, "px"),
+          width: "".concat(he, "px"),
           height: "".concat(we, "px")
         },
         transform: te
@@ -27445,11 +27445,11 @@ function getClipPath(r, t, e, o, T) {
       var tt = splitComma(J || "0% 0%, 100% 0%, 100% 100%, 0% 100%");
       rt = ",";
       var st = tt.map(function(wt) {
-        var ee = wt.split(" "), te = ee[0], le = ee[1];
+        var ee = wt.split(" "), te = ee[0], he = ee[1];
         return {
           vertical: 1,
           horizontal: 1,
-          pos: [convertUnitSize(te, t), convertUnitSize(le, e)]
+          pos: [convertUnitSize(te, t), convertUnitSize(he, e)]
         };
       });
       return {
@@ -27714,11 +27714,11 @@ var Clippable = {
     return Q && ["vertical", "horizontal"].forEach(function(St) {
       var Mt = Q[St], $t = St === "horizontal";
       Mt.isSnap && ct.push.apply(ct, Mt.snap.posInfos.map(function(wt, ee) {
-        var te = wt.pos, le = minus(calculatePosition(z, $t ? [0, te] : [te, 0], st), [X, W]), we = minus(calculatePosition(z, $t ? [$, te] : [te, U], st), [X, W]);
-        return renderLine(t, "", le, we, N, "clip".concat(St, "snap").concat(ee), "guideline");
+        var te = wt.pos, he = minus(calculatePosition(z, $t ? [0, te] : [te, 0], st), [X, W]), we = minus(calculatePosition(z, $t ? [$, te] : [te, U], st), [X, W]);
+        return renderLine(t, "", he, we, N, "clip".concat(St, "snap").concat(ee), "guideline");
       })), Mt.isBound && ct.push.apply(ct, Mt.bounds.map(function(wt, ee) {
-        var te = wt.pos, le = minus(calculatePosition(z, $t ? [0, te] : [te, 0], st), [X, W]), we = minus(calculatePosition(z, $t ? [$, te] : [te, U], st), [X, W]);
-        return renderLine(t, "", le, we, N, "clip".concat(St, "bounds").concat(ee), "guideline", "bounds", "bold");
+        var te = wt.pos, he = minus(calculatePosition(z, $t ? [0, te] : [te, 0], st), [X, W]), we = minus(calculatePosition(z, $t ? [$, te] : [te, U], st), [X, W]);
+        return renderLine(t, "", he, we, N, "clip".concat(St, "bounds").concat(ee), "guideline", "bounds", "bold");
       }));
     }), __spreadArray(__spreadArray([], ft, !0), ct, !0);
   },
@@ -27817,13 +27817,13 @@ var Clippable = {
       bottom: rt
     }, kt, Nt, 5), Mt = St.horizontal, $t = St.vertical, wt = Mt.offset, ee = $t.offset;
     if (Mt.isBound && (Rt[1] += wt), $t.isBound && (Rt[0] += ee), (bt || ht) && pt[0][0] === 0 && pt[0][1] === 0) {
-      var Ct = getRect(Ot), te = Ct.bottom - Ct.top, le = bt ? Ct.right - Ct.left : te, we = $t.isBound ? Math.abs(ee) : $t.snapIndex === 0 ? -ee : ee, Be = Mt.isBound ? Math.abs(wt) : Mt.snapIndex === 0 ? -wt : wt;
-      le -= we, te -= Be, ht && (te = checkSnapBoundPriority($t, Mt) > 0 ? te : le, le = te);
+      var Ct = getRect(Ot), te = Ct.bottom - Ct.top, he = bt ? Ct.right - Ct.left : te, we = $t.isBound ? Math.abs(ee) : $t.snapIndex === 0 ? -ee : ee, Be = Mt.isBound ? Math.abs(wt) : Mt.snapIndex === 0 ? -wt : wt;
+      he -= we, te -= Be, ht && (te = checkSnapBoundPriority($t, Mt) > 0 ? te : he, he = te);
       var ne = yt[0];
-      yt[1][1] = ne[1] - te, yt[2][0] = ne[0] + le, yt[3][1] = ne[1] + te, yt[4][0] = ne[0] - le;
+      yt[1][1] = ne[1] - te, yt[2][0] = ne[0] + he, yt[3][1] = ne[1] + te, yt[4][0] = ne[0] - he;
     } else if (ct && X && D) {
-      var Me = getControlSize(it), ye = Me[0], de = Me[1], he = ye && de ? ye / de : 0, ie = it[U], Le = ie.direction || "", Na = yt[1][1], Ft = yt[5][1], dt = yt[7][0], Gt = yt[3][0];
-      wt <= ee ? wt = ee / he : ee = wt * he, Le.indexOf("w") > -1 ? dt -= ee : Le.indexOf("e") > -1 ? Gt -= ee : (dt += ee / 2, Gt -= ee / 2), Le.indexOf("n") > -1 ? Na -= wt : Le.indexOf("s") > -1 ? Ft -= wt : (Na += wt / 2, Ft -= wt / 2);
+      var Me = getControlSize(it), ye = Me[0], de = Me[1], ce = ye && de ? ye / de : 0, ie = it[U], Le = ie.direction || "", Na = yt[1][1], Ft = yt[5][1], dt = yt[7][0], Gt = yt[3][0];
+      wt <= ee ? wt = ee / ce : ee = wt * ce, Le.indexOf("w") > -1 ? dt -= ee : Le.indexOf("e") > -1 ? Gt -= ee : (dt += ee / 2, Gt -= ee / 2), Le.indexOf("n") > -1 ? Na -= wt : Le.indexOf("s") > -1 ? Ft -= wt : (Na += wt / 2, Ft -= wt / 2);
       var Dc = getRectPoses(Na, Gt, Ft, dt);
       yt.forEach(function(At, Bt) {
         var Ut;
@@ -29652,7 +29652,7 @@ var EventEmitter = /* @__PURE__ */ function() {
     return r !== null && r.apply(this, arguments) || this;
   }
   return t;
-}(MoveableManager), Ur, Bs, ks, $s, Us, yo, En, xn, bo, Xc;
+}(MoveableManager), Gr, Bs, ks, $s, Us, yo, En, xn, bo, Xc;
 const jt = class {
   constructor(t, e = !1) {
     et(this, bo);
@@ -29690,7 +29690,7 @@ const jt = class {
     this.bg_col = t, this.isLay = e;
   }
   static init(t, e, o, T, S, N, D) {
-    t.view.insertAdjacentHTML("beforebegin", `<div id="${H(jt, Us)}" style="width: ${CmnLib.stageW * jt.sys.cvsScale}px; height: ${CmnLib.stageH * e.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`), nt(jt, Ur, document.getElementById(H(jt, Us))), jt.divHint.classList.add("sn_design_hint"), t.view.parentElement.appendChild(jt.divHint), jt.sys = e, nt(jt, Bs, o), jt.prpPrs = T, nt(jt, ks, S), nt(jt, $s, N), jt.hPages = D, addStyle(`
+    t.view.insertAdjacentHTML("beforebegin", `<div id="${H(jt, Us)}" style="width: ${CmnLib.stageW * jt.sys.cvsScale}px; height: ${CmnLib.stageH * e.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`), nt(jt, Gr, document.getElementById(H(jt, Us))), jt.divHint.classList.add("sn_design_hint"), t.view.parentElement.appendChild(jt.divHint), jt.sys = e, nt(jt, Bs, o), jt.prpPrs = T, nt(jt, ks, S), nt(jt, $s, N), jt.hPages = D, addStyle(`
 .sn_design_cast {
 	position: absolute; touch-action: none; user-select: none;
 	opacity: 0.6; border-radius: 8px;
@@ -29723,7 +29723,7 @@ const jt = class {
 		top: ${Math.max(10, T.ly + o - D - 10)}px;`;
   }
   static cvsResizeDesign() {
-    const t = H(jt, Ur).style;
+    const t = H(jt, Gr).style;
     t.width = `${CmnLib.stageW * jt.sys.cvsScale}px`, t.height = `${CmnLib.stageH * jt.sys.cvsScale}px`;
   }
   destroy() {
@@ -29763,7 +29763,7 @@ const jt = class {
     this.child = t, t.parent = this;
   }
   static enterMode() {
-    jt.leaveMode(), H(jt, Ur).style.display = "inline", nt(jt, yo, 0), nt(jt, En, {});
+    jt.leaveMode(), H(jt, Gr).style.display = "inline", nt(jt, yo, 0), nt(jt, En, {});
   }
   static allHide() {
     H(jt, xn).forEach((t) => t.visible = !1);
@@ -29772,7 +29772,7 @@ const jt = class {
     !this.div || !this.mov || (this.div.style.display = t ? "inline" : "none", this.mov.updateTarget());
   }
   static leaveMode() {
-    H(jt, Ur).textContent = "", H(jt, Ur).style.display = "none", H(jt, xn).forEach((t) => t.destroy()), nt(jt, xn, []);
+    H(jt, Gr).textContent = "", H(jt, Gr).style.display = "none", H(jt, xn).forEach((t) => t.destroy()), nt(jt, xn, []);
   }
   cvsResize() {
     var t;
@@ -29787,7 +29787,7 @@ const jt = class {
     const e = this.div = document.createElement("div");
     e.id = H(jt, Us) + "_" + ++Pe(jt, yo)._, e.classList.add("sn_design_cast"), e.dataset.id_dc = t, e.style.backgroundColor = `${this.bg_col}`, e.style.display = "none", this.rect = this.getRect(), ot(this, bo, Xc).call(this), (this.parent && ($ = document.querySelector(
       `[data-id_dc="${this.parent.id_tag}"]`
-    )) != null ? $ : H(jt, Ur)).appendChild(e);
+    )) != null ? $ : H(jt, Gr)).appendChild(e);
     const o = {
       aPos: [0, 0],
       roDeg: 0,
@@ -29952,7 +29952,7 @@ ${N}`, "F"), T.rotation = ut;
   }
 };
 let DesignCast = jt;
-Ur = new WeakMap(), Bs = new WeakMap(), ks = new WeakMap(), $s = new WeakMap(), Us = new WeakMap(), yo = new WeakMap(), En = new WeakMap(), xn = new WeakMap(), bo = new WeakSet(), Xc = function() {
+Gr = new WeakMap(), Bs = new WeakMap(), ks = new WeakMap(), $s = new WeakMap(), Us = new WeakMap(), yo = new WeakMap(), En = new WeakMap(), xn = new WeakMap(), bo = new WeakSet(), Xc = function() {
   this.fncLay(), this.div && Object.assign(this.div.style, {
     left: `${this.lx + this.rect.x * jt.sys.cvsScale}px`,
     top: `${this.ly + this.rect.y * jt.sys.cvsScale}px`,
@@ -29961,7 +29961,7 @@ Ur = new WeakMap(), Bs = new WeakMap(), ks = new WeakMap(), $s = new WeakMap(), 
     transformOrigin: `${this.pivot.x * jt.sys.cvsScale}px ${this.pivot.y * jt.sys.cvsScale}px`,
     transform: `scale(${this.scale.x}, ${this.scale.y}) rotate(${this.rotation}deg)`
   });
-}, et(DesignCast, Ur, void 0), Pt(DesignCast, "sys"), et(DesignCast, Bs, void 0), Pt(DesignCast, "prpPrs"), et(DesignCast, ks, void 0), et(DesignCast, $s, void 0), Pt(DesignCast, "hPages"), Pt(DesignCast, "divHint", document.createElement("div")), et(DesignCast, Us, "DesignMode"), et(DesignCast, yo, 0), et(DesignCast, En, {}), et(DesignCast, xn, []);
+}, et(DesignCast, Gr, void 0), Pt(DesignCast, "sys"), et(DesignCast, Bs, void 0), Pt(DesignCast, "prpPrs"), et(DesignCast, ks, void 0), et(DesignCast, $s, void 0), Pt(DesignCast, "hPages"), Pt(DesignCast, "divHint", document.createElement("div")), et(DesignCast, Us, "DesignMode"), et(DesignCast, yo, 0), et(DesignCast, En, {}), et(DesignCast, xn, []);
 var ki;
 class GrpLayDesignCast extends DesignCast {
   constructor(e, o) {
@@ -30210,16 +30210,16 @@ class PicBtnDesignCast extends BtnDesignCast {
   }
 }
 ii = new WeakMap();
-var th, $i, ni, Tn, Sn, Gr, xo, Cn, To, So, Hr, si, Ui, Gi, Co, Ro, Io, eh, id, rh, nd, wo, Yc, ih, sd, Gs, Cr, Hs, Rn, Po;
-const Xt = class extends Layer {
+var th, $i, ni, Tn, Sn, Hr, xo, Cn, To, So, jr, si, Ui, Gi, Co, Ro, Io, eh, id, rh, nd, wo, Yc, ih, sd, Gs, Cr, Hs, Rn, Po;
+const Wt = class extends Layer {
   constructor() {
     super();
-    et(this, Hr, new GrpLayDesignCast(this.spLay, this));
+    et(this, jr, new GrpLayDesignCast(this.spLay, this));
     et(this, si, "");
     et(this, Ui, "");
     et(this, Gi, "");
     Pt(this, "lay", (e) => this.laySub(e, (o) => {
-      o && H(Xt, ni).resume();
+      o && H(Wt, ni).resume();
     }));
     et(this, Co, 0);
     et(this, Ro, 0);
@@ -30231,43 +30231,43 @@ const Xt = class extends Layer {
       ...super.record(),
       sBkFn: H(this, Ui),
       sBkFace: H(this, Gi),
-      idc_hArg: H(this, Hr).gethArg()
+      idc_hArg: H(this, jr).gethArg()
     }));
     Pt(this, "dump", () => super.dump() + `, "pic":"${H(this, si)}"`);
-    CmnLib.isDbg && (this.setSp = (e) => H(this, Hr).setSp(e), this.cvsResize = () => {
-      super.cvsResize(), H(this, Hr).cvsResize();
+    CmnLib.isDbg && (this.setSp = (e) => H(this, jr).setSp(e), this.cvsResize = () => {
+      super.cvsResize(), H(this, jr).cvsResize();
     });
   }
   static init(e, o, T, S, N, D) {
-    nt(Xt, ni, e), nt(Xt, Tn, o), nt(Xt, Sn, T), nt(Xt, Gr, S), nt(Xt, xo, D);
+    nt(Wt, ni, e), nt(Wt, Tn, o), nt(Wt, Sn, T), nt(Wt, Hr, S), nt(Wt, xo, D);
     const B = () => {
-      const $ = H(Xt, Cn) * H(Xt, To);
-      for (const U of Object.values(Xt.hFn2VElm))
+      const $ = H(Wt, Cn) * H(Wt, To);
+      for (const U of Object.values(Wt.hFn2VElm))
         U.volume = $;
     };
     N.setNoticeChgVolume(
       ($) => {
-        nt(Xt, Cn, $), B();
+        nt(Wt, Cn, $), B();
       },
       ($) => {
-        nt(Xt, To, $), B();
+        nt(Wt, To, $), B();
       }
-    ), H(Xt, Gr).crypto && nt(Xt, Io, ot(Xt, rh, nd));
+    ), H(Wt, Hr).crypto && nt(Wt, Io, ot(Wt, rh, nd));
   }
   static setEvtMng(e) {
-    nt(Xt, So, e);
+    nt(Wt, So, e);
   }
   static destroy() {
-    H(Xt, th).clear(), nt(Xt, $i, {}), Xt.hFn2ResAniSpr = {}, Xt.hFn2VElm = {};
+    H(Wt, th).clear(), nt(Wt, $i, {}), Wt.hFn2ResAniSpr = {}, Wt.hFn2VElm = {};
   }
   setSp(e) {
   }
   laySub(e, o) {
     const { fn: T, face: S = "" } = e;
-    if (H(this, Hr).sethArg(e), !T)
+    if (H(this, jr).sethArg(e), !T)
       return super.lay(e), this.spLay.children.length > 0 && this.setPos(e), nt(this, Ui, ""), nt(this, si, nt(this, Gi, S)), o(!1), !1;
     const N = "fn" in e, D = "face" in e;
-    return this.clearLay({ filter: "true" }), N && nt(this, Ui, T), D && nt(this, Gi, S), super.lay(e), e.dx = 0, e.dy = 0, Xt.csv2Sprites(
+    return this.clearLay({ filter: "true" }), N && nt(this, Ui, T), D && nt(this, Gi, S), super.lay(e), e.dx = 0, e.dy = 0, Wt.csv2Sprites(
       nt(this, si, T + (S ? "," + S : "")),
       this.spLay,
       (B) => {
@@ -30298,7 +30298,7 @@ const Xt = class extends Layer {
     e.split(",").forEach((U, z) => {
       if (!U)
         throw "face\u5C5E\u6027\u306B\u7A7A\u8981\u7D20\u304C\u542B\u307E\u308C\u307E\u3059";
-      const V = H(Xt, $i)[U] || {
+      const V = H(Wt, $i)[U] || {
         fn: U,
         dx: 0,
         dy: 0,
@@ -30306,24 +30306,24 @@ const Xt = class extends Layer {
       }, X = z === 0 ? T : (q) => {
         q.x = V.dx, q.y = V.dy, q.blendMode = V.blendmode;
       };
-      if (D.push({ fn: V.fn, fnc: X }), V.fn in Xt.hFn2ResAniSpr || V.fn in TextureCache || V.fn in Loader.shared.resources)
+      if (D.push({ fn: V.fn, fnc: X }), V.fn in Wt.hFn2ResAniSpr || V.fn in TextureCache || V.fn in Loader.shared.resources)
         return;
       N = !0;
-      const W = H(Xt, Tn).searchPath(V.fn, SEARCH_PATH_ARG_EXT.SPRITE), Y = H(this, Gr).crypto ? { xhrType: W.slice(-5) === ".json" ? LoaderResource.XHR_RESPONSE_TYPE.TEXT : LoaderResource.XHR_RESPONSE_TYPE.BUFFER } : {};
+      const W = H(Wt, Tn).searchPath(V.fn, SEARCH_PATH_ARG_EXT.SPRITE), Y = H(this, Hr).crypto ? { xhrType: W.slice(-5) === ".json" ? LoaderResource.XHR_RESPONSE_TYPE.TEXT : LoaderResource.XHR_RESPONSE_TYPE.BUFFER } : {};
       B.add({ ...Y, name: V.fn, url: W });
     });
     const $ = (U) => {
       var z;
       for (const { fn: V, fnc: X } of D) {
-        const W = ot(z = Xt, ih, sd).call(z, V, U);
+        const W = ot(z = Wt, ih, sd).call(z, V, U);
         W.name = V, o == null || o.addChild(W), X(W);
       }
       S(N);
     };
     return N ? B.use((U, z) => {
-      H(this, Gr).dec(U.extension, U.data).then((V) => {
+      H(this, Hr).dec(U.extension, U.data).then((V) => {
         var X;
-        return H(X = Xt, Io).call(X, V, U, () => z == null ? void 0 : z());
+        return H(X = Wt, Io).call(X, V, U, () => z == null ? void 0 : z());
       }).catch((V) => H(this, ni).errScript(`Graphic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 fn:${U.name} ${V}`, !1));
     }).load((U, z) => $(z)) : $({}), N;
   }
@@ -30331,15 +30331,15 @@ const Xt = class extends Layer {
     const { fn: o } = e;
     if (!o)
       throw "fn\u306F\u5FC5\u9808\u3067\u3059";
-    const T = Xt.hFn2VElm[o];
+    const T = Wt.hFn2VElm[o];
     if (!T || T.loop)
       return !1;
     if (T.ended)
-      return delete Xt.hFn2VElm[o], !1;
+      return delete Wt.hFn2VElm[o], !1;
     const S = () => {
-      T.removeEventListener("ended", S), delete Xt.hFn2VElm[o], H(this, ni).resume();
+      T.removeEventListener("ended", S), delete Wt.hFn2VElm[o], H(this, ni).resume();
     };
-    return T.addEventListener("ended", S, { once: !0, passive: !0 }), H(Xt, So).waitEvent(
+    return T.addEventListener("ended", S, { once: !0, passive: !0 }), H(Wt, So).waitEvent(
       () => {
         T.pause(), S();
       },
@@ -30357,7 +30357,7 @@ const Xt = class extends Layer {
       this.spLay.alpha = 1;
       for (const T of this.spLay.children)
         T.visible = !0;
-      H(this, Cr).visible = !1, H(Xt, Sn).renderer.render(this.spLay, { renderTexture: H(this, Gs) }), this.spLay.alpha = o;
+      H(this, Cr).visible = !1, H(Wt, Sn).renderer.render(this.spLay, { renderTexture: H(this, Gs) }), this.spLay.alpha = o;
       for (const T of this.spLay.children)
         T.visible = !1;
     };
@@ -30370,10 +30370,10 @@ const Xt = class extends Layer {
     }
     nt(this, Hs, () => {
       e(), H(this, Cr).visible = !0;
-    }), H(Xt, Sn).ticker.add(H(this, Hs));
+    }), H(Wt, Sn).ticker.add(H(this, Hs));
   }
   renderEnd() {
-    H(Xt, Sn).ticker.remove(H(this, Hs)), this.spLay.removeChild(H(this, Cr));
+    H(Wt, Sn).ticker.remove(H(this, Hs)), this.spLay.removeChild(H(this, Cr));
     for (const e of this.spLay.children)
       e.visible = !0;
     H(this, Cr).destroy(!0);
@@ -30390,15 +30390,15 @@ const Xt = class extends Layer {
       return;
     }
     H(this, Rn)[e] = [o];
-    const D = H(Xt, Tn).searchPath(e, SEARCH_PATH_ARG_EXT.SPRITE), B = new Loader().add({ name: e, url: D, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER });
-    H(Xt, Gr).crypto && B.use(($, U) => {
-      H(Xt, Gr).dec($.extension, $.data).then((z) => {
+    const D = H(Wt, Tn).searchPath(e, SEARCH_PATH_ARG_EXT.SPRITE), B = new Loader().add({ name: e, url: D, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER });
+    H(Wt, Hr).crypto && B.use(($, U) => {
+      H(Wt, Hr).dec($.extension, $.data).then((z) => {
         if ($.extension !== "bin") {
           U == null || U();
           return;
         }
         $.data = z, z instanceof HTMLImageElement && ($.type = LoaderResource.TYPE.IMAGE), U == null || U();
-      }).catch((z) => H(Xt, ni).errScript(`GrpLayer loadPic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 fn:${$.name} ${z}`, !1));
+      }).catch((z) => H(Wt, ni).errScript(`GrpLayer loadPic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 fn:${$.name} ${z}`, !1));
     }), B.load(($, U) => {
       for (const [z, { data: { src: V } }] of Object.entries(U)) {
         const X = H(this, Po)[z] = V;
@@ -30420,10 +30420,10 @@ const Xt = class extends Layer {
     const { name: o } = e;
     if (!o)
       throw "name\u306F\u5FC5\u9808\u3067\u3059";
-    if (o in H(Xt, $i))
+    if (o in H(Wt, $i))
       throw "\u4E00\u3064\u306Ename\uFF08" + o + "\uFF09\u306B\u5BFE\u3057\u3066\u540C\u3058\u753B\u50CF\u3092\u8907\u6570\u5272\u308A\u5F53\u3066\u3089\u308C\u307E\u305B\u3093";
     const { fn: T = o } = e;
-    return H(Xt, $i)[o] = {
+    return H(Wt, $i)[o] = {
       fn: T,
       dx: argChk_Num(e, "dx", 0),
       dy: argChk_Num(e, "dy", 0),
@@ -30431,14 +30431,14 @@ const Xt = class extends Layer {
     }, !1;
   }
   static clearFace2Name() {
-    nt(Xt, $i, {});
+    nt(Wt, $i, {});
   }
   get containMovement() {
     if (H(this, si) === "")
       return !1;
     const e = this.spLay.children;
     return H(this, si).split(",").some(
-      (o, T) => e[T] instanceof AnimatedSprite || Xt.hFn2VElm[o]
+      (o, T) => e[T] instanceof AnimatedSprite || Wt.hFn2VElm[o]
     );
   }
   clearLay(e) {
@@ -30449,7 +30449,7 @@ const Xt = class extends Layer {
   }
   playback(e, o) {
     if (super.playback(e, o), e.sBkFn === "" && e.sBkFace === "") {
-      nt(this, Ui, e.sBkFn), nt(this, Gi, e.sBkFace), H(this, Hr).sethArg(e.idc_hArg);
+      nt(this, Ui, e.sBkFn), nt(this, Gi, e.sBkFace), H(this, jr).sethArg(e.idc_hArg);
       return;
     }
     o.push(new Promise((T) => this.laySub(
@@ -30460,17 +30460,17 @@ const Xt = class extends Layer {
     )));
   }
   makeDesignCast(e) {
-    !this.spLay.visible || e(H(this, Hr));
+    !this.spLay.visible || e(H(this, jr));
   }
   cvsResize() {
     super.cvsResize();
   }
   showDesignCast() {
-    H(this, Hr).visible = !0;
+    H(this, jr).visible = !0;
   }
 };
-let GrpLayer = Xt;
-th = new WeakMap(), $i = new WeakMap(), ni = new WeakMap(), Tn = new WeakMap(), Sn = new WeakMap(), Gr = new WeakMap(), xo = new WeakMap(), Cn = new WeakMap(), To = new WeakMap(), So = new WeakMap(), Hr = new WeakMap(), si = new WeakMap(), Ui = new WeakMap(), Gi = new WeakMap(), Co = new WeakMap(), Ro = new WeakMap(), Io = new WeakMap(), eh = new WeakSet(), id = function(e) {
+let GrpLayer = Wt;
+th = new WeakMap(), $i = new WeakMap(), ni = new WeakMap(), Tn = new WeakMap(), Sn = new WeakMap(), Hr = new WeakMap(), xo = new WeakMap(), Cn = new WeakMap(), To = new WeakMap(), So = new WeakMap(), jr = new WeakMap(), si = new WeakMap(), Ui = new WeakMap(), Gi = new WeakMap(), Co = new WeakMap(), Ro = new WeakMap(), Io = new WeakMap(), eh = new WeakSet(), id = function(e) {
   const o = /([^\d]+)\d+\.(\w+)/.exec(e[0]);
   if (!o)
     return [];
@@ -30480,7 +30480,7 @@ th = new WeakMap(), $i = new WeakMap(), ni = new WeakMap(), Tn = new WeakMap(), 
   );
 }, rh = new WeakSet(), nd = function(e, o, T) {
   var $;
-  if (o.data = e, o.extension === "bin" && (e instanceof HTMLImageElement ? (o.texture = Texture.fromLoader(e, o.url, o.name), o.type = LoaderResource.TYPE.IMAGE, URL.revokeObjectURL(e.src)) : e instanceof HTMLVideoElement && (e.volume = H(Xt, Cn), Xt.hFn2VElm[o.name] = ot($ = Xt, wo, Yc).call($, e), o.type = LoaderResource.TYPE.VIDEO, URL.revokeObjectURL(e.src))), o.extension !== "json") {
+  if (o.data = e, o.extension === "bin" && (e instanceof HTMLImageElement ? (o.texture = Texture.fromLoader(e, o.url, o.name), o.type = LoaderResource.TYPE.IMAGE, URL.revokeObjectURL(e.src)) : e instanceof HTMLVideoElement && (e.volume = H(Wt, Cn), Wt.hFn2VElm[o.name] = ot($ = Wt, wo, Yc).call($, e), o.type = LoaderResource.TYPE.VIDEO, URL.revokeObjectURL(e.src))), o.extension !== "json") {
     T();
     return;
   }
@@ -30493,15 +30493,15 @@ th = new WeakMap(), $i = new WeakMap(), ni = new WeakMap(), Tn = new WeakMap(), 
     T();
     return;
   }
-  const D = getFn(S.image), B = H(Xt, Tn).searchPath(D, SEARCH_PATH_ARG_EXT.SPRITE);
+  const D = getFn(S.image), B = H(Wt, Tn).searchPath(D, SEARCH_PATH_ARG_EXT.SPRITE);
   new Loader().use((U, z) => {
-    H(this, Gr).dec(U.extension, U.data).then((V) => {
+    H(this, Hr).dec(U.extension, U.data).then((V) => {
       U.data = V, V instanceof HTMLImageElement && (U.type = LoaderResource.TYPE.IMAGE, URL.revokeObjectURL(V.src)), z == null || z();
     }).catch((V) => H(this, ni).errScript(`Graphic \u30ED\u30FC\u30C9\u5931\u6557\u3067\u3059 dec2res4Cripto fn:${U.name} ${V}`, !1));
   }).add({ name: D, url: B, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER }).load((U, z) => {
     for (const { data: V } of Object.values(U.resources)) {
       const { baseTexture: X } = Texture.from(V), W = Object.values(N);
-      Xt.hFn2ResAniSpr[o.name] = {
+      Wt.hFn2ResAniSpr[o.name] = {
         aTex: W.map(({ frame: { x: Y, y: q, w: Z, h: K } }) => new Texture(
           X,
           new Rectangle(Y, q, Z, K)
@@ -30512,32 +30512,32 @@ th = new WeakMap(), $i = new WeakMap(), ni = new WeakMap(), Tn = new WeakMap(), 
     T();
   });
 }, wo = new WeakSet(), Yc = function(e) {
-  return H(Xt, xo).getVal("const.sn.needClick2Play") && (DebugMng.trace_beforeNew(`[lay\u7CFB] ${DebugMng.strPos()}\u672A\u30AF\u30EA\u30C3\u30AF\u72B6\u614B\u3067\u52D5\u753B\u3092\u81EA\u52D5\u518D\u751F\u3057\u307E\u3059\u3002\u97F3\u58F0\u306F\u30DF\u30E5\u30FC\u30C8\u3055\u308C\u307E\u3059`, "W"), e.muted = !0), e.setAttribute("playsinline", ""), e;
+  return H(Wt, xo).getVal("const.sn.needClick2Play") && (DebugMng.trace_beforeNew(`[lay\u7CFB] ${DebugMng.strPos()}\u672A\u30AF\u30EA\u30C3\u30AF\u72B6\u614B\u3067\u52D5\u753B\u3092\u81EA\u52D5\u518D\u751F\u3057\u307E\u3059\u3002\u97F3\u58F0\u306F\u30DF\u30E5\u30FC\u30C8\u3055\u308C\u307E\u3059`, "W"), e.muted = !0), e.setAttribute("playsinline", ""), e;
 }, ih = new WeakSet(), sd = function(e, o) {
   var S;
-  const T = Xt.hFn2ResAniSpr[e];
+  const T = Wt.hFn2ResAniSpr[e];
   if (T) {
     const N = new AnimatedSprite(T.aTex);
     return N.animationSpeed = (S = T.meta.animationSpeed) != null ? S : 1, N.play(), N;
   }
-  return e in TextureCache ? Sprite.from(e) : e in Xt.hFn2VElm ? Sprite.from(Xt.hFn2VElm[e]) : e in o ? new Sprite(o[e].texture) : new Sprite();
-}, Gs = new WeakMap(), Cr = new WeakMap(), Hs = new WeakMap(), Rn = new WeakMap(), Po = new WeakMap(), et(GrpLayer, eh), et(GrpLayer, rh), et(GrpLayer, wo), et(GrpLayer, ih), et(GrpLayer, th, new EventListenerCtn()), et(GrpLayer, $i, {}), et(GrpLayer, ni, void 0), et(GrpLayer, Tn, void 0), et(GrpLayer, Sn, void 0), et(GrpLayer, Gr, void 0), et(GrpLayer, xo, void 0), et(GrpLayer, Cn, 1), et(GrpLayer, To, 1), et(GrpLayer, So, void 0), Pt(GrpLayer, "hFn2ResAniSpr", {}), et(GrpLayer, Io, (e, o, T) => {
+  return e in TextureCache ? Sprite.from(e) : e in Wt.hFn2VElm ? Sprite.from(Wt.hFn2VElm[e]) : e in o ? new Sprite(o[e].texture) : new Sprite();
+}, Gs = new WeakMap(), Cr = new WeakMap(), Hs = new WeakMap(), Rn = new WeakMap(), Po = new WeakMap(), et(GrpLayer, eh), et(GrpLayer, rh), et(GrpLayer, wo), et(GrpLayer, ih), et(GrpLayer, th, new EventListenerCtn()), et(GrpLayer, $i, {}), et(GrpLayer, ni, void 0), et(GrpLayer, Tn, void 0), et(GrpLayer, Sn, void 0), et(GrpLayer, Hr, void 0), et(GrpLayer, xo, void 0), et(GrpLayer, Cn, 1), et(GrpLayer, To, 1), et(GrpLayer, So, void 0), Pt(GrpLayer, "hFn2ResAniSpr", {}), et(GrpLayer, Io, (e, o, T) => {
   var S, N;
   switch (o.type) {
     case LoaderResource.TYPE.JSON:
       const D = o.spritesheet._frameKeys;
-      ot(S = Xt, eh, id).call(S, D), Xt.hFn2ResAniSpr[o.name] = {
+      ot(S = Wt, eh, id).call(S, D), Wt.hFn2ResAniSpr[o.name] = {
         aTex: D.map(($) => Texture.from($)),
         meta: o.data.meta
       };
       break;
     case LoaderResource.TYPE.VIDEO:
       const B = o.data;
-      B.volume = H(Xt, Cn), Xt.hFn2VElm[o.name] = ot(N = Xt, wo, Yc).call(N, B);
+      B.volume = H(Wt, Cn), Wt.hFn2VElm[o.name] = ot(N = Wt, wo, Yc).call(N, B);
   }
   T();
 }), Pt(GrpLayer, "hFn2VElm", {}), et(GrpLayer, Rn, {}), et(GrpLayer, Po, {});
-var js, Ao, In, fe, jr, ai, nh, ar, Hi, Wt, oi, or, ur, zs, rl, Rr, zr, Oo, Vs, sh, ad, wn, Xs, ui, Pn, An, On, Ws, li, No, qc, hi, Mo, ci, Vr, Ys, Do, Zc, ji, Nn, Lo, Kc, vr;
+var js, Ao, In, le, zr, ai, nh, ur, Hi, Xt, oi, Xe, We, zs, rl, Rr, Ir, Oo, Vs, sh, ad, wn, Xs, ui, Pn, An, On, Ws, li, No, qc, hi, Mo, ci, Vr, Ys, Do, Zc, ji, Nn, Lo, Kc, vr;
 const Zt = class extends Container {
   constructor(e, o, T) {
     super();
@@ -30546,12 +30546,12 @@ const Zt = class extends Container {
     et(this, No);
     et(this, Do);
     et(this, Lo);
-    et(this, fe, document.createElement("span"));
-    et(this, jr, new Container());
+    et(this, le, document.createElement("span"));
+    et(this, zr, new Container());
     et(this, ai, new Graphics());
-    et(this, ar, new TxtLayDesignCast(this.spLay, this));
+    et(this, ur, new TxtLayDesignCast(this.spLay, this));
     et(this, Hi, new TxtLayPadDesignCast(this));
-    et(this, Wt, {
+    et(this, Xt, {
       fontsize: 24,
       $width: 0,
       $height: 0,
@@ -30561,10 +30561,10 @@ const Zt = class extends Container {
       pad_bottom: 0
     });
     et(this, oi, !1);
-    et(this, or, 0);
-    et(this, ur, 0);
+    et(this, Xe, 0);
+    et(this, We, 0);
     et(this, Rr, 0);
-    et(this, zr, !1);
+    et(this, Ir, !1);
     et(this, Oo, 0);
     et(this, Vs, 0);
     et(this, wn, void 0);
@@ -30576,7 +30576,7 @@ const Zt = class extends Container {
     et(this, ji, "Quadratic.Out");
     et(this, Nn, "Quadratic.Out");
     et(this, vr, void 0);
-    this.spLay = e, this.canFocus = o, this.sys = T, H(this, fe).classList.add("sn_tx"), H(this, fe).style.position = "absolute", H(Zt, Ao).view.parentElement.appendChild(H(this, fe)), this.addChild(H(this, jr)), this.addChild(H(this, ai)), H(this, ai).name = "grpDbgMasume", H(this, ar).adopt(H(this, Hi));
+    this.spLay = e, this.canFocus = o, this.sys = T, H(this, le).classList.add("sn_tx"), H(this, le).style.position = "absolute", H(Zt, Ao).view.parentElement.appendChild(H(this, le)), this.addChild(H(this, zr)), this.addChild(H(this, ai)), H(this, ai).name = "grpDbgMasume", H(this, ur).adopt(H(this, Hi));
   }
   static init(e, o) {
     nt(Zt, js, e), nt(Zt, Ao, o), nt(Zt, An, /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/), nt(Zt, On, /[［（｛〈「『【〔“〝]/), nt(Zt, Ws, /[─‥…]/);
@@ -30589,7 +30589,7 @@ const Zt = class extends Container {
   }
   lay(e) {
     var T, S, N, D, B, $, U, z;
-    const o = H(this, fe).style;
+    const o = H(this, le).style;
     if ("style" in e)
       if (e.style) {
         const V = document.createElement("span");
@@ -30605,47 +30605,47 @@ const Zt = class extends Container {
         }
         !V.style.opacity && "alpha" in e && (o.opacity = String(this.spLay.alpha));
       } else
-        H(this, fe).style.cssText = "";
+        H(this, le).style.cssText = "";
     else
       "alpha" in e && (o.opacity = String(this.spLay.alpha));
-    if ("width" in e && (o.width = ((T = e.width) != null ? T : "0") + "px"), "height" in e && (o.height = ((S = e.height) != null ? S : "0") + "px"), "pl" in e && (o.paddingLeft = ((N = e.pl) != null ? N : "0") + "px"), "pr" in e && (o.paddingRight = ((D = e.pr) != null ? D : "0") + "px"), "pt" in e && (o.paddingTop = ((B = e.pt) != null ? B : "0") + "px"), "pb" in e && (o.paddingBottom = (($ = e.pb) != null ? $ : "0") + "px"), "kinsoku_sol" in e && nt(Zt, An, new RegExp(`[${e.kinsoku_sol}]`)), "kinsoku_eol" in e && nt(Zt, On, new RegExp(`[${e.kinsoku_eol}]`)), "kinsoku_dns" in e && nt(Zt, Ws, new RegExp(`[${e.kinsoku_dns}]`)), ot(this, zs, rl).call(this), H(this, ar).sethArg(e), nt(this, Rr, this.spLay.position.x), o.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`, this.cvsResize(), o.display = this.spLay.visible ? "inline" : "none", o.textShadow = (z = (U = e.filter) != null ? U : o.textShadow) != null ? z : "", nt(this, oi, argChk_Boolean(e, "break_fixed", H(this, oi))), nt(this, or, argChk_Num(e, "break_fixed_left", H(this, or))), nt(this, ur, argChk_Num(e, "break_fixed_top", H(this, ur))), ":redraw" in e && H(this, Pn) > 0) {
+    if ("width" in e && (o.width = ((T = e.width) != null ? T : "0") + "px"), "height" in e && (o.height = ((S = e.height) != null ? S : "0") + "px"), "pl" in e && (o.paddingLeft = ((N = e.pl) != null ? N : "0") + "px"), "pr" in e && (o.paddingRight = ((D = e.pr) != null ? D : "0") + "px"), "pt" in e && (o.paddingTop = ((B = e.pt) != null ? B : "0") + "px"), "pb" in e && (o.paddingBottom = (($ = e.pb) != null ? $ : "0") + "px"), "kinsoku_sol" in e && nt(Zt, An, new RegExp(`[${e.kinsoku_sol}]`)), "kinsoku_eol" in e && nt(Zt, On, new RegExp(`[${e.kinsoku_eol}]`)), "kinsoku_dns" in e && nt(Zt, Ws, new RegExp(`[${e.kinsoku_dns}]`)), ot(this, zs, rl).call(this), H(this, ur).sethArg(e), nt(this, Rr, this.spLay.position.x), o.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`, this.cvsResize(), o.display = this.spLay.visible ? "inline" : "none", o.textShadow = (z = (U = e.filter) != null ? U : o.textShadow) != null ? z : "", nt(this, oi, argChk_Boolean(e, "break_fixed", H(this, oi))), nt(this, Xe, argChk_Num(e, "break_fixed_left", H(this, Xe))), nt(this, We, argChk_Num(e, "break_fixed_top", H(this, We))), ":redraw" in e && H(this, Pn) > 0) {
       const V = [
-        H(this, fe).innerHTML.replaceAll(/(animation-delay: )\d+ms/g, "$10ms"),
+        H(this, le).innerHTML.replaceAll(/(animation-delay: )\d+ms/g, "$10ms"),
         `<span class='sn_ch' data-add='{"ch_in_style":"default"}'>\u3000</span>`
       ];
       ot(this, Lo, Kc).call(this), this.goTxt(V);
     }
   }
   cvsResize() {
-    const e = H(this, fe).style, o = this.sys.cvsScale;
-    e.left = `${this.sys.ofsLeft4elm + H(this, Rr) * o}px`, e.top = `${this.sys.ofsTop4elm + this.spLay.position.y * o}px`, e.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x * o}, ${this.spLay.scale.y * o})`, H(this, ar).cvsResize(), H(this, Hi).cvsResize();
+    const e = H(this, le).style, o = this.sys.cvsScale;
+    e.left = `${this.sys.ofsLeft4elm + H(this, Rr) * o}px`, e.top = `${this.sys.ofsTop4elm + this.spLay.position.y * o}px`, e.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x * o}, ${this.spLay.scale.y * o})`, H(this, ur).cvsResize(), H(this, Hi).cvsResize();
   }
   get tategaki() {
-    return H(this, zr);
+    return H(this, Ir);
   }
   get infTL() {
-    return H(this, Wt);
+    return H(this, Xt);
   }
   get getWidth() {
-    return H(this, Wt).$width;
+    return H(this, Xt).$width;
   }
   get getHeight() {
-    return H(this, Wt).$height;
+    return H(this, Xt).$height;
   }
   setSize(e, o) {
-    H(this, Wt).$width = e, H(this, Wt).$height = o, H(this, fe).style.width = H(this, Wt).$width + "px", H(this, fe).style.height = H(this, Wt).$height + "px";
+    H(this, Xt).$width = e, H(this, Xt).$height = o, H(this, le).style.width = H(this, Xt).$width + "px", H(this, le).style.height = H(this, Xt).$height + "px";
   }
   goTxt(e) {
     var K, J, Q, rt, tt, st, it, at, ut, ft, ct;
     H(Zt, Vr).visible = !1;
     const o = H(this, ui).length;
-    o === 0 ? (H(Zt, js).oCfg.debug.masume && (CmnLib.debugLog && console.log(`\u{1F34C} masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${H(this, Wt).pad_left} pr:${H(this, Wt).pad_right} pt:${H(this, Wt).pad_top} pb:${H(this, Wt).pad_bottom} w:${H(this, Wt).$width} h:${H(this, Wt).$height}`), H(this, ai).clear().beginFill(3407616, 0.2).lineStyle(1, 3407616, 1).drawRect(-H(this, Wt).pad_left, -H(this, Wt).pad_top, H(this, Wt).$width, H(this, Wt).$height).endFill().beginFill(13311, 0.2).lineStyle(2, 13311, 1).drawRect(
+    o === 0 ? (H(Zt, js).oCfg.debug.masume && (CmnLib.debugLog && console.log(`\u{1F34C} masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${H(this, Xt).pad_left} pr:${H(this, Xt).pad_right} pt:${H(this, Xt).pad_top} pb:${H(this, Xt).pad_bottom} w:${H(this, Xt).$width} h:${H(this, Xt).$height}`), H(this, ai).clear().beginFill(3407616, 0.2).lineStyle(1, 3407616, 1).drawRect(-H(this, Xt).pad_left, -H(this, Xt).pad_top, H(this, Xt).$width, H(this, Xt).$height).endFill().beginFill(13311, 0.2).lineStyle(2, 13311, 1).drawRect(
       0,
       0,
-      H(this, Wt).$width - H(this, Wt).pad_left - H(this, Wt).pad_right,
-      H(this, Wt).$height - H(this, Wt).pad_top - H(this, Wt).pad_bottom
-    ).endFill()), H(this, fe).innerHTML = [...e].join("").replaceAll(/[\n\t]/g, "")) : H(this, fe).insertAdjacentHTML("beforeend", e.slice(H(this, Pn)).join("").replaceAll(/[\n\t]/g, "")), nt(this, Pn, e.length);
-    const T = this.sys.cvsScale, S = H(this, fe).getBoundingClientRect(), N = S.left + H(this, Wt).pad_left, D = S.top + H(this, Wt).pad_top;
+      H(this, Xt).$width - H(this, Xt).pad_left - H(this, Xt).pad_right,
+      H(this, Xt).$height - H(this, Xt).pad_top - H(this, Xt).pad_bottom
+    ).endFill()), H(this, le).innerHTML = [...e].join("").replaceAll(/[\n\t]/g, "")) : H(this, le).insertAdjacentHTML("beforeend", e.slice(H(this, Pn)).join("").replaceAll(/[\n\t]/g, "")), nt(this, Pn, e.length);
+    const T = this.sys.cvsScale, S = H(this, le).getBoundingClientRect(), N = S.left + H(this, Xt).pad_left, D = S.top + H(this, Xt).pad_top;
     let B;
     if (T === 1)
       B = (pt, mt) => new Rectangle(
@@ -30665,7 +30665,7 @@ const Zt = class extends Container {
     }
     let $ = 0, U = 2, z = !1;
     do {
-      const pt = nt(this, ui, ot(this, Do, Zc).call(this, H(this, fe), B));
+      const pt = nt(this, ui, ot(this, Do, Zc).call(this, H(this, le), B));
       if ($ = pt.length, !z && ($ < 2 || o === $))
         break;
       z = !0;
@@ -30720,7 +30720,7 @@ const Zt = class extends Container {
       const mt = H(this, ui)[pt], vt = mt.rect, _t = JSON.parse((Q = mt.elm.dataset.arg) != null ? Q : '{"delay": 0}'), xt = JSON.parse((rt = mt.elm.dataset.add) != null ? rt : "{}"), Ot = H(Zt, hi)[xt.ch_in_style];
       if (X(mt, vt), mt.elm.dataset.cmd === "grp") {
         const yt = new Container();
-        H(this, jr).addChild(yt), GrpLayer.csv2Sprites(_t.pic, yt, (ht) => {
+        H(this, zr).addChild(yt), GrpLayer.csv2Sprites(_t.pic, yt, (ht) => {
           ot(this, No, qc).call(this, yt, _t, xt, vt, W, Ot != null ? Ot : {}), yt.parent || yt.removeChild(ht);
         });
       }
@@ -30740,15 +30740,16 @@ const Zt = class extends Container {
           () => Nt(Ct, Ft),
           () => this.canFocus() ? (Nt(Dt, dt), !0) : !1,
           () => Nt(It, Gt)
-        ), H(this, jr).addChild(bt);
+        ), H(this, zr).addChild(bt);
       }
     }
-    const Y = H(this, fe).querySelectorAll("span.sn_ch");
+    const Y = H(this, le).querySelectorAll("span.sn_ch");
     if (nt(this, li, () => (nt(this, li, () => !1), Y.forEach((pt) => pt.className = pt.className.replace(/ go_ch_in_[^\s"]+/g, "")), H(Zt, Vr).position.set(
-      H(this, or),
-      H(this, ur)
+      H(this, Xe),
+      H(this, We)
     ), H(Zt, Vr).visible = !0, H(Zt, In).noticeCompTxt(), !0)), Y.length === 0) {
-      H(this, li).call(this);
+      const pt = globalThis.getComputedStyle(H(this, le)), mt = parseFloat(pt.fontSize);
+      H(this, Ir) ? (nt(this, Xe, (H(this, Xt).$width - H(this, Xt).pad_left - H(this, Xt).pad_right - mt * 1.5) * this.sys.cvsScale), nt(this, We, 0)) : (nt(this, Xe, 0), nt(this, We, mt / 2 * this.sys.cvsScale)), H(this, li).call(this);
       return;
     }
     Y.forEach((pt) => pt.className = pt.className.replace(/sn_ch_in_([^\s"]+)/g, "go_ch_in_$1"));
@@ -30758,9 +30759,9 @@ const Zt = class extends Container {
       if (mt.elm.tagName !== "SPAN")
         continue;
       const vt = mt.rect;
-      if (nt(this, or, vt.x + (H(this, zr) ? 0 : vt.width)), nt(this, ur, vt.y + (H(this, zr) ? vt.height : 0)), pt !== $) {
+      if (nt(this, Xe, vt.x + (H(this, Ir) ? 0 : vt.width)), nt(this, We, vt.y + (H(this, Ir) ? vt.height : 0)), pt !== $) {
         const _t = H(this, ui)[$ - 1].rect;
-        H(this, zr) ? H(this, ur) < _t.y + _t.height && nt(this, ur, _t.y + _t.height) : H(this, or) < _t.x + _t.width && nt(this, or, _t.x + _t.width);
+        H(this, Ir) ? H(this, We) < _t.y + _t.height && nt(this, We, _t.y + _t.height) : H(this, Xe) < _t.x + _t.width && nt(this, Xe, _t.x + _t.width);
       }
       Z = mt.elm;
       break;
@@ -30848,62 +30849,62 @@ const Zt = class extends Container {
     var o;
     ot(this, Lo, Kc).call(this);
     const e = new Zt(this.spLay, () => this.canFocus(), this.sys);
-    return nt(e, Wt, H(this, Wt)), H(e, fe).style.cssText = H(this, fe).style.cssText, nt(e, Rr, H(this, Rr)), e.name = this.name, ot(o = e, zs, rl).call(o), H(e, ar).sethArg(H(this, ar).gethArg()), nt(e, wn, H(this, wn)), nt(e, ji, H(this, ji)), nt(e, Nn, H(this, Nn)), nt(e, oi, H(this, oi)), nt(e, or, H(this, or)), nt(e, ur, H(this, ur)), this.destroy(), e;
+    return nt(e, Xt, H(this, Xt)), H(e, le).style.cssText = H(this, le).style.cssText, nt(e, Rr, H(this, Rr)), e.name = this.name, ot(o = e, zs, rl).call(o), H(e, ur).sethArg(H(this, ur).gethArg()), nt(e, wn, H(this, wn)), nt(e, ji, H(this, ji)), nt(e, Nn, H(this, Nn)), nt(e, oi, H(this, oi)), nt(e, Xe, H(this, Xe)), nt(e, We, H(this, We)), this.destroy(), e;
   }
   record() {
     return {
-      infTL: H(this, Wt),
-      cssText: H(this, fe).style.cssText,
+      infTL: H(this, Xt),
+      cssText: H(this, le).style.cssText,
       left: H(this, Rr),
-      idc_hArg: H(this, ar).gethArg(),
+      idc_hArg: H(this, ur).gethArg(),
       ch_filter: H(this, wn),
       fi_easing: H(this, ji),
       fo_easing: H(this, Nn),
       break_fixed: H(this, oi),
-      break_fixed_left: H(this, or),
-      break_fixed_top: H(this, ur)
+      break_fixed_left: H(this, Xe),
+      break_fixed_top: H(this, We)
     };
   }
   playback(e) {
     var o, T, S;
-    nt(this, Wt, e.infTL), this.position.set(H(this, Wt).pad_left, H(this, Wt).pad_top), H(this, fe).style.cssText = e.cssText, nt(this, Rr, e.left), ot(this, zs, rl).call(this), H(this, ar).sethArg(e.idc_hArg), nt(this, wn, e.ch_filter), nt(this, ji, e.fi_easing), nt(this, Nn, e.fo_easing), nt(this, oi, (o = e.break_fixed) != null ? o : !1), nt(this, or, (T = e.break_fixed_left) != null ? T : 0), nt(this, ur, (S = e.break_fixed_top) != null ? S : 0);
+    nt(this, Xt, e.infTL), this.position.set(H(this, Xt).pad_left, H(this, Xt).pad_top), H(this, le).style.cssText = e.cssText, nt(this, Rr, e.left), ot(this, zs, rl).call(this), H(this, ur).sethArg(e.idc_hArg), nt(this, wn, e.ch_filter), nt(this, ji, e.fi_easing), nt(this, Nn, e.fo_easing), nt(this, oi, (o = e.break_fixed) != null ? o : !1), nt(this, Xe, (T = e.break_fixed_left) != null ? T : 0), nt(this, We, (S = e.break_fixed_top) != null ? S : 0);
   }
   snapshot(e, o) {
     ot(this, sh, ad).call(this, (T) => {
-      nt(this, vr, new Sprite(T)), H(this, zr) && (H(this, vr).x += CmnLib.stageW - (H(this, Rr) + H(this, Wt).$width)), H(this, vr).y -= H(this, Vs), H(this, vr).texture.frame = new Rectangle(0, 0, H(this, Wt).$width - H(this, Rr), H(this, Wt).$height), H(this, jr).addChild(H(this, vr)), e.render(H(this, vr), void 0, !1), o();
+      nt(this, vr, new Sprite(T)), H(this, Ir) && (H(this, vr).x += CmnLib.stageW - (H(this, Rr) + H(this, Xt).$width)), H(this, vr).y -= H(this, Vs), H(this, vr).texture.frame = new Rectangle(0, 0, H(this, Xt).$width - H(this, Rr), H(this, Xt).$height), H(this, zr).addChild(H(this, vr)), e.render(H(this, vr), void 0, !1), o();
     }, !1);
   }
   snapshot_end() {
-    H(this, vr) && (H(this, jr).removeChild(H(this, vr)), nt(this, vr, void 0));
+    H(this, vr) && (H(this, zr).removeChild(H(this, vr)), nt(this, vr, void 0));
   }
   makeDesignCast(e) {
-    e(H(this, ar));
-    const o = H(this, ar).gethArg();
+    e(H(this, ur));
+    const o = H(this, ur).gethArg();
     H(this, Hi).sethArg({ ...o, ":id_dc": o[":id_tag"] + "_pad" }), e(H(this, Hi));
   }
   showDesignCast() {
-    H(this, ar).visible = !0, H(this, Hi).visible = !0;
+    H(this, ur).visible = !0, H(this, Hi).visible = !0;
   }
   dump() {
-    const e = [], o = H(this, fe).style, T = o.length;
+    const e = [], o = H(this, le).style, T = o.length;
     for (let S = 0; S < T; ++S) {
       const N = o[S];
       e.push(`"${N}":"${o[N].replace(/(["\\])/g, "\\$1")}"`);
     }
-    return `"txt":"${H(this, fe).textContent.replace(/(["\\])/g, "\\$1")}", "style":{${e.join(",")}}`;
+    return `"txt":"${H(this, le).textContent.replace(/(["\\])/g, "\\$1")}", "style":{${e.join(",")}}`;
   }
   destroy() {
-    Zt.delBreak(), H(this, fe).parentElement.removeChild(H(this, fe)), this.removeChild(H(this, jr)), this.removeChild(H(this, ai)), super.destroy();
+    Zt.delBreak(), H(this, le).parentElement.removeChild(H(this, le)), this.removeChild(H(this, zr)), this.removeChild(H(this, ai)), super.destroy();
   }
 };
 let TxtStage = Zt;
-js = new WeakMap(), Ao = new WeakMap(), In = new WeakMap(), fe = new WeakMap(), jr = new WeakMap(), ai = new WeakMap(), nh = new WeakMap(), ar = new WeakMap(), Hi = new WeakMap(), Wt = new WeakMap(), oi = new WeakMap(), or = new WeakMap(), ur = new WeakMap(), zs = new WeakSet(), rl = function() {
+js = new WeakMap(), Ao = new WeakMap(), In = new WeakMap(), le = new WeakMap(), zr = new WeakMap(), ai = new WeakMap(), nh = new WeakMap(), ur = new WeakMap(), Hi = new WeakMap(), Xt = new WeakMap(), oi = new WeakMap(), Xe = new WeakMap(), We = new WeakMap(), zs = new WeakSet(), rl = function() {
   var S;
-  const e = H(this, fe).style, o = parseFloat(e.fontSize || "0");
-  H(this, Wt).fontsize = o, H(this, Wt).pad_left = parseFloat(e.paddingLeft || "0"), H(this, Wt).pad_right = parseFloat(e.paddingRight || "0"), H(this, Wt).pad_top = parseFloat(e.paddingTop || "0"), H(this, Wt).pad_bottom = parseFloat(e.paddingBottom || "0"), H(this, Wt).$width = parseFloat(e.width || "0"), H(this, Wt).$height = parseFloat(e.height || "0"), this.position.set(H(this, Wt).pad_left, H(this, Wt).pad_top), nt(this, zr, e.writingMode === "vertical-rl"), nt(this, Oo, 0), nt(this, Vs, 0);
+  const e = H(this, le).style, o = parseFloat(e.fontSize || "0");
+  H(this, Xt).fontsize = o, H(this, Xt).pad_left = parseFloat(e.paddingLeft || "0"), H(this, Xt).pad_right = parseFloat(e.paddingRight || "0"), H(this, Xt).pad_top = parseFloat(e.paddingTop || "0"), H(this, Xt).pad_bottom = parseFloat(e.paddingBottom || "0"), H(this, Xt).$width = parseFloat(e.width || "0"), H(this, Xt).$height = parseFloat(e.height || "0"), this.position.set(H(this, Xt).pad_left, H(this, Xt).pad_top), nt(this, Ir, e.writingMode === "vertical-rl"), nt(this, Oo, 0), nt(this, Vs, 0);
   const T = (S = e.lineHeight) != null ? S : "0";
-  nt(this, Ys, H(this, zr) ? 0 : (T.slice(-2) === "px" ? parseFloat(T) : o * parseFloat(T) - o) / 2);
-}, Rr = new WeakMap(), zr = new WeakMap(), Oo = new WeakMap(), Vs = new WeakMap(), sh = new WeakSet(), ad = function(e, o = !0) {
+  nt(this, Ys, H(this, Ir) ? 0 : (T.slice(-2) === "px" ? parseFloat(T) : o * parseFloat(T) - o) / 2);
+}, Rr = new WeakMap(), Ir = new WeakMap(), Oo = new WeakMap(), Vs = new WeakMap(), sh = new WeakSet(), ad = function(e, o = !0) {
   const T = {
     escape: (q) => q.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"),
     mimeType: (q) => {
@@ -31065,17 +31066,17 @@ js = new WeakMap(), Ao = new WeakMap(), In = new WeakMap(), fe = new WeakMap(), 
       }
     }
   }
-  Promise.resolve(H(this, fe)).then((q) => {
+  Promise.resolve(H(this, le)).then((q) => {
     const Z = q.cloneNode(!0);
-    return Z.style.padding = "0px", Z.style.paddingRight = H(this, Oo) + "px", Z.style.paddingTop = H(this, Vs) + "px", Z.style.left = "0px", Z.style.top = "0px", Z.style.width = H(this, Wt).$width - H(this, Wt).pad_left - H(this, Wt).pad_right + "px", Z.style.height = H(this, Wt).$height - H(this, Wt).pad_top - H(this, Wt).pad_bottom + "px", H(this, fe).hidden = o, Z;
+    return Z.style.padding = "0px", Z.style.paddingRight = H(this, Oo) + "px", Z.style.paddingTop = H(this, Vs) + "px", Z.style.left = "0px", Z.style.top = "0px", Z.style.width = H(this, Xt).$width - H(this, Xt).pad_left - H(this, Xt).pad_right + "px", Z.style.height = H(this, Xt).$height - H(this, Xt).pad_top - H(this, Xt).pad_bottom + "px", H(this, le).hidden = o, Z;
   }).then(B).then((q) => {
     q.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
     const Z = new Image();
-    return Z.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${H(this, Wt).$width}px" height="${H(this, Wt).$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(q).replaceAll("#", "%23").replaceAll(`
+    return Z.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${H(this, Xt).$width}px" height="${H(this, Xt).$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(q).replaceAll("#", "%23").replaceAll(`
 `, "%0A")}</foreignObject></svg>`, new Promise((K) => Z.onload = () => K(Z));
   }).then((q) => new Promise((Z) => setTimeout(() => Z(q), 100))).then((q) => {
     const Z = document.createElement("canvas");
-    Z.width = H(this, Wt).$width, Z.height = H(this, Wt).$height, Z.getContext("2d").drawImage(q, 0, 0), Z.toBlob((K) => {
+    Z.width = H(this, Xt).$width, Z.height = H(this, Xt).$height, Z.getContext("2d").drawImage(q, 0, 0), Z.toBlob((K) => {
       if (!K)
         return;
       const J = URL.createObjectURL(K);
@@ -31118,9 +31119,9 @@ js = new WeakMap(), Ao = new WeakMap(), In = new WeakMap(), fe = new WeakMap(), 
 }, ji = new WeakMap(), Nn = new WeakMap(), Lo = new WeakSet(), Kc = function() {
   var N;
   H(this, ai).clear(), nt(this, ui, []), nt(this, Pn, 0), this.skipChIn();
-  const e = H(this, fe).cloneNode(!0);
+  const e = H(this, le).cloneNode(!0);
   e.textContent = "";
-  const o = H(this, fe);
+  const o = H(this, le);
   o.parentElement.insertBefore(e, o);
   let T = 0;
   o.querySelectorAll("span.sn_ch").forEach((D) => {
@@ -31141,10 +31142,10 @@ js = new WeakMap(), Ao = new WeakMap(), In = new WeakMap(), fe = new WeakMap(), 
   });
   const S = () => {
     o.parentElement.removeChild(o);
-    for (const D of H(this, jr).removeChildren())
+    for (const D of H(this, zr).removeChildren())
       D instanceof Container && H(Zt, In).unButton(D), D.destroy();
   };
-  T === 0 ? (H(this, fe).textContent = "", S()) : (N = o.lastElementChild) == null || N.addEventListener("animationend", S, { once: !0, passive: !0 }), nt(this, fe, e);
+  T === 0 ? (H(this, le).textContent = "", S()) : (N = o.lastElementChild) == null || N.addEventListener("animationend", S, { once: !0, passive: !0 }), nt(this, le, e);
 }, vr = new WeakMap(), et(TxtStage, js, void 0), et(TxtStage, Ao, void 0), et(TxtStage, In, void 0), et(TxtStage, nh, {
   "background-color": 0,
   "border-bottom-width": 0,
@@ -31156,15 +31157,15 @@ js = new WeakMap(), Ao = new WeakMap(), In = new WeakMap(), fe = new WeakMap(), 
   "margin-right": 0,
   "margin-top": 0
 }), et(TxtStage, An, void 0), et(TxtStage, On, void 0), et(TxtStage, Ws, void 0), et(TxtStage, hi, /* @__PURE__ */ Object.create(null)), et(TxtStage, Mo, /[\s\.,]/), et(TxtStage, ci, /* @__PURE__ */ Object.create(null)), et(TxtStage, Vr, new Container());
-var Fo, Bo, Ir, fi, qs, Zs, ko, Jc, Ks, Js, $o, Qc;
+var Fo, Bo, wr, fi, qs, Zs, ko, Jc, Ks, Js, $o, Qc;
 const sn = class extends Container {
   constructor(e, o, T, S) {
     var W, Y, q, Z;
     super();
     et(this, ko);
     et(this, $o);
-    Pt(this, "getBtnBounds", () => H(this, Ir));
-    et(this, Ir, new Rectangle());
+    Pt(this, "getBtnBounds", () => H(this, wr));
+    et(this, wr, new Rectangle());
     et(this, fi, void 0);
     et(this, qs, void 0);
     et(this, Zs, void 0);
@@ -31185,14 +31186,14 @@ const sn = class extends Container {
       width: 0,
       height: 0
     };
-    this.getBtnBounds = () => (H(this, Ir).x = N.x, H(this, Ir).y = N.y, H(this, Ir));
+    this.getBtnBounds = () => (H(this, wr).x = N.x, H(this, wr).y = N.y, H(this, wr));
     const D = N.enabled = argChk_Boolean(e, "enabled", !0);
     if (D && o.button(this.hArg, this, () => this.normal(), () => H(this, Ks).call(this), () => H(this, Js).call(this)), e.pic) {
       N.type = "pic", nt(this, fi, new PicBtnDesignCast(this, e)), GrpLayer.csv2Sprites(
         e.pic,
         this,
         (K) => {
-          ot(this, $o, Qc).call(this, K, N), H(this, Ir).width = K.width * N.scale_x, H(this, Ir).height = K.height * N.scale_y;
+          ot(this, $o, Qc).call(this, K, N), H(this, wr).width = K.width * N.scale_x, H(this, wr).height = K.height * N.scale_y;
         },
         (K) => T
       );
@@ -31232,7 +31233,7 @@ const sn = class extends Container {
       (K) => {
         Layer.setBlendmode(this, e), K && T();
       }
-    )), U.name = JSON.stringify(N), this.addChild(U), H(this, Ir).width = U.width, H(this, Ir).height = U.height, N.width = this.width, N.height = this.height, e.b_pic || Layer.setBlendmode(this, e), H(Z = sn, Fo).call(Z, this, U), !D) {
+    )), U.name = JSON.stringify(N), this.addChild(U), H(this, wr).width = U.width, H(this, wr).height = U.height, N.width = this.width, N.height = this.height, e.b_pic || Layer.setBlendmode(this, e), H(Z = sn, Fo).call(Z, this, U), !D) {
       z || T();
       return;
     }
@@ -31301,7 +31302,7 @@ const sn = class extends Container {
   }
 };
 let Button = sn;
-Fo = new WeakMap(), Bo = new WeakMap(), Ir = new WeakMap(), fi = new WeakMap(), qs = new WeakMap(), Zs = new WeakMap(), ko = new WeakSet(), Jc = function(e, o) {
+Fo = new WeakMap(), Bo = new WeakMap(), wr = new WeakMap(), fi = new WeakMap(), qs = new WeakMap(), Zs = new WeakMap(), ko = new WeakSet(), Jc = function(e, o) {
   nt(this, qs, e), this.setChildIndex(e, 0), e.alpha = o.alpha, e.setTransform(
     o.x,
     o.y,
@@ -31321,7 +31322,7 @@ Fo = new WeakMap(), Bo = new WeakMap(), Ir = new WeakMap(), fi = new WeakMap(), 
 }, Pt(Button, "fontFamily", "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '\u6E38\u30B4\u30B7\u30C3\u30AF Medium', meiryo, sans-serif"), et(Button, Fo, (e, o) => {
 }), et(Button, Bo, (e, o, T, S) => {
 });
-var Qs, wr, ta, Uo, Go, tf, Ho, ef, jo, Mn, zo, di, Dn, ah, od, pi, gr, Pr, ve, Xr, oe, Vo, Wr, oh, qe, Ln, ka, Fn, ea, Bn, $a, ra, Xo, rf, Wo, nf, kn, $n, ia, Yo, na, zi, Ze, uh, ud, lr, qo, sa, il, vi, en, gi, Ar, _r, mr, Zo, sf, aa, nl, Ko, af, Un;
+var Qs, Pr, ta, Uo, Go, tf, Ho, ef, jo, Mn, zo, di, Dn, ah, od, pi, gr, Ar, ve, Xr, oe, Vo, Wr, oh, Ke, Ln, ka, Fn, ea, Bn, $a, ra, Xo, rf, Wo, nf, kn, $n, ia, Yo, na, zi, Je, uh, ud, lr, qo, sa, il, vi, en, gi, Or, _r, mr, Zo, sf, aa, nl, Ko, af, Un;
 const Jt = class extends Layer {
   constructor() {
     super();
@@ -31337,13 +31338,13 @@ const Jt = class extends Layer {
     et(this, Ko);
     et(this, pi, 0);
     et(this, gr, 0);
-    et(this, Pr, !1);
+    et(this, Ar, !1);
     et(this, ve, void 0);
     et(this, Xr, "");
     et(this, oe, new TxtStage(this.spLay, () => this.canFocus(), H(Jt, zo)));
     et(this, Vo, new RubySpliter());
     et(this, Wr, document.createElement("span"));
-    et(this, qe, new Container());
+    et(this, Ke, new Container());
     et(this, Fn, "");
     et(this, ea, !0);
     et(this, ra, "");
@@ -31353,7 +31354,7 @@ const Jt = class extends Layer {
     et(this, Yo, new RegExp("[\u3000]"));
     Pt(this, "isCur", !1);
     et(this, zi, () => "");
-    et(this, Ze, "");
+    et(this, Je, "");
     et(this, lr, !1);
     et(this, qo, (e, o) => {
       var $, U, z, V, X, W, Y, q, Z, K, J;
@@ -31365,10 +31366,10 @@ const Jt = class extends Layer {
         case 1:
           if (nt(this, lr, !0), e === `
 `) {
-            H(this, Ar) ? (nt(this, Ar, !1), S = "<ruby>\u3000<rt>\u3000</rt></ruby><br/>") : S = "<br/>";
+            H(this, Or) ? (nt(this, Or, !1), S = "<ruby>\u3000<rt>\u3000</rt></ruby><br/>") : S = "<br/>";
             break;
           }
-          H(this, Ar) && (nt(this, Ar, !1), o === "" && (o = "\u3000")), S = ot(this, sa, il).call(this, e, o, H(this, Ze));
+          H(this, Or) && (nt(this, Or, !1), o === "" && (o = "\u3000")), S = ot(this, sa, il).call(this, e, o, H(this, Je));
           break;
         default:
           switch (N) {
@@ -31380,7 +31381,7 @@ const Jt = class extends Layer {
             case "121":
             case "even":
             case "1ruby":
-              nt(this, Ar, !1), nt(this, lr, !0), S = ot(this, sa, il).call(this, e, B, N);
+              nt(this, Or, !1), nt(this, lr, !0), S = ot(this, sa, il).call(this, e, B, N);
               break;
             case "gotxt":
               ot(this, aa, nl).call(this), this.isCur && H($ = Jt, ta).call($, H(this, _r).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replace(/style='(anim\S+ \S+?;\s*)+/g, "style='").replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replace(/class='sn_ch .+?'/g, "class='sn_ch'").replaceAll("class='offrec'", "style='display: none;'").replaceAll("`", "\\`")), H(this, lr) ? (H(this, oe).goTxt(H(this, _r)), nt(this, lr, !1), nt(this, gi, 0)) : this.isCur && H(Jt, Mn).noticeCompTxt();
@@ -31402,27 +31403,27 @@ const Jt = class extends Layer {
                   H(this, oe).dispBreak(Q.pic);
                   return;
                 }
-                nt(this, Ar, !1), Q.delay = H(this, gi), (z = Q.r) != null || (Q.r = ""), (V = Q.style) != null || (Q.style = ""), (X = Q.r_style) != null || (Q.r_style = "");
+                nt(this, Or, !1), Q.delay = H(this, gi), (z = Q.r) != null || (Q.r = ""), (V = Q.style) != null || (Q.style = ""), (X = Q.r_style) != null || (Q.r_style = "");
                 const { cl: rt, sty: tt, lnk: st } = ot(this, vi, en).call(this, !0, Q.wait);
                 S = `<span${rt} style='${tt} ${Q.style}'><ruby><span data-cmd='grp' data-arg='${JSON.stringify(Q)}'${st} style='${tt} display: inline;'>\u3000</span><rt${st}${this.mkStyle_r_align(
                   "\u3000",
                   Q.r,
-                  H(this, Ze),
+                  H(this, Je),
                   H(this, Wr).style.cssText + ((Y = (W = H(this, mr).at(-1)) == null ? void 0 : W.o.r_style) != null ? Y : "") + Q.r_style
                 )}>${Q.r}</rt></ruby></span>`;
               }
               break;
             case "tcy":
-              nt(this, Ar, !1), nt(this, lr, !0);
+              nt(this, Or, !1), nt(this, lr, !0);
               {
-                H(Jt, wr).doRecLog() && nt(this, Un, H(this, Un) + (e + (o ? `\u300A${o}\u300B` : "")));
+                H(Jt, Pr).doRecLog() && nt(this, Un, H(this, Un) + (e + (o ? `\u300A${o}\u300B` : "")));
                 const { t: Q, r: rt = "", wait: tt = null, style: st = "", r_style: it = "" } = JSON.parse(B), at = CmnLib.isSafari ? rt.replaceAll(/[A-Za-z0-9]/g, (pt) => String.fromCharCode(pt.charCodeAt(0) + 65248)) : rt, { cl: ut, sty: ft, lnk: ct } = ot(this, vi, en).call(this, !0, tt);
                 S = `<span${ut} style='${ft}${H(this, $n).call(this, Q)} ${st}'><ruby><span${ct} style='${ft} display: inline;
 text-combine-upright: all;
 -webkit-text-combine: horizontal;'>${Q}</span><rt${ct}${this.mkStyle_r_align(
                   Q,
                   at,
-                  H(this, Ze),
+                  H(this, Je),
                   H(this, Wr).style.cssText + ((Z = (q = H(this, mr).at(-1)) == null ? void 0 : q.o.r_style) != null ? Z : "") + it
                 )}>${at}</rt></ruby></span>`;
               }
@@ -31446,45 +31447,45 @@ text-combine-upright: all;
               nt(this, lr, !0), H(this, _r).push("</span>"), ot(this, aa, nl).call(this);
               return;
             default:
-              nt(this, lr, !0), S = ot(this, sa, il).call(this, e, o, H(this, Ze));
+              nt(this, lr, !0), S = ot(this, sa, il).call(this, e, o, H(this, Je));
           }
           break;
       }
       H(this, _r).push(H(J = Jt, na).call(J, S));
     });
     et(this, gi, 0);
-    et(this, Ar, !0);
+    et(this, Or, !0);
     et(this, _r, []);
     et(this, mr, []);
     Pt(this, "click", () => !this.spLay.interactiveChildren || !this.spLay.visible ? !1 : H(this, oe).skipChIn());
     et(this, Un, "");
     Pt(this, "addButton", (e) => new Promise((o) => {
-      e.key = `btn=[${H(this, qe).children.length}] ` + this.name_, e[":id_tag"] = e.key.slice(0, -7), argChk_Boolean(e, "hint_tate", H(this, oe).tategaki);
+      e.key = `btn=[${H(this, Ke).children.length}] ` + this.name_, e[":id_tag"] = e.key.slice(0, -7), argChk_Boolean(e, "hint_tate", H(this, oe).tategaki);
       const T = new Button(e, H(Jt, Mn), () => o(), () => this.canFocus());
-      T.name = JSON.stringify(e).replaceAll('"', "'"), H(this, qe).addChild(T);
+      T.name = JSON.stringify(e).replaceAll('"', "'"), H(this, Ke).addChild(T);
     }));
     Pt(this, "record", () => ({
       ...super.record(),
       enabled: this.enabled,
       r_cssText: H(this, Wr).style.cssText,
-      r_align: H(this, Ze),
+      r_align: H(this, Je),
       b_do: H(this, ve) === void 0 ? void 0 : H(this, ve) instanceof Sprite ? "Sprite" : "Graphics",
       b_pic: H(this, Xr),
       b_color: H(this, pi),
       b_alpha: H(this, gr),
-      b_alpha_isfixed: H(this, Pr),
+      b_alpha_isfixed: H(this, Ar),
       ffs: H(this, kn),
       txs: H(this, oe).record(),
       strNoFFS: H(this, ia),
-      btns: H(this, qe).children.map((e) => e.name)
+      btns: H(this, Ke).children.map((e) => e.name)
     }));
-    this.spLay.addChild(H(this, oe)), H(this, Vo).init(H(this, qo)), this.spLay.addChild(H(this, qe)), H(this, qe).name = "cntBtn";
+    this.spLay.addChild(H(this, oe)), H(this, Vo).init(H(this, qo)), this.spLay.addChild(H(this, Ke)), H(this, Ke).name = "cntBtn";
     const e = 16;
     this.lay({ style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '\u6E38\u30B4\u30B7\u30C3\u30AF Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${e}px;`, in_style: "default", out_style: "default", back_clear: "true" });
   }
   static init(e, o, T, S, N, D) {
     var B, $;
-    nt(Jt, Qs, e), TxtStage.init(e, D), nt(Jt, wr, T), nt(Jt, ta, S), nt(Jt, Uo, N), T.setDoRecProc(Jt.chgDoRec), o.autowc = (U) => {
+    nt(Jt, Qs, e), TxtStage.init(e, D), nt(Jt, Pr, T), nt(Jt, ta, S), nt(Jt, Uo, N), T.setDoRecProc(Jt.chgDoRec), o.autowc = (U) => {
       var z;
       return ot(z = Jt, ah, od).call(z, U);
     }, o.autowc({ enabled: !1, text: "", time: 0 }), o.ch_in_style = (U) => {
@@ -31554,12 +31555,12 @@ text-combine-upright: all;
     H(this, oe).cvsResize();
   }
   cvsResizeChildren() {
-    for (const e of H(this, qe).children)
+    for (const e of H(this, Ke).children)
       e.cvsResize();
   }
   lay(e) {
     var o;
-    if (super.lay(e), Layer.setXY(this.spLay, e, this.spLay), e[":id_tag"] = this.name_.slice(0, -7), RubySpliter.setting(e), ot(this, Wo, nf).call(this, e), H(this, oe).lay(e), "r_align" in e && nt(this, Ze, (o = e.r_align) != null ? o : ""), nt(this, zi, CmnLib.isSafari ? H(this, oe).tategaki ? (T, S) => `text-align: start; height: ${S}em; padding-top: ${T}; padding-bottom: ${T};` : (T, S) => `text-align: start; width: ${S}em; padding-left: ${T}; padding-right: ${T};` : H(this, oe).tategaki ? (T) => `text-align: justify; text-align-last: justify; padding-top: ${T}; padding-bottom: ${T};` : (T) => `text-align: justify; text-align-last: justify; padding-left: ${T}; padding-right: ${T};`), CmnLib.isFirefox && (this.mkStyle_r_align = ot(this, uh, ud)), "r_style" in e)
+    if (super.lay(e), Layer.setXY(this.spLay, e, this.spLay), e[":id_tag"] = this.name_.slice(0, -7), RubySpliter.setting(e), ot(this, Wo, nf).call(this, e), H(this, oe).lay(e), "r_align" in e && nt(this, Je, (o = e.r_align) != null ? o : ""), nt(this, zi, CmnLib.isSafari ? H(this, oe).tategaki ? (T, S) => `text-align: start; height: ${S}em; padding-top: ${T}; padding-bottom: ${T};` : (T, S) => `text-align: start; width: ${S}em; padding-left: ${T}; padding-right: ${T};` : H(this, oe).tategaki ? (T) => `text-align: justify; text-align-last: justify; padding-top: ${T}; padding-bottom: ${T};` : (T) => `text-align: justify; text-align-last: justify; padding-left: ${T}; padding-right: ${T};`), CmnLib.isFirefox && (this.mkStyle_r_align = ot(this, uh, ud)), "r_style" in e)
       if (e.r_style) {
         const T = document.createElement("span");
         T.style.cssText = e.r_style;
@@ -31575,7 +31576,7 @@ text-combine-upright: all;
       } else
         H(this, Wr).style.cssText = "";
     if ("alpha" in e)
-      for (const T of H(this, qe).children)
+      for (const T of H(this, Ke).children)
         T.alpha = this.spLay.alpha;
     return ot(this, Ln, ka).call(this, e), ot(this, Bn, $a).call(this, e), ot(this, Xo, rf).call(this, e, (T) => {
       T && H(Jt, jo).resume();
@@ -31588,7 +31589,7 @@ text-combine-upright: all;
     return H(this, oe).getHeight;
   }
   chgBackAlpha(e) {
-    const o = H(this, Pr) ? H(this, gr) : e * H(this, gr);
+    const o = H(this, Ar) ? H(this, gr) : e * H(this, gr);
     H(this, ve) instanceof Graphics && (H(this, ve) && (this.spLay.removeChild(H(this, ve)), H(this, ve).destroy()), this.spLay.addChildAt(
       nt(this, ve, new Graphics()).beginFill(H(this, pi)).lineStyle(void 0).drawRect(0, 0, H(this, oe).getWidth, H(this, oe).getHeight).endFill(),
       0
@@ -31627,7 +31628,7 @@ text-combine-upright: all;
   }
   clearText() {
     var e;
-    this.spLay.addChild(nt(this, oe, H(this, oe).reNew())), nt(this, gi, 0), nt(this, Ar, !0), nt(this, _r, []), nt(this, Un, ""), H(e = Jt, ta).call(e, "", !0);
+    this.spLay.addChild(nt(this, oe, H(this, oe).reNew())), nt(this, gi, 0), nt(this, Or, !0), nt(this, _r, []), nt(this, Un, ""), H(e = Jt, ta).call(e, "", !0);
   }
   get pageText() {
     return H(this, Un).replace("\u300A\u3000\u300B", "");
@@ -31644,11 +31645,11 @@ text-combine-upright: all;
   }
   clearLay(e) {
     super.clearLay(e), this.clearText();
-    for (const o of H(this, qe).removeChildren())
+    for (const o of H(this, Ke).removeChildren())
       o.destroy();
   }
   playback(e, o) {
-    super.playback(e, o), this.enabled = e.enabled, H(this, Wr).style.cssText = e.r_cssText, nt(this, Ze, e.r_align), this.cvsResize(), ot(this, Wo, nf).call(this, e), H(this, oe).playback(e.txs), nt(this, gr, e.b_alpha), nt(this, Pr, e.b_alpha_isfixed), o.push(new Promise((S) => {
+    super.playback(e, o), this.enabled = e.enabled, H(this, Wr).style.cssText = e.r_cssText, nt(this, Je, e.r_align), this.cvsResize(), ot(this, Wo, nf).call(this, e), H(this, oe).playback(e.txs), nt(this, gr, e.b_alpha), nt(this, Ar, e.b_alpha_isfixed), o.push(new Promise((S) => {
       const N = e.b_do ? e.b_do === "Sprite" ? { b_pic: e.b_pic } : { b_color: e.b_color } : { b_pic: "" };
       N.b_alpha = e.b_alpha, N.b_alpha_isfixed = e.b_alpha_isfixed, ot(this, Xo, rf).call(this, N, (D) => {
         D && S();
@@ -31668,25 +31669,25 @@ text-combine-upright: all;
   }
   makeDesignCastChildren(e) {
     if (!!this.spLay.visible)
-      for (const o of H(this, qe).children)
+      for (const o of H(this, Ke).children)
         o.makeDesignCast(e);
   }
   showDesignCast() {
     H(this, oe).showDesignCast();
   }
   showDesignCastChildren() {
-    for (const e of H(this, qe).children)
+    for (const e of H(this, Ke).children)
       e.showDesignCast();
   }
   dump() {
-    return H(this, qo).call(this, "", "gotxt\uFF5C"), super.dump() + `, "enabled":"${this.enabled}", ${H(this, oe).dump()}, "b_pic":"${H(this, Xr)}", "b_color":"${H(this, pi)}", "b_alpha":${H(this, gr)}, "b_alpha_isfixed":"${H(this, Pr)}", "width":${H(this, oe).getWidth}, "height":${H(this, oe).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${H(this, qe).children.map((e) => {
+    return H(this, qo).call(this, "", "gotxt\uFF5C"), super.dump() + `, "enabled":"${this.enabled}", ${H(this, oe).dump()}, "b_pic":"${H(this, Xr)}", "b_color":"${H(this, pi)}", "b_alpha":${H(this, gr)}, "b_alpha_isfixed":"${H(this, Ar)}", "width":${H(this, oe).getWidth}, "height":${H(this, oe).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${H(this, Ke).children.map((e) => {
       var o;
       return (o = e.children[0].name) != null ? o : "{}";
     }).join(",")}]`;
   }
 };
 let TxtLayer = Jt;
-Qs = new WeakMap(), wr = new WeakMap(), ta = new WeakMap(), Uo = new WeakMap(), Go = new WeakSet(), tf = function(e) {
+Qs = new WeakMap(), Pr = new WeakMap(), ta = new WeakMap(), Uo = new WeakMap(), Go = new WeakSet(), tf = function(e) {
   const o = TxtStage.ch_in_style(e), T = o.x.charAt(0) === "=" ? `${o.nx * 100}%` : `${o.nx}px`, S = o.y.charAt(0) === "=" ? `${o.ny * 100}%` : `${o.ny}px`, { name: N } = e;
   return addStyle(`
 .sn_ch_in_${N} {
@@ -31719,20 +31720,20 @@ Qs = new WeakMap(), wr = new WeakMap(), ta = new WeakMap(), Uo = new WeakMap(), 
 	}
 `), !1;
 }, jo = new WeakMap(), Mn = new WeakMap(), zo = new WeakMap(), di = new WeakMap(), Dn = new WeakMap(), ah = new WeakSet(), od = function(e) {
-  nt(Jt, di, argChk_Boolean(e, "enabled", H(Jt, di))), H(Jt, wr).setVal_Nochk("save", "const.sn.autowc.enabled", H(Jt, di));
+  nt(Jt, di, argChk_Boolean(e, "enabled", H(Jt, di))), H(Jt, Pr).setVal_Nochk("save", "const.sn.autowc.enabled", H(Jt, di));
   const { text: o } = e;
   if ("text" in e != "time" in e)
     throw "[autowc] text\u3068time\u306F\u540C\u6642\u6307\u5B9A\u5FC5\u9808\u3067\u3059";
-  if (H(Jt, wr).setVal_Nochk("save", "const.sn.autowc.text", o), !o)
-    return H(Jt, wr).setVal_Nochk("save", "const.sn.autowc.time", ""), !1;
+  if (H(Jt, Pr).setVal_Nochk("save", "const.sn.autowc.text", o), !o)
+    return H(Jt, Pr).setVal_Nochk("save", "const.sn.autowc.time", ""), !1;
   const T = o.length;
   if (H(Jt, di) && T === 0)
     throw '[autowc] enabled === false \u304B\u3064 text === "" \u306F\u8A31\u3055\u308C\u307E\u305B\u3093';
   const S = String(e.time).split(",");
   if (S.length !== T)
     throw "[autowc] text\u6587\u5B57\u6570\u3068time\u306B\u8A18\u8FF0\u3055\u308C\u305F\u5F85\u3061\u6642\u9593\uFF08\u30B3\u30F3\u30DE\u533A\u5207\u308A\uFF09\u306F\u540C\u6570\u306B\u3057\u3066\u4E0B\u3055\u3044";
-  return nt(Jt, Dn, {}), S.forEach((N, D) => H(Jt, Dn)[o[D]] = uint(N)), H(Jt, wr).setVal_Nochk("save", "const.sn.autowc.time", e.time), !1;
-}, pi = new WeakMap(), gr = new WeakMap(), Pr = new WeakMap(), ve = new WeakMap(), Xr = new WeakMap(), oe = new WeakMap(), Vo = new WeakMap(), Wr = new WeakMap(), oh = new WeakMap(), qe = new WeakMap(), Ln = new WeakSet(), ka = function(e) {
+  return nt(Jt, Dn, {}), S.forEach((N, D) => H(Jt, Dn)[o[D]] = uint(N)), H(Jt, Pr).setVal_Nochk("save", "const.sn.autowc.time", e.time), !1;
+}, pi = new WeakMap(), gr = new WeakMap(), Ar = new WeakMap(), ve = new WeakMap(), Xr = new WeakMap(), oe = new WeakMap(), Vo = new WeakMap(), Wr = new WeakMap(), oh = new WeakMap(), Ke = new WeakMap(), Ln = new WeakSet(), ka = function(e) {
   const { in_style: o } = e;
   if (!o)
     return;
@@ -31749,9 +31750,9 @@ Qs = new WeakMap(), wr = new WeakMap(), ta = new WeakMap(), Uo = new WeakMap(), 
   nt(this, ra, o);
 }, ra = new WeakMap(), Xo = new WeakSet(), rf = function(e, o) {
   if ("back_clear" in e)
-    return argChk_Boolean(e, "back_clear", !1) && (nt(this, pi, 0), nt(this, gr, 0), nt(this, Pr, !1), nt(this, Xr, "")), o(!1), !1;
-  nt(this, gr, argChk_Num(e, "b_alpha", H(this, gr))), nt(this, Pr, argChk_Boolean(e, "b_alpha_isfixed", H(this, Pr)));
-  const T = (H(this, Pr) ? 1 : Number(H(Jt, wr).getVal("sys:TextLayer.Back.Alpha"))) * H(this, gr);
+    return argChk_Boolean(e, "back_clear", !1) && (nt(this, pi, 0), nt(this, gr, 0), nt(this, Ar, !1), nt(this, Xr, "")), o(!1), !1;
+  nt(this, gr, argChk_Num(e, "b_alpha", H(this, gr))), nt(this, Ar, argChk_Boolean(e, "b_alpha_isfixed", H(this, Ar)));
+  const T = (H(this, Ar) ? 1 : Number(H(Jt, Pr).getVal("sys:TextLayer.Back.Alpha"))) * H(this, gr);
   if (e.b_pic) {
     if (H(this, Xr) !== e.b_pic)
       return nt(this, Xr, e.b_pic), H(this, ve) && (this.spLay.removeChild(H(this, ve)), H(this, ve).destroy()), GrpLayer.csv2Sprites(H(this, Xr), this.spLay, (S) => {
@@ -31766,7 +31767,7 @@ Qs = new WeakMap(), wr = new WeakMap(), ta = new WeakMap(), Uo = new WeakMap(), 
 }, Wo = new WeakSet(), nf = function(e) {
   var o, T;
   "noffs" in e && (nt(this, ia, (o = e.noffs) != null ? o : ""), nt(this, Yo, new RegExp(`[\u3000${H(this, ia)}]`))), "ffs" in e && ((T = H(this, kn)) != null || nt(this, kn, ""), nt(this, $n, H(this, kn) === "" ? () => "" : (S) => H(this, Yo).test(S) ? "" : ` font-feature-settings: ${H(this, kn)};`));
-}, kn = new WeakMap(), $n = new WeakMap(), ia = new WeakMap(), Yo = new WeakMap(), na = new WeakMap(), zi = new WeakMap(), Ze = new WeakMap(), uh = new WeakSet(), ud = function(e, o, T, S = "") {
+}, kn = new WeakMap(), $n = new WeakMap(), ia = new WeakMap(), Yo = new WeakMap(), na = new WeakMap(), zi = new WeakMap(), Je = new WeakMap(), uh = new WeakSet(), ud = function(e, o, T, S = "") {
   if (!T)
     return ` style='${S}'`;
   const N = e.length * 2;
@@ -31803,7 +31804,7 @@ Qs = new WeakMap(), wr = new WeakMap(), ta = new WeakMap(), Uo = new WeakMap(), 
 }, lr = new WeakMap(), qo = new WeakMap(), sa = new WeakSet(), il = function(e, o, T) {
   var $, U;
   const S = e === " " ? "&nbsp;" : e;
-  H(Jt, wr).doRecLog() && nt(this, Un, H(this, Un) + (S + (o ? `\u300A${o}\u300B` : "")));
+  H(Jt, Pr).doRecLog() && nt(this, Un, H(this, Un) + (S + (o ? `\u300A${o}\u300B` : "")));
   const { cl: N, sty: D, lnk: B } = ot(this, vi, en).call(this, !0, null, e);
   return o ? `<span${N} style='${D} ${H(this, $n).call(this, e)}'><ruby>${Array.from(e).map((z, V) => `<span${N}${B} style='${V > 0 ? ot(this, vi, en).call(this, !0, null, e).sty : D} display: inline;'>${z === " " ? "&nbsp;" : z}</span>`).join("")}<rt${B}${this.mkStyle_r_align(
     e,
@@ -31823,24 +31824,24 @@ Qs = new WeakMap(), wr = new WeakMap(), ta = new WeakMap(), Uo = new WeakMap(), 
     lnk: ((X = (V = H(this, mr).at(0)) == null ? void 0 : V.o[":link"]) != null ? X : "") + " " + N,
     curpos: N
   };
-}, gi = new WeakMap(), Ar = new WeakMap(), _r = new WeakMap(), mr = new WeakMap(), Zo = new WeakSet(), sf = function(e) {
+}, gi = new WeakMap(), Or = new WeakMap(), _r = new WeakMap(), mr = new WeakMap(), Zo = new WeakSet(), sf = function(e) {
   H(this, mr).push({
     o: e,
-    r_align: H(this, Ze),
+    r_align: H(this, Je),
     ch_in_style: H(this, Fn),
     ch_out_style: H(this, ra)
-  }), "r_align" in e && nt(this, Ze, e.r_align), ot(this, Ln, ka).call(this, e), ot(this, Bn, $a).call(this, e);
+  }), "r_align" in e && nt(this, Je, e.r_align), ot(this, Ln, ka).call(this, e), ot(this, Bn, $a).call(this, e);
 }, aa = new WeakSet(), nl = function() {
   const e = H(this, mr).pop();
-  !e || (nt(this, Ze, e.r_align), ot(this, Ln, ka).call(this, { in_style: e.ch_in_style }), ot(this, Bn, $a).call(this, { out_style: e.ch_out_style }));
+  !e || (nt(this, Je, e.r_align), ot(this, Ln, ka).call(this, { in_style: e.ch_in_style }), ot(this, Bn, $a).call(this, { out_style: e.ch_out_style }));
 }, Ko = new WeakSet(), af = function(e) {
   const o = H(this, mr).at(-1);
   if (!o) {
     ot(this, Zo, sf).call(this, e);
     return;
   }
-  o.o = { ...o.o, ...e }, !e.style && !e.r_style && (o.o.style = "", o.o.r_style = ""), "r_align" in e && nt(this, Ze, e.r_align), ot(this, Ln, ka).call(this, e), ot(this, Bn, $a).call(this, e);
-}, Un = new WeakMap(), et(TxtLayer, Go), et(TxtLayer, Ho), et(TxtLayer, ah), et(TxtLayer, Qs, void 0), et(TxtLayer, wr, void 0), et(TxtLayer, ta, void 0), et(TxtLayer, Uo, void 0), et(TxtLayer, jo, void 0), et(TxtLayer, Mn, void 0), et(TxtLayer, zo, void 0), et(TxtLayer, di, !1), et(TxtLayer, Dn, {}), et(TxtLayer, oh, {
+  o.o = { ...o.o, ...e }, !e.style && !e.r_style && (o.o.style = "", o.o.r_style = ""), "r_align" in e && nt(this, Je, e.r_align), ot(this, Ln, ka).call(this, e), ot(this, Bn, $a).call(this, e);
+}, Un = new WeakMap(), et(TxtLayer, Go), et(TxtLayer, Ho), et(TxtLayer, ah), et(TxtLayer, Qs, void 0), et(TxtLayer, Pr, void 0), et(TxtLayer, ta, void 0), et(TxtLayer, Uo, void 0), et(TxtLayer, jo, void 0), et(TxtLayer, Mn, void 0), et(TxtLayer, zo, void 0), et(TxtLayer, di, !1), et(TxtLayer, Dn, {}), et(TxtLayer, oh, {
   "text-align": 0,
   "text-align-last": 0,
   height: 0,
@@ -32046,7 +32047,7 @@ ${t.id}`, Y = new Tween(S).to(D, argChk_Num(t, "time", NaN) * (Boolean(this.val.
     Y.start();
   return this.hTwInf[W] = { tw: Y, resume: !1 }, !1;
 };
-var Or, ue, xe, Vi, Hn, ha, Qo, tu, eu, ca, ru, of, Xi, Yr, ph, pd, Ke, vh, vd, gh, gd, _h, _d, se, qr, Zr, iu, mh, md, fa, al, yh, yd, bh, nu, Eh, jn, zn, _i, Oe, Vn, xh, bd, Ne, Xe, ir, Th, Ed, Sh, xd, Ch, Td, Xn, Ua, Rh, Sd, hr, Ih, Cd, wh, Rd, Ph, Id, Ah, wd, Oh, Pd, Wi, da, ol, cr, Nh, Ad, su, Mh, Od, Kr, Wn, Yi, ys, Jr, Qr, Dh, Nd, Lh, Md, Fh, Dd, Bh, Ld, kh, Fd, $h, Bd, Uh, kd, Gh, $d, Hh, Ud, jh, Gd, zh, Hd, Vh, jd, Xh, zd, Wh, Vd, Yh, Xd;
+var Nr, ue, xe, Vi, Hn, ha, Qo, tu, eu, ca, ru, of, Xi, Yr, ph, pd, Qe, vh, vd, gh, gd, _h, _d, se, qr, Zr, iu, mh, md, fa, al, yh, yd, bh, nu, Eh, jn, zn, _i, Oe, Vn, xh, bd, Ne, Ye, sr, Th, Ed, Sh, xd, Ch, Td, Xn, Ua, Rh, Sd, hr, Ih, Cd, wh, Rd, Ph, Id, Ah, wd, Oh, Pd, Wi, da, ol, cr, Nh, Ad, su, Mh, Od, Kr, Wn, Yi, ys, Jr, Qr, Dh, Nd, Lh, Md, Fh, Dd, Bh, Ld, kh, Fd, $h, Bd, Uh, kd, Gh, $d, Hh, Ud, jh, Gd, zh, Hd, Vh, jd, Xh, zd, Wh, Vd, Yh, Xd;
 const an = class {
   constructor(t, e, o, T, S, N, D, B, $, U) {
     et(this, ru);
@@ -32058,7 +32059,7 @@ const an = class {
     et(this, fa);
     et(this, yh);
     et(this, xh);
-    et(this, Xe);
+    et(this, Ye);
     et(this, Th);
     et(this, Sh);
     et(this, Ch);
@@ -32088,7 +32089,7 @@ const an = class {
     et(this, Xh);
     et(this, Wh);
     et(this, Yh);
-    et(this, Or, void 0);
+    et(this, Nr, void 0);
     et(this, ue, new Container());
     et(this, xe, new Container());
     et(this, Vi, void 0);
@@ -32115,7 +32116,7 @@ const an = class {
     Pt(this, "getFrmDisabled", (t) => H(this, Vi).getFrmDisabled(t));
     et(this, Xi, void 0);
     et(this, Yr, void 0);
-    et(this, Ke, (t, e = this.currentTxtlayForeNeedErr, o = !0) => e.tagCh("\uFF5C\u3000\u300A" + t + "\u300B"));
+    et(this, Qe, (t, e = this.currentTxtlayForeNeedErr, o = !0) => e.tagCh("\uFF5C\u3000\u300A" + t + "\u300B"));
     Pt(this, "goTxt", () => {
     });
     Pt(this, "breakLine", () => {
@@ -32208,9 +32209,9 @@ void main(void) {
         }, 1e3 / 60 * 10));
       }, { passive: !0 });
     }
-    D.cvsResize(), TxtLayer.init(t, e, T, (Y) => this.recText(Y), (Y) => H(this, se)[Y.layname].fore === Y, o), GrpLayer.init(S, t, o, D, B, T), Button.init(t), nt(this, Vi, new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, S, this.sys, H(this, hr))), D.hFactoryCls.grp = () => new GrpLayer(), D.hFactoryCls.txt = () => new TxtLayer(), e.loadplugin = (Y) => ot(this, gh, gd).call(this, Y), e.snapshot = (Y) => ot(this, vh, vd).call(this, Y), e.add_lay = (Y) => ot(this, _h, _d).call(this, Y), e.clear_lay = (Y) => ot(this, yh, yd).call(this, Y), e.finish_trans = () => ot(this, Xn, Ua).call(this), e.lay = (Y) => ot(this, mh, md).call(this, Y), e.trans = (Y) => ot(this, xh, bd).call(this, Y), e.wt = (Y) => ot(this, Ch, Td).call(this, Y), e.quake = (Y) => ot(this, Rh, Sd).call(this, Y), e.stop_quake = (Y) => e.finish_trans(Y), e.wq = (Y) => e.wt(Y), e.pause_tsy = (Y) => ot(this, Ah, wd).call(this, Y), e.resume_tsy = (Y) => ot(this, Oh, Pd).call(this, Y), e.stop_tsy = (Y) => ot(this, Ph, Id).call(this, Y), e.tsy = (Y) => ot(this, Ih, Cd).call(this, Y), e.wait_tsy = (Y) => ot(this, wh, Rd).call(this, Y), e.ch = (Y) => ot(this, da, ol).call(this, Y), e.clear_text = (Y) => ot(this, Dh, Nd).call(this, Y), e.current = (Y) => H(this, su).call(this, Y), e.endlink = (Y) => ot(this, Lh, Md).call(this, Y), e.er = (Y) => ot(this, Fh, Dd).call(this, Y), e.graph = (Y) => ot(this, Bh, Ld).call(this, Y), e.link = (Y) => ot(this, kh, Fd).call(this, Y), e.r = (Y) => ot(this, $h, Bd).call(this, Y), e.rec_ch = (Y) => ot(this, Gh, $d).call(this, Y), e.rec_r = () => ot(this, Uh, kd).call(this), e.reset_rec = (Y) => ot(this, Hh, Ud).call(this, Y), e.ruby2 = (Y) => ot(this, jh, Gd).call(this, Y), e.span = (Y) => ot(this, zh, Hd).call(this, Y), e.tcy = (Y) => ot(this, Vh, jd).call(this, Y), e.add_face = (Y) => GrpLayer.add_face(Y), e.wv = (Y) => GrpLayer.wv(Y), e.dump_lay = (Y) => ot(this, Xh, zd).call(this, Y), e.enable_event = (Y) => ot(this, Wh, Vd).call(this, Y), e.button = (Y) => ot(this, Yh, Xd).call(this, Y), t.existsBreakline && (this.breakLine = () => H(this, Ke).call(this, 'grp\uFF5C{"id":"break","pic":"breakline"}')), t.existsBreakpage && (this.breakPage = () => H(this, Ke).call(this, 'grp\uFF5C{"id":"break","pic":"breakpage"}')), nt(this, Hn, parseColor(String(t.oCfg.init.bg_color)));
+    D.cvsResize(), TxtLayer.init(t, e, T, (Y) => this.recText(Y), (Y) => H(this, se)[Y.layname].fore === Y, o), GrpLayer.init(S, t, o, D, B, T), Button.init(t), nt(this, Vi, new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, S, this.sys, H(this, hr))), D.hFactoryCls.grp = () => new GrpLayer(), D.hFactoryCls.txt = () => new TxtLayer(), e.loadplugin = (Y) => ot(this, gh, gd).call(this, Y), e.snapshot = (Y) => ot(this, vh, vd).call(this, Y), e.add_lay = (Y) => ot(this, _h, _d).call(this, Y), e.clear_lay = (Y) => ot(this, yh, yd).call(this, Y), e.finish_trans = () => ot(this, Xn, Ua).call(this), e.lay = (Y) => ot(this, mh, md).call(this, Y), e.trans = (Y) => ot(this, xh, bd).call(this, Y), e.wt = (Y) => ot(this, Ch, Td).call(this, Y), e.quake = (Y) => ot(this, Rh, Sd).call(this, Y), e.stop_quake = (Y) => e.finish_trans(Y), e.wq = (Y) => e.wt(Y), e.pause_tsy = (Y) => ot(this, Ah, wd).call(this, Y), e.resume_tsy = (Y) => ot(this, Oh, Pd).call(this, Y), e.stop_tsy = (Y) => ot(this, Ph, Id).call(this, Y), e.tsy = (Y) => ot(this, Ih, Cd).call(this, Y), e.wait_tsy = (Y) => ot(this, wh, Rd).call(this, Y), e.ch = (Y) => ot(this, da, ol).call(this, Y), e.clear_text = (Y) => ot(this, Dh, Nd).call(this, Y), e.current = (Y) => H(this, su).call(this, Y), e.endlink = (Y) => ot(this, Lh, Md).call(this, Y), e.er = (Y) => ot(this, Fh, Dd).call(this, Y), e.graph = (Y) => ot(this, Bh, Ld).call(this, Y), e.link = (Y) => ot(this, kh, Fd).call(this, Y), e.r = (Y) => ot(this, $h, Bd).call(this, Y), e.rec_ch = (Y) => ot(this, Gh, $d).call(this, Y), e.rec_r = () => ot(this, Uh, kd).call(this), e.reset_rec = (Y) => ot(this, Hh, Ud).call(this, Y), e.ruby2 = (Y) => ot(this, jh, Gd).call(this, Y), e.span = (Y) => ot(this, zh, Hd).call(this, Y), e.tcy = (Y) => ot(this, Vh, jd).call(this, Y), e.add_face = (Y) => GrpLayer.add_face(Y), e.wv = (Y) => GrpLayer.wv(Y), e.dump_lay = (Y) => ot(this, Xh, zd).call(this, Y), e.enable_event = (Y) => ot(this, Wh, Vd).call(this, Y), e.button = (Y) => ot(this, Yh, Xd).call(this, Y), t.existsBreakline && (this.breakLine = () => H(this, Qe).call(this, 'grp\uFF5C{"id":"break","pic":"breakline"}')), t.existsBreakpage && (this.breakPage = () => H(this, Qe).call(this, 'grp\uFF5C{"id":"break","pic":"breakpage"}')), nt(this, Hn, parseColor(String(t.oCfg.init.bg_color)));
     const V = new Graphics();
-    V.beginFill(H(this, Hn), 1).lineStyle(0, H(this, Hn)).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill(), H(this, ue).addChild(V.clone()), H(this, xe).addChild(V), H(this, xe).visible = !1, nt(this, Or, this.appPixi.stage), H(this, Or).addChild(H(this, xe)), H(this, Or).addChild(H(this, ue)), H(this, Or).addChild(H(this, zn)), H(this, Or).addChild(H(this, Oe)), this.appPixi.ticker.add(H(this, Qo));
+    V.beginFill(H(this, Hn), 1).lineStyle(0, H(this, Hn)).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill(), H(this, ue).addChild(V.clone()), H(this, xe).addChild(V), H(this, xe).visible = !1, nt(this, Nr, this.appPixi.stage), H(this, Nr).addChild(H(this, xe)), H(this, Nr).addChild(H(this, ue)), H(this, Nr).addChild(H(this, zn)), H(this, Nr).addChild(H(this, Oe)), this.appPixi.ticker.add(H(this, Qo));
     const X = (Y, q) => {
       ot(this, ph, pd).call(this, Number(q));
     };
@@ -32229,7 +32230,7 @@ void main(void) {
   cvsResizeDesign() {
   }
   cover(t, e = 0) {
-    H(this, Xi) && (H(this, Or).removeChild(H(this, Xi)), H(this, Xi).destroy(), nt(this, Xi, void 0)), t && H(this, Or).addChild(
+    H(this, Xi) && (H(this, Nr).removeChild(H(this, Xi)), H(this, Xi).destroy(), nt(this, Xi, void 0)), t && H(this, Nr).addChild(
       nt(this, Xi, new Graphics()).beginFill(e).lineStyle(0, e).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill()
     );
   }
@@ -32247,10 +32248,10 @@ void main(void) {
     nt(this, hr, {}), removeAll();
   }
   clearBreak() {
-    !this.currentTxtlayFore || (this.clearBreak = () => H(this, Ke).call(this, "del\uFF5Cbreak"), this.clearBreak());
+    !this.currentTxtlayFore || (this.clearBreak = () => H(this, Qe).call(this, "del\uFF5Cbreak"), this.clearBreak());
   }
   clickTxtLay() {
-    return this.currentTxtlayFore ? ot(this, Xe, ir).call(this).some((t) => {
+    return this.currentTxtlayFore ? ot(this, Ye, sr).call(this).some((t) => {
       const e = H(this, se)[t].fore;
       return e instanceof TxtLayer && e.click();
     }) : !1;
@@ -32318,16 +32319,16 @@ void main(void) {
   }
 };
 let LayerMng = an;
-Or = new WeakMap(), ue = new WeakMap(), xe = new WeakMap(), Vi = new WeakMap(), Hn = new WeakMap(), ha = new WeakMap(), Qo = new WeakMap(), tu = new WeakMap(), eu = new WeakMap(), ca = new WeakMap(), ru = new WeakSet(), of = function(t) {
+Nr = new WeakMap(), ue = new WeakMap(), xe = new WeakMap(), Vi = new WeakMap(), Hn = new WeakMap(), ha = new WeakMap(), Qo = new WeakMap(), tu = new WeakMap(), eu = new WeakMap(), ca = new WeakMap(), ru = new WeakSet(), of = function(t) {
   [Pe(this, eu)._, this.ca = ""] = t.split("/");
   const e = H(this, se)[H(this, eu)];
   !e || (DesignCast.allHide(), H(this, ca) ? e.fore.showDesignCastChildren() : e.fore.showDesignCast());
 }, Xi = new WeakMap(), Yr = new WeakMap(), ph = new WeakSet(), pd = function(t) {
-  for (const e of ot(this, Xe, ir).call(this)) {
+  for (const e of ot(this, Ye, sr).call(this)) {
     const o = H(this, se)[e];
     o.fore instanceof TxtLayer && (o.fore.chgBackAlpha(t), o.back.chgBackAlpha(t));
   }
-}, Ke = new WeakMap(), vh = new WeakSet(), vd = function(t) {
+}, Qe = new WeakMap(), vh = new WeakSet(), vd = function(t) {
   const e = t.fn ? t.fn.slice(0, 10) === "userdata:/" ? t.fn : `downloads:/${t.fn + getDateStr("-", "_", "", "_")}.png` : `downloads:/snapshot${getDateStr("-", "_", "", "_")}.png`, o = this.cfg.searchPath(e);
   if (this.sys.canCapturePage(o))
     return !1;
@@ -32348,17 +32349,17 @@ Or = new WeakMap(), ue = new WeakMap(), xe = new WeakMap(), Vi = new WeakMap(), 
       H(this, xe).visible = !1, H(this, zn).visible = !0, H(this, ue).filters = H(this, Oe).filters, H(this, ue).visible = !0, N.render(H(this, ue), { clear: !1 }), H(this, ue).visible = !1, H(this, ue).filters = [], $();
     }));
   else
-    for (const $ of ot(this, Xe, ir).call(this, t.layer))
+    for (const $ of ot(this, Ye, sr).call(this, t.layer))
       D.push(
         new Promise((U) => H(this, se)[$][B].snapshot(N, () => U()))
       );
   return Promise.allSettled(D).then(async () => {
     const $ = RenderTexture.create({ width: N.width, height: N.height, transform: !0 });
-    if (N.render(H(this, Or), { renderTexture: $ }), await this.sys.savePic(
+    if (N.render(H(this, Nr), { renderTexture: $ }), await this.sys.savePic(
       o,
       N.plugins.extract.base64(Sprite.from($))
     ), !H(this, Ne).tw)
-      for (const U of ot(this, Xe, ir).call(this, t.layer))
+      for (const U of ot(this, Ye, sr).call(this, t.layer))
         H(this, se)[U][B].snapshot_end();
     N.destroy(!0);
   }), !1;
@@ -32396,9 +32397,9 @@ Or = new WeakMap(), ue = new WeakMap(), xe = new WeakMap(), Vi = new WeakMap(), 
       H(this, Zr) || (nt(this, Wn, () => {
       }), nt(this, cr, ot(this, Nh, Ad)), nt(this, su, ot(this, Mh, Od)), this.hTag.current({ layer: e }), this.goTxt = () => {
         this.val.getVal("sn.skip.enabled") ? nt(an, Wi, 0) : this.setNormalChWait();
-        for (const S of ot(this, Xe, ir).call(this)) {
+        for (const S of ot(this, Ye, sr).call(this)) {
           const N = H(this, se)[S].fore;
-          N instanceof TxtLayer && H(this, Ke).call(this, "gotxt\uFF5C", N, !1);
+          N instanceof TxtLayer && H(this, Qe).call(this, "gotxt\uFF5C", N, !1);
         }
       }), this.val.setVal_Nochk(
         "save",
@@ -32443,10 +32444,10 @@ Or = new WeakMap(), ue = new WeakMap(), xe = new WeakMap(), Vi = new WeakMap(), 
   const e = CmnTween.ease(t.ease);
   nt(this, Vn, []);
   const o = {}, T = [];
-  for (const X of ot(this, Xe, ir).call(this, t.layer))
+  for (const X of ot(this, Ye, sr).call(this, t.layer))
     o[X] = !0, T.push(H(this, se)[X].fore);
   const S = [];
-  for (const X of ot(this, Xe, ir).call(this)) {
+  for (const X of ot(this, Ye, sr).call(this)) {
     const W = H(this, se)[X][o[X] ? "back" : "fore"];
     H(this, Vn).push(W.spLay), S.push(W);
   }
@@ -32509,10 +32510,10 @@ Or = new WeakMap(), ue = new WeakMap(), xe = new WeakMap(), Vi = new WeakMap(), 
     var W;
     V.uniforms.rule = X.texture, X.destroy(), (W = H(this, Ne).tw) == null || W.start(), this.appPixi.ticker.add(B);
   }), !1;
-}, Ne = new WeakMap(), Xe = new WeakSet(), ir = function(t = "") {
+}, Ne = new WeakMap(), Ye = new WeakSet(), sr = function(t = "") {
   return t ? t.split(",") : H(this, qr);
 }, Th = new WeakSet(), Ed = function(t, e) {
-  const o = ot(this, Xe, ir).call(this, t.layer);
+  const o = ot(this, Ye, sr).call(this, t.layer);
   for (const T of o) {
     if (!T)
       continue;
@@ -32523,7 +32524,7 @@ Or = new WeakMap(), ue = new WeakMap(), xe = new WeakMap(), Vi = new WeakMap(), 
   }
   return o;
 }, Sh = new WeakSet(), xd = function(t = "") {
-  return ot(this, Xe, ir).call(this, t).sort((e, o) => {
+  return ot(this, Ye, sr).call(this, t).sort((e, o) => {
     const T = H(this, ue).getChildIndex(H(this, se)[e].fore.spLay), S = H(this, ue).getChildIndex(H(this, se)[o].fore.spLay);
     return T < S ? -1 : T > S ? 1 : 0;
   });
@@ -32538,7 +32539,7 @@ Or = new WeakMap(), ue = new WeakMap(), xe = new WeakMap(), Vi = new WeakMap(), 
   if (e === 0 || this.val.getVal("tmp:sn.skip.enabled") || H(this, Yr).isSkippingByKeyDown())
     return !1;
   const o = [];
-  for (const z of ot(this, Xe, ir).call(this, t.layer))
+  for (const z of ot(this, Ye, sr).call(this, t.layer))
     o.push(H(this, se)[z].fore.spLay);
   H(this, _i).resize(CmnLib.stageW, CmnLib.stageH);
   const T = () => {
@@ -32634,10 +32635,10 @@ ${t.id}` : (o = t.name) != null ? o : t.layer;
   const o = H(this, cr).call(this, t);
   delete t.text, this.val.getVal("tmp:sn.skip.enabled") ? t.wait = 0 : "wait" in t && argChk_Num(t, "wait", NaN);
   const T = encodeURIComponent(JSON.stringify(t));
-  H(this, Ke).call(this, "add\uFF5C" + T, o);
+  H(this, Qe).call(this, "add\uFF5C" + T, o);
   const S = argChk_Boolean(t, "record", !0), N = this.val.doRecLog();
   return S || this.val.setVal_Nochk("save", "sn.doRecLog", S), o.tagCh(e.replaceAll("[r]", `
-`)), S || this.val.setVal_Nochk("save", "sn.doRecLog", N), H(this, Ke).call(this, "add_close\uFF5C", o), !1;
+`)), S || this.val.setVal_Nochk("save", "sn.doRecLog", N), H(this, Qe).call(this, "add_close\uFF5C", o), !1;
 }, cr = new WeakMap(), Nh = new WeakSet(), Ad = function(t) {
   const e = ot(this, Yi, ys).call(this, t, H(this, Zr)), T = H(this, se)[e].getPage(t);
   if (!(T instanceof TxtLayer))
@@ -32650,7 +32651,7 @@ ${t.id}` : (o = t.name) != null ? o : t.layer;
   if (nt(this, Kr, H(this, se)[e]), !(H(this, Kr).getPage(t) instanceof TxtLayer))
     throw `${e}\u306FTxtLayer\u3067\u306F\u3042\u308A\u307E\u305B\u3093`;
   this.recText("", !0), nt(this, Zr, e), this.val.setVal_Nochk("save", "const.sn.mesLayer", e);
-  for (const o of ot(this, Xe, ir).call(this)) {
+  for (const o of ot(this, Ye, sr).call(this)) {
     const T = H(this, se)[o];
     T.fore instanceof TxtLayer && (T.fore.isCur = T.back.isCur = o === e);
   }
@@ -32667,19 +32668,19 @@ ${t.id}` : (o = t.name) != null ? o : t.layer;
   const e = H(this, cr).call(this, t);
   return t.layer === H(this, Zr) && t.page === "fore" && this.recText("", !0), e.clearText(), !1;
 }, Lh = new WeakSet(), Md = function(t) {
-  return H(this, Ke).call(this, "endlink\uFF5C", H(this, cr).call(this, t)), !1;
+  return H(this, Qe).call(this, "endlink\uFF5C", H(this, cr).call(this, t)), !1;
 }, Fh = new WeakSet(), Dd = function(t) {
   return argChk_Boolean(t, "rec_page_break", !0) && this.recText("", !0), H(this, Kr) && (H(this, Kr).fore.clearLay(t), H(this, Kr).back.clearLay(t)), !1;
 }, Bh = new WeakSet(), Ld = function(t) {
   if (!t.pic)
     throw "[graph] pic\u306F\u5FC5\u9808\u3067\u3059";
   const e = encodeURIComponent(JSON.stringify(t));
-  return H(this, Ke).call(this, "grp\uFF5C" + e, H(this, cr).call(this, t)), !1;
+  return H(this, Qe).call(this, "grp\uFF5C" + e, H(this, cr).call(this, t)), !1;
 }, kh = new WeakSet(), Fd = function(t) {
   var o, T, S;
   (o = t.style) != null || (t.style = "background-color: rgba(255,0,0,0.5);"), (T = t.style_hover) != null || (t.style_hover = "background-color: rgba(255,0,0,0.9);"), (S = t.style_clicked) != null || (t.style_clicked = t.style);
   const e = encodeURIComponent(JSON.stringify(t));
-  return H(this, Ke).call(this, "link\uFF5C" + e, H(this, cr).call(this, t)), !1;
+  return H(this, Qe).call(this, "link\uFF5C" + e, H(this, cr).call(this, t)), !1;
 }, $h = new WeakSet(), Bd = function(t) {
   return t.text = `
 `, ot(this, da, ol).call(this, t);
@@ -32705,15 +32706,15 @@ ${t.id}` : (o = t.name) != null ? o : t.layer;
   return t.text = "\uFF5C" + encodeURIComponent(e) + "\u300A" + encodeURIComponent(o) + "\u300B", delete t.t, delete t.r, ot(this, da, ol).call(this, t);
 }, zh = new WeakSet(), Hd = function(t) {
   const e = encodeURIComponent(JSON.stringify(t));
-  return H(this, Ke).call(this, "span\uFF5C" + e, H(this, cr).call(this, t)), !1;
+  return H(this, Qe).call(this, "span\uFF5C" + e, H(this, cr).call(this, t)), !1;
 }, Vh = new WeakSet(), jd = function(t) {
   if (!t.t)
     throw "[tcy] t\u306F\u5FC5\u9808\u3067\u3059";
   const e = encodeURIComponent(JSON.stringify(t));
-  return H(this, Ke).call(this, "tcy\uFF5C" + e, H(this, cr).call(this, t)), !1;
+  return H(this, Qe).call(this, "tcy\uFF5C" + e, H(this, cr).call(this, t)), !1;
 }, Xh = new WeakSet(), zd = function(t) {
   console.group("\u{1F95F} [dump_lay]");
-  for (const e of ot(this, Xe, ir).call(this, t.layer)) {
+  for (const e of ot(this, Ye, sr).call(this, t.layer)) {
     const o = H(this, se)[e];
     try {
       console.info(
@@ -33560,8 +33561,8 @@ function preventOverflow(r) {
       tt[Q] = $t, ct[Q] = $t - xt;
     }
     if (D) {
-      var wt, ee = Q === "x" ? top : left, te = Q === "x" ? bottom : right, le = tt[rt], we = rt === "y" ? "height" : "width", Be = le + q[ee], ne = le - q[te], Me = [top, left].indexOf(Z) !== -1, ye = (wt = ft == null ? void 0 : ft[rt]) != null ? wt : 0, de = Me ? Be : le - st[we] - it[we] - ye + ut.altAxis, he = Me ? le + st[we] + it[we] - ye - ut.altAxis : ne, ie = X && Me ? withinMaxClamp(de, le, he) : within(X ? de : Be, le, X ? he : ne);
-      tt[rt] = ie, ct[rt] = ie - le;
+      var wt, ee = Q === "x" ? top : left, te = Q === "x" ? bottom : right, he = tt[rt], we = rt === "y" ? "height" : "width", Be = he + q[ee], ne = he - q[te], Me = [top, left].indexOf(Z) !== -1, ye = (wt = ft == null ? void 0 : ft[rt]) != null ? wt : 0, de = Me ? Be : he - st[we] - it[we] - ye + ut.altAxis, ce = Me ? he + st[we] + it[we] - ye - ut.altAxis : ne, ie = X && Me ? withinMaxClamp(de, he, ce) : within(X ? de : Be, he, X ? ce : ne);
+      tt[rt] = ie, ct[rt] = ie - he;
     }
     t.modifiersData[o] = ct;
   }
@@ -33841,7 +33842,7 @@ var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyS
   defaultModifiers
 });
 const { GamepadListener } = require("gamepad.js");
-var Je, qi, Fe, ou, uu, uf, lu, lf, hu, hf, va, ga, cu, cf, Ce, yr, mi, yi, fu, Zi, bs, du, pu, He, ma, ya, vu, Zh, Yd, gu, qn, Kh, qd, _u, ff, Jh, Zd, mu, df, Zn, Ha, Kn, Qh, Kd, tc, Jd, br, ec, Qd, rc, tp, ba, ul, bi, Jn, Qn, ic, ep, We;
+var tr, qi, Fe, ou, uu, uf, lu, lf, hu, hf, va, ga, cu, cf, Ce, yr, mi, yi, fu, Zi, bs, du, pu, He, ma, ya, vu, Zh, Yd, gu, qn, Kh, qd, _u, ff, Jh, Zd, mu, df, Zn, Ha, Kn, Qh, Kd, tc, Jd, br, ec, Qd, rc, tp, ba, ul, bi, Jn, Qn, ic, ep, qe;
 class EventMng {
   constructor(t, e, o, T, S, N, D, B, $) {
     et(this, uu);
@@ -33861,7 +33862,7 @@ class EventMng {
     et(this, rc);
     et(this, ba);
     et(this, ic);
-    et(this, Je, new EventListenerCtn());
+    et(this, tr, new EventListenerCtn());
     et(this, qi, new GamepadListener({
       analog: !1,
       deadZone: 0.3
@@ -33902,7 +33903,7 @@ class EventMng {
     });
     et(this, Jn, new i$1());
     et(this, Qn, "sn:notice_comp_txt");
-    et(this, We, {
+    et(this, qe, {
       Alt: 0,
       Meta: 0,
       Control: 0,
@@ -33972,7 +33973,7 @@ class EventMng {
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>
-</div>`), nt(this, He, document.querySelector(".sn_hint")), nt(this, ma, H(this, He).querySelector("span")), nt(this, ya, createPopper(H(this, pu), H(this, He))), H(this, He).hidden = !0, o.stage.interactive = !0, CmnLib.isMobile ? o.stage.on("pointerdown", (q) => this.fire("click", q)) : H(this, Je).add(o.stage, "pointerdown", (q) => {
+</div>`), nt(this, He, document.querySelector(".sn_hint")), nt(this, ma, H(this, He).querySelector("span")), nt(this, ya, createPopper(H(this, pu), H(this, He))), H(this, He).hidden = !0, o.stage.interactive = !0, CmnLib.isMobile ? o.stage.on("pointerdown", (q) => this.fire("click", q)) : H(this, tr).add(o.stage, "pointerdown", (q) => {
       switch (q.data.button) {
         case 0:
           this.fire("click", q);
@@ -33981,13 +33982,13 @@ class EventMng {
           this.fire("middleclick", q);
           break;
       }
-    }), H(this, Je).add(window, "keydown", (q) => ot(this, uu, uf).call(this, q)), H(this, Je).add(o.view, "contextmenu", (q) => ot(this, lu, lf).call(this, q));
+    }), H(this, tr).add(window, "keydown", (q) => ot(this, uu, uf).call(this, q)), H(this, tr).add(o.view, "contextmenu", (q) => ot(this, lu, lf).call(this, q));
     const U = (q) => {
       CmnLib.isDarkMode = q.matches, N.setVal_Nochk("tmp", "const.sn.isDarkMode", CmnLib.isDarkMode);
     }, z = globalThis.matchMedia("(prefers-color-scheme: dark)");
-    U(z), H(this, Je).add(z, "change", (q) => {
+    U(z), H(this, tr).add(z, "change", (q) => {
       U(q), this.fire("sn:chgDarkMode", q);
-    }), "WheelEvent" in window && (H(this, Je).add(o.view, "wheel", (q) => ot(this, hu, hf).call(this, q), { passive: !0 }), nt(this, ou, (q) => H(this, Je).add(q, "wheel", (Z) => ot(this, hu, hf).call(this, Z), { passive: !0 })), nt(this, gu, (q, Z) => q.add(o.view, "wheel", (K) => {
+    }), "WheelEvent" in window && (H(this, tr).add(o.view, "wheel", (q) => ot(this, hu, hf).call(this, q), { passive: !0 }), nt(this, ou, (q) => H(this, tr).add(q, "wheel", (Z) => ot(this, hu, hf).call(this, Z), { passive: !0 })), nt(this, gu, (q, Z) => q.add(o.view, "wheel", (K) => {
       K.isComposing || K.deltaY <= 0 || (K.stopPropagation(), Z());
     }))), CmnLib.debugLog && (H(this, qi).on("gamepad:connected", (q) => console.log(`\u{1F47A}<'gamepad:connected' index:${q.detail.index} id:${q.detail.gamepad.id}`)), H(this, qi).on("gamepad:disconnected", (q) => console.log(`\u{1F47A}<'gamepad:disconnected' index:${q.detail.index} id:${q.detail.gamepad.id}`)));
     const V = [
@@ -34017,15 +34018,15 @@ class EventMng {
           (!Z || Z instanceof Container ? globalThis : Z).dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: !0 }));
         } else
           o.view.dispatchEvent(new Event("contextmenu"));
-    }), H(this, qi).start(), H(this, Je).add(window, "keyup", (q) => {
-      q.isComposing || q.key in H(this, We) && (H(this, We)[q.key] = 0);
-    }), N.defTmp("const.sn.key.alternate", () => H(this, We).Alt > 0), N.defTmp("const.sn.key.command", () => H(this, We).Meta > 0), N.defTmp("const.sn.key.control", () => H(this, We).Control > 0), N.defTmp("const.sn.key.end", () => H(this, We).End > 0), N.defTmp("const.sn.key.escape", () => H(this, We).Escape > 0), N.defTmp("const.sn.key.back", () => H(this, We).GoBack > 0);
+    }), H(this, qi).start(), H(this, tr).add(window, "keyup", (q) => {
+      q.isComposing || q.key in H(this, qe) && (H(this, qe)[q.key] = 0);
+    }), N.defTmp("const.sn.key.alternate", () => H(this, qe).Alt > 0), N.defTmp("const.sn.key.command", () => H(this, qe).Meta > 0), N.defTmp("const.sn.key.control", () => H(this, qe).Control > 0), N.defTmp("const.sn.key.end", () => H(this, qe).End > 0), N.defTmp("const.sn.key.escape", () => H(this, qe).Escape > 0), N.defTmp("const.sn.key.back", () => H(this, qe).GoBack > 0);
   }
   resvFlameEvent(t) {
-    H(this, Je).add(t, "keydown", (e) => ot(this, uu, uf).call(this, e)), H(this, Je).add(t, "contextmenu", (e) => ot(this, lu, lf).call(this, e)), H(this, ou).call(this, t);
+    H(this, tr).add(t, "keydown", (e) => ot(this, uu, uf).call(this, e)), H(this, tr).add(t, "contextmenu", (e) => ot(this, lu, lf).call(this, e)), H(this, ou).call(this, t);
   }
   destroy() {
-    H(this, Fe).destroy(), H(this, Je).clear();
+    H(this, Fe).destroy(), H(this, tr).clear();
   }
   fire(t, e) {
     var S;
@@ -34133,13 +34134,13 @@ class EventMng {
     H(this, Jn).emit(H(this, Qn));
   }
   isSkippingByKeyDown() {
-    return this.scrItr.skip4page ? !0 : Object.keys(H(this, We)).some((t) => H(this, We)[t] === 2);
+    return this.scrItr.skip4page ? !0 : Object.keys(H(this, qe)).some((t) => H(this, qe)[t] === 2);
   }
 }
-Je = new WeakMap(), qi = new WeakMap(), Fe = new WeakMap(), ou = new WeakMap(), uu = new WeakSet(), uf = function(t) {
+tr = new WeakMap(), qi = new WeakMap(), Fe = new WeakMap(), ou = new WeakMap(), uu = new WeakSet(), uf = function(t) {
   if (t.isComposing)
     return;
-  t.key in H(this, We) && (H(this, We)[t.key] = t.repeat ? 2 : 1);
+  t.key in H(this, qe) && (H(this, qe)[t.key] = t.repeat ? 2 : 1);
   const e = (t.altKey ? t.key === "Alt" ? "" : "alt+" : "") + (t.ctrlKey ? t.key === "Control" ? "" : "ctrl+" : "") + (t.shiftKey ? t.key === "Shift" ? "" : "shift+" : "") + t.key;
   this.fire(e, t);
 }, lu = new WeakSet(), lf = function(t) {
@@ -34235,7 +34236,7 @@ Je = new WeakMap(), qi = new WeakMap(), Fe = new WeakMap(), ou = new WeakMap(), 
         break;
     }
     $.forEach((z, V) => B.el.forEach((X) => {
-      H(this, Je).add(X, z, (W) => {
+      H(this, tr).add(X, z, (W) => {
         if (!H(this, yi) || this.layMng.getFrmDisabled(B.id) || z === "keydown" && W.key !== "Enter")
           return;
         const Y = X.dataset;
@@ -34358,15 +34359,15 @@ Je = new WeakMap(), qi = new WeakMap(), Fe = new WeakMap(), ou = new WeakMap(), 
   ));
 }, bi = new WeakMap(), Jn = new WeakMap(), Qn = new WeakMap(), ic = new WeakSet(), ep = function() {
   return this.scrItr.skip4page ? !1 : ((this.val.getVal("tmp:sn.skip.enabled") || this.val.getVal("tmp:sn.auto.enabled")) && H(this, br).call(this), ot(this, Zi, bs).call(this, () => this.main.resume()));
-}, We = new WeakMap();
+}, qe = new WeakMap();
 class CallStack {
   constructor(t = "", e = 0, o = { ":hEvt1Time": {}, ":hMp": {} }) {
     Pt(this, "toString", () => `[fn:${this.fn}, idx:${this.idx}, csArg:${this.csArg}]`);
     this.fn = t, this.idx = e, this.csArg = o;
   }
 }
-var Qt, ae, Vt, me, ge, Ki, yu, pf, ts, Ea, nc, Ji, bu, vf, Eu, gf, xu, Qi, Es, es, ja, rs, Ei, Re, sc, rp, is, za, ac, ip, Tu, xa, fr, oc, np, uc, sp, xi, rn, lc, ap, ns, ss, Su, Cu, Ru, dr, hc, op, cc, up, fc, lp, Iu, _f, dc, hp, pc, cp, vc, fp, wu, mf, Pu, as, Va, os, Ti, nn, Au, yf, Ou, Nu, bf, gc, mc, Mu, us, Du, yc, dp, Qe, bc, pp, Lu, Ef, Ec, xc, Tc, Sc, vp, Si, Fu, xf, Cc, gp, Rc, _p, Ic, wc, mp, Bu, Ta, Pc, yp, Sa, ll, Ca, Ac, bp, Nr, Oc, Ep, Ra, hl, Nc, xp, Mr, Ue;
-const nr = class {
+var Qt, ae, Vt, me, ge, Ki, yu, pf, ts, Ea, nc, Ji, bu, vf, Eu, gf, xu, Qi, Es, es, ja, rs, Ei, Re, sc, rp, is, za, ac, ip, Tu, xa, fr, oc, np, uc, sp, xi, rn, lc, ap, ns, ss, Su, Cu, Ru, dr, hc, op, cc, up, fc, lp, Iu, _f, dc, hp, pc, cp, vc, fp, wu, mf, Pu, as, Va, os, Ti, nn, Au, yf, Ou, Nu, bf, gc, mc, Mu, us, Du, yc, dp, er, bc, pp, Lu, Ef, Ec, xc, Tc, Sc, vp, Si, Fu, xf, Cc, gp, Rc, _p, Ic, wc, mp, Bu, Ta, Pc, yp, Sa, ll, Ca, Ac, bp, Mr, Oc, Ep, Ra, hl, Nc, xp, Dr, Ue;
+const ar = class {
   constructor(t, e, o, T, S, N, D, B, $) {
     et(this, yu);
     et(this, bu);
@@ -34417,7 +34418,7 @@ const nr = class {
     });
     et(this, ts, {
       disconnect: () => {
-        nt(nr, rs, {}), nt(nr, Ei, {}), this.isBreak = () => !1, H(this, ts).continue({}), nt(this, Re, 0);
+        nt(ar, rs, {}), nt(ar, Ei, {}), this.isBreak = () => !1, H(this, ts).continue({}), nt(this, Re, 0);
       },
       restart: () => this.isBreak = () => !1,
       add_break: (t) => ot(this, yu, pf).call(this, t.fn, t.o),
@@ -34425,9 +34426,9 @@ const nr = class {
         H(this, Re) === 0 && (nt(this, Re, 1), this.main.setLoop(!1, `\u5909\u6570 ${t.dataId}\u3010${t.old_v}\u3011\u2192\u3010${t.new_v}\u3011\u30C7\u30FC\u30BF\u30D6\u30EC\u30FC\u30AF`), this.sys.callHook("stopOnDataBreakpoint", {}), this.sys.send2Dbg("stopOnDataBreakpoint", {}));
       },
       set_func_break: (t) => {
-        nt(nr, Ei, {});
+        nt(ar, Ei, {});
         for (const e of t.a)
-          H(nr, Ei)[e.name] = 1;
+          H(ar, Ei)[e.name] = 1;
         this.sys.send2Dbg(t.ri, {});
       },
       stack: (t) => this.sys.send2Dbg(t.ri, { a: ot(this, ac, ip).call(this) }),
@@ -34455,7 +34456,7 @@ const nr = class {
       }
     });
     et(this, Ea, (t) => this.cfg.searchPath(t, SEARCH_PATH_ARG_EXT.SCRIPT));
-    et(this, Ji, (t) => (this.sys.pathBaseCnvSnPath4Dbg + H(this, Ea).call(this, t)).replace(H(nr, nc), `$1/prj/$2/${H(this, ae)}$3`));
+    et(this, Ji, (t) => (this.sys.pathBaseCnvSnPath4Dbg + H(this, Ea).call(this, t)).replace(H(ar, nc), `$1/prj/$2/${H(this, ae)}$3`));
     Pt(this, "cnvPath4Dbg", (t) => this.sys.pathBaseCnvSnPath4Dbg + t.replace("/crypto_prj/", "/prj/"));
     et(this, xu, 0);
     et(this, Re, 0);
@@ -34479,12 +34480,12 @@ const nr = class {
     Pt(this, "nextToken", () => "");
     et(this, Ou, (t) => {
     });
-    et(this, gc, /(\*{2,})(.*)/);
+    et(this, gc, /(\*{2,})([^\|]*)/);
     et(this, mc, /\[macro\s/);
     et(this, Mu, /\[endmacro[\s\]]/);
     et(this, us, /^\[let_ml\s/g);
     et(this, Du, /^\[endlet_ml\s*]/g);
-    et(this, Qe, /* @__PURE__ */ Object.create(null));
+    et(this, er, /* @__PURE__ */ Object.create(null));
     et(this, Ec, /^\[(call|loadplugin)\s/);
     et(this, xc, /\bfn\s*=\s*[^\s\]]+/);
     et(this, Tc, () => {
@@ -34517,12 +34518,12 @@ const nr = class {
     et(this, Bu, "call");
     et(this, Ta, /\[(call)\b/);
     et(this, Ca, !1);
-    et(this, Nr, {
+    et(this, Mr, {
       hSave: {},
       hPages: {},
       aIfStk: [-1]
     });
-    et(this, Mr, []);
+    et(this, Dr, []);
     et(this, Ue, -1);
     if (this.cfg = t, this.hTag = e, this.main = o, this.val = T, this.alzTagArg = S, this.runAnalyze = N, this.prpPrs = D, this.sndMng = B, this.sys = $, e.let_ml = (U) => ot(this, oc, np).call(this, U), e.dump_stack = () => ot(this, uc, sp).call(this), e.dump_script = (U) => ot(this, lc, ap).call(this, U), e.else = e.elsif = e.endif = () => ot(this, hc, op).call(this), e.if = (U) => ot(this, cc, up).call(this, U), e.call = (U) => ot(this, fc, lp).call(this, U), e.jump = (U) => ot(this, dc, hp).call(this, U), e.page = (U) => ot(this, pc, cp).call(this, U), e.pop_stack = (U) => ot(this, vc, fp).call(this, U), e.return = (U) => ot(this, wu, mf).call(this, U), e.bracket2macro = (U) => ot(this, Cc, gp).call(this, U), e.char2macro = (U) => ot(this, Rc, _p).call(this, U), e.endmacro = (U) => ot(this, wu, mf).call(this, U), e.macro = (U) => ot(this, wc, mp).call(this, U), e.load = (U) => ot(this, Pc, yp).call(this, U), e.reload_script = (U) => ot(this, Ac, bp).call(this, U), e.record_place = () => ot(this, Oc, Ep).call(this), e.save = (U) => ot(this, Nc, xp).call(this, U), t.oCfg.debug.token && nt(this, Ou, (U) => console.log(`\u{1F331} \u30C8\u30FC\u30AF\u30F3 fn:${H(this, ae)} idx:${H(this, Vt)} ln:${H(this, me)} token\u3010${U}\u3011`)), T.defTmp("const.sn.vctCallStk.length", () => H(this, ge).length), H(this, Ki).setEscape(t.oCfg.init.escape), CmnLib.isDbg) {
       $.addHook((z, V) => {
@@ -34537,9 +34538,9 @@ const nr = class {
         const V = z.hBreakpoint.hFn2hLineBP;
         for (const [X, W] of Object.entries(V))
           ot(this, yu, pf).call(this, X, W);
-        nt(nr, Ei, {});
+        nt(ar, Ei, {});
         for (const X of z.hBreakpoint.aFunc)
-          H(nr, Ei)[X.name] = 1;
+          H(ar, Ei)[X.name] = 1;
         if (z.stopOnEntry) {
           for (; ; ) {
             let X = this.nextToken();
@@ -34655,7 +34656,7 @@ const nr = class {
     if (H(this, ge).length > 0) {
       const S = H(this, ge)[0];
       t = S.fn, e = S.idx;
-      const N = H(this, Qe)[t];
+      const N = H(this, er)[t];
       N && (o = N.len);
     }
     const T = this.val.getAreaKidoku(t);
@@ -34670,7 +34671,7 @@ const nr = class {
   recodePage() {
     if (nt(this, Ca, !1), !this.val.getVal("save:sn.doRecLog"))
       return;
-    const { fn: t, idx: e } = ot(this, Ra, hl).call(this), o = e - 1, T = o + ":" + t, S = H(this, Mr).findIndex((D) => D.key === T);
+    const { fn: t, idx: e } = ot(this, Ra, hl).call(this), o = e - 1, T = o + ":" + t, S = H(this, Dr).findIndex((D) => D.key === T);
     if (S > -1) {
       nt(this, Ue, S);
       return;
@@ -34681,13 +34682,13 @@ const nr = class {
       idx: o,
       retFn: t,
       retIdx: 0,
-      retMark: { ...H(this, Nr) }
+      retMark: { ...H(this, Mr) }
     };
     if (H(this, Ue) >= 0) {
-      const D = H(this, Mr)[H(this, Ue)];
+      const D = H(this, Dr)[H(this, Ue)];
       N.retFn = D.fn, N.retIdx = D.idx + 1;
     }
-    ++Pe(this, Ue)._ === H(this, Mr).length ? H(this, Mr).push(N) : H(this, Mr)[H(this, Ue)] = N;
+    ++Pe(this, Ue)._ === H(this, Dr).length ? H(this, Dr).push(N) : H(this, Dr)[H(this, Ue)] = N;
   }
   recodeDesign(t) {
     let e = "", o = 0;
@@ -34698,18 +34699,18 @@ const nr = class {
     } else
       e = H(this, ae), o = H(this, Vt);
     t[":path"] = H(this, Ji).call(this, e);
-    const S = ot(this, xi, rn).call(this, H(this, Qe)[e], o);
+    const S = ot(this, xi, rn).call(this, H(this, er)[e], o);
     t[":ln"] = S.ln, t[":col_s"] = S.col_s, t[":col_e"] = S.col_e;
     const N = o - 1;
-    t[":idx_tkn"] = N, t[":token"] = H(this, Qe)[e].aToken[N], this.sys.send2Dbg("_recodeDesign", t);
+    t[":idx_tkn"] = N, t[":token"] = H(this, er)[e].aToken[N], this.sys.send2Dbg("_recodeDesign", t);
   }
   replace(t, e) {
     H(this, Qt).aToken[t] = e;
   }
 };
-let ScriptIterator = nr;
+let ScriptIterator = ar;
 Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), ge = new WeakMap(), Ki = new WeakMap(), yu = new WeakSet(), pf = function(t, e) {
-  H(nr, rs)[H(this, Ji).call(this, t)] = e;
+  H(ar, rs)[H(this, Ji).call(this, t)] = e;
 }, ts = new WeakMap(), Ea = new WeakMap(), nc = new WeakMap(), Ji = new WeakMap(), bu = new WeakSet(), vf = function(t) {
   if (ot(this, es, ja).call(this))
     return;
@@ -34739,10 +34740,10 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
       ot(this, is, za).call(this), nt(this, Re, 0);
       break;
     default:
-      if (tagToken2Name(t) in H(nr, Ei))
+      if (tagToken2Name(t) in H(ar, Ei))
         return nt(this, Re, 2), this.main.setLoop(!1, `\u95A2\u6570 ${t} \u30D6\u30EC\u30FC\u30AF`), this.sys.callHook("stopOnBreakpoint", {}), this.sys.send2Dbg("stopOnBreakpoint", {}), !0;
       {
-        const e = H(nr, rs)[H(this, Ji).call(this, H(this, ae))];
+        const e = H(ar, rs)[H(this, Ji).call(this, H(this, ae))];
         if (!e)
           break;
         const o = e[H(this, me)];
@@ -34763,7 +34764,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   return !1;
 }, is = new WeakSet(), za = function() {
   var e;
-  const t = (e = H(nr, rs)[getFn(H(this, ae))]) == null ? void 0 : e[H(this, me)];
+  const t = (e = H(ar, rs)[getFn(H(this, ae))]) == null ? void 0 : e[H(this, me)];
   t != null && t.hitCondition && --t.hitCondition;
 }, ac = new WeakSet(), ip = function() {
   var U, z;
@@ -34774,7 +34775,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   if ($ === 0)
     return B;
   for (let V = $ - 1; V >= 0; --V) {
-    const X = H(this, ge)[V], W = H(this, Qe)[X.fn], Y = W.aToken[X.idx - 1], q = ot(this, xi, rn).call(this, W, X.idx), Z = tagToken2Name(Y);
+    const X = H(this, ge)[V], W = H(this, er)[X.fn], Y = W.aToken[X.idx - 1], q = ot(this, xi, rn).call(this, W, X.idx), Z = tagToken2Name(Y);
     B.push({
       fn: H(this, Ji).call(this, X.fn),
       ln: q.ln,
@@ -34804,7 +34805,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   if (o > 0) {
     console.info(e);
     for (let S = o - 1; S >= 0; --S) {
-      const N = H(this, ge)[S], D = N.csArg[":hMp"], B = D ? D[":\u30BF\u30B0\u540D"] : void 0, $ = (T = N.csArg[":\u30BF\u30B0\u540D"]) != null ? T : "", U = ot(this, xi, rn).call(this, H(this, Qe)[N.fn], N.idx);
+      const N = H(this, ge)[S], D = N.csArg[":hMp"], B = D ? D[":\u30BF\u30B0\u540D"] : void 0, $ = (T = N.csArg[":\u30BF\u30B0\u540D"]) != null ? T : "", U = ot(this, xi, rn).call(this, H(this, er)[N.fn], N.idx);
       console.info(
         `${o - S}\u3064\u524D\u306E\u30B3\u30FC\u30EB\u5143 fn:${N.fn} line:${U.ln} col:${U.col_s + 1}` + (B ? "\uFF08[" + B + "]\u30DE\u30AF\u30ED\u5185\uFF09" : " ") + `\u3067 [${$} ...]\u3092\u30B3\u30FC\u30EB`
       );
@@ -34917,7 +34918,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   if (H(this, Ue) === -1)
     return !1;
   if (argChk_Boolean(t, "clear", !1))
-    return nt(this, Mr, []), nt(this, Ue, -1), !1;
+    return nt(this, Dr, []), nt(this, Ue, -1), !1;
   const { to: e } = t;
   if (!e)
     throw "clear\u304Bto\u306F\u5FC5\u9808\u3067\u3059";
@@ -34927,7 +34928,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
       H(this, Ue) > 0 && --Pe(this, Ue)._;
       break;
     case "next":
-      const D = H(this, Mr).length;
+      const D = H(this, Dr).length;
       H(this, Ue) < D - 1 && ++Pe(this, Ue)._;
       break;
     default:
@@ -34935,7 +34936,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   }
   if (o === H(this, Ue))
     return !1;
-  const T = H(this, Mr)[H(this, Ue)], { fn: S, idx: N } = ot(this, Ra, hl).call(this);
+  const T = H(this, Dr)[H(this, Ue)], { fn: S, idx: N } = ot(this, Ra, hl).call(this);
   return T.key === N + ":" + S ? !1 : ot(this, Sa, ll).call(this, { fn: T.retFn, index: T.retIdx }, T.retMark);
 }, vc = new WeakSet(), fp = function(t) {
   if (argChk_Boolean(t, "clear", !1))
@@ -34954,7 +34955,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   const S = o[":resvToken"];
   S ? this.nextToken = () => (ot(this, as, Va).call(this), S) : ot(this, as, Va).call(this), o[":hEvt1Time"] && H(this, xa).pushLocalEvts(o[":hEvt1Time"]);
   const { fn: N, label: D } = t;
-  return N || D ? (ot(this, Ti, nn).call(this, N, D), !0) : e.fn in H(this, Qe) ? (ot(this, Lu, Ef).call(this, e), !1) : (ot(this, Ti, nn).call(this, e.fn, "", e.idx), !0);
+  return N || D ? (ot(this, Ti, nn).call(this, N, D), !0) : e.fn in H(this, er) ? (ot(this, Lu, Ef).call(this, e), !1) : (ot(this, Ti, nn).call(this, e.fn, "", e.idx), !0);
 }, Pu = new WeakMap(), as = new WeakSet(), Va = function() {
   nt(this, Pu, ""), this.nextToken = ot(this, Au, yf);
 }, os = new WeakMap(), Ti = new WeakSet(), nn = function(t = "", e = "", o = 0) {
@@ -34968,7 +34969,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
     return;
   }
   nt(this, ae, t);
-  const S = H(this, Qe)[H(this, ae)];
+  const S = H(this, er)[H(this, ae)];
   if (S) {
     nt(this, Qt, S), this.analyzeInit();
     return;
@@ -35031,7 +35032,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   }
   o = 1;
   const B = new RegExp(
-    "^" + T.replaceAll("*", "\\*") + "(?:\\s|;|\\[|$)"
+    "^" + T.replaceAll("*", "\\*") + "(?=\\s|;|\\[|\\||$)"
   );
   let $ = !1;
   for (let Y = 0; Y < N; ++Y) {
@@ -35054,7 +35055,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
     Z === 91 && (o += ((W = q.match(/\n/g)) != null ? W : []).length, H(this, us).lastIndex = 0, H(this, us).test(q) && ($ = !0));
   }
   throw $ ? "[let_ml]\u306E\u7D42\u7AEF\u30FB[endlet_ml]\u304C\u3042\u308A\u307E\u305B\u3093" : (DebugMng.myTrace(`[jump\u7CFB] \u30E9\u30D9\u30EB\u3010${T}\u3011\u304C\u3042\u308A\u307E\u305B\u3093`, "ET"), "Dummy");
-}, Qe = new WeakMap(), bc = new WeakSet(), pp = function(t) {
+}, er = new WeakMap(), bc = new WeakSet(), pp = function(t) {
   const e = H(this, Ki).matchToken(t.replace(/(\r\n|\r)/g, `
 `));
   for (let S = e.length - 1; S >= 0; --S) {
@@ -35074,10 +35075,10 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   } catch (S) {
     S instanceof Error ? T += `\u4F8B\u5916 mes=${S.message}(${S.name})` : T = S, this.main.errScript(T, !1);
   }
-  H(this, Qe)[H(this, ae)] = o, this.val.loadScrWork(H(this, ae));
+  H(this, er)[H(this, ae)] = o, this.val.loadScrWork(H(this, ae));
 }, Lu = new WeakSet(), Ef = function(t) {
   nt(this, ae, t.fn), nt(this, Vt, t.idx);
-  const e = H(this, Qe)[H(this, ae)];
+  const e = H(this, er)[H(this, ae)];
   e && nt(this, Qt, e), nt(this, me, H(this, Qt).aLNum[t.idx]);
 }, Ec = new WeakMap(), xc = new WeakMap(), Tc = new WeakMap(), Sc = new WeakSet(), vp = function() {
   const t = this.val.getAreaKidoku(H(this, ae));
@@ -35125,7 +35126,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
     throw `place\u3010${e}\u3011\u306F\u5B58\u5728\u3057\u307E\u305B\u3093`;
   return ot(this, Sa, ll).call(this, t, o);
 }, Sa = new WeakSet(), ll = function(t, e, o = !0) {
-  this.hTag.clear_event({}), this.val.mark2save(e), this.val.setMp({}), H(this, fr).recText("", !0), o && this.sndMng.playLoopFromSaveObj(), argChk_Boolean(t, "do_rec", !0) && nt(this, Nr, {
+  this.hTag.clear_event({}), this.val.mark2save(e), this.val.setMp({}), H(this, fr).recText("", !0), o && this.sndMng.playLoopFromSaveObj(), argChk_Boolean(t, "do_rec", !0) && nt(this, Mr, {
     hSave: this.val.cloneSave(),
     hPages: { ...e.hPages },
     aIfStk: [...e.aIfStk]
@@ -35137,11 +35138,11 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   };
   this.hTag.autowc(T);
   const S = String(this.val.getVal("save:const.sn.scriptFn")), N = Number(this.val.getVal("save:const.sn.scriptIdx"));
-  return nt(this, dr, [...H(this, Nr).aIfStk]), nt(this, ge, []), H(this, fr).cover(!0), H(this, fr).stopAllTw(), "index" in t ? (H(this, fr).playback(H(this, Nr).hPages, () => {
+  return nt(this, dr, [...H(this, Mr).aIfStk]), nt(this, ge, []), H(this, fr).cover(!0), H(this, fr).stopAllTw(), "index" in t ? (H(this, fr).playback(H(this, Mr).hPages, () => {
     var D, B;
     H(this, fr).cover(!1), nt(this, Ca, !0), ot(this, Ti, nn).call(this, (D = t.fn) != null ? D : S, "", (B = t.index) != null ? B : N);
-  }), !0) : (delete H(this, Qe)[S], H(this, fr).playback(
-    H(this, Nr).hPages,
+  }), !0) : (delete H(this, er)[S], H(this, fr).playback(
+    H(this, Mr).hPages,
     "label" in t ? () => {
       H(this, fr).cover(!1), nt(this, ae, S), nt(this, Vt, N), this.hTag.call({ fn: t.fn, label: t.label });
     } : () => {
@@ -35150,12 +35151,12 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   ), !0);
 }, Ca = new WeakMap(), Ac = new WeakSet(), bp = function(t) {
   const e = this.val.getMark(0);
-  return delete H(this, Qe)[getFn(e.hSave["const.sn.scriptFn"])], t.do_rec = !1, ot(this, Sa, ll).call(this, t, e, !1);
-}, Nr = new WeakMap(), Oc = new WeakSet(), Ep = function() {
+  return delete H(this, er)[getFn(e.hSave["const.sn.scriptFn"])], t.do_rec = !1, ot(this, Sa, ll).call(this, t, e, !1);
+}, Mr = new WeakMap(), Oc = new WeakSet(), Ep = function() {
   if (this.main.isDestroyed())
     return !1;
   const { fn: t, idx: e } = ot(this, Ra, hl).call(this);
-  return this.val.setVal_Nochk("save", "const.sn.scriptFn", t), this.val.setVal_Nochk("save", "const.sn.scriptIdx", e), nt(this, Nr, {
+  return this.val.setVal_Nochk("save", "const.sn.scriptFn", t), this.val.setVal_Nochk("save", "const.sn.scriptIdx", e), nt(this, Mr, {
     hSave: this.val.cloneSave(),
     hPages: H(this, fr).record(),
     aIfStk: H(this, dr).slice(H(this, ge).length)
@@ -35176,17 +35177,17 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   if (!("place" in t))
     throw "place\u306F\u5FC5\u9808\u3067\u3059";
   const e = Number(t.place);
-  delete t[":\u30BF\u30B0\u540D"], delete t.place, t.text = ((T = t.text) != null ? T : "").replace(/^(<br\/>)+/, ""), H(this, Nr).json = t, this.val.setMark(e, H(this, Nr));
+  delete t[":\u30BF\u30B0\u540D"], delete t.place, t.text = ((T = t.text) != null ? T : "").replace(/^(<br\/>)+/, ""), H(this, Mr).json = t, this.val.setMark(e, H(this, Mr));
   const o = Number(this.val.getVal("sys:const.sn.save.place"));
   return e === o && this.val.setVal_Nochk("sys", "const.sn.save.place", o + 1), !1;
-}, Mr = new WeakMap(), Ue = new WeakMap(), et(ScriptIterator, nc, /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/), et(ScriptIterator, rs, {}), et(ScriptIterator, Ei, {});
-var tr, er, je, Er, Ci, ls, Ge, ku, Ri, Ia, hs, $u, Uu, wa, Mc, Tp, Gu, Hu, Pa, Aa, cl, cs, fs;
+}, Dr = new WeakMap(), Ue = new WeakMap(), et(ScriptIterator, nc, /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/), et(ScriptIterator, rs, {}), et(ScriptIterator, Ei, {});
+var rr, ir, je, Er, Ci, ls, Ge, ku, Ri, Ia, hs, $u, Uu, wa, Mc, Tp, Gu, Hu, Pa, Aa, cl, cs, fs;
 class Main {
   constructor(t) {
     et(this, Mc);
     et(this, Aa);
-    et(this, tr, void 0);
-    et(this, er, void 0);
+    et(this, rr, void 0);
+    et(this, ir, void 0);
     et(this, je, /* @__PURE__ */ Object.create(null));
     et(this, Er, void 0);
     et(this, Ci, void 0);
@@ -35215,7 +35216,7 @@ class Main {
     et(this, cs, !1);
     Pt(this, "isDestroyed", () => H(this, cs));
     et(this, fs, void 0);
-    this.sys = t, skipHello(), Config.generate(t).then((e) => nt(this, tr, e)).then(() => ot(this, Mc, Tp).call(this)).catch((e) => console.error("load err fn:prj.json e:%o", e));
+    this.sys = t, skipHello(), Config.generate(t).then((e) => nt(this, rr, e)).then(() => ot(this, Mc, Tp).call(this)).catch((e) => console.error("load err fn:prj.json e:%o", e));
   }
   errScript(t, e = !0) {
     if (this.stop(), DebugMng.myTrace(t), CmnLib.debugLog && console.log("\u{1F35C} SKYNovel err!"), e)
@@ -35236,23 +35237,23 @@ class Main {
     H(this, Ia).fire(t, e);
   }
   async destroy(t = 0) {
-    H(this, cs) || (nt(this, cs, !0), H(this, Uu) && (this.stop(), nt(this, Pa, !1), H(this, Ri).before_destroy(), t > 0 && await new Promise((e) => setTimeout(e, t)), nt(this, je, {}), H(this, Ia).destroy(), H(this, Ge).destroy(), H(this, Ri).destroy(), H(this, ku).destroy(), H(this, er).ticker.remove(H(this, Gu)), H(this, fs) && H(this, er) && H(this, er).view.parentNode.appendChild(H(this, fs)), clearTextureCache(), H(this, er).destroy(!0), this.sys.destroy()));
+    H(this, cs) || (nt(this, cs, !0), H(this, Uu) && (this.stop(), nt(this, Pa, !1), H(this, Ri).before_destroy(), t > 0 && await new Promise((e) => setTimeout(e, t)), nt(this, je, {}), H(this, Ia).destroy(), H(this, Ge).destroy(), H(this, Ri).destroy(), H(this, ku).destroy(), H(this, ir).ticker.remove(H(this, Gu)), H(this, fs) && H(this, ir) && H(this, ir).view.parentNode.appendChild(H(this, fs)), clearTextureCache(), H(this, ir).destroy(!0), this.sys.destroy()));
   }
 }
-tr = new WeakMap(), er = new WeakMap(), je = new WeakMap(), Er = new WeakMap(), Ci = new WeakMap(), ls = new WeakMap(), Ge = new WeakMap(), ku = new WeakMap(), Ri = new WeakMap(), Ia = new WeakMap(), hs = new WeakMap(), $u = new WeakMap(), Uu = new WeakMap(), wa = new WeakMap(), Mc = new WeakSet(), Tp = async function() {
+rr = new WeakMap(), ir = new WeakMap(), je = new WeakMap(), Er = new WeakMap(), Ci = new WeakMap(), ls = new WeakMap(), Ge = new WeakMap(), ku = new WeakMap(), Ri = new WeakMap(), Ia = new WeakMap(), hs = new WeakMap(), $u = new WeakMap(), Uu = new WeakMap(), wa = new WeakMap(), Mc = new WeakSet(), Tp = async function() {
   var T, S, N;
   const t = (T = document.createElement("canvas")) == null ? void 0 : T.getContext("2d");
   if (!t)
     throw "argChk_Color err";
   CmnLib.cc4ColorName = t;
   const e = {
-    width: H(this, tr).oCfg.window.width,
-    height: H(this, tr).oCfg.window.height,
-    backgroundColor: parseColor(String(H(this, tr).oCfg.init.bg_color)),
+    width: H(this, rr).oCfg.window.width,
+    height: H(this, rr).oCfg.window.height,
+    backgroundColor: parseColor(String(H(this, rr).oCfg.init.bg_color)),
     resolution: (S = globalThis.devicePixelRatio) != null ? S : 1,
     autoResize: !0
   }, o = document.getElementById(H(this, wa));
-  o && (nt(this, fs, o.cloneNode(!0)), H(this, fs).id = H(this, wa), e.view = o), nt(this, er, new Application(e)), o || (document.body.appendChild(H(this, er).view), H(this, er).view.id = H(this, wa)), nt(this, Er, new Variable(H(this, tr), H(this, je))), nt(this, Ci, new PropParser(H(this, Er), (N = H(this, tr).oCfg.init.escape) != null ? N : "\\")), await Promise.allSettled(this.sys.init(H(this, je), H(this, er), H(this, Er), this)), H(this, je).title({ text: H(this, tr).oCfg.book.title || "SKYNovel" }), nt(this, ls, new SoundMng(H(this, tr), H(this, je), H(this, Er), this, this.sys)), nt(this, Ge, new ScriptIterator(H(this, tr), H(this, je), this, H(this, Er), H(this, $u), () => ot(this, Aa, cl).call(this), H(this, Ci), H(this, ls), this.sys)), nt(this, ku, new DebugMng(this.sys, H(this, je), H(this, Ge))), nt(this, Ri, new LayerMng(H(this, tr), H(this, je), H(this, er), H(this, Er), this, H(this, Ge), this.sys, H(this, ls), H(this, $u), H(this, Ci))), nt(this, Ia, new EventMng(H(this, tr), H(this, je), H(this, er), this, H(this, Ri), H(this, Er), H(this, ls), H(this, Ge), this.sys)), H(this, er).ticker.add(H(this, Gu)), this.resumeByJumpOrCall({ fn: "main" }), nt(this, Uu, !0);
+  o && (nt(this, fs, o.cloneNode(!0)), H(this, fs).id = H(this, wa), e.view = o), nt(this, ir, new Application(e)), o || (document.body.appendChild(H(this, ir).view), H(this, ir).view.id = H(this, wa)), nt(this, Er, new Variable(H(this, rr), H(this, je))), nt(this, Ci, new PropParser(H(this, Er), (N = H(this, rr).oCfg.init.escape) != null ? N : "\\")), await Promise.allSettled(this.sys.init(H(this, je), H(this, ir), H(this, Er), this)), H(this, je).title({ text: H(this, rr).oCfg.book.title || "SKYNovel" }), nt(this, ls, new SoundMng(H(this, rr), H(this, je), H(this, Er), this, this.sys)), nt(this, Ge, new ScriptIterator(H(this, rr), H(this, je), this, H(this, Er), H(this, $u), () => ot(this, Aa, cl).call(this), H(this, Ci), H(this, ls), this.sys)), nt(this, ku, new DebugMng(this.sys, H(this, je), H(this, Ge))), nt(this, Ri, new LayerMng(H(this, rr), H(this, je), H(this, ir), H(this, Er), this, H(this, Ge), this.sys, H(this, ls), H(this, $u), H(this, Ci))), nt(this, Ia, new EventMng(H(this, rr), H(this, je), H(this, ir), this, H(this, Ri), H(this, Er), H(this, ls), H(this, Ge), this.sys)), H(this, ir).ticker.add(H(this, Gu)), this.resumeByJumpOrCall({ fn: "main" }), nt(this, Uu, !0);
 }, Gu = new WeakMap(), Hu = new WeakMap(), Pa = new WeakMap(), Aa = new WeakSet(), cl = function() {
   var t;
   for (; H(this, Pa); ) {

@@ -837,7 +837,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 	}
 
 
-	readonly #REG_NONAME_LABEL		= /(\*{2,})(.*)/;
+	readonly #REG_NONAME_LABEL		= /(\*{2,})([^\|]*)/;
 	readonly #REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
 	readonly #REG_TOKEN_MACRO_END	= /\[endmacro[\s\]]/;
 	readonly #REG_TAG_LET_ML		= /^\[let_ml\s/g;
@@ -898,7 +898,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		// ラベルジャンプ
 		ln = 1;
 		const reLabel = new RegExp(
-			'^'+ skipLabel.replaceAll('*', '\\*') +'(?:\\s|;|\\[|$)');
+			'^'+ skipLabel.replaceAll('*', '\\*') +'(?=\\s|;|\\[|\\||$)');
 		let in_let_ml = false;
 		for (let i=0; i<len; ++i) {
 			// 走査ついでにトークンの行番号も更新

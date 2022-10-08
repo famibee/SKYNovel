@@ -797,7 +797,20 @@ export class TxtStage extends Container {
 			return true;
 		};
 		const len_chs = chs.length;
-		if (len_chs === 0) {this.#fncEndChIn(); return;}
+		if (len_chs === 0) {
+			const styles = globalThis.getComputedStyle(this.#htmTxt);
+			const rs = parseFloat(styles.fontSize);
+			if (this.#isTategaki) {
+				this.#break_fixed_left = (this.#infTL.$width -this.#infTL.pad_left -this.#infTL.pad_right -rs *1.5) *this.sys.cvsScale;
+				this.#break_fixed_top = 0;
+			}
+			else {
+				this.#break_fixed_left = 0;
+				this.#break_fixed_top = rs /2 *this.sys.cvsScale;
+			}
+			this.#fncEndChIn();
+			return;
+		}
 		chs.forEach(v=> v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 
 		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
