@@ -71,7 +71,7 @@ export class FrameMng implements IGetFrm {
 			this.#hDisabled[id] = false;
 			ifrm.srcdoc = String(hRes[src]?.data)	// .src はふりーむで問題発生
 			.replace('sn_repRes();', '')
-			.replace(
+			.replaceAll(
 				/\s(?:src|href)=(["'])(\S+)\1/g,
 				(v, p1, p2)=> (p2.slice(0, 3) === '../')
 					? this.sys.cur + p2.slice(4)

@@ -1,3 +1,7 @@
+- fix: 履歴がダブることがある件
+- fix: .replace() をなるべく .replaceAll()に
+
+
 # [1.37.0](https://github.com/famibee/SKYNovel/compare/v1.36.1...v1.37.0) (2022-10-10)
 
 

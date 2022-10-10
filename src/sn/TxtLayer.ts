@@ -526,20 +526,20 @@ export class TxtLayer extends Layer {
 
 			case 'gotxt':{
 				this.#popSpan();
-				if (this.isCur) TxtLayer.#recorder.recText(
-					this.#aSpan.join('')
-					.replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, '')
-						// 前方の空行をtrim
-					.replaceAll(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
-					.replaceAll(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
-					.replaceAll(/class='sn_ch .+?'/g, `class='sn_ch'`)
-						// 不要情報削除
-					.replaceAll(`display: none;`, '')	// 履歴情報可視化
-					.replaceAll(`class='offrec'`, `style='display: none;'`)
-						// 囲んだ領域は履歴で非表示
-				);
-
 				if (this.#needGoTxt) {
+					if (this.isCur) TxtLayer.#recorder.recText(
+						this.#aSpan.join('')
+						.replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, '')
+							// 前方の空行をtrim
+						.replaceAll(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
+						.replaceAll(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
+						.replaceAll(/class='sn_ch .+?'/g, `class='sn_ch'`)
+							// 不要情報削除
+						.replaceAll(`display: none;`, '')	// 履歴情報可視化
+						.replaceAll(`class='offrec'`, `style='display: none;'`)
+							// 囲んだ領域は履歴で非表示
+					);
+
 					this.#txs.goTxt(this.#aSpan);
 					this.#needGoTxt = false;
 					this.#cumDelay = 0;

@@ -932,7 +932,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 
 	#hScript	: HScript	= Object.create(null);	//{} シナリオキャッシュ
 	#resolveScript(txt: string) {
-		const v = this.#grm.matchToken(txt.replace(/(\r\n|\r)/g, '\n'));
+		const v = this.#grm.matchToken(txt.replaceAll(/(\r\n|\r)/g, '\n'));
 		for (let i=v.length -1; i>=0; --i) {
 			const e = v[i];
 			this.#REG_TAG_LET_ML.lastIndex = 0;	// /gなので必要

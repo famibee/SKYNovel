@@ -84,7 +84,7 @@ export class PropParser implements IPropParser {
 		const VarLiteral = regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(?:\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/)
 		.map(b=> {
 			//console.log('   👺 VarLiteral:0 b:%O:', b);
-			const s = String(b).replace(REG_BRACKETS, v=>
+			const s = String(b).replaceAll(REG_BRACKETS, v=>
 				'.'+ this.parse(v.slice(1, -1))
 			);
 			if (s.charAt(0) === '-') {	// 変数頭に「-」
@@ -299,7 +299,7 @@ export class PropParser implements IPropParser {
 	#procEmbedVar(b: object): any {
 		if (b == null) return b;	// undefined も
 
-		return String(b).replace(this.#REG_EMBEDVAR, v=> {
+		return String(b).replaceAll(this.#REG_EMBEDVAR, v=> {
 			return (v.charAt(0) === '$')
 				? this.val.getVal(v.slice(1))
 				: this.parse(v.slice(2, -1));

@@ -228,7 +228,7 @@ export class TxtStage extends Container {
 
 /*---*/
 		const util = {
-			escape: (str: string)=> str.replace(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
+			escape: (str: string)=> str.replaceAll(/([.*+?^${}()|\[\]\/\\])/g, '\\$1'),
 			mimeType: (url: any)=> {
 				const extension = parseExtension(url).toLowerCase();
 				return mimes()[extension] || '';
@@ -786,7 +786,7 @@ export class TxtStage extends Container {
 		const chs = this.#htmTxt.querySelectorAll('span.sn_ch');
 		this.#fncEndChIn = ()=> {
 			this.#fncEndChIn = ()=> false;
-			chs.forEach(v=> v.className = v.className.replace(/ go_ch_in_[^\s"]+/g, ''));
+			chs.forEach(v=> v.className = v.className.replaceAll(/ go_ch_in_[^\s"]+/g, ''));
 			TxtStage.#cntBreak.position.set(	// len_chs === 0 かもなのでここ
 				this.#break_fixed_left,
 				this.#break_fixed_top,
@@ -811,7 +811,7 @@ export class TxtStage extends Container {
 			this.#fncEndChIn();
 			return;
 		}
-		chs.forEach(v=> v.className = v.className.replace(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
+		chs.forEach(v=> v.className = v.className.replaceAll(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 
 		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
 		let lastElm: HTMLElement | undefined = undefined;
@@ -1148,9 +1148,9 @@ export class TxtStage extends Container {
 		const len = s.length;
 		for (let i=0; i<len; ++i) {
 			const key: any = s[i];
-			aStyle.push(`"${key}":"${s[key].replace(/(["\\])/g, '\\$1')}"`);
+			aStyle.push(`"${key}":"${s[key].replaceAll(/(["\\])/g, '\\$1')}"`);
 		}
-		return `"txt":"${this.#htmTxt.textContent!.replace(/(["\\])/g, '\\$1')
+		return `"txt":"${this.#htmTxt.textContent!.replaceAll(/(["\\])/g, '\\$1')
 		}", "style":{${aStyle.join(',')}}`;
 			// 4Debug。++カウンターし、dump表示させても良さげ
 	}

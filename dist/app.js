@@ -17579,7 +17579,7 @@ const K1 = class {
         me.exports.regex(/-?(0|[1-9][0-9]*)/)
       ).map((m) => zt(m))
     ).map((m) => ["!num!", m]).desc("number"), u = me.exports.string("null").map(() => ["!str!", null]), l = me.exports.regex(/(true|false)/).map((m) => ["!bool!", m === "true"]).desc("boolean"), h = me.exports.regex(new RegExp(`(?:"(?:\\${e}["'#\\n]|[^"])*"|'(?:\\${e}["'#\\n]|[^'])*'|\\#(?:\\${e}["'#\\n]|[^#])*\\#)`)).map((m) => ["!str!", m.slice(1, -1).replaceAll(e, "")]).desc("string"), f = /\[[^\]]+\]/g, d = me.exports.regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(?:\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/).map((m) => {
-      const _ = String(m).replace(
+      const _ = String(m).replaceAll(
         f,
         (b) => "." + this.parse(b.slice(1, -1))
       );
@@ -17648,7 +17648,7 @@ ja = new WeakMap(), It = new WeakSet(), Rt = function(t) {
     throw Error("(PropParser)\u5F15\u6570\u3010" + e + "\u3011\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093");
   return Number(e);
 }, wv = new WeakMap(), Ec = new WeakSet(), K_ = function(t) {
-  return t == null ? t : String(t).replace(c(this, wv), (e) => e.charAt(0) === "$" ? this.val.getVal(e.slice(1)) : this.parse(e.slice(2, -1)));
+  return t == null ? t : String(t).replaceAll(c(this, wv), (e) => e.charAt(0) === "$" ? this.val.getVal(e.slice(1)) : this.parse(e.slice(2, -1)));
 }, Tv = new WeakMap(), Cv = new WeakSet(), ZC = function(t) {
   let e = 0, i = 0;
   for (; ; ) {
@@ -30424,7 +30424,7 @@ const Ot = class extends ve {
       }
     }
     const g = c(this, re).querySelectorAll("span.sn_ch");
-    if (I(this, Xn, () => (I(this, Xn, () => !1), g.forEach((B) => B.className = B.className.replace(/ go_ch_in_[^\s"]+/g, "")), c(Ot, cn).position.set(
+    if (I(this, Xn, () => (I(this, Xn, () => !1), g.forEach((B) => B.className = B.className.replaceAll(/ go_ch_in_[^\s"]+/g, "")), c(Ot, cn).position.set(
       c(this, Er),
       c(this, wr)
     ), c(Ot, cn).visible = !0, c(Ot, Qa).noticeCompTxt(), !0)), g.length === 0) {
@@ -30432,7 +30432,7 @@ const Ot = class extends ve {
       c(this, Ai) ? (I(this, Er, (c(this, bt).$width - c(this, bt).pad_left - c(this, bt).pad_right - j * 1.5) * this.sys.cvsScale), I(this, wr, 0)) : (I(this, Er, 0), I(this, wr, j / 2 * this.sys.cvsScale)), c(this, Xn).call(this);
       return;
     }
-    g.forEach((B) => B.className = B.className.replace(/sn_ch_in_([^\s"]+)/g, "go_ch_in_$1"));
+    g.forEach((B) => B.className = B.className.replaceAll(/sn_ch_in_([^\s"]+)/g, "go_ch_in_$1"));
     let _;
     for (let B = l - 1; B >= 0; --B) {
       const j = c(this, Vn)[B];
@@ -30569,9 +30569,9 @@ const Ot = class extends ve {
     const e = [], i = c(this, re).style, n = i.length;
     for (let s = 0; s < n; ++s) {
       const a = i[s];
-      e.push(`"${a}":"${i[a].replace(/(["\\])/g, "\\$1")}"`);
+      e.push(`"${a}":"${i[a].replaceAll(/(["\\])/g, "\\$1")}"`);
     }
-    return `"txt":"${c(this, re).textContent.replace(/(["\\])/g, "\\$1")}", "style":{${e.join(",")}}`;
+    return `"txt":"${c(this, re).textContent.replaceAll(/(["\\])/g, "\\$1")}", "style":{${e.join(",")}}`;
   }
   destroy() {
     Ot.delBreak(), c(this, re).parentElement.removeChild(c(this, re)), this.removeChild(c(this, hn)), this.removeChild(c(this, zn)), super.destroy();
@@ -30586,7 +30586,7 @@ Qu = new WeakMap(), Jc = new WeakMap(), Qa = new WeakMap(), re = new WeakMap(), 
   I(this, nl, c(this, Ai) ? 0 : (n.slice(-2) === "px" ? parseFloat(n) : i * parseFloat(n) - i) / 2);
 }, Oi = new WeakMap(), Ai = new WeakMap(), Kc = new WeakMap(), el = new WeakMap(), l0 = new WeakSet(), lS = function(e, i = !0) {
   const n = {
-    escape: (m) => m.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"),
+    escape: (m) => m.replaceAll(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"),
     mimeType: (m) => {
       const _ = l(m).toLowerCase();
       return s()[_] || "";
@@ -31064,9 +31064,9 @@ const Ft = class extends _r {
               I(this, ki, !1), I(this, qr, !0), s = R(this, vl, Bp).call(this, e, u, a);
               break;
             case "gotxt":
-              R(this, gl, kp).call(this), this.isCur && c(Ft, hl).recText(
+              R(this, gl, kp).call(this), c(this, qr) ? (this.isCur && c(Ft, hl).recText(
                 c(this, ci).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replaceAll(/style='(anim\S+ \S+?;\s*)+/g, "style='").replaceAll(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replaceAll(/class='sn_ch .+?'/g, "class='sn_ch'").replaceAll("display: none;", "").replaceAll("class='offrec'", "style='display: none;'")
-              ), c(this, qr) ? (c(this, Qt).goTxt(c(this, ci)), I(this, qr, !1), I(this, Qn, 0)) : this.isCur && c(Ft, so).noticeCompTxt();
+              ), c(this, Qt).goTxt(c(this, ci)), I(this, qr, !1), I(this, Qn, 0)) : this.isCur && c(Ft, so).noticeCompTxt();
               return;
             case "add":
               {
@@ -31587,7 +31587,7 @@ ml = new WeakMap(), po = new WeakMap(), d0 = new WeakSet(), fS = function(t) {
   }), p.load((v, g) => {
     var _;
     const m = document.getElementById(e);
-    c(this, po)[e] = m, c(this, _l)[e] = !1, m.srcdoc = String((_ = g[i]) == null ? void 0 : _.data).replace("sn_repRes();", "").replace(
+    c(this, po)[e] = m, c(this, _l)[e] = !1, m.srcdoc = String((_ = g[i]) == null ? void 0 : _.data).replace("sn_repRes();", "").replaceAll(
       /\s(?:src|href)=(["'])(\S+)\1/g,
       (y, b, E) => E.slice(0, 3) === "../" ? this.sys.cur + E.slice(4) : y.replace(b, b + d.slice(0, d.lastIndexOf("/") + 1))
     ), m.onload = () => {
@@ -34737,7 +34737,7 @@ Mt = new WeakMap(), qt = new WeakMap(), _t = new WeakMap(), pe = new WeakMap(), 
   }
   throw l ? "[let_ml]\u306E\u7D42\u7AEF\u30FB[endlet_ml]\u304C\u3042\u308A\u307E\u305B\u3093" : (jt.myTrace(`[jump\u7CFB] \u30E9\u30D9\u30EB\u3010${n}\u3011\u304C\u3042\u308A\u307E\u305B\u3093`, "ET"), "Dummy");
 }, Br = new WeakMap(), Eg = new WeakSet(), C2 = function(t) {
-  const e = c(this, qs).matchToken(t.replace(/(\r\n|\r)/g, `
+  const e = c(this, qs).matchToken(t.replaceAll(/(\r\n|\r)/g, `
 `));
   for (let s = e.length - 1; s >= 0; --s) {
     const a = e[s];

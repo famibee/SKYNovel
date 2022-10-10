@@ -17899,7 +17899,7 @@ const Cf = class {
         parsimmon_umd_min.exports.regex(/-?(0|[1-9][0-9]*)/)
       ).map((q) => int(q))
     ).map((q) => ["!num!", q]).desc("number"), B = parsimmon_umd_min.exports.string("null").map(() => ["!str!", null]), $ = parsimmon_umd_min.exports.regex(/(true|false)/).map((q) => ["!bool!", q === "true"]).desc("boolean"), U = parsimmon_umd_min.exports.regex(new RegExp(`(?:"(?:\\${e}["'#\\n]|[^"])*"|'(?:\\${e}["'#\\n]|[^'])*'|\\#(?:\\${e}["'#\\n]|[^#])*\\#)`)).map((q) => ["!str!", q.slice(1, -1).replaceAll(e, "")]).desc("string"), z = /\[[^\]]+\]/g, V = parsimmon_umd_min.exports.regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(?:\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/).map((q) => {
-      const Z = String(q).replace(
+      const Z = String(q).replaceAll(
         z,
         (J) => "." + this.parse(J.slice(1, -1))
       );
@@ -17968,7 +17968,7 @@ vn = new WeakMap(), Yt = new WeakSet(), qt = function(t) {
     throw Error("(PropParser)\u5F15\u6570\u3010" + e + "\u3011\u304C\u6570\u5024\u3067\u306F\u3042\u308A\u307E\u305B\u3093");
   return Number(e);
 }, bl = new WeakMap(), eo = new WeakSet(), Fc = function(t) {
-  return t == null ? t : String(t).replace(H(this, bl), (e) => e.charAt(0) === "$" ? this.val.getVal(e.slice(1)) : this.parse(e.slice(2, -1)));
+  return t == null ? t : String(t).replaceAll(H(this, bl), (e) => e.charAt(0) === "$" ? this.val.getVal(e.slice(1)) : this.parse(e.slice(2, -1)));
 }, El = new WeakMap(), xl = new WeakSet(), Of = function(t) {
   let e = 0, o = 0;
   for (; ; ) {
@@ -30744,7 +30744,7 @@ const Zt = class extends Container {
       }
     }
     const Y = H(this, le).querySelectorAll("span.sn_ch");
-    if (nt(this, li, () => (nt(this, li, () => !1), Y.forEach((pt) => pt.className = pt.className.replace(/ go_ch_in_[^\s"]+/g, "")), H(Zt, Xr).position.set(
+    if (nt(this, li, () => (nt(this, li, () => !1), Y.forEach((pt) => pt.className = pt.className.replaceAll(/ go_ch_in_[^\s"]+/g, "")), H(Zt, Xr).position.set(
       H(this, Xe),
       H(this, We)
     ), H(Zt, Xr).visible = !0, H(Zt, In).noticeCompTxt(), !0)), Y.length === 0) {
@@ -30752,7 +30752,7 @@ const Zt = class extends Container {
       H(this, Ir) ? (nt(this, Xe, (H(this, Xt).$width - H(this, Xt).pad_left - H(this, Xt).pad_right - mt * 1.5) * this.sys.cvsScale), nt(this, We, 0)) : (nt(this, Xe, 0), nt(this, We, mt / 2 * this.sys.cvsScale)), H(this, li).call(this);
       return;
     }
-    Y.forEach((pt) => pt.className = pt.className.replace(/sn_ch_in_([^\s"]+)/g, "go_ch_in_$1"));
+    Y.forEach((pt) => pt.className = pt.className.replaceAll(/sn_ch_in_([^\s"]+)/g, "go_ch_in_$1"));
     let Z;
     for (let pt = $ - 1; pt >= 0; --pt) {
       const mt = H(this, ui)[pt];
@@ -30889,9 +30889,9 @@ const Zt = class extends Container {
     const e = [], o = H(this, le).style, T = o.length;
     for (let S = 0; S < T; ++S) {
       const N = o[S];
-      e.push(`"${N}":"${o[N].replace(/(["\\])/g, "\\$1")}"`);
+      e.push(`"${N}":"${o[N].replaceAll(/(["\\])/g, "\\$1")}"`);
     }
-    return `"txt":"${H(this, le).textContent.replace(/(["\\])/g, "\\$1")}", "style":{${e.join(",")}}`;
+    return `"txt":"${H(this, le).textContent.replaceAll(/(["\\])/g, "\\$1")}", "style":{${e.join(",")}}`;
   }
   destroy() {
     Zt.delBreak(), H(this, le).parentElement.removeChild(H(this, le)), this.removeChild(H(this, Vr)), this.removeChild(H(this, ai)), super.destroy();
@@ -30906,7 +30906,7 @@ zs = new WeakMap(), Oo = new WeakMap(), In = new WeakMap(), le = new WeakMap(), 
   nt(this, qs, H(this, Ir) ? 0 : (T.slice(-2) === "px" ? parseFloat(T) : o * parseFloat(T) - o) / 2);
 }, Rr = new WeakMap(), Ir = new WeakMap(), No = new WeakMap(), Xs = new WeakMap(), ah = new WeakSet(), od = function(e, o = !0) {
   const T = {
-    escape: (q) => q.replace(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"),
+    escape: (q) => q.replaceAll(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"),
     mimeType: (q) => {
       const Z = $(q).toLowerCase();
       return S()[Z] || "";
@@ -31384,9 +31384,9 @@ const Jt = class extends Layer {
               nt(this, Or, !1), nt(this, lr, !0), S = at(this, aa, sl).call(this, e, B, N);
               break;
             case "gotxt":
-              at(this, oa, al).call(this), this.isCur && H(Jt, ea).recText(
+              at(this, oa, al).call(this), H(this, lr) ? (this.isCur && H(Jt, ea).recText(
                 H(this, _r).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replaceAll(/style='(anim\S+ \S+?;\s*)+/g, "style='").replaceAll(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replaceAll(/class='sn_ch .+?'/g, "class='sn_ch'").replaceAll("display: none;", "").replaceAll("class='offrec'", "style='display: none;'")
-              ), H(this, lr) ? (H(this, oe).goTxt(H(this, _r)), nt(this, lr, !1), nt(this, gi, 0)) : this.isCur && H(Jt, Mn).noticeCompTxt();
+              ), H(this, oe).goTxt(H(this, _r)), nt(this, lr, !1), nt(this, gi, 0)) : this.isCur && H(Jt, Mn).noticeCompTxt();
               return;
             case "add":
               {
@@ -31907,7 +31907,7 @@ ua = new WeakMap(), Gn = new WeakMap(), hh = new WeakSet(), hd = function(t) {
   }), X.load((W, Y) => {
     var Z;
     const q = document.getElementById(e);
-    H(this, Gn)[e] = q, H(this, la)[e] = !1, q.srcdoc = String((Z = Y[o]) == null ? void 0 : Z.data).replace("sn_repRes();", "").replace(
+    H(this, Gn)[e] = q, H(this, la)[e] = !1, q.srcdoc = String((Z = Y[o]) == null ? void 0 : Z.data).replace("sn_repRes();", "").replaceAll(
       /\s(?:src|href)=(["'])(\S+)\1/g,
       (K, J, tt) => tt.slice(0, 3) === "../" ? this.sys.cur + tt.slice(4) : K.replace(J, J + V.slice(0, V.lastIndexOf("/") + 1))
     ), q.onload = () => {
@@ -35057,7 +35057,7 @@ Qt = new WeakMap(), ae = new WeakMap(), Vt = new WeakMap(), me = new WeakMap(), 
   }
   throw $ ? "[let_ml]\u306E\u7D42\u7AEF\u30FB[endlet_ml]\u304C\u3042\u308A\u307E\u305B\u3093" : (DebugMng.myTrace(`[jump\u7CFB] \u30E9\u30D9\u30EB\u3010${T}\u3011\u304C\u3042\u308A\u307E\u305B\u3093`, "ET"), "Dummy");
 }, er = new WeakMap(), bc = new WeakSet(), pp = function(t) {
-  const e = H(this, Ki).matchToken(t.replace(/(\r\n|\r)/g, `
+  const e = H(this, Ki).matchToken(t.replaceAll(/(\r\n|\r)/g, `
 `));
   for (let S = e.length - 1; S >= 0; --S) {
     const N = e[S];
