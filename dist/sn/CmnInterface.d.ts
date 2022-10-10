@@ -334,6 +334,10 @@ export interface IGetFrm {
         (id: string): boolean;
     };
 }
+export interface IRecorder {
+    recText(txt: string): void;
+    recPagebreak(): void;
+}
 export declare type HIPage = {
     [name: string]: IPage;
 };

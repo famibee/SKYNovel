@@ -1,5 +1,5 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag, IVariable, IMain, HIPage, IGetFrm, IPropParser } from './CmnInterface';
+import { IHTag, IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder } from './CmnInterface';
 import { Pages } from './Pages';
 import { TxtLayer } from './TxtLayer';
 import { Config } from './Config';
@@ -15,7 +15,7 @@ export interface IMakeDesignCast {
 export interface HPage {
     [name: string]: Pages;
 }
-export declare class LayerMng implements IGetFrm {
+export declare class LayerMng implements IGetFrm, IRecorder {
     #private;
     private readonly cfg;
     private readonly hTag;
@@ -45,7 +45,8 @@ export declare class LayerMng implements IGetFrm {
     setNormalChWait(): void;
     get currentTxtlayForeNeedErr(): TxtLayer;
     get currentTxtlayFore(): TxtLayer | undefined;
-    recText(txt: string, pagebreak?: boolean): void;
+    recText(txt: string): void;
+    recPagebreak(): void;
     record(): any;
     playback($hPages: HIPage, fncComp: () => void): void;
 }

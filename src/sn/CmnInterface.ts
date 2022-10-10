@@ -376,6 +376,11 @@ export interface IGetFrm {
 	getFrmDisabled	: {(id: string): boolean};
 };
 
+export interface IRecorder {
+	recText(txt: string) : void;
+	recPagebreak() : void;
+};
+
 
 // =============== Pages
 export type HIPage = {[name: string]: IPage};

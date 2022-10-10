@@ -1,3 +1,9 @@
+- feat: [rec_ch]で[r]改行、style・r_style属性が使用できるように
+- fix: [rec_ch][rec_r]で履歴に記録されない件
+- fix: [rec_ch]でルビ文法（《》）が使えなかった件
+- docs: [rec_ch]で[r]改行、style・r_style属性の説明追加
+
+
 ## [1.36.1](https://github.com/famibee/SKYNovel/compare/v1.36.0...v1.36.1) (2022-10-08)
 
 

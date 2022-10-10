@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
-import {IVariable, IHTag, HArg, IPutCh, IMain} from './CmnInterface';
+import {IVariable, IHTag, HArg, IPutCh, IMain, IRecorder} from './CmnInterface';
 import {TxtStage} from './TxtStage';
 import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {RubySpliter} from './RubySpliter';
@@ -22,13 +22,13 @@ import {Sprite, DisplayObject, Graphics, Container, Renderer, Application} from 
 export class TxtLayer extends Layer {
 	static	#cfg		: Config;
 	static	#val		: IVariable;
-	static	#recText	: (txt: string, pagebreak?: boolean)=> void;
 	static	#isPageFore	: (me: TxtLayer)=> boolean;
-	static	init(cfg: Config, hTag: IHTag, val: IVariable, recText: (txt: string)=> void, isPageFore: (me: TxtLayer)=> boolean, appPixi: Application): void {
+	static	#recorder	: IRecorder;
+	static	init(cfg: Config, hTag: IHTag, val: IVariable, recorder: IRecorder, isPageFore: (me: TxtLayer)=> boolean, appPixi: Application): void {
 		TxtLayer.#cfg = cfg;
 		TxtStage.init(cfg, appPixi);
 		TxtLayer.#val = val;
-		TxtLayer.#recText = recText;
+		TxtLayer.#recorder = recorder;
 		TxtLayer.#isPageFore = isPageFore;
 
 		val.setDoRecProc(TxtLayer.chgDoRec);
@@ -526,18 +526,17 @@ export class TxtLayer extends Layer {
 
 			case 'gotxt':{
 				this.#popSpan();
-				if (this.isCur) TxtLayer.#recText(
+				if (this.isCur) TxtLayer.#recorder.recText(
 					this.#aSpan.join('')
 					.replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, '')
 						// 前方の空行をtrim
-					.replace(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
-					.replace(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
-					.replace(/class='sn_ch .+?'/g, `class='sn_ch'`)
+					.replaceAll(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
+					.replaceAll(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
+					.replaceAll(/class='sn_ch .+?'/g, `class='sn_ch'`)
 						// 不要情報削除
+					.replaceAll(`display: none;`, '')	// 履歴情報可視化
 					.replaceAll(`class='offrec'`, `style='display: none;'`)
 						// 囲んだ領域は履歴で非表示
-					.replaceAll('`', '\\`')
-						// JSON対策
 				);
 
 				if (this.#needGoTxt) {
@@ -753,7 +752,7 @@ text-combine-upright: all;
 		this.#firstCh = true;
 		this.#aSpan = [];
 		this.#page_text = '';
-		TxtLayer.#recText('', true);
+		TxtLayer.#recorder.recPagebreak();
 	}
 	#page_text	= '';
 	get pageText() {return this.#page_text.replace('《　》', '')}

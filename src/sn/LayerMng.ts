@@ -7,7 +7,7 @@
 
 import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt, addStyle, argChk_Color, parseColor} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
-import {IHTag, IVariable, IMain, HIPage, HArg, IGetFrm, IPropParser} from './CmnInterface';
+import {IHTag, IVariable, IMain, HIPage, HArg, IGetFrm, IPropParser, IRecorder} from './CmnInterface';
 import {Pages} from './Pages';
 import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';
@@ -31,7 +31,7 @@ export interface IMakeDesignCast { (idc	: DesignCast): void; };
 
 export interface HPage {[name: string]: Pages};
 
-export class LayerMng implements IGetFrm {
+export class LayerMng implements IGetFrm, IRecorder {
 	readonly	#stage	: Container;
 				#fore	= new Container;
 				#back	= new Container;
@@ -68,7 +68,7 @@ export class LayerMng implements IGetFrm {
 		}
 		sys.cvsResize();
 
-		TxtLayer.init(cfg, hTag, val, txt=> this.recText(txt), (me: TxtLayer)=> this.#hPages[me.layname].fore === me, appPixi);
+		TxtLayer.init(cfg, hTag, val, this, (me: TxtLayer)=> this.#hPages[me.layname].fore === me, appPixi);
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng, val);
 		Button.init(cfg);
 
@@ -113,7 +113,7 @@ export class LayerMng implements IGetFrm {
 		hTag.link			= o=> this.#link(o);		// ハイパーリンク
 		hTag.r				= o=> this.#r(o);			// 改行
 		hTag.rec_ch			= o=> this.#rec_ch(o);		// 履歴書き込み
-		hTag.rec_r			= ()=> this.#rec_r();		// 履歴改行
+		hTag.rec_r			= o=> this.#rec_r(o);		// 履歴改行
 		hTag.reset_rec		= o=> this.#reset_rec(o);	// 履歴リセット
 		//hTag.ruby			= o=> this.ruby(o);			// 直前一文字のルビ（廃止
 			// タグでは無く、「｜＠《》」というスクリプト書き換えで良い
@@ -178,8 +178,8 @@ export class LayerMng implements IGetFrm {
 		val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
 
 		val.defTmp('const.sn.log.json', ()=> JSON.stringify(
-			(this.#oLastPage.text)
-				? [...this.#aTxtLog, this.#oLastPage]
+			this.#sLastPage
+				? [...this.#aTxtLog, {text: this.#sLastPage.replaceAll(`<\/span><span class='sn_ch'>`, '')}]
 				: this.#aTxtLog
 		));
 		val.defTmp('const.sn.last_page_text', ()=> this.currentTxtlayFore?.pageText ?? '');
@@ -906,7 +906,7 @@ void main(void) {
 		const doRecLog = this.val.doRecLog();
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', record);
 		tl.tagCh(text.replaceAll('[r]', '\n'));
-		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
+		this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 
 		this.#cmdTxt(`add_close｜`, tl);	// [ch style]用
 
@@ -934,7 +934,7 @@ void main(void) {
 		this.#pgTxtlay = this.#hPages[layer];
 		if (! (this.#pgTxtlay.getPage(hArg) instanceof TxtLayer)) throw `${layer}はTxtLayerではありません`;
 
-		this.recText('', true);	// カレント変更前に現在の履歴を保存
+		this.recPagebreak();	// カレント変更前に現在の履歴を保存
 		this.#curTxtlay = layer;
 		this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
 		for (const name of this.#getLayers()) {
@@ -967,30 +967,26 @@ void main(void) {
 	}
 
 
-	#oLastPage	: HArg						= {text: ''};
-	#aTxtLog	: {[name: string]: any}[]	= [];
-	recText(txt: string, pagebreak = false) {
-		const o = this.#oLastPage;
-		if (pagebreak) {
-			if (o.text) {
-				o.text = String(o.text).replaceAll(`<\/span><span class='sn_ch'>`, '');
-				if (this.#aTxtLog.push(o) > this.cfg.oCfg.log.max_len) this.#aTxtLog = this.#aTxtLog.slice(-this.cfg.oCfg.log.max_len);
-			}
-			this.#oLastPage = {text: ''};
-			return;
-		}
-
-		o.text = txt.replace(/\\`/, '`');
-			// 本文→HTML化の過程でつけられてしまうエスケープ文字を削除
+	#sLastPage	= '';
+	#aTxtLog	: {text: string;}[]	= [];
+	recText(txt: string) {
+		this.#sLastPage = txt;
 		this.val.setVal_Nochk('save', 'const.sn.sLog',
-			String(this.val.getVal('const.sn.log.json'))
+			String(this.val.getVal('const.sn.log.json'))	// これを起動したい
 		);
+	}
+	recPagebreak() {
+		if (! this.#sLastPage) return;
+
+		const text = this.#sLastPage.replaceAll(`<\/span><span class='sn_ch'>`, '');
+		if (this.#aTxtLog.push({text}) > this.cfg.oCfg.log.max_len) this.#aTxtLog = this.#aTxtLog.slice(-this.cfg.oCfg.log.max_len);
+		this.#sLastPage = '';
 	}
 
 
 	#clear_text(hArg: HArg) {
 		const tf = this.#getTxtLayer(hArg);
-		if (hArg.layer === this.#curTxtlay && hArg.page === 'fore') this.recText('', true);	// 改ページ、クリア前に
+		if (hArg.layer === this.#curTxtlay && hArg.page === 'fore') this.recPagebreak();	// 改ページ、クリア前に
 		tf.clearText();
 		return false;
 	}
@@ -1001,7 +997,7 @@ void main(void) {
 
 	// ページ両面の文字消去
 	#er(hArg: HArg) {
-		if (argChk_Boolean(hArg, 'rec_page_break', true)) this.recText('', true);	// 改ページ、クリア前に
+		if (argChk_Boolean(hArg, 'rec_page_break', true)) this.recPagebreak();	// 改ページ、クリア前に
 
 		if (this.#pgTxtlay) {
 			this.#pgTxtlay.fore.clearLay(hArg);
@@ -1034,22 +1030,25 @@ void main(void) {
 	#r(hArg: HArg) {hArg.text = '\n'; return this.#ch(hArg);}
 
 	// 履歴改行
-	#rec_r() {this.recText('\n'); return false;};
+	#rec_r(hArg: HArg) {return this.#rec_ch({...hArg, text: '[r]'});};
 
 	// 履歴書き込み
 	#rec_ch(hArg: HArg) {
-		this.#oLastPage = hArg;
-		this.recText(hArg.text ?? '');
+		if (! hArg.text) return false;
 
-		return false;
+		hArg.record = true;
+		hArg.style ??= '';
+		hArg.style += 'display: none;';	// gotxt内で削除し履歴に表示
+		hArg.wait = 0;
+		return this.#ch(hArg);
 	};
 
 	// 履歴リセット
 	#reset_rec(hArg: HArg) {
 		this.#aTxtLog = [];
-		this.#oLastPage = {text: hArg.text ?? ''};
+		this.#sLastPage = hArg.text ?? '';
 		this.val.setVal_Nochk('save', 'const.sn.sLog', 
-			(hArg.text) ?`[{text:"${hArg.text}"}]` : '[]'
+			hArg.text ?`[{text:"${hArg.text}"}]` : '[]'
 		);
 
 		return false;
@@ -1148,7 +1147,7 @@ void main(void) {
 	playback($hPages: HIPage, fncComp: ()=> void): void {
 		// これを先に。save:const.sn.sLog がクリアされてしまう
 		this.#aTxtLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
-		this.#oLastPage = {text: ''};
+		this.#sLastPage = '';
 
 		const aPrm: Promise<void>[] = [];
 		const aSort: {layer: string, idx: number}[] = [];

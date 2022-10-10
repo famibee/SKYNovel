@@ -1151,7 +1151,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		this.hTag.clear_event({});
 		this.val.mark2save(mark);
 		this.val.setMp({});
-		this.#layMng.recText('', true);
+		this.#layMng.recPagebreak();
 
 		if (reload_sound) this.sndMng.playLoopFromSaveObj();
 

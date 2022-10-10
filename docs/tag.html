@@ -1129,11 +1129,22 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 	「現在のページ」のテキストに文字を追加する。<br/>
 	「現在のページ」に対する、任意の属性も自由に追加できる。その属性はconst.sn.log.jsonにも含まれ、フレームに渡しJavaScriptなどで（JSON.parse()して）利用できる。<br/>
+	文字列内では[r]で改行できる。<br/>
 		→<a href="https://famibee.github.io/SKYNovel_gallery/index.html?cur=log_and_play" target="_blank" rel="noopener">参考（機能ギャラリー・履歴と機能追加）</a>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>text</td><td></td><td></td><td>String</td><td>表示したい文字列。ルビ文法（《》）も解析する。</td></tr>
-<tr><td>（任意）</td><td></td><td></td><td>（任意）</td><td>（任意）</td></tr>
+<tr><td>text</td><td></td><td></td><td>String</td><td>
+	表示したい文字列。ルビ文法（《》）も使用可能、[r]で改行
+</td></tr>
+<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
+	文字の CSS Style を指定する。<br/>
+	このタグによる履歴表示のみに適用、以降は元に戻る。<br/>
+	※[ch]でのみ、背景styleなどを一塊とする。
+</td></tr>
+<tr><td>r_style</td><td></td><td>何もしない</td><td>CSS style</td><td>
+	ルビの CSS Style を指定する。<br/>
+	このタグによる履歴表示のみに適用、以降は元に戻る
+</td></tr>
 </table>
 
 </p>
