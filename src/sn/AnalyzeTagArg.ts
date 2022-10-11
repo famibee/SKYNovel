@@ -34,15 +34,8 @@ export class AnalyzeTagArg {
 	go(args: string) {
 		this.#hPrm = {};
 		this.#isKomeParam = false;
-		if (! args) return;	// undefined も
-
-		let e: RegExpExecArray | null = null;
-		// 全ループリセットかかるので不要	.lastIndex = 0;	// /gなので必要
-		while (e = this.#REG_TAGARG.exec(args)) {
-			const g = e?.groups;
-			if (! g) continue;
-
-			const {key, val, val2, def, def2, literal} = g;
+		for (const {groups} of args.matchAll(this.#REG_TAGARG)) {
+			const {key, val, val2, def, def2, literal} = groups!;
 			if (key) this.#hPrm[key] = {
 				val: val ?? val2,
 				def: def ?? def2

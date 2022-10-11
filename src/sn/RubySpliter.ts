@@ -69,14 +69,9 @@ export class RubySpliter {
 	}
 
 	putTxt(text: string) {
-		let e: any = null;
-		// 全ループリセットかかるので不要	.lastIndex = 0;	// /gなので必要
-		while (e = RubySpliter.#REG_RUBY.exec(text)) {
-			const g = e?.groups;
-			if (! g) continue;
-
-			const {ruby, kan_ruby, kan, ce, txt=''} = g;
-			if (ruby) {this.putTxtRb(decodeURIComponent(g.str), ruby); continue;}
+		for (const {groups} of text.matchAll(RubySpliter.#REG_RUBY)) {
+			const {ruby, kan_ruby, kan, ce, txt='', str} = groups!;
+			if (ruby) {this.putTxtRb(decodeURIComponent(str), ruby); continue;}
 
 			if (kan_ruby) {this.putTxtRb(kan, kan_ruby); continue;}
 			if (ce) {this.#putCh(ce.slice(1), ''); continue}

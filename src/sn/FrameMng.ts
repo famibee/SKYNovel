@@ -15,6 +15,7 @@ import {GrpLayer} from './GrpLayer';
 
 import {Tween} from '@tweenjs/tween.js'
 import {Loader, LoaderResource} from 'pixi.js';
+import { LayerMng } from './LayerMng';
 
 export class FrameMng implements IGetFrm {
 	constructor(private readonly cfg: Config, hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase, private readonly hTwInf: {[name: string]: ITwInf}) {
@@ -234,7 +235,7 @@ export class FrameMng implements IGetFrm {
 
 	// フレームをトゥイーン開始
 	#tsy_frame(hArg: HArg) {
-		const {id} = hArg;
+		const {id, alpha, x, y, scale_x, scale_y, rotate, width, height, ease, path, chain} = hArg;
 		if (! id) throw 'idは必須です';
 		const f = document.getElementById(id) as HTMLIFrameElement;
 		if (! f) throw `id【${id}】はフレームではありません`;
@@ -242,23 +243,21 @@ export class FrameMng implements IGetFrm {
 		if (! this.val.getVal(`tmp:${vn}`, 0)) throw `frame【${id}】が読み込まれていません`;
 
 		const hNow: any = {};
-		if ('alpha' in hArg) hNow.a = f.style.opacity;
-		if ('x' in hArg || 'y' in hArg
-		|| 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
+		if (alpha) hNow.a = f.style.opacity;
+		if (x || y || scale_x || scale_y || rotate) {
 			hNow.x = Number(this.val.getVal(`tmp:${vn}.x`));
 			hNow.y = Number(this.val.getVal(`tmp:${vn}.y`));
 			hNow.sx = Number(this.val.getVal(`tmp:${vn}.scale_x`));
 			hNow.sy = Number(this.val.getVal(`tmp:${vn}.scale_y`));
 			hNow.r = Number(this.val.getVal(`tmp:${vn}.rotate`));
 		}
-		if ('width' in hArg) hNow.w = this.val.getVal(`tmp:${vn}.width`);
-		if ('height' in hArg) hNow.h = this.val.getVal(`tmp:${vn}.height`);
+		if (width) hNow.w = this.val.getVal(`tmp:${vn}.width`);
+		if (height) hNow.h = this.val.getVal(`tmp:${vn}.height`);
 		const hArg2 = cnvTweenArg(hArg, hNow);
 
 		const hTo: any = {};
-		const repeat = argChk_Num(hArg, 'repeat', 1);
 		let fncA = ()=> {};
-		if ('alpha' in hArg) {
+		if (alpha) {
 			hTo.a = argChk_Num(hArg2, 'alpha', 0);
 			fncA = ()=> {
 				f.style.opacity = hNow.a;
@@ -267,8 +266,7 @@ export class FrameMng implements IGetFrm {
 		}
 		let fncXYSR = ()=> {};
 		const rct = this.#rect(hArg2);
-		if ('x' in hArg || 'y' in hArg
-		|| 'scale_x' in hArg || 'scale_y' in hArg || 'rotate' in hArg) {
+		if (x || y || scale_x || scale_y || rotate) {
 			hTo.x = rct.x;
 			hTo.y = rct.y;
 			hTo.sx = argChk_Num(hArg2, 'scale_x', 1);
@@ -286,7 +284,7 @@ export class FrameMng implements IGetFrm {
 			};
 		}
 		let fncW = ()=> {};
-		if ('width' in hArg) {
+		if (width) {
 			hTo.w = rct.width;
 			fncW = ()=> {
 				f.width = hNow.w *this.sys.cvsScale +'px';
@@ -294,7 +292,7 @@ export class FrameMng implements IGetFrm {
 			};
 		}
 		let fncH = ()=> {};
-		if ('height' in hArg) {
+		if (height) {
 			hTo.h = rct.height;
 			fncH = ()=> {
 				f.height = hNow.h *this.sys.cvsScale +'px';
@@ -303,17 +301,8 @@ export class FrameMng implements IGetFrm {
 		}
 
 		this.appPixi.stage.interactive = false;
-		const tw_nm = `frm\n${hArg.id}`;
-		const tw = new Tween(hNow)
-		.to(hTo, argChk_Num(hArg, 'time', NaN) * (
-			Boolean(this.val.getVal('tmp:sn.skip.enabled')
-			|| this.#evtMng.isSkippingByKeyDown()) ?0 :1))
-		.delay(argChk_Num(hArg, 'delay', 0))
-		.easing(CmnTween.ease(hArg.ease))
-		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
-		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
-		.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH();})
-		.onComplete(()=> {
+		const tw_nm = `frm\n${id}`;
+		const onComplete = ()=> {
 			this.appPixi.stage.interactive = true;
 			// この辺は LayerMng.ts tsy()と同様なので、変更時は相互に合わせること
 			const ti = this.hTwInf[tw_nm];
@@ -323,17 +312,57 @@ export class FrameMng implements IGetFrm {
 			ti.tw?.stop();
 			if (ti.resume) this.main.resume();
 			ti.onEnd?.();
-		});
+		};
+		const dur = argChk_Num(hArg, 'time', NaN) * (
+			Boolean(this.val.getVal('tmp:sn.skip.enabled')
+			|| this.#evtMng.isSkippingByKeyDown()) ?0 :1);
+		const nEase = CmnTween.ease(ease);
+		const rep = argChk_Num(hArg, 'repeat', 1);
+		const repeat = rep === 0 ?Infinity :(rep -1);// 一度リピート→計二回なので
+		const yoyo = argChk_Boolean(hArg, 'yoyo', false);
+		const delay = argChk_Num(hArg, 'delay', 0);
 
-		if ('chain' in hArg) {
-			const twFrom = this.hTwInf[hArg.chain ?? ''];
-			if (! twFrom || ! twFrom.tw) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
+		const tw = new Tween(hNow)
+		.to(hTo, dur).easing(nEase).repeat(repeat).yoyo(yoyo).delay(delay)
+		.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH();});
+		let twLast = tw;
+		if (path) {
+			if (CmnLib.debugLog) console.group(`🍝 [tsy_frame] path=${path}= start(${hNow.x},${hNow.y},${hNow.alpha})`);
+			for (const {groups} of path.matchAll(LayerMng.REG_TSY_PATH)) {
+				const {x, x2, y, y2, o, o2, json} = groups!;
+				let hArg2: any = {};
+				if (json) try {hArg2 = JSON.parse(json);} catch (e) {
+					console.error(`🍝 json=${json} `+ e);
+					continue;
+				}
+				else {
+					if (x ?? x2) hArg2.x = x ?? x2;
+					if (y ?? y2) hArg2.y = y ?? y2;
+					if (o ?? o2) hArg2.alpha = o ?? o2;
+				}
+
+				const hTo2 = cnvTweenArg(hArg2, hNow);
+				if (CmnLib.debugLog) console.info(`🍝 {x:${x} y:${y} o:${o}} => hTo:${JSON.stringify(hTo2)}`);
+
+				const twNew = new Tween(hNow)	//.delay(delay)
+				.to(hTo2, dur).easing(nEase).repeat(repeat).yoyo(yoyo)
+				twLast.chain(twNew);
+
+				twLast = twNew;
+			}
+			if (CmnLib.debugLog) console.groupEnd();
+		}
+		twLast.onComplete(onComplete);
+
+		if (chain) {
+			const twFrom = this.hTwInf[chain ?? ''];
+			if (! twFrom || ! twFrom.tw) throw `${chain}は存在しない・または終了したトゥイーンです`;
 			delete twFrom.onEnd;
 			twFrom.tw.chain(tw);
 		}
 		else tw.start();
 
-		this.hTwInf[tw_nm] = {tw: tw, resume: false};
+		this.hTwInf[tw_nm] = {tw: twLast, resume: false};
 
 		return false;
 	}

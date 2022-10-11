@@ -63,6 +63,7 @@ export declare type HArg = {
     url?: string;
     format?: string;
     chain?: string;
+    path?: string;
     fn?: string;
     face?: string;
     label?: string;

@@ -554,11 +554,11 @@ void main(void) {
 	#trans(hArg: HArg) {
 		this.#finish_trans();
 
-		const ease = CmnTween.ease(hArg.ease);
+		const {layer} = hArg;
 		this.#aBackTransAfter = [];
 		const hTarget: {[ley_nm: string]: boolean} = {};
 		const aFore: Layer[] = [];
-		for (const lay_nm of this.#getLayers(hArg.layer)) {
+		for (const lay_nm of this.#getLayers(layer)) {
 			hTarget[lay_nm] = true;
 			aFore.push(this.#hPages[lay_nm].fore);
 		}
@@ -640,13 +640,14 @@ void main(void) {
 		if (time === 0 || this.#evtMng.isSkippingByKeyDown()) {comp(); return false;}
 
 		// クロスフェード
-		const is_glsl = 'glsl' in hArg;
-		if ((! is_glsl) && ! ('rule' in hArg)) {
+		const {ease, glsl, rule} = hArg;
+		const nEase = CmnTween.ease(ease);
+		if (! glsl && ! rule) {
 			this.#spTransFore.filters = [];
 			this.#tiTrans.tw = new Tween(this.#spTransFore)
 				.to({alpha: 0}, time)
 				.delay(argChk_Num(hArg, 'delay', 0))
-				.easing(ease)
+				.easing(nEase)
 				.onComplete(comp)
 				.start();
 			this.appPixi.ticker.add(fncRender);
@@ -654,25 +655,25 @@ void main(void) {
 		}
 
 		// ルール画像、またはGLSL
-		const flt = is_glsl
-			? new Filter(undefined, hArg.glsl, this.#ufRuleTrans)
+		const flt = glsl
+			? new Filter(undefined, glsl, this.#ufRuleTrans)
 			: this.#fltRule;
 		flt.uniforms.vague = argChk_Num(hArg, 'vague', 0.04);
 		flt.uniforms.tick = 0;
 		this.#tiTrans.tw = new Tween(flt.uniforms)
 			.to({tick: 1}, time)
 			.delay(argChk_Num(hArg, 'delay', 0))
-			.easing(ease)
+			.easing(nEase)
 			.onComplete(comp);
 		this.#spTransFore.filters = [flt];
-		if (is_glsl) {
+		if (glsl) {
 			this.#tiTrans.tw!.start();
 			this.appPixi.ticker.add(fncRender);
 			return false;
 		}
 
-		if (! hArg.rule) throw 'ruleが指定されていません';
-		GrpLayer.csv2Sprites(hArg.rule, undefined, sp=> {
+		if (! rule) throw 'ruleが指定されていません';
+		GrpLayer.csv2Sprites(rule, undefined, sp=> {
 			flt.uniforms.rule = sp.texture;
 			sp.destroy();
 			this.#tiTrans.tw?.start();
@@ -729,8 +730,9 @@ void main(void) {
 		if (this.val.getVal('tmp:sn.skip.enabled')) return false;
 		if (this.#evtMng.isSkippingByKeyDown()) return false;
 
+		const {layer, ease} = hArg;
 		const aDo: DisplayObject[] = [];
-		for (const lay_nm of this.#getLayers(hArg.layer)) {
+		for (const lay_nm of this.#getLayers(layer)) {
 			aDo.push(this.#hPages[lay_nm].fore.spLay);
 		}
 		this.#rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
@@ -758,7 +760,7 @@ void main(void) {
 		const tw = new Tween(this.#spTransFore)
 		.to({x: 0, y: 0}, time)
 		.delay(argChk_Num(hArg, 'delay', 0))
-		.easing(CmnTween.ease(hArg.ease))
+		.easing(CmnTween.ease(ease))
 		.onUpdate(()=> {fncH(); fncV();})
 		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
@@ -784,28 +786,21 @@ void main(void) {
 	// トゥイーン開始
 	#hTwInf	: {[tw_nm: string]: ITwInf}	= {};
 	#tsy(hArg: HArg) {
-		if (! hArg.layer) throw 'layerは必須です';
+		const {layer, render, path, name, ease, chain} = hArg;
+		if (! layer) throw 'layerは必須です';
 
-		const layer = this.#argChk_layer(hArg);
-		let foreLay: Layer = this.#hPages[layer].fore;
+		const lay = this.#argChk_layer(hArg);
+		let hNow = this.#hPages[lay].fore;
 
 		let finishBlendLayer = ()=> {};
 		const isSkip = this.#evtMng.isSkippingByKeyDown();
-		if (! isSkip && 'render' in hArg) {
-			foreLay.renderStart();
-			finishBlendLayer = ()=> foreLay.renderEnd();
+		if (! isSkip && render) {
+			hNow.renderStart();
+			finishBlendLayer = ()=> hNow.renderEnd();
 		}
-		const hTo = cnvTweenArg(hArg, foreLay);
-		const repeat = argChk_Num(hArg, 'repeat', 1);
-		const tw_nm = hArg.name ?? hArg.layer;
-		const tw = new Tween(foreLay)
-		.to(hTo, argChk_Num(hArg, 'time', NaN) * (
-			Boolean(this.val.getVal('tmp:sn.skip.enabled') || isSkip) ?0 :1))
-		.delay(argChk_Num(hArg, 'delay', 0))
-		.easing(CmnTween.ease(hArg.ease))
-		.repeat(repeat === 0 ?Infinity :(repeat -1))// 一度リピート→計二回なので
-		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
-		.onComplete(()=> {
+
+		const tw_nm = name ?? layer;
+		const onComplete = ()=> {
 			// この辺は FrameMng.ts tsy_frame()と同様なので、変更時は相互に合わせること
 			const ti = this.#hTwInf[tw_nm];
 			if (! ti) return;
@@ -815,11 +810,52 @@ void main(void) {
 			ti.tw?.stop();
 			if (ti.resume) this.main.resume();
 			ti.onEnd?.();
-		});
+		};
+		const hTo = cnvTweenArg(hArg, hNow);
+		const dur = argChk_Num(hArg, 'time', NaN) * (
+			Boolean(this.val.getVal('tmp:sn.skip.enabled') || isSkip) ?0 :1);
+		const nEase = CmnTween.ease(ease);
+		const rep = argChk_Num(hArg, 'repeat', 1);
+		const repeat = rep === 0 ?Infinity :(rep -1);// 一度リピート→計二回なので
+		const yoyo = argChk_Boolean(hArg, 'yoyo', false);
+		const delay = argChk_Num(hArg, 'delay', 0);
 
-		if ('chain' in hArg) {
-			const twFrom = this.#hTwInf[hArg.chain ?? ''];
-			if (! twFrom?.tw) throw `${hArg.chain}は存在しない・または終了したトゥイーンです`;
+		const tw = new Tween(hNow)
+		.to(hTo, dur).easing(nEase).repeat(repeat).yoyo(yoyo).delay(delay);
+		let twLast = tw;
+		if (path) {
+			if (CmnLib.debugLog) console.group(`🍝 [tsy] path=${path}= start(${hNow.x},${hNow.y},${hNow.alpha})`);
+			for (const {groups} of path.matchAll(LayerMng.REG_TSY_PATH)) {
+				const {x, x2, y, y2, o, o2, json} = groups!;
+				let hArg2: any = {};
+				if (json) try {hArg2 = JSON.parse(json);} catch (e) {
+					console.error(`🍝 json=${json} `+ e);
+					continue;
+				}
+				else {
+					if (x ?? x2) hArg2.x = x ?? x2;
+					if (y ?? y2) hArg2.y = y ?? y2;
+					if (o ?? o2) hArg2.alpha = o ?? o2;
+				}
+
+				const hTo2 = cnvTweenArg(hArg2, hNow);
+				if (CmnLib.debugLog) console.info(`🍝 ${
+					json ?? `{x:${x} y:${y} o:${o}}`
+				} => hTo:${JSON.stringify(hTo2)}`);
+
+				const twNew = new Tween(hNow)	//.delay(delay);
+				.to(hTo2, dur).easing(nEase).repeat(repeat).yoyo(yoyo)
+				twLast.chain(twNew);
+
+				twLast = twNew;
+			}
+			if (CmnLib.debugLog) console.groupEnd();
+		}
+		twLast.onComplete(onComplete);
+
+		if (chain) {	// 指定レイヤのアニメ終了に、このトゥイーンを続ける
+			const twFrom = this.#hTwInf[chain ?? ''];
+			if (! twFrom?.tw) throw `${chain}は存在しない・または終了したトゥイーンです`;
 			delete twFrom.onEnd;
 			twFrom.tw.chain(tw);
 		}
@@ -827,11 +863,11 @@ void main(void) {
 
 		const arrive = argChk_Boolean(hArg, 'arrive', false);
 		const backlay = argChk_Boolean(hArg, 'backlay', false);
-		this.#hTwInf[tw_nm] = {tw, resume: false, onEnd: ()=> {
-			if (arrive) Object.assign(foreLay, hTo);
+		this.#hTwInf[tw_nm] = {tw: twLast, resume: false, onEnd: ()=> {
+			if (arrive) Object.assign(hNow, hTo);
 			if (backlay) {
-				const backCnt: any = this.#hPages[layer].back.spLay;
-				for (const nm of Object.keys(hMemberCnt)) backCnt[nm] = (<any>foreLay)[nm];
+				const backCnt: any = this.#hPages[lay].back.spLay;
+				for (const nm of Object.keys(hMemberCnt)) backCnt[nm] = (<any>hNow)[nm];
 			}
 		}}
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
@@ -839,10 +875,29 @@ void main(void) {
 
 		return false;
 	}
+	// 11 match 301 step (0.1ms) PCRE2 https://regex101.com/r/reinpq/1
+		// List ${x}${x2}/${y}${y2}/${o}${o2}=${json}\n
+/*
+\(\s*
+(?:	(?<x>[-=\d\.]+)	|	(['"])	(?<x2>.*?)	\2	)?
+(?:
+	\s*,\s*
+	(?:	(?<y>[-=\d\.]+)	|	(['"])	(?<y2>.*?)	\5	)?
+	(?:
+		\s*,\s*
+		(?:	(?<o>[-=\d\.]+)	|	(['"])	(?<o2>.*?)	\8	)
+
+	)?
+)?
+|
+(?<json>\{[^{}]*})
+*/
+	static	REG_TSY_PATH	= /\(\s*(?:(?<x>[-=\d\.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d\.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d\.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
 
 	// トゥイーン終了待ち
 	#wait_tsy(hArg: HArg) {
-		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
+		const {layer='', id, name} = hArg;
+		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const ti = this.#hTwInf[tw_nm];
 		if (! ti?.tw) return false;
@@ -856,7 +911,8 @@ void main(void) {
 
 	// トゥイーン中断
 	#stop_tsy(hArg: HArg) {
-		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
+		const {layer='', id, name} = hArg;
+		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 
 		this.#hTwInf[tw_nm]?.tw?.end();	// stop()とend()は別
@@ -866,7 +922,8 @@ void main(void) {
 
 	// 一時停止
 	#pause_tsy(hArg: HArg) {
-		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
+		const {layer='', id, name} = hArg;
+		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 
 		this.#hTwInf[tw_nm]?.tw?.pause();
@@ -876,7 +933,8 @@ void main(void) {
 
 	// 一時停止再開
 	#resume_tsy(hArg: HArg) {
-		const tw_nm = ('id' in hArg) ?`frm\n${hArg.id}` :(hArg.name ?? hArg.layer);
+		const {layer='', id, name} = hArg;
+		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 
 		this.#hTwInf[tw_nm]?.tw?.resume();
