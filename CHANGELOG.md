@@ -1,3 +1,10 @@
+# [1.38.0](https://github.com/famibee/SKYNovel/compare/v1.37.1...v1.38.0) (2022-10-11)
+
+
+### Features
+
+* [tsy][tsy_frame]で吉里吉里の拡張的な属性path追加 ([061a61a](https://github.com/famibee/SKYNovel/commit/061a61a706ac976c738da72a0b46199ee0144c96))
+
 - feat: [tsy][tsy_frame]で吉里吉里の拡張的な属性path追加
 	- 半角丸括弧に囲んで属性 x、y、alpha の三つを指定する（吉里吉里仕様）
 		- (1, 2, 0.3)
