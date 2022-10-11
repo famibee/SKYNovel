@@ -822,7 +822,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </td></tr>
 <tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
 <tr><td>chain</td><td></td><td>なにもしない</td><td>レイヤ名</td><td>指定したレイヤのトゥイーンアニメが終了してから、このトゥイーンを続けて開始する</td></tr>
-<tr class="y"><td>alpha</td><td rowspan="8">いずれかを指定</td><td rowspan="8">何もしない</td><td rowspan="8"></td><td rowspan="8">同名属性の変化目標値</td></tr>
+<tr class="y"><td>alpha</td><td rowspan="11">いずれかを指定</td><td rowspan="11">何もしない</td><td rowspan="10"></td><td rowspan="10">同名属性の変化目標値</td></tr>
 <tr class="y"><td>height</td></tr>
 <tr class="y"><td>rotation</td></tr>
 <tr class="y"><td>scale_x</td></tr>
@@ -830,8 +830,32 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>pivot_x</td></tr>
 <tr class="y"><td>pivot_y</td></tr>
 <tr class="y"><td>width</td></tr>
-<tr class="y"><td>x</td><td>leftの変化目標値</td></tr>
-<tr class="y"><td>y</td><td>topの変化目標値</td></tr>
+<tr class="y"><td>x</td></tr>
+<tr class="y"><td>y</td></tr>
+<tr class="y"><td>path</td><td>※コメントで解説</td><td>
+	指定すると複数のポイントを連続してトゥイーンアニメする。<br/>
+	ポイントは半角丸括弧()【吉里吉里拡張】や{}【JSON形式】が連続する文字列。<br/>
+	<br/>
+	・半角丸括弧に囲んで属性 x、y、alpha の三つを指定する（吉里吉里仕様）<br/>
+	　例）(1, 2, 0.3)<br/>
+	・以降はSKYNovel拡張<br/>
+	　・変更しない項目を省略できる<br/>
+	　　例）(,10, 0.11) (12,,0.13 ) (14,15,) ()<br/>
+	　・[tsy]属性のような「初期位置からの相対値」形式<br/>
+	　　先頭に=を追加する。<br/>
+	　　例）(=-22)<br/>
+	　・[tsy]属性のような「範囲内でランダムな値」形式<br/>
+	　　'か"で囲み、カンマ , で【最小値】【最大値】を区切る。<br/>
+	　　例）('=23,24','0.3, 1')<br/>
+	　・[tsy]属性をJSONで指定できる形式<br/>
+	　　文字列は " で囲む。<br/>
+	　　例）{"scale_x":100, "scale_y":"=101"}<br/>
+	　　指定できる属性は[tsy]と同様、rotation・scale_x・pivot_x・width など<br/>
+	・動作が上手くいかないときは path 属性の解析に失敗しているかも？<br/>
+	　設定画面の debugLog スイッチを入れると、括弧ごとの逐次処理をコンソール出力する。<br/>
+	　JSON解析失敗はスイッチにかかわらず出力する。<br/>
+
+</td></tr>
 <tr><td>render</td><td></td><td>false</td><td>Boolean</td><td>
 	trueを指定すると[trans]のように絵を合成してから不透明度を適用するように（半透明時に差分境界が見えなくなる）
 </td></tr>
@@ -1392,7 +1416,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
 <tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
 <tr><td>chain</td><td></td><td>なにもしない</td><td>レイヤ名</td><td>指定したレイヤのトゥイーンアニメが終了してから、このトゥイーンを続けて開始する</td></tr>
-<tr class="y"><td>alpha</td><td rowspan="8">いずれかを指定</td><td rowspan="8">何もしない</td><td rowspan="8"></td><td rowspan="6">同名属性の変化目標値</td></tr>
+<tr class="y"><td>alpha</td><td rowspan="9">いずれかを指定</td><td rowspan="9">何もしない</td><td rowspan="9"></td><td rowspan="6">同名属性の変化目標値</td></tr>
 <tr class="y"><td>height</td></tr>
 <tr class="y"><td>rotation</td></tr>
 <tr class="y"><td>scale_x</td></tr>
@@ -1400,6 +1424,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>width</td></tr>
 <tr class="y"><td>x</td><td>leftの変化目標値</td></tr>
 <tr class="y"><td>y</td><td>topの変化目標値</td></tr>
+<tr class="y"><td>path</td><td>※<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td><td>
 </table>
 
 </p>
