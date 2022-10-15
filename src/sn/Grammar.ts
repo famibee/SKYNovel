@@ -5,8 +5,181 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Script, HArg} from './CmnInterface';
-import {RubySpliter} from './RubySpliter';
+export type HArg = {
+	':タグ名'?	: string;
+
+	layer?	: string;	// レイヤ系
+	class?	: string;
+	index?	: number;
+	dive?	: string;
+	page?	: string;
+	alpha?	: number;
+	pivot_x?: number;
+	pivot_y?: number;
+	rotation?	: number;
+	scale_x?: number;
+	scale_y?: number;
+	visible?: boolean;
+	blendmode?	: string;
+
+	left?	: number;
+	top?	: number;
+	width?	: number;
+	height?	: number;
+	pl?		: number;
+	pr?		: number;
+	pt?		: number;
+	pb?		: number;
+
+	rotate?	: number;
+	in_style?	: string;
+	out_style?	: string;
+	ffs?	: string;
+	noffs?	: string;
+	kinsoku_sol?	: string;
+	kinsoku_eol?	: string;
+	kinsoku_dns?	: string;
+
+	time?	: number;
+	rule?	: string;
+	glsl?	: string;
+	render?	: boolean;
+
+	pos?	: string;
+	text?	: string;
+	wait?	: number;
+	record?	: boolean;
+	pic?	: string;
+	enabled?: boolean;
+	hint?		: string;
+	hint_style?	: string;
+	hint_opt?	: string;
+	clickse?	: string;
+	enterse?	: string;
+	leavese?	: string;
+	clicksebuf?	: string;
+	entersebuf?	: string;
+	leavesebuf?	: string;
+	onenter?	: string;
+	onleave?	: string;
+
+	t?	: string;
+	r?	: string;
+	exp?	: string;
+	char?	: string;
+	sesame?	: string;
+	cast?	: string;
+	val?	: string;
+	flags?	: string;
+	reg?	: string;
+	len?	: string;
+	url?	: string;
+	format?	: string;
+	chain?	: string;
+	path?	: string;
+
+	fn?		: string;
+	face?	: string;
+	label?	: string;
+	call?	: boolean;
+	global?	: boolean;
+	name?	: string;
+	clear_local_event?	: string;
+
+	style?			: string;
+	style_hover?	: string;
+	style_clicked?	: string;
+	r_style?		: string;
+	r_style_hover?	: string;
+	r_style_clicked?: string;
+	r_align?	: string;
+
+	b_width?	: string;
+	b_height?	: string;
+	b_color?	: string;
+	b_alpha?	: number;
+	b_alpha_isfixed?	: boolean;
+	b_pic?		: string;
+	back_clear?	: string;
+
+	max_col?	: string;
+	max_row?	: string;
+	bura_col?	: string;
+	chk_overrow?	: string;
+
+	dx?	: number;
+	dy?	: number;
+
+	key?	: string;
+	type?	: string;	// 3Dレイヤで使用
+	camera_target?	: string;
+
+	breakout?	: Function;
+	arg?	: HArg;
+	fnc?	: (e: Event)=> void;
+
+	filter?	: string;
+
+	ease?	: string;
+	canskip?	:boolean;
+
+	centering?	:boolean;
+	x?		: number | string;
+	y?		: number | string;
+
+	id?			: string;
+	src?		: string;
+	var_name?	: string;
+	set_fnc?	: string;
+	break_fnc?	: string;
+
+	swipe?	: string;
+	f2tap?	: string;
+	f2move?	: string;
+	f3tap?	: string;
+
+	from?	: number;
+	to?		: number | string;
+	place?	: number;
+	add?	: string;
+	del?	: string;
+
+	buf?	: string;	// 音系
+	buf2?	: string;
+	loop?	: boolean;
+	volume?	: number;
+	ret_ms?	: number;
+	end_ms?	: number;
+	join?	: boolean;
+	do_rec?	: boolean;
+	pan?	: number;
+
+	clear?	: boolean;
+
+	// デザインモード
+	':id_dc'?	: string;
+	':id_tag'?	: string;
+	':path'?	: string;
+	':ln'?		: number;
+	':col_s'?	: number;
+	':col_e'?	: number;
+	':idx_tkn'?	: number;
+	':token'?	: string;
+	design_unit?: boolean;	// デザインモードでこのマクロへの引数変更とするか（内部をサーチさせない）
+
+//	stepin?		: boolean;		// 拡張機能のみ使用：false指定でステップインしない
+//	nowarn_unused?	: boolean;	// 拡張機能のみ使用：未使用警告を出さない
+}
+export interface ITag { (hArg: HArg): boolean; }
+export interface IHTag { [name: string]: ITag; }
+
+
+export type Script = {
+	aToken	: string[];		// トークン群
+	len		: number;		// トークン数
+	aLNum	: number[];		// トークンの行番号
+};
+
 
 export const	REG_TAG	= /(?<name>[^\s;\]]+)/;	// test用にexport
 export function	tagToken2Name_Args(token: string): [name: string, args: string] {
@@ -42,22 +215,24 @@ export function	splitAmpersand(token: string): {
 	};
 }
 
+
 export class Grammar {
 	constructor() {this.setEscape('');}
 
-	REG_TOKEN	: RegExp;
+	#REG_TOKEN	: RegExp;
 	setEscape(ce: string) {
 		if (this.#hC2M && (ce in this.#hC2M)) throw '[エスケープ文字] char【'+ ce +'】が登録済みの括弧マクロまたは一文字マクロです';
 
-		// 1076 match 14078 step (2.3ms) PCRE2 https://regex101.com/r/3bC5yK/1
+		// 1078 match 16468 step (3.0ms) PCRE2 https://regex101.com/r/gVCcus/1
 		/*
 \\\S |
  \n+
 | \t+
 |	\[let_ml \s+ [^\]]+ ]
 	.+? (?=\[endlet_ml [\]\s])
-| \[ (?: [^"'#;\]]+
-	| (["'\#]).*?\1
+| \[ (?:
+	(?=([^"'#;\]]+))\1
+	| (["'\#]).*?\2
 	| ;[^\n]* ) *? ]
 | ;[^\n]*
 | &[^&\n]+&
@@ -65,15 +240,22 @@ export class Grammar {
 | ^\*[^\s\[&;\\]+
 | [^\n\t\[;\\]+
 		*/
-		this.REG_TOKEN = new RegExp(
+
+/*
+	[^"'#;\]]++
+	| (["'\#]).*?\1
+			++ にしたいところだが、jsは未サポートらしい（2022/10/16）
+*/
+		this.#REG_TOKEN = new RegExp(
 		(ce	?`\\${ce}\\S|` :'')+	// エスケープシーケンス
 		'\\n+'+				// 改行
 		'|\\t+'+			// タブ
 		`|\\[let_ml\\s+[^\\]]+\\]`+
 			`.+?`+		// [let_ml]〜[endlet_ml]間のテキスト
 		`(?=\\[endlet_ml[\\]\\s])`+
-		`|\\[(?:[^"'#;\\]]+|`+	// タグ
-			`(["'#]).*?\\1` +
+		`|\\[(?:`+
+			`(?=([^"'#;\\]]+))\\1|`+	// タグ
+			`(["'#]).*?\\2` +
 				// . は (?:\\${ ce??'\\' }.|[^\\1]) でなくてよさげ
 		`|;[^\\n]*)*?]`+
 		'|;[^\\n]*'+		// コメント
@@ -82,19 +264,18 @@ export class Grammar {
 		'|^\\*[^\\s\\[&;\\\\]+'+	// ラベル
 		`|[^\\n\\t\\[;${ce ?`\\${ce}` :''}]+`,		// 本文
 		'gs');
-		RubySpliter.setEscape(ce);
 		this.#REG_CANTC2M = new RegExp(`[\\w\\s;[\\]*=&｜《》${ce ?`\\${ce}` :''}]`);
-		this.REG_TOKEN_NOTXT = new RegExp(`[\\n\\t;\\[*&${ce ?`\\${ce}` :''}]`);
+		this.#REG_TOKEN_NOTXT = new RegExp(`[\\n\\t;\\[*&${ce ?`\\${ce}` :''}]`);
 	}
-	matchToken(txt: string) {return txt.match(this.REG_TOKEN) ?? []}
 
 
 	// 括弧マクロの定義
-	bracket2macro(hArg: HArg, script: Script, idxToken: number) {
+	bracket2macro(hArg: HArg, hTag: IHTag, scr: Script, start_idx: number) {
 		const {name, text} = hArg;
 		if (! name) throw '[bracket2macro] nameは必須です';
 		if (! text) throw '[bracket2macro] textは必須です';
 		if (text.length !== 2) throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
+		if (! (name in hTag)) throw `[bracket2macro] 未定義のタグ又はマクロ[${name}]です`;
 
 		this.#hC2M ??= {};
 		const op = text.charAt(0);
@@ -109,10 +290,10 @@ export class Grammar {
 
 		this.addC2M(`\\${op}[^\\${cl}]*\\${cl}`, `\\${op}\\${cl}`);
 
-		this.replaceScr_C2M_And_let_ml(script, idxToken);
+		this.#replaceScr_C2M(scr, start_idx);
 	}
 	// 一文字マクロの定義
-	char2macro(hArg: HArg, hTag: HArg, script: Script, idxToken: number) {
+	char2macro(hArg: HArg, hTag: IHTag, scr: Script, start_idx: number) {
 		const {char, name} = hArg;
 		if (! char) throw '[char2macro] charは必須です';
 		this.#hC2M ??= {};
@@ -126,9 +307,9 @@ export class Grammar {
 
 		this.addC2M(`\\${char}`, `\\${char}`);
 
-		this.replaceScr_C2M_And_let_ml(script, idxToken);
+		this.#replaceScr_C2M(scr, start_idx);
 	}
-	#REG_CANTC2M		: RegExp;
+	#REG_CANTC2M	: RegExp;
 	#REGC2M			= new RegExp('');
 	#regStrC2M		= '';
 	#regStrC2M4not	= '';
@@ -139,14 +320,41 @@ export class Grammar {
 			`(${this.#regStrC2M}[^${this.#regStrC2M4not}]+)`, 'g');
 	}
 
+
+	resolveScript(txt: string): Script {
+		const a = txt
+		.replaceAll(/(\r\n|\r)/g, '\n')
+		.match(this.#REG_TOKEN)
+		?.flatMap(tkn=> {
+			if (! this.testTagLetml(tkn)) return tkn;
+
+			const r = /^([^\]]+?])(.*)$/s.exec(tkn);
+			if (! r) return tkn;
+			const [, a, b] = r;
+			return [a, b];
+		}) ?? [];
+
+		const scr = {aToken :a, len :a.length, aLNum :[]};
+		this.#replaceScr_C2M(scr);
+		return scr;
+	}
+	testTagLetml(tkn: string): boolean {return /^\[let_ml\s/.test(tkn);};
+	testTagEndLetml(tkn: string): boolean {return /^\[endlet_ml\s*]/.test(tkn);};
+
+	analyzToken(token: string): RegExpExecArray | null {	// 4LspWs
+		this.#REG_TOKEN.lastIndex = 0;	// /gなので必要
+		return this.#REG_TOKEN.exec(token);
+	}
+
+
 	#hC2M	: {[char: string]: string};
-	REG_TOKEN_NOTXT	: RegExp;	// テスト用にpublic
-	replaceScr_C2M_And_let_ml = (scr: Script, start_idx = 0)=> {
+	#REG_TOKEN_NOTXT	: RegExp;
+	#replaceScr_C2M(scr: Script, start_idx = 0): void {
 		if (! this.#hC2M) return;
 
 		for (let i=scr.len- 1; i >= start_idx; --i) {
 			const token = scr.aToken[i];
-			if (this.REG_TOKEN_NOTXT.test(token.charAt(0))) continue;
+			if (this.testNoTxt(token.charAt(0))) continue;
 
 			const lnum = scr.aLNum[i];
 			const a = token.match(this.#REGC2M);
@@ -169,5 +377,6 @@ export class Grammar {
 		}
 		scr.len = scr.aToken.length;
 	}
+	testNoTxt(ch: string): boolean {return this.#REG_TOKEN_NOTXT.test(ch)};	//4tst
 
 }

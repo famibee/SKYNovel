@@ -1,5 +1,5 @@
 import { IEvtMng } from './CmnLib';
-import { HArg } from './CmnInterface';
+import { HArg } from './Grammar';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';

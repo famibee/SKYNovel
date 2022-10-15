@@ -6,7 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {uint, int, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
-import {HArg, IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook, IValMp, IValSave} from './CmnInterface';
+import {HArg, IHTag} from './Grammar';
+import {IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook, IValMp, IValSave} from './CmnInterface';
 import {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';

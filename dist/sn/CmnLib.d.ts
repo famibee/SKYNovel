@@ -1,4 +1,5 @@
-import { HArg, IHEvt2Fnc } from './CmnInterface';
+import { HArg } from './Grammar';
+import { IHEvt2Fnc } from './CmnInterface';
 export declare function int(o: any): number;
 export declare function uint(o: any): number;
 export declare function getDateStr(spl_dd?: string, spl_dt?: string, spl_tt?: string, spl_ms?: string): string;

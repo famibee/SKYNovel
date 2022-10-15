@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
-import {HArg} from './CmnInterface';
+import {HArg} from './Grammar';
 import {Config} from './Config';
 import {CmnTween} from './CmnTween';
 import {GrpLayer} from './GrpLayer';

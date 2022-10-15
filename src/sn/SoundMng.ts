@@ -7,7 +7,8 @@
 
 import {IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {CmnTween} from './CmnTween';
-import {IHTag, IVariable, IMain, HArg, INoticeChgVolume} from './CmnInterface';
+import {IHTag, HArg} from './Grammar';
+import {IVariable, IMain, INoticeChgVolume} from './CmnInterface';
 import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {SysBase} from './SysBase';
 

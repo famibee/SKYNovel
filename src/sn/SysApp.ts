@@ -7,7 +7,8 @@
 
 import {SysNode} from './SysNode';
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num, uint} from './CmnLib';
-import {ITag, IHTag, IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg} from './CmnInterface';
+import {IHTag, ITag} from './Grammar';
+import {IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
 import {DebugMng} from './DebugMng';
 

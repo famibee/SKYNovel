@@ -3,11 +3,21 @@ export interface PRM {
     def?: string;
 }
 export interface HPRM {
-    [name: string]: PRM;
+    [key: string]: PRM;
+}
+export interface PRM_RANGE {
+    k_ln: number;
+    k_ch: number;
+    v_ln: number;
+    v_ch: number;
+    v_len: number;
 }
 export declare class AnalyzeTagArg {
     #private;
-    go(args: string): void;
+    parse(args: string): void;
+    parseinDetail(token: string, lenNm: number, ln: number, ch: number): {
+        [key: string]: PRM_RANGE;
+    };
     get hPrm(): HPRM;
     get isKomeParam(): boolean;
 }

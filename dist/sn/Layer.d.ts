@@ -1,5 +1,5 @@
 import { BLEND_MODES, DisplayObject, Container, Sprite, AbstractRenderer } from 'pixi.js';
-import { HArg } from './CmnInterface';
+import { HArg } from './Grammar';
 import { IMakeDesignCast } from './LayerMng';
 export declare class Layer {
     #private;

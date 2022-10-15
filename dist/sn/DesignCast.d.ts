@@ -1,4 +1,5 @@
-import { HArg, IPropParser } from './CmnInterface';
+import { HArg } from './Grammar';
+import { IPropParser } from './CmnInterface';
 import { SysBase } from './SysBase';
 import { ScriptIterator } from './ScriptIterator';
 import { HPage } from './LayerMng';

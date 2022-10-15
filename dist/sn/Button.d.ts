@@ -1,6 +1,6 @@
 import { Container, Text, Rectangle, Sprite, IDestroyOptions } from 'pixi.js';
 import { IEvtMng } from './CmnLib';
-import { HArg } from './CmnInterface';
+import { HArg } from './Grammar';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 export declare class Button extends Container {

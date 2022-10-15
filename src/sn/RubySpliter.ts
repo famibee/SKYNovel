@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IPutCh} from './CmnInterface';
+import {HArg} from './Grammar';
+import {IPutCh} from './CmnInterface';
 
 export interface IAutoPage { (idx: number, str: string): void; }
 

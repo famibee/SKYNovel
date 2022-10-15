@@ -7,7 +7,8 @@
 
 import {SysBase} from "./SysBase";
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
-import {IConfig, IHTag, IVariable, IMain, ITag, IFn2Path, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
+import {IHTag, ITag} from './Grammar';
+import {IConfig, IVariable, IMain, IFn2Path, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
 
 import store from 'store';

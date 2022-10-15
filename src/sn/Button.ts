@@ -7,7 +7,7 @@
 
 import {Container, Text, Rectangle, Texture, TextStyle, Sprite, Graphics, IDestroyOptions} from 'pixi.js';
 import {uint, IEvtMng, argChk_Boolean, argChk_Num, CmnLib, mesErrJSON} from './CmnLib';
-import {HArg} from './CmnInterface';
+import {HArg} from './Grammar';
 import {GrpLayer} from './GrpLayer';
 import {Layer} from './Layer';
 import {Config} from './Config';

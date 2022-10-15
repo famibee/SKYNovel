@@ -8,7 +8,8 @@
 import {Layer} from './Layer';
 
 import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn} from './CmnLib';
-import {HArg, IMain, IVariable, SYS_DEC_RET} from './CmnInterface';
+import {HArg} from './Grammar';
+import {IMain, IVariable, SYS_DEC_RET} from './CmnInterface';
 import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {SysBase} from './SysBase';
 import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, Rectangle, RenderTexture, Application} from 'pixi.js';

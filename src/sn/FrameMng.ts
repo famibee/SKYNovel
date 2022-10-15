@@ -7,7 +7,8 @@
 
 import {CmnLib, IEvtMng, cnvTweenArg, argChk_Boolean, argChk_Num} from './CmnLib';
 import {ITwInf, CmnTween} from './CmnTween';
-import {IHTag, IVariable, IMain, HArg, IGetFrm} from './CmnInterface';
+import {IHTag, HArg} from './Grammar';
+import {IVariable, IMain, IGetFrm} from './CmnInterface';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
 import {Config, SEARCH_PATH_ARG_EXT} from './Config';

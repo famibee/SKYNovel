@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IPropParser} from './CmnInterface';
+import {HArg} from './Grammar';
+import {IPropParser} from './CmnInterface';
 import {uint, int, CmnLib, argChk_Boolean, argChk_Num, getFn, getExt, addStyle} from './CmnLib';
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
@@ -430,7 +431,7 @@ export class DesignCast {
 		const [_tag_name, args] = tagToken2Name_Args(token);
 		if (dc.child) dc.child.hArg[':token'] = dc.hArg[':token'];
 
-		DesignCast.#alzTagArg.go(args);
+		DesignCast.#alzTagArg.parse(args);
 		const p = DesignCast.#alzTagArg.hPrm;
 
 		// pivot (this)

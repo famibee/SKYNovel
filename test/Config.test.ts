@@ -24,7 +24,7 @@ beforeEach(async ()=> {
 	await cfg.load({search: ['mat']});
 });
 
-it('testsetSearchPath_0',()=> {
+it('testsetSearchPath_0', ()=> {
 	expect(cfg.searchPath('http://bbb')).toBe('http://bbb');
 
 	expect(()=> cfg.searchPath('ccc'))
@@ -59,7 +59,7 @@ it('testsetSearchPath_0',()=> {
 	expect(cfg.searchPath('update0', SEARCH_PATH_ARG_EXT.SCRIPT)).toBe('test/:dummy dir:/mat/update0.sn');
 	expect(cfg.searchPath('update', SEARCH_PATH_ARG_EXT.SCRIPT)).toBe('test/:dummy dir:/mat/update.sn');
 });
-it('testsetSearchPath_1_userFnTail',()=> {
+it('testsetSearchPath_1_userFnTail', ()=> {
 	cfg.userFnTail = 'ex';
 
 	expect(cfg.searchPath('http://bbb')).toBe('http://bbb');
@@ -95,7 +95,7 @@ it('testsetSearchPath_1_userFnTail',()=> {
 	expect(cfg.searchPath('update', SEARCH_PATH_ARG_EXT.SCRIPT)).toBe('test/:dummy dir:/mat/update.sn');
 });
 
-it('test_searchPath_speedtest_0',()=> {
+it('test_searchPath_speedtest_0', ()=> {
 //	const old_time = (new Date).getTime();
 	//for (let i=0; i<1000; ++i) {
 		expect(cfg.searchPath('http://bbb')).toBe('http://bbb');
@@ -106,7 +106,7 @@ it('test_searchPath_speedtest_0',()=> {
 //	const time = (new Date).getTime() - old_time;	// 実行後に測定
 	//assert.fail('経過時間:' + time);		// 差
 });
-it('test_searchPath_speedtest_1',()=> {
+it('test_searchPath_speedtest_1', ()=> {
 //	const old_time = (new Date).getTime();
 	//for (let i=0; i<1000; ++i) {
 		expect(cfg.searchPath('update.png')).toBe('test/:dummy dir:/mat/update.png');
@@ -121,7 +121,7 @@ it('test_searchPath_speedtest_1',()=> {
 //	const time = (new Date()).getTime() - old_time;	// 実行後に測定
 //	assert.fail('経過時間:' + time);		// 差
 });
-it('test_searchPath_speedtest_2',()=> {
+it('test_searchPath_speedtest_2', ()=> {
 //	const old_time = (new Date()).getTime();
 	//for (let i=0; i<1000; ++i) {
 	expect(()=> cfg.searchPath('update.ggg', SEARCH_PATH_ARG_EXT.TST_GGG))

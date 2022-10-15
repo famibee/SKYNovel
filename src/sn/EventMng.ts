@@ -6,7 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, IEvtMng, argChk_Boolean, argChk_Num, addStyle, mesErrJSON} from './CmnLib';
-import {HArg, IHTag, IVariable, IMain, IEvt2Fnc, IHEvt2Fnc} from './CmnInterface';
+import {IHTag, HArg} from './Grammar';
+import {IVariable, IMain, IEvt2Fnc, IHEvt2Fnc} from './CmnInterface';
 import {LayerMng} from './LayerMng';
 import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';

@@ -1,6 +1,7 @@
 import { IEvtMng } from './CmnLib';
 import { ITwInf } from './CmnTween';
-import { IHTag, IVariable, IMain, IGetFrm } from './CmnInterface';
+import { IHTag } from './Grammar';
+import { IVariable, IMain, IGetFrm } from './CmnInterface';
 import { Application } from 'pixi.js';
 import { SysBase } from './SysBase';
 import { Config } from './Config';

@@ -1,5 +1,6 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag, IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder } from './CmnInterface';
+import { IHTag } from './Grammar';
+import { IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder } from './CmnInterface';
 import { Pages } from './Pages';
 import { TxtLayer } from './TxtLayer';
 import { Config } from './Config';

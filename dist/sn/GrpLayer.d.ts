@@ -1,6 +1,7 @@
 import { Layer } from './Layer';
 import { IEvtMng } from './CmnLib';
-import { HArg, IMain, IVariable } from './CmnInterface';
+import { HArg } from './Grammar';
+import { IMain, IVariable } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
 import { Sprite, Container, Texture, BLEND_MODES, Application } from 'pixi.js';

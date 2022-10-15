@@ -7,7 +7,8 @@
 
 import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt, addStyle, argChk_Color, parseColor} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
-import {IHTag, IVariable, IMain, HIPage, HArg, IGetFrm, IPropParser, IRecorder} from './CmnInterface';
+import {IHTag, HArg} from './Grammar';
+import {IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder} from './CmnInterface';
 import {Pages} from './Pages';
 import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';

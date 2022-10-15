@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, getDateStr} from './CmnLib';
-import {HArg, ITag, IHTag} from './CmnInterface';
+import {HArg, ITag, IHTag} from './Grammar';
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 

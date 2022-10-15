@@ -20,7 +20,7 @@ beforeEach(()=> {
 	areas = new Areas;
 });
 
-it('test_record_erase_0',()=> {
+it('test_record_erase_0', ()=> {
 	expect(areas.search(-1)).toBe(false);
 	expect(areas.search(0)).toBe(false);
 	expect(areas.search(1)).toBe(false);
@@ -45,7 +45,7 @@ it('test_record_erase_0',()=> {
 	expect(areas.count).toBe(0);
 });
 
-it('test_record',()=> {
+it('test_record', ()=> {
 	expect(areas.search(8)).toBe(false);
 	expect(areas.search(9)).toBe(false);
 	expect(areas.search(10)).toBe(false);
@@ -123,7 +123,7 @@ it('test_record',()=> {
 */
 });
 
-it('test_replace',()=> {
+it('test_replace', ()=> {
 	expect(areas.search(8)).toBe(false);
 	expect(areas.search(9)).toBe(false);
 	expect(areas.search(10)).toBe(false);
@@ -166,7 +166,7 @@ it('test_replace',()=> {
 	expect(areas.count).toBe(1);
 });
 
-it('test_erase_7_8_14',()=> {
+it('test_erase_7_8_14', ()=> {
 	areas.record(9);
 	areas.record(10);
 	areas.record(11);
@@ -211,7 +211,7 @@ it('test_erase_7_8_14',()=> {
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
 });
-it('test_erase_9',()=> {
+it('test_erase_9', ()=> {
 	areas.record(9);
 	areas.record(10);
 	areas.record(11);
@@ -236,7 +236,7 @@ it('test_erase_9',()=> {
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
 });
-it('test_erase_10_9',()=> {
+it('test_erase_10_9', ()=> {
 	areas.record(9);
 	areas.record(10);
 	areas.record(11);
@@ -271,7 +271,7 @@ it('test_erase_10_9',()=> {
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
 });
-it('test_erase_12_13',()=> {
+it('test_erase_12_13', ()=> {
 	areas.record(9);
 	areas.record(10);
 	areas.record(11);
@@ -306,7 +306,7 @@ it('test_erase_12_13',()=> {
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
 });
-it('test_erase_13',()=> {
+it('test_erase_13', ()=> {
 	areas.record(9);
 	areas.record(10);
 	areas.record(11);
@@ -331,7 +331,7 @@ it('test_erase_13',()=> {
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
 });
-it('test_erase_14',()=> {
+it('test_erase_14', ()=> {
 	areas.record(9);
 	areas.record(10);
 	areas.record(11);

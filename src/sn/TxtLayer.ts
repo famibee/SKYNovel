@@ -7,7 +7,8 @@
 
 import {Layer} from './Layer';
 import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
-import {IVariable, IHTag, HArg, IPutCh, IMain, IRecorder} from './CmnInterface';
+import {IHTag, HArg} from './Grammar';
+import {IVariable, IPutCh, IMain, IRecorder} from './CmnInterface';
 import {TxtStage} from './TxtStage';
 import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {RubySpliter} from './RubySpliter';

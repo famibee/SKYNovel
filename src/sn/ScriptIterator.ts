@@ -6,11 +6,13 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {uint, argChk_Boolean, getFn, CmnLib} from './CmnLib';
-import {IHTag, IMain, IVariable, IMark, HArg, Script, IPropParser} from './CmnInterface';
+import {IHTag, HArg, Script} from './Grammar';
+import {IMain, IVariable, IMark, IPropParser} from './CmnInterface';
 import {Config, SEARCH_PATH_ARG_EXT} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
 import {Grammar, tagToken2Name_Args, tagToken2Name} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
+import {RubySpliter} from './RubySpliter';
 
 import {EventMng} from './EventMng';
 import {Loader} from 'pixi.js';
@@ -53,7 +55,7 @@ export class ScriptIterator {
 
 	#aCallStk	: CallStack[]	= [];	// FILOバッファ（push/pop）
 
-	#grm	= new Grammar;
+	readonly	#grm	= new Grammar;
 
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly main: IMain, private readonly val: IVariable, private readonly alzTagArg: AnalyzeTagArg, private readonly runAnalyze: ()=> void, private readonly prpPrs: IPropParser, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
@@ -97,7 +99,9 @@ export class ScriptIterator {
 
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.#aCallStk.length);
 
-		this.#grm.setEscape(cfg.oCfg.init.escape);
+		const ce = cfg.oCfg.init.escape;
+		this.#grm.setEscape(ce);
+		RubySpliter.setEscape(ce);
 
 		if (CmnLib.isDbg) {
 			sys.addHook((type, o)=> this.#hHook[type]?.(o));
@@ -373,7 +377,7 @@ export class ScriptIterator {
 		const tag_fnc = this.hTag[tag_name];
 		if (! tag_fnc) throw `未定義のタグ【${tag_name}】です`;
 
-		this.alzTagArg.go(args);
+		this.alzTagArg.parse(args);
 		this.#procDebugtag(tag_name);
 
 		const hPrm = this.alzTagArg.hPrm;
@@ -613,7 +617,7 @@ export class ScriptIterator {
 
 			const [tag_name, args] = tagToken2Name_Args(tkn);
 			if (! (tag_name in this.hTag)) throw `未定義のタグ[${tag_name}]です`;
-			this.alzTagArg.go(args);
+			this.alzTagArg.parse(args);
 
 			switch (tag_name) {
 			case 'if':	++cntDepth; break;
@@ -840,8 +844,6 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 	readonly #REG_NONAME_LABEL		= /(\*{2,})([^\|]*)/;
 	readonly #REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
 	readonly #REG_TOKEN_MACRO_END	= /\[endmacro[\s\]]/;
-	readonly #REG_TAG_LET_ML		= /^\[let_ml\s/g;
-	readonly #REG_TAG_ENDLET_ML		= /^\[endlet_ml\s*]/g;
 	#seekScript(st: Script, inMacro: boolean, ln: number, skipLabel: string, idx: number): ISeek {
 		//console.log(`seekScript (from)inMacro:${inMacro} (from)ln:${ln} (to)skipLabel:${skipLabel}: (to)idx:${idx}`);
 		const len = st.aToken.length;
@@ -906,8 +908,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 
 			const tkn = st.aToken[i];
 			if (in_let_ml) {
-				this.#REG_TAG_ENDLET_ML.lastIndex = 0;	// /gなので必要
-				if (this.#REG_TAG_ENDLET_ML.test(tkn)) in_let_ml = false;
+				if (this.#grm.testTagEndLetml(tkn)) in_let_ml = false;
 				else ln += (tkn.match(/\n/g) ?? []).length;
 				continue;
 			}
@@ -921,8 +922,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			if (uc !== 91) continue;	// [ タグ開始
 
 			ln += (tkn.match(/\n/g) ?? []).length;
-			this.#REG_TAG_LET_ML.lastIndex = 0;	// /gなので必要
-			if (this.#REG_TAG_LET_ML.test(tkn)) in_let_ml = true;
+			if (this.#grm.testTagLetml(tkn)) in_let_ml = true;
 		}
 		if (in_let_ml) throw '[let_ml]の終端・[endlet_ml]がありません';
 
@@ -932,34 +932,19 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 
 	#hScript	: HScript	= Object.create(null);	//{} シナリオキャッシュ
 	#resolveScript(txt: string) {
-		const v = this.#grm.matchToken(txt.replaceAll(/(\r\n|\r)/g, '\n'));
-		for (let i=v.length -1; i>=0; --i) {
-			const e = v[i];
-			this.#REG_TAG_LET_ML.lastIndex = 0;	// /gなので必要
-			if (this.#REG_TAG_LET_ML.test(e)) {
-				const idx = e.indexOf(']') +1;
-				if (idx === 0) throw '[let_ml]で閉じる【]】がありません';
-				const a = e.slice(0, idx);
-				const b = e.slice(idx);
-				v.splice(i, 1, a, b);
-			}
-		}
-		const scr = this.#script = {aToken :v, len :v.length, aLNum :[]};
-
 		let mes = '';
 		try {
-			mes = 'ScriptIterator.replaceScriptChar2macro';
-			this.#grm.replaceScr_C2M_And_let_ml(scr);
+			mes = 'ScriptIterator.resolveScript';
+			const scr = this.#grm.resolveScript(txt);
 			mes = 'ScriptIterator.replaceScript_Wildcard';
-			this.#replaceScript_Wildcard();
+			this.#replaceScript_Wildcard(scr);
+			this.#hScript[this.#scriptFn] = this.#script = scr;
 		}
 		catch (e) {
 			if (e instanceof Error) mes += `例外 mes=${e.message}(${e.name})`;
 			else mes = e as string;
 			this.main.errScript(mes, false);
 		}
-		this.#hScript[this.#scriptFn] = scr;
-
 		this.val.loadScrWork(this.#scriptFn);
 	}
 
@@ -977,21 +962,21 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 
 	readonly #REG_WILDCARD	= /^\[(call|loadplugin)\s/;
 	readonly #REG_WILDCARD2	= /\bfn\s*=\s*[^\s\]]+/;
-	#replaceScript_Wildcard = ()=> {
-		for (let i=this.#script.len -1; i>=0; --i) {
-			const token = this.#script.aToken[i];
+	#replaceScript_Wildcard(scr: Script): void {
+		for (let i=scr.len -1; i>=0; --i) {
+			const token = scr.aToken[i];
 			if (! this.#REG_WILDCARD.test(token)) continue;
 
 			const [tag_name, args] = tagToken2Name_Args(token);
-			this.alzTagArg.go(args);
+			this.alzTagArg.parse(args);
 
 			const p_fn = this.alzTagArg.hPrm.fn;
 			if (! p_fn) continue;
 			const {val: fn} = p_fn;
 			if (! fn || fn.slice(-1) !== '*') continue;
 
-			this.#script.aToken.splice(i, 1, '\t', '; '+ token);
-			this.#script.aLNum.splice(i, 1, NaN, NaN);
+			scr.aToken.splice(i, 1, '\t', '; '+ token);
+			scr.aLNum.splice(i, 1, NaN, NaN);
 
 			const ext = tag_name === 'loadplugin'
 				? SEARCH_PATH_ARG_EXT.CSS
@@ -1003,11 +988,11 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 					'fn='+ decodeURIComponent(getFn(v[ext]))
 				);
 				//console.log('\t='+ nt +'=');
-				this.#script.aToken.splice(i, 0, nt);
-				this.#script.aLNum.splice(i, 0, NaN);
+				scr.aToken.splice(i, 0, nt);
+				scr.aLNum.splice(i, 0, NaN);
 			}
 		}
-		this.#script.len = this.#script.aToken.length;
+		scr.len = scr.aToken.length;
 	}
 
 
@@ -1075,7 +1060,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 //	// マクロ
 	// 括弧マクロの定義
 	#bracket2macro(hArg: HArg) {
-		this.#grm.bracket2macro(hArg, this.#script, this.#idxToken);
+		this.#grm.bracket2macro(hArg, this.hTag, this.#script, this.#idxToken);
 
 		return false;
 	}

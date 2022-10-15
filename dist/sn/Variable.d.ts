@@ -1,4 +1,5 @@
-import { IHTag, IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IValMp, IValSave } from './CmnInterface';
+import { IHTag } from './Grammar';
+import { IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IValMp, IValSave } from './CmnInterface';
 import { Config } from './Config';
 import { Areas } from './Areas';
 export declare class Variable implements IVariable {

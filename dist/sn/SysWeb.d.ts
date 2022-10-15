@@ -1,6 +1,7 @@
 /// <reference types="node" />
 import { SysBase } from "./SysBase";
-import { IConfig, IHTag, IVariable, IMain, ITag, IFn2Path, IData4Vari, HPlugin, HSysBaseArg } from './CmnInterface';
+import { IHTag, ITag } from './Grammar';
+import { IConfig, IVariable, IMain, IFn2Path, IData4Vari, HPlugin, HSysBaseArg } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysWeb extends SysBase {
     #private;

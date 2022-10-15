@@ -1,4 +1,4 @@
-import { IHTag } from './CmnInterface';
+import { IHTag } from './Grammar';
 import { SysBase } from './SysBase';
 import { ScriptIterator } from './ScriptIterator';
 export declare class DebugMng {

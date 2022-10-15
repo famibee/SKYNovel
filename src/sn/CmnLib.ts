@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IHEvt2Fnc} from './CmnInterface';
+import {HArg} from './Grammar';
+import {IHEvt2Fnc} from './CmnInterface';
 
 // =============== Global
 export function int(o: any): number {return parseInt(String(o), 10)}

@@ -1,5 +1,6 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag, IVariable, IMain, HArg, INoticeChgVolume } from './CmnInterface';
+import { IHTag, HArg } from './Grammar';
+import { IVariable, IMain, INoticeChgVolume } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
 export declare class SoundMng {

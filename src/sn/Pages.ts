@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, IVariable} from './CmnInterface';
+import {HArg} from './Grammar';
+import {IVariable} from './CmnInterface';
 import {Layer} from './Layer';
 import {SysBase} from './SysBase';
 import {argChk_Boolean} from './CmnLib';

@@ -1,5 +1,6 @@
 /// <reference types="node" />
-import { IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook } from './CmnInterface';
+import { IHTag, ITag } from './Grammar';
+import { IConfig, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook } from './CmnInterface';
 import { EventListenerCtn } from './EventListenerCtn';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysBase {

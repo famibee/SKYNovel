@@ -7,7 +7,7 @@
 
 import {BLEND_MODES, DisplayObject, Container, Sprite, Texture, AbstractRenderer} from 'pixi.js';
 import {CmnLib, int, argChk_Boolean, argChk_Num} from './CmnLib';
-import {HArg} from './CmnInterface';
+import {HArg} from './Grammar';
 import {IMakeDesignCast} from './LayerMng';
 
 export class Layer {

@@ -1,5 +1,6 @@
 import { IEvtMng } from './CmnLib';
-import { HArg, IHTag, IVariable, IMain, IHEvt2Fnc } from './CmnInterface';
+import { IHTag, HArg } from './Grammar';
+import { IVariable, IMain, IHEvt2Fnc } from './CmnInterface';
 import { LayerMng } from './LayerMng';
 import { ScriptIterator } from './ScriptIterator';
 import { Container, Application } from 'pixi.js';

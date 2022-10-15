@@ -1,4 +1,5 @@
-import { IHTag, IMain, IVariable, HArg, IPropParser } from './CmnInterface';
+import { IHTag, HArg } from './Grammar';
+import { IMain, IVariable, IPropParser } from './CmnInterface';
 import { Config } from './Config';
 import { AnalyzeTagArg } from './AnalyzeTagArg';
 import { EventMng } from './EventMng';

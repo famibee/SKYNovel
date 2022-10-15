@@ -1,6 +1,7 @@
 import { Layer } from './Layer';
 import { IEvtMng } from './CmnLib';
-import { IVariable, IHTag, HArg, IMain, IRecorder } from './CmnInterface';
+import { IHTag, HArg } from './Grammar';
+import { IVariable, IMain, IRecorder } from './CmnInterface';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';

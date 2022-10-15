@@ -6,7 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, argChk_Boolean, parseColor} from './CmnLib';
-import {IHTag, IMain, HArg} from './CmnInterface';
+import {IHTag, HArg} from './Grammar';
+import {IMain} from './CmnInterface';
 import {Config} from './Config';
 import {tagToken2Name, splitAmpersand} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';

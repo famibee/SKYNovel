@@ -5,7 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IConfig, IHTag, ITag, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET} from './CmnInterface';
+import {IHTag, ITag} from './Grammar';
+import {IConfig, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
 
