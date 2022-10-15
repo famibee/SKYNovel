@@ -1,3 +1,11 @@
+## [1.38.1](https://github.com/famibee/SKYNovel/compare/v1.38.0...v1.38.1) (2022-10-15)
+
+
+### Bug Fixes
+
+* タグ解析で負荷100%になる場合があった件（正規表現でカタストロフバックトラック） ([8d06070](https://github.com/famibee/SKYNovel/commit/8d060702116f191ae5ddbfc3ea67fd953a19cc57))
+* タグ解析で負荷100%になる場合があった件（正規表現でカタストロフバックトラック） ([527f6aa](https://github.com/famibee/SKYNovel/commit/527f6aa433f2b2355f42f0e5c2a6010dbd25beaa))
+
 - fix: タグ解析で負荷100%になる場合があった件（正規表現でカタストロフバックトラック）
 	- 再現【[let_ml name=aa\n】
 - fix: [bracket2macro]にタグ・マクロ存在チェックを追加
