@@ -1,3 +1,10 @@
+## [1.38.2](https://github.com/famibee/SKYNovel/compare/v1.38.1...v1.38.2) (2022-10-22)
+
+
+### Bug Fixes
+
+* リファクタリングなどメンテ ([0f2267d](https://github.com/famibee/SKYNovel/commit/0f2267d434612c810d2423785bdc94bdece5b50d))
+
 - fix: リファクタリングなどメンテ
 - refactor: .charAt(0) を .at(0) に
 - refactor: Config の大部分を新規基底クラス ConfigBase に
