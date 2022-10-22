@@ -17,10 +17,11 @@ import {DebugMng} from './DebugMng';
 import {TxtStage} from './TxtStage';
 import {Button} from './Button';
 import {GrpLayer} from './GrpLayer';
-import {Config, SEARCH_PATH_ARG_EXT} from './Config';
+import {Config} from './Config';
 
 import {Application, Rectangle, Text, Sprite, Point} from 'pixi.js';
 import Moveable, {OnDrag, OnResize} from 'moveable';
+import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 export class DesignCast {
 				static	#divDesignRoot: HTMLDivElement;
@@ -32,18 +33,17 @@ export class DesignCast {
 	protected	static	hPages		: HPage;
 	protected	static	divHint		= document.createElement('div');
 	static	init(appPixi: Application, sys: SysBase, scrItr: ScriptIterator, prpPrs: IPropParser, alzTagArg: AnalyzeTagArg, cfg: Config, hPages: HPage) {
-		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *DesignCast.sys.cvsScale}px; height: ${CmnLib.stageH *sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
-		DesignCast.#divDesignRoot = document.getElementById(DesignCast.#ID_DESIGNMODE) as HTMLDivElement;
-
-		DesignCast.divHint.classList.add('sn_design_hint');
-		appPixi.view.parentElement!.appendChild(DesignCast.divHint);
-
 		DesignCast.sys = sys;
 		DesignCast.#scrItr = scrItr;
 		DesignCast.prpPrs = prpPrs;
 		DesignCast.#alzTagArg = alzTagArg;
 		DesignCast.#cfg = cfg;
 		DesignCast.hPages = hPages;
+
+		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *sys.cvsScale}px; height: ${CmnLib.stageH *sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+		DesignCast.#divDesignRoot = document.getElementById(DesignCast.#ID_DESIGNMODE) as HTMLDivElement;
+		DesignCast.divHint.classList.add('sn_design_hint');
+		appPixi.view.parentElement!.appendChild(DesignCast.divHint);
 
 		addStyle(`
 .sn_design_cast {
@@ -235,10 +235,12 @@ export class DesignCast {
 			const dpy = this.pivot.y *DesignCast.sys.cvsScale;
 			tmp.trOrg = `${dpx}px ${dpy}px`;
 			tmp.origin = [dpx, dpy];
+/*	// TODO: 無効中
 			Object.assign(this.mov, {
 				verticalGuidelines	: [],
 				horizontalGuidelines: [],
 			});
+*/
 			// readonlyな件を投げた
 			// https://github.com/daybrush/moveable/issues/391#issuecomment-788931248
 		};
@@ -376,13 +378,13 @@ export class DesignCast {
 				url		: '',
 				buf		: new ArrayBuffer(0),
 				old_fn	: this.oldFn(),
-				old_url	: DesignCast.#cfg.searchPath(this.oldFn(), SEARCH_PATH_ARG_EXT.SPRITE),
+				old_url	: DesignCast.#cfg.searchPath(this.oldFn(), SEARCH_PATH_ARG_EXT.SP_GSM),
 			};
 			f.arrayBuffer().then(buf=> {
 				o.buf = buf;
 				try {
 					o.url = DesignCast.#scrItr.cnvPath4Dbg(
-						DesignCast.#cfg.searchPath(f.name, SEARCH_PATH_ARG_EXT.SPRITE)
+						DesignCast.#cfg.searchPath(f.name, SEARCH_PATH_ARG_EXT.SP_GSM)
 					);
 				} catch {}
 				DesignCast.sys.send2Dbg('_dropFile', o);
@@ -677,11 +679,13 @@ export class BtnDesignCast extends DesignCast {
 	}
 
 	protected	override onDragStart() {
+/*	// TODO: 無効中
 		const aBtn = this.btn.parent.children.filter(b=> b !== this.btn);
 		Object.assign(this.mov, {
 			verticalGuidelines	: aBtn.map(b=> this.lx +b.x *DesignCast.sys.cvsScale),
 			horizontalGuidelines: aBtn.map(b=> this.ly +b.y *DesignCast.sys.cvsScale),
 		});
+*/
 	}
 }
 // 文字レイヤ・文字ボタン

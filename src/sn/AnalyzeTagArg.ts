@@ -55,13 +55,22 @@ export class AnalyzeTagArg {
 		}
 	}
 
+	// 属性と値の位置をまとめて返す
 	parseinDetail(token: string, lenNm: number, ln: number, ch: number): {[key: string]: PRM_RANGE} {
 		const hRng: {[key: string]: PRM_RANGE} = {};
 
 		const args = token.slice(1+lenNm, -1);
 		for (const {groups, index, 0: z} of args.matchAll(this.#REG_TAGARG)) {
-			const {key, val, val2} = groups!;
-			if (! key || index === undefined) continue;
+			if (index === undefined) continue;
+			const {key, val, val2, literal} = groups!;
+			if (literal) {
+				if (literal.slice(-1) === '=') {
+					const {ln: k_ln, ch: k_ch} = this.#idx2LnCol(lenNm, ln, ch, args, index);
+					hRng[literal.slice(0, -1)] = {k_ln, k_ch, v_ln: ln, v_ch: 1+lenNm +ch +literal.length +1, v_len: 0};
+				}
+				continue;
+			}
+			if (! key) continue;
 
 			const {ln: k_ln, ch: k_ch} = this.#idx2LnCol(lenNm, ln, ch, args, index);
 			const {ln: v_ln, ch: v_ch} = this.#idx2LnCol(lenNm, ln, ch, args, index +z.lastIndexOf(val ?? val2) -(val ?0 :1));

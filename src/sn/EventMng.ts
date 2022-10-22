@@ -18,10 +18,11 @@ import {FocusMng} from './FocusMng';
 import {Tween} from '@tweenjs/tween.js'
 import {Container, Application, utils} from 'pixi.js';
 import {SoundMng} from './SoundMng';
-import {Config, SEARCH_PATH_ARG_EXT} from './Config';
+import {Config} from './Config';
 import {SysBase} from './SysBase';
 const {GamepadListener} = require('gamepad.js');
 import {createPopper, Instance as InsPop} from '@popperjs/core';
+import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 export class EventMng implements IEvtMng {
 	readonly	#elc		= new EventListenerCtn;

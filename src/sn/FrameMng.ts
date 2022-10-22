@@ -11,12 +11,14 @@ import {IHTag, HArg} from './Grammar';
 import {IVariable, IMain, IGetFrm} from './CmnInterface';
 import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
-import {Config, SEARCH_PATH_ARG_EXT} from './Config';
+import {Config} from './Config';
 import {GrpLayer} from './GrpLayer';
 
 import {Tween} from '@tweenjs/tween.js'
 import {Loader, LoaderResource} from 'pixi.js';
-import { LayerMng } from './LayerMng';
+import {LayerMng} from './LayerMng';
+import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+
 
 export class FrameMng implements IGetFrm {
 	constructor(private readonly cfg: Config, hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase, private readonly hTwInf: {[name: string]: ITwInf}) {

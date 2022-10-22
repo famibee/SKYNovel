@@ -535,3 +535,18 @@ text="]"
 	expect(jkl.v_ch).toBe(3);
 	expect(jkl.v_len).toBe(18);
 });
+it('20221016_parseinDetail_arg1', ()=> {
+	const nm = 'tag_name';
+	const ln = 5;
+	const col = 7;
+	const hRng = alz.parseinDetail(
+`[${nm} fn=]`, nm.length, ln, col);
+
+	const {fn} = hRng;
+	expect(fn).toBeTruthy();
+	expect(fn.k_ln).toBe(ln +0);
+	expect(fn.k_ch).toBe(col +10);
+	expect(fn.v_ln).toBe(ln +0);
+	expect(fn.v_ch).toBe(col +13);
+	expect(fn.v_len).toBe(0);
+});

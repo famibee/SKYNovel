@@ -10,7 +10,7 @@ import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, 
 import {IHTag, HArg} from './Grammar';
 import {IVariable, IPutCh, IMain, IRecorder} from './CmnInterface';
 import {TxtStage} from './TxtStage';
-import {Config, SEARCH_PATH_ARG_EXT} from './Config';
+import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {GrpLayer} from './GrpLayer';
 import {Button} from './Button';
@@ -19,6 +19,8 @@ import {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer, Application} from 'pixi.js';
+import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+
 
 export class TxtLayer extends Layer {
 	static	#cfg		: Config;
@@ -96,8 +98,8 @@ export class TxtLayer extends Layer {
 	// 文字出現演出
 	static	#ch_in_style(hArg: HArg) {
 		const o = TxtStage.ch_in_style(hArg);
-		const x = (o.x.charAt(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
-		const y = (o.y.charAt(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
+		const x = (o.x.at(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
+		const y = (o.y.at(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
 		const {name} = hArg;
 		addStyle(`
 .sn_ch_in_${name} {
@@ -121,8 +123,8 @@ export class TxtLayer extends Layer {
 	// 文字消去演出
 	static	#ch_out_style(hArg: HArg) {
 		const o = TxtStage.ch_out_style(hArg);
-		const x = (o.x.charAt(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
-		const y = (o.y.charAt(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
+		const x = (o.x.at(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
+		const y = (o.y.at(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
 		const {name} = hArg;
 		addStyle(`
 .go_ch_out_${name} {
@@ -677,7 +679,7 @@ text-combine-upright: all;
 		const wait = this.#ch_in_join ?(argWait
 			?? this.#stkASpan.at(0)?.o.wait	// 親要素
 			?? (TxtLayer.#doAutoWc	// ()は必要
-				? TxtLayer.#hAutoWc[ch.charAt(0)] ?? 0
+				? TxtLayer.#hAutoWc[ch.at(0) ?? ''] ?? 0
 				: LayerMng.msecChWait)) :0;
 		if (TxtLayer.#evtMng.isSkippingByKeyDown()) this.#cumDelay = 0;
 	//	else if (isAddWait && this.#ch_in_join) this.#cumDelay += Number(wait)*5;	// 出現視認テスト用

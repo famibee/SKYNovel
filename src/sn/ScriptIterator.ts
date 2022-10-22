@@ -8,7 +8,7 @@
 import {uint, argChk_Boolean, getFn, CmnLib} from './CmnLib';
 import {IHTag, HArg, Script} from './Grammar';
 import {IMain, IVariable, IMark, IPropParser} from './CmnInterface';
-import {Config, SEARCH_PATH_ARG_EXT} from './Config';
+import {Config} from './Config';
 import {CallStack, ICallStackArg} from './CallStack';
 import {Grammar, tagToken2Name_Args, tagToken2Name} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
@@ -20,6 +20,7 @@ import {LayerMng} from './LayerMng';
 import {DebugMng} from './DebugMng';
 import {SoundMng} from './SoundMng';
 import {SysBase} from './SysBase';
+import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 interface HScript {
 	[fn: string]: Script;
@@ -40,6 +41,7 @@ interface IPageLog {
 };
 
 const enum BreakState {Running, Wait, Break, Breaking, Step, Stepping, StepOuting, StepOut};
+
 
 export class ScriptIterator {
 	#script		: Script	= {aToken: [''], len: 1, aLNum: [1]};
@@ -383,7 +385,7 @@ export class ScriptIterator {
 		const hPrm = this.alzTagArg.hPrm;
 		if (hPrm.cond) {
 			const cond = hPrm.cond.val;
-			if (! cond || cond.charAt(0) === '&') throw '属性condは「&」が不要です';
+			if (! cond || cond.at(0) === '&') throw '属性condは「&」が不要です';
 			const p = this.prpPrs.parse(cond);
 			const ps = String(p);
 			if (ps === 'null' || ps === 'undefined') return false;
@@ -401,7 +403,7 @@ export class ScriptIterator {
 		// 省略時以外で undefined はない。a=undefined と書いても 'undefined' になる
 		for (const [arg_nm, {val, def}] of Object.entries(hPrm)) {
 			let v = val;
-			if (v?.charAt(0) === '%') {
+			if (v?.at(0) === '%') {
 				if (len === 0) throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
 				const mac = (<any>this.#aCallStk[this.#aCallStk.length -1].csArg)[v.slice(1)];
 				if (mac) {(<any>hArg)[arg_nm] = mac; continue;}
@@ -494,7 +496,7 @@ export class ScriptIterator {
 		let i = idx -1;
 		const lN = ret.ln = st.aLNum[i];
 		while (st.aLNum[i] === lN) {
-			if (st.aToken[i].charAt(0) !== '\n') {
+			if (st.aToken[i].at(0) !== '\n') {
 				const len = st.aToken[i].length;
 //console.log(`fn:ScriptIterator.ts line:586 cnvIdx2lineCol tkn:${st.aToken[i]} len:${len} s:${ret.col_s} e:${ret.col_e}`);
 				if (ret.col_e > 0) ret.col_s += len;
@@ -597,7 +599,7 @@ export class ScriptIterator {
 		//console.log('if idxToken:'+ this.#idxToken);
 		const {exp} = hArg;
 		if (! exp) throw 'expは必須です';
-		if (exp.charAt(0) === '&') throw '属性expは「&」が不要です';
+		if (exp.at(0) === '&') throw '属性expは「&」が不要です';
 
 		let cntDepth = 0;		// if深度カウンター
 		let	idxGo = this.prpPrs.parse(exp) ?this.#idxToken :-1;
@@ -627,7 +629,7 @@ export class ScriptIterator {
 				if (idxGo > -1) break;
 
 				const e = this.alzTagArg.hPrm.exp.val;
-				if (e.charAt(0) === '&') throw '属性expは「&」が不要です';
+				if (e.at(0) === '&') throw '属性expは「&」が不要です';
 				if (this.prpPrs.parse(e)) idxGo = this.#idxToken +1;
 				break;
 
@@ -774,7 +776,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 	#jumpWork(fn = '', label = '', idx = 0) {
 		if (! fn && ! label) this.main.errScript('[jump系] fnまたはlabelは必須です');
 		if (label) {
-			if (label.charAt(0) !== '*') this.main.errScript('[jump系] labelは*で始まります');
+			if (label.at(0) !== '*') this.main.errScript('[jump系] labelは*で始まります');
 			this.#skipLabel = label;
 			if (this.#skipLabel.slice(0, 2) !== '**') this.#idxToken = idx;
 		}

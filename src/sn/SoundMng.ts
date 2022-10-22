@@ -9,12 +9,13 @@ import {IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {CmnTween} from './CmnTween';
 import {IHTag, HArg} from './Grammar';
 import {IVariable, IMain, INoticeChgVolume} from './CmnInterface';
-import {Config, SEARCH_PATH_ARG_EXT} from './Config';
+import {Config} from './Config';
 import {SysBase} from './SysBase';
 
 import {sound, utils, Sound, Options, filters} from '@pixi/sound';
 import {Loader, LoaderResource} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
+import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 interface ISndBuf {
 	now_buf	: string;

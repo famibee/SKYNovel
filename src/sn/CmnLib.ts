@@ -59,11 +59,11 @@ export function cnvTweenArg(hArg: HArg, lay: any): {} {
 		// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 		// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
 		const v = String((hArg as any)[nm]);
-		const a = ((v.charAt(0) === '=') ?v.slice(1) :v).split(',');
+		const a = ((v.at(0) === '=') ?v.slice(1) :v).split(',');
 		const a0 = hTo[nm] = parseFloat(a[0]);
 		if (a.length > 1) hTo[nm] += Math.round(Math.random()
 			* (parseFloat(a[1]) -a0 +1));
-		if (v.charAt(0) === '=') hTo[nm] += parseFloat(lay[nm]);	// 相対に
+		if (v.at(0) === '=') hTo[nm] += parseFloat(lay[nm]);	// 相対に
 	}
 	return hTo;
 }
@@ -151,7 +151,7 @@ export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
 
 
 export function parseColor(v: string): number {
-	if (v.charAt(0) === '#') return parseInt(v.slice(1), 16);
+	if (v.at(0) === '#') return parseInt(v.slice(1), 16);
 	const n = Number(v);
 	if (! isNaN(n)) return n;	// 0, 0xffffff
 

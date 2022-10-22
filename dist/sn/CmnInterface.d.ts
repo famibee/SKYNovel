@@ -40,10 +40,8 @@ export declare type HSysBaseArg = {
 };
 export declare type SYS_DEC_RET = HTMLImageElement | ArrayBuffer | HTMLVideoElement | string;
 export interface ISysBase {
-    loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): void;
     initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari) => void): void;
     flush(): void;
-    decStr(ext: string, d: string): string;
     dec(ext: string, ab: ArrayBuffer): Promise<SYS_DEC_RET>;
     addHook(fnc: IFncHook): void;
     callHook: IFncHook;
@@ -57,57 +55,6 @@ export interface IFire {
 }
 export interface IFncHook {
     (type: string, o: any): void;
-}
-export declare type T_CFG = {
-    book: {
-        title: string;
-        creator: string;
-        cre_url: string;
-        publisher: string;
-        pub_url: string;
-        detail: string;
-        version: string;
-    };
-    save_ns: string;
-    window: {
-        width: number;
-        height: number;
-    };
-    log: {
-        max_len: number;
-    };
-    init: {
-        bg_color: string;
-        tagch_msecwait: number;
-        auto_msecpagewait: number;
-        escape: string;
-    };
-    debug: {
-        devtool: boolean;
-        token: boolean;
-        tag: boolean;
-        putCh: boolean;
-        debugLog: boolean;
-        baseTx: boolean;
-        masume: boolean;
-        variable: boolean;
-    };
-    code: {
-        [fold_nm: string]: boolean;
-    };
-    debuger_token: string;
-};
-export interface IExts {
-    [ext: string]: string;
-}
-export interface IFn2Path {
-    [fn: string]: IExts;
-}
-export interface IConfig {
-    oCfg: T_CFG;
-    getNs(): string;
-    searchPath(fn: string, extptn?: string): string;
-    addPath(fn: string, h_exts: IExts): void;
 }
 export interface IMain {
     errScript(mes: string, isThrow?: boolean): void;

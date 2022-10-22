@@ -1,3 +1,9 @@
+- fix: リファクタリングなどメンテ
+- refactor: .charAt(0) を .at(0) に
+- refactor: Config の大部分を新規基底クラス ConfigBase に
+- chore: （内部）属性と値の位置をまとめて返す AnalyzeTagArg.parseinDetail() を、属性値がない【fn=】形式にもマッチするように（v_len: 0）
+
+
 ## [1.38.1](https://github.com/famibee/SKYNovel/compare/v1.38.0...v1.38.1) (2022-10-15)
 
 
@@ -6,13 +12,13 @@
 * タグ解析で負荷100%になる場合があった件（正規表現でカタストロフバックトラック） ([8d06070](https://github.com/famibee/SKYNovel/commit/8d060702116f191ae5ddbfc3ea67fd953a19cc57))
 * タグ解析で負荷100%になる場合があった件（正規表現でカタストロフバックトラック） ([527f6aa](https://github.com/famibee/SKYNovel/commit/527f6aa433f2b2355f42f0e5c2a6010dbd25beaa))
 
-- fix: タグ解析で負荷100%になる場合があった件（正規表現でカタストロフバックトラック）
+- fix: タグ解析で負荷100%になる場合があった件（正規表現でカタストロフィバックトラック）
 	- 再現【[let_ml name=aa\n】
 - fix: [bracket2macro]にタグ・マクロ存在チェックを追加
 - chore: （内部）AnalyzeTagArg.parseinDetail()追加、テストも
 - refactor: HArg, ITag, IHTag の定義を CmnInterface.ts から Grammar.ts へ移動
 - refactor: resolveScript()の大半を ScriptIterator.ts から Grammar.ts へ移動
-- resolveScript()は splice ではなく flatMap を使用する方向で
+- refactor: resolveScript()は splice ではなく flatMap を使用する方向で
 - test: matchToken()より一層上の resolveScript()でのテストに
 - test: [char2macro][bracket2macro]テスト追加
 - test: [let_ml]関連テスト追加

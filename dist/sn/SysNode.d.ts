@@ -1,6 +1,6 @@
 /// <reference types="node" />
 import { SysBase } from "./SysBase";
-import { IFn2Path, IConfig } from './CmnInterface';
+import { IFn2Path, IConfig } from './ConfigBase';
 export declare class SysNode extends SysBase {
     loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
     protected readonly isApp = true;

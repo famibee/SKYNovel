@@ -7,7 +7,7 @@
 
 import {SysBase} from "./SysBase";
 import {CmnLib} from './CmnLib';
-import {IFn2Path, IConfig} from './CmnInterface';
+import {IFn2Path, IConfig} from './ConfigBase';
 
 export class SysNode extends SysBase {
 	override async loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig) {

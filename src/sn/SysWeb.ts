@@ -8,12 +8,14 @@
 import {SysBase} from "./SysBase";
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
 import {IHTag, ITag} from './Grammar';
-import {IConfig, IVariable, IMain, IFn2Path, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
+import {IVariable, IMain, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
 
 import store from 'store';
 import {Application} from 'pixi.js';
 import 'devtools-detect';
+import {IFn2Path, IConfig} from './ConfigBase';
+
 
 export class SysWeb extends SysBase {
 	#path_base	= '';

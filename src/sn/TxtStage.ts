@@ -842,10 +842,10 @@ export class TxtStage extends Container {
 	#fncEndChIn: ()=> boolean	= ()=> false;
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
-		if (arg.x) rct.x = (arg.x.charAt(0) === '=')
+		if (arg.x) rct.x = (arg.x.at(0) === '=')
 			? rct.x +parseInt(arg.x.slice(1))
 			: parseInt(arg.x);
-		if (arg.y) rct.y = (arg.y.charAt(0) === '=')
+		if (arg.y) rct.y = (arg.y.at(0) === '=')
 			? rct.y +parseInt(arg.y.slice(1))
 			: parseInt(arg.y);
 		if (arg.width) rct.width = parseInt(arg.width);
@@ -854,8 +854,8 @@ export class TxtStage extends Container {
 		sp.width = rct.width;
 		sp.height = rct.height;
 		if (cis.x) sp.position.set(
-			(cis.x.charAt(0) === '=') ?rct.x +sp.width  *cis.nx :cis.nx,
-			(cis.y.charAt(0) === '=') ?rct.y +sp.height *cis.ny :cis.ny
+			(cis.x.at(0) === '=') ?rct.x +sp.width  *cis.nx :cis.nx,
+			(cis.y.at(0) === '=') ?rct.y +sp.height *cis.ny :cis.ny
 		);
 		else sp.position.set(rct.x, rct.y,);
 		const st: ISpTw = {
@@ -909,8 +909,8 @@ export class TxtStage extends Container {
 			// {x:'=-500'}		現在のX位置に-500加算した位置
 			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
-			nx		: parseFloat((x.charAt(0) === '=') ? x.slice(1) : x),
-			ny		: parseFloat((y.charAt(0) === '=') ? y.slice(1) : y),
+			nx		: parseFloat((x.at(0) === '=') ? x.slice(1) : x),
+			ny		: parseFloat((y.at(0) === '=') ? y.slice(1) : y),
 			scale_x	: argChk_Num(hArg, 'scale_x', 1),
 			scale_y	: argChk_Num(hArg, 'scale_y', 1),
 			rotate	: argChk_Num(hArg, 'rotate', 0),
@@ -952,8 +952,8 @@ export class TxtStage extends Container {
 			// {x:'=-500'}		現在のX位置に-500加算した位置
 			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
-			nx		: parseFloat((x.charAt(0) === '=') ? x.slice(1) : x),
-			ny		: parseFloat((y.charAt(0) === '=') ? y.slice(1) : y),
+			nx		: parseFloat((x.at(0) === '=') ? x.slice(1) : x),
+			ny		: parseFloat((y.at(0) === '=') ? y.slice(1) : y),
 			scale_x	: argChk_Num(hArg, 'scale_x', 1),
 			scale_y	: argChk_Num(hArg, 'scale_y', 1),
 			rotate	: argChk_Num(hArg, 'rotate', 0),

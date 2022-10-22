@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Config, SEARCH_PATH_ARG_EXT} from '../src/sn/Config';
+import {ConfigBase, SEARCH_PATH_ARG_EXT} from '../src/sn/ConfigBase';
 import {SysNode} from '../src/sn/SysNode';
 
 //===== Test Class =====
@@ -18,9 +18,9 @@ export class SysTest extends SysNode {
 }
 //===== Test Class =====
 
-let	cfg: Config;
+let	cfg: ConfigBase;
 beforeEach(async ()=> {
-	cfg = new Config(new SysTest({}, {cur: 'test/', crypto: false, dip: ''}));
+	cfg = new ConfigBase(new SysTest({}, {cur: 'test/', crypto: false, dip: ''}));
 	await cfg.load({search: ['mat']});
 });
 

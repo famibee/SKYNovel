@@ -87,7 +87,7 @@ export class PropParser implements IPropParser {
 			const s = String(b).replaceAll(REG_BRACKETS, v=>
 				'.'+ this.parse(v.slice(1, -1))
 			);
-			if (s.charAt(0) === '-') {	// 変数頭に「-」
+			if (s.at(0) === '-') {	// 変数頭に「-」
 				const val = this.val.getVal(s.slice(1));
 				if (val == null || String(val) === 'null') throw Error('(PropParser)数値以外に-符号がついています');
 				return ['!num!', -Number(val)];
@@ -300,14 +300,14 @@ export class PropParser implements IPropParser {
 		if (b == null) return b;	// undefined も
 
 		return String(b).replaceAll(this.#REG_EMBEDVAR, v=> {
-			return (v.charAt(0) === '$')
+			return (v.at(0) === '$')
 				? this.val.getVal(v.slice(1))
 				: this.parse(v.slice(2, -1));
 		});
 	}
 
 
-	getValAmpersand = (val: string)=> (val.charAt(0) === '&')
+	getValAmpersand = (val: string)=> (val.at(0) === '&')
 		? String(this.parse(val.slice(1)))
 		: val;
 

@@ -207,7 +207,7 @@ export function	splitAmpersand(token: string): {
 		// != を弾けないので中途半端ではある
 	const cnt_equa = equa.length;
 	if (cnt_equa < 2 || cnt_equa > 3) throw '「&計算」書式では「=」指定が一つか二つ必要です';
-	if (equa[1].charAt(0) === '&') throw '「&計算」書式では「&」指定が不要です';
+	if (equa[1].at(0) === '&') throw '「&計算」書式では「&」指定が不要です';
 	return {
 		name: equa[0].replaceAll('＝', '==').replaceAll('≠', '!='),
 		text: equa[1].replaceAll('＝', '==').replaceAll('≠', '!='),
@@ -274,11 +274,12 @@ export class Grammar {
 		const {name, text} = hArg;
 		if (! name) throw '[bracket2macro] nameは必須です';
 		if (! text) throw '[bracket2macro] textは必須です';
+		const op = text.at(0);
+		if (! op) throw '[bracket2macro] textは必須です';
 		if (text.length !== 2) throw '[bracket2macro] textは括弧の前後を示す二文字を指定してください';
 		if (! (name in hTag)) throw `[bracket2macro] 未定義のタグ又はマクロ[${name}]です`;
 
 		this.#hC2M ??= {};
-		const op = text.charAt(0);
 		const cl = text.charAt(1);
 		if (op in this.#hC2M) throw '[bracket2macro] text【'+ op +'】が登録済みの括弧マクロまたは一文字マクロです';
 		if (cl in this.#hC2M) throw '[bracket2macro] text【'+ cl +'】が登録済みの括弧マクロまたは一文字マクロです';
@@ -354,7 +355,8 @@ export class Grammar {
 
 		for (let i=scr.len- 1; i >= start_idx; --i) {
 			const token = scr.aToken[i];
-			if (this.testNoTxt(token.charAt(0))) continue;
+			if (this.testNoTxt(token.at(0) ?? '\n')) continue;
+				// 省略時は #REG_TOKEN_NOTXT に引っかかる \n に
 
 			const lnum = scr.aLNum[i];
 			const a = token.match(this.#REGC2M);
@@ -362,7 +364,8 @@ export class Grammar {
 			let del = 1;
 			for (let j=a.length -1; j>=0; --j) {
 				let ch = a[j];
-				const macro = this.#hC2M[ch.charAt(0)];
+				const macro = this.#hC2M[ch.at(0) ?? ' '];
+					// 省略時は #REG_CANTC2M に引っかかる ' ' に
 				if (macro) {
 					ch = macro +((macro.slice(-1) === ']')
 						? ''

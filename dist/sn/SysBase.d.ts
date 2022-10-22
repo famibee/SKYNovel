@@ -1,9 +1,10 @@
 /// <reference types="node" />
 import { IHTag, ITag } from './Grammar';
-import { IConfig, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook } from './CmnInterface';
+import { IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook } from './CmnInterface';
 import { EventListenerCtn } from './EventListenerCtn';
 import { Application } from 'pixi.js';
-export declare class SysBase implements ISysBase {
+import { IConfig, IFn2Path, ISysRoots } from './ConfigBase';
+export declare class SysBase implements ISysRoots, ISysBase {
     #private;
     readonly hPlg: HPlugin;
     protected arg: HSysBaseArg;

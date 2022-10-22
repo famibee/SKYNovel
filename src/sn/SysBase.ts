@@ -6,14 +6,16 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {IHTag, ITag} from './Grammar';
-import {IConfig, IVariable, IFn2Path, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET} from './CmnInterface';
+import {IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
 
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 import {io, Socket} from 'socket.io-client';
+import {IConfig, IFn2Path, ISysRoots} from './ConfigBase';
 
-export class SysBase implements ISysBase {
+
+export class SysBase implements ISysRoots, ISysBase {
 	hFactoryCls: {[name: string]: ILayerFactory}	= {};
 
 	protected	readonly	elc		= new EventListenerCtn;
