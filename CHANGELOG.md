@@ -1,3 +1,10 @@
+## [1.38.3](https://github.com/famibee/SKYNovel/compare/v1.38.2...v1.38.3) (2022-10-25)
+
+
+### Bug Fixes
+
+* 暗号化時にエラーになっていた件 ([47967ba](https://github.com/famibee/SKYNovel/commit/47967ba46ca863e73c762fecf19e0b423de3be79))
+
 - fix: 暗号化時にエラーになっていた件
 - test: 一部テストを【test.each(table)(name, fn, timeout)】形式で記述
 	- test/PropParser.test.ts
