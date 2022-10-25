@@ -17,6 +17,7 @@ export const enum SEARCH_PATH_ARG_EXT {	// #searchPath 使用時、第二引数�
 	HTML	= 'htm|html',
 	CSS		=	'css',
 	SN		=	'sn',
+	PSD		=	'psd',
 
 	TST_PNGPNG_	= 'png|png_',
 	TST_HH		= 'hh',
@@ -158,7 +159,7 @@ export class ConfigBase implements IConfig {
 		if (! this.sys.crypto) return;
 
 		for (const hExts of Object.values(this.hPathFn2Exts)) {
-			for (const [ext, v] of Object.values(hExts)) {
+			for (const [ext, v] of Object.entries(hExts)) {
 				if (ext.slice(-10) !== ':RIPEMD160') continue;
 				const hp = v.slice(v.lastIndexOf('/') +1);
 				const fn = hExts[ext.slice(0, -10)];

@@ -1,3 +1,10 @@
+- fix: 暗号化時にエラーになっていた件
+- test: 一部テストを【test.each(table)(name, fn, timeout)】形式で記述
+	- test/PropParser.test.ts
+	- test/RubySpliter.test.ts
+- refactor: 一部テストの .at(0) を .charAt(0) に
+
+
 ## [1.38.2](https://github.com/famibee/SKYNovel/compare/v1.38.1...v1.38.2) (2022-10-22)
 
 

@@ -25,1088 +25,969 @@ beforeEach(()=> {
 
 
 // RubySpliter
-it('test_putTxt_1t_0r', ()=> {
-	rbSpl.putTxt("雷");
-	expect(retText).toBe(".雷");
-	expect(retRuby).toBe(".");
-});
-it('test_putTxt_1t_1r', ()=> {
-	rbSpl.putTxt("火《ひ》");
-	expect(retText).toBe(".火");
-	expect(retRuby).toBe(".ひ");
-});
-it('test_putTxt_1t_2r', ()=> {
-	rbSpl.putTxt("水《みず》");
-	expect(retText).toBe(".水");
-	expect(retRuby).toBe(".みず");
-});
-it('test_putTxt_1t_3r', ()=> {
-	rbSpl.putTxt("緑《みどり》");
-	expect(retText).toBe(".緑");
-	expect(retRuby).toBe(".みどり");
-});
-it('test_putTxt_1t_4r', ()=> {
-	rbSpl.putTxt("雷《いかずち》");
-	expect(retText).toBe(".雷");
-	expect(retRuby).toBe(".いかずち");
-});
-	it('test_putTxtRb_1t_0r', ()=> {
-		rbSpl.putTxtRb("雷", "");
-		expect(retText).toBe(".雷");
-		expect(retRuby).toBe(".");
-	});
-	it('test_putTxtRb_1t_1r', ()=> {
-		rbSpl.putTxtRb("火", "ひ");
-		expect(retText).toBe(".火");
-		expect(retRuby).toBe(".ひ");
-	});
-	it('test_putTxtRb_1t_2r', ()=> {
-		rbSpl.putTxtRb("水", "みず");
-		expect(retText).toBe(".水");
-		expect(retRuby).toBe(".みず");
-	});
-	it('test_putTxtRb_1t_3r', ()=> {
-		rbSpl.putTxtRb("緑", "みどり");
-		expect(retText).toBe(".緑");
-		expect(retRuby).toBe(".みどり");
-	});
-	it('test_putTxtRb_1t_4r', ()=> {
-		rbSpl.putTxtRb("雷", "いかずち");
-		expect(retText).toBe(".雷");
-		expect(retRuby).toBe(".いかずち");
-	});
+it.each([
+	{i: '雷',
+	t: '.雷',
+	r: '.'},
 
-it('test_putTxt_sp_1t_0r', ()=> {
-	rbSpl.putTxt("　雷");
-	expect(retText).toBe(".　.雷");
-	expect(retRuby).toBe("..");
-});
-it('test_putTxt_sp_1t_1r', ()=> {
-	rbSpl.putTxt("　火《ひ》");
-	expect(retText).toBe(".　.火");
-	expect(retRuby).toBe("..ひ");
-});
-it('test_putTxt_sp_1t_2r', ()=> {
-	rbSpl.putTxt("　水《みず》");
-	expect(retText).toBe(".　.水");
-	expect(retRuby).toBe("..みず");
-});
-it('test_putTxt_sp_1t_3r', ()=> {
-	rbSpl.putTxt("　緑《みどり》");
-	expect(retText).toBe(".　.緑");
-	expect(retRuby).toBe("..みどり");
-});
-it('test_putTxt_sp_1t_4r', ()=> {
-	rbSpl.putTxt("　雷《いかずち》");
-	expect(retText).toBe(".　.雷");
-	expect(retRuby).toBe("..いかずち");
-});
-	it('test_putTxtRb_sp_1t_0r', ()=> {
-		rbSpl.putTxtRb("　雷", "");
-		expect(retText).toBe(".　雷");
-		expect(retRuby).toBe(".");
-	});
-	it('test_putTxtRb_sp_1t_1r', ()=> {
-		rbSpl.putTxtRb("　火", "ひ");
-		expect(retText).toBe(".　火");
-		expect(retRuby).toBe(".ひ");
-	});
-	it('test_putTxtRb_sp_1t_2r', ()=> {
-		rbSpl.putTxtRb("　水", "みず");
-		expect(retText).toBe(".　水");
-		expect(retRuby).toBe(".みず");
-	});
-	it('test_putTxtRb_sp_1t_3r', ()=> {
-		rbSpl.putTxtRb("　緑", "みどり");
-		expect(retText).toBe(".　緑");
-		expect(retRuby).toBe(".みどり");
-	});
-	it('test_putTxtRb_sp_1t_4r', ()=> {
-		rbSpl.putTxtRb("　雷", "いかずち");
-		expect(retText).toBe(".　雷");
-		expect(retRuby).toBe(".いかずち");
-	});
-it('test_putTxt_sp2_1t_0r', ()=> {
-	rbSpl.putTxt("　　雷");
-	expect(retText).toBe(".　.　.雷");
-	expect(retRuby).toBe("...");
-});
-	it('test_putTxtRb_sp2_1t_0r', ()=> {
-		rbSpl.putTxtRb("　　雷", "");
-		expect(retText).toBe(".　　雷");
-		expect(retRuby).toBe(".");
-	});
+	{i: '火《ひ》',
+	t: '.火',
+	r: '.ひ'},
+
+	{i: '水《みず》',
+	t: '.水',
+	r: '.みず'},
+
+	{i: '緑《みどり》',
+	t: '.緑',
+	r: '.みどり'},
+
+	{i: '雷《いかずち》',
+	t: '.雷',
+	r: '.いかずち'},
+
+	{i: '雷', ir: '',
+		t: '.雷',
+		r: '.'},
+
+	{i: '火', ir: 'ひ',
+		t: '.火',
+		r: '.ひ'},
+
+	{i: '水', ir: 'みず',
+		t: '.水',
+		r: '.みず'},
+
+	{i: '緑', ir: 'みどり',
+		t: '.緑',
+		r: '.みどり'},
+
+	{i: '雷', ir: 'いかずち',
+		t: '.雷',
+		r: '.いかずち'},
 
 
-it('test_putTxt_2t_2r', ()=> {
-	rbSpl.putTxt("何時《い つ》");
-	expect(retText).toBe(".何.時");
-	expect(retRuby).toBe(".い.つ");
-});
-it('test_putTxt_2t_4r', ()=> {
-	rbSpl.putTxt("一応《いちおう》");
-	expect(retText).toBe(".一応");
-	expect(retRuby).toBe(".いちおう");
-});
-it('test_putTxt_2t_6r', ()=> {
-	rbSpl.putTxt("夢幻《ゆめまぼろし》");
-	expect(retText).toBe(".夢幻");
-	expect(retRuby).toBe(".ゆめまぼろし");
-});
-	it('test_putTxtRb_2t_2r', ()=> {
-		rbSpl.putTxtRb("何時", "い つ");
-		expect(retText).toBe(".何.時");
-		expect(retRuby).toBe(".い.つ");
-	});
-	it('test_putTxtRb_2t_4r', ()=> {
-		rbSpl.putTxtRb("一応", "いちおう");
-		expect(retText).toBe(".一応");
-		expect(retRuby).toBe(".いちおう");
-	});
-	it('test_putTxtRb_2t_6r', ()=> {
-		rbSpl.putTxtRb("夢幻", "ゆめまぼろし");
-		expect(retText).toBe(".夢幻");
-		expect(retRuby).toBe(".ゆめまぼろし");
-	});
+{i: '　雷',
+t: '.　.雷',
+r: '..'},
 
-it('test_putTxt_sp_2t_2r', ()=> {
-	rbSpl.putTxt("　何時《い つ》");
-	expect(retText).toBe(".　.何.時");
-	expect(retRuby).toBe("..い.つ");
-});
-it('test_putTxt_sp_2t_4r', ()=> {
-	rbSpl.putTxt("　一応《いちおう》");
-	expect(retText).toBe(".　.一応");
-	expect(retRuby).toBe("..いちおう");
-});
-it('test_putTxt_sp_2t_6r', ()=> {
-	rbSpl.putTxt("　夢幻《ゆめまぼろし》");
-	expect(retText).toBe(".　.夢幻");
-	expect(retRuby).toBe("..ゆめまぼろし");
-});
-	it('test_putTxtRb_sp_2t_2r', ()=> {
-		rbSpl.putTxtRb("　何時", "い つ");
-		expect(retText).toBe(".　.何.時");
-		expect(retRuby).toBe(".い.つ.");
-	});
-	it('test_putTxtRb_sp_2t_4r', ()=> {
-		rbSpl.putTxtRb("　一応", "いちおう");
-		expect(retText).toBe(".　一応");
-		expect(retRuby).toBe(".いちおう");
-	});
-	it('test_putTxtRb_sp_2t_6r', ()=> {
-		rbSpl.putTxtRb("　夢幻", "ゆめまぼろし");
-		expect(retText).toBe(".　夢幻");
-		expect(retRuby).toBe(".ゆめまぼろし");
-	});
+{i: '　火《ひ》',
+t: '.　.火',
+r: '..ひ'},
+
+{i: '　水《みず》',
+t: '.　.水',
+r: '..みず'},
+
+{i: '　緑《みどり》',
+t: '.　.緑',
+r: '..みどり'},
+
+{i: '　雷《いかずち》',
+t: '.　.雷',
+r: '..いかずち'},
+
+{i: '　雷', ir: '',
+	t: '.　雷',
+	r: '.'},
+
+{i: '　火', ir: 'ひ',
+	t: '.　火',
+	r: '.ひ'},
+
+{i: '　水', ir: 'みず',
+	t: '.　水',
+	r: '.みず'},
+
+{i: '　緑', ir: 'みどり',
+	t: '.　緑',
+	r: '.みどり'},
+
+{i: '　雷', ir: 'いかずち',
+	t: '.　雷',
+	r: '.いかずち'},
+
+{i: '　　雷',
+t: '.　.　.雷',
+r: '...'},
+
+{i: '　　雷', ir: '',
+	t: '.　　雷',
+	r: '.'},
+
+
+{i: '何時《い つ》',
+t: '.何.時',
+r: '.い.つ'},
+
+{i: '一応《いちおう》',
+t: '.一応',
+r: '.いちおう'},
+
+{i: '夢幻《ゆめまぼろし》',
+t: '.夢幻',
+r: '.ゆめまぼろし'},
+
+{i:'何時', ir:'い つ',
+	t: '.何.時',
+	r: '.い.つ'},
+
+{i:'一応', ir:'いちおう',
+	t: '.一応',
+	r: '.いちおう'},
+
+{i:'夢幻', ir:'ゆめまぼろし',
+	t: '.夢幻',
+	r: '.ゆめまぼろし'},
+
+
+	{i: '何時', ir: 'い つ',
+	t: '.何.時',
+	r: '.い.つ'},
+
+	{i: '一応', ir: 'いちおう',
+	t: '.一応',
+	r: '.いちおう'},
+
+	{i: '夢幻', ir: 'ゆめまぼろし',
+	t: '.夢幻',
+	r: '.ゆめまぼろし'},
+
+
+{i: '　何時《い つ》',
+t: '.　.何.時',
+r: '..い.つ'},
+
+{i: '　一応《いちおう》',
+t: '.　.一応',
+r: '..いちおう'},
+
+{i: '　夢幻《ゆめまぼろし》',
+t: '.　.夢幻',
+r: '..ゆめまぼろし'},
+
+{i: '　何時', ir:'い つ',
+	t: '.　.何.時',
+	r: '.い.つ.'},
+
+{i:'　一応', ir:'いちおう',
+	t: '.　一応',
+	r: '.いちおう'},
+
+{i:'　夢幻', ir:'ゆめまぼろし',
+	t: '.　夢幻',
+	r: '.ゆめまぼろし'},
 
 
 // 拡張属性文法
-it('test_putTxt_1t_1r_extension_empty', ()=> {
-	rbSpl.putTxt("火《｜ひ》");
-	expect(retText).toBe(".火");
-	expect(retRuby).toBe(".｜ひ");
-});
-it('test_putTxt_1t_2r_extension_empty', ()=> {
-	rbSpl.putTxt("水《｜みず》");
-	expect(retText).toBe(".水");
-	expect(retRuby).toBe(".｜みず");
-});
-it('test_putTxt_1t_3r_extension_empty', ()=> {
-	rbSpl.putTxt("緑《｜みどり》");
-	expect(retText).toBe(".緑");
-	expect(retRuby).toBe(".｜みどり");
-});
-it('test_putTxt_1t_4r_extension_empty', ()=> {
-	rbSpl.putTxt("雷《｜いかずち》");
-	expect(retText).toBe(".雷");
-	expect(retRuby).toBe(".｜いかずち");
-});
-it('test_putTxt_1t_1r_extension', ()=> {
-	rbSpl.putTxt("火《left｜ひ》");
-	expect(retText).toBe(".火");
-	expect(retRuby).toBe(".left｜ひ");
-});
-it('test_putTxt_1t_2r_extension', ()=> {
-	rbSpl.putTxt("水《left｜みず》");
-	expect(retText).toBe(".水");
-	expect(retRuby).toBe(".left｜みず");
-});
-it('test_putTxt_1t_3r_extension', ()=> {
-	rbSpl.putTxt("緑《left｜みどり》");
-	expect(retText).toBe(".緑");
-	expect(retRuby).toBe(".left｜みどり");
-});
-it('test_putTxt_1t_4r_extension', ()=> {
-	rbSpl.putTxt("雷《left｜いかずち》");
-	expect(retText).toBe(".雷");
-	expect(retRuby).toBe(".left｜いかずち");
-});
+	{i: '火《｜ひ》',
+	t: '.火',
+	r: '.｜ひ'},
 
-it('test_putTxt_2t_2r_extension_empty', ()=> {
-	rbSpl.putTxt("何時《｜い つ》");
-	expect(retText).toBe(".何.時");
-	expect(retRuby).toBe(".｜い.つ");
-});
-it('test_putTxt_2t_4r_extension_empty', ()=> {
-	rbSpl.putTxt("一応《｜いちおう》");
-	expect(retText).toBe(".一応");
-	expect(retRuby).toBe(".｜いちおう");
-});
-it('test_putTxt_2t_6r_extension_empty', ()=> {
-	rbSpl.putTxt("夢幻《｜ゆめまぼろし》");
-	expect(retText).toBe(".夢幻");
-	expect(retRuby).toBe(".｜ゆめまぼろし");
-});
-it('test_putTxt_2t_2r_extension', ()=> {
-	rbSpl.putTxt("何時《left｜い つ》");
-	expect(retText).toBe(".何.時");
-	expect(retRuby).toBe(".left｜い.つ");
-});
-it('test_putTxt_2t_4r_extension', ()=> {
-	rbSpl.putTxt("一応《left｜いちおう》");
-	expect(retText).toBe(".一応");
-	expect(retRuby).toBe(".left｜いちおう");
-});
-it('test_putTxt_2t_6r_extension', ()=> {
-	rbSpl.putTxt("夢幻《left｜ゆめまぼろし》");
-	expect(retText).toBe(".夢幻");
-	expect(retRuby).toBe(".left｜ゆめまぼろし");
-});
+	{i: '水《｜みず》',
+	t: '.水',
+	r: '.｜みず'},
 
-it('test_putTxt_I_2t_4r_extension', ()=> {
-	rbSpl.putTxt("｜剃刀《left｜かみそり》");
-	expect(retText).toBe(".剃刀");
-	expect(retRuby).toBe(".left｜かみそり");
-});
-	it('test_putTxtRb_I_2t_4r_extension', ()=> {
-		rbSpl.putTxtRb("剃刀", "left｜かみそり");
-		expect(retText).toBe(".剃刀");
-		expect(retRuby).toBe(".left｜かみそり");
-	});
-it('test_putTxt_I_2t_4r_1_extension', ()=> {
-	rbSpl.putTxt("安全｜剃刀《left｜かみそり》を");
-	expect(retText).toBe(".安.全.剃刀.を");
-	expect(retRuby).toBe("...left｜かみそり.");
-});
-it('test_putTxt_I_3t_5r_extension', ()=> {
-	rbSpl.putTxt("｜雷の指《left｜ひげこがし》");
-	expect(retText).toBe(".雷の指");
-	expect(retRuby).toBe(".left｜ひげこがし");
-});
-	it('test_putTxtRb_I_3t_5r_extension', ()=> {
-		rbSpl.putTxtRb("雷の指", "left｜ひげこがし");
-		expect(retText).toBe(".雷の指");
-		expect(retRuby).toBe(".left｜ひげこがし");
-	});
-it('test_putTxt_I_3t_5r_1_extension', ()=> {
-	rbSpl.putTxt("彼は｜雷の指《left｜ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷の指.を");
-	expect(retRuby).toBe("...left｜ひげこがし.");
-});
-it('test_putTxt_I_2t_4r_extension_empty', ()=> {
-	rbSpl.putTxt("｜剃刀《｜かみそり》");
-	expect(retText).toBe(".剃刀");
-	expect(retRuby).toBe(".｜かみそり");
-});
-	it('test_putTxtRb_I_2t_4r_extension_empty', ()=> {
-		rbSpl.putTxtRb("剃刀", "｜かみそり");
-		expect(retText).toBe(".剃刀");
-		expect(retRuby).toBe(".｜かみそり");
-	});
-it('test_putTxt_I_2t_4r_1_extension_empty', ()=> {
-	rbSpl.putTxt("安全｜剃刀《｜かみそり》を");
-	expect(retText).toBe(".安.全.剃刀.を");
-	expect(retRuby).toBe("...｜かみそり.");
-});
-it('test_putTxt_I_3t_5r_extension_empty', ()=> {
-	rbSpl.putTxt("｜雷の指《｜ひげこがし》");
-	expect(retText).toBe(".雷の指");
-	expect(retRuby).toBe(".｜ひげこがし");
-});
-	it('test_putTxtRb_I_3t_5r_extension_empty', ()=> {
-		rbSpl.putTxtRb("雷の指", "｜ひげこがし");
-		expect(retText).toBe(".雷の指");
-		expect(retRuby).toBe(".｜ひげこがし");
-	});
-it('test_putTxt_I_3t_5r_1_extension_empty', ()=> {
-	rbSpl.putTxt("彼は｜雷の指《｜ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷の指.を");
-	expect(retRuby).toBe("...｜ひげこがし.");
-});
+	{i: '緑《｜みどり》',
+	t: '.緑',
+	r: '.｜みどり'},
+
+	{i: '雷《｜いかずち》',
+	t: '.雷',
+	r: '.｜いかずち'},
+
+	{i: '火《left｜ひ》',
+	t: '.火',
+	r: '.left｜ひ'},
+
+	{i: '水《left｜みず》',
+	t: '.水',
+	r: '.left｜みず'},
+
+	{i: '緑《left｜みどり》',
+	t: '.緑',
+	r: '.left｜みどり'},
+
+	{i: '雷《left｜いかずち》',
+	t: '.雷',
+	r: '.left｜いかずち'},
 
 
-it('test_putTxt_sesami1', ()=> {
-	rbSpl.putTxt("雷《*》");
-	expect(retText).toBe(".雷");
-	expect(retRuby).toBe(".center｜ヽ");
-});
-	it('test_putTxtRb_sesami1', ()=> {
-		rbSpl.putTxtRb("雷", "*");
-		expect(retText).toBe(".雷");
-		expect(retRuby).toBe(".center｜ヽ");
-	});
-it('test_putTxt_sesami1_chgmark', ()=> {
-	RubySpliter.setting({sesame:"点"})
-	rbSpl.putTxt("雷《*》");
-	expect(retText).toBe(".雷");
-	expect(retRuby).toBe(".center｜点");
+	{i: '何時《｜い つ》',
+	t: '.何.時',
+	r: '.｜い.つ'},
 
-	RubySpliter.setting({sesame:"ヽ"})
-});
-it('test_putTxt_sesami1_1', ()=> {
-	rbSpl.putTxt("雷の指《*》を");
-	expect(retText).toBe(".雷.の.指.を");
-	expect(retRuby).toBe("...center｜ヽ.");
-});
-it('test_putTxt_sesami4', ()=> {
-	rbSpl.putTxt("｜だが断る《*》");
-	expect(retText).toBe(".だ.が.断.る");
-	expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-});
-	it('test_putTxtRb_sesami4', ()=> {
-		rbSpl.putTxtRb("だが断る", "*");
-		expect(retText).toBe(".だ.が.断.る");
-		expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-	});
+	{i: '一応《｜いちおう》',
+	t: '.一応',
+	r: '.｜いちおう'},
 
-it('test_putTxt_sp_sesami1', ()=> {
-	rbSpl.putTxt("　雷《*》");
-	expect(retText).toBe(".　.雷");
-	expect(retRuby).toBe("..center｜ヽ");
-});
-	it('test_putTxtRb_sp_sesami1', ()=> {
-		rbSpl.putTxtRb("　雷", "*");
-		expect(retText).toBe(".　.雷");
-		expect(retRuby).toBe(".center｜ヽ.center｜ヽ");
-	});
-it('test_putTxt_sp_sesami1_chgmark', ()=> {
-	RubySpliter.setting({sesame:"点"})
-	rbSpl.putTxt("　雷《*》");
-	expect(retText).toBe(".　.雷");
-	expect(retRuby).toBe("..center｜点");
+	{i: '夢幻《｜ゆめまぼろし》',
+	t: '.夢幻',
+	r: '.｜ゆめまぼろし'},
 
-	RubySpliter.setting({sesame:"ヽ"})
-});
-it('test_putTxt_sp_sesami1_1', ()=> {
-	rbSpl.putTxt("　雷神指《*》を");
-	expect(retText).toBe(".　.雷.神.指.を");
-	expect(retRuby).toBe("..center｜ヽ.center｜ヽ.center｜ヽ.");
-});
-it('test_putTxt_sp_sesami4', ()=> {
-	rbSpl.putTxt("｜　だが断る《*》");
-	expect(retText).toBe(".　.だ.が.断.る");
-	expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-});
-	it('test_putTxtRb_sp_sesami4', ()=> {
-		rbSpl.putTxtRb("　だが断る", "*");
-		expect(retText).toBe(".　.だ.が.断.る");
-		expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-	});
+	{i: '何時《left｜い つ》',
+	t: '.何.時',
+	r: '.left｜い.つ'},
 
-it('test_putTxt_touten_sesami1', ()=> {
-	rbSpl.putTxt("、雷《*》");
-	expect(retText).toBe(".、.雷");
-	expect(retRuby).toBe("..center｜ヽ");
-});
-it('test_putTxt_touten_sesami1_1', ()=> {
-	rbSpl.putTxt("、雷神指《*》を");
-	expect(retText).toBe(".、.雷.神.指.を");
-	expect(retRuby).toBe("..center｜ヽ.center｜ヽ.center｜ヽ.");
-});
-it('test_putTxt_touten_sesami4', ()=> {
-	rbSpl.putTxt("｜、だが断る《*》");
-	expect(retText).toBe(".、.だ.が.断.る");
-	expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-});
-	it('test_putTxtRb_touten_sesami4', ()=> {
-		rbSpl.putTxtRb("、だが断る", "*");
-		expect(retText).toBe(".、.だ.が.断.る");
-		expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-	});
+	{i: '一応《left｜いちおう》',
+	t: '.一応',
+	r: '.left｜いちおう'},
 
-it('test_putTxt_kuten_sesami1', ()=> {
-	rbSpl.putTxt("。雷《*》");
-	expect(retText).toBe(".。.雷");
-	expect(retRuby).toBe("..center｜ヽ");
-});
-it('test_putTxt_kuten_sesami1_1', ()=> {
-	rbSpl.putTxt("。雷神指《*》を");
-	expect(retText).toBe(".。.雷.神.指.を");
-	expect(retRuby).toBe("..center｜ヽ.center｜ヽ.center｜ヽ.");
-});
-it('test_putTxt_kuten_sesami4', ()=> {
-	rbSpl.putTxt("｜。だが断る《*》");
-	expect(retText).toBe(".。.だ.が.断.る");
-	expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-});
-	it('test_putTxtRb_kuten_sesami4', ()=> {
-		rbSpl.putTxtRb("。だが断る", "*");
-		expect(retText).toBe(".。.だ.が.断.る");
-		expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-	});
-
-it('test_putTxt_dash_sesami1', ()=> {
-	rbSpl.putTxt("─雷《*》");
-	expect(retText).toBe(".─.雷");
-	expect(retRuby).toBe("..center｜ヽ");
-});
-it('test_putTxt_dash_sesami1_1', ()=> {
-	rbSpl.putTxt("─雷神指《*》を");
-	expect(retText).toBe(".─.雷.神.指.を");
-	expect(retRuby).toBe("..center｜ヽ.center｜ヽ.center｜ヽ.");
-});
-it('test_putTxt_dash_sesami4', ()=> {
-	rbSpl.putTxt("｜─だが断る《*》");
-	expect(retText).toBe(".─.だ.が.断.る");
-	expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-});
-	it('test_putTxtRb_dash_sesami4', ()=> {
-		rbSpl.putTxtRb("─だが断る", "*");
-		expect(retText).toBe(".─.だ.が.断.る");
-		expect(retRuby).toBe(".center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ");
-	});
-
-it('test_putTxt_no_sesami1', ()=> {
-	rbSpl.putTxt("雷《*★》");
-	expect(retText).toBe(".雷");
-	expect(retRuby).toBe(".center｜★");
-});
-	it('test_putTxtRb_no_sesami1', ()=> {
-		rbSpl.putTxtRb("雷", "*★");
-		expect(retText).toBe(".雷");
-		expect(retRuby).toBe(".center｜★");
-	});
-it('test_putTxt_no_sesami1_chgmark', ()=> {
-	RubySpliter.setting({sesame:"点"})
-	rbSpl.putTxt("雷《*★》");
-	expect(retText).toBe(".雷");
-	expect(retRuby).toBe(".center｜★");
-
-	RubySpliter.setting({sesame:"ヽ"})
-});
-it('test_putTxt_no_sesami1_1', ()=> {
-	rbSpl.putTxt("雷の指《*★》を");
-	expect(retText).toBe(".雷.の.指.を");
-	expect(retRuby).toBe("...center｜★.");
-});
-it('test_putTxt_no_sesami4', ()=> {
-	rbSpl.putTxt("｜だが断る《*★》");
-	expect(retText).toBe(".だ.が.断.る");
-	expect(retRuby).toBe(".center｜★.center｜★.center｜★.center｜★");
-});
-	it('test_putTxtRb_no_sesami4', ()=> {
-		rbSpl.putTxtRb("だが断る", "*★");
-		expect(retText).toBe(".だ.が.断.る");
-		expect(retRuby).toBe(".center｜★.center｜★.center｜★.center｜★");
-	});
-it('test_putTxt_no_sesami5', ()=> {
-	rbSpl.putTxt("｜だが断る《*@》");
-	expect(retText).toBe(".だ.が.断.る");
-	expect(retRuby).toBe(".center｜@.center｜@.center｜@.center｜@");
-});
-	it('test_putTxtRb_no_sesami5', ()=> {
-		rbSpl.putTxtRb("だが断る", "*@");
-		expect(retText).toBe(".だ.が.断.る");
-		expect(retRuby).toBe(".center｜@.center｜@.center｜@.center｜@");
-	});
+	{i: '夢幻《left｜ゆめまぼろし》',
+	t: '.夢幻',
+	r: '.left｜ゆめまぼろし'},
 
 
-it('test_putTxt_grp0', ()=> {
-	rbSpl.putTxt("一期一会《いち ご いち え》");
-	expect(retText).toBe(".一.期.一.会");
-	expect(retRuby).toBe(".いち.ご.いち.え");
-});
-	it('test_putTxtRb_grp0', ()=> {
-		rbSpl.putTxtRb("一期一会", "いち ご いち え");
-		expect(retText).toBe(".一.期.一.会");
-		expect(retRuby).toBe(".いち.ご.いち.え");
-	});
-it('test_putTxt_grp1', ()=> {
-	rbSpl.putTxt("一期一会《いち ご いち え》冬虫夏草《とう ちゅう か そう》");
-	expect(retText).toBe(".一.期.一.会.冬.虫.夏.草");
-	expect(retRuby).toBe(".いち.ご.いち.え.とう.ちゅう.か.そう");
-});
+	{i: '｜剃刀《left｜かみそり》',
+	t: '.剃刀',
+	r: '.left｜かみそり'},
 
-it('test_putTxt_sp_grp0', ()=> {
-	rbSpl.putTxt("　一期一会《いち ご いち え》");
-	expect(retText).toBe(".　.一.期.一.会");
-	expect(retRuby).toBe("..いち.ご.いち.え");
-});
-	it('test_putTxtRb_sp_grp0', ()=> {
-		rbSpl.putTxtRb("　一期一会", "いち ご いち え");
-		expect(retText).toBe(".　.一.期.一.会");
-		expect(retRuby).toBe(".いち.ご.いち.え.");
-	});
-it('test_putTxt_sp_grp1', ()=> {
-	rbSpl.putTxt("　一期一会《いち ご いち え》　冬虫夏草《とう ちゅう か そう》");
-	expect(retText).toBe(".　.一.期.一.会.　.冬.虫.夏.草");
-	expect(retRuby).toBe("..いち.ご.いち.え..とう.ちゅう.か.そう");
-});
+		{i: '剃刀', ir: 'left｜かみそり',
+		t: '.剃刀',
+		r: '.left｜かみそり'},
 
-it('test_putTxt_sp_grp10', ()=> {
-	rbSpl.putTxt("｜未知の無生物だけに作用する力《unrecognized physical power able to effect inanimate bodies》");
-	expect(retText).toBe(".未.知.の.無.生.物.だ.け.に.作.用.す.る.力");
-	expect(retRuby).toBe(".unrecognized.physical.power.able.to.effect.inanimate.bodies......");
-});
-it('test_putTxt_sp_URLUnEsc01', ()=> {
-	rbSpl.putTxt('｜未知の無生物だけに作用する力《unrecognized%20physical%20power%20able%20to%20effect%20inanimate%20bodies》');
+	{i: '安全｜剃刀《left｜かみそり》を',
+	t: '.安.全.剃刀.を',
+	r: '...left｜かみそり.'},
+
+	{i: '｜雷の指《left｜ひげこがし》',
+	t: '.雷の指',
+	r: '.left｜ひげこがし'},
+
+		{i: '雷の指', ir: 'left｜ひげこがし',
+		t: '.雷の指',
+		r: '.left｜ひげこがし'},
+
+	{i: '彼は｜雷の指《left｜ひげこがし》を',
+	t: '.彼.は.雷の指.を',
+	r: '...left｜ひげこがし.'},
+
+	{i: '｜剃刀《｜かみそり》',
+	t: '.剃刀',
+	r: '.｜かみそり'},
+
+		{i: '剃刀', ir: '｜かみそり',
+		t: '.剃刀',
+		r: '.｜かみそり'},
+
+	{i: '安全｜剃刀《｜かみそり》を',
+	t: '.安.全.剃刀.を',
+	r: '...｜かみそり.'},
+
+	{i: '｜雷の指《｜ひげこがし》',
+	t: '.雷の指',
+	r: '.｜ひげこがし'},
+
+		{i: '雷の指', ir: '｜ひげこがし',
+		t: '.雷の指',
+		r: '.｜ひげこがし'},
+
+	{i: '彼は｜雷の指《｜ひげこがし》を',
+	t: '.彼.は.雷の指.を',
+	r: '...｜ひげこがし.'},
+
+
+
+	{i: '雷《*》',
+	t: '.雷',
+	r: '.center｜ヽ'},
+
+		{i: '雷', ir: '*',
+		t: '.雷',
+		r: '.center｜ヽ'},
+
+	{sesame: '点',
+		i: '雷《*》',
+		t: '.雷',
+		r: '.center｜点',
+	},
+
+
+	{i: '雷の指《*》を',
+	t: '.雷.の.指.を',
+	r: '...center｜ヽ.'},
+
+	{i: '｜だが断る《*》',
+	t: '.だ.が.断.る',
+	r: '.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ'},
+
+		{i: 'だが断る', ir: '*',
+		t: '.だ.が.断.る',
+		r: '.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ'},
+
+
+
+	{i: '　雷《*》',
+	t: '.　.雷',
+	r: '..center｜ヽ'},
+
+		{i: '　雷', ir: '*',
+		t: '.　.雷',
+		r: '.center｜ヽ.center｜ヽ'},
+
+	{sesame: '点',
+		i: '　雷《*》',
+		t: '.　.雷',
+		r: '..center｜点'
+	},
+
+
+	{i: '　雷神指《*》を',
+	t: '.　.雷.神.指.を',
+	r: '..center｜ヽ.center｜ヽ.center｜ヽ.'},
+
+	{i: '｜　だが断る《*》',
+	t: '.　.だ.が.断.る',
+	r: '.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ'
+	},
+
+	{i: '　だが断る', ir: '*',
+	t: '.　.だ.が.断.る',
+	r: '.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ'},
+
+
+	{i: '、雷《*》',
+	t: '.、.雷',
+	r: '..center｜ヽ'},
+
+	{i: '、雷神指《*》を',
+	t: '.、.雷.神.指.を',
+	r: '..center｜ヽ.center｜ヽ.center｜ヽ.'},
+
+	{sesame: '点',
+		i: '　雷《*》',
+		t: '.　.雷',
+		r: '..center｜点'},
+
+
+	{i: '。雷《*》',
+	t: '.。.雷',
+	r: '..center｜ヽ'},
+
+	{i: '。雷神指《*》を',
+	t: '.。.雷.神.指.を',
+	r: '..center｜ヽ.center｜ヽ.center｜ヽ.'},
+
+	{i: '｜。だが断る《*》',
+	t: '.。.だ.が.断.る',
+	r: '.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ'},
+
+	{i: '　だが断る', ir: '*',
+	t: '.　.だ.が.断.る',
+	r: '.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ'},
+
+
+	{i: '─雷《*》',
+	t: '.─.雷',
+	r: '..center｜ヽ'},
+
+	{i: '─雷神指《*》を',
+	t: '.─.雷.神.指.を',
+	r: '..center｜ヽ.center｜ヽ.center｜ヽ.'},
+
+	{i: '｜─だが断る《*》',
+	t: '.─.だ.が.断.る',
+	r: '.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ'},
+
+		{i: '、だが断る', ir: '*',
+		t: '.、.だ.が.断.る',
+		r: '.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ'},
+
+
+	{i: '雷《*★》',
+	t: '.雷',
+	r: '.center｜★'},
+
+		{i: '雷', ir: '*★',
+		t: '.雷',
+		r: '.center｜★'},
+
+	{sesame: '点',
+		i: '雷《*★》',
+		t: '.雷',
+		r: '.center｜★'},
+
+	{i: '雷の指《*★》を',
+	t: '.雷.の.指.を',
+	r: '...center｜★.'},
+
+	{i: '｜だが断る《*★》',
+	t: '.だ.が.断.る',
+	r: '.center｜★.center｜★.center｜★.center｜★'},
+
+		{i: 'だが断る', ir: '*★',
+		t: '.だ.が.断.る',
+		r: '.center｜★.center｜★.center｜★.center｜★'},
+
+	{i: '｜だが断る《*@》',
+	t: '.だ.が.断.る',
+	r: '.center｜@.center｜@.center｜@.center｜@'},
+
+		{i: 'だが断る', ir: '*@',
+		t: '.だ.が.断.る',
+		r: '.center｜@.center｜@.center｜@.center｜@'},
+
+
+
+	{i: '一期一会《いち ご いち え》',
+	t: '.一.期.一.会',
+	r: '.いち.ご.いち.え'},
+
+		{i: '一期一会', ir: 'いち ご いち え',
+		t: '.一.期.一.会',
+		r: '.いち.ご.いち.え'},
+
+	{i: '一期一会《いち ご いち え》冬虫夏草《とう ちゅう か そう》',
+	t: '.一.期.一.会.冬.虫.夏.草',
+	r: '.いち.ご.いち.え.とう.ちゅう.か.そう'},
+
+
+	{i: '　一期一会《いち ご いち え》',
+	t: '.　.一.期.一.会',
+	r: '..いち.ご.いち.え'},
+
+		{i: '　一期一会', ir: 'いち ご いち え',
+		t: '.　.一.期.一.会',
+		r: '.いち.ご.いち.え.'},
+
+	{i: '　一期一会《いち ご いち え》　冬虫夏草《とう ちゅう か そう》',
+	t: '.　.一.期.一.会.　.冬.虫.夏.草',
+	r: '..いち.ご.いち.え..とう.ちゅう.か.そう'},
+
+
+	{i: '｜未知の無生物だけに作用する力《unrecognized physical power able to effect inanimate bodies》',
+	t: '.未.知.の.無.生.物.だ.け.に.作.用.す.る.力',
+	r: '.unrecognized.physical.power.able.to.effect.inanimate.bodies......'},
+
+	{i: '｜未知の無生物だけに作用する力《unrecognized%20physical%20power%20able%20to%20effect%20inanimate%20bodies》',
+	t: '.未知の無生物だけに作用する力',
+	r: '.unrecognized physical power able to effect inanimate bodies'},
+
+		{i: '％《%25》縦棒《%ef%bd%9c》二重山括弧《%e3%80%8axxx%e3%80%8b》',
+		t: '.％.縦棒.二重山括弧',
+		r: '.%.｜.《xxx》',},
+	{i: '｜ケセラセラ《Que%20Sera,%20Sera》',
+	t: '.ケセラセラ',
+	r: '.Que Sera, Sera'},
+
+		{i: '｜ケセラセラ《Que%20Sera,%20Sera》',
+		t: '.ケセラセラ',
+		r: '.Que Sera, Sera'},
+
+/*
+it('test_putTxt_sp_grp13', ()=> {
+	rs.putTxt('｜未知の無生物だけに作用する力《unrecognized\\ physical\\ power\\ able\\ to\\ effect\\ inanimate\\ bodies》');
 	expect(retText).toBe('.未知の無生物だけに作用する力');
 	expect(retRuby).toBe('.unrecognized physical power able to effect inanimate bodies');
 });
-	it('test_putTxt_sp_URLUnEsc02', ()=> {
-		rbSpl.putTxt('％《%25》縦棒《%ef%bd%9c》二重山括弧《%e3%80%8axxx%e3%80%8b》');
-		expect(retText).toBe('.％.縦棒.二重山括弧');
-		expect(retRuby).toBe('.%.｜.《xxx》');
-	});
-it('test_putTxt_sp_URLUnEsc03', ()=> {
-	rbSpl.putTxt('｜ケセラセラ《Que%20Sera,%20Sera》');
-	expect(retText).toBe('.ケセラセラ');
-	expect(retRuby).toBe('.Que Sera, Sera');
-});
-	it('test_putTxt_sp_URLUnEsc04', ()=> {
-		rbSpl.putTxt('｜ケセラセラ《Que%20Sera,%20Sera》');
-		expect(retText).toBe('.ケセラセラ');
-		expect(retRuby).toBe('.Que Sera, Sera');
-	});
-/*
-it('test_putTxt_sp_grp13', ()=> {
-	rs.putTxt("｜未知の無生物だけに作用する力《unrecognized\\ physical\\ power\\ able\\ to\\ effect\\ inanimate\\ bodies》");
-	expect(retText).toBe(".未知の無生物だけに作用する力");
-	expect(retRuby).toBe(".unrecognized physical power able to effect inanimate bodies");
-});
 // まぁいらんか、やめとこ。特殊な文字が増えるし
 */
-	it('test_putTxt_sp_URLUnEsc05', ()=> {
-		rbSpl.putTxt('　一期一会《いち ご%20 いち %20え》');
-		expect(retText).toBe('.　.一.期.一.会');
-		expect(retRuby).toBe('..いち.ご .いち. え');
-	});
-it('test_putTxt_sp_URLUnEsc06', ()=> {
-	rbSpl.putTxt('｜%E8%9C%8A%E3%80%8A《%E3%80%8A%EF%BD%9C%E3%80%8B》');
-	expect(retText).toBe('.蜊《');
-	expect(retRuby).toBe('.《｜》');
-});
-it('test_putTxt_sp_URLUnEsc07', ()=> {
-	rbSpl.putTxt('｜　%20%2520《*》');
-	expect(retText).toBe('.　. .%.2.0');
-	expect(retRuby).toBe('.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ');
-});
-	it('test_putTxt_sp_URLUnEsc08', ()=> {
-		rbSpl.putTxt('｜%5B%26%5D《%5B%26%20%5D》');
-		expect(retText).toBe('.[&]');
-		expect(retRuby).toBe('.[& ]');
-	});
+
+	{i: '　一期一会《いち ご%20 いち %20え》',
+		t: '.　.一.期.一.会',
+		r: '..いち.ご .いち. え'},
+
+{i: '｜%E8%9C%8A%E3%80%8A《%E3%80%8A%EF%BD%9C%E3%80%8B》',
+	t: '.蜊《',
+	r: '.《｜》'},
+
+{i: '｜　%20%2520《*》',
+	t: '.　. .%.2.0',
+	r: '.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ.center｜ヽ'},
+
+	{i: '｜%5B%26%5D《%5B%26%20%5D》',
+		t: '.[&]',
+		r: '.[& ]'},
 
 
-it('test_putTxt_sp_grp15', ()=> {
-	rbSpl.putTxt(`｜　《link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}》`);
-	expect(retText).toBe(".　");
-	expect(retRuby).toBe(`.link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}`);
-});
+		{i: `｜　《link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}》`,
+		t: '.　',
+		r: `.link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}`},
 
 
-it('test_putTxt_I_2t_4r', ()=> {
-	rbSpl.putTxt("｜剃刀《かみそり》");
-	expect(retText).toBe(".剃刀");
-	expect(retRuby).toBe(".かみそり");
-});
-	it('test_putTxtRb_I_2t_4r', ()=> {
-		rbSpl.putTxtRb("剃刀", "かみそり");
-		expect(retText).toBe(".剃刀");
-		expect(retRuby).toBe(".かみそり");
-	});
-it('test_putTxt_I_2t_4r_1', ()=> {
-	rbSpl.putTxt("安全｜剃刀《かみそり》を");
-	expect(retText).toBe(".安.全.剃刀.を");
-	expect(retRuby).toBe("...かみそり.");
-});
+	{i: '｜剃刀《かみそり》',
+	t: '.剃刀',
+	r: '.かみそり'},
 
-it('test_putTxt_I_3t_5r', ()=> {
-	rbSpl.putTxt("｜雷の指《ひげこがし》");
-	expect(retText).toBe(".雷の指");
-	expect(retRuby).toBe(".ひげこがし");
-});
-	it('test_putTxtRb_I_3t_5r', ()=> {
-		rbSpl.putTxtRb("雷の指", "ひげこがし");
-		expect(retText).toBe(".雷の指");
-		expect(retRuby).toBe(".ひげこがし");
-	});
-it('test_putTxt_I_3t_5r_1', ()=> {
-	rbSpl.putTxt("彼は｜雷の指《ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷の指.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
+	{i: '剃刀', ir: 'かみそり',
+		t: '.剃刀',
+		r: '.かみそり'},
+	
+		{i: '安全｜剃刀《かみそり》を',
+	t: '.安.全.剃刀.を',
+	r: '...かみそり.'},
 
 
-it('test_putTxt_sp_I_2t_4rA', ()=> {
-	rbSpl.putTxt("　｜剃刀《かみそり》");
-	expect(retText).toBe(".　.剃刀");
-	expect(retRuby).toBe("..かみそり");
-});
-it('test_putTxt_sp_I_2t_4rB', ()=> {
-	rbSpl.putTxt("｜　剃刀《かみそり》");
-	expect(retText).toBe(".　剃刀");
-	expect(retRuby).toBe(".かみそり");
-});
-	it('test_putTxtRb_sp_I_2t_4rB', ()=> {
-		rbSpl.putTxtRb("　剃刀", "かみそり");
-		expect(retText).toBe(".　剃刀");
-		expect(retRuby).toBe(".かみそり");
-	});
-it('test_putTxt_sp_I_2t_4rC', ()=> {
-	rbSpl.putTxt("｜剃　刀《かみそり》");
-	expect(retText).toBe(".剃　刀");
-	expect(retRuby).toBe(".かみそり");
-});
-	it('test_putTxtRb_sp_I_2t_4rC', ()=> {
-		rbSpl.putTxtRb("剃　刀", "かみそり");
-		expect(retText).toBe(".剃　刀");
-		expect(retRuby).toBe(".かみそり");
-	});
-it('test_putTxt_sp_I_2t_4rD', ()=> {
-	rbSpl.putTxt("｜剃刀　《かみそり》");
-	expect(retText).toBe(".剃刀　");
-	expect(retRuby).toBe(".かみそり");
-});
-	it('test_putTxtRb_sp_I_2t_4rD', ()=> {
-		rbSpl.putTxtRb("剃刀　", "かみそり");
-		expect(retText).toBe(".剃刀　");
-		expect(retRuby).toBe(".かみそり");
-	});
-it('test_putTxt_sp_I_2t_4r_1A', ()=> {
-	rbSpl.putTxt("　安全｜剃刀《かみそり》を");
-	expect(retText).toBe(".　.安.全.剃刀.を");
-	expect(retRuby).toBe("....かみそり.");
-});
-it('test_putTxt_sp_I_2t_4r_1B', ()=> {
-	rbSpl.putTxt("安　全｜剃刀《かみそり》を");
-	expect(retText).toBe(".安.　.全.剃刀.を");
-	expect(retRuby).toBe("....かみそり.");
-});
-	it('test_putTxt_sp_I_2t_4r_1B2', ()=> {
-		rbSpl.putTxt("あ安　全い｜剃刀《かみそり》を");
-		expect(retText).toBe(".あ.安.　.全.い.剃刀.を");
-		expect(retRuby).toBe("......かみそり.");
-	});
-	it('test_putTxt_sp_I_2t_4r_1B3', ()=> {
-		rbSpl.putTxt("あ「とある科学　超電磁砲《121｜レールガン》」");
-		expect(retText).toBe(".あ.「.と.あ.る.科.学.　.超電磁砲.」");
-		expect(retRuby).toBe(".........121｜レールガン.");
-	});
-it('test_putTxt_sp_I_2t_4r_1C', ()=> {
-	rbSpl.putTxt("安全　｜剃刀《かみそり》を");
-	expect(retText).toBe(".安.全.　.剃刀.を");
-	expect(retRuby).toBe("....かみそり.");
-});
-it('test_putTxt_sp_I_2t_4r_1D', ()=> {
-	rbSpl.putTxt("安全｜　剃刀《かみそり》を");
-	expect(retText).toBe(".安.全.　剃刀.を");
-	expect(retRuby).toBe("...かみそり.");
-});
-it('test_putTxt_sp_I_2t_4r_1E', ()=> {
-	rbSpl.putTxt("安全｜剃　刀《かみそり》を");
-	expect(retText).toBe(".安.全.剃　刀.を");
-	expect(retRuby).toBe("...かみそり.");
-});
-it('test_putTxt_sp_I_2t_4r_1F', ()=> {
-	rbSpl.putTxt("安全｜剃刀　《かみそり》を");
-	expect(retText).toBe(".安.全.剃刀　.を");
-	expect(retRuby).toBe("...かみそり.");
-});
-it('test_putTxt_sp_I_2t_4r_1G', ()=> {
-	rbSpl.putTxt("安　全｜剃　刀《かみそり》を");
-	expect(retText).toBe(".安.　.全.剃　刀.を");
-	expect(retRuby).toBe("....かみそり.");
-});
+	{i: '｜雷の指《ひげこがし》',
+	t: '.雷の指',
+	r: '.ひげこがし'},
 
-it('test_putTxt_sp_I_3t_5r', ()=> {
-	rbSpl.putTxt("　｜雷の指《ひげこがし》");
-	expect(retText).toBe(".　.雷の指");
-	expect(retRuby).toBe("..ひげこがし");
-});
-	it('test_putTxtRb_sp_I_3t_5r', ()=> {
-		rbSpl.putTxtRb("　雷の指", "ひげこがし");
-		expect(retText).toBe(".　雷の指");
-		expect(retRuby).toBe(".ひげこがし");
-	});
-it('test_putTxt_sp_I_3t_5r_1', ()=> {
-	rbSpl.putTxt("　彼は｜雷の指《ひげこがし》を");
-	expect(retText).toBe(".　.彼.は.雷の指.を");
-	expect(retRuby).toBe("....ひげこがし.");
-});
-
-
-it('test_UnicodeKanji4Future_ベーステスト', ()=> {
-	rbSpl.putTxt("彼は雷の指《ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷.の.指.を");
-	expect(retRuby).toBe(".....ひげこがし.");
-});
-it('test_UnicodeKanji4Future_漢数字ゼロ', ()=> {
-	rbSpl.putTxt("彼は雷〇指《ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷〇指.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
-it('test_UnicodeKanji4Future_漢数字ゼロ2', ()=> {
-	rbSpl.putTxt("彼は雷〇指《ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷\u3007指.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
-it('test_UnicodeKanji4Future_CJK統合漢字拡張A', ()=> {
-	rbSpl.putTxt("彼は雷㐂指《ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷㐂指.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
-it('test_UnicodeKanji4Future_CJK統合漢字', ()=> {
-	rbSpl.putTxt("彼は雷一指《ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷一指.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
-it('test_UnicodeKanji4Future_CJK互換漢字', ()=> {
-	rbSpl.putTxt("彼は雷\uF900指《ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷\uF900指.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
-it('test_UnicodeKanji4Future_JK統合漢字拡張B', ()=> {
-	rbSpl.putTxt("彼は雷𠀋指《ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷𠀋指.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
-it('test_UnicodeKanji4Future_CJK互換漢字補助', ()=> {
-	rbSpl.putTxt("彼は雷你指《ひげこがし》を");
-	expect(retText).toBe(".彼.は.雷你指.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
+	{i: '雷の指', ir: 'ひげこがし',
+		t: '.雷の指',
+		r: '.ひげこがし'},
+	
+		{i: '彼は｜雷の指《ひげこがし》を',
+	t: '.彼.は.雷の指.を',
+	r: '...ひげこがし.'},
 
 
 
-it('test_不具合20101230_0', ()=> {
-	rbSpl.putTxt("　御機嫌《ご き げん》｜麗し《うるわ　》ゅう。");
-	expect(retText).toBe(".　.御.機.嫌.麗し.ゅ.う.。");
-	expect(retRuby).toBe("..ご.き.げん.うるわ　...");
-});
-it('test_不具合20101230_0b', ()=> {
-	rbSpl.putTxt("麗し《うるわ　》ゅう。");
-	expect(retText).toBe(".麗し.ゅ.う.。");
-	expect(retRuby).toBe(".うるわ　...");
-});
-it('test_不具合20101230_1', ()=> {
-	rbSpl.putTxt("案内《あない》仕り《つかまつ》");
-	expect(retText).toBe(".案内.仕り");
-	expect(retRuby).toBe(".あない.つかまつ");
-});
+	{i: '　｜剃刀《かみそり》',
+	t: '.　.剃刀',
+	r: '..かみそり'},
 
-it('test_不具合20110108_0_ok', ()=> {
-	rbSpl.putTxt("｜a《A》｜b《き》");
-	expect(retText).toBe(".a.b");
-	expect(retRuby).toBe(".A.き");
-});
-it('test_不具合20110108_0', ()=> {
-	rbSpl.putTxt("a《A》b《き》");
-	expect(retText).toBe(".a.b");
-	expect(retRuby).toBe(".A.き");
-});
+	{i: '｜　剃刀《かみそり》',
+	t: '.　剃刀',
+	r: '.かみそり'},
 
-it('test_不具合20110108_1', ()=> {
-	rbSpl.putTxt("a《A》う《き》");
-	expect(retText).toBe(".a.う");
-	expect(retRuby).toBe(".A.き");
-});
+	{i: '　剃刀', ir: 'かみそり',
+		t: '.　剃刀',
+		r: '.かみそり'},
+	
+		{i: '｜剃　刀《かみそり》',
+	t: '.剃　刀',
+	r: '.かみそり'},
 
-it('test_不具合20110108_2_ok', ()=> {
-	rbSpl.putTxt("御機嫌《RUBY》");
-	expect(retText).toBe(".御機嫌");
-	expect(retRuby).toBe(".RUBY");
-});
-it('test_不具合20110108_2', ()=> {
-	rbSpl.putTxt("御機嫌《center｜RUBY》");
-	expect(retText).toBe(".御機嫌");
-	expect(retRuby).toBe(".center｜RUBY");
-});
+	{i: '剃　刀', ir: 'かみそり',
+		t: '.剃　刀',
+		r: '.かみそり'},
+	
+		{i: '｜剃刀　《かみそり》',
+	t: '.剃刀　',
+	r: '.かみそり'},
 
-it('test_不具合20140103_0_ng', ()=> {
-	rbSpl.putTxt("「はい輪島御児《わ じま み こ》神社でございます。はい。初宮参り《はつ みや まい 》のご予約ですね」");
-	expect(retText).toBe(".「.は.い.輪.島.御.児.神.社.で.ご.ざ.い.ま.す.。.は.い.。.初.宮.参.り.の.ご.予.約.で.す.ね.」");
-	expect(retRuby).toBe("....わ.じま.み.こ.............はつ.みや.まい.........");
-});
-it('test_不具合20140103_1_ok', ()=> {
-	rbSpl.putTxt("「はい輪島御児《わ じま み こ》神社でございます。はい。｜初宮参り《はつ みや まい 》のご予約ですね」");
-	expect(retText).toBe(".「.は.い.輪.島.御.児.神.社.で.ご.ざ.い.ま.す.。.は.い.。.初.宮.参.り.の.ご.予.約.で.す.ね.」");
-	expect(retRuby).toBe("....わ.じま.み.こ.............はつ.みや.まい.........");
-});
-it('test_不具合20140103_2_ng', ()=> {
-	rbSpl.putTxt("「初宮参り《はつ みや まい 》」");
-	expect(retText).toBe(".「.初.宮.参.り.」");
-	expect(retRuby).toBe("..はつ.みや.まい..");
-});
-it('test_不具合20140103_3_ok', ()=> {
-	rbSpl.putTxt("「｜初宮参り《はつ みや まい 》」");
-	expect(retText).toBe(".「.初.宮.参.り.」");
-	expect(retRuby).toBe("..はつ.みや.まい..");
-});
+	{i: '剃刀　', ir: 'かみそり',
+		t: '.剃刀　',
+		r: '.かみそり'},
+	
+		{i: '　安全｜剃刀《かみそり》を',
+	t: '.　.安.全.剃刀.を',
+	r: '....かみそり.'},
 
-it('test_不具合20150625_0', ()=> {
-	rbSpl.putTxt('鳥山石燕《とりやませきえん》　『｜今昔 《こんじゃく》百鬼拾遺《ひゃっきしゅうい》』下之巻 雨');
-	expect(retText).toBe('.鳥山石燕.　.『.今昔 .百鬼拾遺.』.下.之.巻. .雨');
-	expect(retRuby).toBe('.とりやませきえん...こんじゃく.ひゃっきしゅうい......');
-});
-it('test_不具合20150625_1', ()=> {
-	rbSpl.putTxt("　雷\n");
-	expect(retText).toBe(".　.雷.\n");
-	expect(retRuby).toBe("...");
-});
-it('test_不具合20150625_2', ()=> {
-	rbSpl.putTxt("雷\n雷\n雷\n雷\n");
-	expect(retText).toBe(".雷.\n.雷.\n.雷.\n.雷.\n");
-	expect(retRuby).toBe("........");
-});
-it('test_不具合20150625_3', ()=> {
-	rbSpl.putTxt("雷\n火《ひ》\n");
-	expect(retText).toBe(".雷.\n.火.\n");
-	expect(retRuby).toBe("...ひ.");
-});
+	{i: '安　全｜剃刀《かみそり》を',
+	t: '.安.　.全.剃刀.を',
+	r: '....かみそり.'},
+		
+	{i: 'あ安　全い｜剃刀《かみそり》を',
+		t: '.あ.安.　.全.い.剃刀.を',
+		r: '......かみそり.'},
+			
+		{i: 'あ「とある科学　超電磁砲《121｜レールガン》」',
+		t: '.あ.「.と.あ.る.科.学.　.超電磁砲.」',
+		r: '.........121｜レールガン.'},
+	
+		{i: '安全　｜剃刀《かみそり》を',
+	t: '.安.全.　.剃刀.を',
+	r: '....かみそり.'},
 
-it('test_不具合20150711_0', ()=> {
-	rbSpl.putTxt("｜曰《いはく》");
-	expect(retText).toBe(".曰");
-	expect(retRuby).toBe(".いはく");
-});
-it('test_不具合20150711_1', ()=> {
-	rbSpl.putTxt("｜曰　《いはく》");
-	expect(retText).toBe(".曰　");
-	expect(retRuby).toBe(".いはく");
-});
-it('test_不具合20150711_2', ()=> {
-	rbSpl.putTxt("｜　曰《いはく》");
-	expect(retText).toBe(".　曰");
-	expect(retRuby).toBe(".いはく");
-});
-it('test_不具合20150711_3', ()=> {
-	rbSpl.putTxt("｜曰 《いはく》");
-	expect(retText).toBe(".曰 ");
-	expect(retRuby).toBe(".いはく");
-});
-it('test_不具合20150711_4', ()=> {
-	rbSpl.putTxt("｜ 曰《いはく》");
-	expect(retText).toBe(". 曰");
-	expect(retRuby).toBe(".いはく");
-});
-it('test_不具合20150711_10', ()=> {
-	rbSpl.putTxt('　論語《ろんごに》｜曰 《いはく》「郷人《けうひと》儺朝服而立《のおにやらいにてうふ》');
-	expect(retText).toBe('.　.論語.曰 .「.郷人.儺朝服而立');
-	expect(retRuby).toBe('..ろんごに.いはく..けうひと.のおにやらいにてうふ');
-});
+	{i: '安全｜　剃刀《かみそり》を',
+	t: '.安.全.　剃刀.を',
+	r: '...かみそり.'},
+
+	{i: '安全｜剃　刀《かみそり》を',
+	t: '.安.全.剃　刀.を',
+	r: '...かみそり.'},
+
+	{i: '安全｜剃刀　《かみそり》を',
+	t: '.安.全.剃刀　.を',
+	r: '...かみそり.'},
+
+	{i: '安　全｜剃　刀《かみそり》を',
+	t: '.安.　.全.剃　刀.を',
+	r: '....かみそり.'},
 
 
-it('test_putTxt_Through_2t_2r', ()=> {
-	rbSpl.putTxt("《い つ》");
-	expect(retText).toBe(".《.い. .つ.》");
-	expect(retRuby).toBe(".....");
-});
+	{i: '　｜雷の指《ひげこがし》',
+	t: '.　.雷の指',
+	r: '..ひげこがし'},
+
+	{i: '　雷の指', ir: 'ひげこがし',
+		t: '.　雷の指',
+		r: '.ひげこがし'},
+	
+		{i: '　彼は｜雷の指《ひげこがし》を',
+	t: '.　.彼.は.雷の指.を',
+	r: '....ひげこがし.'},
 
 
-it('test_サロゲートペア', ()=> {
-	rbSpl.putTxt('🌈');
-	expect(retText).toBe('.🌈');
-	expect(retRuby).toBe('.');
-});
-it('test_サロゲートペア2', ()=> {
-	rbSpl.putTxt('🌈𩸽🌕');
-	expect(retText).toBe('.🌈.𩸽.🌕');
-	expect(retRuby).toBe('...');
-});
-it('test_サロゲートペア10', ()=> {
-	rbSpl.putTxt('　｜🌈《にじ》　');
-	expect(retText).toBe('.　.🌈.　');
-	expect(retRuby).toBe('..にじ.');
-});
-it('test_サロゲートペア11', ()=> {
-	rbSpl.putTxt('　🌈《にじ》');
-	expect(retText).toBe('.　.🌈');
-	expect(retRuby).toBe('..にじ');
-});
-it('test_サロゲートペア12', ()=> {
-	rbSpl.putTxt('｜🌈𩸽🌕《にじ ほっけ まんげつ》');
-	expect(retText).toBe('.🌈.𩸽.🌕');
-	expect(retRuby).toBe('.にじ.ほっけ.まんげつ');
-});
+	// test_UnicodeKanji4Future_ベーステスト
+	{i: '彼は雷の指《ひげこがし》を',
+	t: '.彼.は.雷.の.指.を',
+	r: '.....ひげこがし.'},
 
-it('test_｜｜《》', ()=> {
-	rbSpl.putTxt('｜｜　論語《ろんごに》');
-	expect(retText).toBe('.｜　論語');
-	expect(retRuby).toBe('.ろんごに');
-});
-it('test_｜《《》', ()=> {
-	rbSpl.putTxt('｜《　論語《ろんごに》');
-	expect(retText).toBe('.｜.《.　.論語');
-	expect(retRuby).toBe('....ろんごに');
-});
-	it('test_｜｜《《》', ()=> {
-		rbSpl.putTxt('｜｜　《論語《ろんごに》');
-		expect(retText).toBe('.｜　');
-		expect(retRuby).toBe('.論語《ろんごに');
-	});
-it('test_esc｜', ()=> {
-	rbSpl.putTxt('\\｜｜　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.\\.｜　論語');
-	expect(retRuby).toBe('..ろんごに');
-});
-	it('test_escDefEsc｜', ()=> {
-		RubySpliter.setEscape('\\');
-		rbSpl.putTxt('\\｜｜　論語《ろんごに》');	// 「\\」で一文字
-		expect(retText).toBe('.｜.　論語');
-		expect(retRuby).toBe('..ろんごに');
-	});
-	it('test_escDefEsc¥｜', ()=> {
-		RubySpliter.setEscape('¥');
-		rbSpl.putTxt('¥｜｜　論語《ろんごに》');	// 「¥」で一文字
-		expect(retText).toBe('.｜.　論語');
-		expect(retRuby).toBe('..ろんごに');
-	});
-	it('test_escDefEsc\\2｜', ()=> {
-		RubySpliter.setEscape('\\');
-		rbSpl.putTxt('\\｜｜　論語《ろんごに》\\｜　曰《いはく》');	// 「\\」で一文字
-		expect(retText).toBe('.｜.　論語.｜.　.曰');
-		expect(retRuby).toBe('..ろんごに...いはく');
-	});
-	it('test_escDefEsc\\No¥｜', ()=> {
-		RubySpliter.setEscape('\\');
-		rbSpl.putTxt('\\｜｜　論語《ろんごに》¥｜　曰《いはく》');	// 「\\」で一文字
-		expect(retText).toBe('.｜.　論語.¥.　曰');
-		expect(retRuby).toBe('..ろんごに..いはく');
-	});
-	it('test_escDefEsc¥No\\｜', ()=> {
-		RubySpliter.setEscape('¥');
-		rbSpl.putTxt('\\｜｜　論語《ろんごに》¥｜　曰《いはく》');	// 「\\」で一文字
-		expect(retText).toBe('.\\.｜　論語.｜.　.曰');
-		expect(retRuby).toBe('..ろんごに...いはく');
-	});
-it('test_esc｜2', ()=> {
-	rbSpl.putTxt('\\｜　論語《ろんごに》');
-	expect(retText).toBe('.\\.　論語');
-	expect(retRuby).toBe('..ろんごに');
-});
-	it('test_esc｜2DefEsc', ()=> {
-		RubySpliter.setEscape('\\');
-		rbSpl.putTxt('\\｜　論語《ろんごに》');
-		expect(retText).toBe('.｜.　.論語');
-		expect(retRuby).toBe('...ろんごに');
-	});
-	it('test_esc｜2DefEsc¥', ()=> {
-		RubySpliter.setEscape('¥');
-		rbSpl.putTxt('¥｜　論語《ろんごに》');
-		expect(retText).toBe('.｜.　.論語');
-		expect(retRuby).toBe('...ろんごに');
-	});
-it('test_｜esc《》', ()=> {
-	rbSpl.putTxt('｜\\　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.\\　論語');
-	expect(retRuby).toBe('.ろんごに');
-});
-	it('test_escesc｜《》', ()=> {
-		rbSpl.putTxt('\\\\｜　論語《ろんごに》');	// 「\\」で一文字
-		expect(retText).toBe('.\\.\\.　論語');
-		expect(retRuby).toBe('...ろんごに');
-	});
-	it('test_escescDefEsc｜《》', ()=> {
-		RubySpliter.setEscape('\\');
-		rbSpl.putTxt('\\\\｜　論語《ろんごに》');	// 「\\」で一文字
-		expect(retText).toBe('.\\.　論語');
-		expect(retRuby).toBe('..ろんごに');
-	});
-	it('test_escescDefEsc¥｜《》', ()=> {
-		RubySpliter.setEscape('¥');
-		rbSpl.putTxt('¥¥｜　論語《ろんごに》');	// 「¥」で一文字
-		expect(retText).toBe('.¥.　論語');
-		expect(retRuby).toBe('..ろんごに');
-	});
+	// test_UnicodeKanji4Future_漢数字ゼロ
+	{i: '彼は雷〇指《ひげこがし》を',
+	t: '.彼.は.雷〇指.を',
+	r: '...ひげこがし.'},
 
-it('test_esc&｜《》', ()=> {
-	rbSpl.putTxt('\\&　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.\\.&.　.論語');
-	expect(retRuby).toBe('....ろんごに');
-});
-it('test_esc[｜《》', ()=> {
-	rbSpl.putTxt('\\[　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.\\.[.　.論語');
-	expect(retRuby).toBe('....ろんごに');
-});
-it('test_esc;｜《》', ()=> {
-	rbSpl.putTxt('\\;　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.\\.;.　.論語');
-	expect(retRuby).toBe('....ろんごに');
-});
-it('test_esc*｜《》', ()=> {
-	rbSpl.putTxt('\\*　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.\\.*.　.論語');
-	expect(retRuby).toBe('....ろんごに');
-});
-it('test_esc&DefEsc｜《》', ()=> {
-	RubySpliter.setEscape('\\');
-	rbSpl.putTxt('\\&　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.&.　.論語');
-	expect(retRuby).toBe('...ろんごに');
-});
-it('test_esc[DefEsc｜《》', ()=> {
-	RubySpliter.setEscape('\\');
-	rbSpl.putTxt('\\[　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.[.　.論語');
-	expect(retRuby).toBe('...ろんごに');
-});
-it('test_esc;DefEsc｜《》', ()=> {
-	RubySpliter.setEscape('\\');
-	rbSpl.putTxt('\\;　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.;.　.論語');
-	expect(retRuby).toBe('...ろんごに');
-});
-it('test_esc*DefEsc｜《》', ()=> {
-	RubySpliter.setEscape('\\');
-	rbSpl.putTxt('\\*　論語《ろんごに》');	// 「\\」で一文字
-	expect(retText).toBe('.*.　.論語');
-	expect(retRuby).toBe('...ろんごに');
-});
-it('test_esc&DefEsc¥｜《》', ()=> {
-	RubySpliter.setEscape('¥');
-	rbSpl.putTxt('¥&　論語《ろんごに》');
-	expect(retText).toBe('.&.　.論語');
-	expect(retRuby).toBe('...ろんごに');
-});
-it('test_esc[DefEsc¥｜《》', ()=> {
-	RubySpliter.setEscape('¥');
-	rbSpl.putTxt('¥[　論語《ろんごに》');
-	expect(retText).toBe('.[.　.論語');
-	expect(retRuby).toBe('...ろんごに');
-});
-it('test_esc;DefEsc¥｜《》', ()=> {
-	RubySpliter.setEscape('¥');
-	rbSpl.putTxt('¥;　論語《ろんごに》');
-	expect(retText).toBe('.;.　.論語');
-	expect(retRuby).toBe('...ろんごに');
-});
-it('test_esc*DefEsc¥｜《》', ()=> {
-	RubySpliter.setEscape('¥');
-	rbSpl.putTxt('¥*　論語《ろんごに》');
-	expect(retText).toBe('.*.　.論語');
-	expect(retRuby).toBe('...ろんごに');
-});
+	// test_UnicodeKanji4Future_漢数字ゼロ2
+	{i: '彼は雷〇指《ひげこがし》を',
+	t: '.彼.は.雷\u3007指.を',
+	r: '...ひげこがし.'},
 
-it('20221003_test_multilang_token0', ()=> {
-	rbSpl.putTxt("彼は令令《ひげこがし》を");
-	expect(retText).toBe(".彼.は.令令.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
-it('20221003_test_multilang_token1', ()=> {
-	rbSpl.putTxt("彼は𣛠𩙻《ひげこがし》を");
-	expect(retText).toBe(".彼.は.𣛠𩙻.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
-it('20221003_test_multilang_token2', ()=> {
-	rbSpl.putTxt("彼は㐀鿿《ひげこがし》を");
-	expect(retText).toBe(".彼.は.㐀鿿.を");
-	expect(retRuby).toBe("...ひげこがし.");
-});
-it('20221003_test_multilang_token3', ()=> {
-	rbSpl.putTxt("彼は豈﫿《ひげこがし》を");
-	expect(retText).toBe(".彼.は.豈﫿.を");
-	expect(retRuby).toBe("...ひげこがし.");
+	// test_UnicodeKanji4Future_CJK統合漢字拡張A
+	{i: '彼は雷㐂指《ひげこがし》を',
+	t: '.彼.は.雷㐂指.を',
+	r: '...ひげこがし.'},
+
+	// test_UnicodeKanji4Future_CJK統合漢字
+	{i: '彼は雷一指《ひげこがし》を',
+	t: '.彼.は.雷一指.を',
+	r: '...ひげこがし.'},
+
+	// test_UnicodeKanji4Future_CJK互換漢字
+	{i: '彼は雷\uF900指《ひげこがし》を',
+	t: '.彼.は.雷\uF900指.を',
+	r: '...ひげこがし.'},
+
+	// test_UnicodeKanji4Future_JK統合漢字拡張B
+	{i: '彼は雷𠀋指《ひげこがし》を',
+	t: '.彼.は.雷𠀋指.を',
+	r: '...ひげこがし.'},
+
+	// test_UnicodeKanji4Future_CJK互換漢字補助
+	{i: '彼は雷你指《ひげこがし》を',
+	t: '.彼.は.雷你指.を',
+	r: '...ひげこがし.'},
+
+
+	// test_不具合20101230_0
+	{i: '　御機嫌《ご き げん》｜麗し《うるわ　》ゅう。',
+	t: '.　.御.機.嫌.麗し.ゅ.う.。',
+	r: '..ご.き.げん.うるわ　...'},
+
+	// test_不具合20101230_0b
+	{i: '麗し《うるわ　》ゅう。',
+	t: '.麗し.ゅ.う.。',
+	r: '.うるわ　...'},
+
+	// test_不具合20101230_1
+	{i: '案内《あない》仕り《つかまつ》',
+	t: '.案内.仕り',
+	r: '.あない.つかまつ'},
+
+
+	// test_不具合20110108_0_ok
+	{i: '｜a《A》｜b《き》',
+	t: '.a.b',
+	r: '.A.き'},
+
+	// test_不具合20110108_0
+	{i: 'a《A》b《き》',
+	t: '.a.b',
+	r: '.A.き'},
+
+
+	// test_不具合20110108_1
+	{i: 'a《A》う《き》',
+	t: '.a.う',
+	r: '.A.き'},
+
+
+	// test_不具合20110108_2_ok
+	{i: '御機嫌《RUBY》',
+	t: '.御機嫌',
+	r: '.RUBY'},
+
+	// test_不具合20110108_2
+	{i: '御機嫌《center｜RUBY》',
+	t: '.御機嫌',
+	r: '.center｜RUBY'},
+
+
+	// test_不具合20140103_0_ng
+	{i: '「はい輪島御児《わ じま み こ》神社でございます。はい。初宮参り《はつ みや まい 》のご予約ですね」',
+	t: '.「.は.い.輪.島.御.児.神.社.で.ご.ざ.い.ま.す.。.は.い.。.初.宮.参.り.の.ご.予.約.で.す.ね.」',
+	r: '....わ.じま.み.こ.............はつ.みや.まい.........'},
+
+	// test_不具合20140103_1_ok
+	{i: '「はい輪島御児《わ じま み こ》神社でございます。はい。｜初宮参り《はつ みや まい 》のご予約ですね」',
+	t: '.「.は.い.輪.島.御.児.神.社.で.ご.ざ.い.ま.す.。.は.い.。.初.宮.参.り.の.ご.予.約.で.す.ね.」',
+	r: '....わ.じま.み.こ.............はつ.みや.まい.........'},
+	
+	// test_不具合20140103_2_ng
+	{i: '「初宮参り《はつ みや まい 》」',
+	t: '.「.初.宮.参.り.」',
+	r: '..はつ.みや.まい..'},
+
+	// test_不具合20140103_3_ok
+	{i: '「｜初宮参り《はつ みや まい 》」',
+	t: '.「.初.宮.参.り.」',
+	r: '..はつ.みや.まい..'},
+
+
+	// test_不具合20150625_0
+	{i: '鳥山石燕《とりやませきえん》　『｜今昔 《こんじゃく》百鬼拾遺《ひゃっきしゅうい》』下之巻 雨',
+	t: '.鳥山石燕.　.『.今昔 .百鬼拾遺.』.下.之.巻. .雨',
+	r: '.とりやませきえん...こんじゃく.ひゃっきしゅうい......'},
+
+	// test_不具合20150625_1
+	{i: '　雷\n',
+	t: '.　.雷.\n',
+	r: '...'},
+
+	// test_不具合20150625_2
+	{i: '雷\n雷\n雷\n雷\n',
+	t: '.雷.\n.雷.\n.雷.\n.雷.\n',
+	r: '........'},
+
+	// test_不具合20150625_3
+	{i: '雷\n火《ひ》\n',
+	t: '.雷.\n.火.\n',
+	r: '...ひ.'},
+
+
+	// test_不具合20150711_0
+	{i: '｜曰《いはく》',
+	t: '.曰',
+	r: '.いはく'},
+
+	// test_不具合20150711_1
+	{i: '｜曰　《いはく》',
+	t: '.曰　',
+	r: '.いはく'},
+
+	// test_不具合20150711_2
+	{i: '｜　曰《いはく》',
+	t: '.　曰',
+	r: '.いはく'},
+
+	// test_不具合20150711_3
+	{i: '｜曰 《いはく》',
+	t: '.曰 ',
+	r: '.いはく'},
+
+	// test_不具合20150711_4
+	{i: '｜ 曰《いはく》',
+	t: '. 曰',
+	r: '.いはく'},
+
+	// test_不具合20150711_10
+	{i: '　論語《ろんごに》｜曰 《いはく》「郷人《けうひと》儺朝服而立《のおにやらいにてうふ》',
+	t: '.　.論語.曰 .「.郷人.儺朝服而立',
+	r: '..ろんごに.いはく..けうひと.のおにやらいにてうふ'},
+
+
+	// test_putTxt_Through_2t_2r
+	{i: '《い つ》',
+	t: '.《.い. .つ.》',
+	r: '.....'},
+
+
+	// test_サロゲートペア
+	{i: '🌈',
+	t: '.🌈',
+	r: '.'},
+
+	// test_サロゲートペア2
+	{i: '🌈𩸽🌕',
+	t: '.🌈.𩸽.🌕',
+	r: '...'},
+
+	// test_サロゲートペア10
+	{i: '　｜🌈《にじ》　',
+	t: '.　.🌈.　',
+	r: '..にじ.'},
+
+	// test_サロゲートペア11
+	{i: '　🌈《にじ》',
+	t: '.　.🌈',
+	r: '..にじ'},
+
+	// test_サロゲートペア12
+	{i: '｜🌈𩸽🌕《にじ ほっけ まんげつ》',
+	t: '.🌈.𩸽.🌕',
+	r: '.にじ.ほっけ.まんげつ'},
+
+	// test_｜｜《》
+	{i: '｜｜　論語《ろんごに》',
+	t: '.｜　論語',
+	r: '.ろんごに'},
+
+	// test_｜《《》
+	{i: '｜《　論語《ろんごに》',
+	t: '.｜.《.　.論語',
+	r: '....ろんごに'},
+
+	// test_｜｜《《》
+		{i: '｜｜　《論語《ろんごに》',
+		t: '.｜　',
+		r: '.論語《ろんごに'},
+
+	// test_esc｜
+	{i: '\\｜｜　論語《ろんごに》',	// 「\\」で一文字
+	t: '.\\.｜　論語',
+	r: '..ろんごに'},
+
+		// test_escDefEsc｜
+		{esc: '\\',
+		i: '\\｜｜　論語《ろんごに》',	// 「\\」で一文字
+		t: '.｜.　論語',
+		r: '..ろんごに'},
+
+		// test_escDefEsc¥｜
+		{esc: '¥',
+		i: '¥｜｜　論語《ろんごに》',	// 「¥」で一文字
+		t: '.｜.　論語',
+		r: '..ろんごに'},
+
+		// test_escDefEsc\\2｜
+		{esc: '\\',
+		i: '\\｜｜　論語《ろんごに》\\｜　曰《いはく》',	// 「\\」で一文字
+		t: '.｜.　論語.｜.　.曰',
+		r: '..ろんごに...いはく'},
+
+		// test_escDefEsc\\No¥｜
+		{esc: '\\',
+		i: '\\｜｜　論語《ろんごに》¥｜　曰《いはく》',	// 「\\」で一文字
+		t: '.｜.　論語.¥.　曰',
+		r: '..ろんごに..いはく'},
+
+		// test_escDefEsc¥No\\｜
+		{esc: '¥',
+		i: '\\｜｜　論語《ろんごに》¥｜　曰《いはく》',	// 「\\」で一文字
+		t: '.\\.｜　論語.｜.　.曰',
+		r: '..ろんごに...いはく'},
+
+	// test_esc｜2
+	{i: '\\｜　論語《ろんごに》',
+	t: '.\\.　論語',
+	r: '..ろんごに'},
+
+		// test_esc｜2DefEsc
+		{esc: '\\',
+		i: '\\｜　論語《ろんごに》',
+		t: '.｜.　.論語',
+		r: '...ろんごに'},
+
+		// test_esc｜2DefEsc¥
+		{esc: '¥',
+		i: '¥｜　論語《ろんごに》',
+		t: '.｜.　.論語',
+		r: '...ろんごに'},
+
+	// test_｜esc《》
+	{i: '｜\\　論語《ろんごに》',	// 「\\」で一文字
+	t: '.\\　論語',
+	r: '.ろんごに'},
+
+		// test_escesc｜《》
+		{i: '\\\\｜　論語《ろんごに》',	// 「\\」で一文字
+		t: '.\\.\\.　論語',
+		r: '...ろんごに'},
+
+		// test_escescDefEsc｜《》
+		{esc: '\\',
+		i: '\\\\｜　論語《ろんごに》',	// 「\\」で一文字
+		t: '.\\.　論語',
+		r: '..ろんごに'},
+
+		// test_escescDefEsc¥｜《》
+		{esc: '¥',
+		i: '¥¥｜　論語《ろんごに》',	// 「¥」で一文字
+		t: '.¥.　論語',
+		r: '..ろんごに'},
+
+
+	// test_esc&｜《》
+	{i: '\\&　論語《ろんごに》',	// 「\\」で一文字
+	t: '.\\.&.　.論語',
+	r: '....ろんごに'},
+
+	// test_esc[｜《》
+	{i: '\\[　論語《ろんごに》',	// 「\\」で一文字
+	t: '.\\.[.　.論語',
+	r: '....ろんごに'},
+
+	// test_esc;｜《》
+	{i: '\\;　論語《ろんごに》',	// 「\\」で一文字
+	t: '.\\.;.　.論語',
+	r: '....ろんごに'},
+
+	// test_esc*｜《》
+	{i: '\\*　論語《ろんごに》',	// 「\\」で一文字
+	t: '.\\.*.　.論語',
+	r: '....ろんごに'},
+
+	// test_esc&DefEsc｜《》
+	{esc: '\\',
+	i: '\\&　論語《ろんごに》',	// 「\\」で一文字
+	t: '.&.　.論語',
+	r: '...ろんごに'},
+
+	// test_esc[DefEsc｜《》
+	{esc: '\\',
+	i: '\\[　論語《ろんごに》',	// 「\\」で一文字
+	t: '.[.　.論語',
+	r: '...ろんごに'},
+
+	// test_esc;DefEsc｜《》
+	{esc: '\\',
+	i: '\\;　論語《ろんごに》',	// 「\\」で一文字
+	t: '.;.　.論語',
+	r: '...ろんごに'},
+
+	// test_esc*DefEsc｜《》
+	{esc: '\\',
+	i: '\\*　論語《ろんごに》',	// 「\\」で一文字
+	t: '.*.　.論語',
+	r: '...ろんごに'},
+
+	// test_esc&DefEsc¥｜《》
+	{esc: '¥',
+	i: '¥&　論語《ろんごに》',
+	t: '.&.　.論語',
+	r: '...ろんごに'},
+
+	// test_esc[DefEsc¥｜《》
+	{esc: '¥',
+	i: '¥[　論語《ろんごに》',
+	t: '.[.　.論語',
+	r: '...ろんごに'},
+
+	// test_esc;DefEsc¥｜《》
+	{esc: '¥',
+	i: '¥;　論語《ろんごに》',
+	t: '.;.　.論語',
+	r: '...ろんごに'},
+
+	// test_esc*DefEsc¥｜《》
+	{esc: '¥',
+	i: '¥*　論語《ろんごに》',
+	t: '.*.　.論語',
+	r: '...ろんごに'},
+
+
+	// 20221003_test_multilang_token0
+	{i: '彼は令令《ひげこがし》を',
+	t: '.彼.は.令令.を',
+	r: '...ひげこがし.'},
+
+	// 20221003_test_multilang_token1
+	{i: '彼は𣛠𩙻《ひげこがし》を',
+	t: '.彼.は.𣛠𩙻.を',
+	r: '...ひげこがし.'},
+
+	// 20221003_test_multilang_token2
+	{i: '彼は㐀鿿《ひげこがし》を',
+	t: '.彼.は.㐀鿿.を',
+	r: '...ひげこがし.'},
+
+	// 20221003_test_multilang_token3
+	{i: '彼は豈﫿《ひげこがし》を',
+	t: '.彼.は.豈﫿.を',
+	r: '...ひげこがし.'},
+
+
+])(`$i`, ({i, t, r, ir, sesame, esc})=> {
+	if (sesame) RubySpliter.setting({sesame});
+	if (esc) RubySpliter.setEscape(esc);
+
+	if (ir !== undefined) rbSpl.putTxtRb(i, ir);
+	else rbSpl.putTxt(i);
+
+	expect(retText).toBe(t);
+	expect(retRuby).toBe(r);
+
+	if (sesame) RubySpliter.setting({sesame:'ヽ'})
 });
