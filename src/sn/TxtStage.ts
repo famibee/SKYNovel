@@ -597,9 +597,13 @@ export class TxtStage extends Container {
 
 			this.#htmTxt.innerHTML = [...aSpan].join('').replaceAll(/[\n\t]/g, '');
 		}
-		else this.#htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.#lenHtmTxt).join('').replaceAll(/[\n\t]/g, ''));
+		else {
+			this.#htmTxt.querySelectorAll(':scope > br').forEach(v=> this.#htmTxt.removeChild(v));	// 前回の禁則処理を一度削除
+				// :scope - CSS: カスケーディングスタイルシート | MDN https://developer.mozilla.org/ja/docs/Web/CSS/:scope
+			this.#htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.#lenHtmTxt).join('').replaceAll(/[\n\t]/g, ''));
+		}
 			// 後の禁則処理判定で誤判定するので、innerHTML 時にムダな改行やタブは削除
-			// [r]は<br/>になってるので問題なし
+			// [r]は後述コメントのHTMLタグになってるので問題なし
 		this.#lenHtmTxt = aSpan.length;
 
 		// this.#getChRects()使用準備
@@ -644,8 +648,8 @@ export class TxtStage extends Container {
 				if (c.elm.tagName === 'RT') continue;	// ルビはスキップ
 
 				const xy = this.tategaki ?c.rect.y :c.rect.x;
-//console.log(`fn:TxtStage.ts 禁則処理判定ループ sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${c.ch}: he:%o`, c);
-//if (c.ch === '　' || c.ch === '4') console.log(`fn:TxtStage.ts line:652 === ch:${c.ch}: rect:${c.rect}`);
+//if (sl_xy > 790)
+//console.log(`fn:TxtStage.ts 禁則処理判定ループ sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${c.ch}: he:${JSON.stringify(c)}`);
 				if (sl_xy <= xy		// 【sl_xy < xy】では[tcy]二文字目を誤判定する
 				|| c.elm.previousElementSibling?.children[0]?.tagName
 					=== 'BR'		// [r]による改行後は追い出し処理をしないように
