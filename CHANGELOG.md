@@ -1,3 +1,10 @@
+## [1.39.1](https://github.com/famibee/SKYNovel/compare/v1.39.0...v1.39.1) (2022-11-06)
+
+
+### Bug Fixes
+
+* 禁則処理：クリック待ちが二つ以上あるページで、妙な場所で改行するケースがある件 ([8dfe093](https://github.com/famibee/SKYNovel/commit/8dfe0939b2f0af7eb3b81b42c6c9469138e0dd6a))
+
 - fix: 禁則処理：クリック待ちが二つ以上あるページで、妙な場所で改行するケースがある件
 
 
