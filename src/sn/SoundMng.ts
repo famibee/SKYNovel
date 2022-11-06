@@ -74,16 +74,16 @@ export class SoundMng {
 	// 音量設定（独自拡張）
 	#volume(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
-		const bvn = 'const.sn.sound.'+ buf +'.volume';
+		const vnV = 'const.sn.sound.'+ buf +'.volume';
 		const arg_vol = this.#getVol(hArg, 1);
-		if (Number(this.val.getVal('sys:'+ bvn)) === arg_vol) return false;
+		if (Number(this.val.getVal('sys:'+ vnV)) === arg_vol) return false;
 
-		this.val.setVal_Nochk('sys', bvn, arg_vol)	// 基準音量（sys:）
+		this.val.setVal_Nochk('sys', vnV, arg_vol)	// 基準音量（sys:）
 		this.val.flush();	// fadese()内で必ずしも呼ばれないので
 
 		// 再生中音声の一時的音量も変更
 		hArg.time = 0;
-		hArg.volume = Number(this.val.getVal('save:'+ bvn));	// 目標音量（save:）
+		hArg.volume = Number(this.val.getVal('save:'+ vnV));	// 目標音量（save:）
 		return this.#fadese(hArg);
 	}
 	#getVol(hArg: HArg, def: number) {
@@ -107,15 +107,16 @@ export class SoundMng {
 		const oSb = this.#hSndBuf[buf];
 		if (! oSb?.playing() || ! oSb.snd) return false;
 
-		const bvn = 'const.sn.sound.'+ buf +'.volume';
+		const vn = 'const.sn.sound.'+ buf +'.';
+		const bnV = vn +'volume';
 		const savevol = this.#getVol(hArg, NaN);
-		this.val.setVal_Nochk('save', bvn, savevol);	// 目標音量（save:）
-		const vol = savevol * Number(this.val.getVal('sys:'+ bvn, 1))
+		this.val.setVal_Nochk('save', bnV, savevol);	// 目標音量（save:）
+		const vol = savevol * Number(this.val.getVal('sys:'+ bnV, 1))
 		const stop = argChk_Boolean(hArg, 'stop', (savevol === 0));
 			// this.getVol() により savevol = hArg.volume
 		if (stop) {
 			this.#delLoopPlay(buf);
-			this.val.setVal_Nochk('save', 'const.sn.sound.'+ buf +'.fn', '');
+			this.val.setVal_Nochk('save', vn +'fn', '');
 				// 先行して
 		}
 		this.val.flush();
@@ -176,11 +177,11 @@ export class SoundMng {
 		this.#addLoopPlay(buf, loop);
 
 		// この辺で属性を増減したら、loadFromSaveObj()にも反映する
-		const nm = 'const.sn.sound.'+ buf +'.';
-		this.val.setVal_Nochk('save', nm +'fn', fn);
+		const vn = 'const.sn.sound.'+ buf +'.';
+		this.val.setVal_Nochk('save', vn +'fn', fn);
 		const savevol = this.#getVol(hArg, 1);
-		this.val.setVal_Nochk('save', nm +'volume', savevol);	// 目標音量（save:）
-		const vol = savevol * Number(this.val.getVal('sys:'+ nm +'volume', 1));
+		this.val.setVal_Nochk('save', vn +'volume', savevol);	// 目標音量（save:）
+		const vol = savevol * Number(this.val.getVal('sys:'+ vn +'volume', 1));
 
 		const start_ms = argChk_Num(hArg, 'start_ms', 0);
 		const end_ms = argChk_Num(hArg, 'end_ms', SoundMng.#MAX_END_MS);
@@ -194,9 +195,9 @@ export class SoundMng {
 			if (ret_ms >= end_ms) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
 		}
 
-		this.val.setVal_Nochk('save', nm +'start_ms', start_ms);
-		this.val.setVal_Nochk('save', nm +'end_ms', end_ms);
-		this.val.setVal_Nochk('save', nm +'ret_ms', ret_ms);
+		this.val.setVal_Nochk('save', vn +'start_ms', start_ms);
+		this.val.setVal_Nochk('save', vn +'end_ms', end_ms);
+		this.val.setVal_Nochk('save', vn +'ret_ms', ret_ms);
 		this.val.flush();
 
 		const snd = sound.find(fn);	// バッファにあるか
@@ -212,16 +213,21 @@ export class SoundMng {
 			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
 			onend	: ()=> {
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-				const oSb2 = this.#hSndBuf[hArg.buf = oSb.now_buf];
+				const buf2 = oSb.now_buf;
+				const oSb2 = this.#hSndBuf[buf2];
 				if (! oSb2) return;
 
-				delete this.#hSndBuf[hArg.buf];
+				delete this.#hSndBuf[buf2];
 				oSb2.playing = ()=> false;
+				const vn2 = 'const.sn.sound.'+ buf2 +'.';
+				this.val.setVal_Nochk('tmp', vn2 +'playing', false);
 				// NOTE: 【2018/06/25】cache=falseならここでunload()？
+				hArg.buf = buf2;
 				this.#stopfadese(hArg);	// 止めた方が良いかなと
 				if (oSb2.resume) this.main.resume();
 			},
 		};
+		this.val.setVal_Nochk('tmp', vn +'playing', true);
 
 		// @pixi/sound用基本パラメータ
 		const o: Options = {
@@ -458,17 +464,22 @@ export class SoundMng {
 		const n1 = 'const.sn.sound.'+ buf1 +'.';
 		const v1 = Number(this.val.getVal('save:'+ n1 +'volume'));
 		const f1 = Number(this.val.getVal('save:'+ n1 +'fn'));
+		const p1 = String(this.val.getVal('tmp:'+ n1 +'playing')) === 'true';
 		const n2 = 'const.sn.sound.'+ buf2 +'.';
 		const v2 = Number(this.val.getVal('save:'+ n2 +'volume'));
 		const f2 = Number(this.val.getVal('save:'+ n2 +'fn'));
+		const p2 = String(this.val.getVal('tmp:'+ n2 +'playing')) === 'true';
 		this.val.setVal_Nochk('save', n1 +'volume', v2);
 		this.val.setVal_Nochk('save', n2 +'volume', v1);
 		this.val.setVal_Nochk('save', n1 +'fn', f2);
 		this.val.setVal_Nochk('save', n2 +'fn', f1);
+		this.val.setVal_Nochk('tmp', n1 +'playing', p2);
+		this.val.setVal_Nochk('tmp', n2 +'playing', p1);
 
-		if (buf1 in this.#hLP === buf2 in this.#hLP) {	// 演算子の優先順位確認済み
-			if (buf1 in this.#hLP){delete this.#hLP[buf1]; this.#hLP[buf2] = 0;}
-			else				  {delete this.#hLP[buf2]; this.#hLP[buf1] = 0;}
+		if (buf1 in this.#hLP === buf2 in this.#hLP) {	// 演算子の優先順位確認済
+			if (buf1 in this.#hLP)
+					{delete this.#hLP[buf1]; this.#hLP[buf2] = 0;}
+			else	{delete this.#hLP[buf2]; this.#hLP[buf1] = 0;}
 			this.val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(this.#hLP));
 		}
 		this.val.flush();
@@ -494,16 +505,16 @@ export class SoundMng {
 
 		this.#hLP = JSON.parse(lp);
 		const a = Object.keys(this.#hLP).map(buf=> ()=> {
-			const nm = 'save:const.sn.sound.'+ buf +'.';
+			const vm = 'save:const.sn.sound.'+ buf +'.';
 			const hArg = {
-				fn		: String(this.val.getVal(nm +'fn')),
+				fn		: String(this.val.getVal(vm +'fn')),
 				buf,
 				join	: false,
 				loop	: true,
-				volume	: Number(this.val.getVal(nm +'volume')),
-				start_ms: Number(this.val.getVal(nm +'start_ms')),
-				end_ms	: Number(this.val.getVal(nm +'end_ms')),
-				ret_ms	: Number(this.val.getVal(nm +'ret_ms')),
+				volume	: Number(this.val.getVal(vm +'volume')),
+				start_ms: Number(this.val.getVal(vm +'start_ms')),
+				end_ms	: Number(this.val.getVal(vm +'end_ms')),
+				ret_ms	: Number(this.val.getVal(vm +'ret_ms')),
 			};
 			if (hArg.buf === 'BGM') this.#playbgm(hArg);
 			else this.#playse(hArg);

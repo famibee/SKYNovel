@@ -664,7 +664,7 @@
 <tr><td>save:const.sn.autowc.time</td></tr>
 <tr><td>save:const.sn.mesLayer</td><td>''</td><td>String</td><td>デフォルト文字レイヤ。レイヤ指定を省略した時はこの値が使われる。[<a href="tag.htm#current" target="_blank" rel="noopener">current</a>]で変更できる</td></tr>
 <tr><td>save:const.sn.sound.【buf】.fn</td><td>''</td><td>ファイル名</td><td>
-	そのバッファの再生ファイル名<br/>
+	サウンドバッファの再生ファイル名<br/>
 	任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数
 </td></tr>
 <tr><td>save:const.sn.sound.【buf】.volume</td><td>1</td><td>0.0〜1.0</td><td>
@@ -820,6 +820,10 @@ const.sn.log.json
 <tr><td>const.sn.sound.codecs</td><td>環境による</td><td>JSON文字列</td><td>
 	ゲーム実行環境がこのコーデックをサポートしているか。<br/>
 	mp3、m4a、ogg、aac、webm、flac、wavなど
+</td></tr>
+<tr><td>const.sn.sound.【buf】.playing</td><td>再生状態による</td><td>Boolean</td><td>
+	サウンドバッファが再生中か<br/>
+	任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数
 </td></tr>
 <tr><td>const.sn.vctCallStk.length</td><td>0</td><td>Integer</td><td>コールスタックの深さ（[call]するたびに増）</td></tr>
 <tr><td>sn.auto.enabled</td><td>false</td><td>Boolean</td><td>自動読みすすみモードかどうか</td></tr>

@@ -1,3 +1,6 @@
+- feat: 組み込み変数：サウンドバッファが再生中か返す tmp:const.sn.sound.【buf】.playingを追加
+
+
 ## [1.38.3](https://github.com/famibee/SKYNovel/compare/v1.38.2...v1.38.3) (2022-10-25)
 
 

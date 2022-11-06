@@ -100,13 +100,15 @@ export interface IAreas {
 export interface typeProcVal { (): any };
 export interface ISetVal { (arg_name: string, val: any, autocast?: boolean): void;};
 
+export type Scope = 'tmp'|'save'|'sys'|'mp';
+
 export interface IVariable {
 	setSys(sys: ISysBase): void;
 	flush(): void;
 	setDoRecProc(doRecProc: (doRec: boolean)=> void): void;
 
 	getVal(arg_name: string, def?: number | string): any;
-	setVal_Nochk(scope: string, nm: string, val: any, autocast?: boolean): void;
+	setVal_Nochk(scope: Scope, nm: string, val: any, autocast?: boolean): void;
 
 	defTmp(name: string, fnc: typeProcVal): void;
 	cloneMp(): IValMp;

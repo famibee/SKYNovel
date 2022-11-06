@@ -7,7 +7,7 @@
 
 import {uint, int, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg, IHTag} from './Grammar';
-import {IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook, IValMp, IValSave} from './CmnInterface';
+import {IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook, IValMp, IValSave, Scope} from './CmnInterface';
 import {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';
@@ -135,43 +135,37 @@ export class Variable implements IVariable {
 			const ns = this.cfg.getNs();
 			this.#flush = (this.cfg.oCfg.debug.variable) ?()=> {
 				const oSys: any = {};
-				for (const k of Object.keys(this.#hSys)) {
-					const v = this.#hSys[k];
+				for (const [k, v] of Object.entries(this.#hSys)) {
 					oSys['sys:'+ k] = (v instanceof Function) ?v(): v;
 				}
 				sessionStorage[ns +'sys'] = JSON.stringify(oSys);
 
 				const oSave: any = {};
-				for (const k of Object.keys(this.#hSave)) {
-					const v = this.#hSave[k];
+				for (const [k, v] of Object.entries(this.#hSave)) {
 					oSave['save:'+ k] = (v instanceof Function) ?v(): v;
 				}
 				sessionStorage[ns+'save'] = JSON.stringify(oSave);
 
 				const oTmp: any = {};
-				for (const k of Object.keys(this.#hTmp)) {
-					const v = this.#hTmp[k];
+				for (const [k, v] of Object.entries(this.#hTmp)) {
 					oTmp[k] = (v instanceof Function) ?v(): v;
 				}
 				sessionStorage[ns +'tmp'] = JSON.stringify(oTmp);
 
 				const oMp: any = {};
-				for (const k of Object.keys(this.#hScopes.mp)) {
-					const v = this.#hScopes.mp[k];
+				for (const [k, v] of Object.entries(this.#hScopes.mp)) {
 					oMp[k] = (v instanceof Function) ?v(): v;
 				}
 				sessionStorage[ns +'mp'] = JSON.stringify(oMp);
 
 				const oMark: any = {};
-				for (const k of Object.keys(this.#data.mark)) {
-					const v = this.#data.mark[k];
+				for (const [k, v] of Object.entries(this.#data.mark)) {
 					oMark[k] = (v instanceof Function) ?v(): v;
 				}
 				sessionStorage[ns+'mark'] = JSON.stringify(oMark);
 
 				const oKidoku: any = {};
-				for (const k of Object.keys(this.#data.kidoku)) {
-					const v = this.#data.kidoku[k];
+				for (const [k, v] of Object.entries(this.#data.kidoku)) {
 					oKidoku[k] = (v instanceof Function) ?v(): v;
 				}
 				sessionStorage[ns +'kidoku'] = JSON.stringify(oKidoku);
@@ -493,9 +487,9 @@ export class Variable implements IVariable {
 			throw '[変数に値セット] 変数【'+ nm +'】は書き換え不可です';
 		}
 
-		this.setVal_Nochk(o.scope, nm, val, autocast);
+		this.setVal_Nochk(<Scope>o.scope, nm, val, autocast);
 	}
-	setVal_Nochk(scope: string, nm: string, val: any, autocast = false) {
+	setVal_Nochk(scope: Scope, nm: string, val: any, autocast = false) {
 		const hScope = this.#hScopes[scope];
 		if (autocast) val = this.#castAuto(val);
 
