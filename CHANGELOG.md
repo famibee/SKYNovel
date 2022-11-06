@@ -1,3 +1,10 @@
+# [1.39.0](https://github.com/famibee/SKYNovel/compare/v1.38.3...v1.39.0) (2022-11-06)
+
+
+### Features
+
+* 音声再生中か返す tmp:const.sn.sound.【buf】.playingを追加 ([cb7dfd5](https://github.com/famibee/SKYNovel/commit/cb7dfd501b53d3fd889e04bcddda6679405974e4))
+
 - feat: 組み込み変数：サウンドバッファが再生中か返す tmp:const.sn.sound.【buf】.playingを追加
 
 
