@@ -150,13 +150,13 @@ export class FocusMng {
 	readonly	#logFocus = CmnLib.debugLog
 		? (i: number)=> console.log(`👾 <FocusMng idx:${i} btn:%o`, this.#aBtn[i].btn)
 		: ()=> {};
-	getFocus(): Container | HTMLElement | undefined {
-		if (this.#idx < 0) return undefined;
+	getFocus(): Container | HTMLElement | null {
+		if (this.#idx < 0) return null;
 
 		this.#allOff();
 		if (this.#idx >= this.#aBtn.length) this.#idx = 0;
 		const b = this.#aBtn[this.#idx];
-		return b.on() ?b.btn : undefined;
+		return b.on() ?b.btn : null;
 	}
 
 	blur() {this.#allOff(); this.#idx = -1; globalThis.focus();}

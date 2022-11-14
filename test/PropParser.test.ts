@@ -727,5 +727,5 @@ it.each([
 
 it('_getValName_err0', ()=> {
 	const o = PropParser.getValName('mp:f:n');
-	expect(o).toBeUndefined();
+	expect(o).toBeNull();
 });

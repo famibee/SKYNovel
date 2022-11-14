@@ -7,7 +7,7 @@ export declare class FocusMng {
     isFocus(cmp: Container | HTMLElement): boolean;
     prev(): void;
     next(): void;
-    getFocus(): Container | HTMLElement | undefined;
+    getFocus(): Container | HTMLElement | null;
     blur(): void;
 }
 //# sourceMappingURL=FocusMng.d.ts.map

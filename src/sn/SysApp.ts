@@ -14,9 +14,10 @@ import {DebugMng} from './DebugMng';
 
 import {Application} from 'pixi.js';
 
-import {HINFO} from '../preload';
+import {HINFO, HPROC} from '../preload';
 import {IpcRendererEvent} from 'electron/renderer';
-const {to_app} = window;
+const to_app: HPROC = (<any>window).to_app;
+//const {to_app} = window;
 
 
 export class SysApp extends SysNode {

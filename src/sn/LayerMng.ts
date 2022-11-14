@@ -1008,8 +1008,8 @@ void main(void) {
 		this.#chkTxtLay();
 		return this.currentTxtlayFore!;
 	}
-	get currentTxtlayFore(): TxtLayer | undefined {
-		if (! this.#pgTxtlay) return undefined;
+	get currentTxtlayFore(): TxtLayer | null {
+		if (! this.#pgTxtlay) return null;
 
 		return this.#pgTxtlay.fore as TxtLayer;
 	}

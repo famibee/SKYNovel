@@ -219,14 +219,14 @@ export class SysWeb extends SysBase {
 
 	// プレイデータをインポート
 	protected override readonly	_import: ITag = ()=> {
-		new Promise((rs, rj)=> {
+		new Promise((rs: (file: Blob)=> void, rj)=> {
 			const inp = document.createElement('input');
 			inp.type = 'file';
 			inp.accept = '.swpd, text/plain';
-			inp.onchange = ()=> {if (inp.files) rs(inp.files[0].path); else rj();};
+			inp.onchange = ()=> {if (inp.files) rs(inp.files[0]); else rj();};
 			inp.click();
 		})
-		.then((file: any)=> new Promise(rs=> {
+		.then(file=> new Promise(rs=> {
 			const rd = new FileReader();
 			rd.readAsText(file);
 			rd.onload = ()=> rs(rd.result);

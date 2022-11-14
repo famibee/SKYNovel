@@ -14,7 +14,7 @@ import {SysBase} from './SysBase';
 
 import {sound, utils, Sound, Options, filters} from '@pixi/sound';
 import {Loader, LoaderResource} from 'pixi.js';
-import {Tween} from '@tweenjs/tween.js'
+import {Tween, remove} from '@tweenjs/tween.js'
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 interface ISndBuf {
@@ -137,14 +137,15 @@ export class SoundMng {
 		.to({v: vol}, time)
 		.delay(delay)
 		.easing(CmnTween.ease(hArg.ease))
-		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+		.repeat(repeat === 0 ?Infinity :(repeat -1))// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 		.onUpdate(o=> {if (oSb.playing()) oSb.snd.volume = o.v;})
 		.onComplete(()=> {
 			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 			const oSb2 = this.#hSndBuf[hArg.buf = oSb.now_buf];
-			if (! oSb2?.twFade) return;
+			if (oSb2?.twFade === undefined) return;
 
+			remove(oSb2.twFade);
 			delete oSb2.twFade;
 			if (stop) this.#stopse(hArg);
 			if (oSb2.resumeFade) this.main.resume();
@@ -180,13 +181,14 @@ export class SoundMng {
 		const vn = 'const.sn.sound.'+ buf +'.';
 		this.val.setVal_Nochk('save', vn +'fn', fn);
 		const savevol = this.#getVol(hArg, 1);
-		this.val.setVal_Nochk('save', vn +'volume', savevol);	// 目標音量（save:）
+		this.val.setVal_Nochk('save', vn +'volume', savevol);// 目標音量（save:）
 		const vol = savevol * Number(this.val.getVal('sys:'+ vn +'volume', 1));
 
 		const start_ms = argChk_Num(hArg, 'start_ms', 0);
 		const end_ms = argChk_Num(hArg, 'end_ms', SoundMng.#MAX_END_MS);
 		const ret_ms = argChk_Num(hArg, 'ret_ms', 0);
 		const pan = argChk_Num(hArg, 'pan', 0);
+		const speed = argChk_Num(hArg, 'speed', 1);
 
 		if (start_ms < 0) throw `[playse] start_ms:${start_ms} が負の値です`;
 		if (ret_ms < 0) throw `[playse] ret_ms:${ret_ms} が負の値です`;
@@ -232,6 +234,7 @@ export class SoundMng {
 		// @pixi/sound用基本パラメータ
 		const o: Options = {
 			loop,
+			speed,
 			volume	: vol,
 			loaded	: (e, snd)=> {
 				if (e) {this.main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false); return;}
@@ -242,7 +245,6 @@ export class SoundMng {
 				if (oSb2) oSb2.snd = snd;
 			},
 		};
-		if ('speed' in hArg) o.speed = argChk_Num(hArg, 'speed', 1);
 
 		// start_ms・end_ms機能→@pixi/sound準備
 		let sp_nm = '';
@@ -284,35 +286,34 @@ export class SoundMng {
 			o.loop = false;	// 一周目はループなしとする
 			o.complete = snd=> {
 				const d = snd.duration;
-				const sp_nm2 = `${fn};loop2;${end_ms};${ret_ms}`;
-				const o2: Options = {	// oのコピーからやるとトラブルの元だった
+				const start	= ret_ms /1000;
+				const end	= end_ms /1000;
+				if (start >= d) throw`[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+
+				this.#playseSub(buf, fn, {	// oのコピーからやるとトラブルの元だった
 					preload	: true,		// loaded発生用
-					loop	: true,
-					volume	: vol,
-					speed	: o.speed,
-					sprites	: {},
 					loaded	: (_, snd2)=> {
 						if (! snd2) return;
 
 						// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 						const oSb2 = this.#hSndBuf[oSb.now_buf];
 						if (oSb2) oSb2.snd = snd2;
-						snd2.play(sp_nm2);
+
+						sound.play(fn, {
+							start,
+							end		: (end < 0) ?end +d :end,// 負の値は末尾から
+							speed,
+							loop	: true,
+							volume	: vol,
+						//	sprite	: sp_nm2,	// err
+						//-	muted?: boolean;
+							filters	: (oSb.pan !== 0) ?[new filters.StereoFilter(oSb.pan)] :[],
+						//-	complete?: CompleteCallback;
+						//-	loaded?: LoadedCallback;
+						//-	singleInstance?: boolean;
+						});
 					},
-				};
-
-				const o2s = o2.sprites![sp_nm2] = {
-					start	: ret_ms /1000,
-					end		: end_ms /1000,
-				};
-				if (o2s.end < 0) {	// 負の値は末尾から
-					o2s.end += d;
-					snd.removeSprites(sp_nm2);
-					snd.addSprites(sp_nm2, o2s);
-				}
-				if (o2s.start >= d) throw`[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-
-				this.#playseSub(buf, fn, o2);
+				});
 			}
 		}
 

@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { SysNode } from './SysNode';
 import { IHTag, ITag } from './Grammar';
 import { IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
@@ -10,10 +11,10 @@ export declare class SysApp extends SysNode {
         dip: string;
     });
     protected loaded(hPlg: HPlugin, arg: HSysBaseArg): Promise<void>;
-    protected readFileSync: any;
-    protected writeFileSync: any;
-    appendFile: any;
-    ensureFileSync: any;
+    protected readFileSync: (path: string) => Promise<string>;
+    protected writeFileSync: (path: string, data: string | NodeJS.ArrayBufferView, o?: object | undefined) => Promise<void>;
+    appendFile: (path: string, data: string, callback: (err: Error) => void) => Promise<void>;
+    ensureFileSync: (path: string) => Promise<void>;
     protected $path_userdata: string;
     protected $path_downloads: string;
     initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
@@ -27,7 +28,7 @@ export declare class SysApp extends SysNode {
     protected readonly _import: () => boolean;
     protected readonly navigate_to: ITag;
     protected titleSub(title: string): void;
-    protected readonly tglFlscr_sub: () => Promise<any>;
+    protected readonly tglFlscr_sub: () => Promise<void>;
     protected readonly update_check: ITag;
     protected readonly window: ITag;
     readonly canCapturePage: (fn: string) => boolean;

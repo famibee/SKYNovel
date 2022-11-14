@@ -477,7 +477,7 @@ export class Variable implements IVariable {
 		if (val == null) throw '[変数に値セット] textは必須です（空文字はOK）';
 
 		const o = PropParser.getValName(arg_name);
-		if (o === undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
+		if (o === null) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
 		const hScope = this.#hScopes[o.scope];
 		if (! hScope) throw '[変数に値セット] scopeが異常【'+ o.scope +'】です';
@@ -522,7 +522,7 @@ export class Variable implements IVariable {
 		if (! arg_name) throw '[変数参照] nameは必須です';
 
 		const o = PropParser.getValName(arg_name);
-		if (o === undefined) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
+		if (o === null) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
 		const hScope = this.#hScopes[o['scope']];
 		if (! hScope) throw '[変数参照] scopeが異常【'+ o['scope'] +'】です';

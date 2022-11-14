@@ -1,3 +1,11 @@
+- fix: [playse]系でループあり・ret_ms属性設定ありの場合にエラーになっていた件
+- fix: キー押しっぱなしで早送り時、音まわりでエラーになる場合があった件
+- fix: 【return undefined】をなるべく【return null】に
+	- 【参考】JavaScript の undefined と null を完全に理解する http://nmi.jp/2022-10-17-Understanding-Undefined-And-Null
+- fix: Web版[import]修正
+- fix: 型エラー修正
+
+
 ## [1.39.1](https://github.com/famibee/SKYNovel/compare/v1.39.0...v1.39.1) (2022-11-06)
 
 

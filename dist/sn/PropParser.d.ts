@@ -7,6 +7,6 @@ export declare class PropParser implements IPropParser {
     getValAmpersand: (val: string) => string;
     static getValName(arg_name: string): {
         [name: string]: string;
-    } | undefined;
+    } | null;
 }
 //# sourceMappingURL=PropParser.d.ts.map

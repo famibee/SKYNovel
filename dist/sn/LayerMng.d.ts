@@ -46,7 +46,7 @@ export declare class LayerMng implements IGetFrm, IRecorder {
     static set msecChWait(v: number);
     setNormalChWait(): void;
     get currentTxtlayForeNeedErr(): TxtLayer;
-    get currentTxtlayFore(): TxtLayer | undefined;
+    get currentTxtlayFore(): TxtLayer | null;
     recText(txt: string): void;
     recPagebreak(): void;
     record(): any;

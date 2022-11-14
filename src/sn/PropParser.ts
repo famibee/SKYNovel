@@ -316,10 +316,10 @@ export class PropParser implements IPropParser {
 		= /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
 		// 522 match 18413 step(~10ms) https://regex101.com/r/tmCKuE/1
 			// →これは改良しようがない。いい意味で改善の余地なし
-	static	getValName(arg_name: string): {[name: string]: string} | undefined {
+	static	getValName(arg_name: string): {[name: string]: string} | null {
 		const e = this.#REG_VAL.exec(arg_name.trim());
 		const g = e?.groups;
-		if (! g) return undefined;
+		if (! g) return null;
 
 		const {scope='tmp', name, at=''} = g;
 		return {
