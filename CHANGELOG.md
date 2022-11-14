@@ -1,3 +1,10 @@
+## [1.39.2](https://github.com/famibee/SKYNovel/compare/v1.39.1...v1.39.2) (2022-11-14)
+
+
+### Bug Fixes
+
+* [playse]系でループあり・ret_ms属性設定ありの場合にエラーになっていた件 ([f026719](https://github.com/famibee/SKYNovel/commit/f02671968d03565a8ff8d51e237f26e8dde1c16b))
+
 - fix: [playse]系でループあり・ret_ms属性設定ありの場合にエラーになっていた件
 - fix: キー押しっぱなしで早送り時、音まわりでエラーになる場合があった件
 - fix: 【return undefined】をなるべく【return null】に
