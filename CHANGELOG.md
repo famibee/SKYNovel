@@ -1,3 +1,10 @@
+## [1.39.3](https://github.com/famibee/SKYNovel/compare/v1.39.2...v1.39.3) (2022-11-15)
+
+
+### Bug Fixes
+
+* [ch wait=0]な文字表示のみの画面で、ボタンクリック一度目が効かない件 ([113b204](https://github.com/famibee/SKYNovel/commit/113b204a8be3d288b4a19aa8b361af55a5f69fd8))
+
 - fix: [ch wait=0]な文字表示のみの画面で、ボタンクリック一度目が効かない件
 - fix: 右クリック戻りなどで文字表示が崩れる件
 
