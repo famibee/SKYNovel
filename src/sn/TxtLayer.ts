@@ -543,7 +543,7 @@ export class TxtLayer extends Layer {
 							// 囲んだ領域は履歴で非表示
 					);
 
-					this.#txs.goTxt(this.#aSpan);
+					this.#txs.goTxt(this.#aSpan, this.#cumDelay === 0);
 					this.#needGoTxt = false;
 					this.#cumDelay = 0;
 				}

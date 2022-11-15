@@ -29,7 +29,7 @@ export declare class TxtStage extends Container {
     get getWidth(): number;
     get getHeight(): number;
     setSize(width: number, height: number): void;
-    goTxt(aSpan: string[]): void;
+    goTxt(aSpan: string[], instant: boolean): void;
     skipChIn(): boolean;
     static initChStyle(): void;
     static getChInStyle(name: string): any;

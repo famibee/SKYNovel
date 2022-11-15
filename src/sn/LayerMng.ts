@@ -298,8 +298,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 	clickTxtLay(): boolean {	// true: 文字出現中だったので、停止する
 		if (! this.currentTxtlayFore) return false;
 
-		return this.#getLayers().some(v=> {
-			const f = this.#hPages[v].fore;
+		return this.#getLayers().some(ln=> {
+			const f = this.#hPages[ln].fore;
 			return f instanceof TxtLayer && f.click();
 		});
 	}
@@ -686,15 +686,15 @@ void main(void) {
 	#getLayers(layer = ''): string[] {
 		return (layer)? layer.split(',') : this.#aLayName;
 	}
-	#foreachLayers(hArg: HArg, fnc: (name: string, $pg: Pages)=> void): ReadonlyArray<string> {
+	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): ReadonlyArray<string> {
 		const vct = this.#getLayers(hArg.layer);
-		for (const name of vct) {
-			if (! name) continue;
+		for (const ln of vct) {
+			if (! ln) continue;
 
-			const pg = this.#hPages[name];
-			if (! pg) throw '存在しないlayer【'+ name +'】です';
+			const pg = this.#hPages[ln];
+			if (! pg) throw '存在しないlayer【'+ ln +'】です';
 
-			fnc(name, pg);
+			fnc(ln, pg);
 		}
 
 		return vct;

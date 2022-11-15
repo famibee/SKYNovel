@@ -163,7 +163,7 @@ export class TxtStage extends Container {
 				`<span class='sn_ch' data-add='{"ch_in_style":"default"}'>　</span>`,
 			];
 			this.#clearText();	// 消去
-			this.goTxt(aSpan);	// 高速 goTxt()
+			this.goTxt(aSpan, true);	// 高速 goTxt()
 		}
 	}
 	#break_fixed		= false;
@@ -567,10 +567,11 @@ export class TxtStage extends Container {
 	static	#reg行頭禁則: RegExp;
 	static	#reg行末禁則: RegExp;
 	static	#reg分割禁止: RegExp;
-	goTxt(aSpan: string[]) {
+	goTxt(aSpan: string[], instant: boolean) {
 		TxtStage.#cntBreak.visible = false;
 
 		const begin = this.#aRect.length;
+		let bkHtm = '';
 		if (begin === 0) {	// 初回
 			if (TxtStage.#cfg.oCfg.debug.masume) {
 				if (CmnLib.debugLog) console.log(`🍌 masume ${
@@ -598,6 +599,7 @@ export class TxtStage extends Container {
 			this.#htmTxt.innerHTML = [...aSpan].join('').replaceAll(/[\n\t]/g, '');
 		}
 		else {
+			bkHtm = this.#htmTxt.innerHTML;
 			this.#htmTxt.querySelectorAll(':scope > br').forEach(v=> this.#htmTxt.removeChild(v));	// 前回の禁則処理を一度削除
 				// :scope - CSS: カスケーディングスタイルシート | MDN https://developer.mozilla.org/ja/docs/Web/CSS/:scope
 			this.#htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.#lenHtmTxt).join('').replaceAll(/[\n\t]/g, ''));
@@ -637,19 +639,25 @@ export class TxtStage extends Container {
 		do {
 			const a = this.#aRect = this.#getChRects(this.#htmTxt, cnvRect);
 			len = a.length;
-			if (! needLoop &&
-				(len < 2 || begin === len)) break;	// === は右クリック戻りで起こる
+			if (! needLoop && (len < 2 || begin === len)) {
+				// === 右クリック戻りなどで文字表示が崩れる件の対応
+				if (begin > 0 && begin === len) {
+					this.#htmTxt.innerHTML = bkHtm.replaceAll('class="sn_ch"', 'class="sn_ch sn_ch_in_default"');
+				}
+				break;
+			}
 			needLoop = true;
 
 			// 禁則処理判定ループ
 			let sl_xy = -Infinity;
+//console.log(`🎴禁則処理判定ループ begin:${begin} len:${len}`);
 			for (; j<len; ++j) {
 				const c = a[j];
 				if (c.elm.tagName === 'RT') continue;	// ルビはスキップ
 
 				const xy = this.tategaki ?c.rect.y :c.rect.x;
 //if (sl_xy > 790)
-//console.log(`fn:TxtStage.ts 禁則処理判定ループ sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${c.ch}: he:${JSON.stringify(c)}`);
+//console.log(`🎴 sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${c.ch}: he:${JSON.stringify(c)}`);
 				if (sl_xy <= xy		// 【sl_xy < xy】では[tcy]二文字目を誤判定する
 				|| c.elm.previousElementSibling?.children[0]?.tagName
 					=== 'BR'		// [r]による改行後は追い出し処理をしないように
@@ -816,9 +824,11 @@ export class TxtStage extends Container {
 			return;
 		}
 		chs.forEach(v=> v.className = v.className.replaceAll(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
+		if (instant || begin === len) {this.#fncEndChIn(); return;}
+			// 「animation-duration: 0ms;」だと animationend が発生しないので
+			// begin === len は右クリック戻りで起こる
 
-		// 「animation-duration: 0ms;」だと animationendイベントが発生しないので、文字表示に時間をかける最後の文字を探す
-		let lastElm: HTMLElement | undefined = undefined;
+		// 文字表示に時間をかける最後の文字を探す
 		for (let i=len -1; i>=0; --i) {
 			const c = this.#aRect[i];
 			if (c.elm.tagName !== 'SPAN') continue;	// ルビ以外
@@ -835,13 +845,11 @@ export class TxtStage extends Container {
 				else if (this.#break_fixed_left < r2.x +r2.width)
 						this.#break_fixed_left = r2.x +r2.width;
 			}
-			lastElm = c.elm;
-			break;
+			c.elm.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
+			return;
 		}
-		if (! lastElm || begin === len) {this.#fncEndChIn(); return;}
-			// === は右クリック戻りで起こる
 
-		lastElm.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
+		this.#fncEndChIn();
 	}
 	#fncEndChIn: ()=> boolean	= ()=> false;
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
