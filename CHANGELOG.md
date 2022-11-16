@@ -1,3 +1,10 @@
+## [1.39.4](https://github.com/famibee/SKYNovel/compare/v1.39.3...v1.39.4) (2022-11-16)
+
+
+### Bug Fixes
+
+* [fade系]非同期処理のエラー対策 ([4b0d297](https://github.com/famibee/SKYNovel/commit/4b0d2979ef2cfa58056319d861ca8e131fcd7a34))
+
 - fix: [fade系]非同期処理のエラー対策
 - fix: スキップ時に文字クリック待ちが左上になる件（前回のデグレード）
 - fix: スキップ時にムービーを止めるように
