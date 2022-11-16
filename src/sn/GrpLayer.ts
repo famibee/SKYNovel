@@ -96,6 +96,8 @@ export class GrpLayer extends Layer {
 		if (isStop) GrpLayer.#main.resume();
 	});
 	private	laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
+		GrpLayer.#stopVideo(this.#sBkFn);
+
 		const {fn, face = ''} = hArg;
 		this.#idc.sethArg(hArg);
 		if (! fn) {
@@ -350,20 +352,27 @@ export class GrpLayer extends Layer {
 		if (! fn) throw 'fnは必須です';
 		const hve = GrpLayer.hFn2VElm[fn];
 		if (! hve || hve.loop) return false;
-		if (hve.ended) {delete GrpLayer.hFn2VElm[fn]; return false;}
 
-		const fnc = ()=> {
-			hve.removeEventListener('ended', fnc);
-			delete GrpLayer.hFn2VElm[fn];
-			this.#main.resume();
-		};
+		if (this.#val.getVal('tmp:sn.skip.enabled')
+		|| this.#evtMng.isSkippingByKeyDown()
+		|| hve.ended) {GrpLayer.#stopVideo(fn); return false;}
+
+		const fnc = ()=> {GrpLayer.#stopVideo(fn); this.#main.resume();};
 		hve.addEventListener('ended', fnc, {once: true, passive: true});
 
 		return GrpLayer.#evtMng.waitEvent(
-			()=> {hve.pause(); fnc();},
+			()=> {hve.removeEventListener('ended', fnc); fnc();},
 			argChk_Boolean(hArg, 'canskip', true),
 			argChk_Boolean(hArg, 'global', false),
 		);
+	}
+	static	#stopVideo(fn: string) {
+		const hve = GrpLayer.hFn2VElm[fn];
+		if (! hve) return;
+
+		delete GrpLayer.hFn2VElm[fn];
+		hve.pause();
+		hve.currentTime = hve.duration;
 	}
 
 

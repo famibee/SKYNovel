@@ -824,11 +824,9 @@ export class TxtStage extends Container {
 			return;
 		}
 		chs.forEach(v=> v.className = v.className.replaceAll(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
-		if (instant || begin === len) {this.#fncEndChIn(); return;}
-			// 「animation-duration: 0ms;」だと animationend が発生しないので
-			// begin === len は右クリック戻りで起こる
 
 		// 文字表示に時間をかける最後の文字を探す
+		let lastElm: HTMLElement | undefined = undefined;
 		for (let i=len -1; i>=0; --i) {
 			const c = this.#aRect[i];
 			if (c.elm.tagName !== 'SPAN') continue;	// ルビ以外
@@ -845,11 +843,14 @@ export class TxtStage extends Container {
 				else if (this.#break_fixed_left < r2.x +r2.width)
 						this.#break_fixed_left = r2.x +r2.width;
 			}
-			c.elm.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
-			return;
+			lastElm = c.elm;
+			break;
 		}
+		if (! lastElm || instant || begin === len) {this.#fncEndChIn(); return;}
+			// 「animation-duration: 0ms;」だと animationend が発生しないので
+			// === は右クリック戻りで起こる
 
-		this.#fncEndChIn();
+		lastElm.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
 	}
 	#fncEndChIn: ()=> boolean	= ()=> false;
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {

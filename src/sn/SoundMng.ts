@@ -26,7 +26,8 @@ interface ISndBuf {
 	ret_ms	: number;
 	resume	: boolean;
 	pan		: number;
-	playing	: ()=> boolean;
+	playing	: ()=> boolean;		// なくても良さそうに見えるが、中間状態の不具合を防ぐ
+	updFade	: (v: number)=> void;
 	onend	: ()=> void;
 
 	twFade?		: Tween<{v: number}>;
@@ -116,8 +117,7 @@ export class SoundMng {
 			// this.getVol() により savevol = hArg.volume
 		if (stop) {
 			this.#delLoopPlay(buf);
-			this.val.setVal_Nochk('save', vn +'fn', '');
-				// 先行して
+			this.val.setVal_Nochk('save', vn +'fn', '');	// 先行して
 		}
 		this.val.flush();
 
@@ -132,6 +132,7 @@ export class SoundMng {
 		}
 
 		const repeat = argChk_Num(hArg, 'repeat', 1);
+		oSb.updFade = v=> oSb.snd.volume = v;
 		//console.log('fadese start from:%f to:%f', oSb.snd.volume, vol);
 		oSb.twFade = new Tween({v: oSb.snd.volume})
 		.to({v: vol}, time)
@@ -139,15 +140,16 @@ export class SoundMng {
 		.easing(CmnTween.ease(hArg.ease))
 		.repeat(repeat === 0 ?Infinity :(repeat -1))// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
-		.onUpdate(o=> {if (oSb.playing()) oSb.snd.volume = o.v;})
+		.onUpdate(({v})=> oSb.updFade(v))
 		.onComplete(()=> {
 			// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-			const oSb2 = this.#hSndBuf[hArg.buf = oSb.now_buf];
+			const oSb2 = this.#hSndBuf[oSb.now_buf];
 			if (oSb2?.twFade === undefined) return;
 
+			oSb2.updFade = ()=> {};
 			remove(oSb2.twFade);
 			delete oSb2.twFade;
-			if (stop) this.#stopse(hArg);
+			if (stop) {hArg.buf = oSb.now_buf; this.#stopse(hArg);}
 			if (oSb2.resumeFade) this.main.resume();
 		})
 		.start();
@@ -213,6 +215,7 @@ export class SoundMng {
 			resume	: false,
 			pan,
 			playing	: ()=> true,	// [ws]的にはここでtrueが欲しい
+			updFade	: ()=> {},
 			onend	: ()=> {
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const buf2 = oSb.now_buf;
