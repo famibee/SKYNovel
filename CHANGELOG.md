@@ -1,3 +1,6 @@
+- fix: ビルド再試行
+
+
 ## [1.39.5](https://github.com/famibee/SKYNovel/compare/v1.39.4...v1.39.5) (2022-11-17)
 
 
