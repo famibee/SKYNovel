@@ -1,3 +1,10 @@
+## [1.39.5](https://github.com/famibee/SKYNovel/compare/v1.39.4...v1.39.5) (2022-11-17)
+
+
+### Bug Fixes
+
+* [trans]で hint を消すように ([7ae362e](https://github.com/famibee/SKYNovel/commit/7ae362e2adc55ca4af50101feb4b9c98cfe7070a))
+
 - fix: [trans]で hint を消すように
 - fix: @pixi/sound の preload はトラブルの元なので使用を控えるように
 	- レスポンス向上のための音声ファイル先読みをしないように
