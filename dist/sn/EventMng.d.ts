@@ -27,6 +27,7 @@ export declare class EventMng implements IEvtMng {
     waitEvent(onFire: () => void, canskip?: boolean, global?: boolean): boolean;
     unButton(ctnBtn: Container): void;
     button(hArg: HArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
+    hideHint(): void;
     cvsResize(): void;
     waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;
     noticeCompTxt(): void;

@@ -1,3 +1,8 @@
+- fix: [trans]で hint を消すように
+- fix: @pixi/sound の preload はトラブルの元なので使用を控えるように
+	- レスポンス向上のための音声ファイル先読みをしないように
+
+
 ## [1.39.4](https://github.com/famibee/SKYNovel/compare/v1.39.3...v1.39.4) (2022-11-16)
 
 

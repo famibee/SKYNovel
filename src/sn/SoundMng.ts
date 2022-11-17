@@ -239,13 +239,13 @@ export class SoundMng {
 			loop,
 			speed,
 			volume	: vol,
-			loaded	: (e, snd)=> {
+			loaded	: (e, s2)=> {
 				if (e) {this.main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false); return;}
-				if (! snd) return;
+				if (! s2) return;
 
 				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
 				const oSb2 = this.#hSndBuf[oSb.now_buf];
-				if (oSb2) oSb2.snd = snd;
+				if (oSb2) oSb2.snd = s2;
 			},
 		};
 
@@ -257,18 +257,16 @@ export class SoundMng {
 				start	: start_ms /1000,
 				end		: end_ms /1000,
 			};
-			o.preload = true;		// loaded発生用
-			const old = o.loaded;
-			o.loaded = (e, snd2)=> {
-				if (e) {this.main.errScript(`Sound ロード失敗ですb fn:${fn} ${e}`, false); return;}
-				if (! snd2) return;
-
-				const d = snd2.duration;
-				old?.(e, snd2);
+			o.preload = true;		// loaded発生用、トラブルの元なので使用を控えたい
+			const old = o.loaded!;
+			o.loaded = (e, s0)=> {
+				old(e, s0);
+				const s2 = s0!;
+				const d = s2.duration;
 				if (os.end < 0) {	// 負の値は末尾から
 					os.end += d;
-					snd2.removeSprites(sp_nm);
-					snd2.addSprites(sp_nm, os);
+					s2.removeSprites(sp_nm);
+					s2.addSprites(sp_nm, os);
 
 					if (os.start >= os.end) throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`;
 					if (ret_ms >= os.end *1000) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`;
@@ -276,7 +274,7 @@ export class SoundMng {
 				if (os.start >= d) throw`[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d} は異常値です`;
 				if (end_ms !== SoundMng.#MAX_END_MS && os.end >= d) throw`[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
 
-				snd2.play(sp_nm, o.complete);	// completeがundefinedでもいい
+				s2.play(sp_nm, o.complete);	// completeがundefinedでもいい
 			};
 		}
 		else o.autoPlay = true;
@@ -287,37 +285,30 @@ export class SoundMng {
 		// ループあり ... ret_ms処理
 		else if (ret_ms !== 0) {
 			o.loop = false;	// 一周目はループなしとする
-			o.complete = snd=> {
+			o.complete = async snd=> {
 				const d = snd.duration;
 				const start	= ret_ms /1000;
 				const end	= end_ms /1000;
 				if (start >= d) throw`[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
 
-				this.#playseSub(buf, fn, {	// oのコピーからやるとトラブルの元だった
-					preload	: true,		// loaded発生用
-					loaded	: (_, snd2)=> {
-						if (! snd2) return;
-
-						// [xchgbuf]をされるかもしれないので、外のoSb使用不可
-						const oSb2 = this.#hSndBuf[oSb.now_buf];
-						if (oSb2) oSb2.snd = snd2;
-
-						sound.play(fn, {
-							start,
-							end		: (end < 0) ?end +d :end,// 負の値は末尾から
-							speed,
-							loop	: true,
-							volume	: vol,
-						//	sprite	: sp_nm2,	// err
-						//-	muted?: boolean;
-							filters	: (oSb.pan !== 0) ?[new filters.StereoFilter(oSb.pan)] :[],
-						//-	complete?: CompleteCallback;
-						//-	loaded?: LoadedCallback;
-						//-	singleInstance?: boolean;
-						});
-					},
+				await sound.play(fn, {	// 一周目はループなし、なのでキャッシュされてる
+					start,
+					end		: (end < 0) ?end +d :end,// 負の値は末尾から
+					speed,
+					loop	: true,
+					volume	: vol,
+				//	sprite	: sp_nm2,	// err
+				//-	muted?: boolean;
+					filters	: (oSb.pan !== 0) ?[new filters.StereoFilter(oSb.pan)] :[],
+				//-	complete?: CompleteCallback;
+				//-	loaded?: LoadedCallback;
+				//-	singleInstance?: boolean;
 				});
-			}
+
+				// [xchgbuf]をされるかもしれないので、外のoSb使用不可
+				const oSb2 = this.#hSndBuf[oSb.now_buf];
+				if (oSb2) oSb2.snd = sound.find(fn);
+			};
 		}
 
 		this.#initVol();
@@ -341,7 +332,7 @@ export class SoundMng {
 		const join = argChk_Boolean(hArg, 'join', true);
 		if (join) {
 			const old = o.loaded;
-			o.loaded = (e, snd)=> {old?.(e, snd); this.main.resume()};
+			o.loaded = (e, s2)=> {old?.(e, s2); this.main.resume()};
 		}
 		this.#playseSub(buf, fn, o);
 
@@ -366,7 +357,7 @@ export class SoundMng {
 		.use((res, next)=> {
 			this.sys.dec(res.extension, res.data)
 			.then(r=> {res.data = r; next?.()})
-			.catch(e=> this.main.errScript(`Sound ロード失敗です fn:${res.name} ${e}`, false));
+			.catch(e=> this.main.errScript(`Sound ロード失敗ですc fn:${res.name} ${e}`, false));
 		})
 		.load((_ldr, hRes)=> {
 			o.source = hRes[fn]?.data;
@@ -489,16 +480,6 @@ export class SoundMng {
 		this.val.flush();
 
 		return false;
-	}
-
-	// レスポンス向上のため音声ファイルを先読み
-	loadAheadSnd(hArg: HArg): void {
-		const {clickse, enterse, leavese} = hArg;
-		for (const fn of [clickse, enterse, leavese]) {
-			if (! fn || sound.exists(fn)) continue;
-
-			this.#playseSub('', fn, {preload: true, autoPlay: false});
-		}
 	}
 
 	// しおりの読込（BGM状態復元）

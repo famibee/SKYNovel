@@ -553,6 +553,7 @@ void main(void) {
 	// ページ裏表を交換
 	#trans(hArg: HArg) {
 		this.#finish_trans();
+		this.#evtMng.hideHint();
 
 		const {layer} = hArg;
 		this.#aBackTransAfter = [];

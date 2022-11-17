@@ -1,5 +1,5 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag, HArg } from './Grammar';
+import { IHTag } from './Grammar';
 import { IVariable, IMain, INoticeChgVolume } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
@@ -13,7 +13,6 @@ export declare class SoundMng {
     setEvtMng(evtMng: IEvtMng): void;
     setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume): void;
     clearCache(): void;
-    loadAheadSnd(hArg: HArg): void;
     playLoopFromSaveObj(): void;
 }
 //# sourceMappingURL=SoundMng.d.ts.map

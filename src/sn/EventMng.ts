@@ -309,7 +309,6 @@ export class EventMng implements IEvtMng {
 
 		this.#isWait = false;
 		ke(e);
-		this.#elmHint.hidden = true;
 		//this.hLocalEvt2Fnc = {};	// Main.ts resumeByJumpOrCall()が担当
 	}
 	#isWait		= false;	// 予約イベントの発生待ち中か
@@ -460,8 +459,6 @@ export class EventMng implements IEvtMng {
 			else this.#hLocalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
 			ctnBtn.on('pointerout', (e: any)=> this.fire(k, e));
 		}
-
-		this.sndMng.loadAheadSnd(hArg);
 	}
 	readonly	#elmV = {
 		getBoundingClientRect: (x = 0, y = 0)=> DOMRect.fromRect({x, y, width: 0, height: 0,}),
@@ -485,7 +482,7 @@ export class EventMng implements IEvtMng {
 		}
 		if (! hArg.hint) {this.#elmHint.hidden = true; return;}
 
-		this.#elmHint.style.cssText = `position:${this.#elmHint.style.position}; transform:${this.#elmHint.style.transform};`+ (hArg.hint_style ??'');
+		this.#elmHint.style.cssText = `position:${this.#elmHint.style.position}; transform:${this.#elmHint.style.transform};`+ (hArg.hint_style ?? '');
 		this.#spanHint.style.cssText = '';
 		this.#spanHint.textContent = hArg.hint ?? '';
 
@@ -503,6 +500,7 @@ export class EventMng implements IEvtMng {
 
 		this.#elmHint.hidden = false;
 	}
+	hideHint() {this.#elmHint.hidden = true;}
 	cvsResize() {this.#elmHint.hidden = true;}
 
 

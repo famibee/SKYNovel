@@ -27,6 +27,7 @@ export interface IEvtMng {
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(a: IHEvt2Fnc): void;
     waitLimitedEvent(hArg: HArg, fnc: () => void): boolean;
+    hideHint(): void;
     cvsResize(): void;
     noticeCompTxt(): void;
     resvFlameEvent(win: Window): void;
