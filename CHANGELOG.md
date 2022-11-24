@@ -1,3 +1,10 @@
+## [1.39.8](https://github.com/famibee/SKYNovel/compare/v1.39.7...v1.39.8) (2022-11-24)
+
+
+### Bug Fixes
+
+* ギャラリーでサンプルのボタン切り替えが三回目以降できない件（v1.35.2 から） ([7de2814](https://github.com/famibee/SKYNovel/commit/7de28143ccd61ae2cbaedc0bdbdc24a6eb4e6a41))
+
 - fix: ギャラリーでサンプルのボタン切り替えが三回目以降できない件（v1.35.2 から）
 
 
