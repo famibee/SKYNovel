@@ -1,3 +1,9 @@
+- fix: [snapshot]でエラーになる場合がある件
+- fix: 内部微手直し
+- fix: jest更新対応
+	- @testing-library/react で「ReferenceError: document is not defined」みたいなエラーが出たときの対処法 - tech.Note https://tech.note.wlaboratory.com/entry/category/memo/jest/test/jest%2B%40testing-library-react
+
+
 ## [1.39.6](https://github.com/famibee/SKYNovel/compare/v1.39.5...v1.39.6) (2022-11-17)
 
 

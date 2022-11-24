@@ -20,18 +20,19 @@ export class Pages {
 		const fncF = sys.hFactoryCls[cls];
 		if (! fncF) throw `属性 class【${cls}】が不正です`;
 
-		this.#pg = {fore: fncF(), back: fncF()};
-		this.#pg.fore.layname =
-		this.#pg.back.layname = layer;
-		const nm = hArg[':id_tag'] = `layer:${layer} cls:${cls}`;
-		this.#pg.fore.name = `${nm} page:A`;
-		this.#pg.back.name = `${nm} page:B`;
-		fore.addChild(this.fore.spLay);
-		back.addChild(this.back.spLay);
+		const f = fncF();
+		const b = fncF();
+		f.layname =
+		b.layname = layer;
+		const nm = hArg[':id_tag'] = `layer:${layer} cls:${cls} page:`;
+		f.spLay.name = f.name = nm +'A';
+		f.spLay.name = b.name = nm +'B';
+		fore.addChild(f.spLay);
+		back.addChild(b.spLay);
 		argChk_Boolean(hArg, 'visible', true);
-		argChk_Boolean(hArg, 'visible', true);
-			// SKYNovelではデフォルトはtrueとする
-		ret.isWait = this.fore.lay(hArg) || this.back.lay(hArg);
+		argChk_Boolean(hArg, 'visible', true);// SKYNovelではデフォルトはtrueとする
+		ret.isWait = f.lay(hArg) || b.lay(hArg);
+		this.#pg = {fore: f, back: b};
 
 		// 組み込み変数
 		const valnm = `const.sn.lay.${layer}`;

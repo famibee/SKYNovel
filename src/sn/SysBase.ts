@@ -9,6 +9,7 @@ import {IHTag, ITag} from './Grammar';
 import {IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
+import {Main} from './Main';
 
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
 import {io, Socket} from 'socket.io-client';
@@ -146,7 +147,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	cvsResize() {
 		let w = globalThis.innerWidth;
 		let h = globalThis.innerHeight;
-		const cvs = this.appPixi.view;
+		const cvs = Main.cvs;
 		const isGallery = cvs.parentElement !== document.body;
 		if (isGallery) {
 			const st = globalThis.getComputedStyle(cvs);
@@ -325,7 +326,7 @@ left: ${(CmnLib.stageW -size) /2 *this.#cvsScale +size *(td.dx ?? 0)}px;
 top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		img.classList.add('sn_toast', td.ease ?? 'sn_BounceInOut');
 		if (! td.ease) img.addEventListener('animationend', ()=> p.removeChild(img), {once: true, passive: true});
-		p.insertBefore(img, this.appPixi.view);
+		p.insertBefore(img, Main.cvs);
 	}
 	static	readonly	#hToastDat
 	: {[nm: string] :{dat: string, dx?: number, dy?: number, ease?: string}}	= {	// Thanks ICOOON MONO https://icooon-mono.com/ 、 https://vectr.com/ で 640x640化、ImageOptim経由、Base64エンコーダー https://lab.syncer.jp/Tool/Base64-encode/ 

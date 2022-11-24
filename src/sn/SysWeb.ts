@@ -184,7 +184,7 @@ export class SysWeb extends SysBase {
 		super.cvsResize();
 
 		if (this.isFullScr) {
-			const s = this.appPixi.view.style;
+			const s = Main.cvs.style;
 			s.width = s.height = '';	// ブラウザ版のセンタリングに必須
 		}
 	}

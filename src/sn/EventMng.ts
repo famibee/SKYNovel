@@ -14,6 +14,7 @@ import {TxtLayer} from './TxtLayer';
 import {EventListenerCtn} from './EventListenerCtn';
 import {Button} from './Button';
 import {FocusMng} from './FocusMng';
+import {Main} from './Main';
 
 import {Tween} from '@tweenjs/tween.js'
 import {Container, Application, utils} from 'pixi.js';
@@ -118,7 +119,7 @@ export class EventMng implements IEvtMng {
 
 		for (const v of Array.from(document.getElementsByClassName('sn_hint'))) v.parentElement?.removeChild(v);
 			// ギャラリーリロード用初期化
-		appPixi.view.parentElement?.insertAdjacentHTML('beforeend', `
+		Main.cvs.parentElement?.insertAdjacentHTML('beforeend', `
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>
@@ -138,7 +139,7 @@ export class EventMng implements IEvtMng {
 			}
 		});
 		this.#elc.add(window, 'keydown', e=> this.#ev_keydown(e));
-		this.#elc.add(appPixi.view, 'contextmenu', e=> this.#ev_contextmenu(e));
+		this.#elc.add(Main.cvs, 'contextmenu', e=> this.#ev_contextmenu(e));
 
 		// ダークモード切り替え検知
 		const fncMql = (mq: MediaQueryList | MediaQueryListEvent)=> {
@@ -153,9 +154,9 @@ export class EventMng implements IEvtMng {
 		});
 
 		if ('WheelEvent' in window) {
-			this.#elc.add(appPixi.view, 'wheel', e=> this.#ev_wheel(e), {passive: true});
+			this.#elc.add(Main.cvs, 'wheel', e=> this.#ev_wheel(e), {passive: true});
 			this.#resvFlameEvent4Wheel = win=> this.#elc.add(win, 'wheel', e=> this.#ev_wheel(e), {passive: true});
-			this.#procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(appPixi.view, 'wheel', e=> {
+			this.#procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(Main.cvs, 'wheel', e=> {
 				//if (! e.isTrusted) return;
 				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
 				if (e.deltaY <= 0) return;
@@ -198,7 +199,7 @@ export class EventMng implements IEvtMng {
 				((! cmp || cmp instanceof Container) ?globalThis :cmp)
 				.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles: true}));
 			}
-			else appPixi.view.dispatchEvent(new Event('contextmenu'));
+			else Main.cvs.dispatchEvent(new Event('contextmenu'));
 		});
 		this.#gamepad.start();
 

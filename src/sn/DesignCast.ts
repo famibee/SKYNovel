@@ -18,6 +18,7 @@ import {TxtStage} from './TxtStage';
 import {Button} from './Button';
 import {GrpLayer} from './GrpLayer';
 import {Config} from './Config';
+import {Main} from './Main';
 
 import {Application, Rectangle, Text, Sprite, Point} from 'pixi.js';
 import Moveable, {OnDrag, OnResize} from 'moveable';
@@ -40,7 +41,7 @@ export class DesignCast {
 		DesignCast.#cfg = cfg;
 		DesignCast.hPages = hPages;
 
-		appPixi.view.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *sys.cvsScale}px; height: ${CmnLib.stageH *sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
+		Main.cvs.insertAdjacentHTML('beforebegin', `<div id="${DesignCast.#ID_DESIGNMODE}" style="width: ${CmnLib.stageW *sys.cvsScale}px; height: ${CmnLib.stageH *sys.cvsScale}px; background: rgba(0,0,0,0); position: absolute; touch-action: none; user-select: none; display: none;"></div>`);
 		DesignCast.#divDesignRoot = document.getElementById(DesignCast.#ID_DESIGNMODE) as HTMLDivElement;
 		DesignCast.divHint.classList.add('sn_design_hint');
 		appPixi.view.parentElement!.appendChild(DesignCast.divHint);

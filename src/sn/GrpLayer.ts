@@ -171,10 +171,10 @@ export class GrpLayer extends Layer {
 
 			// 差分絵を重ねる
 			const f = GrpLayer.#hFace[fn] || {
-				fn: fn,
-				dx: 0,
-				dy: 0,
-				blendmode: BLEND_MODES.NORMAL
+				fn,
+				dx	: 0,
+				dy	: 0,
+				blendmode	: BLEND_MODES.NORMAL
 			};
 			const fnc = (i === 0) ?fncFirstComp :(sp: Sprite)=> {
 				sp.x = f.dx;

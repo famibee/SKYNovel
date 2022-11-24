@@ -153,7 +153,7 @@ export class SysApp extends SysNode {
 	override cvsResize() {
 		super.cvsResize();
 
-		const cvs = this.appPixi.view;
+		const cvs = Main.cvs;
 		const ps = cvs.parentElement!.style;
 		const s = cvs.style;
 		if (this.isFullScr) {

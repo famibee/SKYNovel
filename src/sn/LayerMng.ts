@@ -42,7 +42,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 	readonly	#elc		= new EventListenerCtn;
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, readonly alzTagArg: AnalyzeTagArg, readonly prpPrs: IPropParser) {
+	constructor(readonly cfg: Config, readonly hTag: IHTag, readonly appPixi: Application, readonly val: IVariable, readonly main: IMain, readonly scrItr: ScriptIterator, readonly sys: SysBase, readonly sndMng: SoundMng, readonly alzTagArg: AnalyzeTagArg, readonly prpPrs: IPropParser) {
 		// レスポンシブや回転・全画面切り替え・DevTools 表示切り替えの対応
 		const fncResizeLay = ()=> {
 			sys.cvsResize();
@@ -73,7 +73,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng, val);
 		Button.init(cfg);
 
-		this.#frmMng = new FrameMng(this.cfg, this.hTag, this.appPixi, this.val, main, this.sys, this.#hTwInf);
+		this.#frmMng = new FrameMng(cfg, hTag, appPixi, val, main, sys, this.#hTwInf);
 		sys.hFactoryCls.grp = ()=> new GrpLayer;
 		sys.hFactoryCls.txt = ()=> new TxtLayer;
 
@@ -151,17 +151,20 @@ export class LayerMng implements IGetFrm, IRecorder {
 		this.#fore.addChild(grp.clone());
 		this.#back.addChild(grp);
 		this.#back.visible = false;
+		this.#fore.name = 'page:A';	// 4tst
+		this.#back.name = 'page:B';	// 4tst
 
-		this.#stage = this.appPixi.stage;
+		this.#stage = appPixi.stage;
 		this.#stage.addChild(this.#back);
 		this.#stage.addChild(this.#fore);
 		this.#stage.addChild(this.#spTransBack);
 		this.#stage.addChild(this.#spTransFore);
+		this.#stage.name = 'stage';	// 4tst
 
-		this.appPixi.ticker.add(this.#fncTicker);	// TWEEN 更新
+		appPixi.ticker.add(this.#fncTicker);	// TWEEN 更新
 /*
 		console.group('new DispMng info');
-		console.info(this.appPixi.renderer);
+		console.info(appPixi.renderer);
 		console.info('utils.isMobile():'+ utils.isMobile.any);
 				// https://github.com/kaimallea/isMobile
 		console.info('utils.isWebGLSupported():'+ utils.isWebGLSupported());
@@ -185,7 +188,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		));
 		val.defTmp('const.sn.last_page_text', ()=> this.currentTxtlayFore?.pageText ?? '');
 		if (CmnLib.isDbg) {
-			DesignCast.init(this.appPixi, sys, scrItr, prpPrs, alzTagArg, this.cfg, this.#hPages);
+			DesignCast.init(appPixi, sys, scrItr, prpPrs, alzTagArg, cfg, this.#hPages);
 			this.cvsResizeDesign = ()=> DesignCast.cvsResizeDesign();
 			sys.addHook((type, o)=> {
 				if (! this.#hProcDbgRes[type]?.(type, o)) return;
@@ -403,7 +406,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 				this.#chkTxtLay = ()=> {};
 				this.#getTxtLayer = this.#$getTxtLayer;
 				this.#current = this.#$current;
-				this.hTag.current({layer: layer});	// hPages更新後でないと呼べない
+				this.hTag.current({layer});	// hPages更新後でないと呼べない
 				this.goTxt = ()=> {
 					if (this.val.getVal('sn.skip.enabled')) {
 						LayerMng.#msecChWait = 0;
@@ -418,11 +421,13 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 			this.val.setVal_Nochk(
 				'save',
-				'const.sn.layer.'+ (layer ?? this.#curTxtlay) + '.enabled',
-				true);
+				'const.sn.layer.'+ (layer ?? this.#curTxtlay) +'.enabled',
+				true,
+			);
 			break;
 
-		case 'grp':	if (this.#firstGrplay) break;
+		case 'grp':
+			if (this.#firstGrplay) break;
 			this.#firstGrplay = layer;
 			break;
 		}
@@ -433,7 +438,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 	}
 	#hPages		: HPage		= {};	// しおりLoad時再読込
 	#aLayName	: string[]	= [];	// 最適化用
-	#curTxtlay	= '';
+	#curTxtlay		= '';
 	#firstGrplay	= '';
 
 	#lay(hArg: HArg): boolean {

@@ -2,9 +2,9 @@ import { IEvtMng } from './CmnLib';
 import { ITwInf } from './CmnTween';
 import { IHTag } from './Grammar';
 import { IVariable, IMain, IGetFrm } from './CmnInterface';
-import { Application } from 'pixi.js';
 import { SysBase } from './SysBase';
 import { Config } from './Config';
+import { Application } from 'pixi.js';
 export declare class FrameMng implements IGetFrm {
     #private;
     private readonly cfg;

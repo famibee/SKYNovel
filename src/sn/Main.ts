@@ -26,6 +26,7 @@ export class Main implements IMain {
 	#cfg		: Config;
 
 	#appPixi	: Application;
+	static	cvs	: HTMLCanvasElement;
 
 	#hTag		: IHTag		= Object.create(null);	// タグ処理辞書
 
@@ -71,9 +72,10 @@ export class Main implements IMain {
 			hApp.view = cvs;
 		}
 		this.#appPixi = new Application(hApp);
+		Main.cvs = this.#appPixi.view;
 		if (! cvs) {
-			document.body.appendChild(this.#appPixi.view);
-			this.#appPixi.view.id = this.#SN_ID;
+			document.body.appendChild(Main.cvs);
+			Main.cvs.id = this.#SN_ID;
 		}
 
 		// 変数
@@ -256,10 +258,10 @@ export class Main implements IMain {
 		this.#appPixi.ticker.remove(this.#fncTicker);
 
 		if (this.#clone_cvs && this.#appPixi) {
-		//x	document.body.insertBefore(this.#clone_cvs, this.#appPixi.view);
+		//x	document.body.insertBefore(this.#clone_cvs, this.#cvs);
 				// DOMException: Failed to execute ‘insertBefore’ on ‘Node’:
 				// The node before which the new node is to be inserted is not a child of this node.
-			this.#appPixi.view.parentNode!.appendChild(this.#clone_cvs);
+			Main.cvs.parentNode!.appendChild(this.#clone_cvs);
 		}
 		utils.clearTextureCache();
 		this.#appPixi.destroy(true);

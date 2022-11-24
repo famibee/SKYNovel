@@ -4,6 +4,7 @@ import { SysBase } from './SysBase';
 export declare class Main implements IMain {
     #private;
     private readonly sys;
+    static cvs: HTMLCanvasElement;
     constructor(sys: SysBase);
     errScript(mes: string, isThrow?: boolean): void;
     resume: (fnc?: () => void) => void;

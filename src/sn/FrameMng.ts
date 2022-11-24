@@ -9,15 +9,15 @@ import {CmnLib, IEvtMng, cnvTweenArg, argChk_Boolean, argChk_Num} from './CmnLib
 import {ITwInf, CmnTween} from './CmnTween';
 import {IHTag, HArg} from './Grammar';
 import {IVariable, IMain, IGetFrm} from './CmnInterface';
-import {Application} from 'pixi.js';
 import {SysBase} from './SysBase';
 import {Config} from './Config';
 import {GrpLayer} from './GrpLayer';
-
-import {Tween} from '@tweenjs/tween.js'
-import {Loader, LoaderResource} from 'pixi.js';
 import {LayerMng} from './LayerMng';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import {Main} from './Main';
+
+import {Application, Loader, LoaderResource} from 'pixi.js';
+import {Tween} from '@tweenjs/tween.js'
 
 
 export class FrameMng implements IGetFrm {
@@ -51,7 +51,7 @@ export class FrameMng implements IGetFrm {
 		const v = argChk_Boolean(hArg, 'visible', true);
 		const b_color = hArg.b_color ?` background-color: ${hArg.b_color};` :'';
 		const rct = this.#rect(hArg);
-		this.appPixi.view.insertAdjacentHTML('beforebegin', `<iframe id="${id
+		Main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id
 		}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a
 		}; position: absolute; left:${this.sys.ofsLeft4elm +rct.x *this.sys.cvsScale
 		}px; top: ${this.sys.ofsTop4elm +rct.y *this.sys.cvsScale}px; z-index: 1; ${b_color
