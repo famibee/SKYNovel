@@ -1,3 +1,10 @@
+## [1.39.7](https://github.com/famibee/SKYNovel/compare/v1.39.6...v1.39.7) (2022-11-24)
+
+
+### Bug Fixes
+
+* [snapshot]でエラーになる場合がある件 ([d44ef08](https://github.com/famibee/SKYNovel/commit/d44ef087951c5b79452194508477802e5682c5dd))
+
 - fix: [snapshot]でエラーになる場合がある件
 - fix: 内部微手直し
 - fix: jest更新対応
