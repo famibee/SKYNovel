@@ -32,10 +32,14 @@ export class SysWeb extends SysBase {
 
 		document.querySelectorAll('[data-prj]').forEach(v=> {
 			const elm = v.attributes.getNamedItem('data-prj');
-			if (elm) this.elc.add(v, 'click', ()=> this.runSN(elm.value), {passive: true});
+			if (elm) v.addEventListener('click', ()=> this.runSN(elm.value), {passive: true});
+			//if (elm) this.elc.add(v, 'click', ()=> this.runSN(elm.value), {passive: true});
+				// ギャラリーであっても、ここには一度しか来ないので
 		});
 		document.querySelectorAll('[data-reload]').forEach(v=>
-			this.elc.add(v, 'click', ()=> this.run(), {passive: true})
+			v.addEventListener('click', ()=> this.run(), {passive: true})
+			//this.elc.add(v, 'click', ()=> this.run(), {passive: true})
+				// ギャラリーであっても、ここには一度しか来ないので
 		);
 		if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
 

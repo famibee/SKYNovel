@@ -35292,9 +35292,9 @@ class SysWeb extends SysBase {
   async loaded(e, r) {
     await super.loaded(e, r), document.querySelectorAll("[data-prj]").forEach((B) => {
       const N = B.attributes.getNamedItem("data-prj");
-      N && this.elc.add(B, "click", () => this.runSN(N.value), { passive: !0 });
+      N && B.addEventListener("click", () => this.runSN(N.value), { passive: !0 });
     }), document.querySelectorAll("[data-reload]").forEach(
-      (B) => this.elc.add(B, "click", () => this.run(), { passive: !0 })
+      (B) => B.addEventListener("click", () => this.run(), { passive: !0 })
     ), r.dip && (CmnLib.hDip = JSON.parse(r.dip));
     const S = new URLSearchParams(location.search), T = S.get("dip");
     if (T && (CmnLib.hDip = { ...CmnLib.hDip, ...JSON.parse(T.replaceAll("%2C", ",")) }), !argChk_Boolean(CmnLib.hDip, "oninit_run", !0))
