@@ -1,3 +1,10 @@
+## [1.39.9](https://github.com/famibee/SKYNovel/compare/v1.39.8...v1.39.9) (2022-11-28)
+
+
+### Bug Fixes
+
+* [button]で enabled=false 時、style属性の文字色デフォを灰色に ([1d3290b](https://github.com/famibee/SKYNovel/commit/1d3290b201d7a1e9b0acea31534a5fd484503783))
+
 - fix: [button]で enabled=false 時、style属性の文字色デフォルト値をグレーに
 	旧：'{"fill": "black"}'
 	新：'{"fill": "gray"}'
