@@ -102,7 +102,7 @@ export class Button extends Container {
 			dropShadowColor	: 'white',
 			dropShadowBlur	: 7,
 			dropShadowDistance	: 0,
-			fill		: 'black',
+			fill		: enabled ?'black' :'gray',
 			fontFamily	: Button.fontFamily,
 			fontSize	: height,
 			padding		: 5,
@@ -130,6 +130,8 @@ export class Button extends Container {
 		this.#idc = new TxtBtnDesignCast(this, hArg, txt);
 
 		let isStop = false;
+		oName.width = this.width;
+		oName.height = this.height;
 		if (hArg.b_pic) {
 			oName.b_pic = hArg.b_pic;
 			isStop = GrpLayer.csv2Sprites(
@@ -152,8 +154,6 @@ export class Button extends Container {
 		this.#rctBtnTxt.width = txt.width;	// addChild()後に取得すること
 		this.#rctBtnTxt.height = txt.height;
 	//x	this.#rctBtnTxt = txt.getBounds();	// 上手くいかない
-		oName.width = this.width;
-		oName.height = this.height;
 
 		if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
 		Button.#procMasume4txt(this, txt);
@@ -271,9 +271,9 @@ export class Button extends Container {
 		else oName.width = w3;
 		if ('height' in this.hArg) {
 			oName.height = uint(this.hArg.height);
-			this.scale.y *= oName.height /w3;
+			this.scale.y *= oName.height /h;
 		}
-		else oName.height = w3;
+		else oName.height = h;
 		sp.name = JSON.stringify(oName);	// dump用
 
 		Button.#procMasume4pic(this, sp, w3, h);
