@@ -1,3 +1,10 @@
+## [1.39.10](https://github.com/famibee/SKYNovel/compare/v1.39.9...v1.39.10) (2022-12-08)
+
+
+### Bug Fixes
+
+* 改行→クリック待ち、の後で改行が消える件 ([d17860a](https://github.com/famibee/SKYNovel/commit/d17860ab79dfbc2172b34d54ac332afce7078f8e))
+
 - fix: 改行→クリック待ち、の後で改行が消える件
 	- 以下の状況で改行が効かない。
 > Ａ[l][r]
