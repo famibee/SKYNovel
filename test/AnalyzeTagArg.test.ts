@@ -496,8 +496,9 @@ text="]"
 	expect(page).toBeTruthy();
 	expect(page.k_ln).toBe(ln +0);
 	expect(page.k_ch).toBe(col +10);
+//	expect(page.k_ch).toBe(col +1 +nm.length +1);
 	expect(page.v_ln).toBe(ln +0);
-	expect(page.v_ch).toBe(col +15);
+	expect(page.v_ch).toBe(col +10 +4+1);
 	expect(page.v_len).toBe(4);
 
 	expect(val).toBeTruthy();
@@ -546,7 +547,74 @@ it('20221016_parseinDetail_arg1', ()=> {
 	expect(fn).toBeTruthy();
 	expect(fn.k_ln).toBe(ln +0);
 	expect(fn.k_ch).toBe(col +10);
+//	expect(fn.k_ch).toBe(col +1 +nm.length +1);
 	expect(fn.v_ln).toBe(ln +0);
-	expect(fn.v_ch).toBe(col +13);
+	expect(fn.v_ch).toBe(col +10 +3);
 	expect(fn.v_len).toBe(0);
+});
+
+it('20221129_parseinDetail_arg0', ()=> {
+	const nm = 'link';
+	const ln = 37;
+	const col = 99;
+	const hRng = alz.parseinDetail(
+`[${nm} fn=_album clicksebuf=]`, nm.length, ln, col);
+
+	const {fn, clicksebuf} = hRng;
+	expect(fn).toBeTruthy();
+	expect(fn.k_ln).toBe(ln +0);
+	expect(fn.k_ch).toBe(col +6);
+//	expect(fn.k_ch).toBe(col +1 +nm.length +1);
+	expect(fn.v_ln).toBe(ln +0);
+	expect(fn.v_ch).toBe(col +6 +2+1);
+	expect(fn.v_len).toBe(6);
+
+	expect(clicksebuf).toBeTruthy();
+	expect(clicksebuf.k_ln).toBe(ln +0);
+	expect(clicksebuf.k_ch).toBe(col +6 +2+1 +6 +1);
+	expect(clicksebuf.v_ln).toBe(ln +0);
+	expect(clicksebuf.v_ch).toBe(col +6 +2+1 +6 +1 +10+1);
+	expect(clicksebuf.v_len).toBe(0);
+});
+
+it('20221130_parseinDetail_arg0', ()=> {
+	const nm = 'fadeoutse';
+	const ln = 37;
+	const col = 99;
+	const hRng = alz.parseinDetail(
+`[${nm} buf  =音声 time=400]`, nm.length, ln, col);
+
+	const {buf, time} = hRng;
+	expect(buf).toBeTruthy();
+	expect(buf.k_ln).toBe(ln +0);
+	expect(buf.k_ch).toBe(col +11);
+//	expect(buf.k_ch).toBe(col +1 +nm.length +1);
+	expect(buf.v_ln).toBe(ln +0);
+	expect(buf.v_ch).toBe(col +11 +3 +2/* 空白 */ +1);
+	expect(buf.v_len).toBe(2);
+
+	expect(time).toBeTruthy();
+	expect(time.k_ln).toBe(ln +0);
+	expect(time.k_ch).toBe(col +11 +3 +2/* 空白 */ +1  +2+1);
+	expect(time.v_ln).toBe(ln +0);
+	expect(time.v_ch).toBe(col +11 +3 +2/* 空白 */ +1  +2+1 +4+1);
+	expect(time.v_len).toBe(3);
+});
+it('20221130_parseinDetail_arg1', ()=> {
+	const nm = 'fadeoutse';
+	const ln = 37;
+	const col = 99;
+	const hRng = alz.parseinDetail(
+`[${nm} buf=  time=900]`, nm.length, ln, col);
+
+	const {buf, time} = hRng;
+	expect(buf).toBeTruthy();
+	expect(buf.k_ln).toBe(ln +0);
+	expect(buf.k_ch).toBe(col +11);
+//	expect(buf.k_ch).toBe(col +1 +nm.length +1);
+	expect(buf.v_ln).toBe(ln +0);
+	expect(buf.v_ch).toBe(col +11 +3 +1  +2/* 空白 */);
+	expect(buf.v_len).toBe(8);	// 【time=900】という値になる。仕方ない
+
+	expect(time).toBeFalsy();
 });

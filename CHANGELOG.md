@@ -1,3 +1,11 @@
+- fix: 改行→クリック待ち、の後で改行が消える件
+	- 以下の状況で改行が効かない。
+> Ａ[l][r]
+> 	[p]  
+> Ｂ[s]  
+- fix: AnalyzeTagArg.ts parseinDetail() の修正（エンジン動作には影響なし）
+
+
 ## [1.39.9](https://github.com/famibee/SKYNovel/compare/v1.39.8...v1.39.9) (2022-11-28)
 
 

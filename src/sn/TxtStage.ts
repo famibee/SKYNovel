@@ -567,10 +567,12 @@ export class TxtStage extends Container {
 	static	#reg行頭禁則: RegExp;
 	static	#reg行末禁則: RegExp;
 	static	#reg分割禁止: RegExp;
+	static	readonly	#SPAN_LAST = `<span class='sn_ch sn_ch_last'>　</span>`;
 	goTxt(aSpan: string[], instant: boolean) {
+//console.log(`fn:TxtStage.ts goTxt`);
 		TxtStage.#cntBreak.visible = false;
 
-		const begin = this.#aRect.length;
+		let begin = this.#aRect.length;
 		let bkHtm = '';
 		if (begin === 0) {	// 初回
 			if (TxtStage.#cfg.oCfg.debug.masume) {
@@ -596,17 +598,28 @@ export class TxtStage extends Container {
 				.endFill();
 			}
 
-			this.#htmTxt.innerHTML = [...aSpan].join('').replaceAll(/[\n\t]/g, '');
+			this.#htmTxt.innerHTML = [...aSpan].join('').replaceAll(/[\n\t]/g, '') +TxtStage.#SPAN_LAST;	// 末尾改行削除挙動対策
 		}
 		else {
 			bkHtm = this.#htmTxt.innerHTML;
 			this.#htmTxt.querySelectorAll(':scope > br').forEach(v=> this.#htmTxt.removeChild(v));	// 前回の禁則処理を一度削除
 				// :scope - CSS: カスケーディングスタイルシート | MDN https://developer.mozilla.org/ja/docs/Web/CSS/:scope
-			this.#htmTxt.insertAdjacentHTML('beforeend', aSpan.slice(this.#lenHtmTxt).join('').replaceAll(/[\n\t]/g, ''));
+			this.#htmTxt.insertAdjacentHTML(
+				'beforeend',
+				aSpan.slice(this.#lenHtmTxt).join('').replaceAll(/[\n\t]/g, '')
+				+TxtStage.#SPAN_LAST	// 末尾改行削除挙動対策
+			);
+
+			// 末尾改行削除挙動対策
+			--begin;
+//console.log(`fn:TxtStage.ts begin:${begin} bkHtm=${bkHtm}=`);
+			this.#htmTxt.querySelector('.sn_ch_last')?.remove();
+				// 前回の末尾を削除
 		}
 			// 後の禁則処理判定で誤判定するので、innerHTML 時にムダな改行やタブは削除
 			// [r]は後述コメントのHTMLタグになってるので問題なし
 		this.#lenHtmTxt = aSpan.length;
+//console.log(`fn:TxtStage.ts === ==${this.#htmTxt.innerHTML.slice(360)}==`);
 
 		// this.#getChRects()使用準備
 		const cvsScale = this.sys.cvsScale;
@@ -693,7 +706,7 @@ export class TxtStage extends Container {
 //console.log(`🎴追い出し（行頭禁則 A）前ch:${c.ch}`);
 						j = idxPrevCh +1;
 						while (j > 0 && TxtStage.#reg行頭禁則.test(a[--j].ch)) {
-//console.log(`🎴　　　　（行頭禁則 A）前ch:${a[j].ch}`);
+//console.log(`🎴＿＿＿＿（行頭禁則 A）前ch:${a[j].ch}`);
 						}
 					}
 					else {
@@ -804,6 +817,7 @@ export class TxtStage extends Container {
 				this.#break_fixed_top,
 			);
 			TxtStage.#cntBreak.visible = true;
+//console.log(`fn:TxtStage.ts // #fncEndChIn`);
 
 			TxtStage.#evtMng.noticeCompTxt();
 			return true;
@@ -825,24 +839,19 @@ export class TxtStage extends Container {
 		}
 		chs.forEach(v=> v.className = v.className.replaceAll(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 
+		// 末尾はダミー（#SPAN_LAST）だがクリック待ち位置として使う
+		const {x, y} = this.#aRect[len -1].rect;
+		this.#break_fixed_left = x;
+		this.#break_fixed_top = y;
+		if (begin > 0) ++begin;	// 末尾改行削除挙動対策
+
 		// 文字表示に時間をかける最後の文字を探す
 		let lastElm: HTMLElement | undefined = undefined;
-		for (let i=len -1; i>=0; --i) {
+		for (let i=len -2; i>=0; --i) {		// 末尾の手前から
 			const c = this.#aRect[i];
 			if (c.elm.tagName !== 'SPAN') continue;	// ルビ以外
 
-			const r = c.rect;
-			this.#break_fixed_left = r.x +(this.#isTategaki ?0 :r.width);
-			this.#break_fixed_top = r.y +(this.#isTategaki ?r.height :0);
-			if (i !== len) {	// ルビよりも右・下へ
-				const r2 = this.#aRect[len -1].rect;
-				if (this.#isTategaki) {
-					if (this.#break_fixed_top < r2.y +r2.height)
-						this.#break_fixed_top = r2.y +r2.height;
-				}
-				else if (this.#break_fixed_left < r2.x +r2.width)
-						this.#break_fixed_left = r2.x +r2.width;
-			}
+//console.log(`fn:TxtStage.ts txt:${c.elm.textContent}: i:${i} begin:${begin} len:${len} elm:%o`, c.elm);
 			lastElm = c.elm;
 			break;
 		}
