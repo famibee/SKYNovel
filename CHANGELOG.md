@@ -1,3 +1,10 @@
+## [1.39.11](https://github.com/famibee/SKYNovel/compare/v1.39.10...v1.39.11) (2022-12-10)
+
+
+### Bug Fixes
+
+* 暗号化動画表示時にロードエラーになる件（revokeObjectURLが早すぎた） ([31b5c6c](https://github.com/famibee/SKYNovel/commit/31b5c6ca0c93ffb7d35e4b9fc47c1ecae3ba7292))
+
 - fix: 暗号化動画表示時にロードエラーになる件（revokeObjectURLが早すぎた）
 - fix: アプリ版：全画面時などで見える SKYNovel 表示以外の背景色を黒色に
 - fix: アプリ版：起動中真っ白対策
