@@ -3,9 +3,9 @@
 
 ### Bug Fixes
 
-* Fスキップすると音関係エラーになる場合がある件 ([661636f](https://github.com/famibee/SKYNovel/commit/661636f85b73293ec11f3df032e672df7d912f2c))
+* 暗号化音声で Fスキップすると音関係エラーになる場合がある件 ([661636f](https://github.com/famibee/SKYNovel/commit/661636f85b73293ec11f3df032e672df7d912f2c))
 
-- fix: Fスキップすると音関係エラーになる場合がある件
+- fix: 暗号化音声で Fスキップすると音関係エラーになる場合がある件
 
 
 ## [1.39.11](https://github.com/famibee/SKYNovel/compare/v1.39.10...v1.39.11) (2022-12-10)
