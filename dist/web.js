@@ -17505,6 +17505,8 @@ we = new WeakMap(), ke = new WeakMap(), Ni = new WeakMap(), Xl = new WeakSet(), 
     const T = F.from(r);
     if (t) {
       const D = z(this, we)[t];
+      if (!D)
+        return;
       D.snd = T, D.pan !== 0 && (T.filters = [new M.StereoFilter(D.pan)]);
     }
     r.loop || R.add(e, T);
@@ -17520,6 +17522,8 @@ we = new WeakMap(), ke = new WeakMap(), Ni = new WeakMap(), Xl = new WeakSet(), 
     const B = F.from(r);
     if (t) {
       const $ = z(this, we)[t];
+      if (!$)
+        return;
       $.snd = B, $.pan !== 0 && (B.filters = [new M.StereoFilter($.pan)]);
     }
     r.loop || R.add(e, B);

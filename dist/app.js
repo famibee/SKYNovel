@@ -17157,6 +17157,8 @@ Oe = new WeakMap(), hr = new WeakMap(), Gs = new WeakMap(), Kv = new WeakSet(), 
     const s = Fu.from(r);
     if (t) {
       const a = c(this, Oe)[t];
+      if (!a)
+        return;
       a.snd = s, a.pan !== 0 && (s.filters = [new tp.StereoFilter(a.pan)]);
     }
     r.loop || jn.add(e, s);
@@ -17172,6 +17174,8 @@ Oe = new WeakMap(), hr = new WeakMap(), Gs = new WeakMap(), Kv = new WeakSet(), 
     const o = Fu.from(r);
     if (t) {
       const l = c(this, Oe)[t];
+      if (!l)
+        return;
       l.snd = o, l.pan !== 0 && (o.filters = [new tp.StereoFilter(l.pan)]);
     }
     r.loop || jn.add(e, o);

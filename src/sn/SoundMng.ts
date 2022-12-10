@@ -346,6 +346,7 @@ export class SoundMng {
 			const snd = Sound.from(o);
 			if (buf) {
 				const oSb = this.#hSndBuf[buf];
+				if (! oSb) return;
 				oSb.snd = snd;
 				if (oSb.pan !== 0) snd.filters = [new filters.StereoFilter(oSb.pan)];
 			}
@@ -364,6 +365,7 @@ export class SoundMng {
 			const snd = Sound.from(o);
 			if (buf) {
 				const oSb = this.#hSndBuf[buf];
+				if (! oSb) return;
 				oSb.snd = snd;
 				if (oSb.pan !== 0) snd.filters = [new filters.StereoFilter(oSb.pan)];
 			}

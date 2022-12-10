@@ -1,3 +1,6 @@
+- fix: Fスキップすると音関係エラーになる場合がある件
+
+
 ## [1.39.11](https://github.com/famibee/SKYNovel/compare/v1.39.10...v1.39.11) (2022-12-10)
 
 
