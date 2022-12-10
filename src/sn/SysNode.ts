@@ -8,6 +8,11 @@
 import {SysBase} from "./SysBase";
 import {CmnLib} from './CmnLib';
 import {IFn2Path, IConfig} from './ConfigBase';
+import {IVariable, IMain} from "./CmnInterface";
+import {IHTag} from "./Grammar";
+
+import {Application} from "pixi.js";
+
 
 export class SysNode extends SysBase {
 	override async loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig) {
@@ -22,6 +27,13 @@ export class SysNode extends SysBase {
 				if (ext !== ':cnt') h[ext] = this.arg.cur + w;
 			}
 		}
+	}
+
+
+	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
+		const ret = super.init(hTag, appPixi, val, main);
+		document.body.style.backgroundColor = '#000';
+		return ret;
 	}
 
 	protected override readonly	isApp = true;

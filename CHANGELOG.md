@@ -1,3 +1,9 @@
+- fix: 暗号化動画表示時にロードエラーになる件（revokeObjectURLが早すぎた）
+- fix: アプリ版：全画面時などで見える SKYNovel 表示以外の背景色を黒色に
+- fix: アプリ版：起動中真っ白対策
+- docs: 拡張機能公開先リンク修正
+
+
 ## [1.39.10](https://github.com/famibee/SKYNovel/compare/v1.39.9...v1.39.10) (2022-12-08)
 
 
@@ -21,8 +27,8 @@
 * [button]で enabled=false 時、style属性の文字色デフォを灰色に ([1d3290b](https://github.com/famibee/SKYNovel/commit/1d3290b201d7a1e9b0acea31534a5fd484503783))
 
 - fix: [button]で enabled=false 時、style属性の文字色デフォルト値をグレーに
-	旧：'{"fill": "black"}'
-	新：'{"fill": "gray"}'
+	- 旧：'{"fill": "black"}'
+	- 新：'{"fill": "gray"}'
 
 
 ## [1.39.8](https://github.com/famibee/SKYNovel/compare/v1.39.7...v1.39.8) (2022-11-24)

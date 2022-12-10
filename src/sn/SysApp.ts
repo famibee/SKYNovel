@@ -135,7 +135,7 @@ export class SysApp extends SysNode {
 
 
 	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
-		super.init(hTag, appPixi, val, main);
+		const ret = super.init(hTag, appPixi, val, main);
 
 		const e = new Event('click');
 		to_app.on('fire', (_e: IpcRendererEvent, KEY: string)=> main.fire(KEY, e));
@@ -146,7 +146,7 @@ export class SysApp extends SysNode {
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
 		});
-		return [];
+		return ret;
 	}
 
 

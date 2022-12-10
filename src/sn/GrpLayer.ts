@@ -166,46 +166,46 @@ export class GrpLayer extends Layer {
 
 		const aComp: {fn: string, fnc: IFncCompSpr}[] = [];
 		const ldr = new Loader;
-		csv.split(',').forEach((fn, i)=> {
-			if (! fn) throw 'face属性に空要素が含まれます';
+		csv.split(',').forEach((fn0, i)=> {
+			if (! fn0) throw 'face属性に空要素が含まれます';
 
 			// 差分絵を重ねる
-			const f = GrpLayer.#hFace[fn] || {
-				fn,
+			const {dx, dy, blendmode, fn} = GrpLayer.#hFace[fn0] || {
+				fn	: fn0,
 				dx	: 0,
 				dy	: 0,
 				blendmode	: BLEND_MODES.NORMAL
 			};
 			const fnc = (i === 0) ?fncFirstComp :(sp: Sprite)=> {
-				sp.x = f.dx;
-				sp.y = f.dy;
-				sp.blendMode = f.blendmode;
+				sp.x = dx;
+				sp.y = dy;
+				sp.blendMode = blendmode;
 			};
-			aComp.push({fn: f.fn, fnc});
+			aComp.push({fn, fnc});
 
-			if (f.fn in GrpLayer.hFn2ResAniSpr) return;
-			if (f.fn in utils.TextureCache) return;
-			if (f.fn in Loader.shared.resources) return;
-//			if (f.fn in GrpLayer.ldrHFn) {
+			if (fn in GrpLayer.hFn2ResAniSpr) return;
+			if (fn in utils.TextureCache) return;
+			if (fn in Loader.shared.resources) return;
+//			if (fn in GrpLayer.ldrHFn) {
 				// ここに来るという中途半端な状態がある。お陰で警告が出てしまう
 // 以下の試みは効かない
-//	Texture.removeFromCache(f.fn);
-//	delete utils.TextureCache[f.fn];
-//	delete Loader.shared.resources[f.fn];
+//	Texture.removeFromCache(fn);
+//	delete utils.TextureCache[fn];
+//	delete Loader.shared.resources[fn];
 				// return;	// これは厳禁、御法度。
 					// 画像ボタンや文字ボタン背景で同じ画像を、間を置かずロードした場合に最初一つしか表示されなくなる。以下は確認用
 					// http://localhost:8082/index.html?cur=ch_button
 //			}
-//			GrpLayer.ldrHFn[f.fn] = 1;
+//			GrpLayer.ldrHFn[fn] = 1;
 
 			needLoad = true;
-			const url = GrpLayer.#cfg.searchPath(f.fn, SEARCH_PATH_ARG_EXT.SP_GSM);
+			const url = GrpLayer.#cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SP_GSM);
 			const xt = this.#sys.crypto
 			? {xhrType: (url.slice(-5) === '.json')
 				? LoaderResource.XHR_RESPONSE_TYPE.TEXT
 				: LoaderResource.XHR_RESPONSE_TYPE.BUFFER}
 			: {};
-			ldr.add({...xt, name: f.fn, url});
+			ldr.add({...xt, name: fn, url});
 		});
 
 		const fncLoaded = (hRes: {[fn: string]: LoaderResource})=> {
@@ -267,14 +267,14 @@ export class GrpLayer extends Layer {
 				// res.texture = Texture.from(r);
 					// でも良いが、キャッシュ追加と、それでcsv2Sprites()内で使用するので
 				res.type = LoaderResource.TYPE.IMAGE;
-				URL.revokeObjectURL(r.src);
+//				URL.revokeObjectURL(r.src);	// TODO: キャッシュ破棄
 			}
 			else if (r instanceof HTMLVideoElement) {
 				r.volume = GrpLayer.#glbVol;
 				GrpLayer.hFn2VElm[res.name] = GrpLayer.#charmVideoElm(r);
 
 				res.type = LoaderResource.TYPE.VIDEO;
-				URL.revokeObjectURL(r.src);
+//				URL.revokeObjectURL(r.src);
 			}
 		}
 		if (res.extension !== 'json') {next(); return;}

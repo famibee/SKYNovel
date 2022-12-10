@@ -187,6 +187,8 @@ export class appMain {
 					// レンダラープロセスに公開するAPIのファイル
 					contextIsolation	: true,
 					preload				: `${__dirname}/preload.js`,
+					backgroundColor		: '#000',
+					show				: false,// 起動中真っ白対策
 				},
 			});
 
@@ -200,6 +202,7 @@ export class appMain {
 			appMain.#ins = new appMain(bw, version);
 			openDevTools = ()=> appMain.#ins.openDevTools();
 			bw.loadFile(path_htm);
+			bw.once('ready-to-show', ()=> bw.show());
 		}
 		catch (e) {
 			console.error(`ealy err:${e}`);
