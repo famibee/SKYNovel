@@ -41,6 +41,7 @@ export class SysNode extends SysBase {
 	override async savePic(fn: string, data_url: string) {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
 		try {
+			this.ensureFileSync(fn);
 			await this.writeFileSync(fn, Buffer.from(bs64, 'base64'));
 			if (CmnLib.debugLog) console.log(`画像ファイル ${fn} を保存しました`);
 		} catch (e) {throw e;}

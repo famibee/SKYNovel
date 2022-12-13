@@ -74,7 +74,7 @@ export class FrameMng implements IGetFrm {
 			this.#hIfrm[id] = ifrm;
 			this.#hDisabled[id] = false;
 			ifrm.srcdoc = String(hRes[src]?.data)	// .src はふりーむで問題発生
-			.replace('sn_repRes();', '')
+			.replace('sn_repRes();', '')	// これはいずれやめる
 			.replaceAll(
 				/\s(?:src|href)=(["'])(\S+)\1/g,
 				(v, p1, p2)=> (p2.slice(0, 3) === '../')
@@ -97,8 +97,8 @@ export class FrameMng implements IGetFrm {
 
 				const win = ifrm.contentWindow!;
 				this.#evtMng.resvFlameEvent(win);
-				((win as any).sn_repRes)?.((img: HTMLImageElement)=>
-				GrpLayer.loadPic2Img((img.dataset.src ?? ''), img));
+				// sn_repRes()をコール。引数は画像ロード処理差し替えメソッド
+				((win as any).sn_repRes)?.((i: HTMLImageElement)=> GrpLayer.loadPic2Img((i.dataset.src ?? ''), i));
 
 				this.main.resume();
 			};

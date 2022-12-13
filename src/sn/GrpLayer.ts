@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn} from './CmnLib';
+import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn, getExt} from './CmnLib';
 import {HArg} from './Grammar';
 import {IMain, IVariable, SYS_DEC_RET} from './CmnInterface';
 import {Config} from './Config';
@@ -427,7 +427,7 @@ export class GrpLayer extends Layer {
 		const url2 = GrpLayer.#cfg.searchPath(src, SEARCH_PATH_ARG_EXT.SP_GSM);
 		const ld2 = (new Loader)
 		.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
-		if (GrpLayer.#sys.crypto) ld2.use((res, next)=> {
+		if (GrpLayer.#sys.crypto && getExt(url2) === 'bin') ld2.use((res, next)=> {
 			GrpLayer.#sys.dec(res.extension, res.data)
 			.then(r=> {
 				if (res.extension !== 'bin') {next?.(); return;}

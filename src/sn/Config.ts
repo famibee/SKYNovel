@@ -31,14 +31,10 @@ export class Config extends ConfigBase {
 
 	override	searchPath(path: string, extptn: SEARCH_PATH_ARG_EXT = SEARCH_PATH_ARG_EXT.DEFAULT): string {
 		if (path.slice(0, 11) === 'downloads:/') {
-			const fp = this.sys.path_downloads + path.slice(11);
-			this.sys.ensureFileSync(fp);
-			return fp;
+			return this.sys.path_downloads + path.slice(11);
 		}
 		if (path.slice(0, 10) === 'userdata:/') {
-			const fp = this.sys.path_userdata + 'storage/'+ path.slice(10);
-			this.sys.ensureFileSync(fp);
-			return fp;
+			return this.sys.path_userdata + 'storage/'+ path.slice(10);
 		}
 
 		return super.searchPath(path, extptn);
