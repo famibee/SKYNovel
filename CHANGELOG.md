@@ -1,3 +1,10 @@
+## [1.39.13](https://github.com/famibee/SKYNovel/compare/v1.39.12...v1.39.13) (2022-12-13)
+
+
+### Bug Fixes
+
+* アプリ版：暗号化プロジェクトでセーブするとサムネイル表示でエラーになる件 ([ab09a47](https://github.com/famibee/SKYNovel/commit/ab09a4745641b4cdf988a5c10561a93c17830b68))
+
 - fix: アプリ版：暗号化プロジェクトでセーブするとサムネイル表示でエラーになる件
 	- （内部処理）loadPic2Img()、すなわちフレームにおける【sn_repRes】を、非暗号化画像はそのまま返すように
 	- セーブデータサムネイル用
