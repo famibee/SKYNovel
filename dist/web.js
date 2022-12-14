@@ -27844,19 +27844,16 @@ const Zt = class extends Container {
         const Pt = vt.style.cssText, ft = (It, zt) => {
           vt.style.cssText = Pt + It, Ot.forEach((Nt) => Nt.style.cssText = Nt.dataset.st_r_bk + zt);
         };
-        if (argChk_Boolean(gt, "enabled", !0))
-          z(Zt, Sn).button(
-            gt,
-            bt,
-            () => ft(Ct, yt),
-            () => this.canFocus() ? (ft(St, At), !0) : !1,
-            () => ft(pt, Dt)
-          );
-        else {
-          const It = Ct + (gt.style_disable ?? ""), zt = yt + (gt.r_style_disable ?? "");
-          ft(It, zt);
-        }
-        z(this, jr).addChild(bt);
+        argChk_Boolean(gt, "enabled", !0) ? z(Zt, Sn).button(
+          gt,
+          bt,
+          () => ft(Ct, yt),
+          () => this.canFocus() ? (ft(St, At), !0) : !1,
+          () => ft(pt, Dt)
+        ) : ft(
+          Ct + (gt.style_disable ?? "color: gray;"),
+          yt + (gt.r_style_disable ?? "color: gray;")
+        ), z(this, jr).addChild(bt);
       }
     }
     const K = z(this, ne).querySelectorAll("span.sn_ch");

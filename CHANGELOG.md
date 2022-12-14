@@ -1,3 +1,6 @@
+- fix: [link]の style_disable, r_style_disable 属性デフォルト値を【color: gray;】に
+
+
 # [1.40.0](https://github.com/famibee/SKYNovel/compare/v1.39.13...v1.40.0) (2022-12-14)
 
 

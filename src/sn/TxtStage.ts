@@ -804,11 +804,10 @@ export class TxtStage extends Container {
 					},
 					()=> fncStyle(st_clicked, st_r_clicked)
 				);
-				else {
-					const st = st_normal +(aLnk.style_disable ?? '');
-					const st_r = st_r_normal +(aLnk.r_style_disable ?? '');
-					fncStyle(st, st_r);
-				}
+				else fncStyle(
+					st_normal +(aLnk.style_disable ?? 'color: gray;'),
+					st_r_normal +(aLnk.r_style_disable ?? 'color: gray;')
+				);
 				this.#cntTxt.addChild(sp);
 			}
 		}
