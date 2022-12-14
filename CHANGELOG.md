@@ -1,3 +1,10 @@
+# [1.40.0](https://github.com/famibee/SKYNovel/compare/v1.39.13...v1.40.0) (2022-12-14)
+
+
+### Features
+
+* [link]に enabled, style_disable など属性追加 ([14ffa9d](https://github.com/famibee/SKYNovel/commit/14ffa9d5ed3e3d2d4ceddc908d3da1ce887087f6))
+
 - feat: [link]に enabled属性追加。condにより「表示するがリンクにしない」動作をする
 - feat: [link]に style_disable, r_style_disable 属性追加。enabled=false 時のCSS
 
