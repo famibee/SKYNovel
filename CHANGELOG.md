@@ -1,3 +1,7 @@
+- feat: [link]に enabled属性追加。condにより「表示するがリンクにしない」動作をする
+- feat: [link]に style_disable, r_style_disable 属性追加。enabled=false 時のCSS
+
+
 ## [1.39.13](https://github.com/famibee/SKYNovel/compare/v1.39.12...v1.39.13) (2022-12-13)
 
 

@@ -794,7 +794,8 @@ export class TxtStage extends Container {
 					nlRt.forEach(e=> e.style.cssText = e.dataset.st_r_bk + st_r);
 				};
 
-				TxtStage.#evtMng.button(aLnk, sp,
+				const enabled = argChk_Boolean(aLnk, 'enabled', true);
+				if (enabled) TxtStage.#evtMng.button(aLnk, sp,
 					()=> fncStyle(st_normal, st_r_normal),
 					()=> {
 						if (! this.canFocus()) return false;
@@ -803,6 +804,11 @@ export class TxtStage extends Container {
 					},
 					()=> fncStyle(st_clicked, st_r_clicked)
 				);
+				else {
+					const st = st_normal +(aLnk.style_disable ?? '');
+					const st_r = st_r_normal +(aLnk.r_style_disable ?? '');
+					fncStyle(st, st_r);
+				}
 				this.#cntTxt.addChild(sp);
 			}
 		}
