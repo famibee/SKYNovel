@@ -8,12 +8,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
-    - uses: actions/setup-node@v2
+    - uses: actions/setup-node@v3
       with:
         registry-url: https://npm.pkg.github.com/
-        node-version: '16'
+        node-version: '18'
 
     - run: npm ci
     - run: npm test
@@ -38,15 +38,15 @@ jobs:
         run: |
           export LATEST_TAG="$(curl -fsi "https://github.com/${GITHUB_REPOSITORY}/releases/latest" | awk -F/ '/^(L|l)ocation:/ {print $(NF)}')"
           echo "::set-output name=latest_tag::${LATEST_TAG}"
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           ref: ${{steps.latest_tag.outputs.latest_tag}}
       - run: git log
 
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v3
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: '16'
+          node-version: '18'
           scope: '@famibee'
 
       - run: npm ci
