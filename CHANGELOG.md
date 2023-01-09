@@ -1,3 +1,10 @@
+## [1.40.2](https://github.com/famibee/SKYNovel/compare/v1.40.1...v1.40.2) (2023-01-09)
+
+
+### Bug Fixes
+
+* ライブラリ更新、コードブロックライセンス年更新 ([bc80e49](https://github.com/famibee/SKYNovel/commit/bc80e496fd4ce4d792fa652a3d6780b0315d2b46))
+
 - docs: コードブロックライセンス年更新
 - fix: ライブラリ更新
 
