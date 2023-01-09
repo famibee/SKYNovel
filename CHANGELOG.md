@@ -1,3 +1,7 @@
+- docs: コードブロックライセンス年更新
+- fix: ライブラリ更新
+
+
 ## [1.40.1](https://github.com/famibee/SKYNovel/compare/v1.40.0...v1.40.1) (2022-12-14)
 
 
