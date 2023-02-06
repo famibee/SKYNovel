@@ -192,7 +192,7 @@ export class EventMng implements IEvtMng {
 			if (cmp.getAttribute('type') === 'range') cmp.dispatchEvent(new InputEvent('input', {bubbles: true}));	// スライダー変更時、表示数字が変わらない対応
 		});
 		this.#gamepad.on('gamepad:button', (e: any)=> {
-			if (! document.hasFocus() || e.detail.value === 0) return;
+			if (! document.hasFocus()) return;
 //console.log(`fn:EventMng.ts line:155 👺 'gamepad:button' detail:%o`, e.detail);
 			if (e.detail.button % 2 === 0) {
 				const cmp = this.#fcs.getFocus();

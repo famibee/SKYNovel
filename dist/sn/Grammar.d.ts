@@ -1,4 +1,4 @@
-export declare type HArg = {
+export type HArg = {
     ':タグ名'?: string;
     layer?: string;
     class?: string;
@@ -143,7 +143,7 @@ export interface ITag {
 export interface IHTag {
     [name: string]: ITag;
 }
-export declare type Script = {
+export type Script = {
     aToken: string[];
     len: number;
     aLNum: number[];

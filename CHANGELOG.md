@@ -1,3 +1,8 @@
+- fix: ライブラリ対応：gamepad.js v2.0.0 の変更に対応
+	- https://github.com/Tom32i/gamepad.js/releases/tag/v2.0.0
+- fix: ライブラリ更新
+
+
 ## [1.40.2](https://github.com/famibee/SKYNovel/compare/v1.40.1...v1.40.2) (2023-01-09)
 
 

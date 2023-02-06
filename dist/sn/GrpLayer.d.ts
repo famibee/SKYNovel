@@ -7,7 +7,7 @@ import { SysBase } from './SysBase';
 import { Sprite, Container, Texture, BLEND_MODES, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { IMakeDesignCast } from './LayerMng';
-export declare type IFncCompSpr = (sp: Sprite) => void;
+export type IFncCompSpr = (sp: Sprite) => void;
 interface IResAniSpr {
     aTex: Texture[];
     meta: {

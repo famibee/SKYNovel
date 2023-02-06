@@ -14,7 +14,7 @@ export declare const enum SEARCH_PATH_ARG_EXT {
     TST_GGG = "ggg",
     TST_PNGXML = "png|xml"
 }
-export declare type T_CFG = {
+export type T_CFG = {
     book: {
         title: string;
         creator: string;
@@ -73,7 +73,7 @@ export interface ISysRoots {
     fetch(url: string): Promise<Response>;
     hash(data: string): string;
 }
-export declare type HSysBaseArg = {
+export type HSysBaseArg = {
     cur: string;
     crypto: boolean;
     dip: string;

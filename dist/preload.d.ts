@@ -1,6 +1,6 @@
 /// <reference types="node" />
 /// <reference types="node" />
-export declare type HPROC = {
+export type HPROC = {
     getInfo: () => Promise<HINFO>;
     existsSync: (path: string) => Promise<boolean>;
     copySync: (path_from: string, path_to: string) => void;
@@ -28,7 +28,7 @@ export declare type HPROC = {
     unzip: (inp: string, out: string) => void;
     on: (channel: string, callback: Function) => void;
 };
-export declare type HINFO = {
+export type HINFO = {
     getAppPath: string;
     isPackaged: boolean;
     downloads: string;

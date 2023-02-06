@@ -7,11 +7,11 @@ export interface IPropParser {
     getValAmpersand(val: string): string;
 }
 import { DisplayObject, RenderTexture } from 'pixi.js';
-export declare type PLUGIN_PRE_RET = {
+export type PLUGIN_PRE_RET = {
     ret: string;
     ext_num: number;
 };
-export declare type IPluginInitArg = {
+export type IPluginInitArg = {
     addTag(tag_name: string, tag_fnc: ITag): void;
     addLayCls(cls: string, fnc: ILayerFactory): void;
     searchPath(fn: string, extptn?: string): string;
@@ -33,12 +33,12 @@ import { Layer } from './Layer';
 export interface ILayerFactory {
     (): Layer;
 }
-export declare type HSysBaseArg = {
+export type HSysBaseArg = {
     cur: string;
     crypto: boolean;
     dip: string;
 };
-export declare type SYS_DEC_RET = HTMLImageElement | ArrayBuffer | HTMLVideoElement | string;
+export type SYS_DEC_RET = HTMLImageElement | ArrayBuffer | HTMLVideoElement | string;
 export interface ISysBase {
     initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari) => void): void;
     flush(): void;
@@ -77,7 +77,7 @@ export interface typeProcVal {
 export interface ISetVal {
     (arg_name: string, val: any, autocast?: boolean): void;
 }
-export declare type Scope = 'tmp' | 'save' | 'sys' | 'mp';
+export type Scope = 'tmp' | 'save' | 'sys' | 'mp';
 export interface IVariable {
     setSys(sys: ISysBase): void;
     flush(): void;
@@ -104,7 +104,7 @@ export interface IValMp {
 export interface IValSave {
     [name: string]: string;
 }
-export declare type IData4Vari = {
+export type IData4Vari = {
     sys: {
         [name: string]: any;
     };
@@ -115,7 +115,7 @@ export declare type IData4Vari = {
         [name: string]: any;
     };
 };
-export declare type IMark = {
+export type IMark = {
     hSave: {
         [name: string]: any;
     };
@@ -138,10 +138,10 @@ export interface IRecorder {
     recText(txt: string): void;
     recPagebreak(): void;
 }
-export declare type HIPage = {
+export type HIPage = {
     [name: string]: IPage;
 };
-export declare type IPage = {
+export type IPage = {
     cls: string;
     fore: {
         [name: string]: any;

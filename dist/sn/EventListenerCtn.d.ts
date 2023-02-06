@@ -1,5 +1,5 @@
 import { BaseTexture, utils } from "pixi.js";
-declare type IEmitter = BaseTexture | utils.EventEmitter | {
+type IEmitter = BaseTexture | utils.EventEmitter | {
     addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
     removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 };
