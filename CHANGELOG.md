@@ -1,3 +1,10 @@
+## [1.40.3](https://github.com/famibee/SKYNovel/compare/v1.40.2...v1.40.3) (2023-02-06)
+
+
+### Bug Fixes
+
+* ライブラリ対応：gamepad.js v2.0.0 の変更に対応 ([55945da](https://github.com/famibee/SKYNovel/commit/55945dade14cb23fdb12075bfbc2ba38fc0c2049))
+
 - fix: ライブラリ対応：gamepad.js v2.0.0 の変更に対応
 	- https://github.com/Tom32i/gamepad.js/releases/tag/v2.0.0
 - fix: ライブラリ更新
