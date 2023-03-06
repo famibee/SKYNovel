@@ -1,3 +1,10 @@
+## [1.40.4](https://github.com/famibee/SKYNovel/compare/v1.40.3...v1.40.4) (2023-03-06)
+
+
+### Bug Fixes
+
+* 末尾文字表示でカーソルが次行先頭に来てしまう件 ([20a3741](https://github.com/famibee/SKYNovel/commit/20a3741c206e820e0659679b2f7bab2c7376d66c))
+
 - fix: 末尾文字表示でカーソルが次行先頭に来てしまう件
 	- 改行→クリック待ち、の後で改行が消えない事を確認
 	- 冒頭クリック待ち＋改行での表示確認
