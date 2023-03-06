@@ -599,6 +599,19 @@ export class TxtStage extends Container {
 			}
 
 			this.#htmTxt.innerHTML = [...aSpan].join('').replaceAll(/[\n\t]/g, '') +TxtStage.#SPAN_LAST;	// 末尾改行削除挙動対策
+
+			if (! this.#break_fixed) {
+				const sty = globalThis.getComputedStyle(this.#htmTxt);
+				const rs = parseFloat(sty.fontSize);
+				if (this.#isTategaki) {
+					this.#break_fixed_left = (this.#infTL.$width -this.#infTL.pad_left -this.#infTL.pad_right -rs *1.5) *this.sys.cvsScale;
+					this.#break_fixed_top = 0;
+				}
+				else {
+					this.#break_fixed_left = 0;
+					this.#break_fixed_top = rs /2 *this.sys.cvsScale;
+				}
+			}
 		}
 		else {
 			bkHtm = this.#htmTxt.innerHTML;
@@ -674,7 +687,14 @@ export class TxtStage extends Container {
 				if (sl_xy <= xy		// 【sl_xy < xy】では[tcy]二文字目を誤判定する
 				|| c.elm.previousElementSibling?.children[0]?.tagName
 					=== 'BR'		// [r]による改行後は追い出し処理をしないように
-					) {sl_xy = xy; continue;}
+					) {
+						sl_xy = xy;
+						if (! this.#break_fixed) {
+							this.#break_fixed_left = c.rect.x;
+							this.#break_fixed_top = c.rect.y;
+						}
+						continue;
+					}
 /*
 	// [r]などの改行はこう。TxtLayer.#tagCh_sub()により <span> に入れられる
 	<span class=​"sn_ch" style=​"display:​ inline;​animation-delay:​ 10ms;​">​
@@ -687,8 +707,18 @@ export class TxtStage extends Container {
 
 				let idxPrevCh = j -1;
 				while (a[idxPrevCh].elm.tagName === 'RT') --idxPrevCh;
-				const chPrev = a[idxPrevCh].ch;
+				const crPrev = a[idxPrevCh];
+				const chPrev = crPrev.ch;
 //console.log(`🎴 === 自動改行発生！　前文字:${chPrev}: 今文字:${c.ch}:`);
+
+				if (! this.#break_fixed) {
+					this.#break_fixed_left = crPrev.rect.x;
+					this.#break_fixed_top = crPrev.rect.y;
+					const sty = globalThis.getComputedStyle(crPrev.elm);
+					const rs = parseFloat(sty.fontSize);
+					if (this.#isTategaki) this.#break_fixed_top += rs; else this.#break_fixed_left += rs;
+				}
+
 				sl_xy = -Infinity;	// 自動改行発生！
 				const oldJ = j;
 				// 追い出し
@@ -817,40 +847,27 @@ export class TxtStage extends Container {
 		this.#fncEndChIn = ()=> {
 			this.#fncEndChIn = ()=> false;
 			chs.forEach(v=> v.className = v.className.replaceAll(/ go_ch_in_[^\s"]+/g, ''));
-			TxtStage.#cntBreak.position.set(	// len_chs === 0 かもなのでここ
+			TxtStage.#cntBreak.position.set(
 				this.#break_fixed_left,
 				this.#break_fixed_top,
 			);
 			TxtStage.#cntBreak.visible = true;
 //console.log(`fn:TxtStage.ts // #fncEndChIn`);
+			/*
+				- これらはセットで確認すること。兼ね合いにより、いずれかが破綻する場合がある
+					- 末尾文字表示でカーソルが次行先頭に来てしまうことのないよう
+					- 改行→クリック待ち、の後で改行が消えないよう
+					- 冒頭クリック待ち＋改行での表示確認
+			*/
 
 			TxtStage.#evtMng.noticeCompTxt();
 			return true;
 		};
-		const len_chs = chs.length;
-		if (len_chs === 0) {
-			const styles = globalThis.getComputedStyle(this.#htmTxt);
-			const rs = parseFloat(styles.fontSize);
-			if (this.#isTategaki) {
-				this.#break_fixed_left = (this.#infTL.$width -this.#infTL.pad_left -this.#infTL.pad_right -rs *1.5) *this.sys.cvsScale;
-				this.#break_fixed_top = 0;
-			}
-			else {
-				this.#break_fixed_left = 0;
-				this.#break_fixed_top = rs /2 *this.sys.cvsScale;
-			}
-			this.#fncEndChIn();
-			return;
-		}
-		chs.forEach(v=> v.className = v.className.replaceAll(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 
-		// 末尾はダミー（#SPAN_LAST）だがクリック待ち位置として使う
-		const {x, y} = this.#aRect[len -1].rect;
-		this.#break_fixed_left = x;
-		this.#break_fixed_top = y;
+		chs.forEach(v=> v.className = v.className.replaceAll(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1'));
 		if (begin > 0) ++begin;	// 末尾改行削除挙動対策
 
-		// 文字表示に時間をかける最後の文字を探す
+		// 文字表示に時間をかける最後の文字を探す。末尾はダミー（#SPAN_LAST）
 		let lastElm: HTMLElement | undefined = undefined;
 		for (let i=len -2; i>=0; --i) {		// 末尾の手前から
 			const c = this.#aRect[i];
