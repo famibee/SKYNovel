@@ -1,3 +1,10 @@
+## [1.40.5](https://github.com/famibee/SKYNovel/compare/v1.40.4...v1.40.5) (2023-03-08)
+
+
+### Bug Fixes
+
+* アプリ版セーブでサムネイルが保存・表示されない件 ([d5ff2bb](https://github.com/famibee/SKYNovel/commit/d5ff2bb895f0b086271ed64fe41501c6bd4fb004))
+
 - fix: アプリ版セーブでサムネイルが保存・表示されない件
 
 
