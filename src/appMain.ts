@@ -52,7 +52,10 @@ export class appMain {
 		ipcMain.handle('showMessageBox', (_, o)=> dialog.showMessageBox(o));
 
 		ipcMain.handle('capturePage', (_, fn)=> bw.webContents.capturePage()
-		.then(ni=> writeFileSync(fn, (fn.slice(-4) === '.png') ?ni.toPNG() :ni.toJPEG(80))));
+		.then(ni=> {
+			ensureFileSync(fn);	// 【必須】ディレクトリ、なければ作る
+			writeFileSync(fn, (fn.slice(-4) === '.png') ?ni.toPNG() :ni.toJPEG(80));
+		}));
 		ipcMain.handle('navigate_to', (_, url)=> shell.openExternal(url));
 
 		ipcMain.handle('openDevTools', ()=> bw.webContents.openDevTools());
