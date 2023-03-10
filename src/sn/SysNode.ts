@@ -12,7 +12,9 @@ import {IVariable, IMain} from "./CmnInterface";
 import {IHTag} from "./Grammar";
 
 import {Application} from "pixi.js";
-
+import {Buffer} from 'buffer';
+// @ts-ignore
+window.Buffer = Buffer;
 
 export class SysNode extends SysBase {
 	override async loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig) {

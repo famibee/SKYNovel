@@ -388,8 +388,8 @@ export class SysApp extends SysNode {
 		return false;
 	}
 
-	override readonly	canCapturePage = (fn: string)=> {
-		to_app.capturePage(fn);
+	override canCapturePage(fn: string, fnc: ()=> void) {
+		to_app.capturePage(fn).then(()=> fnc());
 		return true;
 	}
 

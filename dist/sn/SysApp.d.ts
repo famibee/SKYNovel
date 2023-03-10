@@ -31,6 +31,6 @@ export declare class SysApp extends SysNode {
     protected readonly tglFlscr_sub: () => Promise<void>;
     protected readonly update_check: ITag;
     protected readonly window: ITag;
-    readonly canCapturePage: (fn: string) => boolean;
+    canCapturePage(fn: string, fnc: () => void): boolean;
 }
 //# sourceMappingURL=SysApp.d.ts.map

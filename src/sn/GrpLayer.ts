@@ -416,7 +416,10 @@ export class GrpLayer extends Layer {
 	}
 
 
+	static	#REG_REP_PRM = /\?([^?]+)$/;	// https://regex101.com/r/ZUnoFq/1
 	static	loadPic2Img(src: string, img: HTMLImageElement, onload?: (img2: HTMLImageElement)=> void) {
+		const srcNoPrm = src.replace(GrpLayer.#REG_REP_PRM, '');
+		const prmSrc = (src === srcNoPrm) ?'' :src.slice(srcNoPrm.length);
 		const oUrl = this.#hEncImgOUrl[src];
 		if (oUrl) {img.src = oUrl; return}
 
@@ -424,7 +427,7 @@ export class GrpLayer extends Layer {
 		if (aImg) {aImg.push(img); return}
 		this.#hAEncImg[src] = [img];
 
-		const url2 = GrpLayer.#cfg.searchPath(src, SEARCH_PATH_ARG_EXT.SP_GSM);
+		const url2 = GrpLayer.#cfg.searchPath(srcNoPrm, SEARCH_PATH_ARG_EXT.SP_GSM);
 		const ld2 = (new Loader)
 		.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
 		if (GrpLayer.#sys.crypto && getExt(url2) === 'bin') ld2.use((res, next)=> {
@@ -441,7 +444,8 @@ export class GrpLayer extends Layer {
 		})
 		ld2.load((_ldr, hRes)=> {
 			for (const [s2, {data: {src}}] of Object.entries(hRes)) {
-				const u2 = this.#hEncImgOUrl[s2] = src;
+				const u2 = this.#hEncImgOUrl[s2]
+				= src + (src.slice(0, 5) === 'blob:' ?'' :prmSrc);
 				for (const i of this.#hAEncImg[s2]) {
 					i.src = u2;
 					if (onload) i.onload = ()=> onload(i);

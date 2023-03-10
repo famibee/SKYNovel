@@ -317,7 +317,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 			: `downloads:/${hArg.fn + getDateStr('-', '_', '', '_')}.png`
 		: `downloads:/snapshot${getDateStr('-', '_', '', '_')}.png`;
 		const fn = this.cfg.searchPath(fn0);
-		if (this.sys.canCapturePage(fn)) return false;
+		if (! ('layer' in hArg) && this.sys.canCapturePage(fn, ()=> this.main.resume())) return true;
 
 		const ext = getExt(fn);
 		const b_color = argChk_Color(hArg, 'b_color', this.#bg_color);
@@ -359,9 +359,10 @@ export class LayerMng implements IGetFrm, IRecorder {
 			);
 			if (! this.#tiTrans.tw) for (const v of this.#getLayers(hArg.layer)) this.#hPages[v][pg].snapshot_end();
 			rnd.destroy(true);
+			this.main.resume();
 		});
 
-		return false;
+		return true;
 	}
 
 	// プラグインの読み込み

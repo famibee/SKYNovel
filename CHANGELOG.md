@@ -1,3 +1,10 @@
+- feat: フレームなどでの画像ロード処理で、パラメータを含んだファイル名に対応
+	- 処理前：userdata:/5/pic.jpg?u=1678372118404
+	- 処理後：userdata:/5/pic.jpg
+- fix: [snapshot]は保存終了を待つように
+- fix: [snapshot]App版が layer指定を無視していた件。ブラウザ版と同じ処理を使用するように
+
+
 ## [1.40.5](https://github.com/famibee/SKYNovel/compare/v1.40.4...v1.40.5) (2023-03-08)
 
 
