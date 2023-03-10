@@ -1,3 +1,10 @@
+# [1.41.0](https://github.com/famibee/SKYNovel/compare/v1.40.5...v1.41.0) (2023-03-10)
+
+
+### Features
+
+* フレームなどでの画像ロード処理で、パラメータを含んだファイル名に対応 ([a0f2372](https://github.com/famibee/SKYNovel/commit/a0f23727932cada102244656cb780cbd7215b261))
+
 - feat: フレームなどでの画像ロード処理で、パラメータを含んだファイル名に対応
 	- 処理前：userdata:/5/pic.jpg?u=1678372118404
 	- 処理後：userdata:/5/pic.jpg
