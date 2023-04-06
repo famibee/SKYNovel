@@ -22,8 +22,6 @@
 		"allowUnreachableCode": false,	// 到達しえないコードを許容しない (false)
 		"allowUnusedLabels": true,	// 到達しえないラベルを許容しない
 		// オブジェクトへの過剰なプロパティチェックを抑制しない
-		"suppressExcessPropertyErrors": true,
-		// インデックスシグネチャが欠損したオブジェクトの noImplicitAny エラーを抑制しない
 		"suppressImplicitAnyIndexErrors": false,
 		"strictPropertyInitialization": false,	// クラス定義時、インスタンス変数の初期化が宣言時、もしくはコンストラクタのどちらでも行われていない場合にエラー
 		"noImplicitOverride": true,	// overrideを使用しないオーバーライドをエラーに

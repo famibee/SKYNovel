@@ -63,6 +63,8 @@ export class ScriptIterator {
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly main: IMain, private readonly val: IVariable, private readonly alzTagArg: AnalyzeTagArg, private readonly runAnalyze: ()=> void, private readonly prpPrs: IPropParser, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
 		// 変数操作
 		hTag.let_ml		= o=> this.#let_ml(o);	// インラインテキスト代入
+		hTag.endlet_ml	= ()=> false;			// インラインテキスト代入終端
+			// [if]ブロック内で【未定義のタグ[endlet_ml]です】エラーが発生する対策
 
 		// デバッグ・その他
 		hTag.dump_stack	= ()=> this.#dump_stack();	// スタックのダンプ

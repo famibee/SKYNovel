@@ -141,6 +141,15 @@ export class EventMng implements IEvtMng {
 		this.#elc.add(window, 'keydown', e=> this.#ev_keydown(e));
 		this.#elc.add(Main.cvs, 'contextmenu', e=> this.#ev_contextmenu(e));
 
+		// 言語切り替え通知
+		const fncUpdNavLang = ()=> val.setVal_Nochk('tmp', 'const.sn.navigator.language', navigator.language);
+		this.#elc.add(window, 'languagechange', e=> {
+			fncUpdNavLang();
+			this.fire('sn:chgNavLang', e);
+			utils.clearTextureCache();
+		});
+		fncUpdNavLang();
+
 		// ダークモード切り替え検知
 		const fncMql = (mq: MediaQueryList | MediaQueryListEvent)=> {
 			CmnLib.isDarkMode = mq.matches;

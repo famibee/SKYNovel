@@ -165,6 +165,7 @@ export type HArg = {
 	':col_e'?	: number;
 	':idx_tkn'?	: number;
 	':token'?	: string;
+	':redraw'?	: boolean;
 	design_unit?: boolean;	// デザインモードでこのマクロへの引数変更とするか（内部をサーチさせない）
 
 //	stepin?		: boolean;		// 拡張機能のみ使用：false指定でステップインしない

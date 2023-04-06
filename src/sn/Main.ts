@@ -63,7 +63,6 @@ export class Main implements IMain {
 				// このString()は後方互換性のため必須
 		//	resolution		: sys.resolution,
 			resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
-			autoResize		: true,
 		};
 		const cvs = document.getElementById(this.#SN_ID) as HTMLCanvasElement;
 		if (cvs) {

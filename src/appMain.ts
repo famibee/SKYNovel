@@ -43,7 +43,7 @@ export class appMain {
 		ipcMain.handle('readFileSync', (_, path)=> readFileSync(path, {encoding: 'utf8'}));
 		ipcMain.handle('readFile', (_, path, callback)=>readFile(path, callback));
 		ipcMain.handle('writeFileSync', (_, path, data, o)=> writeFileSync(path, data, o));
-		ipcMain.handle('appendFile', (_, path, data, callback)=> appendFile(path, data, callback));
+		ipcMain.handle('appendFile', (_, path, data, callback)=> appendFile(path, data).catch(err=> callback(err)));
 
 		ipcMain.handle('win_close', ()=> bw.close());
 		ipcMain.handle('win_setTitle', (_, title)=> bw.setTitle(title));
@@ -185,13 +185,10 @@ export class appMain {
 				maximizable		: false,// Macで最大化ボタンでフルスクリーンにしない
 				webPreferences	: {
 					// XSS対策としてnodeモジュールをレンダラープロセスで使えなくする
-					enableRemoteModule	: false,
 					nodeIntegration		: false,
 					// レンダラープロセスに公開するAPIのファイル
 					contextIsolation	: true,
 					preload				: `${__dirname}/preload.js`,
-					backgroundColor		: '#000',
-					show				: false,// 起動中真っ白対策
 				},
 			});
 

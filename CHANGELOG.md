@@ -1,3 +1,12 @@
+- feat: 組み込み変数：ユーザーが最優先に設定している言語設定（IETF言語タグ）を返す const.sn.navigator.language を追加
+- feat: 言語設定の変更を通知するイベント sn:chgNavLang 追加。以下で発生
+	- ブラウザ版：ブラウザの言語設定を変更した時
+	- アプリ版：OSの言語設定を変更した時
+- fix: ライブラリ更新などによるコンパイルエラー修正
+- fix: save:sn.userFnTail 変更しても、画像レイヤでキャッシュが利いてしまうため、キャッシュをクリアするように
+- fix: [if]ブロック内で【未定義のタグ[endlet_ml]です】エラーが発生する件
+
+
 # [1.41.0](https://github.com/famibee/SKYNovel/compare/v1.40.5...v1.41.0) (2023-03-10)
 
 

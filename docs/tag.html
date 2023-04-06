@@ -1546,10 +1546,15 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	HTML要素に【&lt;input type="checkbox" id="chkScrMode" checked="." data-arg3="res3"/&gt;】などとカスタムデータ属性を付加すると、イベント発生時に tmp変数として値を受け取れる。<br/>
 	例では、sn.event.domdata.arg3 に文字列【res3】が入る。<br/>
 </td></tr>
-<tr><td>sn:imported</td><td><a href="tag.htm#import" target="_blank" rel="noopener">[import]</a>によるインポート完了時</td></tr>
 <tr><td>sn:chgDarkMode</td><td>
 	ダークモード切り替えイベント。モードは const.sn.isDarkMode で取得できる
 </td></tr>
+<tr><td>sn:chgNavLang</td><td>
+	言語設定切り替えイベント。言語設定は const.sn.navigator.language で取得できる。以下で発生<br/>
+	・ブラウザ版：ブラウザの言語設定を変更した時<br/>
+	・アプリ版：OSの言語設定を変更した時<br/>
+</td></tr>
+<tr><td>sn:imported</td><td><a href="tag.htm#import" target="_blank" rel="noopener">[import]</a>によるインポート完了時</td></tr>
 </table>
 
 </p>

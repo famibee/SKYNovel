@@ -1153,6 +1153,83 @@ it('test_let_ml_2022/10/15_2_負荷100%', ()=> {
 `);
 });
 
+it('test_let_ml_2023/04/06 [let_ml]の[if]はさまない', ()=> {
+	const sScr =
+`[let_ml name=dicUI]
+	{
+		"ja": {
+			"screen name": "アルバム",
+		},
+		"es": {
+			"screen name": "Galería",
+		}
+	}
+[endlet_ml]`;
+	const {aToken, len} = grm.resolveScript(sScr);
+	let ch = '';
+
+	expect(len).toBe(3);
+	expect(aToken[0]).toBe(`[let_ml name=dicUI]`);
+	expect(aToken[1]).toBe(`
+	{
+		"ja": {
+			"screen name": "アルバム",
+		},
+		"es": {
+			"screen name": "Galería",
+		}
+	}
+`);
+	ch = aToken[1].charAt(0);
+	expect(grm.testNoTxt(ch)).toBe(true);
+
+	expect(aToken[2]).toBe(`[endlet_ml]`);
+	ch = aToken[2].charAt(0);
+	expect(grm.testNoTxt(ch)).toBe(true);
+});
+it('test_let_ml_2023/04/06 [let_ml]の[if]はさみ', ()=> {
+	const sScr =
+`[if exp=true]
+[let_ml name=dicUI]
+	{
+		"ja": {
+			"screen name": "アルバム",
+		},
+		"es": {
+			"screen name": "Galería",
+		}
+	}
+[endlet_ml]
+	[endif]`;
+	const {aToken, len} = grm.resolveScript(sScr);
+	let ch = '';
+
+	expect(len).toBe(8);
+	expect(aToken[0]).toBe('[if exp=true]');
+	expect(aToken[1]).toBe('\n');
+	expect(aToken[2]).toBe(`[let_ml name=dicUI]`);
+	expect(aToken[3]).toBe(`
+	{
+		"ja": {
+			"screen name": "アルバム",
+		},
+		"es": {
+			"screen name": "Galería",
+		}
+	}
+`);
+	ch = aToken[3].charAt(0);
+	expect(grm.testNoTxt(ch)).toBe(true);
+
+	expect(aToken[4]).toBe(`[endlet_ml]`);
+	ch = aToken[4].charAt(0);
+	expect(grm.testNoTxt(ch)).toBe(true);
+
+	expect(aToken[5]).toBe('\n');
+	expect(aToken[6]).toBe('\t');
+	expect(aToken[7]).toBe(`[endif]`);
+});
+
 
 // [char2macro char=@ name=zzz]
 it('test_char2macro_0', ()=> {

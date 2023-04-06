@@ -135,6 +135,7 @@ export type HArg = {
     ':col_e'?: number;
     ':idx_tkn'?: number;
     ':token'?: string;
+    ':redraw'?: boolean;
     design_unit?: boolean;
 };
 export interface ITag {

@@ -351,7 +351,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 			new Promise<void>(re=> this.#hPages[v][pg].snapshot(rnd, ()=>re()))
 		);
 		Promise.allSettled(a).then(async ()=> {
-			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height, transform: true});	// はみ出し対策
+			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height});	// はみ出し対策
 			rnd.render(this.#stage, {renderTexture: renTx});
 			await this.sys.savePic(
 				fn,
