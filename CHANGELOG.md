@@ -1,3 +1,10 @@
+# [1.42.0](https://github.com/famibee/SKYNovel/compare/v1.41.0...v1.42.0) (2023-04-06)
+
+
+### Features
+
+* ユーザー設定言語設定を返す const.sn.navigator.language 追加 ([1f04cdc](https://github.com/famibee/SKYNovel/commit/1f04cdc35b7fd3b0954649ee2207b11221ea6fc4))
+
 - feat: 組み込み変数：ユーザーが最優先に設定している言語設定（IETF言語タグ）を返す const.sn.navigator.language を追加
 - feat: 言語設定の変更を通知するイベント sn:chgNavLang 追加。以下で発生
 	- ブラウザ版：ブラウザの言語設定を変更した時
