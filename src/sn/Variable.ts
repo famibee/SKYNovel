@@ -631,7 +631,10 @@ export class Variable implements IVariable {
 				this.#doRecLog = this.#runFirst_Bool_hSaveVal_true(name)
 			);
 		},
-		'save:sn.userFnTail'	: (_name, val)=> this.cfg.userFnTail = val,
+		'save:sn.userFnTail'	: (_name, val)=> {
+			if (val.includes('@')) throw `この変数では文字「@」は禁止です`;
+			this.cfg.userFnTail = val;
+		},
 
 		// tmp
 		'tmp:sn.tagL.enabled'	: name=>

@@ -43,7 +43,7 @@ export class EventMng implements IEvtMng {
 		hTag.l				= o=> this.#l(o);			// 行末クリック待ち
 		hTag.p				= o=> this.#p(o);			// 改ページクリック待ち
 		hTag.s = ()=> {									// 停止する
-			this.scrItr.recodePage();
+			scrItr.recodePage();
 			return this.#waitEventBase(()=> {}, false, true);
 		};
 		hTag.set_cancel_skip= ()=> this.#set_cancel_skip();	// スキップ中断予約
@@ -64,9 +64,9 @@ export class EventMng implements IEvtMng {
 					if (! this.#isWait) return;
 
 					const hArg: HArg = {};
-					this.scrItr.recodeDesign(hArg);
-					this.sys.callHook('_enterDesign', hArg);
-					this.sys.send2Dbg('_enterDesign', hArg);
+					scrItr.recodeDesign(hArg);
+					sys.callHook('_enterDesign', hArg);
+					sys.send2Dbg('_enterDesign', hArg);
 				},
 				stopOnBreakpoint		: ()=> this.#isDbgBreak = true,
 				stopOnDataBreakpoint	: ()=> this.#isDbgBreak = true,

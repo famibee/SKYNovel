@@ -788,15 +788,26 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		}
 
 		if (! fn) {this.analyzeInit(); return;}
+		if (fn.includes('@')) throw `[jump系] fn には文字「@」は禁止です`;
 
 		const full_path = this.#cnvSnPath(fn);
 		if (fn === this.#scriptFn) {this.analyzeInit(); return;}
 		this.#scriptFn = fn;
-		const st = this.#hScript[this.#scriptFn];
+		const st = this.#hScript[fn];
 		if (st) {this.#script = st; this.analyzeInit(); return;}
 
-		(new Loader).add({name: this.#scriptFn, url: full_path})
-		.use((res, next)=> {
+		const ldr = new Loader;
+		let fp_diff = '';
+		try {
+			fp_diff = this.#cnvSnPath(fn +'@');
+			// 派生ファイルが存在する場合
+			ldr.add({name: fn +':base', url: full_path});
+			ldr.add({name: fn, url: fp_diff});
+		} catch {
+			// 派生ファイルはない
+			ldr.add({name: fn, url: full_path});
+		}
+		ldr.use((res, next)=> {
 			try {
 				res.data = this.sys.decStr(res.extension, res.data);
 			} catch (e) {
@@ -805,6 +816,21 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			next?.();
 		})
 		.load((_ldr, hRes)=> {
+			if (fp_diff) {	// 派生ファイルが存在する場合
+				const scrBase = hRes[fn +':base'].data;
+				const scrDiff = hRes[fn].data;
+				const aBase = scrBase.split('\n');
+				const aDiff = scrDiff.split('\n');
+				const lenB = aBase.length;
+				const lenD = aDiff.length;
+				// 【派生スクリプト】の空行へ、【基底スクリプト】の同じ行の内容をコピー
+				for (let i=0; i<lenD && i<lenB; ++i) aDiff[i] ||= aBase[i];
+
+				// 【接尾辞つきファイル】として扱う
+				hRes[fn].data = aDiff.join('\n');
+				delete hRes[fn +':base'];
+			}
+
 			this.nextToken = this.#nextToken_Proc;
 			this.#lineNum = 1;
 
@@ -1199,6 +1225,17 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		// 起動から再読込までの間に追加・変更・削除されたファイルがあるかも、に対応
 		//	delete this.hScript[this.#scriptFn];	// これだと[reload_script]位置になる
 		delete this.#hScript[getFn(mark.hSave['const.sn.scriptFn'])];
+
+		// 派生ファイルを削除
+		const h: HScript = {};
+		for (const fn in this.#hScript) {
+			try {
+				this.#cnvSnPath(fn +'@');
+			} catch {
+				h[fn] = this.#hScript[fn];	// 派生ファイル以外を残す
+			}
+		}
+		this.#hScript = h;
 
 		hArg.do_rec = false;
 		return this.#loadFromMark(hArg, mark, false);
