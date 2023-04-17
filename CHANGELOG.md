@@ -1,3 +1,10 @@
+## [1.43.1](https://github.com/famibee/SKYNovel/compare/v1.43.0...v1.43.1) (2023-04-17)
+
+
+### Bug Fixes
+
+* リロードやロードからの再開で、画像レイヤface差分の blendmode が正しくない件 ([1807fda](https://github.com/famibee/SKYNovel/commit/1807fda3a825ce6f8054e3d02dc9df8ac430f8a4))
+
 - fix: リロードやロードからの再開で、画像レイヤface差分の blendmode が正しく再現されない件
 
 
