@@ -186,7 +186,7 @@ export class Main implements IMain {
 			// & 変数操作・変数表示
 			if (uc === 38) {
 				try {
-					if (token.slice(-1) !== '&') {//変数操作
+					if (token.at(-1) !== '&') {//変数操作
 						// 変数計算
 						if (this.#scrItr.isBreak(token)) return;
 						const o = splitAmpersand(token.slice(1));

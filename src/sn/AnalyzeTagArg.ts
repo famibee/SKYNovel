@@ -64,7 +64,7 @@ export class AnalyzeTagArg {
 			if (index === undefined) continue;
 			const {key, val, val2, literal} = groups!;
 			if (literal) {
-				if (literal.slice(-1) === '=') {
+				if (literal.at(-1) === '=') {
 					const lenVnm = literal.length -1;
 					const {ch: k_ch} = this.#idx2LnCol(lenNm, ln, ch, args, index +lenVnm);
 					hRng[literal.slice(0, -1)] = {

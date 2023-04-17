@@ -1003,7 +1003,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 			const p_fn = this.alzTagArg.hPrm.fn;
 			if (! p_fn) continue;
 			const {val: fn} = p_fn;
-			if (! fn || fn.slice(-1) !== '*') continue;
+			if (! fn || fn.at(-1) !== '*') continue;
 
 			scr.aToken.splice(i, 1, '\t', '; '+ token);
 			scr.aLNum.splice(i, 1, NaN, NaN);

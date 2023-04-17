@@ -59,6 +59,13 @@ export class Layer {
 		return false;
 	}
 
+	static	setBlendmodeParentOnly(cnt: Container, hArg: HArg) {
+		const {blendmode} = hArg;
+		if (! blendmode) return;	// 省略時になにもしない
+
+		const bmn = Layer.getBlendmodeNum(blendmode);
+		if (cnt instanceof Sprite) cnt.blendMode = bmn;
+	}
 	static	setBlendmode(cnt: Container, hArg: HArg) {
 		const {blendmode} = hArg;
 		if (! blendmode) return;	// 省略時になにもしない

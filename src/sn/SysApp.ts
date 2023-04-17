@@ -256,7 +256,7 @@ export class SysApp extends SysNode {
 	protected override readonly	update_check: ITag = hArg=> {
 		const {url} = hArg;
 		if (! url) throw '[update_check] urlは必須です';
-		if (url.slice(-1) !== '/') throw '[update_check] urlの最後は/です';
+		if (url.at(-1) !== '/') throw '[update_check] urlの最後は/です';
 		if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] url=${url}`, 'D');
 
 		(async ()=> {

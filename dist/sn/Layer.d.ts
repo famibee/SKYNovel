@@ -24,6 +24,7 @@ export declare class Layer {
     set y(v: number);
     destroy(): void;
     lay(hArg: HArg): boolean;
+    static setBlendmodeParentOnly(cnt: Container, hArg: HArg): void;
     static setBlendmode(cnt: Container, hArg: HArg): void;
     static getBlendmodeNum(bm_name: string): number;
     static getNum2Blendmode(bmn: number): string;

@@ -368,7 +368,7 @@ export class Grammar {
 				const macro = this.#hC2M[ch.at(0) ?? ' '];
 					// 省略時は #REG_CANTC2M に引っかかる ' ' に
 				if (macro) {
-					ch = macro +((macro.slice(-1) === ']')
+					ch = macro +((macro.at(-1) === ']')
 						? ''
 						: (`'${ch.slice(1, -1)}']`));
 					// 文字列は半角空白を意識して''で囲むが、いずれ変えたい場合がある？

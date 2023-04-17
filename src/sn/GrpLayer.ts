@@ -137,7 +137,7 @@ export class GrpLayer extends Layer {
 				this.setSp(sp);
 			},
 			isStop=> {
-				Layer.setBlendmode(this.spLay, hArg);
+				Layer.setBlendmodeParentOnly(this.spLay, hArg);
 				resolve(isStop);
 			}
 		);
