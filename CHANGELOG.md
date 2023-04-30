@@ -1,3 +1,10 @@
+## [1.43.2](https://github.com/famibee/SKYNovel/compare/v1.43.1...v1.43.2) (2023-04-30)
+
+
+### Bug Fixes
+
+* 【単項 -】演算がエラーになる場合があった件など、演算関係修正 ([69531fa](https://github.com/famibee/SKYNovel/commit/69531fa406ddbe735bdf42fe8325d2a4089463b5))
+
 - fix: 【単項 -】演算がエラーになる場合があった件
 - fix: -null、-false、-true をエラーとしていたが、jsにあわせた値 -0、-0、-1 を返すように
 - fix: 【-未定義変数】をエラーとしていたが、NaNを返すように
