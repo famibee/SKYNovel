@@ -19,10 +19,18 @@ export class PropParser implements IPropParser {
 		function ope(a: (string | RegExp)[]) {
 			const ps: any = [];
 			for (const v of a) ps.push(
-				((v instanceof RegExp)
-					? regex(v)
-					: string(v as string))
+				((typeof v === 'string') ?string(v) :regex(v))
 				.trim(optWhitespace)
+			);
+			return alt.apply(null, ps);
+		}
+		function opeH(ops: {[name: string]: string | RegExp}) {
+			let keys = Object.keys(ops).sort();
+			let ps = keys.map(k=>
+				((typeof ops[k] === 'string')
+					? string(ops[k] as string) :regex(ops[k] as RegExp))
+				.trim(optWhitespace)
+				.result(k)
 			);
 			return alt.apply(null, ps);
 		}
@@ -30,6 +38,9 @@ export class PropParser implements IPropParser {
 		function PREFIX(operatorsParser: any, nextParser: any) {
 			const parser: any = lazy(()=> seq(operatorsParser, parser).or(nextParser));
 			return parser;
+		}
+		function POSTFIX(operatorsParser: any, nextParser: any) {
+			return seqMap(nextParser, operatorsParser.many(), (x, suffixes: any)=> suffixes.reduce((acc: any, x: any) => [x, acc], x));
 		}
 
 		// right. (e.g. 1^2^3 is 1^(2^3) not (1^2)^3)
@@ -87,11 +98,6 @@ export class PropParser implements IPropParser {
 			const s = String(b).replaceAll(REG_BRACKETS, v=>
 				'.'+ this.parse(v.slice(1, -1))
 			);
-			if (s.at(0) === '-') {	// 変数頭に「-」
-				const val = this.val.getVal(s.slice(1));
-				if (val == null || String(val) === 'null') throw Error('(PropParser)数値以外に-符号がついています');
-				return ['!num!', -Number(val)];
-			}
 			const val = this.val.getVal(s);
 			//console.log('      👹 s:%O: val:%O:', s, val);
 			if (val == null) return ['!str!', val];		// undefined も
@@ -113,20 +119,30 @@ export class PropParser implements IPropParser {
 		);
 
 		const table = [
-			// 優先順位：19（メンバーへのアクセス、計算値によるメンバーへのアクセス）
+			// 演算子の優先順位 - JavaScript | MDN https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Operator_precedence
+			// 優先順位：18（メンバーへのアクセス、計算値によるメンバーへのアクセス）
 				// a.b  a[b]
 			{type: PREFIX, ops: ope([/[A-Za-z_][A-Za-z0-9_]*(?=\()/])},
-			// ++ --		// 優先順位：17（後置インクリメント・デクリメント）
-			{type: PREFIX, ops: ope([/(!(?!=)|~)/])},	// 優先順位：16
-			//	{type: PREFIX, ops: ope([/(!(?!=)|++|--)/])},
-				// 「n!」階乗演算子は優先順位がよく判らないし、使わない・ミスも考え無いほうが
-			//		// 優先順位：16（前置インクリメント・デクリメント）
+
+			// 優先順位：16
+			{type: POSTFIX, ops: opeH({PostfixInc: '++'})},
+			{type: POSTFIX, ops: opeH({PostfixDec: '--'})},
+				// 【未サポート】後置インクリメント・デクリメント
+			// 優先順位：15
+			{type: PREFIX, ops: ope([/!(?!=)|~/])},	// 論理 NOT (!)、ビット単位 NOT (~)
+			{type: PREFIX, ops: opeH({PrefixInc: '++'})},
+			{type: PREFIX, ops: opeH({PrefixDec: '--'})},
+				// 【未サポート】前置インクリメント・デクリメント
+		//	{type: PREFIX, ops: opeH({Unaryplus: /\+(?!\+)/})},	// 単項プラス
+			{type: PREFIX, ops: opeH({UnaryNegate: /-(?!-)/})},	// 単項マイナス
+
+			// 優先順位：14以下（並びに注意）
 			{type: BINARY_RIGHT, ops: ope(['**'])},
 			{type: BINARY_LEFT, ops: ope(['*', '/', '¥', '%'])},
 			{type: BINARY_LEFT, ops: ope(['+', '-'])},
-			{type: BINARY_LEFT, ops: ope([/(>>>|<<|>>)/])},
-			{type: BINARY_LEFT, ops: ope([/(<=|<|>=|>)/])},
-			{type: BINARY_LEFT, ops: ope([/(===|!==|==|!=)/])},
+			{type: BINARY_LEFT, ops: ope([/>>>|<<|>>/])},
+			{type: BINARY_LEFT, ops: ope([/<=|<|>=|>/])},
+			{type: BINARY_LEFT, ops: ope([/===|!==|==|!=/])},
 			{type: BINARY_LEFT, ops: ope([/&(?!&)/])},
 			{type: BINARY_LEFT, ops: ope(['^'])},
 			{type: BINARY_LEFT, ops: ope([/\|(?!\|)/])},
@@ -166,6 +182,11 @@ export class PropParser implements IPropParser {
 		'!str!': a=> this.#procEmbedVar(a.shift()),
 		'!bool!':a=> a.shift(),
 
+		PostfixInc:	_=> {throw Error('(PropParser)後置インクリメントは未サポートです')},
+		PostfixDec:	_=> {throw Error('(PropParser)後置デクリメントは未サポートです')},
+		PrefixInc:	_=> {throw Error('(PropParser)前置インクリメントは未サポートです')},
+		PrefixDec:	_=> {throw Error('(PropParser)前置デクリメントは未サポートです')},
+
 		// 論理 NOT
 		'!':	a=> {
 			const b = a.shift();
@@ -175,6 +196,10 @@ export class PropParser implements IPropParser {
 		},
 		// チルダ演算子（ビット反転）
 		'~':	a=> ~ Number(this.#calc(a.shift())),
+
+//		UnaryNegate:	a=> - Number(this.#calc(a.shift())),
+		UnaryNegate:	a=> - this.#hFnc['Number'](a),
+	//	Unaryplus:		a=> this.#hFnc['Number'](a),
 
 		// 乗算、除算、剰余
 		'**':	a=> Number(this.#calc(a.shift())) **
@@ -191,11 +216,9 @@ export class PropParser implements IPropParser {
 		'+':	a=> {
 			const b = this.#calc(a.shift());
 			const c = this.#calc(a.shift());
-			if (Object.prototype.toString.call(b) === '[object String]'
-			|| Object.prototype.toString.call(c) === '[object String]') {
-				return String(b) + String(c);
-			}
-			return Number(b) + Number(c);
+			return (Object.prototype.toString.call(b) === '[object String]'
+				|| Object.prototype.toString.call(c) === '[object String]')
+					? String(b) + String(c) : Number(b) + Number(c);
 		},
 		'-':	a=> Number(this.#calc(a.shift())) -
 					Number(this.#calc(a.shift())),
@@ -205,9 +228,9 @@ export class PropParser implements IPropParser {
 		'parseInt':	a=> int(this.#hFnc['Number'](a)),
 		'Number':	a=> {
 			const b = this.#calc(a.shift());
-			if (Object.prototype.toString.call(b) !== '[object String]') return Number(b);
-
-			return this.#fncSub_ChkNum(this.#parser.parse(String(b)).value);
+			return Object.prototype.toString.call(b) === '[object String]'
+				? this.#fncSub_ChkNum(this.#parser.parse(String(b)).value)
+				: Number(b);
 		},
 		'ceil':		a=> Math.ceil( this.#fncSub_ChkNum(a.shift()) ),
 		'floor':	a=> Math.floor( this.#fncSub_ChkNum(a.shift()) ),
@@ -236,20 +259,16 @@ export class PropParser implements IPropParser {
 		'==':	a=> {
 			const b = this.#calc(a.shift());
 			const c = this.#calc(a.shift());
-			if ((b == null) && (c == null) && (!b || !c)) return (b == c);
-				// 一・二項目は undefined も適合。
-				// 三項目での falseは、""か 0か falseか undefinedか nullかも
-				// ここでは undefined == null でよい。（===では区別する）
-			return String(b) === String(c);
+			return ((b == null) && (c == null) && (!b || !c))
+				? (b == c) : String(b) === String(c);
 		},
 		'!=':	a=> ! this.#hFnc['=='](a),
 		'===':	a=> {
 			const b = this.#calc(a.shift());
 			const c = this.#calc(a.shift());
-			if (Object.prototype.toString.call(b) !=
-				Object.prototype.toString.call(c)) return false;
-
-			return String(b) === String(c);
+			return (Object.prototype.toString.call(b) !=
+					Object.prototype.toString.call(c))
+					? false : String(b) === String(c);
 		},
 		'!==':	a=> ! this.#hFnc['==='](a),
 
@@ -286,7 +305,7 @@ export class PropParser implements IPropParser {
 
 			return this.#calc(elm2[cond ?1 :2]);
 		},
-		':':	()=> { throw Error('(PropParser)三項演算子の文法エラーです。? が見つかりません') },
+		':':	()=> {throw Error('(PropParser)三項演算子の文法エラーです。? が見つかりません')},
 	}
 	#fncSub_ChkNum(v: any[]): number {
 		const b = this.#calc(v);
@@ -299,11 +318,12 @@ export class PropParser implements IPropParser {
 	#procEmbedVar(b: object): any {
 		if (b == null) return b;	// undefined も
 
-		return String(b).replaceAll(this.#REG_EMBEDVAR, v=> {
-			return (v.at(0) === '$')
+		return String(b).replaceAll(
+			this.#REG_EMBEDVAR,
+			v=> (v.at(0) === '$')
 				? this.val.getVal(v.slice(1))
-				: this.parse(v.slice(2, -1));
-		});
+				: this.parse(v.slice(2, -1))
+		);
 	}
 
 

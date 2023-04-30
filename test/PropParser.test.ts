@@ -193,6 +193,13 @@ it.each([
 	{i: '+2.3',	// まぁ文法エラーかなと
 		toThrowError: '(PropParser)文法エラー【+2.3】'},
 
+	// 2023/04/30
+	{i: '-(40-740)', o: 700},
+	{i: '- -4', o: 4},
+	{i: '- - -4', o: -4},
+	{i: '- - - -4', o: 4},
+
+
 // 未使用 -> SKYNovelからサポート
 	// Num_int0
 	{i: 'int(10)', o: 10},
@@ -588,22 +595,24 @@ it.each([
 	// EmbedPerl13
 	{i: '0+hD.数値', o: '01.20'},
 	// EmbedPerl14
-	{i: '-むきょー',	// むきょー、は未定義リテラル
-	toThrowError: '(PropParser)数値以外に-符号がついています'},
+	{i: '-むきょー', o: NaN},	// v 1.43.2 以降は NaN を返すように
+//	{i: '-むきょー', toThrowError: '(PropParser)数値以外に-符号がついています'},
+		// むきょー、は未定義リテラル
 	// EmbedPerl15
-	{i: '-tmp:null_n',	// まぁ文法エラーかなと
-	toThrowError: '(PropParser)数値以外に-符号がついています'},
+	{i: '-tmp:null_n', o: -0},	// v 1.43.2 以降は jsにあわせる（-null → -0）
+//	{i: '-tmp:null_n', toThrowError: '(PropParser)数値以外に-符号がついています'},
 	// EmbedPerl16
-	{i: '-tmp:null_s',
-	toThrowError: '(PropParser)数値以外に-符号がついています'},
+//	{i: '-tmp:null_s', NaN},	// v 1.43.2 以降は NaN を返すように
+	{i: '-tmp:null_s', toThrowError: '(PropParser)数値以外に-符号がついています'},
+		// TODO: これも NaN を返すべき
 	// EmbedPerl17
 	{i: '!tmp:null_n', o: true},
 	// EmbedPerl18
-	{i: '-false',
-	toThrowError: '(PropParser)数値以外に-符号がついています'},
+	{i: '-false', o: -0},	// v 1.43.2 以降は jsにあわせる（-0）
+//	{i: '-false', toThrowError: '(PropParser)数値以外に-符号がついています'},
 	// EmbedPerl19
-	{i: '-true',
-	toThrowError: '(PropParser)数値以外に-符号がついています'},
+	{i: '-true', o: -1},	// v 1.43.2 以降は jsにあわせる（-1）
+//	{i: '-true', toThrowError: '(PropParser)数値以外に-符号がついています'},
 
 	// EmbedPer20
 	{i: `'を$春夏,は'`, o: 'を秋冬,は'},
