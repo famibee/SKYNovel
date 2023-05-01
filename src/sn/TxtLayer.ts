@@ -596,13 +596,15 @@ export class TxtLayer extends Layer {
 				this.#firstCh = false;
 				this.#needGoTxt = true;
 			{
-				if (TxtLayer.#val.doRecLog()) this.#page_text += ch
-				+(ruby ?`《${ruby}》` :'');
-
 				const {t, r='', wait=null, style='', r_style=''} = <{
 					t: string, r?: string, wait? :number,
 					style? :string, r_style? :string,
 				}>JSON.parse(a1);
+				if (TxtLayer.#val.doRecLog()) {
+					this.#page_text += ch +(ruby ?`《${ruby}》` :'');
+					this.#page_plain_text += t;
+				}
+
 				const rb = CmnLib.isSafari
 					? r.replaceAll(/[A-Za-z0-9]/g, s=> String.fromCharCode(s.charCodeAt(0) + 65248))
 						// 英数字を全角に(Safariで縦中横ルビが半角文字だと、
@@ -661,7 +663,10 @@ text-combine-upright: all;
 	}
 	#tagCh_sub(ch: string, rb: string, r_align: string): string {
 		const ht = ch === ' ' ?'&nbsp;' :ch;
-		if (TxtLayer.#val.doRecLog()) this.#page_text += ht +(rb ?`《${rb}》` :'');
+		if (TxtLayer.#val.doRecLog()) {
+			this.#page_text += ht +(rb ?`《${rb}》` :'');
+			if (ch !== ' ') this.#page_plain_text += ch;
+		}
 		const {cl, sty, lnk} = this.#o2domArg(true, null, ch);
 
 		if (rb) return `<span${cl} style='${sty} ${this.#fncFFSStyle(ch)
@@ -758,10 +763,13 @@ text-combine-upright: all;
 		this.#firstCh = true;
 		this.#aSpan = [];
 		this.#page_text = '';
+		this.#page_plain_text = '';
 		TxtLayer.#recorder.recPagebreak();
 	}
-	#page_text	= '';
+	#page_text			= '';
+	#page_plain_text	= '';
 	get pageText() {return this.#page_text.replace('《　》', '')}
+	get pagePlainText() {return this.#page_plain_text}
 
 	get enabled() {return this.spLay.interactiveChildren}
 	set enabled(e) {this.spLay.interactiveChildren = e}

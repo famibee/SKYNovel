@@ -1283,7 +1283,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 
 		delete hArg[':タグ名'];
 		delete hArg.place;
-		hArg.text = (hArg.text ?? '').replace(/^(<br\/>)+/, '');
+		hArg.text = hArg.text ?? '';
 		this.#mark.json = hArg;
 		this.val.setMark(place, this.#mark);
 

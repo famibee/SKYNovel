@@ -187,6 +187,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 				: this.#aTxtLog
 		));
 		val.defTmp('const.sn.last_page_text', ()=> this.currentTxtlayFore?.pageText ?? '');
+		val.defTmp('const.sn.last_page_plain_text', ()=> this.currentTxtlayFore?.pagePlainText ?? '');
 		if (CmnLib.isDbg) {
 			DesignCast.init(appPixi, sys, scrItr, prpPrs, alzTagArg, cfg, this.#hPages);
 			this.cvsResizeDesign = ()=> DesignCast.cvsResizeDesign();

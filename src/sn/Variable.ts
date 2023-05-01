@@ -66,6 +66,7 @@ export class Variable implements IVariable {
 		this.#hTmp['sn.auto.enabled'] = false;	// 自動読みすすみモードかどうか
 
 		this.#hTmp['const.sn.last_page_text'] = '';
+		this.#hTmp['const.sn.last_page_plain_text'] = '';
 
 		//this.hTmp['const.sn.mouse.middle']	// ScriptIterator で定義
 

@@ -30,6 +30,7 @@ export declare class TxtLayer extends Layer {
     readonly click: () => boolean;
     clearText(): void;
     get pageText(): string;
+    get pagePlainText(): string;
     get enabled(): boolean;
     set enabled(e: boolean);
     readonly addButton: (hArg: HArg) => Promise<void>;
