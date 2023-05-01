@@ -1,3 +1,10 @@
+## [1.43.4](https://github.com/famibee/SKYNovel/compare/v1.43.3...v1.43.4) (2023-05-01)
+
+
+### Bug Fixes
+
+* 組み込み変数 const.sn.last_page_plain_text 追加 ([c2dd1c8](https://github.com/famibee/SKYNovel/commit/c2dd1c8ff7f6bdc17d8df8db7faa5e678cca29f8))
+
 - fix: 組み込み変数 const.sn.last_page_plain_text 追加
 	- そのページの履歴テキストだが、《》文法を含まない const.sn.last_page_text にあたるもの
 	- ルビは含まないものとする
