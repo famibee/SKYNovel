@@ -20,8 +20,10 @@ export declare class Layer {
     get width(): number;
     get x(): number;
     set x(v: number);
+    protected procSetX(_x: number): void;
     get y(): number;
     set y(v: number);
+    protected procSetY(_y: number): void;
     destroy(): void;
     lay(hArg: HArg): boolean;
     static setBlendmodeParentOnly(cnt: Container, hArg: HArg): void;

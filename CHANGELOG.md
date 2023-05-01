@@ -1,3 +1,6 @@
+- fix: [tsy]文字レイヤ移動に文字表示が追従しない件
+
+
 ## [1.43.2](https://github.com/famibee/SKYNovel/compare/v1.43.1...v1.43.2) (2023-04-30)
 
 

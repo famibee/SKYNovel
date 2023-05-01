@@ -29,9 +29,11 @@ export class Layer {
 	set scale_y(v) {this.spLay.scale.y = v}
 	get	width() {return this.spLay.width}
 	get	x() {return this.spLay.x}
-	set x(v) {this.spLay.x = v}
+	set x(v) {this.procSetX(v); this.spLay.x = v}
+		protected	procSetX(_x: number) {}	// set を override できないので
 	get	y() {return this.spLay.y}
-	set y(v) {this.spLay.y = v}
+	set y(v) {this.procSetY(v); this.spLay.y = v}
+		protected	procSetY(_y: number) {}	// set を override できないので
 
 	destroy() {}
 

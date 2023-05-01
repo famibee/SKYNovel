@@ -240,6 +240,9 @@ export class TxtLayer extends Layer {
 		for (const b of this.#cntBtn.children) (b as Button).cvsResize();
 	}
 
+	protected	override	procSetX(x: number) {this.#txs.lay({x});}
+	protected	override	procSetY(y: number) {this.#txs.lay({y});}
+
 	override lay(hArg: HArg) {
 		super.lay(hArg);
 		Layer.setXY(this.spLay, hArg, this.spLay);

@@ -272,7 +272,7 @@ platform$1.exports;
           return !fe && (fe = RegExp("\\b" + Ve + " *\\d+[.\\w_]*", "i").exec(st) || RegExp("\\b" + Ve + " *\\w+-[\\w]*", "i").exec(st) || RegExp("\\b" + Ve + "(?:; *(?:[a-z]+[_-])?[a-z]+\\d+|[^ ();-]*)", "i").exec(st)) && ((fe = String(ne.label && !RegExp(Ve, "i").test(ne.label) ? ne.label : fe).split("/"))[1] && !/[\d.]+/.test(fe[0]) && (fe[0] += " " + fe[1]), ne = ne.label || ne, fe = q(fe[0].replace(RegExp(Ve, "i"), ne).replace(RegExp("; *(?:" + ne + "[_-])?", "i"), " ").replace(RegExp("(" + ne + ")[-_.]?(\\w)", "i"), "$1 $2"))), fe;
         });
       }
-      function ue(de) {
+      function he(de) {
         return et(de, function(fe, ne) {
           return fe || (RegExp(ne + "(?:-[\\d.]+/|(?: for [\\w-]+)?[ /-])([\\d.]+[^ ();/_-]*)", "i").exec(st) || 0)[1] || null;
         });
@@ -280,7 +280,7 @@ platform$1.exports;
       function _e() {
         return this.description || "";
       }
-      if (kt && (kt = [kt]), /\bAndroid\b/.test(Ct) && !Lt && (ft = /\bAndroid[^;]*;(.*?)(?:Build|\) AppleWebKit)\b/i.exec(st)) && (Lt = it(ft[1]).replace(/^[a-z]{2}-[a-z]{2};\s*/i, "") || null), jt && !Lt ? Lt = Oe([jt]) : jt && Lt && (Lt = Lt.replace(RegExp("^(" + Q(jt) + ")[-_.\\s]", "i"), jt + " ").replace(RegExp("^(" + Q(jt) + ")[-_.]?(\\w)", "i"), jt + " $2")), (ft = /\bGoogle TV\b/.exec(Lt)) && (Lt = ft[0]), /\bSimulator\b/i.test(st) && (Lt = (Lt ? Lt + " " : "") + "Simulator"), wt == "Opera Mini" && /\bOPiOS\b/.test(st) && Dt.push("running in Turbo/Uncompressed mode"), wt == "IE" && /\blike iPhone OS\b/.test(st) ? (ft = tt(st.replace(/like iPhone OS/, "")), jt = ft.manufacturer, Lt = ft.product) : /^iP/.test(Lt) ? (wt || (wt = "Safari"), Ct = "iOS" + ((ft = / OS ([\d_]+)/i.exec(st)) ? " " + ft[1].replace(/_/g, ".") : "")) : wt == "Konqueror" && /^Linux\b/i.test(Ct) ? Ct = "Kubuntu" : jt && jt != "Google" && (/Chrome/.test(wt) && !/\bMobile Safari\b/i.test(st) || /\bVita\b/.test(Lt)) || /\bAndroid\b/.test(Ct) && /^Chrome/.test(wt) && /\bVersion\//i.test(st) ? (wt = "Android Browser", Ct = /\bAndroid\b/.test(Ct) ? Ct : "Android") : wt == "Silk" ? (/\bMobi/i.test(st) || (Ct = "Android", Dt.unshift("desktop mode")), /Accelerated *= *true/i.test(st) && Dt.unshift("accelerated")) : wt == "UC Browser" && /\bUCWEB\b/.test(st) ? Dt.push("speed mode") : wt == "PaleMoon" && (ft = /\bFirefox\/([\d.]+)\b/.exec(st)) ? Dt.push("identifying as Firefox " + ft[1]) : wt == "Firefox" && (ft = /\b(Mobile|Tablet|TV)\b/i.exec(st)) ? (Ct || (Ct = "Firefox OS"), Lt || (Lt = ft[1])) : !wt || (ft = !/\bMinefield\b/i.test(st) && /\b(?:Firefox|Safari)\b/.exec(wt)) ? (wt && !Lt && /[\/,]|^[^(]+?\)/.test(st.slice(st.indexOf(ft + "/") + 8)) && (wt = null), (ft = Lt || jt || Ct) && (Lt || jt || /\b(?:Android|Symbian OS|Tablet OS|webOS)\b/.test(Ct)) && (wt = /[a-z]+(?: Hat)?/i.exec(/\bAndroid\b/.test(Ct) ? Ct : ft) + " Browser")) : wt == "Electron" && (ft = (/\bChrome\/([\d.]+)\b/.exec(st) || 0)[1]) && Dt.push("Chromium " + ft), Et || (Et = ue([
+      if (kt && (kt = [kt]), /\bAndroid\b/.test(Ct) && !Lt && (ft = /\bAndroid[^;]*;(.*?)(?:Build|\) AppleWebKit)\b/i.exec(st)) && (Lt = it(ft[1]).replace(/^[a-z]{2}-[a-z]{2};\s*/i, "") || null), jt && !Lt ? Lt = Oe([jt]) : jt && Lt && (Lt = Lt.replace(RegExp("^(" + Q(jt) + ")[-_.\\s]", "i"), jt + " ").replace(RegExp("^(" + Q(jt) + ")[-_.]?(\\w)", "i"), jt + " $2")), (ft = /\bGoogle TV\b/.exec(Lt)) && (Lt = ft[0]), /\bSimulator\b/i.test(st) && (Lt = (Lt ? Lt + " " : "") + "Simulator"), wt == "Opera Mini" && /\bOPiOS\b/.test(st) && Dt.push("running in Turbo/Uncompressed mode"), wt == "IE" && /\blike iPhone OS\b/.test(st) ? (ft = tt(st.replace(/like iPhone OS/, "")), jt = ft.manufacturer, Lt = ft.product) : /^iP/.test(Lt) ? (wt || (wt = "Safari"), Ct = "iOS" + ((ft = / OS ([\d_]+)/i.exec(st)) ? " " + ft[1].replace(/_/g, ".") : "")) : wt == "Konqueror" && /^Linux\b/i.test(Ct) ? Ct = "Kubuntu" : jt && jt != "Google" && (/Chrome/.test(wt) && !/\bMobile Safari\b/i.test(st) || /\bVita\b/.test(Lt)) || /\bAndroid\b/.test(Ct) && /^Chrome/.test(wt) && /\bVersion\//i.test(st) ? (wt = "Android Browser", Ct = /\bAndroid\b/.test(Ct) ? Ct : "Android") : wt == "Silk" ? (/\bMobi/i.test(st) || (Ct = "Android", Dt.unshift("desktop mode")), /Accelerated *= *true/i.test(st) && Dt.unshift("accelerated")) : wt == "UC Browser" && /\bUCWEB\b/.test(st) ? Dt.push("speed mode") : wt == "PaleMoon" && (ft = /\bFirefox\/([\d.]+)\b/.exec(st)) ? Dt.push("identifying as Firefox " + ft[1]) : wt == "Firefox" && (ft = /\b(Mobile|Tablet|TV)\b/i.exec(st)) ? (Ct || (Ct = "Firefox OS"), Lt || (Lt = ft[1])) : !wt || (ft = !/\bMinefield\b/i.test(st) && /\b(?:Firefox|Safari)\b/.exec(wt)) ? (wt && !Lt && /[\/,]|^[^(]+?\)/.test(st.slice(st.indexOf(ft + "/") + 8)) && (wt = null), (ft = Lt || jt || Ct) && (Lt || jt || /\b(?:Android|Symbian OS|Tablet OS|webOS)\b/.test(Ct)) && (wt = /[a-z]+(?: Hat)?/i.exec(/\bAndroid\b/.test(Ct) ? Ct : ft) + " Browser")) : wt == "Electron" && (ft = (/\bChrome\/([\d.]+)\b/.exec(st) || 0)[1]) && Dt.push("Chromium " + ft), Et || (Et = he([
         "(?:Cloud9|CriOS|CrMo|Edge|Edg|EdgA|EdgiOS|FxiOS|HeadlessChrome|IEMobile|Iron|Opera ?Mini|OPiOS|OPR|Raven|SamsungBrowser|Silk(?!/[\\d.]+$)|UCBrowser|YaBrowser)",
         "Version",
         Q(wt),
@@ -316,7 +316,7 @@ platform$1.exports;
         }
       else
         (/\bBlackBerry\b/.test(Lt) || /\bBB10\b/.test(st)) && (ft = (RegExp(Lt.replace(/ +/g, " *") + "/([.\\d]+)", "i").exec(st) || 0)[1] || Et) ? (ft = [ft, /BB10/.test(st)], Ct = (ft[1] ? (Lt = null, jt = "BlackBerry") : "Device Software") + " " + ft[0], Et = null) : this != K && Lt != "Wii" && (Bt && Nt || /Opera/.test(wt) && /\b(?:MSIE|Firefox)\b/i.test(st) || wt == "Firefox" && /\bOS X (?:\d+\.){2,}/.test(Ct) || wt == "IE" && (Ct && !/^Win/.test(Ct) && Et > 5.5 || /\bWindows XP\b/.test(Ct) && Et > 8 || Et == 8 && !/\bTrident\b/.test(st))) && !G.test(ft = tt.call(K, st.replace(G, "") + ";")) && ft.name && (ft = "ing as " + ft.name + ((ft = ft.version) ? " " + ft : ""), G.test(wt) ? (/\bIE\b/.test(ft) && Ct == "Mac OS" && (Ct = null), ft = "identify" + ft) : (ft = "mask" + ft, Mt ? wt = q(Mt.replace(/([a-z])([A-Z])/g, "$1 $2")) : wt = "Opera", /\bIE\b/.test(ft) && (Ct = null), Bt || (Et = null)), kt = ["Presto"], Dt.push(ft));
-      (ft = (/\bAppleWebKit\/([\d.]+\+?)/i.exec(st) || 0)[1]) && (ft = [parseFloat(ft.replace(/\.(\d)$/, ".0$1")), ft], wt == "Safari" && ft[1].slice(-1) == "+" ? (wt = "WebKit Nightly", Vt = "alpha", Et = ft[1].slice(0, -1)) : (Et == ft[1] || Et == (ft[2] = (/\bSafari\/([\d.]+\+?)/i.exec(st) || 0)[1])) && (Et = null), ft[1] = (/\b(?:Headless)?Chrome\/([\d.]+)/i.exec(st) || 0)[1], ft[0] == 537.36 && ft[2] == 537.36 && parseFloat(ft[1]) >= 28 && kt == "WebKit" && (kt = ["Blink"]), !Bt || !pt && !ft[1] ? (kt && (kt[1] = "like Safari"), ft = (ft = ft[0], ft < 400 ? 1 : ft < 500 ? 2 : ft < 526 ? 3 : ft < 533 ? 4 : ft < 534 ? "4+" : ft < 535 ? 5 : ft < 537 ? 6 : ft < 538 ? 7 : ft < 601 ? 8 : ft < 602 ? 9 : ft < 604 ? 10 : ft < 606 ? 11 : ft < 608 ? 12 : "12")) : (kt && (kt[1] = "like Chrome"), ft = ft[1] || (ft = ft[0], ft < 530 ? 1 : ft < 532 ? 2 : ft < 532.05 ? 3 : ft < 533 ? 4 : ft < 534.03 ? 5 : ft < 534.07 ? 6 : ft < 534.1 ? 7 : ft < 534.13 ? 8 : ft < 534.16 ? 9 : ft < 534.24 ? 10 : ft < 534.3 ? 11 : ft < 535.01 ? 12 : ft < 535.02 ? "13+" : ft < 535.07 ? 15 : ft < 535.11 ? 16 : ft < 535.19 ? 17 : ft < 536.05 ? 18 : ft < 536.1 ? 19 : ft < 537.01 ? 20 : ft < 537.11 ? "21+" : ft < 537.13 ? 23 : ft < 537.18 ? 24 : ft < 537.24 ? 25 : ft < 537.36 ? 26 : kt != "Blink" ? "27" : "28")), kt && (kt[1] += " " + (ft += typeof ft == "number" ? ".x" : /[.+]/.test(ft) ? "" : "+")), wt == "Safari" && (!Et || parseInt(Et) > 45) ? Et = ft : wt == "Chrome" && /\bHeadlessChrome/i.test(st) && Dt.unshift("headless")), wt == "Opera" && (ft = /\bzbov|zvav$/.exec(Ct)) ? (wt += " ", Dt.unshift("desktop mode"), ft == "zvav" ? (wt += "Mini", Et = null) : wt += "Mobile", Ct = Ct.replace(RegExp(" *" + ft + "$"), "")) : wt == "Safari" && /\bChrome\b/.exec(kt && kt[1]) ? (Dt.unshift("desktop mode"), wt = "Chrome Mobile", Et = null, /\bOS X\b/.test(Ct) ? (jt = "Apple", Ct = "iOS 4.3+") : Ct = null) : /\bSRWare Iron\b/.test(wt) && !Et && (Et = ue("Chrome")), Et && Et.indexOf(ft = /[\d.]+$/.exec(Ct)) == 0 && st.indexOf("/" + ft + "-") > -1 && (Ct = it(Ct.replace(ft, ""))), Ct && Ct.indexOf(wt) != -1 && !RegExp(wt + " OS").test(Ct) && (Ct = Ct.replace(RegExp(" *" + Q(wt) + " *"), "")), kt && !/\b(?:Avant|Nook)\b/.test(wt) && (/Browser|Lunascape|Maxthon/.test(wt) || wt != "Safari" && /^iOS/.test(Ct) && /\bSafari\b/.test(kt[1]) || /^(?:Adobe|Arora|Breach|Midori|Opera|Phantom|Rekonq|Rock|Samsung Internet|Sleipnir|SRWare Iron|Vivaldi|Web)/.test(wt) && kt[1]) && (ft = kt[kt.length - 1]) && Dt.push(ft), Dt.length && (Dt = ["(" + Dt.join("; ") + ")"]), jt && Lt && Lt.indexOf(jt) < 0 && Dt.push("on " + jt), Lt && Dt.push((/^on /.test(Dt[Dt.length - 1]) ? "" : "on ") + Lt), Ct && (ft = / ([\d.+]+)$/.exec(Ct), Ht = ft && Ct.charAt(Ct.length - ft[0].length - 1) == "/", Ct = {
+      (ft = (/\bAppleWebKit\/([\d.]+\+?)/i.exec(st) || 0)[1]) && (ft = [parseFloat(ft.replace(/\.(\d)$/, ".0$1")), ft], wt == "Safari" && ft[1].slice(-1) == "+" ? (wt = "WebKit Nightly", Vt = "alpha", Et = ft[1].slice(0, -1)) : (Et == ft[1] || Et == (ft[2] = (/\bSafari\/([\d.]+\+?)/i.exec(st) || 0)[1])) && (Et = null), ft[1] = (/\b(?:Headless)?Chrome\/([\d.]+)/i.exec(st) || 0)[1], ft[0] == 537.36 && ft[2] == 537.36 && parseFloat(ft[1]) >= 28 && kt == "WebKit" && (kt = ["Blink"]), !Bt || !pt && !ft[1] ? (kt && (kt[1] = "like Safari"), ft = (ft = ft[0], ft < 400 ? 1 : ft < 500 ? 2 : ft < 526 ? 3 : ft < 533 ? 4 : ft < 534 ? "4+" : ft < 535 ? 5 : ft < 537 ? 6 : ft < 538 ? 7 : ft < 601 ? 8 : ft < 602 ? 9 : ft < 604 ? 10 : ft < 606 ? 11 : ft < 608 ? 12 : "12")) : (kt && (kt[1] = "like Chrome"), ft = ft[1] || (ft = ft[0], ft < 530 ? 1 : ft < 532 ? 2 : ft < 532.05 ? 3 : ft < 533 ? 4 : ft < 534.03 ? 5 : ft < 534.07 ? 6 : ft < 534.1 ? 7 : ft < 534.13 ? 8 : ft < 534.16 ? 9 : ft < 534.24 ? 10 : ft < 534.3 ? 11 : ft < 535.01 ? 12 : ft < 535.02 ? "13+" : ft < 535.07 ? 15 : ft < 535.11 ? 16 : ft < 535.19 ? 17 : ft < 536.05 ? 18 : ft < 536.1 ? 19 : ft < 537.01 ? 20 : ft < 537.11 ? "21+" : ft < 537.13 ? 23 : ft < 537.18 ? 24 : ft < 537.24 ? 25 : ft < 537.36 ? 26 : kt != "Blink" ? "27" : "28")), kt && (kt[1] += " " + (ft += typeof ft == "number" ? ".x" : /[.+]/.test(ft) ? "" : "+")), wt == "Safari" && (!Et || parseInt(Et) > 45) ? Et = ft : wt == "Chrome" && /\bHeadlessChrome/i.test(st) && Dt.unshift("headless")), wt == "Opera" && (ft = /\bzbov|zvav$/.exec(Ct)) ? (wt += " ", Dt.unshift("desktop mode"), ft == "zvav" ? (wt += "Mini", Et = null) : wt += "Mobile", Ct = Ct.replace(RegExp(" *" + ft + "$"), "")) : wt == "Safari" && /\bChrome\b/.exec(kt && kt[1]) ? (Dt.unshift("desktop mode"), wt = "Chrome Mobile", Et = null, /\bOS X\b/.test(Ct) ? (jt = "Apple", Ct = "iOS 4.3+") : Ct = null) : /\bSRWare Iron\b/.test(wt) && !Et && (Et = he("Chrome")), Et && Et.indexOf(ft = /[\d.]+$/.exec(Ct)) == 0 && st.indexOf("/" + ft + "-") > -1 && (Ct = it(Ct.replace(ft, ""))), Ct && Ct.indexOf(wt) != -1 && !RegExp(wt + " OS").test(Ct) && (Ct = Ct.replace(RegExp(" *" + Q(wt) + " *"), "")), kt && !/\b(?:Avant|Nook)\b/.test(wt) && (/Browser|Lunascape|Maxthon/.test(wt) || wt != "Safari" && /^iOS/.test(Ct) && /\bSafari\b/.test(kt[1]) || /^(?:Adobe|Arora|Breach|Midori|Opera|Phantom|Rekonq|Rock|Samsung Internet|Sleipnir|SRWare Iron|Vivaldi|Web)/.test(wt) && kt[1]) && (ft = kt[kt.length - 1]) && Dt.push(ft), Dt.length && (Dt = ["(" + Dt.join("; ") + ")"]), jt && Lt && Lt.indexOf(jt) < 0 && Dt.push("on " + jt), Lt && Dt.push((/^on /.test(Dt[Dt.length - 1]) ? "" : "on ") + Lt), Ct && (ft = / ([\d.+]+)$/.exec(Ct), Ht = ft && Ct.charAt(Ct.length - ft[0].length - 1) == "/", Ct = {
         architecture: 32,
         family: ft && !Ht ? Ct.replace(ft[0], "") : Ct,
         version: ft ? ft[1] : null,
@@ -13809,8 +13809,8 @@ void main(void)\r
         for (var Wt = 0, Jt = this._textWidth * this.anchor.x, Kt = this._textHeight * this.anchor.y, Se = 0; Se < bt.total; Se++)
           bt.vertices[Wt++] -= Jt, bt.vertices[Wt++] -= Kt, bt.vertices[Wt++] -= Jt, bt.vertices[Wt++] -= Kt, bt.vertices[Wt++] -= Jt, bt.vertices[Wt++] -= Kt, bt.vertices[Wt++] -= Jt, bt.vertices[Wt++] -= Kt;
       this._maxLineHeight = it * N;
-      var Oe = bt.mesh.geometry.getBuffer("aVertexPosition"), ue = bt.mesh.geometry.getBuffer("aTextureCoord"), _e = bt.mesh.geometry.getIndex();
-      Oe.data = bt.vertices, ue.data = bt.uvs, _e.data = bt.indices, Oe.update(), ue.update(), _e.update();
+      var Oe = bt.mesh.geometry.getBuffer("aVertexPosition"), he = bt.mesh.geometry.getBuffer("aTextureCoord"), _e = bt.mesh.geometry.getIndex();
+      Oe.data = bt.vertices, he.data = bt.uvs, _e.data = bt.indices, Oe.update(), he.update(), _e.update();
     }
     for (var nt = 0; nt < $.length; nt++)
       charRenderDataPool.push($[nt]);
@@ -17111,11 +17111,11 @@ var parsimmon_umd_min = { exports: {} };
           return vt[0];
         });
       }, k.mark = function() {
-        return Bt(ue, this, ue, function(ct, vt, xt) {
+        return Bt(he, this, he, function(ct, vt, xt) {
           return { start: ct, value: vt, end: xt };
         });
       }, k.node = function(ct) {
-        return Bt(ue, this, ue, function(vt, xt, Ot) {
+        return Bt(he, this, he, function(vt, xt, Ot) {
           return { name: ct, value: xt, start: vt, end: Ot };
         });
       }, k.sepBy = function(ct) {
@@ -17146,7 +17146,7 @@ var parsimmon_umd_min = { exports: {} };
           return $t.status ? at(ct($t.value)._(xt, $t.index), $t) : $t;
         });
       }, k.concat = k.or, k.empty = Oe, k.of = jt, k["fantasy-land/ap"] = k.ap, k["fantasy-land/chain"] = k.chain, k["fantasy-land/concat"] = k.concat, k["fantasy-land/empty"] = k.empty, k["fantasy-land/of"] = k.of, k["fantasy-land/map"] = k.map;
-      var ue = N(function(ct, vt) {
+      var he = N(function(ct, vt) {
         return nt(vt, ht(ct, vt));
       }), _e = N(function(ct, vt) {
         return vt >= ct.length ? st(vt, "any character/byte") : nt(vt + 1, pt(ct, vt));
@@ -17168,7 +17168,7 @@ var parsimmon_umd_min = { exports: {} };
         return vt;
       }, N.crlf = eu, N.custom = function(ct) {
         return N(ct(nt, st));
-      }, N.digit = fe, N.digits = ne, N.empty = Oe, N.end = Hc, N.eof = de, N.fail = Ct, N.formatError = Ft, N.index = ue, N.isParser = et, N.lazy = Se, N.letter = Ve, N.letters = vs, N.lf = gs, N.lookahead = Wt, N.makeFailure = st, N.makeSuccess = nt, N.newline = ru, N.noneOf = function(ct) {
+      }, N.digit = fe, N.digits = ne, N.empty = Oe, N.end = Hc, N.eof = de, N.fail = Ct, N.formatError = Ft, N.index = he, N.isParser = et, N.lazy = Se, N.letter = Ve, N.letters = vs, N.lf = gs, N.lookahead = Wt, N.makeFailure = st, N.makeSuccess = nt, N.newline = ru, N.noneOf = function(ct) {
         return Kt(function(vt) {
           return ct.indexOf(vt) < 0;
         }).desc("none of '" + ct + "'");
@@ -19890,14 +19890,20 @@ const ni = class {
     return this.spLay.x;
   }
   set x(t) {
-    this.spLay.x = t;
+    this.procSetX(t), this.spLay.x = t;
   }
+  procSetX(t) {
+  }
+  // set を override できないので
   get y() {
     return this.spLay.y;
   }
   set y(t) {
-    this.spLay.y = t;
+    this.procSetY(t), this.spLay.y = t;
   }
+  procSetY(t) {
+  }
+  // set を override できないので
   destroy() {
   }
   lay(t) {
@@ -25989,27 +25995,27 @@ var Draggable = {
     !Rt[0] && !Rt[1] && (Nt = [1, 1]);
     var Ft = it && (k ?? Tt.keepRatio) || !1;
     function Dt() {
-      var ue = r.fixedDirection, _e = getOffsetSizeDist(Nt, Ft, r, t);
+      var he = r.fixedDirection, _e = getOffsetSizeDist(Nt, Ft, r, t);
       Mt = _e.distWidth, ft = _e.distHeight;
-      var ve = Nt[0] - ue[0] || Ft ? Math.max(tt + Mt, TINY_NUM) : tt, de = Nt[1] - ue[1] || Ft ? Math.max(nt + ft, TINY_NUM) : nt;
+      var ve = Nt[0] - he[0] || Ft ? Math.max(tt + Mt, TINY_NUM) : tt, de = Nt[1] - he[1] || Ft ? Math.max(nt + ft, TINY_NUM) : nt;
       return Ft && tt && nt && (st ? de = ve / it : ve = de * it), [ve, de];
     }
     var Vt = Dt(), Bt = Vt[0], Et = Vt[1];
     X || (r.setFixedDirection(r.fixedDirection), triggerEvent(o, "onBeforeResize", fillParams(o, t, {
       startFixedDirection: r.startFixedDirection,
       startFixedPosition: r.startFixedPosition,
-      setFixedDirection: function(ue) {
+      setFixedDirection: function(he) {
         var _e;
-        return r.setFixedDirection(ue), _e = Dt(), Bt = _e[0], Et = _e[1], [Bt, Et];
+        return r.setFixedDirection(he), _e = Dt(), Bt = _e[0], Et = _e[1], [Bt, Et];
       },
-      setFixedPosition: function(ue) {
+      setFixedPosition: function(he) {
         var _e;
-        return r.setFixedPosition(ue), _e = Dt(), Bt = _e[0], Et = _e[1], [Bt, Et];
+        return r.setFixedPosition(he), _e = Dt(), Bt = _e[0], Et = _e[1], [Bt, Et];
       },
       boundingWidth: Bt,
       boundingHeight: Et,
-      setSize: function(ue) {
-        Bt = ue[0], Et = ue[1];
+      setSize: function(he) {
+        Bt = he[0], Et = he[1];
       }
     }, !0)));
     var Ht = $;
@@ -26017,8 +26023,8 @@ var Draggable = {
     var kt = [0, 0];
     N || (kt = checkSnapResize(o, Bt, Et, Rt, Ht, U, r)), G && (!G[0] && (kt[0] = 0), !G[1] && (kt[1] = 0));
     function wt() {
-      var ue;
-      Pt && (ue = Pt([Bt, Et]), Bt = ue[0], Et = ue[1]), Bt = throttle(Bt, gt), Et = throttle(Et, gt);
+      var he;
+      Pt && (he = Pt([Bt, Et]), Bt = he[0], Et = he[1]), Bt = throttle(Bt, gt), Et = throttle(Et, gt);
     }
     if (Ft) {
       Nt[0] && Nt[1] && kt[0] && kt[1] && (Math.abs(kt[0]) > Math.abs(kt[1]) ? kt[1] = 0 : kt[0] = 0);
@@ -26030,10 +26036,10 @@ var Draggable = {
     var jt = [Mt - Z, ft - J];
     r.prevWidth = Mt, r.prevHeight = ft;
     var Ct = getResizeDist(o, Bt, Et, Ht, W, r);
-    if (!(!bt && jt.every(function(ue) {
-      return !ue;
-    }) && Ct.every(function(ue) {
-      return !ue;
+    if (!(!bt && jt.every(function(he) {
+      return !he;
+    }) && Ct.every(function(he) {
+      return !he;
     }))) {
       var Wt = Draggable.drag(o, setCustomDrag(t, o.state, Ct, !!N, !1, "draggable")), Jt = Wt.transform, Kt = q + Mt, Se = K + ft, Oe = fillParams(o, t, __assign$1({
         width: Kt,
@@ -27806,8 +27812,8 @@ background: var(--bounds-color);
       bottom: tt
     }, Bt, Et, 5), jt = Lt.horizontal, Ct = Lt.vertical, Wt = jt.offset, Jt = Ct.offset;
     if (jt.isBound && (wt[1] += Wt), Ct.isBound && (wt[0] += Jt), (At || bt) && _t[0][0] === 0 && _t[0][1] === 0) {
-      var Rt = getRect(St), Kt = Rt.bottom - Rt.top, Se = At ? Rt.right - Rt.left : Kt, Oe = Ct.isBound ? Math.abs(Jt) : Ct.snapIndex === 0 ? -Jt : Jt, ue = jt.isBound ? Math.abs(Wt) : jt.snapIndex === 0 ? -Wt : Wt;
-      Se -= Oe, Kt -= ue, bt && (Kt = checkSnapBoundPriority(Ct, jt) > 0 ? Kt : Se, Se = Kt);
+      var Rt = getRect(St), Kt = Rt.bottom - Rt.top, Se = At ? Rt.right - Rt.left : Kt, Oe = Ct.isBound ? Math.abs(Jt) : Ct.snapIndex === 0 ? -Jt : Jt, he = jt.isBound ? Math.abs(Wt) : jt.snapIndex === 0 ? -Wt : Wt;
+      Se -= Oe, Kt -= he, bt && (Kt = checkSnapBoundPriority(Ct, jt) > 0 ? Kt : Se, Se = Kt);
       var _e = gt[0];
       gt[1][1] = _e[1] - Kt, gt[2][0] = _e[0] + Se, gt[3][1] = _e[1] + Kt, gt[4][0] = _e[0] - Se;
     } else if (pt && W && G) {
@@ -31613,7 +31619,7 @@ Vo = new WeakMap(), Xo = new WeakMap(), Rr = new WeakMap(), vi = new WeakMap(), 
 }, It(Button, "fontFamily", "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif"), rt(Button, Vo, (e, r) => {
 }), rt(Button, Xo, (e, r, D, N) => {
 });
-var oa, Or, qo, la, Ko, ff, Zo, df, Jo, In, Qo, gi, Dn, ch, gd, mi, mr, Ir, ge, Yr, he, tl, Wr, fh, tr, An, Va, Nn, ua, kn, Xa, ha, el, pf, rl, vf, Ln, Bn, ca, il, fa, Hi, er, dh, md, ur, nl, da, pu, _i, sn, qr, Dr, _r, yr, sl, gf, pa, vu, al, mf, Fn;
+var oa, Or, qo, la, Ko, ff, Zo, df, Jo, In, Qo, gi, Dn, ch, gd, mi, mr, Ir, ge, Yr, le, tl, Wr, fh, tr, An, Va, Nn, ua, kn, Xa, ha, el, pf, rl, vf, Ln, Bn, ca, il, fa, Hi, er, dh, md, ur, nl, da, pu, _i, sn, qr, Dr, _r, yr, sl, gf, pa, vu, al, mf, Fn;
 const ie = class extends Layer {
   constructor() {
     super();
@@ -31635,7 +31641,7 @@ const ie = class extends Layer {
     rt(this, Yr, "");
     // 背景画像無し（＝単色塗り）
     // 文字表示
-    rt(this, he, new TxtStage(this.spLay, () => this.canFocus(), H(ie, Qo)));
+    rt(this, le, new TxtStage(this.spLay, () => this.canFocus(), H(ie, Qo)));
     rt(this, tl, new RubySpliter());
     rt(this, Wr, document.createElement("span"));
     rt(this, tr, new Container());
@@ -31681,7 +31687,7 @@ const ie = class extends Layer {
               lt(this, pa, vu).call(this), H(this, ur) ? (this.isCur && H(ie, la).recText(
                 H(this, _r).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replaceAll(/style='(anim\S+ \S+?;\s*)+/g, "style='").replaceAll(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replaceAll(/class='sn_ch .+?'/g, "class='sn_ch'").replaceAll("display: none;", "").replaceAll("class='offrec'", "style='display: none;'")
                 // 囲んだ領域は履歴で非表示
-              ), H(this, he).goTxt(H(this, _r), H(this, qr) === 0), ot(this, ur, !1), ot(this, qr, 0)) : this.isCur && H(ie, In).noticeCompTxt();
+              ), H(this, le).goTxt(H(this, _r), H(this, qr) === 0), ot(this, ur, !1), ot(this, qr, 0)) : this.isCur && H(ie, In).noticeCompTxt();
               return;
             case "add":
               {
@@ -31697,7 +31703,7 @@ const ie = class extends Layer {
               {
                 const V = JSON.parse(G);
                 if (V.id ?? (V.id = H(this, _r).length), V.id === "break") {
-                  H(this, he).dispBreak(V.pic);
+                  H(this, le).dispBreak(V.pic);
                   return;
                 }
                 ot(this, Dr, !1), V.delay = H(this, qr), V.r ?? (V.r = ""), V.style ?? (V.style = ""), V.r_style ?? (V.r_style = "");
@@ -31754,10 +31760,10 @@ text-combine-upright: all;
     rt(this, Dr, !0);
     rt(this, _r, []);
     rt(this, yr, []);
-    It(this, "click", () => !this.spLay.interactiveChildren || !this.spLay.visible ? !1 : H(this, he).skipChIn());
+    It(this, "click", () => !this.spLay.interactiveChildren || !this.spLay.visible ? !1 : H(this, le).skipChIn());
     rt(this, Fn, "");
     It(this, "addButton", (e) => new Promise((r) => {
-      e.key = `btn=[${H(this, tr).children.length}] ` + this.name_, e[":id_tag"] = e.key.slice(0, -7), argChk_Boolean(e, "hint_tate", H(this, he).tategaki);
+      e.key = `btn=[${H(this, tr).children.length}] ` + this.name_, e[":id_tag"] = e.key.slice(0, -7), argChk_Boolean(e, "hint_tate", H(this, le).tategaki);
       const D = new Button(e, H(ie, In), () => r(), () => this.canFocus());
       D.name = JSON.stringify(e).replaceAll('"', "'"), H(this, tr).addChild(D);
     }));
@@ -31773,11 +31779,11 @@ text-combine-upright: all;
       b_alpha: H(this, mr),
       b_alpha_isfixed: H(this, Ir),
       ffs: H(this, Ln),
-      txs: H(this, he).record(),
+      txs: H(this, le).record(),
       strNoFFS: H(this, ca),
       btns: H(this, tr).children.map((e) => e.name)
     }));
-    this.spLay.addChild(H(this, he)), H(this, tl).init(H(this, nl)), this.spLay.addChild(H(this, tr)), H(this, tr).name = "cntBtn";
+    this.spLay.addChild(H(this, le)), H(this, tl).init(H(this, nl)), this.spLay.addChild(H(this, tr)), H(this, tr).name = "cntBtn";
     const e = 16;
     this.lay({ style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${e}px;`, in_style: "default", out_style: "default", back_clear: "true" });
   }
@@ -31839,27 +31845,33 @@ text-combine-upright: all;
     ot(ie, Jo, e), ot(ie, In, r), ot(ie, Qo, D), TxtStage.setEvtMng(r);
   }
   destroy() {
-    H(this, ge) && (this.spLay.removeChild(H(this, ge)).destroy(), ot(this, ge, void 0)), this.clearText(), H(this, he).destroy();
+    H(this, ge) && (this.spLay.removeChild(H(this, ge)).destroy(), ot(this, ge, void 0)), this.clearText(), H(this, le).destroy();
   }
   static destroy() {
     ot(ie, gi, !1), ot(ie, Dn, {}), ot(ie, fa, (e) => e);
   }
   set name(e) {
-    this.name_ = e, H(this, he).name = e;
+    this.name_ = e, H(this, le).name = e;
   }
   get name() {
     return this.name_;
   }
   // getは継承しないらしい
   cvsResize() {
-    H(this, he).cvsResize();
+    H(this, le).cvsResize();
   }
   cvsResizeChildren() {
     for (const e of H(this, tr).children)
       e.cvsResize();
   }
+  procSetX(e) {
+    H(this, le).lay({ x: e });
+  }
+  procSetY(e) {
+    H(this, le).lay({ y: e });
+  }
   lay(e) {
-    if (super.lay(e), Layer.setXY(this.spLay, e, this.spLay), e[":id_tag"] = this.name_.slice(0, -7), RubySpliter.setting(e), lt(this, rl, vf).call(this, e), H(this, he).lay(e), "r_align" in e && ot(this, er, e.r_align ?? ""), ot(this, Hi, CmnLib.isSafari ? H(this, he).tategaki ? (r, D) => `text-align: start; height: ${D}em; padding-top: ${r}; padding-bottom: ${r};` : (r, D) => `text-align: start; width: ${D}em; padding-left: ${r}; padding-right: ${r};` : H(this, he).tategaki ? (r) => `text-align: justify; text-align-last: justify; padding-top: ${r}; padding-bottom: ${r};` : (r) => `text-align: justify; text-align-last: justify; padding-left: ${r}; padding-right: ${r};`), CmnLib.isFirefox && (this.mkStyle_r_align = lt(this, dh, md)), "r_style" in e)
+    if (super.lay(e), Layer.setXY(this.spLay, e, this.spLay), e[":id_tag"] = this.name_.slice(0, -7), RubySpliter.setting(e), lt(this, rl, vf).call(this, e), H(this, le).lay(e), "r_align" in e && ot(this, er, e.r_align ?? ""), ot(this, Hi, CmnLib.isSafari ? H(this, le).tategaki ? (r, D) => `text-align: start; height: ${D}em; padding-top: ${r}; padding-bottom: ${r};` : (r, D) => `text-align: start; width: ${D}em; padding-left: ${r}; padding-right: ${r};` : H(this, le).tategaki ? (r) => `text-align: justify; text-align-last: justify; padding-top: ${r}; padding-bottom: ${r};` : (r) => `text-align: justify; text-align-last: justify; padding-left: ${r}; padding-right: ${r};`), CmnLib.isFirefox && (this.mkStyle_r_align = lt(this, dh, md)), "r_style" in e)
       if (e.r_style) {
         const r = document.createElement("span");
         r.style.cssText = e.r_style;
@@ -31882,15 +31894,15 @@ text-combine-upright: all;
     });
   }
   get width() {
-    return H(this, he).getWidth;
+    return H(this, le).getWidth;
   }
   get height() {
-    return H(this, he).getHeight;
+    return H(this, le).getHeight;
   }
   chgBackAlpha(e) {
     const r = H(this, Ir) ? H(this, mr) : e * H(this, mr);
     H(this, ge) instanceof Graphics && (H(this, ge) && (this.spLay.removeChild(H(this, ge)), H(this, ge).destroy()), this.spLay.addChildAt(
-      ot(this, ge, new Graphics()).beginFill(H(this, mi)).lineStyle(void 0).drawRect(0, 0, H(this, he).getWidth, H(this, he).getHeight).endFill(),
+      ot(this, ge, new Graphics()).beginFill(H(this, mi)).lineStyle(void 0).drawRect(0, 0, H(this, le).getWidth, H(this, le).getHeight).endFill(),
       0
     ), H(this, ge).name = "back(color)"), H(this, ge) && (H(this, ge).visible = r > 0, H(this, ge).alpha = r);
   }
@@ -31927,7 +31939,7 @@ text-combine-upright: all;
     H(this, tl).putTxt(e);
   }
   clearText() {
-    this.spLay.addChild(ot(this, he, H(this, he).reNew())), ot(this, qr, 0), ot(this, Dr, !0), ot(this, _r, []), ot(this, Fn, ""), H(ie, la).recPagebreak();
+    this.spLay.addChild(ot(this, le, H(this, le).reNew())), ot(this, qr, 0), ot(this, Dr, !0), ot(this, _r, []), ot(this, Fn, ""), H(ie, la).recPagebreak();
   }
   get pageText() {
     return H(this, Fn).replace("《　》", "");
@@ -31948,7 +31960,7 @@ text-combine-upright: all;
       r.destroy();
   }
   playback(e, r) {
-    super.playback(e, r), this.enabled = e.enabled, H(this, Wr).style.cssText = e.r_cssText, ot(this, er, e.r_align), this.cvsResize(), lt(this, rl, vf).call(this, e), H(this, he).playback(e.txs), ot(this, mr, e.b_alpha), ot(this, Ir, e.b_alpha_isfixed), r.push(new Promise((N) => {
+    super.playback(e, r), this.enabled = e.enabled, H(this, Wr).style.cssText = e.r_cssText, ot(this, er, e.r_align), this.cvsResize(), lt(this, rl, vf).call(this, e), H(this, le).playback(e.txs), ot(this, mr, e.b_alpha), ot(this, Ir, e.b_alpha_isfixed), r.push(new Promise((N) => {
       const k = e.b_do ? e.b_do === "Sprite" ? { b_pic: e.b_pic } : { b_color: e.b_color } : { b_pic: "" };
       k.b_alpha = e.b_alpha, k.b_alpha_isfixed = e.b_alpha_isfixed, lt(this, el, pf).call(this, k, ($) => {
         $ && N();
@@ -31958,13 +31970,13 @@ text-combine-upright: all;
     r = r.concat(D.map((N) => this.addButton(JSON.parse(N.replaceAll("'", '"')))));
   }
   snapshot(e, r) {
-    e.render(this.spLay, { clear: !1 }), H(this, he).snapshot(e, r);
+    e.render(this.spLay, { clear: !1 }), H(this, le).snapshot(e, r);
   }
   snapshot_end() {
-    H(this, he).snapshot_end();
+    H(this, le).snapshot_end();
   }
   makeDesignCast(e) {
-    this.spLay.visible && H(this, he).makeDesignCast(e);
+    this.spLay.visible && H(this, le).makeDesignCast(e);
   }
   makeDesignCastChildren(e) {
     if (this.spLay.visible)
@@ -31972,14 +31984,14 @@ text-combine-upright: all;
         r.makeDesignCast(e);
   }
   showDesignCast() {
-    H(this, he).showDesignCast();
+    H(this, le).showDesignCast();
   }
   showDesignCastChildren() {
     for (const e of H(this, tr).children)
       e.showDesignCast();
   }
   dump() {
-    return H(this, nl).call(this, "", "gotxt｜"), super.dump() + `, "enabled":"${this.enabled}", ${H(this, he).dump()}, "b_pic":"${H(this, Yr)}", "b_color":"${H(this, mi)}", "b_alpha":${H(this, mr)}, "b_alpha_isfixed":"${H(this, Ir)}", "width":${H(this, he).getWidth}, "height":${H(this, he).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${H(this, tr).children.map((e) => e.children[0].name ?? "{}").join(",")}]`;
+    return H(this, nl).call(this, "", "gotxt｜"), super.dump() + `, "enabled":"${this.enabled}", ${H(this, le).dump()}, "b_pic":"${H(this, Yr)}", "b_color":"${H(this, mi)}", "b_alpha":${H(this, mr)}, "b_alpha_isfixed":"${H(this, Ir)}", "width":${H(this, le).getWidth}, "height":${H(this, le).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${H(this, tr).children.map((e) => e.children[0].name ?? "{}").join(",")}]`;
   }
 };
 let TxtLayer = ie;
@@ -32029,7 +32041,7 @@ oa = new WeakMap(), Or = new WeakMap(), qo = new WeakMap(), la = new WeakMap(), 
   if (N.length !== D)
     throw "[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい";
   return ot(ie, Dn, {}), N.forEach((k, $) => H(ie, Dn)[r[$]] = uint(k)), H(ie, Or).setVal_Nochk("save", "const.sn.autowc.time", e.time), !1;
-}, mi = new WeakMap(), mr = new WeakMap(), Ir = new WeakMap(), ge = new WeakMap(), Yr = new WeakMap(), he = new WeakMap(), tl = new WeakMap(), Wr = new WeakMap(), fh = new WeakMap(), tr = new WeakMap(), An = new WeakSet(), Va = function(e) {
+}, mi = new WeakMap(), mr = new WeakMap(), Ir = new WeakMap(), ge = new WeakMap(), Yr = new WeakMap(), le = new WeakMap(), tl = new WeakMap(), Wr = new WeakMap(), fh = new WeakMap(), tr = new WeakMap(), An = new WeakSet(), Va = function(e) {
   const { in_style: r } = e;
   if (!r)
     return;
@@ -32052,11 +32064,11 @@ oa = new WeakMap(), Or = new WeakMap(), qo = new WeakMap(), la = new WeakMap(), 
   if (e.b_pic) {
     if (H(this, Yr) !== e.b_pic)
       return ot(this, Yr, e.b_pic), H(this, ge) && (this.spLay.removeChild(H(this, ge)), H(this, ge).destroy()), GrpLayer.csv2Sprites(H(this, Yr), this.spLay, (N) => {
-        ot(this, ge, N), N.name = "back(pic)", N.visible = D > 0, N.alpha = D, H(this, he).setSize(N.width, N.height), this.spLay.setChildIndex(N, 0), r(!0);
+        ot(this, ge, N), N.name = "back(pic)", N.visible = D > 0, N.alpha = D, H(this, le).setSize(N.width, N.height), this.spLay.setChildIndex(N, 0), r(!0);
       });
   } else
     "b_color" in e && (ot(this, mi, argChk_Color(e, "b_color", 0)), H(this, ge) && (this.spLay.removeChild(H(this, ge)), H(this, ge).destroy()), ot(this, Yr, ""), this.spLay.addChildAt(
-      ot(this, ge, new Graphics()).beginFill(H(this, mi)).lineStyle(void 0).drawRect(0, 0, H(this, he).getWidth, H(this, he).getHeight).endFill(),
+      ot(this, ge, new Graphics()).beginFill(H(this, mi)).lineStyle(void 0).drawRect(0, 0, H(this, le).getWidth, H(this, le).getHeight).endFill(),
       0
     ), H(this, ge).name = "back(color)");
   return H(this, ge) && (H(this, ge).visible = D > 0, H(this, ge).alpha = D), r(!1), !1;
@@ -32087,10 +32099,10 @@ oa = new WeakMap(), Or = new WeakMap(), qo = new WeakMap(), la = new WeakMap(), 
       break;
     case "even":
       const G = (k - r.length) / (r.length + 1);
-      $ = "ruby-align: space-between; " + (H(this, he).tategaki ? `padding-top: ${G}em; padding-bottom: ${G}em;` : `padding-left: ${G}em; padding-right: ${G}em;`);
+      $ = "ruby-align: space-between; " + (H(this, le).tategaki ? `padding-top: ${G}em; padding-bottom: ${G}em;` : `padding-left: ${G}em; padding-right: ${G}em;`);
       break;
     case "1ruby":
-      $ = "ruby-align: space-between; " + (H(this, he).tategaki ? "padding-top: 1em; padding-bottom: 1em;" : "padding-left: 1em; padding-right: 1em;");
+      $ = "ruby-align: space-between; " + (H(this, le).tategaki ? "padding-top: 1em; padding-bottom: 1em;" : "padding-left: 1em; padding-right: 1em;");
       break;
     default:
       $ = `text-align: ${D};`;
@@ -32373,7 +32385,7 @@ ${e}`, at = () => {
     yt.start();
   return this.hTwInf[st] = { tw: Tt, resume: !1 }, !1;
 };
-var br, le, Te, Vi, Gn, ya, ll, ul, hl, ba, cl, _f, Xi, Ar, yh, Ed, rr, bh, Td, xh, wd, Sh, Cd, ae, Kr, Zr, fl, Eh, Pd, xa, mu, Th, Md, wh, dl, Ch, Un, jn, yi, Ae, zn, Ph, Rd, Ne, Ke, sr, Mh, Od, Rh, Id, Oh, Dd, Hn, Ya, Ih, Ad, hr, Dh, Nd, Ah, kd, Nh, Ld, kh, Bd, Lh, Fd, Yi, Vn, Wa, cr, Bh, $d, pl, Fh, Gd, Jr, Xn, Wi, Es, Nr, Qr, $h, Ud, Gh, jd, Uh, zd, jh, Hd, zh, Vd, Hh, Xd, Vh, Yd, vl, yf, Xh, Wd, Yh, qd, Wh, Kd, qh, Zd, Kh, Jd, Zh, Qd, Jh, tp;
+var br, ue, Te, Vi, Gn, ya, ll, ul, hl, ba, cl, _f, Xi, Ar, yh, Ed, rr, bh, Td, xh, wd, Sh, Cd, ae, Kr, Zr, fl, Eh, Pd, xa, mu, Th, Md, wh, dl, Ch, Un, jn, yi, Ae, zn, Ph, Rd, Ne, Ke, sr, Mh, Od, Rh, Id, Oh, Dd, Hn, Ya, Ih, Ad, hr, Dh, Nd, Ah, kd, Nh, Ld, kh, Bd, Lh, Fd, Yi, Vn, Wa, cr, Bh, $d, pl, Fh, Gd, Jr, Xn, Wi, Es, Nr, Qr, $h, Ud, Gh, jd, Uh, zd, jh, Hd, zh, Vd, Hh, Xd, Vh, Yd, vl, yf, Xh, Wd, Yh, qd, Wh, Kd, qh, Zd, Kh, Jd, Zh, Qd, Jh, tp;
 const Ai = class {
   constructor(t, e, r, D, N, k, $, G, U, z) {
     rt(this, cl);
@@ -32446,7 +32458,7 @@ const Ai = class {
     // ボタンを表示
     rt(this, Jh);
     rt(this, br, void 0);
-    rt(this, le, new Container());
+    rt(this, ue, new Container());
     rt(this, Te, new Container());
     rt(this, Vi, void 0);
     rt(this, Gn, void 0);
@@ -32572,7 +32584,7 @@ void main(void) {
     }
     $.cvsResize(), TxtLayer.init(t, e, D, this, (q) => H(this, ae)[q.layname].fore === q, r), GrpLayer.init(N, t, r, $, G, D), Button.init(t), ot(this, Vi, new FrameMng(t, e, r, D, N, $, H(this, hr))), $.hFactoryCls.grp = () => new GrpLayer(), $.hFactoryCls.txt = () => new TxtLayer(), e.loadplugin = (q) => lt(this, xh, wd).call(this, q), e.snapshot = (q) => lt(this, bh, Td).call(this, q), e.add_lay = (q) => lt(this, Sh, Cd).call(this, q), e.clear_lay = (q) => lt(this, Th, Md).call(this, q), e.finish_trans = () => lt(this, Hn, Ya).call(this), e.lay = (q) => lt(this, Eh, Pd).call(this, q), e.trans = (q) => lt(this, Ph, Rd).call(this, q), e.wt = (q) => lt(this, Oh, Dd).call(this, q), e.quake = (q) => lt(this, Ih, Ad).call(this, q), e.stop_quake = (q) => e.finish_trans(q), e.wq = (q) => e.wt(q), e.pause_tsy = (q) => lt(this, kh, Bd).call(this, q), e.resume_tsy = (q) => lt(this, Lh, Fd).call(this, q), e.stop_tsy = (q) => lt(this, Nh, Ld).call(this, q), e.tsy = (q) => lt(this, Dh, Nd).call(this, q), e.wait_tsy = (q) => lt(this, Ah, kd).call(this, q), e.ch = (q) => lt(this, Vn, Wa).call(this, q), e.clear_text = (q) => lt(this, $h, Ud).call(this, q), e.current = (q) => H(this, pl).call(this, q), e.endlink = (q) => lt(this, Gh, jd).call(this, q), e.er = (q) => lt(this, Uh, zd).call(this, q), e.graph = (q) => lt(this, jh, Hd).call(this, q), e.link = (q) => lt(this, zh, Vd).call(this, q), e.r = (q) => lt(this, Hh, Xd).call(this, q), e.rec_ch = (q) => lt(this, vl, yf).call(this, q), e.rec_r = (q) => lt(this, Vh, Yd).call(this, q), e.reset_rec = (q) => lt(this, Xh, Wd).call(this, q), e.ruby2 = (q) => lt(this, Yh, qd).call(this, q), e.span = (q) => lt(this, Wh, Kd).call(this, q), e.tcy = (q) => lt(this, qh, Zd).call(this, q), e.add_face = (q) => GrpLayer.add_face(q), e.wv = (q) => GrpLayer.wv(q), e.dump_lay = (q) => lt(this, Kh, Jd).call(this, q), e.enable_event = (q) => lt(this, Zh, Qd).call(this, q), e.button = (q) => lt(this, Jh, tp).call(this, q), t.existsBreakline && (this.breakLine = () => H(this, rr).call(this, 'grp｜{"id":"break","pic":"breakline"}')), t.existsBreakpage && (this.breakPage = () => H(this, rr).call(this, 'grp｜{"id":"break","pic":"breakpage"}')), ot(this, Gn, parseColor(String(t.oCfg.init.bg_color)));
     const V = new Graphics();
-    V.beginFill(H(this, Gn), 1).lineStyle(0, H(this, Gn)).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill(), H(this, le).addChild(V.clone()), H(this, Te).addChild(V), H(this, Te).visible = !1, H(this, le).name = "page:A", H(this, Te).name = "page:B", ot(this, br, r.stage), H(this, br).addChild(H(this, Te)), H(this, br).addChild(H(this, le)), H(this, br).addChild(H(this, jn)), H(this, br).addChild(H(this, Ae)), H(this, br).name = "stage", r.ticker.add(H(this, ll));
+    V.beginFill(H(this, Gn), 1).lineStyle(0, H(this, Gn)).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill(), H(this, ue).addChild(V.clone()), H(this, Te).addChild(V), H(this, Te).visible = !1, H(this, ue).name = "page:A", H(this, Te).name = "page:B", ot(this, br, r.stage), H(this, br).addChild(H(this, Te)), H(this, br).addChild(H(this, ue)), H(this, br).addChild(H(this, jn)), H(this, br).addChild(H(this, Ae)), H(this, br).name = "stage", r.ticker.add(H(this, ll));
     const Y = (q, K) => {
       lt(this, yh, Ed).call(this, Number(K));
     };
@@ -32665,24 +32677,24 @@ void main(void) {
     const r = [], D = [];
     for (const [$, { fore: G, fore: { idx: U }, back: z, cls: X }] of Object.entries(t)) {
       D.push({ layer: $, idx: U });
-      const V = (k = H(this, ae))[$] ?? (k[$] = new Pages($, X, H(this, le), H(this, Te), {}, this.sys, this.val, { isWait: !1 }));
+      const V = (k = H(this, ae))[$] ?? (k[$] = new Pages($, X, H(this, ue), H(this, Te), {}, this.sys, this.val, { isWait: !1 }));
       V.fore.playback(G, r), V.back.playback(z, r);
     }
-    const N = H(this, le).children.length;
+    const N = H(this, ue).children.length;
     Promise.allSettled(r).then(() => {
       for (const { layer: $, idx: G } of D.sort(({ idx: U }, { idx: z }) => U === z ? 0 : U < z ? -1 : 1)) {
         const { fore: U, back: z } = H(this, ae)[$];
         if (!U)
           return;
         const X = N > G ? G : N - 1;
-        H(this, le).setChildIndex(U.spLay, X), H(this, Te).setChildIndex(z.spLay, X);
+        H(this, ue).setChildIndex(U.spLay, X), H(this, Te).setChildIndex(z.spLay, X);
       }
       e();
     }).catch(($) => console.error("fn:LayerMng.ts playback e:%o", $));
   }
 };
 let LayerMng = Ai;
-br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), Gn = new WeakMap(), ya = new WeakMap(), ll = new WeakMap(), ul = new WeakMap(), hl = new WeakMap(), ba = new WeakMap(), cl = new WeakSet(), _f = function(t) {
+br = new WeakMap(), ue = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), Gn = new WeakMap(), ya = new WeakMap(), ll = new WeakMap(), ul = new WeakMap(), hl = new WeakMap(), ba = new WeakMap(), cl = new WeakSet(), _f = function(t) {
   [Ie(this, hl)._, this.ba = ""] = t.split("/");
   const e = H(this, ae)[H(this, hl)];
   e && (DesignCast.allHide(), H(this, ba) ? e.fore.showDesignCastChildren() : e.fore.showDesignCast());
@@ -32709,7 +32721,7 @@ br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), 
       H(this, Te).visible = !0;
       for (const z of H(this, zn))
         k.render(z, { clear: !1 });
-      H(this, Te).visible = !1, H(this, jn).visible = !0, H(this, le).filters = H(this, Ae).filters, H(this, le).visible = !0, k.render(H(this, le), { clear: !1 }), H(this, le).visible = !1, H(this, le).filters = [], U();
+      H(this, Te).visible = !1, H(this, jn).visible = !0, H(this, ue).filters = H(this, Ae).filters, H(this, ue).visible = !0, k.render(H(this, ue), { clear: !1 }), H(this, ue).visible = !1, H(this, ue).filters = [], U();
     }));
   else
     for (const U of lt(this, Ke, sr).call(this, t.layer))
@@ -32755,7 +32767,7 @@ br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), 
   if (!r)
     throw "clsは必須です";
   const D = { isWait: !1 };
-  switch (H(this, ae)[e] = new Pages(e, r, H(this, le), H(this, Te), t, this.sys, this.val, D), H(this, Kr).push(e), r) {
+  switch (H(this, ae)[e] = new Pages(e, r, H(this, ue), H(this, Te), t, this.sys, this.val, D), H(this, Kr).push(e), r) {
     case "txt":
       H(this, Zr) || (ot(this, Xn, () => {
       }), ot(this, cr, lt(this, Bh, $d)), ot(this, pl, lt(this, Fh, Gd)), this.hTag.current({ layer: e }), this.goTxt = () => {
@@ -32780,9 +32792,9 @@ br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), 
 }, ae = new WeakMap(), Kr = new WeakMap(), Zr = new WeakMap(), fl = new WeakMap(), Eh = new WeakSet(), Pd = function(t) {
   const e = lt(this, Wi, Es).call(this, t), r = H(this, ae)[e], D = r.back.spLay, N = r.fore.spLay;
   if (argChk_Boolean(t, "float", !1))
-    H(this, Te).setChildIndex(D, H(this, Te).children.length - 1), H(this, le).setChildIndex(N, H(this, le).children.length - 1), lt(this, xa, mu).call(this);
+    H(this, Te).setChildIndex(D, H(this, Te).children.length - 1), H(this, ue).setChildIndex(N, H(this, ue).children.length - 1), lt(this, xa, mu).call(this);
   else if (t.index)
-    argChk_Num(t, "index", 0) && (H(this, Te).setChildIndex(D, t.index), H(this, le).setChildIndex(N, t.index), lt(this, xa, mu).call(this));
+    argChk_Num(t, "index", 0) && (H(this, Te).setChildIndex(D, t.index), H(this, ue).setChildIndex(N, t.index), lt(this, xa, mu).call(this));
   else if (t.dive) {
     const { dive: k } = t;
     let $ = 0;
@@ -32791,8 +32803,8 @@ br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), 
     const G = H(this, ae)[k];
     if (!G)
       throw "[lay] 属性 dive【" + k + "】が不正です。レイヤーがありません";
-    const U = G.back, z = G.fore, X = H(this, Te).getChildIndex(U.spLay), V = H(this, le).getChildIndex(z.spLay);
-    $ = X < V ? X : V, $ > H(this, Te).getChildIndex(D) && --$, H(this, le).setChildIndex(N, $), H(this, Te).setChildIndex(D, $), lt(this, xa, mu).call(this);
+    const U = G.back, z = G.fore, X = H(this, Te).getChildIndex(U.spLay), V = H(this, ue).getChildIndex(z.spLay);
+    $ = X < V ? X : V, $ > H(this, Te).getChildIndex(D) && --$, H(this, ue).setChildIndex(N, $), H(this, Te).setChildIndex(D, $), lt(this, xa, mu).call(this);
   }
   return t[":id_tag"] = r.fore.name.slice(0, -7), this.scrItr.recodeDesign(t), r.lay(t);
 }, xa = new WeakSet(), mu = function() {
@@ -32828,9 +32840,9 @@ br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), 
       }, K();
     };
   }
-  H(this, yi).resize(CmnLib.stageW, CmnLib.stageH), this.appPixi.renderer.render(H(this, le), { renderTexture: H(this, yi) });
+  H(this, yi).resize(CmnLib.stageW, CmnLib.stageH), this.appPixi.renderer.render(H(this, ue), { renderTexture: H(this, yi) });
   let $ = () => {
-    H(this, le).visible = !0, this.appPixi.renderer.render(H(this, le), { renderTexture: H(this, yi) }), H(this, le).visible = !1;
+    H(this, ue).visible = !0, this.appPixi.renderer.render(H(this, ue), { renderTexture: H(this, yi) }), H(this, ue).visible = !1;
   };
   if (!D.some((K) => K.containMovement)) {
     let K = $;
@@ -32845,17 +32857,17 @@ br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), 
   H(this, Ae).alpha = 1;
   const U = () => {
     var Z;
-    this.appPixi.ticker && this.appPixi.ticker.remove(G), [Ie(this, le)._, Ie(this, Te)._] = [H(this, Te), H(this, le)];
+    this.appPixi.ticker && this.appPixi.ticker.remove(G), [Ie(this, ue)._, Ie(this, Te)._] = [H(this, Te), H(this, ue)];
     const K = [];
     for (const [J, Q] of Object.entries(H(this, ae))) {
       if (r[J]) {
         Q.transPage(K);
         continue;
       }
-      const { fore: { spLay: et }, back: { spLay: it } } = Q, tt = H(this, le).getChildIndex(it);
-      H(this, le).removeChild(it), H(this, Te).removeChild(et), H(this, le).addChildAt(et, tt), H(this, Te).addChildAt(it, tt);
+      const { fore: { spLay: et }, back: { spLay: it } } = Q, tt = H(this, ue).getChildIndex(it);
+      H(this, ue).removeChild(it), H(this, Te).removeChild(et), H(this, ue).addChildAt(et, tt), H(this, Te).addChildAt(it, tt);
     }
-    Promise.allSettled(K), H(this, le).visible = !0, H(this, Te).visible = !1, H(this, jn).visible = !1, H(this, Ae).visible = !1, (Z = H(this, Ne).tw) == null || Z.stop(), H(this, Ne).resume && this.main.resume(), ot(this, Ne, { tw: void 0, resume: !1 });
+    Promise.allSettled(K), H(this, ue).visible = !0, H(this, Te).visible = !1, H(this, jn).visible = !1, H(this, Ae).visible = !1, (Z = H(this, Ne).tw) == null || Z.stop(), H(this, Ne).resume && this.main.resume(), ot(this, Ne, { tw: void 0, resume: !1 });
   };
   ot(this, Ne, { tw: void 0, resume: !1 });
   const z = argChk_Num(t, "time", 0);
@@ -32888,7 +32900,7 @@ br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), 
   return r;
 }, Rh = new WeakSet(), Id = function(t = "") {
   return lt(this, Ke, sr).call(this, t).sort((e, r) => {
-    const D = H(this, le).getChildIndex(H(this, ae)[e].fore.spLay), N = H(this, le).getChildIndex(H(this, ae)[r].fore.spLay);
+    const D = H(this, ue).getChildIndex(H(this, ae)[e].fore.spLay), N = H(this, ue).getChildIndex(H(this, ae)[r].fore.spLay);
     return D < N ? -1 : D > N ? 1 : 0;
   });
 }, Oh = new WeakSet(), Dd = function(t) {
@@ -32906,13 +32918,13 @@ br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), 
     N.push(H(this, ae)[Y].fore.spLay);
   H(this, yi).resize(CmnLib.stageW, CmnLib.stageH);
   const k = () => {
-    H(this, le).visible = !0;
+    H(this, ue).visible = !0;
     for (const Y of N)
       this.appPixi.renderer.render(
         Y,
         { renderTexture: H(this, yi), clear: !1 }
       );
-    H(this, le).visible = !1;
+    H(this, ue).visible = !1;
   };
   H(this, Ae).visible = !0, H(this, Ae).alpha = 1;
   const $ = uint(argChk_Num(t, "hmax", 10)), G = uint(argChk_Num(t, "vmax", 10)), U = $ === 0 ? () => {
@@ -32923,7 +32935,7 @@ br = new WeakMap(), le = new WeakMap(), Te = new WeakMap(), Vi = new WeakMap(), 
     U(), z();
   }).repeat(X === 0 ? 1 / 0 : X - 1).yoyo(argChk_Boolean(t, "yoyo", !1)).onComplete(() => {
     var Y, W;
-    (Y = this.appPixi.ticker) == null || Y.remove(k), H(this, le).visible = !0, H(this, Ae).visible = !1, H(this, Ae).x = 0, H(this, Ae).y = 0, (W = H(this, Ne).tw) == null || W.stop(), H(this, Ne).resume && this.main.resume(), ot(this, Ne, { tw: void 0, resume: !1 });
+    (Y = this.appPixi.ticker) == null || Y.remove(k), H(this, ue).visible = !0, H(this, Ae).visible = !1, H(this, Ae).x = 0, H(this, Ae).y = 0, (W = H(this, Ne).tw) == null || W.stop(), H(this, Ne).resume && this.main.resume(), ot(this, Ne, { tw: void 0, resume: !1 });
   }).start();
   return ot(this, Ne, { tw: V, resume: !1 }), this.appPixi.ticker.add(k), !1;
 }, hr = new WeakMap(), Dh = new WeakSet(), Nd = function(t) {
@@ -33978,7 +33990,7 @@ function preventOverflow(o) {
       tt[et] = jt, dt[et] = jt - Tt;
     }
     if ($) {
-      var Ct, Wt = et === "x" ? top : left, Jt = et === "x" ? bottom : right, Kt = tt[it], Se = it === "y" ? "height" : "width", Oe = Kt + K[Wt], ue = Kt - K[Jt], _e = [top, left].indexOf(Z) !== -1, ve = (Ct = ht == null ? void 0 : ht[it]) != null ? Ct : 0, de = _e ? Oe : Kt - nt[Se] - st[Se] - ve + ut.altAxis, fe = _e ? Kt + nt[Se] + st[Se] - ve - ut.altAxis : ue, ne = Y && _e ? withinMaxClamp(de, Kt, fe) : within(Y ? de : Oe, Kt, Y ? fe : ue);
+      var Ct, Wt = et === "x" ? top : left, Jt = et === "x" ? bottom : right, Kt = tt[it], Se = it === "y" ? "height" : "width", Oe = Kt + K[Wt], he = Kt - K[Jt], _e = [top, left].indexOf(Z) !== -1, ve = (Ct = ht == null ? void 0 : ht[it]) != null ? Ct : 0, de = _e ? Oe : Kt - nt[Se] - st[Se] - ve + ut.altAxis, fe = _e ? Kt + nt[Se] + st[Se] - ve - ut.altAxis : he, ne = Y && _e ? withinMaxClamp(de, Kt, fe) : within(Y ? de : Oe, Kt, Y ? fe : he);
       tt[it] = ne, dt[it] = ne - Kt;
     }
     t.modifiersData[r] = dt;
