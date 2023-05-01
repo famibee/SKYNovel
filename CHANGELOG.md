@@ -1,3 +1,10 @@
+## [1.43.3](https://github.com/famibee/SKYNovel/compare/v1.43.2...v1.43.3) (2023-05-01)
+
+
+### Bug Fixes
+
+* [tsy]文字レイヤ移動に文字表示が追従しない件 ([047c870](https://github.com/famibee/SKYNovel/commit/047c8704d1a18db48c287f1b56fc95421cf82469))
+
 - fix: [tsy]文字レイヤ移動に文字表示が追従しない件
 
 
