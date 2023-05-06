@@ -1,3 +1,10 @@
+## [1.43.5](https://github.com/famibee/SKYNovel/compare/v1.43.4...v1.43.5) (2023-05-06)
+
+
+### Bug Fixes
+
+* 三項演算子で正しい判定をしない場合があった件 ([5e5ebc6](https://github.com/famibee/SKYNovel/commit/5e5ebc6ccadc88bd8de49e405948cda81e5ab99e))
+
 - fix: 三項演算子で正しい判定をしない場合があった件
 	- '& undefined ? null : 10' で null を返していた
 	- '& 存在しない変数 ? null : 10' で null を返していた
