@@ -1,3 +1,13 @@
+- fix: 三項演算子で正しい判定をしない場合があった件
+	- '& undefined ? null : 10' で null を返していた
+	- '& 存在しない変数 ? null : 10' で null を返していた
+- fix: 論理 NOT (前置 !) も同様の修正
+- fix: isNaN() の実装を ECMAScript 2015 以降の Number.isNaN() 関数に変更
+- fix: 擬似的な関数「Boolean()」を追加、js の Boolean に近い挙動
+	- Boolean - JavaScript | MDN https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Boolean
+- docs: 開発者向け情報に【式で使える演算子と関数】追記
+
+
 ## [1.43.4](https://github.com/famibee/SKYNovel/compare/v1.43.3...v1.43.4) (2023-05-01)
 
 

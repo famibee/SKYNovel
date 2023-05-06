@@ -344,6 +344,11 @@ it.each([
 	// Num67 err
 	{i: 'false : 10',
 	toThrowError: '(PropParser)三項演算子の文法エラーです。? が見つかりません'},
+	// 2023/05/05
+	{i: 'undefined ? null : 10', o: 10},
+	{i: 'false ? null : 10', o: 10},
+	{i: '存在しない変数 ? null : 10', o: 10},
+	{i: 'ひきす ? null : 10', o: null},
 
 // 変な文法
 	// BadStr0

@@ -152,6 +152,7 @@
 		<li class="mb1"><a href="#reserve_value_sys">システム変数(sys:)</a></li>
 		<li class="mb1"><a href="#reserve_value_tmp">雑用変数(tmp:)</a></li>
 		<li class="mb1"><a href="#cond">式の評価と条件分岐</a></li>
+		<li class="mb1"><a href="#calc">式で使える演算子と関数</a></li>
 		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
 		<li class="mb1"><a href="#ruby">ルビ記法</a></li>
 		<li class="mb1"><a href="#font">フォントの導入</a></li>
@@ -902,6 +903,54 @@ const.sn.log.json
 	　タグやマクロ、<a href="tag.htm#jump">[jump]</a>、<a href="tag.htm#call">[call]</a>によるジャンプやコールも可能です。<br/>
 	<br/>
 	<div class="alert alert-success">IF文サンプル（<a href="https://famibee.github.io/SKYNovel_gallery/?cur=tag_if" style="color: black;" target="_blank" rel="noopener">別ページで開く</a>）</div>
+
+
+</p>
+<h2 id="calc" class="w-heading">式で使える演算子と関数</h2>
+<h4>四則演算以外にも、他の高級言語のような演算子や関数が使えます。</h4>
+<p class="mb2 px1">
+
+	式で使える演算子は以下の通りです。<br/>
+	【参考】<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Operator_precedence">演算子の優先順位 - JavaScript | MDN</a><br/>
+	<ul type="disc">
+		<li>【( … )】グループ化（いわゆる括弧）</li>
+		<li>【! …】論理 NOT (!)</li>
+		<li>【- …】単項 -</li>
+		<li>【… ** …】べき乗 (**)</li>
+		<li>【… * …】乗算 (*)</li>
+		<li>【… / …】除算 (/)</li>
+		<li>【… % …】剰余 (%)</li>
+		<li>【… + …】加算 (+)</li>
+		<li>【… - …】減算(-)</li>
+		<li>【… << …】左ビットシフト (<<)</li>
+		<li>【… >> …】右ビットシフト</li>
+		<li>【… >>> …】符号なし右ビットシフト (>>>)</li>
+		<li>【… < …】小なり (<)</li>
+		<li>【… <= …】小なりイコール (<=)</li>
+		<li>【… > …】大なり (>)</li>
+		<li>【… >= …】大なりイコール (>=)</li>
+		<li>【… == …】等価 (==)</li>
+		<li>【… != …】不等価 (!=)</li>
+		<li>【… === …】厳密等価 (===)</li>
+		<li>【… !== …】厳密不等価 (!==)</li>
+		<li>【… & …】ビット単位 AND (&)</li>
+		<li>【… ^ …】ビット単位 XOR (^)</li>
+		<li>【… | …】ビット単位 OR (|)</li>
+		<li>【… && …】論理 AND (&&)</li>
+		<li>【… || …】論理 OR (||)</li>
+		<li>【… ? … : …】条件（三項）演算子</li>
+	</ul>
+	式で使える関数は以下の通りです。<br/>
+	<ul type="disc">
+		<li>【int()】実数を整数に</li>
+		<li>【<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/parseInt">parseInt()</a>】文字列を整数に変換</li>
+		<li>【<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Number">Number()</a>】文字列を実数に変換</li>
+		<li>【<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Boolean">Boolean()</a>】論理値でない値から論理値へ変換</li>
+		<li>【<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Math/ceil">ceil()</a>】与えた数以上の最小の整数</li>
+		<li>【<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Math/floor">floor()</a>】与えられた数値以下の最大の整数</li>
+		<li>【<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/Math/round">round()</a>】与えた数を四捨五入</li>
+		<li>【<a href="https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Global_Objects/isNaN">isNaN()</a>】引数が NaN (非数) かどうか</li>
+	</ul>
 
 
 </p>

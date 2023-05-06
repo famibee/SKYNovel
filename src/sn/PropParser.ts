@@ -170,7 +170,7 @@ export class PropParser implements IPropParser {
 		return this.#calc(a);
 	}
 	#calc(a: any[]): object {
-		//console.log('🌷 calc%O', a);
+		//console.log('🌷 calc%O', {...a});
 		const elm = a.shift();
 		if (elm instanceof Array) return this.#calc(elm);
 
@@ -188,12 +188,7 @@ export class PropParser implements IPropParser {
 		PrefixDec:	_=> {throw Error('(PropParser)前置デクリメントは未サポートです')},
 
 		// 論理 NOT
-		'!':	a=> {
-			const b = a.shift();
-			return (b[0] === '!bool!')
-				? ! Boolean( b[1] )
-				: ! (String(this.#calc(b)) === 'true');
-		},
+		'!':	a=> ! this.#hFnc['Boolean'](a),
 		// チルダ演算子（ビット反転）
 		'~':	a=> ~ Number(this.#calc(a.shift())),
 
@@ -232,10 +227,16 @@ export class PropParser implements IPropParser {
 				? this.#fncSub_ChkNum(this.#parser.parse(String(b)).value)
 				: Number(b);
 		},
+		'Boolean':	a=> {
+			const b = a.shift();
+			return (b[0] === '!bool!')
+				? Boolean( b[1] )
+				: Boolean(this.#calc(b));
+		},
 		'ceil':		a=> Math.ceil( this.#fncSub_ChkNum(a.shift()) ),
 		'floor':	a=> Math.floor( this.#fncSub_ChkNum(a.shift()) ),
 		'round':	a=> Math.round( this.#fncSub_ChkNum(a.shift()) ),
-		'isNaN':	a=> isNaN(Number( this.#calc(a.shift()) )),
+		'isNaN':	a=> Number.isNaN( this.#fncSub_ChkNum(a.shift()) ),
 
 		// ビットシフト
 		'<<':	a=> Number(this.#calc(a.shift())) <<
@@ -288,18 +289,7 @@ export class PropParser implements IPropParser {
 
 		// 条件
 		'?':	a=> {
-			const b = a.shift();
-			let cond = false;
-			if (b[0] === '!bool!') {
-				cond = Boolean( b[1] );
-			}
-			else {
-				const cond2 = String( this.#calc(b) );
-				cond = (cond2 !== 'true' && cond2 !== 'false')
-					? (int(cond2) !== 0)
-					: (cond2 === 'true');
-			}
-
+			const cond = this.#hFnc['Boolean'](a);
 			const elm2 = a.shift();
 			if (elm2[0] !== ':') throw Error('(PropParser)三項演算子の文法エラーです。: が見つかりません');
 
