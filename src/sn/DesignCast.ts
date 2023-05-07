@@ -7,7 +7,7 @@
 
 import {HArg} from './Grammar';
 import {IPropParser} from './CmnInterface';
-import {uint, int, CmnLib, argChk_Boolean, argChk_Num, getFn, getExt, addStyle} from './CmnLib';
+import {int, CmnLib, argChk_Boolean, argChk_Num, getFn, getExt, addStyle} from './CmnLib';
 import {SysBase} from './SysBase';
 import {ScriptIterator} from './ScriptIterator';
 import {HPage} from './LayerMng';
@@ -21,7 +21,6 @@ import {Config} from './Config';
 import {Main} from './Main';
 
 import {Application, Rectangle, Text, Sprite, Point} from 'pixi.js';
-import Moveable, {OnDrag, OnResize} from 'moveable';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 export class DesignCast {
@@ -93,8 +92,8 @@ export class DesignCast {
 	constructor(readonly bg_col: string, readonly isLay = false) {}
 	destroy() {
 		this.div = undefined;
-		this.mov?.destroy();
-		this.mov = undefined;
+//		this.mov?.destroy();
+//		this.mov = undefined;
 	}
 
 	gethArg(): HArg {return this.hArg}
@@ -155,9 +154,10 @@ export class DesignCast {
 	static	#aDC: DesignCast[] = [];
 	static	allHide() {DesignCast.#aDC.forEach(v=> v.visible = false);}
 	set visible(v: boolean) {
-		if (! this.div || ! this.mov) return;
+		if (! this.div) return;
+//		if (! this.div || ! this.mov) return;
 		this.div.style.display = v ?'inline' :'none';
-		this.mov.updateTarget();
+//		this.mov.updateTarget();
 	}
 	static	leaveMode() {
 		DesignCast.#divDesignRoot.textContent = '';
@@ -167,7 +167,8 @@ export class DesignCast {
 	}
 
 
-	cvsResize() {this.#resizeDiv(); this.mov?.updateTarget();}	// divでmovを更新
+	cvsResize() {this.#resizeDiv(); }	// divでmovを更新
+//	cvsResize() {this.#resizeDiv(); this.mov?.updateTarget();}	// divでmovを更新
 	#resizeDiv() {
 		this.fncLay();
 //console.log(`fn:DesignCast.ts line:182 id_tag:【${this.id_tag}】== -- == #resizeDiv lay:${this.hArg.layer ?? ''} lx:${this.lx} rct.x:${this.rect.x} ly:${this.ly} rct.y:${this.rect.y}`);
@@ -183,7 +184,7 @@ export class DesignCast {
 	}
 	protected	fncLay = ()=> {};
 
-	protected	mov		: Moveable | undefined		= undefined;
+//	protected	mov		: Moveable | undefined		= undefined;
 	protected	div		: HTMLDivElement | undefined = undefined;
 	protected	lx = 0;	// これ以後の this変数スケールは SKYNovel スクリプト値
 	protected	ly = 0;
@@ -214,12 +215,14 @@ export class DesignCast {
 		).appendChild(d);
 
 //console.log(`fn:DesignCast.ts dspDesignCast() [${this.hArg[':タグ名']}] id_tag(${this.id_tag}) id_dc:(${id_dc}) fn:$this.hArg':path']} ln:${this.hArg[':ln']} col_s:${this.hArg[':col_s']} col_e:${this.hArg[':col_e']} idx_tkn:${this.hArg[':idx_tkn']} x:${this.rect.x} y:${this.rect.y} w:${this.rect.width} h:${this.rect.height} o:%o`, this.hArg);		// token:【${this.hArg[':token']}】
+/*
 		const tmp = {	// movがdivを操作する際の雑用。スケールはHTML DOM
 			aPos	: [0, 0],
 			roDeg	: 0,
 			trOrg	: '',
 			origin	: [0, 0],
 		};
+*/
 		/*
 			// 長押し（使うなら .on('drag')内部もコメントアウト）
 			let pressTimer: NodeJS.Timeout;
@@ -229,6 +232,7 @@ export class DesignCast {
 				DesignCast.sys.send2Dbg('_focusScript', this.hArg);
 			}, 1000));
 		*/
+/*
 		const procStart = ()=> {
 			tmp.aPos = [NaN, NaN];
 			tmp.roDeg = this.rotation;
@@ -236,16 +240,17 @@ export class DesignCast {
 			const dpy = this.pivot.y *DesignCast.sys.cvsScale;
 			tmp.trOrg = `${dpx}px ${dpy}px`;
 			tmp.origin = [dpx, dpy];
-/*	// TODO: 無効中
+/ *	// TODO: 無効中
 			Object.assign(this.mov, {
 				verticalGuidelines	: [],
 				horizontalGuidelines: [],
 			});
-*/
+* /
 			// readonlyな件を投げた
 			// https://github.com/daybrush/moveable/issues/391#issuecomment-788931248
 		};
-		const procEnd = (o: any)=> {
+*/
+/*		const procEnd = (o: any)=> {
 			DesignCast.sys.send2Dbg('_changeCast', {
 				...o, ':id_tag': this.id_tag,
 			});
@@ -267,7 +272,7 @@ export class DesignCast {
 				...this.cnvSizeArg(iw, ih),
 			});
 		};
-		let heCh: any | undefined = undefined;
+//		let heCh: any | undefined = undefined;
 		this.mov = new Moveable(document.body, {
 			target	: d,
 			draggable	: true,
@@ -353,6 +358,7 @@ export class DesignCast {
 			d.style.transformOrigin = trOrg;
 			d.style.transform = `translate(${aPos[0]}px, ${aPos[1]}px) rotate(${roDeg}deg)`;
 		});
+*/
 		DesignCast.#aDC.push(this);
 
 
@@ -403,6 +409,7 @@ export class DesignCast {
 //				case 1:	this.fire('middleclick', e);	break;
 		});
 	}
+/*
 	protected	procDragHint(e: OnDrag, left: number, top: number) {
 		const [dx, dy] = e.beforeTranslate;
 		DesignCast.setHint(
@@ -416,6 +423,7 @@ export class DesignCast {
 				int(this.rect.width)} x ${int(this.rect.height)}`,
 			left, top, this);
 	}
+*/
 
 
 	static replaceToken(o: any) {
@@ -619,7 +627,7 @@ export class TxtLayPadDesignCast extends DesignCast {
 			this.cvsResize();
 		}
 	}
-
+/*
 	protected	override procDragHint(e: OnDrag, left: number, top: number) {
 		const [dx, dy] = e.beforeTranslate;
 		this.#procHint(left, top, dx, dy);
@@ -644,6 +652,7 @@ export class TxtLayPadDesignCast extends DesignCast {
 			sp(5+5) +`下幅=${pb}`,
 			left, top, this);
 	}
+*/
 
 }
 

@@ -1,3 +1,8 @@
+- fix: デザインモード、塩漬けとする
+	- 保留中にライブラリの変更が激しいため、メンテナンスコスト的に moveableもいったん削除
+	- DesignCast クラスをスタブ化
+
+
 ## [1.43.5](https://github.com/famibee/SKYNovel/compare/v1.43.4...v1.43.5) (2023-05-06)
 
 

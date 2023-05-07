@@ -9,7 +9,6 @@ import { Button } from './Button';
 import { GrpLayer } from './GrpLayer';
 import { Config } from './Config';
 import { Application, Rectangle, Text, Sprite, Point } from 'pixi.js';
-import Moveable, { OnDrag, OnResize } from 'moveable';
 export declare class DesignCast {
     #private;
     readonly bg_col: string;
@@ -50,7 +49,6 @@ export declare class DesignCast {
     static leaveMode(): void;
     cvsResize(): void;
     protected fncLay: () => void;
-    protected mov: Moveable | undefined;
     protected div: HTMLDivElement | undefined;
     protected lx: number;
     protected ly: number;
@@ -62,8 +60,6 @@ export declare class DesignCast {
     protected onDragStart(): void;
     protected readonly rotatable: boolean;
     make(): void;
-    protected procDragHint(e: OnDrag, left: number, top: number): void;
-    protected procResizeHint(e: OnResize, left: number, top: number): void;
     static replaceToken(o: any): void;
 }
 export declare class GrpLayDesignCast extends DesignCast {
@@ -107,7 +103,6 @@ export declare class TxtLayDesignCast extends DesignCast {
     setOther(hPrm: HPRM): void;
 }
 export declare class TxtLayPadDesignCast extends DesignCast {
-    #private;
     private readonly ts;
     constructor(ts: TxtStage);
     protected readonly rotatable = false;
@@ -123,8 +118,6 @@ export declare class TxtLayPadDesignCast extends DesignCast {
     protected setPos(x: number, y: number): void;
     protected setSize(w: number, h: number): void;
     setOther(hPrm: HPRM): void;
-    protected procDragHint(e: OnDrag, left: number, top: number): void;
-    protected procResizeHint(e: OnResize, left: number, top: number): void;
 }
 export declare class BtnDesignCast extends DesignCast {
     protected readonly btn: Button;
