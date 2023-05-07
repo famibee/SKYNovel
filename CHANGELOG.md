@@ -1,3 +1,10 @@
+## [1.43.6](https://github.com/famibee/SKYNovel/compare/v1.43.5...v1.43.6) (2023-05-07)
+
+
+### Bug Fixes
+
+* デザインモード、塩漬けとする ([9c973c7](https://github.com/famibee/SKYNovel/commit/9c973c700cdcc6c186cd23ea140f32fd4ca02d00))
+
 - fix: デザインモード、塩漬けとする
 	- 保留中にライブラリの変更が激しいため、メンテナンスコスト的に moveableもいったん削除
 	- DesignCast クラスをスタブ化
