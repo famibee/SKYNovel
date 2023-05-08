@@ -1,3 +1,10 @@
+## [1.43.7](https://github.com/famibee/SKYNovel/compare/v1.43.6...v1.43.7) (2023-05-08)
+
+
+### Bug Fixes
+
+* [l]直前が[tcy]や[graph]だと、余分に１クリックしないとクリック待ちしない件 ([e544948](https://github.com/famibee/SKYNovel/commit/e54494894b93850d139a9ec57db66df1a8c2ca0e))
+
 - fix: [l]直前が[tcy]や[graph]だと、余分に１クリックしないとクリック待ちしない件
 	- 例）[tcy t=!!][l]
 	- 例）[graph pic=breakpage][l]
