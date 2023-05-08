@@ -1,3 +1,11 @@
+- fix: [l]直前が[tcy]や[graph]だと、余分に１クリックしないとクリック待ちしない件
+	- 例）[tcy t=!!][l]
+	- 例）[graph pic=breakpage][l]
+	- [span][l] 、は問題ない
+	- [link label=*main]000[endlink][l] 、も問題ない
+- fix: DesignCast クラスのスタブ化を深化
+
+
 ## [1.43.6](https://github.com/famibee/SKYNovel/compare/v1.43.5...v1.43.6) (2023-05-07)
 
 

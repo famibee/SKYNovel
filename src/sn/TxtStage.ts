@@ -870,11 +870,13 @@ export class TxtStage extends Container {
 		// 文字表示に時間をかける最後の文字を探す。末尾はダミー（#SPAN_LAST）
 		let lastElm: HTMLElement | undefined = undefined;
 		for (let i=len -2; i>=0; --i) {		// 末尾の手前から
-			const c = this.#aRect[i];
-			if (c.elm.tagName !== 'SPAN') continue;	// ルビ以外
+			const {elm} = this.#aRect[i];
+			if (elm.tagName !== 'SPAN') continue;	// ルビ以外
 
-//console.log(`fn:TxtStage.ts txt:${c.elm.textContent}: i:${i} begin:${begin} len:${len} elm:%o`, c.elm);
-			lastElm = c.elm;
+//console.log(`fn:TxtStage.ts txt:${elm.textContent}: i:${i} begin:${begin} len:${len} elm:%o`, elm);
+			lastElm = (elm.parentElement?.tagName === 'RUBY')
+				? elm.parentElement.parentElement ?? elm	// [tcy]も[graph]も
+				: elm;
 			break;
 		}
 		if (! lastElm || instant || begin === len) {this.#fncEndChIn(); return;}
