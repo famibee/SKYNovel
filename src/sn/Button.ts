@@ -43,8 +43,25 @@ export class Button extends Container {
 	#rctBtnTxt	= new Rectangle;
 
 	#idc		: DesignCast;
-	#sp_b_pic	: Sprite | undefined = undefined;
-	#sp_pic		: Sprite | undefined = undefined;
+	readonly	#o	: {
+		type	: 'pic'|'text';
+		enabled	: boolean;
+		x		: number;
+		y		: number;
+		rotation: number;
+			// flash : rotation is in degrees.
+			// pixijs: rotation is in radians, angle is in degrees.
+		pivot_x	: number;
+		pivot_y	: number;
+		scale_x	: number;
+		scale_y	: number;
+		alpha	: number;
+		text	: string;
+		b_pic	: string;
+		width	: number;
+		height	: number;
+	};
+
 	constructor(private readonly hArg: HArg, readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
 		super();
 
@@ -53,39 +70,44 @@ export class Button extends Container {
 			this.cvsResize = ()=> this.#idc.cvsResize();
 		}
 
-		let oName: any = {
-			x: this.x = uint(hArg.left ?? 0),
-			y: this.y = uint(hArg.top ?? 0),
+		this.#o = {
+			type	: 'pic',
+			enabled	: argChk_Boolean(hArg, 'enabled', true),
+			x		: this.x = uint(hArg.left ?? 0),
+			y		: this.y = uint(hArg.top ?? 0),
 			rotation: this.angle = argChk_Num(hArg, 'rotation', this.angle),
 				// flash : rotation is in degrees.
 				// pixijs: rotation is in radians, angle is in degrees.
-			pivot_x: this.pivot.x = argChk_Num(hArg, 'pivot_x', this.pivot.x),
-			pivot_y: this.pivot.y = argChk_Num(hArg, 'pivot_y', this.pivot.y),
-			scale_x: this.scale.x = argChk_Num(hArg, 'scale_x', this.scale.x),
-			scale_y: this.scale.y = argChk_Num(hArg, 'scale_y', this.scale.y),
-			width: 0, height: 0,
+			pivot_x	: this.pivot.x = argChk_Num(hArg, 'pivot_x', this.pivot.x),
+			pivot_y	: this.pivot.y = argChk_Num(hArg, 'pivot_y', this.pivot.y),
+			scale_x	: this.scale.x = argChk_Num(hArg, 'scale_x', this.scale.x),
+			scale_y	: this.scale.y = argChk_Num(hArg, 'scale_y', this.scale.y),
+			alpha	: 1,
+			text	: '',
+			b_pic	: '',
+			width	: 0,
+			height	: 0,
 		};
 		this.getBtnBounds = ()=> {
-			this.#rctBtnTxt.x = oName.x;
-			this.#rctBtnTxt.y = oName.y;
+			this.#rctBtnTxt.x = this.#o.x;
+			this.#rctBtnTxt.y = this.#o.y;
 			return this.#rctBtnTxt;
 		};
 
-		const enabled = oName.enabled = argChk_Boolean(hArg, 'enabled', true);
-		if (enabled) evtMng.button(this.hArg, this, ()=> this.normal(), ()=> this.#hover(), ()=> this.#clicked());	// あとで差し替えるのでアロー必須
+		if (this.#o.enabled) evtMng.button(this.hArg, this, ()=> this.normal(), ()=> this.#hover(), ()=> this.#clicked());	// あとで差し替えるのでアロー必須
 
 		// == 画像から生成
 		if (hArg.pic) {
-			oName.type = 'pic';	// dump用
+			this.#o.type = 'pic';	// dump用
 			this.#idc = new PicBtnDesignCast(this, hArg);
 
 			GrpLayer.csv2Sprites(
 				hArg.pic,
 				this,
 				sp=> {
-					this.#loaded_pic(sp, oName);
-					this.#rctBtnTxt.width  = sp.width  * oName.scale_x;
-					this.#rctBtnTxt.height = sp.height * oName.scale_y;
+					this.#loaded_pic(sp);
+					this.#rctBtnTxt.width  = sp.width  * this.#o.scale_x;
+					this.#rctBtnTxt.height = sp.height * this.#o.scale_y;
 				},
 				_isStop=> resolve,
 			);
@@ -102,7 +124,7 @@ export class Button extends Container {
 			dropShadowColor	: 'white',
 			dropShadowBlur	: 7,
 			dropShadowDistance	: 0,
-			fill		: enabled ?'black' :'gray',
+			fill		: this.#o.enabled ?'black' :'gray',
 			fontFamily	: Button.fontFamily,
 			fontSize	: height,
 			padding		: 5,
@@ -121,26 +143,26 @@ export class Button extends Container {
 		txt.height = hArg.height = height;
 		this.setText = text=> txt.text = text;
 
-		oName.type = 'text';	// dump用
-		oName = {...oName, ...style};
-		oName.alpha = txt.alpha;
-		oName.text = txt.text;
-		oName.width = txt.width;
-		oName.height = txt.height;
+		this.#o.type = 'text';	// dump用
+		this.#o = {...this.#o, ...style};
+		this.#o.alpha = txt.alpha;
+		this.#o.text = txt.text;
+		this.#o.width = txt.width;
+		this.#o.height = txt.height;
 		this.#idc = new TxtBtnDesignCast(this, hArg, txt);
 
 		let isStop = false;
-		oName.width = this.width;
-		oName.height = this.height;
+		this.#o.width = this.width;
+		this.#o.height = this.height;
 		if (hArg.b_pic) {
-			oName.b_pic = hArg.b_pic;
+			this.#o.b_pic = hArg.b_pic;
 			isStop = GrpLayer.csv2Sprites(
 				hArg.b_pic,
 				this,
 				sp=> {
 					this.#loaded_b_pic(sp, txt);
-					oName.width = this.width;
-					oName.height = this.height;
+					this.#o.width = this.width;
+					this.#o.height = this.height;
 				},
 				isStop=> {
 					Layer.setBlendmode(this, hArg);
@@ -148,7 +170,7 @@ export class Button extends Container {
 				},
 			);
 		}
-		txt.name = JSON.stringify(oName);
+		txt.name = JSON.stringify(this.#o);
 
 		this.addChild(txt);
 		this.#rctBtnTxt.width = txt.width;	// addChild()後に取得すること
@@ -157,7 +179,7 @@ export class Button extends Container {
 
 		if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
 		Button.#procMasume4txt(this, txt);
-		if (! enabled) {if (! isStop) resolve(); return;}
+		if (! this.#o.enabled) {if (! isStop) resolve(); return;}
 
 		const style_hover = style.clone();
 		if (hArg.style_hover) try {
@@ -197,22 +219,7 @@ export class Button extends Container {
 	showDesignCast() {this.#idc.visible = true;}
 	cvsResize() {}
 
-	update_b_pic(fn: string, txt: Text) {
-		const oName = JSON.parse(txt.name ?? '{}');
-		if (this.#sp_b_pic) this.removeChild(this.#sp_b_pic);
-		this.hArg.b_pic = oName.b_pic = fn;
-		txt.name = JSON.stringify(oName);
-		if (! fn) return;
-
-		GrpLayer.csv2Sprites(
-			fn,
-			this,
-			sp=> this.#loaded_b_pic(sp, txt),
-			()=> Layer.setBlendmode(this, this.hArg),
-		);
-	}
 	#loaded_b_pic(sp: Sprite, txt: Text) {
-		this.#sp_b_pic = sp;
 		this.setChildIndex(sp, 0);
 		sp.alpha = txt.alpha;
 		sp.setTransform(
@@ -225,36 +232,22 @@ export class Button extends Container {
 		sp.name = txt.name;
 	}
 
-	update_pic(fn: string, sp: Sprite) {
-		const oName = JSON.parse(sp.name ?? '{}');
-		if (this.#sp_pic) this.removeChild(this.#sp_pic);
-		this.hArg.pic = oName.pic = fn;
-		sp.name = JSON.stringify(oName);
-		if (! fn) return;
-
-		GrpLayer.csv2Sprites(
-			fn,
-			this,
-			sp=> this.#loaded_pic(sp, oName),
-			()=> Layer.setBlendmode(this, this.hArg),
-		);
-	}
 	normal		: ()=> void		= ()=> {};
 	#hover		: ()=> boolean	= ()=> false;
 	#clicked	: ()=> void		= ()=> {};
-	#loaded_pic(sp: Sprite, oName: any) {
-		this.#sp_pic = sp;
-		oName.alpha = sp.alpha = argChk_Num(this.hArg, 'alpha', sp.alpha);
+	#loaded_pic(sp: Sprite) {
+		this.#o.alpha = sp.alpha = argChk_Num(this.hArg, 'alpha', sp.alpha);
 		(<PicBtnDesignCast>this.#idc).setSp(sp);
 
-		const w3 = sp.width /3;
+		const w_3 = sp.width /3;
+		const w = this.#o.enabled ?w_3 :sp.width;
 		const h = sp.height;
 		const tx = sp.texture.baseTexture;
-		const txNormal = new Texture(tx, new Rectangle(0, 0, w3, h));
-		const txClicked = new Texture(tx, new Rectangle(w3, 0, w3, h));
-		const txHover = new Texture(tx, new Rectangle(w3 *2, 0, w3, h));
+		const txNormal = new Texture(tx, new Rectangle(0, 0, w_3, h));
+		const txClicked = new Texture(tx, new Rectangle(w_3, 0, w_3, h));
+		const txHover = new Texture(tx, new Rectangle(w_3 *2, 0, w_3, h));
 		const normal = ()=> sp.texture = txNormal;
-		normal();
+		if (this.#o.enabled) normal();
 
 		this.normal	= normal;
 		this.#hover		= ()=> {
@@ -265,18 +258,18 @@ export class Button extends Container {
 		this.#clicked	= ()=> sp.texture = txClicked;
 
 		if ('width' in this.hArg) {
-			oName.width = uint(this.hArg.width);
-			this.scale.x *= oName.width /w3;
+			this.#o.width = uint(this.hArg.width);
+			this.scale.x *= this.#o.width /w;
 		}
-		else oName.width = w3;
+		else this.#o.width = w;
 		if ('height' in this.hArg) {
-			oName.height = uint(this.hArg.height);
-			this.scale.y *= oName.height /h;
+			this.#o.height = uint(this.hArg.height);
+			this.scale.y *= this.#o.height /h;
 		}
-		else oName.height = h;
-		sp.name = JSON.stringify(oName);	// dump用
+		else this.#o.height = h;
+		sp.name = JSON.stringify(this.#o);	// dump用
 
-		Button.#procMasume4pic(this, sp, w3, h);
+		Button.#procMasume4pic(this, sp, w, h);
 	}
 
 }

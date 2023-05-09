@@ -12,6 +12,7 @@ import {IVariable, IMain, INoticeChgVolume} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import {DebugMng} from './DebugMng';
 
 import {Loader, LoaderResource} from 'pixi.js';
 import {sound, utils, Sound, Options, filters} from '@pixi/sound';
@@ -194,9 +195,9 @@ export class SoundMng {
 
 		if (start_ms < 0) throw `[playse] start_ms:${start_ms} が負の値です`;
 		if (ret_ms < 0) throw `[playse] ret_ms:${ret_ms} が負の値です`;
-		if (end_ms > 0) {
-			if (start_ms >= end_ms) throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms} は異常値です`;
-			if (ret_ms >= end_ms) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
+		if (0 < end_ms) {
+			if (end_ms <= start_ms) throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms} は異常値です`;
+			if (end_ms <= ret_ms) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
 		}
 
 		this.val.setVal_Nochk('save', vn +'start_ms', start_ms);
@@ -251,7 +252,7 @@ export class SoundMng {
 
 		// start_ms・end_ms機能→@pixi/sound準備
 		let sp_nm = '';
-		if (start_ms > 0 || end_ms < SoundMng.#MAX_END_MS) {
+		if (0 < start_ms || end_ms < SoundMng.#MAX_END_MS) {
 			sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
 			const os = (o.sprites ??= {})[sp_nm] = {
 				start	: start_ms /1000,
@@ -268,11 +269,11 @@ export class SoundMng {
 					s2.removeSprites(sp_nm);
 					s2.addSprites(sp_nm, os);
 
-					if (os.start >= os.end) throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`;
-					if (ret_ms >= os.end *1000) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`;
+					if (os.end <= os.start) DebugMng.myTrace(`[playse] start_ms:${start_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`);
+					if (os.end *1000 <= ret_ms) DebugMng.myTrace(`[playse] ret_ms:${ret_ms} >= end_ms:${end_ms}(${os.end *1000}) は異常値です`);
 				}
-				if (os.start >= d) throw`[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d} は異常値です`;
-				if (end_ms !== SoundMng.#MAX_END_MS && os.end >= d) throw`[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+				if (d <= os.start) DebugMng.myTrace(`[playse] start_ms:${start_ms} >= 音声ファイル再生時間:${d *1000} は異常値です`);
+				if (end_ms !== SoundMng.#MAX_END_MS && os.end <= d) DebugMng.myTrace(`[playse] end_ms:${end_ms} >= 音声ファイル再生時間:${d} は異常値です`);
 
 				s2.play(sp_nm, o.complete);	// completeがundefinedでもいい
 			};
@@ -289,7 +290,7 @@ export class SoundMng {
 				const d = snd.duration;
 				const start	= ret_ms /1000;
 				const end	= end_ms /1000;
-				if (start >= d) throw`[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d} は異常値です`;
+				if (start >= d) throw`[playse] ret_ms:${ret_ms} >= 音声ファイル再生時間:${d *1000} は異常値です`;
 
 				await sound.play(fn, {	// 一周目はループなし、なのでキャッシュされてる
 					start,
