@@ -1,3 +1,10 @@
+## [1.43.8](https://github.com/famibee/SKYNovel/compare/v1.43.7...v1.43.8) (2023-05-09)
+
+
+### Bug Fixes
+
+* [button enabled=false pic=]で【画像は三等分しない】仕様でミス ([302f069](https://github.com/famibee/SKYNovel/commit/302f06940e9d831bf3e558f7d16223237420fe6d))
+
 - fix: [button enabled=false pic=...]で【画像は三等分しない】仕様が三等分していた件
 - fix: [playse]で end_ms 属性エラーチェックの判定ミスでエラーになる件
 - fix: [playse]でループする場合のエラーメッセージで、停止スクリプト表示をしていなかった件
