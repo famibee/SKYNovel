@@ -1,3 +1,10 @@
+## [1.43.9](https://github.com/famibee/SKYNovel/compare/v1.43.8...v1.43.9) (2023-05-14)
+
+
+### Bug Fixes
+
+* サウンドをステートパターンで大改修 ([1e3e329](https://github.com/famibee/SKYNovel/commit/1e3e329c9f334c7fd48ac4d01713eb48a74f5aa0))
+
 - fix: サウンドをステートパターンで大改修
 - fix: [playbgm]と[fadebgm]の短時間連続でエラーになる場合がある件
 - fix: [quake][tsy][tsy_frame]の repeat属性で、0だけでなく負の値を指定した場合は無限ループとするように
