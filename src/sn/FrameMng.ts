@@ -321,7 +321,7 @@ export class FrameMng implements IGetFrm {
 			|| this.#evtMng.isSkippingByKeyDown()) ?0 :1);
 		const nEase = CmnTween.ease(ease);
 		const rep = argChk_Num(hArg, 'repeat', 1);
-		const repeat = rep === 0 ?Infinity :(rep -1);// 一度リピート→計二回なので
+		const repeat = rep > 0 ?rep -1 :Infinity;// 一度リピート→計二回なので
 		const yoyo = argChk_Boolean(hArg, 'yoyo', false);
 		const delay = argChk_Num(hArg, 'delay', 0);
 

@@ -126,6 +126,7 @@ export type HArg = {
     join?: boolean;
     do_rec?: boolean;
     pan?: number;
+    stop?: boolean;
     clear?: boolean;
     ':id_dc'?: string;
     ':id_tag'?: string;

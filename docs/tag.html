@@ -801,7 +801,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
 <tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
-<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0 で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
+<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0以下で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
 <tr><td>arrive</td><td></td><td>false</td><td>Boolean</td><td>trueならクリックキャンセルでアニメ終端までSkip。<br/>falseならその場で停止</td></tr>
 <tr><td>backlay</td><td></td><td>false</td><td>Boolean</td><td>trueならトゥイーン終了時、fore→backへ属性をコピーする。<br/>コピーする属性はalpha, height, rotation, scale_x, scale_y, pivot_x, pivot_y, width, left, top。</td></tr>
 <tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>
@@ -1408,7 +1408,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td><a href="tag.htm#add_fram" target="_blank" rel="noopener">[add_fram]</a>で定義したフレーム名</td></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
 <tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
-<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0 で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
+<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0以下で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
 <tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
 <tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
 <tr><td>chain</td><td></td><td>なにもしない</td><td>レイヤ名</td><td>指定したレイヤのトゥイーンアニメが終了してから、このトゥイーンを続けて開始する</td></tr>
@@ -2292,7 +2292,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>揺らす時間</td></tr>
 <tr><td>hmax</td><td></td><td>10</td><td>Integer</td><td>横方向の最大揺らし幅。幅はランダム値を取る</td></tr>
 <tr><td>vmax</td><td></td><td>10</td><td>Integer</td><td>縦方向の最大揺らし幅。幅はランダム値を取る</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
+<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0以下で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
 <tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
+<tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
 </table>
 
 </p>

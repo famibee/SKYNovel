@@ -770,7 +770,7 @@ void main(void) {
 		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(CmnTween.ease(ease))
 		.onUpdate(()=> {fncH(); fncV();})
-		.repeat(repeat === 0 ?Infinity :(repeat -1))	// 一度リピート→計二回なので
+		.repeat(repeat > 0 ?repeat -1 :Infinity)	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 		.onComplete(()=> {
 			this.appPixi.ticker?.remove(fncRender);
@@ -824,7 +824,7 @@ void main(void) {
 			Boolean(this.val.getVal('tmp:sn.skip.enabled') || isSkip) ?0 :1);
 		const nEase = CmnTween.ease(ease);
 		const rep = argChk_Num(hArg, 'repeat', 1);
-		const repeat = rep === 0 ?Infinity :(rep -1);// 一度リピート→計二回なので
+		const repeat = rep > 0 ?rep -1 :Infinity;// 一度リピート→計二回なので
 		const yoyo = argChk_Boolean(hArg, 'yoyo', false);
 		const delay = argChk_Num(hArg, 'delay', 0);
 

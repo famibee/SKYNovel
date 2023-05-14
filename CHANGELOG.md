@@ -1,3 +1,13 @@
+- fix: サウンドをステートパターンで大改修
+- fix: [playbgm]と[fadebgm]の短時間連続でエラーになる場合がある件
+- fix: [quake][tsy][tsy_frame]の repeat属性で、0だけでなく負の値を指定した場合は無限ループとするように
+- fix: 設定画面でボリューム変更しただけで音が消える件（v1.42.0 (2023-04-06)より）
+	- @pixi/sound@4.3.3 のせいだったので、しばらく 4.3.2 に下げる。
+		- Fix mobile handling interruptions by bigtimebuddy · Pull Request #240 · pixijs/sound https://github.com/pixijs/sound/pull/240
+		- Sound is suspended while window loses focus · Issue #243 · pixijs/sound https://github.com/pixijs/sound/issues/243
+- docs: タグリファレンスの[quake]に属性 delay、repeat、yoyo の追記
+
+
 ## [1.43.8](https://github.com/famibee/SKYNovel/compare/v1.43.7...v1.43.8) (2023-05-09)
 
 

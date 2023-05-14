@@ -1,4 +1,4 @@
-import { Container, Text, Rectangle, Sprite, IDestroyOptions } from 'pixi.js';
+import { Container, Rectangle, IDestroyOptions } from 'pixi.js';
 import { IEvtMng } from './CmnLib';
 import { HArg } from './Grammar';
 import { Config } from './Config';
@@ -18,8 +18,6 @@ export declare class Button extends Container {
     makeDesignCast(_gdc: IMakeDesignCast): void;
     showDesignCast(): void;
     cvsResize(): void;
-    update_b_pic(fn: string, txt: Text): void;
-    update_pic(fn: string, sp: Sprite): void;
     normal: () => void;
 }
 //# sourceMappingURL=Button.d.ts.map

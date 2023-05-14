@@ -153,6 +153,7 @@ export type HArg = {
 	join?	: boolean;
 	do_rec?	: boolean;
 	pan?	: number;
+	stop?	: boolean;
 
 	clear?	: boolean;
 
