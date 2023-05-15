@@ -6,7 +6,6 @@ import { HArg } from './Grammar';
 export declare class SndBuf {
     #private;
     static init($cfg: Config, $val: IVariable, $main: IMain, $sys: SysBase): void;
-    static addLoopPlay(buf: string, is_loop: Boolean): void;
     static delLoopPlay(buf: string): void;
     static getVol(hArg: HArg, def: number): number;
     static xchgbuf(hArg: HArg): void;

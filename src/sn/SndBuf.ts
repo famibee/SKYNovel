@@ -42,13 +42,6 @@ export class SndBuf {
 		main= $main;
 		sys	= $sys;
 	}
-	static	addLoopPlay(buf: string, is_loop: Boolean): void {
-		if (! is_loop) {SndBuf.delLoopPlay(buf); return;}
-
-		SndBuf.#hLP[buf] = 0;
-		val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
-		val.flush();
-	}
 	static	delLoopPlay(buf: string): void {
 		delete SndBuf.#hLP[buf];
 		const vn = 'const.sn.sound.'+ buf +'.';
@@ -77,11 +70,11 @@ export class SndBuf {
 		val.setVal_Nochk('save', n1 +'fn', f2);
 		val.setVal_Nochk('save', n2 +'fn', f1);
 
-		if (buf1 in this.#hLP === buf2 in this.#hLP) {	// 演算子の優先順位確認済
-			if (buf1 in this.#hLP)
-					{delete this.#hLP[buf1]; this.#hLP[buf2] = 0;}
-			else	{delete this.#hLP[buf2]; this.#hLP[buf1] = 0;}
-			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(this.#hLP));
+		if (buf1 in SndBuf.#hLP !== buf2 in SndBuf.#hLP) {	// 演算子の優先順位確認済
+			if (buf1 in SndBuf.#hLP)
+					{delete SndBuf.#hLP[buf1]; SndBuf.#hLP[buf2] = 0;}
+			else	{delete SndBuf.#hLP[buf2]; SndBuf.#hLP[buf1] = 0;}
+			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
 		}
 		val.flush();
 	}
@@ -92,16 +85,6 @@ export class SndBuf {
 	static	readonly	#MAX_END_MS	= 999000;
 	init(hArg: HArg): boolean {
 		const {buf = 'SE', fn = ''} = hArg;
-
-		const loop = argChk_Boolean(hArg, 'loop', false);
-		SndBuf.addLoopPlay(buf, loop);
-
-		// この辺で属性を増減したら、loadFromSaveObj()にも反映する
-		const vn = 'const.sn.sound.'+ buf +'.';
-		val.setVal_Nochk('save', vn +'fn', fn);
-		const savevol = SndBuf.getVol(hArg, 1);
-		val.setVal_Nochk('save', vn +'volume', savevol);// 目標音量（save:）
-		const volume = savevol * Number(val.getVal('sys:'+ vn +'volume', 1));
 
 		const start_ms = argChk_Num(hArg, 'start_ms', 0);
 		const end_ms = argChk_Num(hArg, 'end_ms', SndBuf.#MAX_END_MS);
@@ -116,6 +99,19 @@ export class SndBuf {
 			if (end_ms <= ret_ms) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
 		}
 
+		// この辺で属性を増減したら、loadFromSaveObj()にも反映する
+		const vn = 'const.sn.sound.'+ buf +'.';
+		val.setVal_Nochk('save', vn +'fn', fn);
+		const savevol = SndBuf.getVol(hArg, 1);
+		val.setVal_Nochk('save', vn +'volume', savevol);// 目標音量（save:）
+		const volume = savevol * Number(val.getVal('sys:'+ vn +'volume', 1));
+
+		const loop = argChk_Boolean(hArg, 'loop', false);
+		if (loop) {
+			SndBuf.#hLP[buf] = 0;
+			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
+		}
+		else SndBuf.delLoopPlay(buf);
 		val.setVal_Nochk('save', vn +'start_ms', start_ms);
 		val.setVal_Nochk('save', vn +'end_ms', end_ms);
 		val.setVal_Nochk('save', vn +'ret_ms', ret_ms);

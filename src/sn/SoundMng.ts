@@ -173,13 +173,14 @@ export class SoundMng {
 
 	// しおりの読込（BGM状態復元）
 	playLoopFromSaveObj(): void {
+		this.#stop_allse();
 		const lp = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
-		this.val.flush();
-		if (lp === '{}') {this.#stop_allse(); return;}
+		if (lp === '{}') return;
 
 		this.#hLP = JSON.parse(lp);
 		const a = Object.keys(this.#hLP).map(buf=> ()=> {
 			const vm = 'save:const.sn.sound.'+ buf +'.';
+			if (this.val.getVal(vm +'start_ms') === undefined) return;	// この値で不具合発見したので
 			const hArg = {
 				fn		: String(this.val.getVal(vm +'fn')),
 				buf,
@@ -193,7 +194,6 @@ export class SoundMng {
 			if (hArg.buf === 'BGM') this.#playbgm(hArg);
 			else this.#playse(hArg);
 		});
-		this.#stop_allse();
 		for (const f of a) f();
 	}
 

@@ -1,3 +1,7 @@
+- fix: [xchgbuf]後のロードでエラーになる場合がある件
+- fix: サウンドまわり微修正
+
+
 ## [1.43.9](https://github.com/famibee/SKYNovel/compare/v1.43.8...v1.43.9) (2023-05-14)
 
 
