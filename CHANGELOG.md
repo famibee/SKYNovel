@@ -1,3 +1,10 @@
+## [1.43.10](https://github.com/famibee/SKYNovel/compare/v1.43.9...v1.43.10) (2023-05-15)
+
+
+### Bug Fixes
+
+* [xchgbuf]後のロードでエラーになる場合がある件 ([05a7ece](https://github.com/famibee/SKYNovel/commit/05a7ece48fb9a35f326541f8f5b1f34dc5892b92))
+
 - fix: [xchgbuf]後のロードでエラーになる場合がある件
 - fix: サウンドまわり微修正
 
