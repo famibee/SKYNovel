@@ -1084,6 +1084,9 @@ void main(void) {
 
 	// ハイパーリンク
 	#link(hArg: HArg) {
+		if (! hArg.fn && ! hArg.label && ! hArg.url) throw 'fnまたはlabelまたはurlは必須です';
+		hArg.fn ??= this.scrItr.scriptFn;	// ここで指定する必要がある
+
 		hArg.style ??= 'background-color: rgba(255,0,0,0.5);';
 		hArg.style_hover ??= 'background-color: rgba(255,0,0,0.9);';
 		hArg.style_clicked ??= hArg.style;
@@ -1184,10 +1187,7 @@ void main(void) {
 	// ボタンを表示
 	#button(hArg: HArg) {
 		Pages.argChk_page(hArg, 'back');	// チェックしたいというよりデフォルトをbackに
-		hArg.clicksebuf ??= 'SYS';
-		hArg.entersebuf ??= 'SYS';
-		hArg.leavesebuf ??= 'SYS';
-		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
+		hArg.fn ??= this.scrItr.scriptFn;	// ここで指定する必要がある
 			// fn省略時、画像ボタンはロード後という後のタイミングで scrItr.scriptFn を
 			// 参照してしまうので
 		this.#getTxtLayer(hArg).addButton(hArg);	// hArg[':id_tag'] も設定

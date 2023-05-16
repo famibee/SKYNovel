@@ -143,7 +143,9 @@ export class EventMng implements IEvtMng {
 
 		// 言語切り替え通知
 		const fncUpdNavLang = ()=> val.setVal_Nochk('tmp', 'const.sn.navigator.language', navigator.language);
+//		this.#elc.add(globalThis, 'languagechange', e=> {
 		this.#elc.add(window, 'languagechange', e=> {
+//console.log(`fn:EventMng.ts languagechange `);
 			fncUpdNavLang();
 			this.fire('sn:chgNavLang', e);
 			utils.clearTextureCache();
@@ -394,12 +396,12 @@ export class EventMng implements IEvtMng {
 
 	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn);}
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
-		if (! hArg.fn && ! hArg.label) this.main.errScript('fnまたはlabelは必須です');
+		if (! hArg.fn && ! hArg.label && ! hArg.url) this.main.errScript('fnまたはlabelまたはurlは必須です');
+		hArg.fn ??= this.scrItr.scriptFn;
 
 		// クリックイベント
 		ctnBtn.interactive = ctnBtn.buttonMode = true;
 		const key = hArg.key?.toLowerCase() ?? ' ';
-		if (! hArg.fn) hArg.fn = this.scrItr.scriptFn;
 		const glb = argChk_Boolean(hArg, 'global', false);
 		if (glb)
 			this.#hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
@@ -428,29 +430,27 @@ export class EventMng implements IEvtMng {
 
 		// 音関係
 		if (hArg.clickse) {	//	clickse	クリック時に効果音
+			hArg.clicksebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.clickse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerdown', ()=> {
-				const o: HArg = {fn: hArg.clickse, join: false};
-				if (hArg.clicksebuf) o.buf = hArg.clicksebuf;
-				this.hTag.playse(o);
+				this.hTag.playse({fn: hArg.clickse, buf: hArg.clicksebuf, join: false});
 			});
 		}
 		if (hArg.enterse) {	//	enterse	ボタン上にマウスカーソルが載った時に効果音
+			hArg.entersebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.enterse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerover', ()=> {
-				const o: HArg = {fn: hArg.enterse, join: false};
-				if (hArg.entersebuf) o.buf = hArg.entersebuf;
-				this.hTag.playse(o);
+				this.hTag.playse({fn: hArg.enterse, buf: hArg.entersebuf, join: false});
 			});
 		}
 		if (hArg.leavese) {	//	leavese	ボタン上からマウスカーソルが外れた時に効果音
+			hArg.leavesebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.leavese, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerout', ()=> {
-				const o: HArg = {fn: hArg.leavese, join: false};
-				if (hArg.leavesebuf) o.buf = hArg.leavesebuf;
-				this.hTag.playse(o);
+				this.hTag.playse({fn: hArg.leavese, buf: hArg.leavesebuf, join: false});
 			});
 		}
+
 		if (hArg.onenter) {
 			// マウス重なり（フォーカス取得）時、ラベルコール。必ず[return]で戻ること
 			const k = key + hArg.onenter.toLowerCase();
@@ -571,7 +571,7 @@ export class EventMng implements IEvtMng {
 			? this.#hGlobalEvt2Fnc
 			: this.#hLocalEvt2Fnc;
 		if (argChk_Boolean(hArg, 'del', false)) {
-			if (hArg.fn || hArg.label || call) throw 'fn/label/callとdelは同時指定できません';
+			if (hArg.fn || hArg.label || call || hArg.url) throw 'fn/label/callとdelは同時指定できません';
 
 			this.#clear_eventer(KeY, h[key]);
 
@@ -579,6 +579,8 @@ export class EventMng implements IEvtMng {
 			delete h[key];
 			return false;
 		}
+
+		if (! hArg.fn && ! hArg.label && ! hArg.url) throw 'fnまたはlabelまたはurlは必須です';
 		hArg.fn ??= this.scrItr.scriptFn;
 
 		// domイベント

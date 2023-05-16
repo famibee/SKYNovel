@@ -53,6 +53,8 @@ export class ScriptIterator {
 	#lineNum	= 0;
 	get lineNum() {return this.#lineNum;}
 	readonly addLineNum	= (len: number)=> this.#lineNum += len;
+	jumpJustBefore() {this.#jumpWork(this.#scriptFn, '', --this.#idxToken);}
+		// 直前にジャンプ
 
 
 	#aCallStk	: CallStack[]	= [];	// FILOバッファ（push/pop）

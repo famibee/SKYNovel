@@ -1095,6 +1095,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
 <tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>クリック時にジャンプする先</td></tr>
 <tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
+<tr><td>url</td><td>fnかlabelか、このurlを指定</td><td>fn・label によるスクリプトジャンプ</td><td>ブラウザで開けるURL</td><td>クリック時にURLを開く。指定時は fn・label を無視する</td></tr>
 <tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
 <tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
 <tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
@@ -1458,9 +1459,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
 <tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>イベント発生時にジャンプする先。指定方法は[jump]と同様。<br/>callの場合、ジャンプ先から[return]で戻ると、<br/>再度[s]などのイベント待ち状態に戻る。</td></tr>
 <tr><td>label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)<br/>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
+<tr><td>url</td><td>fnかlabelか、このurlを指定</td><td>fn・label によるスクリプトジャンプ</td><td>ブラウザで開けるURL</td><td>クリック時にURLを開く。指定時は fn・label を無視する</td></tr>
 <tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>trueを指定すると大域的なイベント扱いとなり、<br/>イベント発生時にイベント予約が削除されない</td></tr>
 <tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
-<tr><td>url</td><td></td><td></td><td>URL文字列</td><td>開くURL</td></tr>
 <tr><td>del</td><td></td><td></td><td>Boolean</td><td>trueを指定すると予約済みイベントを削除する。<br/>fn/label/callとdelは同時指定できません</td></tr>
 <tr><td>frame</td><td></td><td>10</td><td>1〜</td><td>※未実装<br/><br/>key=enter_frameの場合のみ有効。<br/>フレームイベントは毎秒何度も（[window]のframerate回）発生するが、 アプリ全体が重くなるので、適度に間引いてイベントを時々発生させるため、
 	フレーム何回に一回イベントを発生させるかを指定する。<br/>例）30フレームで動作するアプリでframe=15を指定すると、30/15=0.5秒に一回発生（タイミングにより厳密ではない）</td></tr>
@@ -1919,6 +1920,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
 <tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>クリック時にジャンプする先</td></tr>
 <tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
+<tr><td>url</td><td>fnかlabelか、このurlを指定</td><td>fn・label によるスクリプトジャンプ</td><td>ブラウザで開けるURL</td><td>クリック時にURLを開く。指定時は fn・label を無視する</td></tr>
 <tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
 <tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
 <tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>

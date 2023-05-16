@@ -132,7 +132,11 @@ export class Main implements IMain {
 	};
 	resume = this.#fncresume;
 	resumeByJumpOrCall(hArg: HArg) {
-		if (hArg.url) {globalThis.open(hArg.url); return;}
+		if (hArg.url) {
+			this.#hTag.navigate_to(hArg);
+			this.#scrItr.jumpJustBefore();
+			return;
+		}
 
 		this.#val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
 		this.#val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');

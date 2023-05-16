@@ -21,6 +21,7 @@ export declare class ScriptIterator {
     subIdxToken(): void;
     get lineNum(): number;
     readonly addLineNum: (len: number) => number;
+    jumpJustBefore(): void;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
     firstWait: () => void;
     destroy(): void;
