@@ -1,3 +1,10 @@
+# [1.44.0](https://github.com/famibee/SKYNovel/compare/v1.43.10...v1.44.0) (2023-05-16)
+
+
+### Features
+
+* [button][link]にクリックでブラウザを開ける url 属性を追加 ([90882df](https://github.com/famibee/SKYNovel/commit/90882df481c8960d37c8d1791fe936d9a0d4922a))
+
 - feat: [button][link]にクリックでブラウザを開ける url 属性を追加
 	- 内部で [navigate_to] を呼ぶ
 	- ブラウザ・アプリ版・パッケージ版（Mac/Win）動作確認済
