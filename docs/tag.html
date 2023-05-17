@@ -1118,12 +1118,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	font-size: 1.2em;<br/>
 	ほか（狭いので省略）<br/>
 </td><td>css</td><td>ツールチップ矩形のスタイル</td></tr>
-<tr><td>hint_opt</td><td></td><td>
-	{
-		placement: "bottom",
-		modifiers: [{fallbackPlacements: ["top", "bottom"]},],
-	}
-</td><td>json</td><td>@popperjs/core の createPopper() の第三引数</td></tr>
+<tr><td>hint_opt</td><td></td><td>[button]と同様</td><td>json</td><td>
+	解説は<a href="tag.htm#button" target="_blank" rel="noopener">[button]</a>を参照
+</td></tr>
 <tr><td><s>hint_tate</s></td><td></td><td><s>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</s></td><td><s>Boolean</s></td><td><s>
 	ツールチップスをリンクに対してどの位置に表示するか。<br/>
 	false：リンクの上に表示（横書き文字レイヤの動作）<br/>
@@ -1945,11 +1942,31 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	ほか（狭いので省略）<br/>
 </td><td>css</td><td>ツールチップ矩形のスタイル</td></tr>
 <tr><td>hint_opt</td><td></td><td>
-	{
-		placement: "bottom",
-		modifiers: [{fallbackPlacements: ["top", "bottom"]},],
-	}
-</td><td>json</td><td>@popperjs/core の createPopper() の第三引数</td></tr>
+<pre>
+&nbsp;{
+&nbsp;&nbsp;"placement": "bottom",
+&nbsp;&nbsp;"modifiers": [
+&nbsp;&nbsp;&nbsp;{
+&nbsp;&nbsp;&nbsp;&nbsp;"name": "flip",
+&nbsp;&nbsp;&nbsp;&nbsp;"options": {
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"fallbackPlacements": ["top", "bottom"]
+&nbsp;&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;&nbsp;}
+&nbsp;&nbsp;]
+&nbsp;}
+</pre>
+</td><td>json</td><td>
+	基本的には以下の形式です。<br/>
+	・{"placement": "（値）"}<br/>
+	・{"placement": "（値）","modifiers": []}<br/>
+	「画面外にはみ出たときは placement の値を切り替えたい」<br/>
+	「ちょっとだけずらしたい」場合は、modifiers配列に設定を追加していきます。<br/>
+	設定については以下のサイトを参照してください。<br/>
+	・<a href="https://popper.js.org/docs/v2/modifiers/flip/">Flip | Popper</a><br/>
+	・<a href="https://popper.js.org/docs/v2/modifiers/offset/">Offset | Popper</a><br/>
+	<br/>
+	【tips】JSON文法は「文字列は " で囲む、' はダメ」などむやみに厳密なため、サイト「<a href="https://lab.syncer.jp/Tool/JSON-Viewer/">JSON Pretty Linter - JSONの整形と構文チェック</a>」などを使用することを推奨します。<br/>
+</td></tr>
 <tr><td><s>hint_tate</s></td><td></td><td><s>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</s></td><td><s>Boolean</s></td><td><s>
 	ツールチップスをリンクに対してどの位置に表示するか。<br/>
 	false：リンクの上に表示（横書き文字レイヤの動作）<br/>

@@ -143,6 +143,7 @@ export class EventMng implements IEvtMng {
 
 		// 言語切り替え通知
 		const fncUpdNavLang = ()=> val.setVal_Nochk('tmp', 'const.sn.navigator.language', navigator.language);
+		// TODO: アプリ版で[event key=sn:chgNavLang]が発生しない件
 //		this.#elc.add(globalThis, 'languagechange', e=> {
 		this.#elc.add(window, 'languagechange', e=> {
 //console.log(`fn:EventMng.ts languagechange `);
@@ -478,7 +479,14 @@ export class EventMng implements IEvtMng {
 	readonly	#popper		: InsPop;
 	readonly	#oHintOpt	= {
 		placement: 'bottom',
-		fallbackPlacements: ['top', 'bottom'],
+		modifiers: [
+			{	// Flip | Popper https://popper.js.org/docs/v2/modifiers/flip/
+				name: 'flip',
+				options: {
+					fallbackPlacements: ['top', 'bottom'],
+				},
+			},
+		],
 	};
 	#dispHint(hArg: HArg, ctnBtn: Container) {
 		const rctBtn = ctnBtn instanceof Button
@@ -717,7 +725,11 @@ export class EventMng implements IEvtMng {
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage();
 
-		const fnc = ()=> {this.sndMng.clearCache(); this.main.resume()};
+		const fnc = ()=> {
+			this.sndMng.clearCache();
+			this.#elmHint.hidden = true;
+			this.main.resume();
+		};
 		return this.#waitEventBase(
 			argChk_Boolean(hArg, 'er', false)
 			&& this.layMng.currentTxtlayFore

@@ -1,3 +1,9 @@
+- fix: @popperjs/core まわりのパラメータミスを広域チェック
+	- fix: [button][link]の hint_opt 属性、デフォルト値ミスを修正
+- fix: [p]改ページクリック待ちでのクリックで、ヒントを消すように
+- docs: タグリファレンス [button][link]の hint_opt 属性 の文法（JSON）について説明追記、デフォルト値ミスも修正
+
+
 # [1.44.0](https://github.com/famibee/SKYNovel/compare/v1.43.10...v1.44.0) (2023-05-16)
 
 
@@ -16,7 +22,7 @@
 - fix: [link]で属性 clicksebuf, entersebuf, leavesebuf 省略時に「SYS」になっていなかった件（タグリファレンス・[button]に合わせた）
 - docs: タグリファレンスの [button][link]に url 属性を追記、[event]には既にあったが更新
 - 既知の問題（これ以降は無し）
-	- アプリ版で[event key=sn:chgNavLang]が発生しない件
+	- TODO: アプリ版で[event key=sn:chgNavLang]が発生しない件
 		- @famibee/skynovel@1.42.0 に戻してもダメ。もともと出来てないのでは？
 
 
