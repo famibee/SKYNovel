@@ -1,3 +1,10 @@
+## [1.44.1](https://github.com/famibee/SKYNovel/compare/v1.44.0...v1.44.1) (2023-05-17)
+
+
+### Bug Fixes
+
+* @popperjs/core まわりのパラメータミスを広域チェック ([28544f2](https://github.com/famibee/SKYNovel/commit/28544f27b920a3f997b9f017241cf3044cfb82a1))
+
 - fix: @popperjs/core まわりのパラメータミスを広域チェック
 	- fix: [button][link]の hint_opt 属性、デフォルト値ミスを修正
 - fix: [p]改ページクリック待ちでのクリックで、ヒントを消すように
