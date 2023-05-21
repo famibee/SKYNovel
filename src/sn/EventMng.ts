@@ -699,7 +699,7 @@ export class EventMng implements IEvtMng {
 				: this.val.getVal('sys:sn.auto.msecLineWait'))
 		});
 
-		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine();
+		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine(hArg);
 
 		return this.#waitEventBase(()=> this.main.resume());
 	}
@@ -723,7 +723,7 @@ export class EventMng implements IEvtMng {
 				: this.val.getVal('sys:sn.auto.msecPageWait'))
 		});
 
-		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage();
+		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage(hArg);
 
 		const fnc = ()=> {
 			this.sndMng.clearCache();

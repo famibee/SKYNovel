@@ -138,8 +138,20 @@ export class LayerMng implements IGetFrm, IRecorder {
 		hTag.button			= o=> this.#button(o);		// ボタンを表示
 
 
-		if (cfg.existsBreakline) this.breakLine = ()=> this.#cmdTxt('grp｜{"id":"break","pic":"breakline"}');
-		if (cfg.existsBreakpage) this.breakPage = ()=> this.#cmdTxt('grp｜{"id":"break","pic":"breakpage"}');
+		if (cfg.existsBreakline) this.breakLine = (hArg: HArg)=> {
+			delete hArg.visible;
+			hArg.id = 'break';
+			hArg.pic= 'breakline';
+			const sArg = encodeURIComponent(JSON.stringify(hArg));
+			this.#cmdTxt('grp｜'+ sArg);
+		};
+		if (cfg.existsBreakpage) this.breakPage = (hArg: HArg)=> {
+			delete hArg.visible;
+			hArg.id = 'break';
+			hArg.pic= 'breakpage';
+			const sArg = encodeURIComponent(JSON.stringify(hArg));
+			this.#cmdTxt('grp｜'+ sArg);
+		};
 
 		this.#bg_color = parseColor(String(cfg.oCfg.init.bg_color));
 		const grp = new Graphics;
@@ -290,8 +302,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 	#cmdTxt = (cmd: string, tl = this.currentTxtlayForeNeedErr, _record = true)=> tl.tagCh('｜　《'+ cmd +'》');
 	goTxt = ()=> {};
-	breakLine = ()=> {};
-	breakPage = ()=> {};
+	breakLine = (_hArg: HArg)=> {};
+	breakPage = (_hArg: HArg)=> {};
 	clearBreak() {
 		if (! this.currentTxtlayFore) return;
 

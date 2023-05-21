@@ -19911,7 +19911,7 @@ class qC extends nx {
   }
 }
 var Pd, qn, dn, $s, zs, Rr, Ca, Vs, Ql, Ma, kr, pn, vn, Zn, tu, eu, iu, Od, sx, Id, ox, ru, ey, Cd, ax, Ra, ff, ka, or, Na, Md, Xs, nu;
-const nt = class extends ui {
+const st = class extends ui {
   constructor() {
     super();
     _(this, kr, new VC(this.spLay, this));
@@ -19919,7 +19919,7 @@ const nt = class extends ui {
     _(this, vn, "");
     _(this, Zn, "");
     B(this, "lay", (e) => this.laySub(e, (i) => {
-      i && h(nt, dn).resume();
+      i && h(st, dn).resume();
     }));
     _(this, tu, 0);
     _(this, eu, 0);
@@ -19940,37 +19940,37 @@ const nt = class extends ui {
     });
   }
   static init(e, i, n, s, o, a) {
-    b(nt, dn, e), b(nt, $s, i), b(nt, zs, n), b(nt, Rr, s), b(nt, Ca, a);
+    b(st, dn, e), b(st, $s, i), b(st, zs, n), b(st, Rr, s), b(st, Ca, a);
     const l = () => {
-      const u = h(nt, Vs) * h(nt, Ql);
-      for (const c of Object.values(nt.hFn2VElm))
+      const u = h(st, Vs) * h(st, Ql);
+      for (const c of Object.values(st.hFn2VElm))
         c.volume = u;
     };
     o.setNoticeChgVolume(
       (u) => {
-        b(nt, Vs, u), l();
+        b(st, Vs, u), l();
       },
       (u) => {
-        b(nt, Ql, u), l();
+        b(st, Ql, u), l();
       }
-    ), h(nt, Rr).crypto && b(nt, iu, x(nt, Id, ox));
+    ), h(st, Rr).crypto && b(st, iu, x(st, Id, ox));
   }
   static setEvtMng(e) {
-    b(nt, Ma, e);
+    b(st, Ma, e);
   }
   static destroy() {
-    h(nt, Pd).clear(), b(nt, qn, {}), nt.hFn2ResAniSpr = {}, nt.hFn2VElm = {};
+    h(st, Pd).clear(), b(st, qn, {}), st.hFn2ResAniSpr = {}, st.hFn2VElm = {};
   }
   setSp(e) {
   }
   laySub(e, i) {
     var l;
-    x(l = nt, Ra, ff).call(l, h(this, vn));
+    x(l = st, Ra, ff).call(l, h(this, vn));
     const { fn: n, face: s = "" } = e;
     if (h(this, kr).sethArg(e), !n)
       return super.lay(e), this.spLay.children.length > 0 && this.setPos(e), b(this, vn, ""), b(this, pn, b(this, Zn, s)), i(!1), !1;
     const o = "fn" in e, a = "face" in e;
-    return this.clearLay({ filter: "true" }), o && b(this, vn, n), a && b(this, Zn, s), super.lay(e), e.dx = 0, e.dy = 0, nt.csv2Sprites(
+    return this.clearLay({ filter: "true" }), o && b(this, vn, n), a && b(this, Zn, s), super.lay(e), e.dx = 0, e.dy = 0, st.csv2Sprites(
       b(this, pn, n + (s ? "," + s : "")),
       this.spLay,
       (u) => {
@@ -20002,7 +20002,7 @@ const nt = class extends ui {
     e.split(",").forEach((c, f) => {
       if (!c)
         throw "face属性に空要素が含まれます";
-      const { dx: d, dy: p, blendmode: m, fn: v } = h(nt, qn)[c] || {
+      const { dx: d, dy: p, blendmode: m, fn: v } = h(st, qn)[c] || {
         fn: c,
         dx: 0,
         dy: 0,
@@ -20010,16 +20010,16 @@ const nt = class extends ui {
       }, y = f === 0 ? n : (T) => {
         T.x = d, T.y = p, T.blendMode = m;
       };
-      if (a.push({ fn: v, fnc: y }), v in nt.hFn2ResAniSpr || v in li || v in Ii.shared.resources)
+      if (a.push({ fn: v, fnc: y }), v in st.hFn2ResAniSpr || v in li || v in Ii.shared.resources)
         return;
       o = !0;
-      const g = h(nt, $s).searchPath(v, ii.SP_GSM), w = h(this, Rr).crypto ? { xhrType: g.slice(-5) === ".json" ? _t.XHR_RESPONSE_TYPE.TEXT : _t.XHR_RESPONSE_TYPE.BUFFER } : {};
+      const g = h(st, $s).searchPath(v, ii.SP_GSM), w = h(this, Rr).crypto ? { xhrType: g.slice(-5) === ".json" ? _t.XHR_RESPONSE_TYPE.TEXT : _t.XHR_RESPONSE_TYPE.BUFFER } : {};
       l.add({ ...w, name: v, url: g });
     });
     const u = (c) => {
       var f;
       for (const { fn: d, fnc: p } of a) {
-        const m = x(f = nt, Cd, ax).call(f, d, c);
+        const m = x(f = st, Cd, ax).call(f, d, c);
         m.name = d, i == null || i.addChild(m), p(m);
       }
       s(o);
@@ -20027,7 +20027,7 @@ const nt = class extends ui {
     return o ? l.use((c, f) => {
       h(this, Rr).dec(c.extension, c.data).then((d) => {
         var p;
-        return h(p = nt, iu).call(p, d, c, () => f == null ? void 0 : f());
+        return h(p = st, iu).call(p, d, c, () => f == null ? void 0 : f());
       }).catch((d) => h(this, dn).errScript(`Graphic ロード失敗です fn:${c.name} ${d}`, !1));
     }).load((c, f) => u(f)) : u({}), o;
   }
@@ -20036,16 +20036,16 @@ const nt = class extends ui {
     const { fn: i } = e;
     if (!i)
       throw "fnは必須です";
-    const n = nt.hFn2VElm[i];
+    const n = st.hFn2VElm[i];
     if (!n || n.loop)
       return !1;
     if (h(this, Ca).getVal("tmp:sn.skip.enabled") || h(this, Ma).isSkippingByKeyDown() || n.ended)
-      return x(o = nt, Ra, ff).call(o, i), !1;
+      return x(o = st, Ra, ff).call(o, i), !1;
     const s = () => {
       var a;
-      x(a = nt, Ra, ff).call(a, i), h(this, dn).resume();
+      x(a = st, Ra, ff).call(a, i), h(this, dn).resume();
     };
-    return n.addEventListener("ended", s, { once: !0, passive: !0 }), h(nt, Ma).waitEvent(
+    return n.addEventListener("ended", s, { once: !0, passive: !0 }), h(st, Ma).waitEvent(
       () => {
         n.removeEventListener("ended", s), s();
       },
@@ -20063,7 +20063,7 @@ const nt = class extends ui {
       this.spLay.alpha = 1;
       for (const n of this.spLay.children)
         n.visible = !0;
-      h(this, or).visible = !1, h(nt, zs).renderer.render(this.spLay, { renderTexture: h(this, ka) }), this.spLay.alpha = i;
+      h(this, or).visible = !1, h(st, zs).renderer.render(this.spLay, { renderTexture: h(this, ka) }), this.spLay.alpha = i;
       for (const n of this.spLay.children)
         n.visible = !1;
     };
@@ -20076,17 +20076,17 @@ const nt = class extends ui {
     }
     b(this, Na, () => {
       e(), h(this, or).visible = !0;
-    }), h(nt, zs).ticker.add(h(this, Na));
+    }), h(st, zs).ticker.add(h(this, Na));
   }
   renderEnd() {
-    h(nt, zs).ticker.remove(h(this, Na)), this.spLay.removeChild(h(this, or));
+    h(st, zs).ticker.remove(h(this, Na)), this.spLay.removeChild(h(this, or));
     for (const e of this.spLay.children)
       e.visible = !0;
     h(this, or).destroy(!0);
   }
   // https://regex101.com/r/ZUnoFq/1
   static loadPic2Img(e, i, n) {
-    const s = e.replace(h(nt, Md), ""), o = e === s ? "" : e.slice(s.length), a = h(this, nu)[e];
+    const s = e.replace(h(st, Md), ""), o = e === s ? "" : e.slice(s.length), a = h(this, nu)[e];
     if (a) {
       i.src = a;
       return;
@@ -20097,15 +20097,15 @@ const nt = class extends ui {
       return;
     }
     h(this, Xs)[e] = [i];
-    const u = h(nt, $s).searchPath(s, ii.SP_GSM), c = new Ii().add({ name: e, url: u, xhrType: _t.XHR_RESPONSE_TYPE.BUFFER });
-    h(nt, Rr).crypto && nm(u) === "bin" && c.use((f, d) => {
-      h(nt, Rr).dec(f.extension, f.data).then((p) => {
+    const u = h(st, $s).searchPath(s, ii.SP_GSM), c = new Ii().add({ name: e, url: u, xhrType: _t.XHR_RESPONSE_TYPE.BUFFER });
+    h(st, Rr).crypto && nm(u) === "bin" && c.use((f, d) => {
+      h(st, Rr).dec(f.extension, f.data).then((p) => {
         if (f.extension !== "bin") {
           d == null || d();
           return;
         }
         f.data = p, p instanceof HTMLImageElement && (f.type = _t.TYPE.IMAGE), d == null || d();
-      }).catch((p) => h(nt, dn).errScript(`GrpLayer loadPic ロード失敗です fn:${f.name} ${p}`, !1));
+      }).catch((p) => h(st, dn).errScript(`GrpLayer loadPic ロード失敗です fn:${f.name} ${p}`, !1));
     }), c.load((f, d) => {
       for (const [p, { data: { src: m } }] of Object.entries(d)) {
         const v = h(this, nu)[p] = m + (m.slice(0, 5) === "blob:" ? "" : o);
@@ -20127,10 +20127,10 @@ const nt = class extends ui {
     const { name: i } = e;
     if (!i)
       throw "nameは必須です";
-    if (i in h(nt, qn))
+    if (i in h(st, qn))
       throw "一つのname（" + i + "）に対して同じ画像を複数割り当てられません";
     const { fn: n = i } = e;
-    return h(nt, qn)[i] = {
+    return h(st, qn)[i] = {
       fn: n,
       dx: j(e, "dx", 0),
       dy: j(e, "dy", 0),
@@ -20138,7 +20138,7 @@ const nt = class extends ui {
     }, !1;
   }
   static clearFace2Name() {
-    b(nt, qn, {});
+    b(st, qn, {});
   }
   // アニメ・動画を含むか
   get containMovement() {
@@ -20146,7 +20146,7 @@ const nt = class extends ui {
       return !1;
     const e = this.spLay.children;
     return h(this, pn).split(",").some(
-      (i, n) => e[n] instanceof Gg || nt.hFn2VElm[i]
+      (i, n) => e[n] instanceof Gg || st.hFn2VElm[i]
     );
   }
   clearLay(e) {
@@ -20179,7 +20179,7 @@ const nt = class extends ui {
     h(this, kr).visible = !0;
   }
 };
-let Rt = nt;
+let Rt = st;
 Pd = new WeakMap(), qn = new WeakMap(), dn = new WeakMap(), $s = new WeakMap(), zs = new WeakMap(), Rr = new WeakMap(), Ca = new WeakMap(), Vs = new WeakMap(), Ql = new WeakMap(), Ma = new WeakMap(), kr = new WeakMap(), pn = new WeakMap(), vn = new WeakMap(), Zn = new WeakMap(), tu = new WeakMap(), eu = new WeakMap(), iu = new WeakMap(), Od = new WeakSet(), sx = function(e) {
   const i = /([^\d]+)\d+\.(\w+)/.exec(e[0]);
   if (!i)
@@ -20190,7 +20190,7 @@ Pd = new WeakMap(), qn = new WeakMap(), dn = new WeakMap(), $s = new WeakMap(), 
   );
 }, Id = new WeakSet(), ox = function(e, i, n) {
   var u;
-  if (i.data = e, i.extension === "bin" && (e instanceof HTMLImageElement ? (i.texture = lt.fromLoader(e, i.url, i.name), i.type = _t.TYPE.IMAGE) : e instanceof HTMLVideoElement && (e.volume = h(nt, Vs), nt.hFn2VElm[i.name] = x(u = nt, ru, ey).call(u, e), i.type = _t.TYPE.VIDEO)), i.extension !== "json") {
+  if (i.data = e, i.extension === "bin" && (e instanceof HTMLImageElement ? (i.texture = lt.fromLoader(e, i.url, i.name), i.type = _t.TYPE.IMAGE) : e instanceof HTMLVideoElement && (e.volume = h(st, Vs), st.hFn2VElm[i.name] = x(u = st, ru, ey).call(u, e), i.type = _t.TYPE.VIDEO)), i.extension !== "json") {
     n();
     return;
   }
@@ -20203,7 +20203,7 @@ Pd = new WeakMap(), qn = new WeakMap(), dn = new WeakMap(), $s = new WeakMap(), 
     n();
     return;
   }
-  const a = Qc(s.image), l = h(nt, $s).searchPath(a, ii.SP_GSM);
+  const a = Qc(s.image), l = h(st, $s).searchPath(a, ii.SP_GSM);
   new Ii().use((c, f) => {
     h(this, Rr).dec(c.extension, c.data).then((d) => {
       c.data = d, d instanceof HTMLImageElement && (c.type = _t.TYPE.IMAGE, URL.revokeObjectURL(d.src)), f == null || f();
@@ -20211,7 +20211,7 @@ Pd = new WeakMap(), qn = new WeakMap(), dn = new WeakMap(), $s = new WeakMap(), 
   }).add({ name: a, url: l, xhrType: _t.XHR_RESPONSE_TYPE.BUFFER }).load((c, f) => {
     for (const { data: d } of Object.values(c.resources)) {
       const { baseTexture: p } = lt.from(d), m = Object.values(o);
-      nt.hFn2ResAniSpr[i.name] = {
+      st.hFn2ResAniSpr[i.name] = {
         aTex: m.map(({ frame: { x: v, y, w: g, h: w } }) => new lt(
           p,
           new gt(v, y, g, w)
@@ -20222,34 +20222,34 @@ Pd = new WeakMap(), qn = new WeakMap(), dn = new WeakMap(), $s = new WeakMap(), 
     n();
   });
 }, ru = new WeakSet(), ey = function(e) {
-  return h(nt, Ca).getVal("const.sn.needClick2Play") && (kt.trace_beforeNew(`[lay系] ${kt.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, "W"), e.muted = !0), e.setAttribute("playsinline", ""), e;
+  return h(st, Ca).getVal("const.sn.needClick2Play") && (kt.trace_beforeNew(`[lay系] ${kt.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, "W"), e.muted = !0), e.setAttribute("playsinline", ""), e;
 }, Cd = new WeakSet(), ax = function(e, i) {
-  const n = nt.hFn2ResAniSpr[e];
+  const n = st.hFn2ResAniSpr[e];
   if (n) {
     const s = new Gg(n.aTex);
     return s.animationSpeed = n.meta.animationSpeed ?? 1, s.play(), s;
   }
-  return e in li ? ge.from(e) : e in nt.hFn2VElm ? ge.from(nt.hFn2VElm[e]) : e in i ? new ge(i[e].texture) : new ge();
+  return e in li ? ge.from(e) : e in st.hFn2VElm ? ge.from(st.hFn2VElm[e]) : e in i ? new ge(i[e].texture) : new ge();
 }, Ra = new WeakSet(), ff = function(e) {
-  const i = nt.hFn2VElm[e];
-  i && (delete nt.hFn2VElm[e], i.pause(), i.currentTime = i.duration);
+  const i = st.hFn2VElm[e];
+  i && (delete st.hFn2VElm[e], i.pause(), i.currentTime = i.duration);
 }, ka = new WeakMap(), or = new WeakMap(), Na = new WeakMap(), Md = new WeakMap(), Xs = new WeakMap(), nu = new WeakMap(), _(Rt, Od), _(Rt, Id), _(Rt, ru), _(Rt, Cd), _(Rt, Ra), _(Rt, Pd, new Eh()), _(Rt, qn, {}), _(Rt, dn, void 0), _(Rt, $s, void 0), _(Rt, zs, void 0), _(Rt, Rr, void 0), _(Rt, Ca, void 0), _(Rt, Vs, 1), _(Rt, Ql, 1), _(Rt, Ma, void 0), B(Rt, "hFn2ResAniSpr", {}), _(Rt, iu, (e, i, n) => {
   var s, o;
   switch (i.type) {
     case _t.TYPE.JSON:
       const a = i.spritesheet._frameKeys;
-      x(s = nt, Od, sx).call(s, a), nt.hFn2ResAniSpr[i.name] = {
+      x(s = st, Od, sx).call(s, a), st.hFn2ResAniSpr[i.name] = {
         aTex: a.map((u) => lt.from(u)),
         meta: i.data.meta
       };
       break;
     case _t.TYPE.VIDEO:
       const l = i.data;
-      l.volume = h(nt, Vs), nt.hFn2VElm[i.name] = x(o = nt, ru, ey).call(o, l);
+      l.volume = h(st, Vs), st.hFn2VElm[i.name] = x(o = st, ru, ey).call(o, l);
   }
   n();
 }), B(Rt, "hFn2VElm", {}), _(Rt, Md, /\?([^?]+)$/), _(Rt, Xs, {}), _(Rt, nu, {});
-var La, su, Ws, Tt, Nr, mn, Rd, xi, Kn, st, Ui, Ke, Je, Aa, df, ar, yn, ou, Da, kd, hx, Ys, Ba, Jn, qs, Zs, Ks, Fa, au, Qn, hu, iy, _n, lu, gn, Lr, Ua, uu, ry, ts, Js, cu, ny, ni;
+var La, su, Ws, Tt, Nr, mn, Rd, xi, Kn, nt, Ui, Ke, Je, Aa, df, ar, yn, ou, Da, kd, hx, Ys, Ba, Jn, qs, Zs, Ks, Fa, au, Qn, hu, iy, _n, lu, gn, Lr, Ua, uu, ry, ts, Js, cu, ny, ni;
 const pt = class extends Jt {
   constructor(e, i, n) {
     super();
@@ -20266,7 +20266,7 @@ const pt = class extends Jt {
     _(this, mn, new Ri());
     _(this, xi, new XC(this.spLay, this));
     _(this, Kn, new WC(this));
-    _(this, st, {
+    _(this, nt, {
       fontsize: 24,
       $width: 0,
       // レイヤサイズであり、背景色（画像）サイズ
@@ -20344,30 +20344,30 @@ const pt = class extends Jt {
     return h(this, yn);
   }
   get infTL() {
-    return h(this, st);
+    return h(this, nt);
   }
   get getWidth() {
-    return h(this, st).$width;
+    return h(this, nt).$width;
   }
   get getHeight() {
-    return h(this, st).$height;
+    return h(this, nt).$height;
   }
   setSize(e, i) {
-    h(this, st).$width = e, h(this, st).$height = i, h(this, Tt).style.width = h(this, st).$width + "px", h(this, Tt).style.height = h(this, st).$height + "px";
+    h(this, nt).$width = e, h(this, nt).$height = i, h(this, Tt).style.width = h(this, nt).$width + "px", h(this, Tt).style.height = h(this, nt).$height + "px";
   }
   goTxt(e, i) {
     var T, P, O, C;
     h(pt, Lr).visible = !1;
     let n = h(this, Jn).length, s = "";
     if (n === 0) {
-      if (h(pt, La).oCfg.debug.masume && (A.debugLog && console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${h(this, st).pad_left} pr:${h(this, st).pad_right} pt:${h(this, st).pad_top} pb:${h(this, st).pad_bottom} w:${h(this, st).$width} h:${h(this, st).$height}`), h(this, mn).clear().beginFill(3407616, 0.2).lineStyle(1, 3407616, 1).drawRect(-h(this, st).pad_left, -h(this, st).pad_top, h(this, st).$width, h(this, st).$height).endFill().beginFill(13311, 0.2).lineStyle(2, 13311, 1).drawRect(
+      if (h(pt, La).oCfg.debug.masume && (A.debugLog && console.log(`🍌 masume ${this.name} v:${this.visible} l:${this.x} t:${this.y} a:${this.alpha} pl:${h(this, nt).pad_left} pr:${h(this, nt).pad_right} pt:${h(this, nt).pad_top} pb:${h(this, nt).pad_bottom} w:${h(this, nt).$width} h:${h(this, nt).$height}`), h(this, mn).clear().beginFill(3407616, 0.2).lineStyle(1, 3407616, 1).drawRect(-h(this, nt).pad_left, -h(this, nt).pad_top, h(this, nt).$width, h(this, nt).$height).endFill().beginFill(13311, 0.2).lineStyle(2, 13311, 1).drawRect(
         0,
         0,
-        h(this, st).$width - h(this, st).pad_left - h(this, st).pad_right,
-        h(this, st).$height - h(this, st).pad_top - h(this, st).pad_bottom
+        h(this, nt).$width - h(this, nt).pad_left - h(this, nt).pad_right,
+        h(this, nt).$height - h(this, nt).pad_top - h(this, nt).pad_bottom
       ).endFill()), h(this, Tt).innerHTML = [...e].join("").replaceAll(/[\n\t]/g, "") + h(pt, au), !h(this, Ui)) {
         const I = globalThis.getComputedStyle(h(this, Tt)), S = parseFloat(I.fontSize);
-        h(this, yn) ? (b(this, Ke, (h(this, st).$width - h(this, st).pad_left - h(this, st).pad_right - S * 1.5) * this.sys.cvsScale), b(this, Je, 0)) : (b(this, Ke, 0), b(this, Je, S / 2 * this.sys.cvsScale));
+        h(this, yn) ? (b(this, Ke, (h(this, nt).$width - h(this, nt).pad_left - h(this, nt).pad_right - S * 1.5) * this.sys.cvsScale), b(this, Je, 0)) : (b(this, Ke, 0), b(this, Je, S / 2 * this.sys.cvsScale));
       }
     } else
       s = h(this, Tt).innerHTML, h(this, Tt).querySelectorAll(":scope > br").forEach((I) => h(this, Tt).removeChild(I)), h(this, Tt).insertAdjacentHTML(
@@ -20376,7 +20376,7 @@ const pt = class extends Jt {
         // 末尾改行削除挙動対策
       ), --n, (T = h(this, Tt).querySelector(".sn_ch_last")) == null || T.remove();
     b(this, qs, e.length);
-    const o = this.sys.cvsScale, a = h(this, Tt).getBoundingClientRect(), l = a.left + h(this, st).pad_left, u = a.top + h(this, st).pad_top;
+    const o = this.sys.cvsScale, a = h(this, Tt).getBoundingClientRect(), l = a.left + h(this, nt).pad_left, u = a.top + h(this, nt).pad_top;
     let c;
     if (o === 1)
       c = (I, S) => new gt(
@@ -20584,8 +20584,8 @@ const pt = class extends Jt {
   }
   dispBreak(e) {
     const i = h(pt, Lr);
-    i.visible = !1, this.addChild(i), Rt.csv2Sprites(e, i, (n) => {
-      i.parent || i.removeChild(n);
+    i.visible = !1, this.addChild(i), Rt.csv2Sprites(e.pic, i, (n) => {
+      i.parent ? (n.x = j(e, "x", 0), n.y = j(e, "y", 0), n.width = j(e, "width", h(this, nt).fontsize), n.height = j(e, "height", h(this, nt).fontsize)) : i.removeChild(n);
     });
   }
   static delBreak() {
@@ -20596,11 +20596,11 @@ const pt = class extends Jt {
     var i;
     x(this, cu, ny).call(this);
     const e = new pt(this.spLay, () => this.canFocus(), this.sys);
-    return b(e, st, h(this, st)), h(e, Tt).style.cssText = h(this, Tt).style.cssText, b(e, ar, h(this, ar)), e.name = this.name, x(i = e, Aa, df).call(i), h(e, xi).sethArg(h(this, xi).gethArg()), b(e, Ys, h(this, Ys)), b(e, ts, h(this, ts)), b(e, Js, h(this, Js)), b(e, Ui, h(this, Ui)), b(e, Ke, h(this, Ke)), b(e, Je, h(this, Je)), this.destroy(), e;
+    return b(e, nt, h(this, nt)), h(e, Tt).style.cssText = h(this, Tt).style.cssText, b(e, ar, h(this, ar)), e.name = this.name, x(i = e, Aa, df).call(i), h(e, xi).sethArg(h(this, xi).gethArg()), b(e, Ys, h(this, Ys)), b(e, ts, h(this, ts)), b(e, Js, h(this, Js)), b(e, Ui, h(this, Ui)), b(e, Ke, h(this, Ke)), b(e, Je, h(this, Je)), this.destroy(), e;
   }
   record() {
     return {
-      infTL: h(this, st),
+      infTL: h(this, nt),
       cssText: h(this, Tt).style.cssText,
       left: h(this, ar),
       idc_hArg: h(this, xi).gethArg(),
@@ -20613,15 +20613,15 @@ const pt = class extends Jt {
     };
   }
   playback(e) {
-    b(this, st, e.infTL), this.position.set(h(this, st).pad_left, h(this, st).pad_top), h(this, Tt).style.cssText = e.cssText, b(this, ar, e.left), x(this, Aa, df).call(this), h(this, xi).sethArg(e.idc_hArg), b(this, Ys, e.ch_filter), b(this, ts, e.fi_easing), b(this, Js, e.fo_easing), b(this, Ui, e.break_fixed ?? !1), b(this, Ke, e.break_fixed_left ?? 0), b(this, Je, e.break_fixed_top ?? 0);
+    b(this, nt, e.infTL), this.position.set(h(this, nt).pad_left, h(this, nt).pad_top), h(this, Tt).style.cssText = e.cssText, b(this, ar, e.left), x(this, Aa, df).call(this), h(this, xi).sethArg(e.idc_hArg), b(this, Ys, e.ch_filter), b(this, ts, e.fi_easing), b(this, Js, e.fo_easing), b(this, Ui, e.break_fixed ?? !1), b(this, Ke, e.break_fixed_left ?? 0), b(this, Je, e.break_fixed_top ?? 0);
   }
   snapshot(e, i) {
     x(this, kd, hx).call(this, (n) => {
-      b(this, ni, new ge(n)), h(this, yn) && (h(this, ni).x += A.stageW - (h(this, ar) + h(this, st).$width)), h(this, ni).y -= h(this, Da), h(this, ni).texture.frame = new gt(
+      b(this, ni, new ge(n)), h(this, yn) && (h(this, ni).x += A.stageW - (h(this, ar) + h(this, nt).$width)), h(this, ni).y -= h(this, Da), h(this, ni).texture.frame = new gt(
         0,
         0,
-        Math.min(h(this, ni).width, h(this, st).$width - h(this, ar)),
-        Math.min(h(this, ni).height, h(this, st).$height)
+        Math.min(h(this, ni).width, h(this, nt).$width - h(this, ar)),
+        Math.min(h(this, ni).height, h(this, nt).$height)
       ), h(this, Nr).addChild(h(this, ni)), e.render(h(this, ni), { clear: !1 }), i();
     }, !1);
   }
@@ -20649,9 +20649,9 @@ const pt = class extends Jt {
   }
 };
 let he = pt;
-La = new WeakMap(), su = new WeakMap(), Ws = new WeakMap(), Tt = new WeakMap(), Nr = new WeakMap(), mn = new WeakMap(), Rd = new WeakMap(), xi = new WeakMap(), Kn = new WeakMap(), st = new WeakMap(), Ui = new WeakMap(), Ke = new WeakMap(), Je = new WeakMap(), Aa = new WeakSet(), df = function() {
+La = new WeakMap(), su = new WeakMap(), Ws = new WeakMap(), Tt = new WeakMap(), Nr = new WeakMap(), mn = new WeakMap(), Rd = new WeakMap(), xi = new WeakMap(), Kn = new WeakMap(), nt = new WeakMap(), Ui = new WeakMap(), Ke = new WeakMap(), Je = new WeakMap(), Aa = new WeakSet(), df = function() {
   const e = h(this, Tt).style, i = parseFloat(e.fontSize || "0");
-  h(this, st).fontsize = i, h(this, st).pad_left = parseFloat(e.paddingLeft || "0"), h(this, st).pad_right = parseFloat(e.paddingRight || "0"), h(this, st).pad_top = parseFloat(e.paddingTop || "0"), h(this, st).pad_bottom = parseFloat(e.paddingBottom || "0"), h(this, st).$width = parseFloat(e.width || "0"), h(this, st).$height = parseFloat(e.height || "0"), this.position.set(h(this, st).pad_left, h(this, st).pad_top), b(this, yn, e.writingMode === "vertical-rl"), b(this, ou, 0), b(this, Da, 0);
+  h(this, nt).fontsize = i, h(this, nt).pad_left = parseFloat(e.paddingLeft || "0"), h(this, nt).pad_right = parseFloat(e.paddingRight || "0"), h(this, nt).pad_top = parseFloat(e.paddingTop || "0"), h(this, nt).pad_bottom = parseFloat(e.paddingBottom || "0"), h(this, nt).$width = parseFloat(e.width || "0"), h(this, nt).$height = parseFloat(e.height || "0"), this.position.set(h(this, nt).pad_left, h(this, nt).pad_top), b(this, yn, e.writingMode === "vertical-rl"), b(this, ou, 0), b(this, Da, 0);
   const n = e.lineHeight ?? "0";
   b(this, Ua, h(this, yn) ? 0 : (n.slice(-2) === "px" ? parseFloat(n) : i * parseFloat(n) - i) / 2);
 }, ar = new WeakMap(), yn = new WeakMap(), ou = new WeakMap(), Da = new WeakMap(), kd = new WeakSet(), hx = function(e, i = !0) {
@@ -20817,15 +20817,15 @@ La = new WeakMap(), su = new WeakMap(), Ws = new WeakMap(), Tt = new WeakMap(), 
   }
   Promise.resolve(h(this, Tt)).then((y) => {
     const g = y.cloneNode(!0);
-    return g.style.padding = "0px", g.style.paddingRight = h(this, ou) + "px", g.style.paddingTop = h(this, Da) + "px", g.style.left = "0px", g.style.top = "0px", g.style.width = h(this, st).$width - h(this, st).pad_left - h(this, st).pad_right + "px", g.style.height = h(this, st).$height - h(this, st).pad_top - h(this, st).pad_bottom + "px", h(this, Tt).hidden = i, g;
+    return g.style.padding = "0px", g.style.paddingRight = h(this, ou) + "px", g.style.paddingTop = h(this, Da) + "px", g.style.left = "0px", g.style.top = "0px", g.style.width = h(this, nt).$width - h(this, nt).pad_left - h(this, nt).pad_right + "px", g.style.height = h(this, nt).$height - h(this, nt).pad_top - h(this, nt).pad_bottom + "px", h(this, Tt).hidden = i, g;
   }).then(l).then((y) => {
     y.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
     const g = new Image();
-    return g.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${h(this, st).$width}px" height="${h(this, st).$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(y).replaceAll("#", "%23").replaceAll(`
+    return g.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${h(this, nt).$width}px" height="${h(this, nt).$height}px"><foreignObject x="0" y="0" width="100%" height="100%">${new XMLSerializer().serializeToString(y).replaceAll("#", "%23").replaceAll(`
 `, "%0A")}</foreignObject></svg>`, new Promise((w) => g.onload = () => w(g));
   }).then((y) => new Promise((g) => setTimeout(() => g(y), 100))).then((y) => {
     const g = document.createElement("canvas");
-    g.width = h(this, st).$width, g.height = h(this, st).$height, g.getContext("2d").drawImage(y, 0, 0), g.toBlob((w) => {
+    g.width = h(this, nt).$width, g.height = h(this, nt).$height, g.getContext("2d").drawImage(y, 0, 0), g.toBlob((w) => {
       if (!w)
         return;
       const T = URL.createObjectURL(w);
@@ -21229,7 +21229,7 @@ const yt = class extends ui {
               {
                 const d = JSON.parse(l);
                 if (d.id ?? (d.id = h(this, ji).length), d.id === "break") {
-                  h(this, Mt).dispBreak(d.pic);
+                  h(this, Mt).dispBreak(d);
                   return;
                 }
                 b(this, cr, !1), d.delay = h(this, Fr), d.r ?? (d.r = ""), d.style ?? (d.style = ""), d.r_style ?? (d.r_style = "");
@@ -22017,9 +22017,9 @@ const Xn = class {
     _(this, ai, (t, e = this.currentTxtlayForeNeedErr, i = !0) => e.tagCh("｜　《" + t + "》"));
     B(this, "goTxt", () => {
     });
-    B(this, "breakLine", () => {
+    B(this, "breakLine", (t) => {
     });
-    B(this, "breakPage", () => {
+    B(this, "breakPage", (t) => {
     });
     _(this, St, {});
     // しおりLoad時再読込
@@ -22112,7 +22112,15 @@ void main(void) {
         }, 1e3 / 60 * 10));
       }, { passive: !0 });
     }
-    a.cvsResize(), re.init(t, e, n, this, (v) => h(this, St)[v.layname].fore === v, i), Rt.init(s, t, i, a, l, n), gr.init(t), b(this, is, new ZC(t, e, i, n, s, a, h(this, Ei))), a.hFactoryCls.grp = () => new Rt(), a.hFactoryCls.txt = () => new re(), e.loadplugin = (v) => x(this, Vd, bx).call(this, v), e.snapshot = (v) => x(this, zd, gx).call(this, v), e.add_lay = (v) => x(this, Xd, xx).call(this, v), e.clear_lay = (v) => x(this, Yd, Ex).call(this, v), e.finish_trans = () => x(this, vo, Yh).call(this), e.lay = (v) => x(this, Wd, wx).call(this, v), e.trans = (v) => x(this, Kd, Tx).call(this, v), e.wt = (v) => x(this, tp, Ox).call(this, v), e.quake = (v) => x(this, ep, Ix).call(this, v), e.stop_quake = (v) => e.finish_trans(v), e.wq = (v) => e.wt(v), e.pause_tsy = (v) => x(this, sp, kx).call(this, v), e.resume_tsy = (v) => x(this, op, Nx).call(this, v), e.stop_tsy = (v) => x(this, np, Rx).call(this, v), e.tsy = (v) => x(this, ip, Cx).call(this, v), e.wait_tsy = (v) => x(this, rp, Mx).call(this, v), e.ch = (v) => x(this, mo, qh).call(this, v), e.clear_text = (v) => x(this, lp, Dx).call(this, v), e.current = (v) => h(this, Lu).call(this, v), e.endlink = (v) => x(this, up, Bx).call(this, v), e.er = (v) => x(this, cp, Fx).call(this, v), e.graph = (v) => x(this, fp, Ux).call(this, v), e.link = (v) => x(this, dp, Gx).call(this, v), e.r = (v) => x(this, pp, jx).call(this, v), e.rec_ch = (v) => x(this, Au, fy).call(this, v), e.rec_r = (v) => x(this, vp, Hx).call(this, v), e.reset_rec = (v) => x(this, mp, $x).call(this, v), e.ruby2 = (v) => x(this, yp, zx).call(this, v), e.span = (v) => x(this, _p, Vx).call(this, v), e.tcy = (v) => x(this, gp, Xx).call(this, v), e.add_face = (v) => Rt.add_face(v), e.wv = (v) => Rt.wv(v), e.dump_lay = (v) => x(this, bp, Wx).call(this, v), e.enable_event = (v) => x(this, xp, Yx).call(this, v), e.button = (v) => x(this, wp, qx).call(this, v), t.existsBreakline && (this.breakLine = () => h(this, ai).call(this, 'grp｜{"id":"break","pic":"breakline"}')), t.existsBreakpage && (this.breakPage = () => h(this, ai).call(this, 'grp｜{"id":"break","pic":"breakpage"}')), b(this, uo, Dy(String(t.oCfg.init.bg_color)));
+    a.cvsResize(), re.init(t, e, n, this, (v) => h(this, St)[v.layname].fore === v, i), Rt.init(s, t, i, a, l, n), gr.init(t), b(this, is, new ZC(t, e, i, n, s, a, h(this, Ei))), a.hFactoryCls.grp = () => new Rt(), a.hFactoryCls.txt = () => new re(), e.loadplugin = (v) => x(this, Vd, bx).call(this, v), e.snapshot = (v) => x(this, zd, gx).call(this, v), e.add_lay = (v) => x(this, Xd, xx).call(this, v), e.clear_lay = (v) => x(this, Yd, Ex).call(this, v), e.finish_trans = () => x(this, vo, Yh).call(this), e.lay = (v) => x(this, Wd, wx).call(this, v), e.trans = (v) => x(this, Kd, Tx).call(this, v), e.wt = (v) => x(this, tp, Ox).call(this, v), e.quake = (v) => x(this, ep, Ix).call(this, v), e.stop_quake = (v) => e.finish_trans(v), e.wq = (v) => e.wt(v), e.pause_tsy = (v) => x(this, sp, kx).call(this, v), e.resume_tsy = (v) => x(this, op, Nx).call(this, v), e.stop_tsy = (v) => x(this, np, Rx).call(this, v), e.tsy = (v) => x(this, ip, Cx).call(this, v), e.wait_tsy = (v) => x(this, rp, Mx).call(this, v), e.ch = (v) => x(this, mo, qh).call(this, v), e.clear_text = (v) => x(this, lp, Dx).call(this, v), e.current = (v) => h(this, Lu).call(this, v), e.endlink = (v) => x(this, up, Bx).call(this, v), e.er = (v) => x(this, cp, Fx).call(this, v), e.graph = (v) => x(this, fp, Ux).call(this, v), e.link = (v) => x(this, dp, Gx).call(this, v), e.r = (v) => x(this, pp, jx).call(this, v), e.rec_ch = (v) => x(this, Au, fy).call(this, v), e.rec_r = (v) => x(this, vp, Hx).call(this, v), e.reset_rec = (v) => x(this, mp, $x).call(this, v), e.ruby2 = (v) => x(this, yp, zx).call(this, v), e.span = (v) => x(this, _p, Vx).call(this, v), e.tcy = (v) => x(this, gp, Xx).call(this, v), e.add_face = (v) => Rt.add_face(v), e.wv = (v) => Rt.wv(v), e.dump_lay = (v) => x(this, bp, Wx).call(this, v), e.enable_event = (v) => x(this, xp, Yx).call(this, v), e.button = (v) => x(this, wp, qx).call(this, v), t.existsBreakline && (this.breakLine = (v) => {
+      delete v.visible, v.id = "break", v.pic = "breakline";
+      const y = encodeURIComponent(JSON.stringify(v));
+      h(this, ai).call(this, "grp｜" + y);
+    }), t.existsBreakpage && (this.breakPage = (v) => {
+      delete v.visible, v.id = "break", v.pic = "breakpage";
+      const y = encodeURIComponent(JSON.stringify(v));
+      h(this, ai).call(this, "grp｜" + y);
+    }), b(this, uo, Dy(String(t.oCfg.init.bg_color)));
     const d = new Ri();
     d.beginFill(h(this, uo), 1).lineStyle(0, h(this, uo)).drawRect(0, 0, A.stageW, A.stageH).endFill(), h(this, Lt).addChild(d.clone()), h(this, ie).addChild(d), h(this, ie).visible = !1, h(this, Lt).name = "page:A", h(this, ie).name = "page:B", b(this, $i, i.stage), h(this, $i).addChild(h(this, ie)), h(this, $i).addChild(h(this, Lt)), h(this, $i).addChild(h(this, fo)), h(this, $i).addChild(h(this, Oe)), h(this, $i).name = "stage", i.ticker.add(h(this, Iu));
     const p = (v, y) => {
@@ -24285,7 +24293,7 @@ ti = new WeakMap(), os = new WeakMap(), Fe = new WeakMap(), Bu = new WeakMap(), 
   }
   return this.val.getVal("tmp:sn.auto.enabled") ? x(this, ah, gf).call(this, {
     time: Number(this.scrItr.isKidoku ? this.val.getVal("sys:sn.auto.msecLineWait_Kidoku") : this.val.getVal("sys:sn.auto.msecLineWait"))
-  }) : (K(t, "visible", !0) && this.layMng.breakLine(), x(this, as, oa).call(this, () => this.main.resume()));
+  }) : (K(t, "visible", !0) && this.layMng.breakLine(t), x(this, as, oa).call(this, () => this.main.resume()));
 }, Ip = new WeakSet(), uw = function(t) {
   if (this.scrItr.recodePage(), this.val.getVal("tmp:sn.skip.enabled")) {
     if (!this.val.getVal("tmp:sn.skip.all") && // 未読で停止
@@ -24298,7 +24306,7 @@ ti = new WeakMap(), os = new WeakMap(), Fe = new WeakMap(), Bu = new WeakMap(), 
     return x(this, ah, gf).call(this, {
       time: Number(this.scrItr.isKidoku ? this.val.getVal("sys:sn.auto.msecPageWait_Kidoku") : this.val.getVal("sys:sn.auto.msecPageWait"))
     });
-  K(t, "visible", !0) && this.layMng.breakPage();
+  K(t, "visible", !0) && this.layMng.breakPage(t);
   const e = () => {
     this.sndMng.clearCache(), h(this, He).hidden = !0, this.main.resume();
   };

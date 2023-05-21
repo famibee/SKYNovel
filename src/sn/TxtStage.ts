@@ -1010,12 +1010,18 @@ export class TxtStage extends Container {
 	}
 
 	static	#cntBreak	= new Container;
-	dispBreak(pic: string) {
+	dispBreak(o: HArg) {
 		const cnt = TxtStage.#cntBreak;
 		cnt.visible = false;
 		this.addChild(cnt);	// 次のcsv2Spritesが即終わる場合もあるので先に行なう
-		GrpLayer.csv2Sprites(pic, cnt, sp=> {
-			if (! cnt.parent) cnt.removeChild(sp);
+		GrpLayer.csv2Sprites(o.pic!, cnt, sp=> {
+			if (cnt.parent) {
+				sp.x = argChk_Num(o, 'x', 0);
+				sp.y = argChk_Num(o, 'y', 0);
+				sp.width = argChk_Num(o, 'width', this.#infTL.fontsize);
+				sp.height = argChk_Num(o, 'height', this.#infTL.fontsize);
+			}
+			else cnt.removeChild(sp);
 		});
 	}
 	static	delBreak() {

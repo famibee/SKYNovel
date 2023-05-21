@@ -48,7 +48,7 @@ export declare class TxtStage extends Container {
         ease: string;
     };
     static ch_out_style(hArg: HArg): any;
-    dispBreak(pic: string): void;
+    dispBreak(o: HArg): void;
     static delBreak(): void;
     reNew(): TxtStage;
     record(): {

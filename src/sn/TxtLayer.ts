@@ -572,8 +572,7 @@ export class TxtLayer extends Layer {
 			{
 				const o = JSON.parse(a1);
 				o.id ??= this.#aSpan.length;
-				if (o.id === 'break') {this.#txs.dispBreak(o.pic); return;}
-					// breakではない
+				if (o.id === 'break') {this.#txs.dispBreak(o); return;}	// breakではない
 
 				this.#firstCh = false;
 				o.delay = this.#cumDelay;	// 画像のスライドインで使う

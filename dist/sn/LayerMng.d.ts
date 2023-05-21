@@ -1,5 +1,5 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag } from './Grammar';
+import { IHTag, HArg } from './Grammar';
 import { IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder } from './CmnInterface';
 import { Pages } from './Pages';
 import { TxtLayer } from './TxtLayer';
@@ -37,8 +37,8 @@ export declare class LayerMng implements IGetFrm, IRecorder {
     destroy(): void;
     stopAllTw(): void;
     goTxt: () => void;
-    breakLine: () => void;
-    breakPage: () => void;
+    breakLine: (_hArg: HArg) => void;
+    breakPage: (_hArg: HArg) => void;
     clearBreak(): void;
     clickTxtLay(): boolean;
     static REG_TSY_PATH: RegExp;
