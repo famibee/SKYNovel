@@ -1,3 +1,10 @@
+# [1.45.0](https://github.com/famibee/SKYNovel/compare/v1.44.1...v1.45.0) (2023-05-21)
+
+
+### Features
+
+* [l][p]のクリック待ちサイズをその時の文字レイヤフォントに合わせるように ([0e774fd](https://github.com/famibee/SKYNovel/commit/0e774fded3fe0c08eea64eb38fda72666aa4d7d2))
+
 - feat: [l][p]のクリック待ち breakline・breakpage サイズをその時の文字レイヤフォントサイズに合わせるように
 - feat: [l][p]にサイズを指定出来る width・height 属性を追加
 - feat: [l][p]に位置を指定出来る x・y 属性を追加
