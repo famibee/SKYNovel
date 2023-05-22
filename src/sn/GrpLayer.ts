@@ -353,9 +353,7 @@ export class GrpLayer extends Layer {
 		const hve = GrpLayer.hFn2VElm[fn];
 		if (! hve || hve.loop) return false;
 
-		if (this.#val.getVal('tmp:sn.skip.enabled')
-		|| this.#evtMng.isSkippingByKeyDown()
-		|| hve.ended) {GrpLayer.#stopVideo(fn); return false;}
+		if (this.#evtMng.isSkipping() || hve.ended) {GrpLayer.#stopVideo(fn); return false;}
 
 		const fnc = ()=> {GrpLayer.#stopVideo(fn); this.#main.resume();};
 		hve.addEventListener('ended', fnc, {once: true, passive: true});

@@ -316,9 +316,7 @@ export class FrameMng implements IGetFrm {
 			if (ti.resume) this.main.resume();
 			ti.onEnd?.();
 		};
-		const dur = argChk_Num(hArg, 'time', NaN) * (
-			Boolean(this.val.getVal('tmp:sn.skip.enabled')
-			|| this.#evtMng.isSkippingByKeyDown()) ?0 :1);
+		const dur = this.#evtMng.isSkipping() ?0 :argChk_Num(hArg, 'time', NaN);
 		const nEase = CmnTween.ease(ease);
 		const rep = argChk_Num(hArg, 'repeat', 1);
 		const repeat = rep > 0 ?rep -1 :Infinity;// 一度リピート→計二回なので

@@ -31,6 +31,6 @@ export declare class EventMng implements IEvtMng {
     cvsResize(): void;
     waitLimitedEvent(hArg: HArg, onFinish: () => void): boolean;
     noticeCompTxt(): void;
-    isSkippingByKeyDown(): boolean;
+    isSkipping(): boolean;
 }
 //# sourceMappingURL=EventMng.d.ts.map

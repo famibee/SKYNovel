@@ -1011,6 +1011,8 @@ export class TxtStage extends Container {
 
 	static	#cntBreak	= new Container;
 	dispBreak(o: HArg) {
+		TxtStage.delBreak();
+
 		const cnt = TxtStage.#cntBreak;
 		cnt.visible = false;
 		this.addChild(cnt);	// 次のcsv2Spritesが即終わる場合もあるので先に行なう

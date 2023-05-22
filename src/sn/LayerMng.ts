@@ -422,9 +422,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 				this.#current = this.#$current;
 				this.hTag.current({layer});	// hPages更新後でないと呼べない
 				this.goTxt = ()=> {
-					if (this.val.getVal('sn.skip.enabled')) {
-						LayerMng.#msecChWait = 0;
-					}
+					if (this.#evtMng.isSkipping()) LayerMng.#msecChWait = 0;
 					else this.setNormalChWait();
 					for (const name of this.#getLayers()) {
 						const f = this.#hPages[name].fore;
@@ -657,7 +655,7 @@ void main(void) {
 		const time = argChk_Num(hArg, 'time', 0);
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
-		if (time === 0 || this.#evtMng.isSkippingByKeyDown()) {comp(); return false;}
+		if (time === 0 || this.#evtMng.isSkipping()) {comp(); return false;}
 
 		// クロスフェード
 		const {ease, glsl, rule} = hArg;
@@ -747,8 +745,7 @@ void main(void) {
 		this.#finish_trans();
 		const time = argChk_Num(hArg, 'time', NaN);
 		if (time === 0) return false;	// skip時でもエラーは出したげたい
-		if (this.val.getVal('tmp:sn.skip.enabled')) return false;
-		if (this.#evtMng.isSkippingByKeyDown()) return false;
+		if (this.#evtMng.isSkipping()) return false;
 
 		const {layer, ease} = hArg;
 		const aDo: DisplayObject[] = [];
@@ -813,7 +810,7 @@ void main(void) {
 		let hNow = this.#hPages[lay].fore;
 
 		let finishBlendLayer = ()=> {};
-		const isSkip = this.#evtMng.isSkippingByKeyDown();
+		const isSkip = this.#evtMng.isSkipping();
 		if (! isSkip && render) {
 			hNow.renderStart();
 			finishBlendLayer = ()=> hNow.renderEnd();
@@ -832,8 +829,7 @@ void main(void) {
 			ti.onEnd?.();
 		};
 		const hTo = cnvTweenArg(hArg, hNow);
-		const dur = argChk_Num(hArg, 'time', NaN) * (
-			Boolean(this.val.getVal('tmp:sn.skip.enabled') || isSkip) ?0 :1);
+		const dur = isSkip ?0 :argChk_Num(hArg, 'time', NaN);
 		const nEase = CmnTween.ease(ease);
 		const rep = argChk_Num(hArg, 'repeat', 1);
 		const repeat = rep > 0 ?rep -1 :Infinity;// 一度リピート→計二回なので
@@ -974,7 +970,7 @@ void main(void) {
 
 		const tl = this.#getTxtLayer(hArg);
 		delete hArg.text;	// [graph]時、次行がルビ文法でトラブったので
-		if (this.val.getVal('tmp:sn.skip.enabled')) hArg.wait = 0;
+		if (this.#evtMng.isSkipping()) hArg.wait = 0;
 		else if ('wait' in hArg) argChk_Num(hArg, 'wait', NaN);
 
 		const sArg = encodeURIComponent(JSON.stringify(hArg));

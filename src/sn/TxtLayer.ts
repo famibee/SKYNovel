@@ -688,7 +688,7 @@ text-combine-upright: all;
 			?? (TxtLayer.#doAutoWc	// ()は必要
 				? TxtLayer.#hAutoWc[ch.at(0) ?? ''] ?? 0
 				: LayerMng.msecChWait)) :0;
-		if (TxtLayer.#evtMng.isSkippingByKeyDown()) this.#cumDelay = 0;
+		if (TxtLayer.#evtMng.isSkipping()) this.#cumDelay = 0;
 	//	else if (isAddWait && this.#ch_in_join) this.#cumDelay += Number(wait)*5;	// 出現視認テスト用
 		else if (isAddWait && this.#ch_in_join) this.#cumDelay += Number(wait);
 		const curpos = `data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;

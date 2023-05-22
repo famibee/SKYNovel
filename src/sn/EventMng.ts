@@ -342,10 +342,9 @@ export class EventMng implements IEvtMng {
 
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (this.val.getVal('tmp:sn.skip.all') ||
-				this.scrItr.isNextKidoku) {onFire(); return false;}
-
-			this.#stopSkip();	// 未読で停止
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
+		//	else {onFire(); return false;}	// これを有効にすると Fスキップ時速すぎて文字が見えない
 		}
 
 		return this.#waitEventBase(onFire, canskip, global);
@@ -530,9 +529,9 @@ export class EventMng implements IEvtMng {
 
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all') &&	// 未読で停止
-				! this.scrItr.isNextKidoku) this.#stopSkip();
-			else {fnc(); return false;}
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
+		//	else {fnc(); return false;}	// これを有効にすると Fスキップ時速すぎて文字が見えない
 		}
 
 		if (! argChk_Boolean(hArg, 'canskip', true)) return true;
@@ -687,27 +686,32 @@ export class EventMng implements IEvtMng {
 
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all') &&	// 未読で停止
-				! this.scrItr.isNextKidoku) this.#stopSkip();
-			else if ('ps'.includes(this.val.getVal('sys:sn.skip.mode'))) return false;
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
+			else if ('ps'.includes(this.val.getVal('sys:sn.skip.mode'))) return this.#l_wait(hArg, 50);
+			//return false;	// このほうが高速だが、Fスキップ時文字を見せたい
 		}
 
 		// 自動読み進み
-		if (this.val.getVal('tmp:sn.auto.enabled')) {
-			this.#fncBreakOnCancelSkip = ()=> this.layMng.breakLine(hArg);
-			return this.#wait({
-				time	: Number(this.scrItr.isKidoku
-					? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
-					: this.val.getVal('sys:sn.auto.msecLineWait')),
-				canskip	: false,
-				global	: true,		// 必須
-			});
-		}
+		if (this.val.getVal('tmp:sn.auto.enabled')) return this.#l_wait(
+			hArg,
+			Number(this.scrItr.isKidoku
+				? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
+				: this.val.getVal('sys:sn.auto.msecLineWait'))
+		);
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine(hArg);
 
 		return this.#waitEventBase(()=> this.main.resume());
 	}
+		#l_wait(hArg: HArg, time: number): boolean {
+			this.#fncBreakOnCancelSkip = ()=> this.layMng.breakLine(hArg);
+			return this.#wait({
+				time,
+				canskip	: false,
+				global	: true,		// 必須
+			});
+		}
 
 
 	// 改ページクリック待ち
@@ -716,22 +720,22 @@ export class EventMng implements IEvtMng {
 
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all') &&	// 未読で停止
-				! this.scrItr.isNextKidoku) this.#stopSkip();
-			else if ('s' == this.val.getVal('sys:sn.skip.mode')) {this.#goTxt(); return false;}
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
+			else if ('s' == this.val.getVal('sys:sn.skip.mode')) {
+				this.#goTxt();
+				return this.#p_wait(hArg, 50);
+				//return false;	// このほうが高速だが、Fスキップ時文字を見せたい
+			}
 		}
 
 		// 自動読み進み
-		if (this.val.getVal('tmp:sn.auto.enabled')) {
-			this.#fncBreakOnCancelSkip = ()=> this.layMng.breakPage(hArg);
-			return this.#wait({
-				time	: Number(this.scrItr.isKidoku
-					? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
-					: this.val.getVal('sys:sn.auto.msecPageWait')),
-				canskip	: false,
-				global	: true,		// 必須
-			});
-		}
+		if (this.val.getVal('tmp:sn.auto.enabled')) return this.#p_wait(
+			hArg,
+			Number(this.scrItr.isKidoku
+				? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
+				: this.val.getVal('sys:sn.auto.msecPageWait'))
+		);
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage(hArg);
 
@@ -747,6 +751,14 @@ export class EventMng implements IEvtMng {
 				: fnc,
 		);
 	}
+		#p_wait(hArg: HArg, time: number): boolean {
+			this.#fncBreakOnCancelSkip = ()=> this.layMng.breakPage(hArg);
+			return this.#wait({
+				time,
+				canskip	: false,
+				global	: true,		// 必須
+			});
+		}
 
 
 	// スキップ中断予約
@@ -819,9 +831,9 @@ export class EventMng implements IEvtMng {
 
 		// 既読スキップ時
 		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all') &&	// 未読で停止
-				! this.scrItr.isNextKidoku) this.#stopSkip();
-			return false;	// stopSkipから待つのも無反応ぽく見えるので
+			if (! this.val.getVal('tmp:sn.skip.all')
+			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
+			//return false;		// このほうが高速だが Fスキップ時速すぎて文字が見えない
 		}
 
 		this.#eeTextBreak.once(this.#NOTICE_COMP_TXT, ()=> {
@@ -865,8 +877,9 @@ export class EventMng implements IEvtMng {
 	}
 
 	// キー押下によるスキップ中か
-	isSkippingByKeyDown(): boolean {
+	isSkipping(): boolean {
 		if (this.scrItr.skip4page) return true;
+		if (this.val.getVal('tmp:sn.skip.enabled')) return true;
 		return Object.keys(this.#hDownKeys).some(k=> this.#hDownKeys[k] === 2);
 	}
 	// 0:no push  1:one push  2:push repeating
