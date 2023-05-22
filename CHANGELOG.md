@@ -1,3 +1,10 @@
+## [1.45.1](https://github.com/famibee/SKYNovel/compare/v1.45.0...v1.45.1) (2023-05-22)
+
+
+### Bug Fixes
+
+* オートリード中に停止で、クリックなどを受け付けなくなる状態になる件 ([7aaa326](https://github.com/famibee/SKYNovel/commit/7aaa3268fd0fd0d7d078715248d9aa1d46e85b6f))
+
 - fix: オートリード中に停止で、クリックなどを受け付けなくなる状態になる件
 	- オートリード時に[l][p]でグローバルイベントを予約していなかった
 - fix: オートリード停止で、クリック待ちが表示されない件
