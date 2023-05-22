@@ -693,11 +693,16 @@ export class EventMng implements IEvtMng {
 		}
 
 		// 自動読み進み
-		if (this.val.getVal('tmp:sn.auto.enabled')) return this.#wait({
-			time: Number(this.scrItr.isKidoku
-				? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
-				: this.val.getVal('sys:sn.auto.msecLineWait'))
-		});
+		if (this.val.getVal('tmp:sn.auto.enabled')) {
+			this.#fncBreakOnCancelSkip = ()=> this.layMng.breakLine(hArg);
+			return this.#wait({
+				time	: Number(this.scrItr.isKidoku
+					? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
+					: this.val.getVal('sys:sn.auto.msecLineWait')),
+				canskip	: false,
+				global	: true,		// 必須
+			});
+		}
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine(hArg);
 
@@ -717,11 +722,16 @@ export class EventMng implements IEvtMng {
 		}
 
 		// 自動読み進み
-		if (this.val.getVal('tmp:sn.auto.enabled')) return this.#wait({
-			time: Number(this.scrItr.isKidoku
-				? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
-				: this.val.getVal('sys:sn.auto.msecPageWait'))
-		});
+		if (this.val.getVal('tmp:sn.auto.enabled')) {
+			this.#fncBreakOnCancelSkip = ()=> this.layMng.breakPage(hArg);
+			return this.#wait({
+				time	: Number(this.scrItr.isKidoku
+					? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
+					: this.val.getVal('sys:sn.auto.msecPageWait')),
+				canskip	: false,
+				global	: true,		// 必須
+			});
+		}
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage(hArg);
 
@@ -741,6 +751,7 @@ export class EventMng implements IEvtMng {
 
 	// スキップ中断予約
 	#stopSkip	: ()=> boolean	= ()=> false;
+	#fncBreakOnCancelSkip	= ()=> {};
 	#set_cancel_skip() {
 		this.#stopSkip = ()=> {
 			this.#stopSkip = ()=> false;
@@ -754,6 +765,9 @@ export class EventMng implements IEvtMng {
 
 			this.layMng.setNormalChWait();
 			this.#cancelWait();
+
+			this.#fncBreakOnCancelSkip();
+			this.#fncBreakOnCancelSkip = ()=> {};
 
 			return true;
 		};
