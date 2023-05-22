@@ -1,3 +1,10 @@
+## [1.45.2](https://github.com/famibee/SKYNovel/compare/v1.45.1...v1.45.2) (2023-05-22)
+
+
+### Bug Fixes
+
+* 強制スキップ中にも適度に文字が表示されるように ([9ea0315](https://github.com/famibee/SKYNovel/commit/9ea031525b75a20ffc64004806a8684363a85e28))
+
 - fix: 強制スキップ中にも適度に文字が表示されるように
 - fix: 内部的に強制スキップを自動読み進みと同等の判定処理に
 
