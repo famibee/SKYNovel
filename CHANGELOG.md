@@ -1,3 +1,6 @@
+- fix: リファクタリングと手直し
+
+
 ## [1.45.2](https://github.com/famibee/SKYNovel/compare/v1.45.1...v1.45.2) (2023-05-22)
 
 

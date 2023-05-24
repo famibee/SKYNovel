@@ -16,7 +16,7 @@ import {Button} from './Button';
 import {FocusMng} from './FocusMng';
 import {Main} from './Main';
 
-import {Tween} from '@tweenjs/tween.js'
+import {Tween, remove} from '@tweenjs/tween.js'
 import {Container, Application, utils} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
@@ -226,7 +226,21 @@ export class EventMng implements IEvtMng {
 		val.defTmp('const.sn.key.end', ()=> this.#hDownKeys['End'] > 0);
 		val.defTmp('const.sn.key.escape', ()=> this.#hDownKeys['Escape'] > 0);
 		val.defTmp('const.sn.key.back', ()=> this.#hDownKeys['GoBack'] > 0);
+
+		val.defTmp('sn.tagL.enabled', ()=> this.#tagL_enabled);
+		val.defValTrg('tmp:sn.tagL.enabled', (_name: string, val: any)=> this.#tagL_enabled = val);
+		val.defTmp('sn.skip.all', ()=> this.#skip_all);
+		val.defValTrg('tmp:sn.skip.all', (_name: string, val: any)=> this.#skip_all = val);
+		val.defTmp('sn.skip.enabled', ()=> this.#skip_enabled);
+		val.defValTrg('tmp:sn.skip.enabled', (_name: string, val: any)=> this.#skip_enabled = val);
+		val.defTmp('sn.auto.enabled', ()=> this.#auto_enabled);
+		val.defValTrg('tmp:sn.auto.enabled', (_name: string, val: any)=> this.#auto_enabled = val);
 	}
+	#tagL_enabled	= true;		// 頁末まで一気に読み進むか(l無視)
+	#skip_all		= false;	// falseなら既読のみをスキップ
+	#skip_enabled	= false;	// 次の選択肢(/未読)まで進むが有効か
+	#auto_enabled	= false;	// 自動読みすすみモードかどうか
+
 	resvFlameEvent(win: Window) {
 		this.#elc.add(win, 'keydown', e=> this.#ev_keydown(e));
 		this.#elc.add(win, 'contextmenu', e=> this.#ev_contextmenu(e));
@@ -341,9 +355,8 @@ export class EventMng implements IEvtMng {
 		//this.scrItr.recodePage();	// [wait][wv][wait_tsy][wf][ws]ではやらない
 
 		// 既読スキップ時
-		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all')
-			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
+		if (this.#skip_enabled) {
+			if (! this.#skip_all && ! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
 		//	else {onFire(); return false;}	// これを有効にすると Fスキップ時速すぎて文字が見えない
 		}
 
@@ -380,7 +393,7 @@ export class EventMng implements IEvtMng {
 			: key=> this.#hLocalEvt2Fnc[key];
 
 		this.#isWait = true;		// 予約イベントの発生待ち
-		this.#firstWait();
+		this.scrItr.noticeWait();
 		if (CmnLib.debugLog) {
 			const o = Object.create(null);
 			o.local = Object.keys(this.#hLocalEvt2Fnc);
@@ -389,10 +402,6 @@ export class EventMng implements IEvtMng {
 		}
 		return true;
 	}
-	#firstWait = ()=> {
-		this.#firstWait = ()=> {};
-		this.scrItr.firstWait();
-	};
 
 	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn);}
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
@@ -528,9 +537,8 @@ export class EventMng implements IEvtMng {
 		const fnc = ()=> {this.#elcWLE.clear(); onFinish();};
 
 		// 既読スキップ時
-		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all')
-			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
+		if (this.#skip_enabled) {
+			if (! this.#skip_all && ! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
 		//	else {fnc(); return false;}	// これを有効にすると Fスキップ時速すぎて文字が見えない
 		}
 
@@ -682,22 +690,19 @@ export class EventMng implements IEvtMng {
 	// 行末クリック待ち
 	#l(hArg: HArg) {
 		if (this.scrItr.skip4page) return false;
-		if (! this.val.getVal('tmp:sn.tagL.enabled')) {this.#goTxt(); return false;}
+		if (! this.#tagL_enabled) {this.#goTxt(); return false;}
 
 		// 既読スキップ時
-		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all')
-			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
-			else if ('ps'.includes(this.val.getVal('sys:sn.skip.mode'))) return this.#l_wait(hArg, 50);
+		if (this.#skip_enabled) {
+			if (! this.#skip_all && ! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
+			else if ('ps'.includes(this.val.getVal('sys:sn.skip.mode'))) return this.#l_wait(hArg, 50);	// 魔法数字
 			//return false;	// このほうが高速だが、Fスキップ時文字を見せたい
 		}
 
 		// 自動読み進み
-		if (this.val.getVal('tmp:sn.auto.enabled')) return this.#l_wait(
+		if (this.#auto_enabled) return this.#l_wait(
 			hArg,
-			Number(this.scrItr.isKidoku
-				? this.val.getVal('sys:sn.auto.msecLineWait_Kidoku')
-				: this.val.getVal('sys:sn.auto.msecLineWait'))
+			Number(this.val.getVal('sys:sn.auto.msecLineWait'+ (this.scrItr.isKidoku ?'_Kidoku' :'')))
 		);
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine(hArg);
@@ -719,22 +724,19 @@ export class EventMng implements IEvtMng {
 		this.scrItr.recodePage();
 
 		// 既読スキップ時
-		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all')
-			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
+		if (this.#skip_enabled) {
+			if (! this.#skip_all && ! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
 			else if ('s' == this.val.getVal('sys:sn.skip.mode')) {
 				this.#goTxt();
-				return this.#p_wait(hArg, 50);
+				return this.#p_wait(hArg, 50);	// 魔法数字
 				//return false;	// このほうが高速だが、Fスキップ時文字を見せたい
 			}
 		}
 
 		// 自動読み進み
-		if (this.val.getVal('tmp:sn.auto.enabled')) return this.#p_wait(
+		if (this.#auto_enabled) return this.#p_wait(
 			hArg,
-			Number(this.scrItr.isKidoku
-				? this.val.getVal('sys:sn.auto.msecPageWait_Kidoku')
-				: this.val.getVal('sys:sn.auto.msecPageWait'))
+			Number(this.val.getVal('sys:sn.auto.msecPageWait'+ (this.scrItr.isKidoku ?'_Kidoku' :'')))
 		);
 
 		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage(hArg);
@@ -769,11 +771,11 @@ export class EventMng implements IEvtMng {
 			this.#stopSkip = ()=> false;
 
 			// 頁末まで一気に読み進むか(l無視)
-			this.val.setVal_Nochk('tmp', 'sn.tagL.enabled', true);
+			this.#tagL_enabled = true;
 			// 次の選択肢(/未読)まで進むが有効か
-			this.val.setVal_Nochk('tmp', 'sn.skip.enabled', false);
+			this.#skip_enabled = false;
 			// 自動読みすすみモードかどうか
-			this.val.setVal_Nochk('tmp', 'sn.auto.enabled', false);
+			this.#auto_enabled = false;
 
 			this.layMng.setNormalChWait();
 			this.#cancelWait();
@@ -829,24 +831,20 @@ export class EventMng implements IEvtMng {
 		const time = argChk_Num(hArg, 'time', NaN);// skip時でもエラーは出したげたい
 		if (this.scrItr.skip4page) return false;
 
-		// 既読スキップ時
-		if (this.val.getVal('tmp:sn.skip.enabled')) {
-			if (! this.val.getVal('tmp:sn.skip.all')
-			&&	! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
-			//return false;		// このほうが高速だが Fスキップ時速すぎて文字が見えない
-		}
-
 		this.#eeTextBreak.once(this.#NOTICE_COMP_TXT, ()=> {
 			this.#eeTextBreak.off(this.#NOTICE_COMP_TXT);
+
+			if (time === 0) {this.main.resume(); return;}
 
 			const tw = new Tween({})
 			.to({}, time)
 			.onComplete(()=> {
+				remove(tw);
 				this.#cancelWait = ()=> {};
-				tw.stop(); this.main.resume();
+				this.main.resume();
 			})
 			.start();
-			this.#cancelWait = ()=> tw.end();	// onComplete
+			this.#cancelWait = ()=> tw.stop().end();	// onComplete
 		});
 
 		this.#cancelWait = ()=> {
@@ -870,8 +868,7 @@ export class EventMng implements IEvtMng {
 
 		// 吉里吉里仕様【スキップできない】記述から、スキップや自動読みさせない
 		// それらは自動キャンセル。クリック二回必要になるので
-		if (this.val.getVal('tmp:sn.skip.enabled')
-		||	this.val.getVal('tmp:sn.auto.enabled')) this.#stopSkip();
+		if (this.#skip_enabled || this.#auto_enabled) this.#stopSkip();
 
 		return this.#waitEventBase(()=> this.main.resume());
 	}
@@ -879,7 +876,7 @@ export class EventMng implements IEvtMng {
 	// キー押下によるスキップ中か
 	isSkipping(): boolean {
 		if (this.scrItr.skip4page) return true;
-		if (this.val.getVal('tmp:sn.skip.enabled')) return true;
+		if (this.#skip_enabled) return true;
 		return Object.keys(this.#hDownKeys).some(k=> this.#hDownKeys[k] === 2);
 	}
 	// 0:no push  1:one push  2:push repeating

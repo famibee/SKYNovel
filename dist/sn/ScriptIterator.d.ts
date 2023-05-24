@@ -23,7 +23,7 @@ export declare class ScriptIterator {
     readonly addLineNum: (len: number) => number;
     jumpJustBefore(): void;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
-    firstWait: () => void;
+    noticeWait: () => void;
     destroy(): void;
     cnvPath4Dbg: (fn: string) => string;
     isBreak: (_token: string) => boolean;

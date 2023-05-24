@@ -143,7 +143,8 @@ export class ScriptIterator {
 					this.analyzeInit();
 				}
 				else {
-					this.firstWait = ()=> {
+					this.noticeWait = ()=> {
+						this.noticeWait = ()=> {};
 						this.sys.callHook('stopOnEntry', {});	// sn全体へ通知
 
 //						this.sys.callHook('continue', {});	// sn全体へ通知
@@ -158,7 +159,7 @@ export class ScriptIterator {
 		else this.recodeDesign = ()=> {};
 		if (cfg.oCfg.debug.tag) this.#procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.#scriptFn} idx:${this.#idxToken} ln:${this.#lineNum} [${tag_name} %o]`, this.alzTagArg.hPrm);
 	}
-	firstWait = ()=> {};
+	noticeWait = ()=> {};
 	#regBreakPoint(fn: string, o: {[ln: number]: any}) {
 		ScriptIterator.#hFn2hLineBP[this.#cnvSnPath4Dbg(fn)] = o;
 	}

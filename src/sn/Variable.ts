@@ -60,11 +60,6 @@ export class Variable implements IVariable {
 		// tmp:
 		this.#hTmp['const.sn.isFirstBoot'] = true;
 
-		this.#hTmp['sn.tagL.enabled'] = true;	// 頁末まで一気に読み進むか(l無視)
-		this.#hTmp['sn.skip.all']	= false;	// falseなら既読のみをスキップ
-		this.#hTmp['sn.skip.enabled'] = false;	// 次の選択肢(/未読)まで進むが有効か
-		this.#hTmp['sn.auto.enabled'] = false;	// 自動読みすすみモードかどうか
-
 		this.#hTmp['const.sn.last_page_text'] = '';
 		this.#hTmp['const.sn.last_page_plain_text'] = '';
 
@@ -638,14 +633,6 @@ export class Variable implements IVariable {
 		},
 
 		// tmp
-		'tmp:sn.tagL.enabled'	: name=>
-			this.#runFirst_Bool_hTmp_true(name),
-		'tmp:sn.skip.all'		: name=>
-			this.#runFirst_Bool_hTmp_false(name),
-		'tmp:sn.skip.enabled'	: name=>
-			this.#runFirst_Bool_hTmp_false(name),
-		'tmp:sn.auto.enabled'	: name=>
-			this.#runFirst_Bool_hTmp_false(name),
 		'tmp:flash.desktop.NativeApplication.nativeApplication.systemIdleMode'	: (
 			()=> {
 			//	NativeApplication.nativeApplication.systemIdleMode = val;
@@ -685,13 +672,6 @@ export class Variable implements IVariable {
 
 	#runFirst_Bool_hSaveVal_true(name: string) {
 		return argChk_Boolean(this.#hSave, name, true);
-	}
-
-	#runFirst_Bool_hTmp_true(name: string): void {
-		argChk_Boolean(this.#hTmp, name, true);
-	}
-	#runFirst_Bool_hTmp_false(name: string): void {
-		argChk_Boolean(this.#hTmp, name, false);
 	}
 
 };

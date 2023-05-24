@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import { SysNode } from './SysNode';
 import { IHTag, ITag } from './Grammar';
 import { IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
