@@ -1,3 +1,10 @@
+## [1.45.3](https://github.com/famibee/SKYNovel/compare/v1.45.2...v1.45.3) (2023-05-24)
+
+
+### Bug Fixes
+
+* リファクタリングと手直し ([9fac34e](https://github.com/famibee/SKYNovel/commit/9fac34ee32c20654c93ed3653309dde6762ae66e))
+
 - fix: リファクタリングと手直し
 
 
