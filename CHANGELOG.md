@@ -1,3 +1,10 @@
+## [1.46.1](https://github.com/famibee/SKYNovel/compare/v1.46.0...v1.46.1) (2023-06-02)
+
+
+### Bug Fixes
+
+* プラグイン側で画面サイズを取得出来ず、３Ｄレイヤなどが表示されなかった件 ([57da9b6](https://github.com/famibee/SKYNovel/commit/57da9b62158fbb80d0d7690838eb99a37dc336ba))
+
 - fix: プラグイン側で画面サイズを取得出来ず、３Ｄレイヤなどが表示されなかった件
 	- （恐らくセキュリティ強化により）プラグイン側でグローバルクラス変数の値（CmnLib.stageW, CmnLib.stageH）を取得出来なくなっていた（=0）ので、画面サイズを取得出来るプラグインインタフェイスを追加
 
