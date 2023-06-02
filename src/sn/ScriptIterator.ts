@@ -19,6 +19,7 @@ import {DebugMng} from './DebugMng';
 import {SoundMng} from './SoundMng';
 import {SysBase} from './SysBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import {RsEvtRsv} from './ReadState';
 
 import {Loader} from 'pixi.js';
 
@@ -708,11 +709,14 @@ export class ScriptIterator {
 		const oldPos = this.#posAPageLog;
 		switch (to) {
 			case 'prev':
+//	const len0 = this.#aPageLog.length;
+//console.log(`fn:ScriptIterator.ts prev:${this.#posAPageLog} len:${len0} oldPos:${oldPos}`);
 				if (this.#posAPageLog > 0) --this.#posAPageLog;
 				break;
 
 			case 'next':
 				const len = this.#aPageLog.length;
+//console.log(`fn:ScriptIterator.ts next:${this.#posAPageLog} len:${len} oldPos:${oldPos}`);
 				if (this.#posAPageLog < len -1) ++this.#posAPageLog;
 				break;
 
@@ -732,6 +736,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 */
 		return this.#loadFromMark({fn: o.retFn, index: o.retIdx,}, o.retMark);
 	}
+//	turnPage() {++this.#posAPageLog;}
 
 	// コールスタック破棄
 	#pop_stack(hArg: HArg) {
@@ -1166,6 +1171,7 @@ console.log(`fn:ScriptIterator.ts       - \x1b[44mln:${lc.ln}\x1b[49m col:${lc.c
 		return this.#loadFromMark(hArg, mark);
 	}
 	#loadFromMark(hArg: HArg, mark: IMark, reload_sound = true) {
+		new RsEvtRsv;
 		this.hTag.clear_event({});
 		this.val.mark2save(mark);
 		this.val.setMp({});

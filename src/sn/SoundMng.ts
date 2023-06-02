@@ -18,7 +18,7 @@ export class SoundMng {
 	#hSndBuf	: {[buf: string]: SndBuf}	= {};
 	#hLP		: {[buf: string]: 0}		= {};
 
-	constructor(readonly cfg: Config, hTag: IHTag, private readonly val: IVariable, readonly main: IMain, readonly sys: SysBase) {
+	constructor(cfg: Config, hTag: IHTag, readonly val: IVariable, main: IMain, sys: SysBase) {
 		hTag.volume		= o=> this.#volume(o);		// 音量設定（独自拡張）
 		hTag.fadebgm	= o=> this.#fadebgm(o);		// BGMのフェード
 		hTag.fadeoutbgm	= o=> this.#fadeoutbgm(o);	// BGMのフェードアウト
@@ -41,10 +41,11 @@ export class SoundMng {
 		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(utils.supported));
 
 		SndBuf.init(cfg, val, main, sys);
+		sound.disableAutoPause = true;
 	}
 
 	#evtMng	: IEvtMng;
-	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng;}
+	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng; SndBuf.setEvtMng(evtMng);}
 	setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume) {
 		this.val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> setGlbVol(sound.volumeAll = Number(val)));
 		this.val.defValTrg('sys:sn.sound.movie_volume', (_name: string, val: any)=> setMovVol(Number(val)));
@@ -86,7 +87,7 @@ export class SoundMng {
 	#fadese(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
 		this.#stopfadese(hArg);
-		this.#hSndBuf[buf]?.fade(hArg, this.#evtMng);
+		this.#hSndBuf[buf]?.fade(hArg);
 
 		return false;
 	}
@@ -139,7 +140,7 @@ export class SoundMng {
 	// 効果音フェードの終了待ち
 	#wf(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
-		return this.#hSndBuf[buf]?.wf(hArg, this.#evtMng);
+		return this.#hSndBuf[buf]?.wf(hArg);
 	}
 
 	// 音声フェードの停止
@@ -155,7 +156,7 @@ export class SoundMng {
 	// 効果音再生の終了待ち
 	#ws(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
-		return this.#hSndBuf[buf]?.ws(hArg, this.#evtMng);
+		return this.#hSndBuf[buf]?.ws(hArg);
 	}
 
 	// 再生トラックの交換

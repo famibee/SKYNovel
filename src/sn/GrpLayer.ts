@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, int, IEvtMng, argChk_Boolean, argChk_Num, getFn, getExt} from './CmnLib';
+import {CmnLib, int, IEvtMng, argChk_Num, getFn, getExt} from './CmnLib';
 import {HArg} from './Grammar';
 import {IMain, IVariable, SYS_DEC_RET} from './CmnInterface';
 import {Config} from './Config';
@@ -359,9 +359,8 @@ export class GrpLayer extends Layer {
 		hve.addEventListener('ended', fnc, {once: true, passive: true});
 
 		return GrpLayer.#evtMng.waitEvent(
-			()=> {hve.removeEventListener('ended', fnc); fnc();},
-			argChk_Boolean(hArg, 'canskip', true),
-			argChk_Boolean(hArg, 'global', false),
+			hArg, 
+			()=> {hve.removeEventListener('ended', fnc); fnc();}
 		);
 	}
 	static	#stopVideo(fn: string) {

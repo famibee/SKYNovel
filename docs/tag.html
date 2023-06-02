@@ -736,6 +736,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	[trans]終了を待たず何かをするのは避けた方がよいでしょう<br/></p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -877,7 +878,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1151,7 +1152,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 		→<a href="https://famibee.github.io/SKYNovel_gallery/index.html?cur=log_and_play" target="_blank" rel="noopener">参考（機能ギャラリー・履歴と機能追加）</a>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>text</td><td></td><td></td><td>String</td><td>
+<tr><td>text</td><td></td><td>現在値</td><td>String</td><td>
 	表示したい文字列。ルビ文法（《》）も使用可能、[r]で改行
 </td></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
@@ -1311,7 +1312,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td></td><td>動画ファイル名</td><td>再生終了を待つ動画</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1565,6 +1566,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>y</td><td></td><td>0</td><td>正負の実数値</td><td>文字表示位置左上を(0, 0)とする縦座標</td></tr>
 <tr><td>width</td><td></td><td>画像の横サイズ</td><td>1〜</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 <tr><td>height</td><td></td><td>画像の縦サイズ</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1582,6 +1584,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>y</td><td></td><td>0</td><td>正負の実数値</td><td>文字表示位置左上を(0, 0)とする縦座標</td></tr>
 <tr><td>width</td><td></td><td>画像の横サイズ</td><td>1〜</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
 <tr><td>height</td><td></td><td>画像の縦サイズ</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1589,8 +1592,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>シナリオファイルの順次処理を停止する</h4>
 <p class="mb2 px1">
 
-	属性無し。<br/>
-	<br/>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+	<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+</table>
+
 	シナリオファイルの順次処理を停止する。<br/>
 	[event]などでイベントが登録されていれば、イベント発生待ちを行う。<br/>
 
@@ -1599,13 +1604,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>スキップ中断を予約</h4>
 <p class="mb2 px1">
 
-	属性無し。<br/>
-	<br/>
-	（普段使わないし、かなり高度な話なので、このタグは理解しなくて結構です）<br/>
-	ページ末まで一気に読み進むモード、自動読みすすみモードなどの開始に備え、クリックなどで処理を中断できるような特殊イベントを予約する。<br/>
-	クリックやキー押下が発生した場合、処理を再開する。<br/>
-	<br/>
-	※例えば自動読み進みモードだと[l][p]などで停止しないため、予約イベントが処理されない。その為のタグ。<br/>
+	廃止、不要に<br/>
 
 </p>
 <h2 id="wait" class="w-heading">[wait]ウェイトを入れる</h2>
@@ -1616,7 +1615,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>処理を待つ時間</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は[waitclick]）でウエイトをキャンセルできるか</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
+<tr><td><s>global</s></td><td></td><td><s>false</s></td><td><s>Boolean</s></td><td><s>グローバルイベント待ちを有効にするか</s></td></tr>
 </table>
 
 </p>
@@ -1789,7 +1788,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1800,7 +1799,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1812,7 +1811,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	利用時は【音声再生[playbgm]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1825,7 +1824,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
 <tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか<br/>※canskipと同時にtrueにするとエラー</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>stop</td><td></td><td>true</td><td>Boolean</td><td>trueで「クリックキャンセル時の再生停止」、falseなら行なわない。</td></tr>
 </table>
 
 </p>

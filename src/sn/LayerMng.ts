@@ -194,8 +194,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 		val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
 
 		val.defTmp('const.sn.log.json', ()=> JSON.stringify(
-			this.#sLastPage
-				? [...this.#aTxtLog, {text: this.#sLastPage.replaceAll(`<\/span><span class='sn_ch'>`, '')}]
+			(this.#oLastPage.text = this.#oLastPage.text?.replaceAll(`<\/span><span class='sn_ch'>`, '') ?? '')
+				? [...this.#aTxtLog, this.#oLastPage]
 				: this.#aTxtLog
 		));
 		val.defTmp('const.sn.last_page_text', ()=> this.currentTxtlayFore?.pageText ?? '');
@@ -701,9 +701,7 @@ void main(void) {
 	}
 	#tiTrans : ITwInf = {tw: undefined, resume: false};
 
-	#getLayers(layer = ''): string[] {
-		return (layer)? layer.split(',') : this.#aLayName;
-	}
+	#getLayers(layer = ''): string[] {return (layer)? layer.split(',') : this.#aLayName;}
 	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): ReadonlyArray<string> {
 		const vct = this.#getLayers(hArg.layer);
 		for (const ln of vct) {
@@ -732,8 +730,7 @@ void main(void) {
 	#wt(hArg: HArg) {
 		if (! this.#tiTrans.tw) return false;
 
-		this.#tiTrans.resume = true;
-		return this.#evtMng.waitLimitedEvent(hArg, ()=> this.#finish_trans());
+		return this.#tiTrans.resume = this.#evtMng.waitEvent(hArg, ()=> this.#finish_trans());
 	}
 
 	// レイヤのトランジションの停止
@@ -918,11 +915,7 @@ void main(void) {
 		const ti = this.#hTwInf[tw_nm];
 		if (! ti?.tw) return false;
 
-		return ti.resume = this.#evtMng.waitEvent(
-			()=> ti.tw?.end(),	// stop()とend()は別
-			argChk_Boolean(hArg, 'canskip', true),
-			argChk_Boolean(hArg, 'global', false),
-		);
+		return ti.resume = this.#evtMng.waitEvent(hArg, ()=> ti.tw?.end());	// stop()とend()は別
 	}
 
 	// トゥイーン中断
@@ -1041,20 +1034,20 @@ void main(void) {
 	}
 
 
-	#sLastPage	= '';
-	#aTxtLog	: {text: string;}[]	= [];
+	#oLastPage	: HArg	= {text: ''};
+	#aTxtLog	: {[name: string]: number | string}[]	= [];
 	recText(txt: string) {
-		this.#sLastPage = txt;
+		this.#oLastPage.text = txt;
 		this.val.setVal_Nochk('save', 'const.sn.sLog',
 			String(this.val.getVal('const.sn.log.json'))	// これを起動したい
 		);
 	}
 	recPagebreak() {
-		if (! this.#sLastPage) return;
+		if (! this.#oLastPage.text) return;
 
-		const text = this.#sLastPage.replaceAll(`<\/span><span class='sn_ch'>`, '');
-		if (this.#aTxtLog.push({text}) > this.cfg.oCfg.log.max_len) this.#aTxtLog = this.#aTxtLog.slice(-this.cfg.oCfg.log.max_len);
-		this.#sLastPage = '';
+		this.#oLastPage.text = this.#oLastPage.text.replaceAll(`<\/span><span class='sn_ch'>`, '');
+		if (this.#aTxtLog.push(this.#oLastPage as {[name: string]: any}) > this.cfg.oCfg.log.max_len) this.#aTxtLog = this.#aTxtLog.slice(-this.cfg.oCfg.log.max_len);
+		this.#oLastPage = {text: ''};
 	}
 
 
@@ -1111,19 +1104,20 @@ void main(void) {
 
 	// 履歴書き込み
 	#rec_ch(hArg: HArg) {
+		this.#oLastPage = {...hArg, text: this.#oLastPage.text};	// text 以外を先に更新
 		if (! hArg.text) return false;
 
 		hArg.record = true;
 		hArg.style ??= '';
 		hArg.style += 'display: none;';	// gotxt内で削除し履歴に表示
 		hArg.wait = 0;
-		return this.#ch(hArg);
+		return this.#ch(hArg);	// この先は text, style, r_style 以外破棄されてしまうので注意
 	};
 
 	// 履歴リセット
 	#reset_rec(hArg: HArg) {
 		this.#aTxtLog = [];
-		this.#sLastPage = hArg.text ?? '';
+		this.#oLastPage = {text: hArg.text ?? ''};
 		this.val.setVal_Nochk('save', 'const.sn.sLog', 
 			hArg.text ?`[{text:"${hArg.text}"}]` : '[]'
 		);
@@ -1221,7 +1215,7 @@ void main(void) {
 	playback($hPages: HIPage, fncComp: ()=> void): void {
 		// これを先に。save:const.sn.sLog がクリアされてしまう
 		this.#aTxtLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
-		this.#sLastPage = '';
+		this.#oLastPage = {text: ''};
 
 		const aPrm: Promise<void>[] = [];
 		const aSort: {layer: string, idx: number}[] = [];

@@ -5,9 +5,9 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IEvtMng, argChk_Boolean, argChk_Num, addStyle, mesErrJSON} from './CmnLib';
+import {CmnLib, IEvtMng, argChk_Boolean, addStyle, mesErrJSON} from './CmnLib';
 import {IHTag, HArg} from './Grammar';
-import {IVariable, IMain, IEvt2Fnc, IHEvt2Fnc} from './CmnInterface';
+import {IVariable, IMain, IHEvt2Fnc} from './CmnInterface';
 import {LayerMng} from './LayerMng';
 import {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
@@ -15,15 +15,15 @@ import {EventListenerCtn} from './EventListenerCtn';
 import {Button} from './Button';
 import {FocusMng} from './FocusMng';
 import {Main} from './Main';
-
-import {Tween, remove} from '@tweenjs/tween.js'
-import {Container, Application, utils} from 'pixi.js';
 import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
+import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import {ReadState, Rs_WaitAny} from './ReadState';
+
+import {Container, Application, utils} from 'pixi.js';
 const {GamepadListener} = require('gamepad.js');
 import {createPopper, Instance as InsPop} from '@popperjs/core';
-import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 export class EventMng implements IEvtMng {
 	readonly	#elc		= new EventListenerCtn;
@@ -34,22 +34,21 @@ export class EventMng implements IEvtMng {
 	});
 	readonly	#fcs		= new FocusMng;
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, private readonly sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
+	#rs	: ReadState;
+
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, readonly layMng: LayerMng, readonly val: IVariable, sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
 		//	イベント
-		hTag.clear_event	= o=> this.#clear_event(o);	// イベントを全消去
+		hTag.clear_event	= o=> ReadState.clear_event(o);	// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
-		hTag.event			= o=> this.#event(o);		// イベントを予約
+		hTag.event			= o=> this.#event(o);	// イベントを予約
 		//hTag.gesture_event	（形式変更）			// ジェスチャイベントを予約
-		hTag.l				= o=> this.#l(o);			// 行末クリック待ち
-		hTag.p				= o=> this.#p(o);			// 改ページクリック待ち
-		hTag.s = ()=> {									// 停止する
-			scrItr.recodePage();
-			return this.#waitEventBase(()=> {}, false, true);
-		};
-		hTag.set_cancel_skip= ()=> this.#set_cancel_skip();	// スキップ中断予約
+		hTag.l				= o=> ReadState.l(o);		// 行末クリック待ち
+		hTag.p				= o=> ReadState.p(o);		// 改ページクリック待ち
+		hTag.s				= ()=> ReadState.s();		// 停止する
+		hTag.set_cancel_skip= ()=> false;			// (2023/05/27 廃止)スキップ中断予約
 		hTag.set_focus		= o=> this.#set_focus(o);	// フォーカス移動
-		hTag.wait			= o=> this.#wait(o);		// ウェイトを入れる
-		hTag.waitclick		= ()=> this.#waitclick();	// クリックを待つ
+		hTag.wait			= o=> ReadState.wait(o);		// ウェイトを入れる
+		hTag.waitclick		= ()=> ReadState.waitclick();	// クリックを待つ
 
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
@@ -60,18 +59,18 @@ export class EventMng implements IEvtMng {
 		if (CmnLib.isDbg) {
 			const hHook	: {[type: string]: ()=> void}	= {
 				pause	: ()=> {
-					this.#isDbgBreak = true;
-					if (! this.#isWait) return;
+//					this.#isDbgBreak = true;
+					if (! this.#rs.isWait) return;
 
 					const hArg: HArg = {};
 					scrItr.recodeDesign(hArg);
 					sys.callHook('_enterDesign', hArg);
 					sys.send2Dbg('_enterDesign', hArg);
 				},
-				stopOnBreakpoint		: ()=> this.#isDbgBreak = true,
-				stopOnDataBreakpoint	: ()=> this.#isDbgBreak = true,
-				continue				: ()=> this.#isDbgBreak = false,
-				disconnect				: ()=> this.#isDbgBreak = false,
+//				stopOnBreakpoint		: ()=> this.#isDbgBreak = true,
+//				stopOnDataBreakpoint	: ()=> this.#isDbgBreak = true,
+//				continue				: ()=> this.#isDbgBreak = false,
+//				disconnect				: ()=> this.#isDbgBreak = false,
 			};
 			hHook.attach =
 			hHook.stopOnEntry =
@@ -165,10 +164,12 @@ export class EventMng implements IEvtMng {
 			this.fire('sn:chgDarkMode', e);
 		});
 
+		let procWheel4wle = (_elc: EventListenerCtn, _onIntr: ()=> void)=> {};
 		if ('WheelEvent' in window) {
 			this.#elc.add(Main.cvs, 'wheel', e=> this.#ev_wheel(e), {passive: true});
 			this.#resvFlameEvent4Wheel = win=> this.#elc.add(win, 'wheel', e=> this.#ev_wheel(e), {passive: true});
-			this.#procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(Main.cvs, 'wheel', e=> {
+
+			procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(Main.cvs, 'wheel', e=> {
 				//if (! e.isTrusted) return;
 				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
 				if (e.deltaY <= 0) return;
@@ -177,6 +178,7 @@ export class EventMng implements IEvtMng {
 				fnc();
 			});
 		}
+		ReadState.init((rs: ReadState)=> this.#rs = rs, main, val, layMng, scrItr, sndMng, hTag, this.#fcs, procWheel4wle, this.#elmHint);
 
 		// Gamepad
 		if (CmnLib.debugLog) {
@@ -226,20 +228,7 @@ export class EventMng implements IEvtMng {
 		val.defTmp('const.sn.key.end', ()=> this.#hDownKeys['End'] > 0);
 		val.defTmp('const.sn.key.escape', ()=> this.#hDownKeys['Escape'] > 0);
 		val.defTmp('const.sn.key.back', ()=> this.#hDownKeys['GoBack'] > 0);
-
-		val.defTmp('sn.tagL.enabled', ()=> this.#tagL_enabled);
-		val.defValTrg('tmp:sn.tagL.enabled', (_name: string, val: any)=> this.#tagL_enabled = val);
-		val.defTmp('sn.skip.all', ()=> this.#skip_all);
-		val.defValTrg('tmp:sn.skip.all', (_name: string, val: any)=> this.#skip_all = val);
-		val.defTmp('sn.skip.enabled', ()=> this.#skip_enabled);
-		val.defValTrg('tmp:sn.skip.enabled', (_name: string, val: any)=> this.#skip_enabled = val);
-		val.defTmp('sn.auto.enabled', ()=> this.#auto_enabled);
-		val.defValTrg('tmp:sn.auto.enabled', (_name: string, val: any)=> this.#auto_enabled = val);
 	}
-	#tagL_enabled	= true;		// 頁末まで一気に読み進むか(l無視)
-	#skip_all		= false;	// falseなら既読のみをスキップ
-	#skip_enabled	= false;	// 次の選択肢(/未読)まで進むが有効か
-	#auto_enabled	= false;	// 自動読みすすみモードかどうか
 
 	resvFlameEvent(win: Window) {
 		this.#elc.add(win, 'keydown', e=> this.#ev_keydown(e));
@@ -303,105 +292,10 @@ export class EventMng implements IEvtMng {
 		this.#elc.clear();
 	}
 
-	#hLocalEvt2Fnc	: IHEvt2Fnc = {};
-	#hGlobalEvt2Fnc	: IHEvt2Fnc = {};
-	#isDbgBreak		= false;
-	fire(KEY: string, e: Event) {
-		if (this.#stopSkip()	// #isWait 以外でも処理させるため冒頭に
-		|| ! this.#isWait || this.#isDbgBreak) return;
+	fire(KEY: string, e: Event) {this.#rs.fire(KEY, e);}
 
-		const key = KEY.toLowerCase();
-		if (CmnLib.debugLog) console.log(`👺 fire<(key:\`${key}\` type:${e.type} e:%o)`, {...e});
-		if (key === 'enter') {
-			const em = this.#fcs.getFocus();
-			if (em instanceof Container) {
-				em.emit('pointerdown', new Event('pointerdown'));
-				return;
-			}
-		}
-
-		const ke = this.#getEvt2Fnc(key);
-		if (! ke) {
-			// スマホ用疑似スワイプスクロール
-			if (key.slice(0, 5) === 'swipe') globalThis.scrollBy(
-				-(<any>e).deltaX ?? 0,
-				-(<any>e).deltaY ?? 0,
-			);
-			return;
-		}
-
-		if (key.slice(-5) !== 'wheel') e.preventDefault?.();
-		e.stopPropagation();
-		if (key.slice(0, 4) !== 'dom=') if (this.layMng.clickTxtLay()) return;
-
-		this.#isWait = false;
-		ke(e);
-		//this.hLocalEvt2Fnc = {};	// Main.ts resumeByJumpOrCall()が担当
-	}
-	#isWait		= false;	// 予約イベントの発生待ち中か
-	#getEvt2Fnc	: (key: string)=> IEvt2Fnc
-		= key=> this.#hLocalEvt2Fnc[key]
-			?? this.#hGlobalEvt2Fnc[key];
-
-	popLocalEvts(): IHEvt2Fnc {
-		const ret = this.#hLocalEvt2Fnc;
-		this.#hLocalEvt2Fnc = {};
-		return ret;
-	}
-	pushLocalEvts(h: IHEvt2Fnc) {this.#hLocalEvt2Fnc = h;}
-
-	waitEvent(onFire: ()=> void, canskip = true, global = false): boolean {
-		if (canskip && global) throw `canskipとglobalを同時にtrue指定できません`;
-		//this.scrItr.recodePage();	// [wait][wv][wait_tsy][wf][ws]ではやらない
-
-		// 既読スキップ時
-		if (this.#skip_enabled) {
-			if (! this.#skip_all && ! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
-		//	else {onFire(); return false;}	// これを有効にすると Fスキップ時速すぎて文字が見えない
-		}
-
-		return this.#waitEventBase(onFire, canskip, global);
-	}
-	#waitEventBase(onFire: ()=> void, canskip = true, global = true): boolean {
-		this.#goTxt();
-		this.val.saveKidoku();
-
-		if (canskip) {
-			//hTag.event({key:'click', breakout: fnc});
-			//hTag.event({key:'middleclick', breakout: fnc});
-			//	hTag.event()は内部で使わず、こうする
-			this.#hLocalEvt2Fnc['click'] =
-			//this.hTag.event({key:'enter', breakout: fnc});
-			//hTag.event({key:'down', breakout: fnc});
-			//	hTag.event()は内部で使わず、こうする
-			this.#hLocalEvt2Fnc['enter'] =
-			this.#hLocalEvt2Fnc['arrowdown'] =
-
-			// hTag.event({key:'downwheel', breakout: fnc});
-			//	hTag.event()は内部で使わず、こうする
-			this.#hLocalEvt2Fnc['wheel.y>0'] = onFire;
-		}
-		else {
-			delete this.#hLocalEvt2Fnc['click'];
-			delete this.#hLocalEvt2Fnc['enter'];
-			delete this.#hLocalEvt2Fnc['arrowdown'];
-			delete this.#hLocalEvt2Fnc['wheel.y>0'];
-		}
-		this.#getEvt2Fnc = global
-			? key=> this.#hLocalEvt2Fnc[key]
-				?? this.#hGlobalEvt2Fnc[key]
-			: key=> this.#hLocalEvt2Fnc[key];
-
-		this.#isWait = true;		// 予約イベントの発生待ち
-		this.scrItr.noticeWait();
-		if (CmnLib.debugLog) {
-			const o = Object.create(null);
-			o.local = Object.keys(this.#hLocalEvt2Fnc);
-			o.global= Object.keys(this.#hGlobalEvt2Fnc);
-			console.log(`🎍 wait event... %o`, o);
-		}
-		return true;
-	}
+	popLocalEvts(): IHEvt2Fnc {return ReadState.popLocalEvts();}
+	pushLocalEvts(h: IHEvt2Fnc) {ReadState.pushLocalEvts(h)}
 
 	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn);}
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
@@ -412,10 +306,8 @@ export class EventMng implements IEvtMng {
 		ctnBtn.interactive = ctnBtn.buttonMode = true;
 		const key = hArg.key?.toLowerCase() ?? ' ';
 		const glb = argChk_Boolean(hArg, 'global', false);
-		if (glb)
-			this.#hGlobalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
-		else this.#hLocalEvt2Fnc[key] = ()=> this.main.resumeByJumpOrCall(hArg);
-		ctnBtn.on('pointerdown', (e: any)=> this.fire(key, e));
+		ReadState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
+		ctnBtn.on('pointerdown', (e: any)=> this.#rs.fire(key, e));
 
 		// マウスカーソルを載せるとヒントをツールチップス表示する
 		const onHint = hArg.hint ?()=> this.#dispHint(hArg, ctnBtn) :()=> {};
@@ -464,18 +356,14 @@ export class EventMng implements IEvtMng {
 			// マウス重なり（フォーカス取得）時、ラベルコール。必ず[return]で戻ること
 			const k = key + hArg.onenter.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: k};
-			if (glb)
-				this.#hGlobalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
-			else this.#hLocalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
+			ReadState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
 			ctnBtn.on('pointerover', (e: any)=> this.fire(k, e));
 		}
 		if (hArg.onleave) {
 			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
 			const k = key + hArg.onleave.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: k};
-			if (glb)
-				this.#hGlobalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
-			else this.#hLocalEvt2Fnc[k] = ()=> this.main.resumeByJumpOrCall(o);
+			ReadState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
 			ctnBtn.on('pointerout', (e: any)=> this.fire(k, e));
 		}
 	}
@@ -530,68 +418,29 @@ export class EventMng implements IEvtMng {
 	cvsResize() {this.#elmHint.hidden = true;}
 
 
-	// 予約イベントの発生待ちしない waitEvent()
-	waitLimitedEvent(hArg: HArg, onFinish: ()=> void): boolean {
-		this.#goTxt();
-		this.val.saveKidoku();
-		const fnc = ()=> {this.#elcWLE.clear(); onFinish();};
+	// 予約イベントの発生待ち
+	readonly	waitEvent = (hArg: HArg, onFire: ()=> void)=> Rs_WaitAny.waitEvent(hArg, onFire);
 
-		// 既読スキップ時
-		if (this.#skip_enabled) {
-			if (! this.#skip_all && ! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
-		//	else {fnc(); return false;}	// これを有効にすると Fスキップ時速すぎて文字が見えない
-		}
-
-		if (! argChk_Boolean(hArg, 'canskip', true)) return true;
-
-		this.#elcWLE.add(window, 'pointerdown', e=>{e.stopPropagation(); fnc()});
-		this.#elcWLE.add(window, 'keydown', (e: any)=> {
-			//if (! e.isTrusted) return;
-			if (e['isComposing']) return; // サポートしてない環境でもいける書き方
-			e.stopPropagation();
-			fnc();
-		});
-		this.#procWheel4wle(this.#elcWLE, fnc);
-
-		return true;
-	}
-	#procWheel4wle = (_elc: EventListenerCtn, _fnc: ()=> void)=> {};
-	#elcWLE	= new EventListenerCtn;
+	// 予約イベントの発生待ちしない waitEvent
+//	waitLimitedEvent(hArg: HArg, onUserAct: ()=> void): boolean {
+//		return this.#rs.waitLimitedEvent(hArg, onUserAct);
+//	}
+//	finishLimitedEvent() {this.#rs.finishLimitedEvent();}
 
 
-	// イベントを全消去
-	#clear_event(hArg: HArg) {
-		const glb = argChk_Boolean(hArg, 'global', false);
-		const h = glb ?this.#hGlobalEvt2Fnc :this.#hLocalEvt2Fnc;
-		for (const [n, v] of Object.entries(h)) this.#clear_eventer(n, v);
-		if (glb) this.#hGlobalEvt2Fnc = {}; else this.#hLocalEvt2Fnc = {};
-		this.#isWait = false;	// ScriptIterator からコールされた時用
-
-		return false;
-	}
-		#clear_eventer(KeY: string, e2f: IEvt2Fnc) {
-			if (KeY.slice(0, 4) !== 'dom=') return;
-			this.#getHtmlElmList(KeY).el.forEach(v=> v.removeEventListener('click', e2f));
-		}
-
-
-	// イベントを予約
-	#event(hArg: HArg) {
+	#event(hArg: HArg): boolean {
 		const KeY = hArg.key;
 		if (! KeY) throw 'keyは必須です';
 		const key = KeY.toLowerCase();
 
 		const call = argChk_Boolean(hArg, 'call', false);
-		const h = argChk_Boolean(hArg, 'global', false)
-			? this.#hGlobalEvt2Fnc
-			: this.#hLocalEvt2Fnc;
+		const glb = argChk_Boolean(hArg, 'global', false);
 		if (argChk_Boolean(hArg, 'del', false)) {
 			if (hArg.fn || hArg.label || call || hArg.url) throw 'fn/label/callとdelは同時指定できません';
 
-			this.#clear_eventer(KeY, h[key]);
+			ReadState.clear_eventer(KeY, glb, key);
 
 			// その他・キーボードイベント
-			delete h[key];
 			return false;
 		}
 
@@ -600,7 +449,7 @@ export class EventMng implements IEvtMng {
 
 		// domイベント
 		if (KeY.slice(0, 4) === 'dom=') {
-			const g = this.#getHtmlElmList(KeY);
+			const g = ReadState.getHtmlElmList(KeY);
 			if (g.el.length === 0) {
 				if (argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 				return false;
@@ -615,9 +464,10 @@ export class EventMng implements IEvtMng {
 				case 'text':
 				case 'textarea':	aEv = ['input', 'change'];	break;
 			}
+
 			aEv.forEach((v, i)=> g.el.forEach(elm=> {
 				this.#elc.add(elm, v, e=> {
-					if (! this.#isWait || this.layMng.getFrmDisabled(g.id)) return;
+					if (! this.#rs.isWait || this.layMng.getFrmDisabled(g.id)) return;
 					if (v === 'keydown' && e.key !== 'Enter') return;
 
 					const d = elm.dataset;
@@ -641,7 +491,7 @@ export class EventMng implements IEvtMng {
 		}
 
 		// その他・キーボードイベント
-		h[key] = ()=> this.main.resumeByJumpOrCall(hArg);
+		ReadState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
 
 		return false;
 	}
@@ -665,136 +515,12 @@ export class EventMng implements IEvtMng {
 
 		return true;
 	}
-	#getHtmlElmList(KeY: string): {el: NodeListOf<HTMLElement>, id: string, sel: string} {
-		const idx = KeY.indexOf(':');
-		let sel = '';
-		if (idx >= 0) {		// key='dom=config:#ctrl2val
-			const id = KeY.slice(4, idx);
-			const frmnm = `const.sn.frm.${id}`;
-			if (! this.val.getVal(`tmp:${frmnm}`, 0)) throw `HTML【${id}】が読み込まれていません`;
-
-			const ifrm = document.getElementById(id) as HTMLIFrameElement;
-			const win = ifrm.contentWindow!;
-			sel = KeY.slice(idx +1);
-			return {el: win.document.querySelectorAll(sel), id: id, sel: sel};
-		}
-
-		sel = KeY.slice(4);
-		return {el: document.querySelectorAll(sel), id: '', sel: sel};
-	}
-
-
-	#goTxt = ()=> this.layMng.goTxt();
-
-
-	// 行末クリック待ち
-	#l(hArg: HArg) {
-		if (this.scrItr.skip4page) return false;
-		if (! this.#tagL_enabled) {this.#goTxt(); return false;}
-
-		// 既読スキップ時
-		if (this.#skip_enabled) {
-			if (! this.#skip_all && ! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
-			else if ('ps'.includes(this.val.getVal('sys:sn.skip.mode'))) return this.#l_wait(hArg, 50);	// 魔法数字
-			//return false;	// このほうが高速だが、Fスキップ時文字を見せたい
-		}
-
-		// 自動読み進み
-		if (this.#auto_enabled) return this.#l_wait(
-			hArg,
-			Number(this.val.getVal('sys:sn.auto.msecLineWait'+ (this.scrItr.isKidoku ?'_Kidoku' :'')))
-		);
-
-		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakLine(hArg);
-
-		return this.#waitEventBase(()=> this.main.resume());
-	}
-		#l_wait(hArg: HArg, time: number): boolean {
-			this.#fncBreakOnCancelSkip = ()=> this.layMng.breakLine(hArg);
-			return this.#wait({
-				time,
-				canskip	: false,
-				global	: true,		// 必須
-			});
-		}
-
-
-	// 改ページクリック待ち
-	#p(hArg: HArg) {
-		this.scrItr.recodePage();
-
-		// 既読スキップ時
-		if (this.#skip_enabled) {
-			if (! this.#skip_all && ! this.scrItr.isNextKidoku) this.#stopSkip();	// 未読で停止
-			else if ('s' == this.val.getVal('sys:sn.skip.mode')) {
-				this.#goTxt();
-				return this.#p_wait(hArg, 50);	// 魔法数字
-				//return false;	// このほうが高速だが、Fスキップ時文字を見せたい
-			}
-		}
-
-		// 自動読み進み
-		if (this.#auto_enabled) return this.#p_wait(
-			hArg,
-			Number(this.val.getVal('sys:sn.auto.msecPageWait'+ (this.scrItr.isKidoku ?'_Kidoku' :'')))
-		);
-
-		if (argChk_Boolean(hArg, 'visible', true)) this.layMng.breakPage(hArg);
-
-		const fnc = ()=> {
-			this.sndMng.clearCache();
-			this.#elmHint.hidden = true;
-			this.main.resume();
-		};
-		return this.#waitEventBase(
-			argChk_Boolean(hArg, 'er', false)
-			&& this.layMng.currentTxtlayFore
-				? ()=> {this.hTag.er(hArg); fnc();}
-				: fnc,
-		);
-	}
-		#p_wait(hArg: HArg, time: number): boolean {
-			this.#fncBreakOnCancelSkip = ()=> this.layMng.breakPage(hArg);
-			return this.#wait({
-				time,
-				canskip	: false,
-				global	: true,		// 必須
-			});
-		}
-
-
-	// スキップ中断予約
-	#stopSkip	: ()=> boolean	= ()=> false;
-	#fncBreakOnCancelSkip	= ()=> {};
-	#set_cancel_skip() {
-		this.#stopSkip = ()=> {
-			this.#stopSkip = ()=> false;
-
-			// 頁末まで一気に読み進むか(l無視)
-			this.#tagL_enabled = true;
-			// 次の選択肢(/未読)まで進むが有効か
-			this.#skip_enabled = false;
-			// 自動読みすすみモードかどうか
-			this.#auto_enabled = false;
-
-			this.layMng.setNormalChWait();
-			this.#cancelWait();
-
-			this.#fncBreakOnCancelSkip();
-			this.#fncBreakOnCancelSkip = ()=> {};
-
-			return true;
-		};
-
-		return false;
-	}
-
 
 	// フォーカス移動
 	#set_focus(hArg: HArg) {
 		const {add, del, to} = hArg;
 		if (add?.slice(0, 4) === 'dom=') {
-			const g = this.#getHtmlElmList(add);
+			const g = ReadState.getHtmlElmList(add);
 			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 
 			g.el.forEach(elm=> this.#fcs.add(
@@ -810,7 +536,7 @@ export class EventMng implements IEvtMng {
 		}
 
 		if (del?.slice(0, 4) === 'dom=') {
-			const g = this.#getHtmlElmList(del);
+			const g = ReadState.getHtmlElmList(del);
 			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 
 			g.el.forEach(elm=> this.#fcs.remove(elm));
@@ -826,57 +552,13 @@ export class EventMng implements IEvtMng {
 		return false;
 	}
 
-	// ウェイトを入れる
-	#wait(hArg: HArg) {
-		const time = argChk_Num(hArg, 'time', NaN);// skip時でもエラーは出したげたい
-		if (this.scrItr.skip4page) return false;
 
-		this.#eeTextBreak.once(this.#NOTICE_COMP_TXT, ()=> {
-			this.#eeTextBreak.off(this.#NOTICE_COMP_TXT);
-
-			if (time === 0) {this.main.resume(); return;}
-
-			const tw = new Tween({})
-			.to({}, time)
-			.onComplete(()=> {
-				remove(tw);
-				this.#cancelWait = ()=> {};
-				this.main.resume();
-			})
-			.start();
-			this.#cancelWait = ()=> tw.stop().end();	// onComplete
-		});
-
-		this.#cancelWait = ()=> {
-			this.#cancelWait = ()=> {};
-			this.#eeTextBreak.off(this.#NOTICE_COMP_TXT);
-		};
-		return this.waitEvent(
-			()=> this.#cancelWait(),
-			argChk_Boolean(hArg, 'canskip', true),	// スキップ中は利かない
-			argChk_Boolean(hArg, 'global', false),
-		);
-	}
-	#cancelWait	: ()=> void	= ()=> {};
-	#eeTextBreak	= new utils.EventEmitter;
-	noticeCompTxt() {this.#eeTextBreak.emit(this.#NOTICE_COMP_TXT)}
-	readonly	#NOTICE_COMP_TXT	= 'sn:notice_comp_txt';
-
-	// クリックを待つ
-	#waitclick(): boolean {
-		if (this.scrItr.skip4page) return false;
-
-		// 吉里吉里仕様【スキップできない】記述から、スキップや自動読みさせない
-		// それらは自動キャンセル。クリック二回必要になるので
-		if (this.#skip_enabled || this.#auto_enabled) this.#stopSkip();
-
-		return this.#waitEventBase(()=> this.main.resume());
-	}
+	noticeCompTxt() {ReadState.noticeCompTxt()}
 
 	// キー押下によるスキップ中か
 	isSkipping(): boolean {
 		if (this.scrItr.skip4page) return true;
-		if (this.#skip_enabled) return true;
+		if (this.#rs.skip_enabled) return true;
 		return Object.keys(this.#hDownKeys).some(k=> this.#hDownKeys[k] === 2);
 	}
 	// 0:no push  1:one push  2:push repeating

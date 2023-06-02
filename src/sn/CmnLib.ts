@@ -94,10 +94,11 @@ export interface IEvtMng {
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void): void;
 	unButton(em: Container): void;
 	isSkipping(): boolean;
-	waitEvent(fnc: ()=> void, canskip?: boolean, global?: boolean): boolean;
 	popLocalEvts(): IHEvt2Fnc;
 	pushLocalEvts(a: IHEvt2Fnc): void;
-	waitLimitedEvent(hArg: HArg, fnc: ()=> void): boolean;
+	waitEvent(hArg: HArg, onFire: ()=> void): boolean;
+//	waitLimitedEvent(hArg: HArg, onUserAct: ()=> void): boolean;
+//	finishLimitedEvent(): void;
 	hideHint(): void;
 	cvsResize(): void;
 	noticeCompTxt(): void;

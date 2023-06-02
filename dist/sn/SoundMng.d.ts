@@ -5,10 +5,7 @@ import { Config } from './Config';
 import { SysBase } from './SysBase';
 export declare class SoundMng {
     #private;
-    readonly cfg: Config;
-    private readonly val;
-    readonly main: IMain;
-    readonly sys: SysBase;
+    readonly val: IVariable;
     constructor(cfg: Config, hTag: IHTag, val: IVariable, main: IMain, sys: SysBase);
     setEvtMng(evtMng: IEvtMng): void;
     setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume): void;

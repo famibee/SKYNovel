@@ -1,3 +1,17 @@
+- feat: 読み進みとクリック待ちなどイベントまわりを大改修
+	- feat: [ws]にクリックキャンセルで再生停止しない機能 stop=false （デフォルト=true）追加
+	- feat: [wt]もイベント待ちするように
+	- feat: BREAKING CHANGE: [wt][l][p][s]に global 属性（デフォルト=true）追加
+	- fix: BREAKING CHANGE: [wait_tsy][wv][ws][wl][wf][wb] の global 属性デフォルト値を true に
+	- feat: canskipとglobalを同時にtrue指定できない制限を撤廃
+	- fix: [wait]の global 属性を廃止、イベント発生待ちを行わない仕様で無意味につき
+- fix: [set_cancel_skip] スキップ中断予約 を廃止、不要に
+- fix: v1.36.1 ... v1.37.0 の過程でのデグレード修正
+	- [rec_ch]で履歴に付加情報を付けられる仕様が無効になっていた件
+	- [rec_ch]の text属性デフォルト値を現在値に。指定必須になっていた
+- fix: @pixi/sound@4.4.0 に更新
+
+
 ## [1.45.3](https://github.com/famibee/SKYNovel/compare/v1.45.2...v1.45.3) (2023-05-24)
 
 
@@ -100,7 +114,7 @@
 - fix: [playbgm]と[fadebgm]の短時間連続でエラーになる場合がある件
 - fix: [quake][tsy][tsy_frame]の repeat属性で、0だけでなく負の値を指定した場合は無限ループとするように
 - fix: 設定画面でボリューム変更しただけで音が消える件（v1.42.0 (2023-04-06)より）
-	- @pixi/sound@4.3.3 のせいだったので、しばらく 4.3.2 に下げる。
+	- ~~@pixi/sound@4.3.3 のせいだったので、しばらく 4.3.2 に下げる。~~
 		- Fix mobile handling interruptions by bigtimebuddy · Pull Request #240 · pixijs/sound https://github.com/pixijs/sound/pull/240
 		- Sound is suspended while window loses focus · Issue #243 · pixijs/sound https://github.com/pixijs/sound/issues/243
 - docs: タグリファレンスの[quake]に属性 delay、repeat、yoyo の追記

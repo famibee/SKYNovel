@@ -32,6 +32,7 @@ let cfg	: Config;
 let val	: IVariable;
 let main: IMain;
 let sys	: SysBase;
+let evtMng	: IEvtMng;
 
 export class SndBuf {
 	static	#hLP	: {[buf: string]: 0}	= {};
@@ -42,6 +43,7 @@ export class SndBuf {
 		main= $main;
 		sys	= $sys;
 	}
+	static	setEvtMng($evtMng: IEvtMng) {evtMng = $evtMng}
 	static	delLoopPlay(buf: string): void {
 		delete SndBuf.#hLP[buf];
 		const vn = 'const.sn.sound.'+ buf +'.';
@@ -259,15 +261,15 @@ export class SndBuf {
 	}
 
 
-	ws =(hArg: HArg, evtMng: IEvtMng)=> this.#sb.stt.ws(this.#sb, hArg, evtMng);
+	ws =(hArg: HArg)=> this.#sb.stt.ws(this.#sb, hArg);
 	stopse(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
 		stop2var(this.#sb, buf);
 		this.#sb.stt.stopse(this.#sb);
 	}
 
-	fade(hArg: HArg, evtMng: IEvtMng) {this.#sb.stt.fade(this.#sb, hArg, evtMng)}
-	wf =(hArg: HArg, evtMng: IEvtMng)=> this.#sb.stt.wf(this.#sb, hArg, evtMng);
+	fade(hArg: HArg) {this.#sb.stt.fade(this.#sb, hArg)}
+	wf =(hArg: HArg)=> this.#sb.stt.wf(this.#sb, hArg);
 	stopfadese =(hArg: HArg)=> this.#sb.stt.stopfadese(this.#sb, hArg);
 
 }
@@ -292,10 +294,10 @@ function stopfadese(tw: Tween<Sound>): void {tw.stop().end()}	// stop()とend()�
 interface ISndState {
 	onLoad(sb: ISndBuf)	: void;
 	stopse(sb: ISndBuf)	: void;
-	ws(sb: ISndBuf, hArg: HArg, evtMng: IEvtMng): boolean;
+	ws(sb: ISndBuf, hArg: HArg): boolean;
 	onPlayEnd()			: void;
-	fade(sb: ISndBuf, hArg: HArg, evtMng: IEvtMng): void;
-	wf(sb: ISndBuf, hArg: HArg, evtMng: IEvtMng): boolean;
+	fade(sb: ISndBuf, hArg: HArg): void;
+	wf(sb: ISndBuf, hArg: HArg): boolean;
 	compFade()			: void;
 	stopfadese(sb: ISndBuf, hArg: HArg): void;
 }
@@ -314,15 +316,18 @@ class SsLoading implements ISndState {
 class SsPlaying implements ISndState {
 	onLoad() {}			// ok
 	stopse(sb: ISndBuf)	{sb.stt = new SsStop(sb)}
-	ws(sb: ISndBuf, hArg: HArg, evtMng: IEvtMng) {
+	ws(sb: ISndBuf, hArg: HArg) {
 		if (sb.loop) return false;
 
+		if (! argChk_Boolean(hArg, 'canskip', false)) return true;
+
 		const {buf = 'SE'} = hArg;
-		if (evtMng.waitEvent(
-			()=> {stop2var(sb, buf); sb.stt.onPlayEnd(); sb.stt.stopse(sb)},	// 順番固定
-			argChk_Boolean(hArg, 'canskip', false),
-			argChk_Boolean(hArg, 'global', false),
-		)) {
+		const stop = argChk_Boolean(hArg, 'stop', true);
+		argChk_Boolean(hArg, 'canskip', false);	// evtMng.waitEvent() のデフォルトと違うので先行上書き
+		if (evtMng.waitEvent(hArg, ()=> {	// 順番固定
+			stop2var(sb, buf); sb.stt.onPlayEnd();
+			if (stop) sb.stt.stopse(sb);
+		})) {
 			sb.stt = new SsWaitingStop;
 			return true;
 		}
@@ -330,7 +335,7 @@ class SsPlaying implements ISndState {
 		return false;
 	}
 	onPlayEnd() {}		// ok
-	fade(sb: ISndBuf, hArg: HArg, evtMng: IEvtMng) {
+	fade(sb: ISndBuf, hArg: HArg) {
 		const {buf = 'SE'} = hArg;
 
 		const vn = 'const.sn.sound.'+ buf +'.';
@@ -391,19 +396,16 @@ class SsFade implements ISndState {
 	ws =()=> false;		// ok ?
 	onPlayEnd() {}		// ok
 	fade() {}			// ok
-	wf(sb: ISndBuf, hArg: HArg, evtMng: IEvtMng) {
-		if (evtMng.waitEvent(
-			()=> stopfadese(this.tw),
-			argChk_Boolean(hArg, 'canskip', true),
-			argChk_Boolean(hArg, 'global', false),
-		)) {
+	wf(sb: ISndBuf, hArg: HArg) {
+		argChk_Boolean(hArg, 'canskip', false);	// evtMng.waitEvent() のデフォルトと違うので先行上書き
+		if (evtMng.waitEvent(hArg, ()=> stopfadese(this.tw))) {
 			sb.stt = new SsWaitingFade(this.tw);
 			return true;
 		}
 
 		return false;
 	}
-	compFade() {}		// ok
+	compFade() {}
 	stopfadese =()=> stopfadese(this.tw);
 }
 
