@@ -1,3 +1,10 @@
+# [1.46.0](https://github.com/famibee/SKYNovel/compare/v1.45.3...v1.46.0) (2023-06-02)
+
+
+### Features
+
+* 読み進みとクリック待ちなどイベントまわりを大改修 ([819070e](https://github.com/famibee/SKYNovel/commit/819070e7aaaedcacf9c46583f6f80b628114169e))
+
 - feat: 読み進みとクリック待ちなどイベントまわりを大改修
 	- feat: [ws]にクリックキャンセルで再生停止しない機能 stop=false （デフォルト=true）追加
 	- feat: [wt]もイベント待ちするように
