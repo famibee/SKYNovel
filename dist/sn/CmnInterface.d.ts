@@ -11,7 +11,14 @@ export type PLUGIN_PRE_RET = {
     ret: string;
     ext_num: number;
 };
+export type T_PLUGIN_INFO = {
+    window: {
+        width: number;
+        height: number;
+    };
+};
 export type IPluginInitArg = {
+    getInfo(): T_PLUGIN_INFO;
     addTag(tag_name: string, tag_fnc: ITag): void;
     addLayCls(cls: string, fnc: ILayerFactory): void;
     searchPath(fn: string, extptn?: string): string;

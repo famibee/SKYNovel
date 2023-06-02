@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {IHTag, ITag} from './Grammar';
-import {IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET} from './CmnInterface';
+import {IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET, T_PLUGIN_INFO} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
 import {Main} from './Main';
@@ -26,6 +26,7 @@ export class SysBase implements ISysRoots, ISysBase {
 		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
 		delete hPlg.snsys_pre;
 		return fncPre?.init({
+			getInfo: this.#getInfo,
 			addTag: ()=> {},
 			addLayCls: ()=> {},
 			searchPath: ()=> '',
@@ -108,6 +109,7 @@ export class SysBase implements ISysRoots, ISysBase {
 		this.hFactoryCls = {};	// ギャラリーなどで何度も初期化される対策
 		// プラグイン初期化
 		return Object.values(this.hPlg).map(v=> v.init({
+			getInfo: this.#getInfo,
 			addTag: (name: string, tag_fnc: ITag)=> {
 				if (hTag[name]) throw `すでに定義済みのタグ[${name}]です`;
 				hTag[name] = tag_fnc;
@@ -127,6 +129,12 @@ export class SysBase implements ISysRoots, ISysBase {
 		}));
 	}
 	protected	static	readonly	VALNM_CFG_NS = 'const.sn.cfg.ns';
+	#getInfo: ()=> T_PLUGIN_INFO	= ()=> ({
+		window: {
+			width	: CmnLib.stageW,
+			height	: CmnLib.stageH,
+		},
+	});
 
 
 	#cvsWidth	= 0;
