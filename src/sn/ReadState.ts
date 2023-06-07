@@ -7,7 +7,7 @@
 
 import {IVariable, IMain, IHEvt2Fnc, IEvt2Fnc, IMark} from './CmnInterface';
 import {CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
-import {HArg, IHTag} from './Grammar';
+import {HArg, IHTag, ITag} from './Grammar';
 import {LayerMng} from './LayerMng';
 import {ScriptIterator} from './ScriptIterator';
 import {EventListenerCtn} from './EventListenerCtn';
@@ -143,8 +143,8 @@ export class ReadState {
 
 	s(hArg: HArg) {this.#recodePage(); return Rs_S.go(hArg);}
 
-	readonly	wait = (hArg: HArg)=> Rs_Wait.go(hArg);
-	readonly	waitclick = (hArg: HArg)=> Rs_WaitClick.go(hArg);
+	readonly	wait: ITag = hArg=> Rs_Wait.go(hArg);
+	readonly	waitclick: ITag = hArg=> Rs_WaitClick.go(hArg);
 
 	protected	waitTxtAndTimer(time: number, hArg: HArg): boolean {
 		ReadState.eeTextBreak.once(ReadState.NOTICE_COMP_TXT, ()=> {
@@ -338,7 +338,7 @@ export class RsEvtRsv extends ReadState {constructor() {super({}); main.resume()
 
 // === [s] ===
 class Rs_S extends ReadState {
-	static	readonly	go = (hArg: HArg)=> new Rs_S(hArg).waitTxtAndTimer(0, {});
+	static	readonly	go: ITag = hArg=> new Rs_S(hArg).waitTxtAndTimer(0, {});
 	protected	override	onFinish() {
 		cancelAutoSkip();
 		const glb = argChk_Boolean(this.hArg, 'global', true);
@@ -395,7 +395,7 @@ class Rs_Wait extends ReadState {
 
 // === [l] ===
 class Rs_L extends ReadState {		// 文字表示終了待ち（そして[l]）
-	static	readonly	go = (hArg: HArg)=> new Rs_L(hArg).waitTxtAndTimer(0, hArg);
+	static	readonly	go: ITag = hArg=> new Rs_L(hArg).waitTxtAndTimer(0, hArg);
 	protected	override	onFinish() {Rs_L_Wait.go(this.hArg)}
 	protected	override	onUserAct() {this.onFinish();}
 }
@@ -421,7 +421,7 @@ class Rs_L_Wait extends Rs_S {		// [p] クリック待ち
 
 // === [p] ===
 class Rs_P extends ReadState {		// 文字表示終了待ち（そして[p]）
-	static	readonly	go = (hArg: HArg)=> new Rs_P(hArg).waitTxtAndTimer(0, hArg);
+	static	readonly	go: ITag = hArg=> new Rs_P(hArg).waitTxtAndTimer(0, hArg);
 	protected	override	onFinish() {Rs_P_Wait.go(this.hArg)}
 	protected	override	onUserAct() {this.onFinish();}
 }
@@ -455,7 +455,7 @@ class Rs_P_Wait extends Rs_S {		// [p] クリック待ち
 
 // === [waitclick] ===
 class Rs_WaitClick extends Rs_S {
-	static	override	go = (hArg: HArg)=> new Rs_WaitClick(hArg).waitTxtAndTimer(0, hArg);
+	static	override	go: ITag = hArg=> new Rs_WaitClick(hArg).waitTxtAndTimer(0, hArg);
 	protected	override	onFinish() {
 		cancelAutoSkip();
 		const glb = argChk_Boolean(this.hArg, 'global', true);
@@ -513,7 +513,7 @@ export class RsPagination extends Rs_S {
 		return true;
 	}
 
-	static	override	readonly	go = (hArg: HArg)=> new RsPagination(hArg).page(hArg);
+	static	override	readonly	go: ITag = hArg=> new RsPagination(hArg).page(hArg);
 	#pos	= ReadState.aPage.length -1;
 	override	page(hArg: HArg): boolean {
 		const {to} = hArg;

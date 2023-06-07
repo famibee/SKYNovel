@@ -141,9 +141,8 @@ export class appMain {
 			// winでのみ全画面移行時に【setContentSize】から発生
 
 		if (centering) {
-			[x, y] = this.bw.getPosition();
-			x = (this.#screenRX - x) *0.5;
-			y = (this.#screenRY - y) *0.5;
+			x = (this.#screenRX - w) *0.5;
+			y = (this.#screenRY - h) *0.5;
 		}
 		else {
 			if (x < 0 || x > this.#screenRX) x = 0;

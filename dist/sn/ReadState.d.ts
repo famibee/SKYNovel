@@ -1,5 +1,5 @@
 import { IVariable, IMain, IHEvt2Fnc, IEvt2Fnc, IMark } from './CmnInterface';
-import { HArg, IHTag } from './Grammar';
+import { HArg, IHTag, ITag } from './Grammar';
 import { LayerMng } from './LayerMng';
 import { ScriptIterator } from './ScriptIterator';
 import { EventListenerCtn } from './EventListenerCtn';
@@ -29,8 +29,8 @@ export declare class ReadState {
     static clear_eventer(KeY: string, glb: boolean, key: string): void;
     static clear_event(hArg: HArg): boolean;
     s(hArg: HArg): boolean;
-    readonly wait: (hArg: HArg) => boolean;
-    readonly waitclick: (hArg: HArg) => boolean;
+    readonly wait: ITag;
+    readonly waitclick: ITag;
     protected waitTxtAndTimer(time: number, hArg: HArg): boolean;
     static noticeCompTxt(): void;
     protected static readonly eeTextBreak: utils.EventEmitter<string | symbol>;
@@ -54,7 +54,7 @@ export declare class RsEvtRsv extends ReadState {
     constructor();
 }
 declare class Rs_S extends ReadState {
-    static readonly go: (hArg: HArg) => boolean;
+    static readonly go: ITag;
     protected onFinish(): void;
     protected onUserAct(): void;
     readonly isWait = true;
@@ -76,7 +76,7 @@ export declare class RsPagination extends Rs_S {
     protected readonly waitTxtAndTimer: () => boolean;
     l(hArg: HArg): boolean;
     p(hArg: HArg): boolean;
-    static readonly go: (hArg: HArg) => boolean;
+    static readonly go: ITag;
     page(hArg: HArg): boolean;
     protected onFinish(): void;
     protected onUserAct(): void;

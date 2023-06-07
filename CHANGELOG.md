@@ -1,3 +1,6 @@
+- fix: [window]で centering=true 時に画面中央とずれた位置に移動していた件
+
+
 # [1.47.0](https://github.com/famibee/SKYNovel/compare/v1.46.1...v1.47.0) (2023-06-07)
 
 
