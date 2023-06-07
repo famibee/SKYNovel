@@ -1948,7 +1948,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	border-radius: 4px;<br/>
 	font-size: 1.2em;<br/>
 	ほか（狭いので省略）<br/>
-</td><td>css</td><td>ツールチップ矩形のスタイル</td></tr>
+</td><td>css</td><td>ツールチップ矩形の CSS スタイル</td></tr>
 <tr><td>hint_opt</td><td></td><td>
 <pre>
 &nbsp;{
@@ -2069,11 +2069,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	　　　（save変数復元で &save:sn.doRecLog = false になるケースがある）<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>clear</td><td rowspan="2">どちらかを指定</td><td>なにもしない</td><td>Boolean</td><td>trueでページ状態記録をクリアする</td></tr>
-<tr><td>to</td><td></td><td>prev または next</td><td>
+<tr><td>clear</td><td rowspan="3">いずれかを指定</td><td>なにもしない</td><td>Boolean</td><td>trueでページ状態記録をクリアする</td></tr>
+<tr><td>to</td><td>なにもしない</td><td>prev または next</td><td>
 	prev：ひとつ前のページに戻る<br/>
 	next：ひとつ次のページに進める
 </td></tr>
+<tr><td>style</td><td>なにもしない</td><td>css</td><td>ページ移動中の既読文字に適用する CSS スタイル。初期値は【color: yellow;】</td></tr>
 </table>
 
 </p>

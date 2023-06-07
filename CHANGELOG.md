@@ -1,3 +1,11 @@
+- feat: [page]に style 属性追加、ページ移動中の既読文字に CSS Style を適用出来るように
+	- ただし[span]区間ではその style 属性で（CSSプロパティごとに）上書きされる
+	- デフォルトは文字色が黄色に（[page style='color: yellow;']）
+	- 既知の問題：文字レイヤのサイズを小まめに変えるタイプの作品で、ページ移動中文字表示がはみ出す場合がある
+- feat: [l] 停止からでも[page to=prev] が利いてページ移動ができるように
+- fix: ページ移動、リファクタリングなど
+
+
 ## [1.46.1](https://github.com/famibee/SKYNovel/compare/v1.46.0...v1.46.1) (2023-06-02)
 
 

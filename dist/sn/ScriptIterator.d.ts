@@ -1,5 +1,5 @@
 import { IHTag, HArg } from './Grammar';
-import { IMain, IVariable, IPropParser } from './CmnInterface';
+import { IMain, IVariable, IMark, IPropParser } from './CmnInterface';
 import { Config } from './Config';
 import { AnalyzeTagArg } from './AnalyzeTagArg';
 import { EventMng } from './EventMng';
@@ -36,8 +36,12 @@ export declare class ScriptIterator {
     get isKidoku(): boolean;
     get isNextKidoku(): boolean;
     get normalWait(): number;
-    get skip4page(): boolean;
-    recodePage(): void;
+    loadFromMark(hArg: HArg, mark: IMark, reload_sound?: boolean): boolean;
+    nowScrIdx(): {
+        fn: string;
+        idx: number;
+    };
+    nowMark(): IMark;
     recodeDesign(hArg: HArg): void;
     replace(idx: number, val: string): void;
 }

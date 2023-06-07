@@ -75,18 +75,6 @@ export class TxtStage extends Container {
 		'margin-top'	: 0,
 	};
 
-	readonly	#idc	= new TxtLayDesignCast(this.spLay, this);
-	readonly	#idcCh	= new TxtLayPadDesignCast(this);
-	#infTL :IInfTxLay = {
-		fontsize	: 24,
-		$width		: 0,	// レイヤサイズであり、背景色（画像）サイズ
-		$height		: 0,
-		pad_left	: 0,	// paddingLeft（レイヤサイズの内側のスペーサー）
-		pad_right	: 0,	// paddingRight
-		pad_top		: 0,	// paddingTop
-		pad_bottom	: 0,	// paddingBottom
-	}
-
 
 	constructor(private readonly spLay: Sprite, private readonly canFocus: ()=> boolean, private readonly sys: SysBase) {
 		super();
@@ -101,6 +89,18 @@ export class TxtStage extends Container {
 		this.#grpDbgMasume.name = 'grpDbgMasume';
 
 		this.#idc.adopt(this.#idcCh);
+	}
+
+	readonly	#idc	= new TxtLayDesignCast(this.spLay, this);
+	readonly	#idcCh	= new TxtLayPadDesignCast(this);
+	#infTL :IInfTxLay = {
+		fontsize	: 24,
+		$width		: 0,	// レイヤサイズであり、背景色（画像）サイズ
+		$height		: 0,
+		pad_left	: 0,	// paddingLeft（レイヤサイズの内側のスペーサー）
+		pad_right	: 0,	// paddingRight
+		pad_top		: 0,	// paddingTop
+		pad_bottom	: 0,	// paddingBottom
 	}
 
 	lay(hArg: HArg) {

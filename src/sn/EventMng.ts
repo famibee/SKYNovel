@@ -42,13 +42,16 @@ export class EventMng implements IEvtMng {
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
 		hTag.event			= o=> this.#event(o);	// イベントを予約
 		//hTag.gesture_event	（形式変更）			// ジェスチャイベントを予約
-		hTag.l				= o=> ReadState.l(o);		// 行末クリック待ち
-		hTag.p				= o=> ReadState.p(o);		// 改ページクリック待ち
-		hTag.s				= ()=> ReadState.s();		// 停止する
+		hTag.l				= o=> this.#rs.l(o);		// 行末クリック待ち
+		hTag.p				= o=> this.#rs.p(o);		// 改ページクリック待ち
+		hTag.s				= o=> this.#rs.s(o);		// 停止する
 		hTag.set_cancel_skip= ()=> false;			// (2023/05/27 廃止)スキップ中断予約
 		hTag.set_focus		= o=> this.#set_focus(o);	// フォーカス移動
-		hTag.wait			= o=> ReadState.wait(o);		// ウェイトを入れる
-		hTag.waitclick		= ()=> ReadState.waitclick();	// クリックを待つ
+		hTag.wait			= o=> this.#rs.wait(o);		// ウェイトを入れる
+		hTag.waitclick		= o=> this.#rs.waitclick(o);	// クリックを待つ
+
+		// ラベル・ジャンプ
+		hTag.page			= o=> this.#rs.page(o);		// ページ移動
 
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
@@ -557,8 +560,7 @@ export class EventMng implements IEvtMng {
 
 	// キー押下によるスキップ中か
 	isSkipping(): boolean {
-		if (this.scrItr.skip4page) return true;
-		if (this.#rs.skip_enabled) return true;
+		if (this.#rs.isSkipping) return true;
 		return Object.keys(this.#hDownKeys).some(k=> this.#hDownKeys[k] === 2);
 	}
 	// 0:no push  1:one push  2:push repeating
