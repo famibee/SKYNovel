@@ -1,6 +1,6 @@
-var $d = Object.defineProperty;
-var jd = (o, t, e) => t in o ? $d(o, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : o[t] = e;
-var pt = (o, t, e) => (jd(o, typeof t != "symbol" ? t + "" : t, e), e), zu = (o, t, e) => {
+var zd = Object.defineProperty;
+var Vd = (o, t, e) => t in o ? zd(o, t, { enumerable: !0, configurable: !0, writable: !0, value: e }) : o[t] = e;
+var pt = (o, t, e) => (Vd(o, typeof t != "symbol" ? t + "" : t, e), e), zu = (o, t, e) => {
   if (!t.has(o))
     throw TypeError("Cannot " + e);
 };
@@ -478,10 +478,10 @@ const REG_EXT = /\.([^\.]+)$/;
 function getExt(o) {
   return (o.match(REG_EXT) ?? ["", ""])[1];
 }
-var zc, Vc;
+var Yc, Wc;
 class CmnLib {
 }
-pt(CmnLib, "stageW", 0), pt(CmnLib, "stageH", 0), pt(CmnLib, "debugLog", !1), pt(CmnLib, "isSafari", platformExports.name === "Safari"), pt(CmnLib, "isFirefox", platformExports.name === "Firefox"), pt(CmnLib, "isMac", new RegExp("OS X").test(((zc = platformExports.os) == null ? void 0 : zc.family) ?? "")), pt(CmnLib, "isMobile", !new RegExp("(Windows|OS X)").test(((Vc = platformExports.os) == null ? void 0 : Vc.family) ?? "")), pt(CmnLib, "hDip", {}), pt(CmnLib, "isDbg", !1), pt(CmnLib, "isPackaged", !1), pt(CmnLib, "isDarkMode", !1), pt(CmnLib, "cc4ColorName");
+pt(CmnLib, "stageW", 0), pt(CmnLib, "stageH", 0), pt(CmnLib, "debugLog", !1), pt(CmnLib, "isSafari", platformExports.name === "Safari"), pt(CmnLib, "isFirefox", platformExports.name === "Firefox"), pt(CmnLib, "isMac", new RegExp("OS X").test(((Yc = platformExports.os) == null ? void 0 : Yc.family) ?? "")), pt(CmnLib, "isMobile", !new RegExp("(Windows|OS X)").test(((Wc = platformExports.os) == null ? void 0 : Wc.family) ?? "")), pt(CmnLib, "hDip", {}), pt(CmnLib, "isDbg", !1), pt(CmnLib, "isPackaged", !1), pt(CmnLib, "isDarkMode", !1), pt(CmnLib, "cc4ColorName");
 function finallyConstructor(o) {
   var t = this.constructor;
   return this.then(
@@ -16870,9 +16870,9 @@ var parsimmon_umd_min = { exports: {} };
           var es = rt.split(/\r\n|[\n\r\u2028\u2029]/);
           dt = Vt.column - 1, gt = Vt.line - 1, Ct = Wt(gt, Ot, jt, es.length), Tt = es.slice(Ct.from, Ct.to), Rt = Ct.to.toString().length;
         }
-        var Gd = gt - Ct.from;
+        var Hd = gt - Ct.from;
         return ht(rt) && (Rt = (8 * (Ct.to > 0 ? Ct.to - 1 : Ct.to)).toString(16).length) < 2 && (Rt = 2), $(function(Oe, is, rs) {
-          var qr, ns = rs === Gd, ss = ns ? "> " : Ut;
+          var qr, ns = rs === Hd, ss = ns ? "> " : Ut;
           return qr = ht(rt) ? Ft((8 * (Ct.from + rs)).toString(16), Rt, "0") : Ft((Ct.from + rs + 1).toString(), Rt, " "), [].concat(Oe, [ss + qr + " | " + is], ns ? [Ut + Gt(" ", Rt) + " | " + Ft("", dt, " ") + Gt("^", $e)] : []);
         }, [], Tt).join(`
 `);
@@ -17154,10 +17154,10 @@ var parsimmon_umd_min = { exports: {} };
         return ot(rt.length, rt.slice(ct));
       }), ge = k(function(rt, ct) {
         return ct < rt.length ? nt(ct, "EOF") : ot(ct, null);
-      }), le = Nt(/[0-9]/).desc("a digit"), te = Nt(/[0-9]*/).desc("optional digits"), ni = Nt(/[a-z]/i).desc("a letter"), Dd = Nt(/[a-z]*/i).desc("optional letters"), Fd = Nt(/\s*/).desc("optional whitespace"), Bd = Nt(/\s+/).desc("whitespace"), Gc = vt("\r"), $c = vt(`
-`), jc = vt(`\r
-`), Hc = St(jc, $c, Gc).desc("newline"), Ud = St(Hc, ge);
-      k.all = xe, k.alt = St, k.any = Bi, k.cr = Gc, k.createLanguage = function(rt) {
+      }), le = Nt(/[0-9]/).desc("a digit"), te = Nt(/[0-9]*/).desc("optional digits"), ni = Nt(/[a-z]/i).desc("a letter"), Ud = Nt(/[a-z]*/i).desc("optional letters"), Gd = Nt(/\s*/).desc("optional whitespace"), $d = Nt(/\s+/).desc("whitespace"), Hc = vt("\r"), zc = vt(`
+`), Vc = vt(`\r
+`), Xc = St(Vc, zc, Hc).desc("newline"), jd = St(Xc, ge);
+      k.all = xe, k.alt = St, k.any = Bi, k.cr = Hc, k.createLanguage = function(rt) {
         var ct = {};
         for (var dt in rt)
           ({}).hasOwnProperty.call(rt, dt) && function(gt) {
@@ -17166,9 +17166,9 @@ var parsimmon_umd_min = { exports: {} };
             });
           }(dt);
         return ct;
-      }, k.crlf = jc, k.custom = function(rt) {
+      }, k.crlf = Vc, k.custom = function(rt) {
         return k(rt(ot, nt));
-      }, k.digit = le, k.digits = te, k.empty = _i, k.end = Ud, k.eof = ge, k.fail = _t, k.formatError = qt, k.index = Ze, k.isParser = at, k.lazy = mi, k.letter = ni, k.letters = Dd, k.lf = $c, k.lookahead = Ce, k.makeFailure = nt, k.makeSuccess = ot, k.newline = Hc, k.noneOf = function(rt) {
+      }, k.digit = le, k.digits = te, k.empty = _i, k.end = jd, k.eof = ge, k.fail = _t, k.formatError = qt, k.index = Ze, k.isParser = at, k.lazy = mi, k.letter = ni, k.letters = Ud, k.lf = zc, k.lookahead = Ce, k.makeFailure = nt, k.makeSuccess = ot, k.newline = Xc, k.noneOf = function(rt) {
         return Re(function(ct) {
           return rt.indexOf(ct) < 0;
         }).desc("none of '" + rt + "'");
@@ -17178,7 +17178,7 @@ var parsimmon_umd_min = { exports: {} };
         return Re(function(gt) {
           return rt.indexOf(gt) >= 0;
         }).desc(ct);
-      }, k.optWhitespace = Fd, k.Parser = k, k.range = function(rt, ct) {
+      }, k.optWhitespace = Gd, k.Parser = k, k.range = function(rt, ct) {
         return Re(function(dt) {
           return rt <= dt && dt <= ct;
         }).desc(rt + "-" + ct);
@@ -17213,7 +17213,7 @@ var parsimmon_umd_min = { exports: {} };
             gt++;
           return ot(gt, ct.slice(dt, gt));
         });
-      }, k.test = Re, k.whitespace = Bd, k["fantasy-land/empty"] = _i, k["fantasy-land/of"] = Yt, k.Binary = { bitSeq: Y, bitSeqObj: function(rt) {
+      }, k.test = Re, k.whitespace = $d, k["fantasy-land/empty"] = _i, k["fantasy-land/of"] = Yt, k.Binary = { bitSeq: Y, bitSeqObj: function(rt) {
         V();
         var ct = {}, dt = 0, gt = H(function(Ct) {
           if (st(Ct)) {
@@ -17268,7 +17268,7 @@ var parsimmon_umd_min = { exports: {} };
     }]);
   });
 })(parsimmon_umd_min);
-var parsimmon_umd_minExports = parsimmon_umd_min.exports, nn, $t, zt, Ci, sr, Zr, Mh, Pa, Vu, Ih, Ah, Xc;
+var parsimmon_umd_minExports = parsimmon_umd_min.exports, nn, $t, zt, Ci, sr, Zr, Mh, Pa, Vu, Ih, Ah, qc;
 const Ic = class {
   constructor(t, e = "\\") {
     K(this, $t);
@@ -17477,7 +17477,7 @@ const Ic = class {
     const { scope: N = "tmp", name: k, at: D = "" } = r;
     return {
       scope: N,
-      name: et(B = Ic, Ah, Xc).call(B, k),
+      name: et(B = Ic, Ah, qc).call(B, k),
       at: D
     };
   }
@@ -17499,7 +17499,7 @@ nn = new WeakMap(), $t = new WeakSet(), zt = function(t) {
     U(this, Mh),
     (e) => e.at(0) === "$" ? this.val.getVal(e.slice(1)) : this.parse(e.slice(2, -1))
   );
-}, Ih = new WeakMap(), Ah = new WeakSet(), Xc = function(t) {
+}, Ih = new WeakMap(), Ah = new WeakSet(), qc = function(t) {
   let e = 0, r = 0;
   for (; ; ) {
     if (e = t.indexOf('["'), e < 0) {
@@ -17514,14 +17514,14 @@ nn = new WeakMap(), $t = new WeakSet(), zt = function(t) {
   }
   return t;
 }, K(PropParser, Ah), K(PropParser, Ih, /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/);
-var Ri, sn, ps, Oi, Ca, Lh, Yc, Nh, Wc, kh, qc, Dh, Zc;
+var Ri, sn, ps, Oi, Ca, Lh, Zc, Nh, Kc, kh, Jc, Dh, Qc;
 const he = class {
   constructor(t, e, r) {
     K(this, Lh);
     K(this, Nh);
     // ログ出力
     K(this, Ca, !0);
-    this.sys = t, Q(he, Ri, r), Q(he, sn, e), Q(he, ps, e.title), he.myTrace = et(he, kh, qc), e.log = (N) => et(this, Lh, Yc).call(this, N), e.trace = (N) => et(this, Nh, Wc).call(this, N), Q(he, Oi, document.createElement("span")), U(he, Oi).hidden = !0, U(he, Oi).textContent = "", U(he, Oi).style.cssText = `	z-index: ${Number.MAX_SAFE_INTEGER};
+    this.sys = t, Q(he, Ri, r), Q(he, sn, e), Q(he, ps, e.title), he.myTrace = et(he, kh, Jc), e.log = (N) => et(this, Lh, Zc).call(this, N), e.trace = (N) => et(this, Nh, Kc).call(this, N), Q(he, Oi, document.createElement("span")), U(he, Oi).hidden = !0, U(he, Oi).textContent = "", U(he, Oi).style.cssText = `	z-index: ${Number.MAX_SAFE_INTEGER};
 			position: absolute; left: 0; top: 0;
 			color: black;
 			background-color: rgba(255, 255, 255, 0.7);`, document.body.appendChild(U(he, Oi));
@@ -17554,7 +17554,7 @@ const he = class {
   }
 };
 let DebugMng = he;
-Ri = new WeakMap(), sn = new WeakMap(), ps = new WeakMap(), Oi = new WeakMap(), Ca = new WeakMap(), Lh = new WeakSet(), Yc = function(t) {
+Ri = new WeakMap(), sn = new WeakMap(), ps = new WeakMap(), Oi = new WeakMap(), Ca = new WeakMap(), Lh = new WeakSet(), Zc = function(t) {
   let e = "";
   return U(this, Ca) && (Q(this, Ca, !1), e = `== ${platform.description} ==
 `), this.sys.appendFile(
@@ -17566,12 +17566,12 @@ ${t.text || `(text is ${t.text})`}
       r && console.log(r);
     }
   ), !1;
-}, Nh = new WeakSet(), Wc = function(t) {
+}, Nh = new WeakSet(), Kc = function(t) {
   return he.myTrace(t.text || `(text is ${t.text})`, "I"), !1;
-}, kh = new WeakSet(), qc = function(t, e = "E") {
+}, kh = new WeakSet(), Jc = function(t, e = "E") {
   var k, D;
   let r = `{${e}} ` + he.strPos() + t;
-  et(k = he, Dh, Zc).call(k, r, e);
+  et(k = he, Dh, Qc).call(k, r, e);
   let N = "";
   switch (e) {
     case "D":
@@ -17593,7 +17593,7 @@ ${t.text || `(text is ${t.text})`}
       N = "", r = " " + r;
   }
   console.info("%c" + r, N);
-}, Dh = new WeakSet(), Zc = function(t, e) {
+}, Dh = new WeakSet(), Qc = function(t, e) {
   let r = "";
   switch (e) {
     case "D":
@@ -17666,7 +17666,7 @@ class Areas {
     return t.slice(1);
   }
 }
-var Ie, gi, Se, ar, Te, hi, Gi, Ra, Fh, Oa, Xu, Ma, Ia, Bh, Kc, Uh, Jc, yi, Ui, Gh, Qc, $h, tf, jh, ef, Hh, rf, zh, nf, Vh, sf, Xh, af, Yh, of, vs, gh, Aa, Yu, La, an, Na, Wu, Wh, qh, ms, ka, _s, yh, Zh, hf, Kh, lf, Da, qu, Fa, Zu, Jh, uf;
+var Ie, gi, Se, ar, Te, hi, Gi, Ra, Fh, Oa, Xu, Ma, Ia, Bh, tf, Uh, ef, yi, Ui, Gh, rf, $h, nf, jh, sf, Hh, af, zh, of, Vh, hf, Xh, lf, Yh, uf, vs, gh, Aa, Yu, La, an, Na, Wu, Wh, qh, ms, ka, _s, yh, Zh, cf, Kh, ff, Da, qu, Fa, Zu, Jh, df;
 const ls = class {
   constructor(t, e) {
     K(this, Oa);
@@ -17809,8 +17809,8 @@ const ls = class {
       // sys
       "sys:sn.tagCh.doWait": (t) => et(this, _s, yh).call(this, t),
       "sys:sn.tagCh.doWait_Kidoku": (t) => et(this, _s, yh).call(this, t),
-      "sys:sn.tagCh.msecWait": (t) => et(this, Zh, hf).call(this, t),
-      "sys:sn.tagCh.msecWait_Kidoku": (t) => et(this, Kh, lf).call(this, t),
+      "sys:sn.tagCh.msecWait": (t) => et(this, Zh, cf).call(this, t),
+      "sys:sn.tagCh.msecWait_Kidoku": (t) => et(this, Kh, ff).call(this, t),
       "sys:sn.tagCh.canskip": (t) => et(this, _s, yh).call(this, t),
       "sys:sn.auto.msecPageWait": (t) => et(this, Da, qu).call(this, t),
       "sys:sn.auto.msecPageWait_Kidoku": (t) => et(this, Da, qu).call(this, t),
@@ -17818,7 +17818,7 @@ const ls = class {
       "sys:sn.auto.msecLineWait_Kidoku": (t) => et(this, Fa, Zu).call(this, t),
       // save
       "save:sn.doRecLog": (t) => {
-        U(this, Ia).call(this, Q(this, ms, et(this, Jh, uf).call(this, t)));
+        U(this, Ia).call(this, Q(this, ms, et(this, Jh, df).call(this, t)));
       },
       "save:sn.userFnTail": (t, e) => {
         if (e.includes("@"))
@@ -17829,7 +17829,7 @@ const ls = class {
       "tmp:flash.desktop.NativeApplication.nativeApplication.systemIdleMode": () => {
       }
     });
-    if (this.cfg = t, e.let = (k) => et(this, yi, Ui).call(this, k), e.let_abs = (k) => et(this, Gh, Qc).call(this, k), e.let_char_at = (k) => et(this, $h, tf).call(this, k), e.let_index_of = (k) => et(this, jh, ef).call(this, k), e.let_length = (k) => et(this, Hh, rf).call(this, k), e.let_replace = (k) => et(this, zh, nf).call(this, k), e.let_round = (k) => et(this, Vh, sf).call(this, k), e.let_search = (k) => et(this, Xh, af).call(this, k), e.let_substr = (k) => et(this, Yh, of).call(this, k), e.clearsysvar = () => et(this, vs, gh).call(this), e.clearvar = () => et(this, Aa, Yu).call(this), e.dump_val = () => U(this, qh).call(this), e.copybookmark = (k) => et(this, Bh, Kc).call(this, k), e.erasebookmark = (k) => et(this, Uh, Jc).call(this, k), U(this, gi)["sn.userFnTail"] = "", this.defTmp("const.sn.bookmark.json", () => {
+    if (this.cfg = t, e.let = (k) => et(this, yi, Ui).call(this, k), e.let_abs = (k) => et(this, Gh, rf).call(this, k), e.let_char_at = (k) => et(this, $h, nf).call(this, k), e.let_index_of = (k) => et(this, jh, sf).call(this, k), e.let_length = (k) => et(this, Hh, af).call(this, k), e.let_replace = (k) => et(this, zh, of).call(this, k), e.let_round = (k) => et(this, Vh, hf).call(this, k), e.let_search = (k) => et(this, Xh, lf).call(this, k), e.let_substr = (k) => et(this, Yh, uf).call(this, k), e.clearsysvar = () => et(this, vs, gh).call(this), e.clearvar = () => et(this, Aa, Yu).call(this), e.dump_val = () => U(this, qh).call(this), e.copybookmark = (k) => et(this, Bh, tf).call(this, k), e.erasebookmark = (k) => et(this, Uh, ef).call(this, k), U(this, gi)["sn.userFnTail"] = "", this.defTmp("const.sn.bookmark.json", () => {
       const k = [];
       for (const D of Object.keys(U(this, Te).mark).sort()) {
         const B = { ...U(this, Te).mark[D].json };
@@ -17946,7 +17946,7 @@ Ie = new WeakMap(), gi = new WeakMap(), Se = new WeakMap(), ar = new WeakMap(), 
   Q(ls, an, {});
   for (const e of t)
     U(ls, an)[e.dataId] = 1;
-}, Ma = new WeakMap(), Ia = new WeakMap(), Bh = new WeakSet(), Kc = function(t) {
+}, Ma = new WeakMap(), Ia = new WeakMap(), Bh = new WeakSet(), tf = function(t) {
   if (!("from" in t))
     throw "fromは必須です";
   if (!("to" in t))
@@ -17957,7 +17957,7 @@ Ie = new WeakMap(), gi = new WeakMap(), Se = new WeakMap(), ar = new WeakMap(), 
   if (!(e in U(this, Te).mark))
     throw `from:${e} のセーブデータは存在しません`;
   return this.setMark(r, { ...U(this, Te).mark[e] }), U(this, ar).copyBMFolder(e, r), !1;
-}, Uh = new WeakSet(), Jc = function(t) {
+}, Uh = new WeakSet(), ef = function(t) {
   const { place: e } = t;
   if (!e)
     throw "placeは必須です";
@@ -17987,33 +17987,33 @@ Ie = new WeakMap(), gi = new WeakMap(), Se = new WeakMap(), ar = new WeakMap(), 
         throw "cast【" + t.cast + "】は未定義です";
     }
   return U(this, La).call(this, t.name, t.text, e), !1;
-}, Gh = new WeakSet(), Qc = function(t) {
+}, Gh = new WeakSet(), rf = function(t) {
   const e = argChk_Num(t, "text", 0);
   return t.text = String(e < 0 ? -e : e), et(this, yi, Ui).call(this, t), !1;
-}, $h = new WeakSet(), tf = function(t) {
+}, $h = new WeakSet(), nf = function(t) {
   return t.text = (t.text ?? "").charAt(argChk_Num(t, "pos", 0)), et(this, yi, Ui).call(this, t), !1;
-}, jh = new WeakSet(), ef = function(t) {
+}, jh = new WeakSet(), sf = function(t) {
   const { val: e } = t;
   if (!e)
     throw "valは必須です";
   const r = argChk_Num(t, "start", 0);
   return t.text = String((t.text ?? "").indexOf(e, r)), et(this, yi, Ui).call(this, t), !1;
-}, Hh = new WeakSet(), rf = function(t) {
+}, Hh = new WeakSet(), af = function(t) {
   return t.text = String((t.text ?? "").length), et(this, yi, Ui).call(this, t), !1;
-}, zh = new WeakSet(), nf = function(t) {
+}, zh = new WeakSet(), of = function(t) {
   if (!t.reg)
     throw "regは必須です";
   const { flags: e } = t, r = e ? new RegExp(t.reg, e) : new RegExp(t.reg);
   return t.text = String(t.text ?? "").replace(r, String(t.val)), et(this, yi, Ui).call(this, t), !1;
-}, Vh = new WeakSet(), sf = function(t) {
+}, Vh = new WeakSet(), hf = function(t) {
   const e = argChk_Num(t, "text", 0);
   return t.text = String(Math.round(e)), et(this, yi, Ui).call(this, t), !1;
-}, Xh = new WeakSet(), af = function(t) {
+}, Xh = new WeakSet(), lf = function(t) {
   if (!t.reg)
     throw "regは必須です";
   const { flags: e } = t, r = e ? new RegExp(t.reg, e) : new RegExp(t.reg);
   return t.text = String((t.text ?? "").search(r)), et(this, yi, Ui).call(this, t), !1;
-}, Yh = new WeakSet(), of = function(t) {
+}, Yh = new WeakSet(), uf = function(t) {
   const e = argChk_Num(t, "pos", 0);
   return t.text = t.len !== "all" ? (t.text ?? "").slice(e, e + int(argChk_Num(t, "len", 1))) : (t.text ?? "").slice(e), et(this, yi, Ui).call(this, t), !1;
 }, vs = new WeakSet(), gh = function() {
@@ -18037,9 +18037,9 @@ Ie = new WeakMap(), gi = new WeakMap(), Se = new WeakMap(), ar = new WeakMap(), 
     return U(this, Wh).test(e) ? parseFloat(e) : t;
 }, Wh = new WeakMap(), qh = new WeakMap(), ms = new WeakMap(), ka = new WeakMap(), _s = new WeakSet(), yh = function(t) {
   argChk_Boolean(U(this, hi), t, !0);
-}, Zh = new WeakSet(), hf = function(t) {
+}, Zh = new WeakSet(), cf = function(t) {
   argChk_Num(U(this, hi), t, 10), U(this, hi)["sn.tagCh.doWait"];
-}, Kh = new WeakSet(), lf = function(t) {
+}, Kh = new WeakSet(), ff = function(t) {
   argChk_Num(
     U(this, hi),
     t,
@@ -18053,7 +18053,7 @@ Ie = new WeakMap(), gi = new WeakMap(), Se = new WeakMap(), ar = new WeakMap(), 
   );
 }, Fa = new WeakSet(), Zu = function(t) {
   argChk_Num(U(this, hi), t, 500);
-}, Jh = new WeakSet(), uf = function(t) {
+}, Jh = new WeakSet(), df = function(t) {
   return argChk_Boolean(U(this, gi), t, !0);
 }, // reload 再生成 Main に受け渡すため static
 K(Variable, an, {});
@@ -19804,7 +19804,7 @@ class SsStop {
   }
   // ok
 }
-var He, $a, ja, tl, cf, el, ff, il, df, rl, pf, Ha, Ju, hn, ha, za, Qu, ys, bh, Va, tc, nl, vf, ln, la, sl, mf, Xa, ec, Ya, ic, al, _f, Wa, rc, ol, gf;
+var He, $a, ja, tl, pf, el, vf, il, mf, rl, _f, Ha, Ju, hn, ha, za, Qu, ys, bh, Va, tc, nl, gf, ln, la, sl, yf, Xa, ec, Ya, ic, al, bf, Wa, rc, ol, xf;
 class SoundMng {
   constructor(t, e, r, N, k) {
     // 音量設定（独自拡張）
@@ -19843,7 +19843,7 @@ class SoundMng {
     K(this, He, {});
     K(this, $a, {});
     K(this, ja, void 0);
-    this.val = r, e.volume = (D) => et(this, tl, cf).call(this, D), e.fadebgm = (D) => et(this, Ha, Ju).call(this, D), e.fadeoutbgm = (D) => et(this, il, df).call(this, D), e.fadeoutse = (D) => et(this, rl, pf).call(this, D), e.fadese = (D) => et(this, hn, ha).call(this, D), e.playbgm = (D) => et(this, za, Qu).call(this, D), e.playse = (D) => et(this, ys, bh).call(this, D), e.stop_allse = () => et(this, Va, tc).call(this), e.stopbgm = (D) => et(this, nl, vf).call(this, D), e.stopse = (D) => et(this, ln, la).call(this, D), e.wb = (D) => et(this, sl, mf).call(this, D), e.wf = (D) => et(this, Xa, ec).call(this, D), e.stopfadese = (D) => et(this, Ya, ic).call(this, D), e.wl = (D) => et(this, al, _f).call(this, D), e.ws = (D) => et(this, Wa, rc).call(this, D), e.xchgbuf = (D) => et(this, ol, gf).call(this, D), r.setVal_Nochk("save", "const.sn.loopPlaying", "{}"), r.setVal_Nochk("tmp", "const.sn.sound.codecs", JSON.stringify(I.supported)), SndBuf.init(t, r, N, k), R.disableAutoPause = !0;
+    this.val = r, e.volume = (D) => et(this, tl, pf).call(this, D), e.fadebgm = (D) => et(this, Ha, Ju).call(this, D), e.fadeoutbgm = (D) => et(this, il, mf).call(this, D), e.fadeoutse = (D) => et(this, rl, _f).call(this, D), e.fadese = (D) => et(this, hn, ha).call(this, D), e.playbgm = (D) => et(this, za, Qu).call(this, D), e.playse = (D) => et(this, ys, bh).call(this, D), e.stop_allse = () => et(this, Va, tc).call(this), e.stopbgm = (D) => et(this, nl, gf).call(this, D), e.stopse = (D) => et(this, ln, la).call(this, D), e.wb = (D) => et(this, sl, yf).call(this, D), e.wf = (D) => et(this, Xa, ec).call(this, D), e.stopfadese = (D) => et(this, Ya, ic).call(this, D), e.wl = (D) => et(this, al, bf).call(this, D), e.ws = (D) => et(this, Wa, rc).call(this, D), e.xchgbuf = (D) => et(this, ol, xf).call(this, D), r.setVal_Nochk("save", "const.sn.loopPlaying", "{}"), r.setVal_Nochk("tmp", "const.sn.sound.codecs", JSON.stringify(I.supported)), SndBuf.init(t, r, N, k), R.disableAutoPause = !0;
   }
   setEvtMng(t) {
     Q(this, ja, t), SndBuf.setEvtMng(t);
@@ -19881,15 +19881,15 @@ class SoundMng {
       r();
   }
 }
-He = new WeakMap(), $a = new WeakMap(), ja = new WeakMap(), tl = new WeakSet(), cf = function(t) {
-  const { buf: e = "SE" } = t, r = "const.sn.sound." + e + ".volume", N = et(this, el, ff).call(this, t, 1);
+He = new WeakMap(), $a = new WeakMap(), ja = new WeakMap(), tl = new WeakSet(), pf = function(t) {
+  const { buf: e = "SE" } = t, r = "const.sn.sound." + e + ".volume", N = et(this, el, vf).call(this, t, 1);
   return Number(this.val.getVal("sys:" + r)) === N ? !1 : (this.val.setVal_Nochk("sys", r, N), this.val.flush(), t.time = 0, t.volume = Number(this.val.getVal("save:" + r)), et(this, hn, ha).call(this, t));
-}, el = new WeakSet(), ff = function(t, e) {
+}, el = new WeakSet(), vf = function(t, e) {
   const r = argChk_Num(t, "volume", e);
   return r < 0 ? 0 : r > 1 ? 1 : r;
-}, il = new WeakSet(), df = function(t) {
+}, il = new WeakSet(), mf = function(t) {
   return t.volume = 0, et(this, Ha, Ju).call(this, t);
-}, rl = new WeakSet(), pf = function(t) {
+}, rl = new WeakSet(), _f = function(t) {
   return t.volume = 0, et(this, hn, ha).call(this, t);
 }, Ha = new WeakSet(), Ju = function(t) {
   return t.buf = "BGM", et(this, hn, ha).call(this, t);
@@ -19908,13 +19908,13 @@ He = new WeakMap(), $a = new WeakMap(), ja = new WeakMap(), tl = new WeakSet(), 
   for (const t of Object.keys(U(this, He)))
     et(this, ln, la).call(this, { buf: t });
   return Q(this, He, {}), R.stopAll(), !1;
-}, nl = new WeakSet(), vf = function(t) {
+}, nl = new WeakSet(), gf = function(t) {
   return t.buf = "BGM", et(this, ln, la).call(this, t);
 }, ln = new WeakSet(), la = function(t) {
   var r;
   const { buf: e = "SE" } = t;
   return (r = U(this, He)[e]) == null || r.stopse(t), !1;
-}, sl = new WeakSet(), mf = function(t) {
+}, sl = new WeakSet(), yf = function(t) {
   return t.buf = "BGM", et(this, Xa, ec).call(this, t);
 }, Xa = new WeakSet(), ec = function(t) {
   var r;
@@ -19924,13 +19924,13 @@ He = new WeakMap(), $a = new WeakMap(), ja = new WeakMap(), tl = new WeakSet(), 
   var r;
   const { buf: e = "SE" } = t;
   return (r = U(this, He)[e]) == null || r.stopfadese(t), !1;
-}, al = new WeakSet(), _f = function(t) {
+}, al = new WeakSet(), bf = function(t) {
   return t.buf = "BGM", et(this, Wa, rc).call(this, t);
 }, Wa = new WeakSet(), rc = function(t) {
   var r;
   const { buf: e = "SE" } = t;
   return (r = U(this, He)[e]) == null ? void 0 : r.ws(t);
-}, ol = new WeakSet(), gf = function(t) {
+}, ol = new WeakSet(), xf = function(t) {
   const { buf: e = "SE", buf2: r = "SE" } = t;
   return e === r || ([U(this, He)[e], U(this, He)[r]] = [U(this, He)[r], U(this, He)[e]], SndBuf.xchgbuf(t)), !1;
 };
@@ -20266,7 +20266,7 @@ class PicBtnDesignCast extends BtnDesignCast {
   setSp(t) {
   }
 }
-var ul, Mr, or, un, cn, $i, qa, fn, Za, bs, ji, hr, lr, Ir, Ka, Ja, Qa, cl, yf, fl, bf, to, nc, dl, xf, xs, xh, Es, Mi, Ss, pl, dn, eo;
+var ul, Mr, or, un, cn, $i, qa, fn, Za, bs, ji, hr, lr, Ir, Ka, Ja, Qa, cl, Ef, fl, Sf, to, nc, dl, Tf, xs, xh, Es, Mi, Ss, pl, dn, eo;
 const Bt = class extends Layer {
   constructor() {
     super();
@@ -20309,7 +20309,7 @@ const Bt = class extends Layer {
       (H) => {
         Q(Bt, Za, H), $();
       }
-    ), U(Bt, $i).crypto && Q(Bt, Qa, et(Bt, fl, bf));
+    ), U(Bt, $i).crypto && Q(Bt, Qa, et(Bt, fl, Sf));
   }
   static setEvtMng(e) {
     Q(Bt, bs, e);
@@ -20375,7 +20375,7 @@ const Bt = class extends Layer {
     const H = (z) => {
       var X;
       for (const { fn: V, fnc: Y } of B) {
-        const q = et(X = Bt, dl, xf).call(X, V, z);
+        const q = et(X = Bt, dl, Tf).call(X, V, z);
         q.name = V, r == null || r.addChild(q), Y(q);
       }
       k(D);
@@ -20535,7 +20535,7 @@ const Bt = class extends Layer {
   }
 };
 let GrpLayer = Bt;
-ul = new WeakMap(), Mr = new WeakMap(), or = new WeakMap(), un = new WeakMap(), cn = new WeakMap(), $i = new WeakMap(), qa = new WeakMap(), fn = new WeakMap(), Za = new WeakMap(), bs = new WeakMap(), ji = new WeakMap(), hr = new WeakMap(), lr = new WeakMap(), Ir = new WeakMap(), Ka = new WeakMap(), Ja = new WeakMap(), Qa = new WeakMap(), cl = new WeakSet(), yf = function(e) {
+ul = new WeakMap(), Mr = new WeakMap(), or = new WeakMap(), un = new WeakMap(), cn = new WeakMap(), $i = new WeakMap(), qa = new WeakMap(), fn = new WeakMap(), Za = new WeakMap(), bs = new WeakMap(), ji = new WeakMap(), hr = new WeakMap(), lr = new WeakMap(), Ir = new WeakMap(), Ka = new WeakMap(), Ja = new WeakMap(), Qa = new WeakMap(), cl = new WeakSet(), Ef = function(e) {
   const r = /([^\d]+)\d+\.(\w+)/.exec(e[0]);
   if (!r)
     return [];
@@ -20543,7 +20543,7 @@ ul = new WeakMap(), Mr = new WeakMap(), or = new WeakMap(), un = new WeakMap(), 
   return e.sort(
     (D, B) => int(D.slice(N, k)) > int(B.slice(N, k)) ? 1 : -1
   );
-}, fl = new WeakSet(), bf = function(e, r, N) {
+}, fl = new WeakSet(), Sf = function(e, r, N) {
   var H;
   if (r.data = e, r.extension === "bin" && (e instanceof HTMLImageElement ? (r.texture = Texture.fromLoader(e, r.url, r.name), r.type = LoaderResource.TYPE.IMAGE) : e instanceof HTMLVideoElement && (e.volume = U(Bt, fn), Bt.hFn2VElm[r.name] = et(H = Bt, to, nc).call(H, e), r.type = LoaderResource.TYPE.VIDEO)), r.extension !== "json") {
     N();
@@ -20578,7 +20578,7 @@ ul = new WeakMap(), Mr = new WeakMap(), or = new WeakMap(), un = new WeakMap(), 
   });
 }, to = new WeakSet(), nc = function(e) {
   return U(Bt, qa).getVal("const.sn.needClick2Play") && (DebugMng.trace_beforeNew(`[lay系] ${DebugMng.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, "W"), e.muted = !0), e.setAttribute("playsinline", ""), e;
-}, dl = new WeakSet(), xf = function(e, r) {
+}, dl = new WeakSet(), Tf = function(e, r) {
   const N = Bt.hFn2ResAniSpr[e];
   if (N) {
     const k = new AnimatedSprite(N.aTex);
@@ -20593,7 +20593,7 @@ ul = new WeakMap(), Mr = new WeakMap(), or = new WeakMap(), un = new WeakMap(), 
   switch (r.type) {
     case LoaderResource.TYPE.JSON:
       const B = r.spritesheet._frameKeys;
-      et(k = Bt, cl, yf).call(k, B), Bt.hFn2ResAniSpr[r.name] = {
+      et(k = Bt, cl, Ef).call(k, B), Bt.hFn2ResAniSpr[r.name] = {
         aTex: B.map((H) => Texture.from(H)),
         meta: r.data.meta
       };
@@ -20604,7 +20604,7 @@ ul = new WeakMap(), Mr = new WeakMap(), or = new WeakMap(), un = new WeakMap(), 
   }
   N();
 }), pt(GrpLayer, "hFn2VElm", {}), K(GrpLayer, pl, /\?([^?]+)$/), K(GrpLayer, dn, {}), K(GrpLayer, eo, {});
-var Ts, io, pn, Kt, Hi, ur, vl, li, Ar, Dt, bi, ze, Ve, ws, Eh, Ii, cr, ro, Ps, ml, Ef, vn, Cs, Lr, mn, _n, gn, Rs, no, Nr, so, sc, fr, ao, dr, zi, Os, oo, ac, kr, yn, ho, oc, Ke;
+var Ts, io, pn, Kt, Hi, ur, vl, li, Ar, Dt, bi, ze, Ve, ws, Eh, Ii, cr, ro, Ps, ml, wf, vn, Cs, Lr, mn, _n, gn, Rs, no, Nr, so, sc, fr, ao, dr, zi, Os, oo, ac, kr, yn, ho, oc, Ke;
 const Ht = class extends Container {
   constructor(e, r, N) {
     super();
@@ -20972,7 +20972,7 @@ const Ht = class extends Container {
     Q(this, Dt, e.infTL), this.position.set(U(this, Dt).pad_left, U(this, Dt).pad_top), U(this, Kt).style.cssText = e.cssText, Q(this, Ii, e.left), et(this, ws, Eh).call(this), U(this, li).sethArg(e.idc_hArg), Q(this, vn, e.ch_filter), Q(this, kr, e.fi_easing), Q(this, yn, e.fo_easing), Q(this, bi, e.break_fixed ?? !1), Q(this, ze, e.break_fixed_left ?? 0), Q(this, Ve, e.break_fixed_top ?? 0);
   }
   snapshot(e, r) {
-    et(this, ml, Ef).call(this, (N) => {
+    et(this, ml, wf).call(this, (N) => {
       Q(this, Ke, new Sprite(N)), U(this, cr) && (U(this, Ke).x += CmnLib.stageW - (U(this, Ii) + U(this, Dt).$width)), U(this, Ke).y -= U(this, Ps), U(this, Ke).texture.frame = new Rectangle(
         0,
         0,
@@ -21010,7 +21010,7 @@ Ts = new WeakMap(), io = new WeakMap(), pn = new WeakMap(), Kt = new WeakMap(), 
   U(this, Dt).fontsize = r, U(this, Dt).pad_left = parseFloat(e.paddingLeft || "0"), U(this, Dt).pad_right = parseFloat(e.paddingRight || "0"), U(this, Dt).pad_top = parseFloat(e.paddingTop || "0"), U(this, Dt).pad_bottom = parseFloat(e.paddingBottom || "0"), U(this, Dt).$width = parseFloat(e.width || "0"), U(this, Dt).$height = parseFloat(e.height || "0"), this.position.set(U(this, Dt).pad_left, U(this, Dt).pad_top), Q(this, cr, e.writingMode === "vertical-rl"), Q(this, ro, 0), Q(this, Ps, 0);
   const N = e.lineHeight ?? "0";
   Q(this, Os, U(this, cr) ? 0 : (N.slice(-2) === "px" ? parseFloat(N) : r * parseFloat(N) - r) / 2);
-}, Ii = new WeakMap(), cr = new WeakMap(), ro = new WeakMap(), Ps = new WeakMap(), ml = new WeakSet(), Ef = function(e, r = !0) {
+}, Ii = new WeakMap(), cr = new WeakMap(), ro = new WeakMap(), Ps = new WeakMap(), ml = new WeakSet(), wf = function(e, r = !0) {
   const N = {
     escape: (Z) => Z.replaceAll(/([.*+?^${}()|\[\]\/\\])/g, "\\$1"),
     mimeType: (Z) => {
@@ -21353,7 +21353,7 @@ bn = new WeakMap(), Vi = new WeakMap(), lo = new WeakMap(), K(RubySpliter, bn, "
 		・Unicode文字一覧表 - instant tools https://tools.m-bsys.com/ex/unicode_table.php
 */
 K(RubySpliter, lo, void 0);
-var uo, co, Ai, pr, ie, _l, Sf, Ms, Is, gl, Tf;
+var uo, co, Ai, pr, ie, _l, Pf, Ms, Is, gl, Cf;
 const Qr = class extends Container {
   constructor(e, r, N, k) {
     var V;
@@ -21392,7 +21392,7 @@ const Qr = class extends Container {
         e.pic,
         this,
         (Y) => {
-          et(this, gl, Tf).call(this, Y), U(this, Ai).width = Y.width * U(this, ie).scale_x, U(this, Ai).height = Y.height * U(this, ie).scale_y;
+          et(this, gl, Cf).call(this, Y), U(this, Ai).width = Y.width * U(this, ie).scale_x, U(this, Ai).height = Y.height * U(this, ie).scale_y;
         },
         (Y) => N
       );
@@ -21427,7 +21427,7 @@ const Qr = class extends Container {
       e.b_pic,
       this,
       (Y) => {
-        et(this, _l, Sf).call(this, Y, $), U(this, ie).width = this.width, U(this, ie).height = this.height;
+        et(this, _l, Pf).call(this, Y, $), U(this, ie).width = this.width, U(this, ie).height = this.height;
       },
       (Y) => {
         Layer.setBlendmode(this, e), Y && N();
@@ -21481,7 +21481,7 @@ const Qr = class extends Container {
   }
 };
 let Button = Qr;
-uo = new WeakMap(), co = new WeakMap(), Ai = new WeakMap(), pr = new WeakMap(), ie = new WeakMap(), _l = new WeakSet(), Sf = function(e, r) {
+uo = new WeakMap(), co = new WeakMap(), Ai = new WeakMap(), pr = new WeakMap(), ie = new WeakMap(), _l = new WeakSet(), Pf = function(e, r) {
   this.setChildIndex(e, 0), e.alpha = r.alpha, e.setTransform(
     r.x,
     r.y,
@@ -21493,7 +21493,7 @@ uo = new WeakMap(), co = new WeakMap(), Ai = new WeakMap(), pr = new WeakMap(), 
     (e.width - r.width) / 2,
     (e.height - r.height) / 2
   ), e.name = r.name;
-}, Ms = new WeakMap(), Is = new WeakMap(), gl = new WeakSet(), Tf = function(e) {
+}, Ms = new WeakMap(), Is = new WeakMap(), gl = new WeakSet(), Cf = function(e) {
   var X;
   U(this, ie).alpha = e.alpha = argChk_Num(this.hArg, "alpha", e.alpha), U(this, pr).setSp(e);
   const r = e.width / 3, N = U(this, ie).enabled ? r : e.width, k = e.height, D = e.texture.baseTexture, B = new Texture(D, new Rectangle(0, 0, r, k)), $ = new Texture(D, new Rectangle(r, 0, r, k)), H = new Texture(D, new Rectangle(r * 2, 0, r, k)), z = () => e.texture = B;
@@ -21501,7 +21501,7 @@ uo = new WeakMap(), co = new WeakMap(), Ai = new WeakMap(), pr = new WeakMap(), 
 }, pt(Button, "fontFamily", "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif"), K(Button, uo, (e, r) => {
 }), K(Button, co, (e, r, N, k) => {
 });
-var As, Li, fo, Ls, po, hc, vo, lc, mo, xn, _o, vr, En, yl, wf, mr, xi, Ni, ue, Xi, ee, go, Yi, bl, Je, Sn, ua, Tn, Ns, wn, ca, ks, yo, uc, bo, cc, Pn, Cn, Ds, xo, Fs, Dr, Qe, xl, Pf, ui, Eo, Bs, Sh, _r, Kr, Wi, ki, Ei, Si, So, fc, Us, Th, To, dc, Rn, On;
+var As, Li, fo, Ls, po, hc, vo, lc, mo, xn, _o, vr, En, yl, Rf, mr, xi, Ni, ue, Xi, ee, go, Yi, bl, Je, Sn, ua, Tn, Ns, wn, ca, ks, yo, uc, bo, cc, Pn, Cn, Ds, xo, Fs, Dr, Qe, xl, Of, ui, Eo, Bs, Sh, _r, Kr, Wi, ki, Ei, Si, So, fc, Us, Th, To, dc, Rn, On;
 const Xt = class extends Layer {
   constructor() {
     super();
@@ -21675,7 +21675,7 @@ text-combine-upright: all;
     var $, H;
     Q(Xt, As, e), TxtStage.init(e, B), Q(Xt, Li, N), Q(Xt, Ls, k), Q(Xt, fo, D), N.setDoRecProc(Xt.chgDoRec), r.autowc = (z) => {
       var X;
-      return et(X = Xt, yl, wf).call(X, z);
+      return et(X = Xt, yl, Rf).call(X, z);
     }, r.autowc({ enabled: !1, text: "", time: 0 }), r.ch_in_style = (z) => {
       var X;
       return et(X = Xt, po, hc).call(X, z);
@@ -21755,7 +21755,7 @@ text-combine-upright: all;
     U(this, ee).lay({ y: e });
   }
   lay(e) {
-    if (super.lay(e), Layer.setXY(this.spLay, e, this.spLay), e[":id_tag"] = this.name_.slice(0, -7), RubySpliter.setting(e), et(this, bo, cc).call(this, e), U(this, ee).lay(e), "r_align" in e && Q(this, Qe, e.r_align ?? ""), Q(this, Dr, CmnLib.isSafari ? U(this, ee).tategaki ? (r, N) => `text-align: start; height: ${N}em; padding-top: ${r}; padding-bottom: ${r};` : (r, N) => `text-align: start; width: ${N}em; padding-left: ${r}; padding-right: ${r};` : U(this, ee).tategaki ? (r) => `text-align: justify; text-align-last: justify; padding-top: ${r}; padding-bottom: ${r};` : (r) => `text-align: justify; text-align-last: justify; padding-left: ${r}; padding-right: ${r};`), CmnLib.isFirefox && (this.mkStyle_r_align = et(this, xl, Pf)), "r_style" in e)
+    if (super.lay(e), Layer.setXY(this.spLay, e, this.spLay), e[":id_tag"] = this.name_.slice(0, -7), RubySpliter.setting(e), et(this, bo, cc).call(this, e), U(this, ee).lay(e), "r_align" in e && Q(this, Qe, e.r_align ?? ""), Q(this, Dr, CmnLib.isSafari ? U(this, ee).tategaki ? (r, N) => `text-align: start; height: ${N}em; padding-top: ${r}; padding-bottom: ${r};` : (r, N) => `text-align: start; width: ${N}em; padding-left: ${r}; padding-right: ${r};` : U(this, ee).tategaki ? (r) => `text-align: justify; text-align-last: justify; padding-top: ${r}; padding-bottom: ${r};` : (r) => `text-align: justify; text-align-last: justify; padding-left: ${r}; padding-right: ${r};`), CmnLib.isFirefox && (this.mkStyle_r_align = et(this, xl, Of)), "r_style" in e)
       if (e.r_style) {
         const r = document.createElement("span");
         r.style.cssText = e.r_style;
@@ -21914,7 +21914,7 @@ As = new WeakMap(), Li = new WeakMap(), fo = new WeakMap(), Ls = new WeakMap(), 
 		transform: rotate(${r.rotate}deg) scale(${r.scale_x}, ${r.scale_y}) translate(${N}, ${k});
 	}
 `), !1;
-}, mo = new WeakMap(), xn = new WeakMap(), _o = new WeakMap(), vr = new WeakMap(), En = new WeakMap(), yl = new WeakSet(), wf = function(e) {
+}, mo = new WeakMap(), xn = new WeakMap(), _o = new WeakMap(), vr = new WeakMap(), En = new WeakMap(), yl = new WeakSet(), Rf = function(e) {
   Q(Xt, vr, argChk_Boolean(e, "enabled", U(Xt, vr))), U(Xt, Li).setVal_Nochk("save", "const.sn.autowc.enabled", U(Xt, vr));
   const { text: r } = e;
   if ("text" in e != "time" in e)
@@ -21961,7 +21961,7 @@ As = new WeakMap(), Li = new WeakMap(), fo = new WeakMap(), Ls = new WeakMap(), 
   return U(this, ue) && (U(this, ue).visible = N > 0, U(this, ue).alpha = N), r(!1), !1;
 }, bo = new WeakSet(), cc = function(e) {
   "noffs" in e && (Q(this, Ds, e.noffs ?? ""), Q(this, xo, new RegExp(`[　${U(this, Ds)}]`))), "ffs" in e && (U(this, Pn) ?? Q(this, Pn, ""), Q(this, Cn, U(this, Pn) === "" ? () => "" : (r) => U(this, xo).test(r) ? "" : ` font-feature-settings: ${U(this, Pn)};`));
-}, Pn = new WeakMap(), Cn = new WeakMap(), Ds = new WeakMap(), xo = new WeakMap(), Fs = new WeakMap(), Dr = new WeakMap(), Qe = new WeakMap(), xl = new WeakSet(), Pf = function(e, r, N, k = "") {
+}, Pn = new WeakMap(), Cn = new WeakMap(), Ds = new WeakMap(), xo = new WeakMap(), Fs = new WeakMap(), Dr = new WeakMap(), Qe = new WeakMap(), xl = new WeakSet(), Of = function(e, r, N, k = "") {
   if (!N)
     return ` style='${k}'`;
   const D = e.length * 2;
@@ -22052,7 +22052,7 @@ K(TxtLayer, bl, {
   "padding-top": 0,
   "padding-bottom": 0
 }), K(TxtLayer, Fs, (e) => e);
-var Gs, Mn, El, Cf, $s, js, wh, Sl, Rf, Tl, Of, wo, wl, Mf, Pl, If;
+var Gs, Mn, El, Mf, $s, js, wh, Sl, If, Tl, Af, wo, wl, Lf, Pl, Nf;
 class FrameMng {
   constructor(t, e, r, N, k, D, B) {
     //	HTMLフレーム
@@ -22071,7 +22071,7 @@ class FrameMng {
     K(this, $s, {});
     // フレームに設定
     K(this, wo, 1);
-    this.cfg = t, this.appPixi = r, this.val = N, this.main = k, this.sys = D, this.hTwInf = B, e.add_frame = ($) => et(this, El, Cf).call(this, $), e.let_frame = ($) => et(this, Sl, Rf).call(this, $), e.set_frame = ($) => et(this, Tl, Of).call(this, $), e.frame = ($) => et(this, wl, Mf).call(this, $), e.tsy_frame = ($) => et(this, Pl, If).call(this, $);
+    this.cfg = t, this.appPixi = r, this.val = N, this.main = k, this.sys = D, this.hTwInf = B, e.add_frame = ($) => et(this, El, Mf).call(this, $), e.let_frame = ($) => et(this, Sl, If).call(this, $), e.set_frame = ($) => et(this, Tl, Af).call(this, $), e.frame = ($) => et(this, wl, Lf).call(this, $), e.tsy_frame = ($) => et(this, Pl, Nf).call(this, $);
   }
   setEvtMng(t) {
     Q(this, Gs, t);
@@ -22091,7 +22091,7 @@ class FrameMng {
     }
   }
 }
-Gs = new WeakMap(), Mn = new WeakMap(), El = new WeakSet(), Cf = function(t) {
+Gs = new WeakMap(), Mn = new WeakMap(), El = new WeakSet(), Mf = function(t) {
   const { id: e, src: r, alpha: N = 1, scale_x: k = 1, scale_y: D = 1, rotate: B = 0 } = t;
   if (!e)
     throw "idは必須です";
@@ -22131,7 +22131,7 @@ Gs = new WeakMap(), Mn = new WeakMap(), El = new WeakSet(), Cf = function(t) {
     argChk_Num(e, "width", CmnLib.stageW) * r,
     argChk_Num(e, "height", CmnLib.stageH) * r
   );
-}, Sl = new WeakSet(), Rf = function(t) {
+}, Sl = new WeakSet(), If = function(t) {
   const { id: e, var_name: r } = t;
   if (!e)
     throw "idは必須です";
@@ -22152,7 +22152,7 @@ Gs = new WeakMap(), Mn = new WeakMap(), El = new WeakSet(), Cf = function(t) {
     k + "." + r,
     argChk_Boolean(t, "function", !1) ? B() : B
   ), !1;
-}, Tl = new WeakSet(), Of = function(t) {
+}, Tl = new WeakSet(), Af = function(t) {
   const { id: e, var_name: r, text: N } = t;
   if (!e)
     throw "idは必須です";
@@ -22169,7 +22169,7 @@ Gs = new WeakMap(), Mn = new WeakMap(), El = new WeakSet(), Cf = function(t) {
   this.val.setVal_Nochk("tmp", D + "." + r, N);
   const B = k.contentWindow;
   return B[r] = N, !1;
-}, wo = new WeakMap(), wl = new WeakSet(), Mf = function(t) {
+}, wo = new WeakMap(), wl = new WeakSet(), Lf = function(t) {
   const { id: e } = t;
   if (!e)
     throw "idは必須です";
@@ -22198,7 +22198,7 @@ Gs = new WeakMap(), Mn = new WeakMap(), El = new WeakSet(), Cf = function(t) {
     r.contentDocument.body.querySelectorAll("input,select").forEach((H) => H.disabled = B);
   }
   return !1;
-}, Pl = new WeakSet(), If = function(t) {
+}, Pl = new WeakSet(), Nf = function(t) {
   const { id: e, alpha: r, x: N, y: k, scale_x: D, scale_y: B, rotate: $, width: H, height: z, ease: X, path: V, chain: Y } = t;
   if (!e)
     throw "idは必須です";
@@ -22272,7 +22272,7 @@ ${e}`, lt = () => {
     yt.start();
   return this.hTwInf[nt] = { tw: Ot, resume: !1 }, !1;
 };
-var Ti, ne, me, Fr, In, Hs, Po, Co, Ro, zs, Oo, pc, Br, ci, Cl, Af, ti, Rl, Lf, Ol, Nf, Ml, kf, Jt, qi, Zi, Mo, Il, Df, Vs, Ph, Al, Ff, Ll, Io, Nl, An, Ln, gr, we, Nn, kl, Bf, Pe, Xe, ai, Dl, Uf, Fl, Gf, Bl, $f, kn, fa, Ul, jf, fi, Gl, Hf, $l, zf, jl, Vf, Hl, Xf, zl, Yf, Ur, Dn, da, di, Vl, Wf, Ao, Xl, qf, Ki, Fn, Gr, as, Ge, Ji, Yl, Zf, Wl, Kf, ql, Jf, Zl, Qf, Kl, td, Jl, ed, Ql, id, Lo, vc, tu, rd, eu, nd, iu, sd, ru, ad, nu, od, su, hd, au, ld;
+var Ti, ne, me, Fr, In, Hs, Po, Co, Ro, zs, Oo, pc, Br, ci, Cl, kf, ti, Rl, Df, Ol, Ff, Ml, Bf, Jt, qi, Zi, Mo, Il, Uf, Vs, Ph, Al, Gf, Ll, Io, Nl, An, Ln, gr, we, Nn, kl, $f, Pe, Xe, ai, Dl, jf, Fl, Hf, Bl, zf, kn, fa, Ul, Vf, fi, Gl, Xf, $l, Yf, jl, Wf, Hl, qf, zl, Zf, Ur, Dn, da, di, Vl, Kf, Ao, Xl, Jf, Ki, Fn, Gr, as, Ge, Ji, Yl, Qf, Wl, td, ql, ed, Zl, id, Kl, rd, Jl, nd, Ql, sd, Lo, vc, tu, ad, eu, od, iu, hd, ru, ld, nu, ud, su, cd, au, fd;
 const Rr = class {
   constructor(t, e, r, N, k, D, B, $, H, z) {
     K(this, Oo);
@@ -22468,7 +22468,7 @@ void main(void) {
         }, 1e3 / 60 * 10));
       }, { passive: !0 });
     }
-    B.cvsResize(), TxtLayer.init(t, e, N, this, (W) => U(this, Jt)[W.layname].fore === W, r), GrpLayer.init(k, t, r, B, $, N), Button.init(t), Q(this, Fr, new FrameMng(t, e, r, N, k, B, U(this, fi))), B.hFactoryCls.grp = () => new GrpLayer(), B.hFactoryCls.txt = () => new TxtLayer(), e.loadplugin = (W) => et(this, Ol, Nf).call(this, W), e.snapshot = (W) => et(this, Rl, Lf).call(this, W), e.add_lay = (W) => et(this, Ml, kf).call(this, W), e.clear_lay = (W) => et(this, Al, Ff).call(this, W), e.finish_trans = () => et(this, kn, fa).call(this), e.lay = (W) => et(this, Il, Df).call(this, W), e.trans = (W) => et(this, kl, Bf).call(this, W), e.wt = (W) => et(this, Bl, $f).call(this, W), e.quake = (W) => et(this, Ul, jf).call(this, W), e.stop_quake = (W) => e.finish_trans(W), e.wq = (W) => e.wt(W), e.pause_tsy = (W) => et(this, Hl, Xf).call(this, W), e.resume_tsy = (W) => et(this, zl, Yf).call(this, W), e.stop_tsy = (W) => et(this, jl, Vf).call(this, W), e.tsy = (W) => et(this, Gl, Hf).call(this, W), e.wait_tsy = (W) => et(this, $l, zf).call(this, W), e.ch = (W) => et(this, Dn, da).call(this, W), e.clear_text = (W) => et(this, Yl, Zf).call(this, W), e.current = (W) => U(this, Ao).call(this, W), e.endlink = (W) => et(this, Wl, Kf).call(this, W), e.er = (W) => et(this, ql, Jf).call(this, W), e.graph = (W) => et(this, Zl, Qf).call(this, W), e.link = (W) => et(this, Kl, td).call(this, W), e.r = (W) => et(this, Jl, ed).call(this, W), e.rec_ch = (W) => et(this, Lo, vc).call(this, W), e.rec_r = (W) => et(this, Ql, id).call(this, W), e.reset_rec = (W) => et(this, tu, rd).call(this, W), e.ruby2 = (W) => et(this, eu, nd).call(this, W), e.span = (W) => et(this, iu, sd).call(this, W), e.tcy = (W) => et(this, ru, ad).call(this, W), e.add_face = (W) => GrpLayer.add_face(W), e.wv = (W) => GrpLayer.wv(W), e.dump_lay = (W) => et(this, nu, od).call(this, W), e.enable_event = (W) => et(this, su, hd).call(this, W), e.button = (W) => et(this, au, ld).call(this, W), t.existsBreakline && (this.breakLine = (W) => {
+    B.cvsResize(), TxtLayer.init(t, e, N, this, (W) => U(this, Jt)[W.layname].fore === W, r), GrpLayer.init(k, t, r, B, $, N), Button.init(t), Q(this, Fr, new FrameMng(t, e, r, N, k, B, U(this, fi))), B.hFactoryCls.grp = () => new GrpLayer(), B.hFactoryCls.txt = () => new TxtLayer(), e.loadplugin = (W) => et(this, Ol, Ff).call(this, W), e.snapshot = (W) => et(this, Rl, Df).call(this, W), e.add_lay = (W) => et(this, Ml, Bf).call(this, W), e.clear_lay = (W) => et(this, Al, Gf).call(this, W), e.finish_trans = () => et(this, kn, fa).call(this), e.lay = (W) => et(this, Il, Uf).call(this, W), e.trans = (W) => et(this, kl, $f).call(this, W), e.wt = (W) => et(this, Bl, zf).call(this, W), e.quake = (W) => et(this, Ul, Vf).call(this, W), e.stop_quake = (W) => e.finish_trans(W), e.wq = (W) => e.wt(W), e.pause_tsy = (W) => et(this, Hl, qf).call(this, W), e.resume_tsy = (W) => et(this, zl, Zf).call(this, W), e.stop_tsy = (W) => et(this, jl, Wf).call(this, W), e.tsy = (W) => et(this, Gl, Xf).call(this, W), e.wait_tsy = (W) => et(this, $l, Yf).call(this, W), e.ch = (W) => et(this, Dn, da).call(this, W), e.clear_text = (W) => et(this, Yl, Qf).call(this, W), e.current = (W) => U(this, Ao).call(this, W), e.endlink = (W) => et(this, Wl, td).call(this, W), e.er = (W) => et(this, ql, ed).call(this, W), e.graph = (W) => et(this, Zl, id).call(this, W), e.link = (W) => et(this, Kl, rd).call(this, W), e.r = (W) => et(this, Jl, nd).call(this, W), e.rec_ch = (W) => et(this, Lo, vc).call(this, W), e.rec_r = (W) => et(this, Ql, sd).call(this, W), e.reset_rec = (W) => et(this, tu, ad).call(this, W), e.ruby2 = (W) => et(this, eu, od).call(this, W), e.span = (W) => et(this, iu, hd).call(this, W), e.tcy = (W) => et(this, ru, ld).call(this, W), e.add_face = (W) => GrpLayer.add_face(W), e.wv = (W) => GrpLayer.wv(W), e.dump_lay = (W) => et(this, nu, ud).call(this, W), e.enable_event = (W) => et(this, su, cd).call(this, W), e.button = (W) => et(this, au, fd).call(this, W), t.existsBreakline && (this.breakLine = (W) => {
       delete W.visible, W.id = "break", W.pic = "breakline";
       const Z = encodeURIComponent(JSON.stringify(W));
       U(this, ti).call(this, "grp｜" + Z);
@@ -22480,7 +22480,7 @@ void main(void) {
     const V = new Graphics();
     V.beginFill(U(this, In), 1).lineStyle(0, U(this, In)).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill(), U(this, ne).addChild(V.clone()), U(this, me).addChild(V), U(this, me).visible = !1, U(this, ne).name = "page:A", U(this, me).name = "page:B", Q(this, Ti, r.stage), U(this, Ti).addChild(U(this, me)), U(this, Ti).addChild(U(this, ne)), U(this, Ti).addChild(U(this, Ln)), U(this, Ti).addChild(U(this, we)), U(this, Ti).name = "stage", r.ticker.add(U(this, Po));
     const Y = (W, Z) => {
-      et(this, Cl, Af).call(this, Number(Z));
+      et(this, Cl, kf).call(this, Number(Z));
     };
     Y("", N.getVal("sys:TextLayer.Back.Alpha", 1)), N.defValTrg("sys:TextLayer.Back.Alpha", Y);
     const q = (W, Z) => Button.fontFamily = Z;
@@ -22595,12 +22595,12 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
   [Me(this, Ro)._, this.zs = ""] = t.split("/");
   const e = U(this, Jt)[U(this, Ro)];
   e && (U(this, zs) ? e.fore.showDesignCastChildren() : e.fore.showDesignCast());
-}, Br = new WeakMap(), ci = new WeakMap(), Cl = new WeakSet(), Af = function(t) {
+}, Br = new WeakMap(), ci = new WeakMap(), Cl = new WeakSet(), kf = function(t) {
   for (const e of et(this, Xe, ai).call(this)) {
     const r = U(this, Jt)[e];
     r.fore instanceof TxtLayer && (r.fore.chgBackAlpha(t), r.back.chgBackAlpha(t));
   }
-}, ti = new WeakMap(), Rl = new WeakSet(), Lf = function(t) {
+}, ti = new WeakMap(), Rl = new WeakSet(), Df = function(t) {
   const e = t.fn ? t.fn.slice(0, 10) === "userdata:/" ? t.fn : `downloads:/${t.fn + getDateStr("-", "_", "", "_")}.png` : `downloads:/snapshot${getDateStr("-", "_", "", "_")}.png`, r = this.cfg.searchPath(e);
   if (!("layer" in t) && this.sys.canCapturePage(r, () => this.main.resume()))
     return !0;
@@ -22635,7 +22635,7 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
         U(this, Jt)[z][$].snapshot_end();
     D.destroy(!0), this.main.resume();
   }), !0;
-}, Ol = new WeakSet(), Nf = function(t) {
+}, Ol = new WeakSet(), Ff = function(t) {
   const { fn: e } = t;
   if (!e)
     throw "fnは必須です";
@@ -22653,7 +22653,7 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
       throw "サポートされない拡張子です";
   }
   return r;
-}, Ml = new WeakSet(), kf = function(t) {
+}, Ml = new WeakSet(), Bf = function(t) {
   const { layer: e, class: r } = t;
   if (!e)
     throw "layerは必須です";
@@ -22667,7 +22667,7 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
   switch (U(this, Jt)[e] = new Pages(e, r, U(this, ne), U(this, me), t, this.sys, this.val, N), U(this, qi).push(e), r) {
     case "txt":
       U(this, Zi) || (Q(this, Fn, () => {
-      }), Q(this, di, et(this, Vl, Wf)), Q(this, Ao, et(this, Xl, qf)), this.hTag.current({ layer: e }), this.goTxt = () => {
+      }), Q(this, di, et(this, Vl, Kf)), Q(this, Ao, et(this, Xl, Jf)), this.hTag.current({ layer: e }), this.goTxt = () => {
         U(this, ci).isSkipping() ? Q(Rr, Ur, 0) : this.setNormalChWait();
         for (const k of et(this, Xe, ai).call(this)) {
           const D = U(this, Jt)[k].fore;
@@ -22686,7 +22686,7 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
       break;
   }
   return this.scrItr.recodeDesign(t), N.isWait;
-}, Jt = new WeakMap(), qi = new WeakMap(), Zi = new WeakMap(), Mo = new WeakMap(), Il = new WeakSet(), Df = function(t) {
+}, Jt = new WeakMap(), qi = new WeakMap(), Zi = new WeakMap(), Mo = new WeakMap(), Il = new WeakSet(), Uf = function(t) {
   const e = et(this, Gr, as).call(this, t), r = U(this, Jt)[e], N = r.back.spLay, k = r.fore.spLay;
   if (argChk_Boolean(t, "float", !1))
     U(this, me).setChildIndex(N, U(this, me).children.length - 1), U(this, ne).setChildIndex(k, U(this, ne).children.length - 1), et(this, Vs, Ph).call(this);
@@ -22705,13 +22705,13 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
   }
   return t[":id_tag"] = r.fore.name.slice(0, -7), this.scrItr.recodeDesign(t), r.lay(t);
 }, Vs = new WeakSet(), Ph = function() {
-  Q(this, qi, et(this, Fl, Gf).call(this));
-}, Al = new WeakSet(), Ff = function(t) {
-  return et(this, Dl, Uf).call(this, t, (e) => {
+  Q(this, qi, et(this, Fl, Hf).call(this));
+}, Al = new WeakSet(), Gf = function(t) {
+  return et(this, Dl, jf).call(this, t, (e) => {
     const r = U(this, Jt)[et(this, Gr, as).call(this, { layer: e })];
     t.page === "both" ? (r.fore.clearLay(t), r.back.clearLay(t)) : r.getPage(t).clearLay(t);
   }), !1;
-}, Ll = new WeakMap(), Io = new WeakMap(), Nl = new WeakMap(), An = new WeakMap(), Ln = new WeakMap(), gr = new WeakMap(), we = new WeakMap(), Nn = new WeakMap(), kl = new WeakSet(), Bf = function(t) {
+}, Ll = new WeakMap(), Io = new WeakMap(), Nl = new WeakMap(), An = new WeakMap(), Ln = new WeakMap(), gr = new WeakMap(), we = new WeakMap(), Nn = new WeakMap(), kl = new WeakSet(), $f = function(t) {
   et(this, kn, fa).call(this), U(this, ci).hideHint();
   const { layer: e } = t;
   Q(this, Nn, []);
@@ -22784,7 +22784,7 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
   }), !1;
 }, Pe = new WeakMap(), Xe = new WeakSet(), ai = function(t = "") {
   return t ? t.split(",") : U(this, qi);
-}, Dl = new WeakSet(), Uf = function(t, e) {
+}, Dl = new WeakSet(), jf = function(t, e) {
   const r = et(this, Xe, ai).call(this, t.layer);
   for (const N of r) {
     if (!N)
@@ -22795,17 +22795,17 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
     e(N, k);
   }
   return r;
-}, Fl = new WeakSet(), Gf = function(t = "") {
+}, Fl = new WeakSet(), Hf = function(t = "") {
   return et(this, Xe, ai).call(this, t).sort((e, r) => {
     const N = U(this, ne).getChildIndex(U(this, Jt)[e].fore.spLay), k = U(this, ne).getChildIndex(U(this, Jt)[r].fore.spLay);
     return N < k ? -1 : N > k ? 1 : 0;
   });
-}, Bl = new WeakSet(), $f = function(t) {
+}, Bl = new WeakSet(), zf = function(t) {
   return U(this, Pe).tw ? U(this, Pe).resume = U(this, ci).waitEvent(t, () => et(this, kn, fa).call(this)) : !1;
 }, kn = new WeakSet(), fa = function() {
   var t;
   return (t = U(this, Pe).tw) == null || t.end(), !1;
-}, Ul = new WeakSet(), jf = function(t) {
+}, Ul = new WeakSet(), Vf = function(t) {
   et(this, kn, fa).call(this);
   const e = argChk_Num(t, "time", NaN);
   if (e === 0 || U(this, ci).isSkipping())
@@ -22835,7 +22835,7 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
     (Y = this.appPixi.ticker) == null || Y.remove(D), U(this, ne).visible = !0, U(this, we).visible = !1, U(this, we).x = 0, U(this, we).y = 0, (q = U(this, Pe).tw) == null || q.stop(), U(this, Pe).resume && this.main.resume(), Q(this, Pe, { tw: void 0, resume: !1 });
   }).start();
   return Q(this, Pe, { tw: V, resume: !1 }), this.appPixi.ticker.add(D), !1;
-}, fi = new WeakMap(), Gl = new WeakSet(), Hf = function(t) {
+}, fi = new WeakMap(), Gl = new WeakSet(), Xf = function(t) {
   const { layer: e, render: r, path: N, name: k, ease: D, chain: B } = t;
   if (!e)
     throw "layerは必須です";
@@ -22886,7 +22886,7 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
         lt[ft] = H[ft];
     }
   } }, !1;
-}, $l = new WeakSet(), zf = function(t) {
+}, $l = new WeakSet(), Yf = function(t) {
   const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
   if (!k)
@@ -22896,21 +22896,21 @@ ${r}` : N ?? e;
     var B;
     return (B = D.tw) == null ? void 0 : B.end();
   }) : !1;
-}, jl = new WeakSet(), Vf = function(t) {
+}, jl = new WeakSet(), Wf = function(t) {
   var D, B;
   const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
   if (!k)
     throw "トゥイーンが指定されていません";
   return (B = (D = U(this, fi)[k]) == null ? void 0 : D.tw) == null || B.end(), !1;
-}, Hl = new WeakSet(), Xf = function(t) {
+}, Hl = new WeakSet(), qf = function(t) {
   var D, B;
   const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
   if (!k)
     throw "トゥイーンが指定されていません";
   return (B = (D = U(this, fi)[k]) == null ? void 0 : D.tw) == null || B.pause(), !1;
-}, zl = new WeakSet(), Yf = function(t) {
+}, zl = new WeakSet(), Zf = function(t) {
   var D, B;
   const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
@@ -22928,12 +22928,12 @@ ${r}` : N ?? e;
   const k = argChk_Boolean(t, "record", !0), D = this.val.doRecLog();
   return k || this.val.setVal_Nochk("save", "sn.doRecLog", k), r.tagCh(e.replaceAll("[r]", `
 `)), this.val.setVal_Nochk("save", "sn.doRecLog", D), U(this, ti).call(this, "add_close｜", r), !1;
-}, di = new WeakMap(), Vl = new WeakSet(), Wf = function(t) {
+}, di = new WeakMap(), Vl = new WeakSet(), Kf = function(t) {
   const e = et(this, Gr, as).call(this, t, U(this, Zi)), N = U(this, Jt)[e].getPage(t);
   if (!(N instanceof TxtLayer))
     throw e + "はTxtLayerではありません";
   return N;
-}, Ao = new WeakMap(), Xl = new WeakSet(), qf = function(t) {
+}, Ao = new WeakMap(), Xl = new WeakSet(), Jf = function(t) {
   const { layer: e } = t;
   if (!e)
     throw "[current] layerは必須です";
@@ -22952,53 +22952,53 @@ ${r}` : N ?? e;
   if (!(r in U(this, Jt)))
     throw "属性 layer【" + r + "】が不正です。レイヤーがありません";
   return t.layer = r;
-}, Ge = new WeakMap(), Ji = new WeakMap(), Yl = new WeakSet(), Zf = function(t) {
+}, Ge = new WeakMap(), Ji = new WeakMap(), Yl = new WeakSet(), Qf = function(t) {
   const e = U(this, di).call(this, t);
   return t.layer === U(this, Zi) && t.page === "fore" && this.recPagebreak(), e.clearText(), !1;
-}, Wl = new WeakSet(), Kf = function(t) {
+}, Wl = new WeakSet(), td = function(t) {
   return U(this, ti).call(this, "endlink｜", U(this, di).call(this, t)), !1;
-}, ql = new WeakSet(), Jf = function(t) {
+}, ql = new WeakSet(), ed = function(t) {
   return argChk_Boolean(t, "rec_page_break", !0) && this.recPagebreak(), U(this, Ki) && (U(this, Ki).fore.clearLay(t), U(this, Ki).back.clearLay(t)), !1;
-}, Zl = new WeakSet(), Qf = function(t) {
+}, Zl = new WeakSet(), id = function(t) {
   if (!t.pic)
     throw "[graph] picは必須です";
   const e = encodeURIComponent(JSON.stringify(t));
   return U(this, ti).call(this, "grp｜" + e, U(this, di).call(this, t)), !1;
-}, Kl = new WeakSet(), td = function(t) {
+}, Kl = new WeakSet(), rd = function(t) {
   if (!t.fn && !t.label && !t.url)
     throw "fnまたはlabelまたはurlは必須です";
   t.fn ?? (t.fn = this.scrItr.scriptFn), t.style ?? (t.style = "background-color: rgba(255,0,0,0.5);"), t.style_hover ?? (t.style_hover = "background-color: rgba(255,0,0,0.9);"), t.style_clicked ?? (t.style_clicked = t.style);
   const e = encodeURIComponent(JSON.stringify(t));
   return U(this, ti).call(this, "link｜" + e, U(this, di).call(this, t)), !1;
-}, Jl = new WeakSet(), ed = function(t) {
+}, Jl = new WeakSet(), nd = function(t) {
   return t.text = `
 `, et(this, Dn, da).call(this, t);
-}, Ql = new WeakSet(), id = function(t) {
+}, Ql = new WeakSet(), sd = function(t) {
   return et(this, Lo, vc).call(this, { ...t, text: "[r]" });
 }, Lo = new WeakSet(), vc = function(t) {
   return Q(this, Ge, { ...t, text: U(this, Ge).text }), t.text ? (t.record = !0, t.style ?? (t.style = ""), t.style += "display: none;", t.wait = 0, et(this, Dn, da).call(this, t)) : !1;
-}, tu = new WeakSet(), rd = function(t) {
+}, tu = new WeakSet(), ad = function(t) {
   return Q(this, Ji, []), Q(this, Ge, { text: t.text ?? "" }), this.val.setVal_Nochk(
     "save",
     "const.sn.sLog",
     t.text ? `[{text:"${t.text}"}]` : "[]"
   ), !1;
-}, eu = new WeakSet(), nd = function(t) {
+}, eu = new WeakSet(), od = function(t) {
   const { t: e, r } = t;
   if (!e)
     throw "[ruby2] tは必須です";
   if (!r)
     throw "[ruby2] rは必須です";
   return t.text = "｜" + encodeURIComponent(e) + "《" + encodeURIComponent(r) + "》", delete t.t, delete t.r, et(this, Dn, da).call(this, t);
-}, iu = new WeakSet(), sd = function(t) {
+}, iu = new WeakSet(), hd = function(t) {
   const e = encodeURIComponent(JSON.stringify(t));
   return U(this, ti).call(this, "span｜" + e, U(this, di).call(this, t)), !1;
-}, ru = new WeakSet(), ad = function(t) {
+}, ru = new WeakSet(), ld = function(t) {
   if (!t.t)
     throw "[tcy] tは必須です";
   const e = encodeURIComponent(JSON.stringify(t));
   return U(this, ti).call(this, "tcy｜" + e, U(this, di).call(this, t)), !1;
-}, nu = new WeakSet(), od = function(t) {
+}, nu = new WeakSet(), ud = function(t) {
   console.group("🥟 [dump_lay]");
   for (const e of et(this, Xe, ai).call(this, t.layer)) {
     const r = U(this, Jt)[e];
@@ -23013,10 +23013,10 @@ ${r}` : N ?? e;
     }
   }
   return console.groupEnd(), !1;
-}, su = new WeakSet(), hd = function(t) {
+}, su = new WeakSet(), cd = function(t) {
   const e = et(this, Gr, as).call(this, t, U(this, Zi)), r = argChk_Boolean(t, "enabled", !0);
   return U(this, di).call(this, t).enabled = r, this.val.setVal_Nochk("save", "const.sn.layer." + e + ".enabled", r), !1;
-}, au = new WeakSet(), ld = function(t) {
+}, au = new WeakSet(), fd = function(t) {
   return Pages.argChk_page(t, "back"), t.fn ?? (t.fn = this.scrItr.scriptFn), U(this, di).call(this, t).addButton(t), this.scrItr.recodeDesign(t), !1;
 }, // 11 match 301 step (0.1ms) PCRE2 https://regex101.com/r/reinpq/1
 // List ${x}${x2}/${y}${y2}/${o}${o2}=${json}\n
@@ -23037,7 +23037,7 @@ ${r}` : N ?? e;
 */
 pt(LayerMng, "REG_TSY_PATH", /\(\s*(?:(?<x>[-=\d\.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d\.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d\.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g), //	// 文字・文字レイヤ
 K(LayerMng, Ur, 10);
-var _e, de, Xs, ou, ud, No, Bn, pa;
+var _e, de, Xs, ou, dd, No, Bn, pa;
 class FocusMng {
   constructor() {
     K(this, ou);
@@ -23081,7 +23081,7 @@ class FocusMng {
         N = () => D.checked = !D.checked;
         break;
       case "":
-        t.querySelectorAll("input[type]").length > 0 && (N = (B) => et(this, ou, ud).call(this, t, B.key), k = () => !1);
+        t.querySelectorAll("input[type]").length > 0 && (N = (B) => et(this, ou, dd).call(this, t, B.key), k = () => !1);
         break;
       case "range":
         N = (B) => {
@@ -23156,7 +23156,7 @@ class FocusMng {
     et(this, Bn, pa).call(this), Q(this, de, -1), globalThis.focus();
   }
 }
-_e = new WeakMap(), de = new WeakMap(), Xs = new WeakMap(), ou = new WeakSet(), ud = function(t, e) {
+_e = new WeakMap(), de = new WeakMap(), Xs = new WeakMap(), ou = new WeakSet(), dd = function(t, e) {
   const r = t.querySelectorAll("input[type]"), N = r.length;
   for (let k = 0; k < N; ++k)
     if (r[k].checked) {
@@ -23177,7 +23177,7 @@ var $r, Ys, Ch;
 const Ae = class {
   constructor(t) {
     K(this, Ys);
-    pt(this, "wait", (t) => Rs_Wait.go(t));
+    pt(this, "wait", (t) => skip_enabled ? (!skip_all && !scrItr.isNextKidoku && cancelAutoSkip(), !1) : Rs_Wait.go(t));
     pt(this, "waitclick", (t) => Rs_WaitClick.go(t));
     K(this, $r, new EventListenerCtn());
     pt(this, "isWait", !1);
@@ -23380,55 +23380,59 @@ const Lc = class extends ReadState {
 };
 let Rs_S = Lc;
 pt(Rs_S, "go", (e) => new Lc(e).waitTxtAndTimer(0, {}));
-class Rs_Wait extends ReadState {
-  static go(t) {
-    const e = argChk_Num(t, "time", NaN);
-    return new Rs_Wait(t).waitTxtAndTimer(skip_enabled ? 0 : e, t);
-  }
+const Nc = class extends ReadState {
+  // 魔法数字、見えるぐらい少し待つ
   onFinish() {
     new RsEvtRsv();
   }
   onUserAct() {
     this.onFinish();
   }
-}
-const Nc = class extends ReadState {
-  onFinish() {
-    Rs_L_Wait.go(this.hArg);
-  }
-  onUserAct() {
-    this.onFinish();
-  }
 };
-let Rs_L = Nc;
-// 文字表示終了待ち（そして[l]）
-pt(Rs_L, "go", (t) => new Nc(t).waitTxtAndTimer(0, t));
+let Rs_Wait = Nc;
+// 文字表示終了待ち→[wait]
+pt(Rs_Wait, "go", (t) => {
+  const e = argChk_Num(t, "time", NaN);
+  return new Nc(t).waitTxtAndTimer(e, t);
+});
 const kc = class extends ReadState {
   onFinish() {
+    Rs_L_Wait.go(this.hArg);
+  }
+  onUserAct() {
+    this.onFinish();
+  }
+};
+let Rs_L = kc;
+// 文字表示終了待ち（そして[l]）
+pt(Rs_L, "go", (t) => new kc(t).waitTxtAndTimer(0, t));
+const Dc = class extends ReadState {
+  onFinish() {
     new RsEvtRsv();
   }
   onUserAct() {
     Rs_L_Wait.go(this.hArg);
   }
 };
-let Rs_L_AutoSkip = kc;
+let Rs_L_AutoSkip = Dc;
 // 文字表示終了待ち（そして[l]auto/skipウェイト待ち）
-pt(Rs_L_AutoSkip, "go", (t, e) => new kc(e).waitTxtAndTimer(t, e));
-class Rs_L_Wait extends Rs_S {
-  // [p] クリック待ち
-  static go(t) {
-    argChk_Boolean(t, "visible", !0) && (layMng.breakLine(t), goTxt());
-    const e = argChk_Boolean(t, "global", !0);
-    return new Rs_L_Wait(t).waitEventBase(!0, e), !0;
-  }
+pt(Rs_L_AutoSkip, "go", (t, e) => new Dc(e).waitTxtAndTimer(t, e));
+const Fc = class extends Rs_S {
   onFinish() {
     new RsEvtRsv();
   }
   onUserAct() {
     new RsEvtRsv();
   }
-}
-const Dc = class extends ReadState {
+};
+let Rs_L_Wait = Fc;
+// [p] クリック待ち
+pt(Rs_L_Wait, "go", (t) => {
+  argChk_Boolean(t, "visible", !0) && (layMng.breakLine(t), goTxt());
+  const e = argChk_Boolean(t, "global", !0);
+  return new Fc(t).waitEventBase(!0, e), !0;
+});
+const Bc = class extends ReadState {
   onFinish() {
     Rs_P_Wait.go(this.hArg);
   }
@@ -23436,10 +23440,10 @@ const Dc = class extends ReadState {
     this.onFinish();
   }
 };
-let Rs_P = Dc;
+let Rs_P = Bc;
 // 文字表示終了待ち（そして[p]）
-pt(Rs_P, "go", (t) => new Dc(t).waitTxtAndTimer(0, t));
-const Fc = class extends ReadState {
+pt(Rs_P, "go", (t) => new Bc(t).waitTxtAndTimer(0, t));
+const Uc = class extends ReadState {
   onFinish() {
     new RsEvtRsv();
   }
@@ -23447,22 +23451,23 @@ const Fc = class extends ReadState {
     Rs_P_Wait.go(this.hArg);
   }
 };
-let Rs_P_AutoSkip = Fc;
+let Rs_P_AutoSkip = Uc;
 // 文字表示終了待ち（そして[p]auto/skipウェイト待ち）
-pt(Rs_P_AutoSkip, "go", (t, e) => new Fc(e).waitTxtAndTimer(t, e));
-class Rs_P_Wait extends Rs_S {
-  // [p] クリック待ち
-  static go(t) {
-    argChk_Boolean(t, "visible", !0) && (layMng.breakPage(t), goTxt());
-    const e = argChk_Boolean(t, "global", !0);
-    return new Rs_P_Wait(t).waitEventBase(!0, e), !0;
-  }
+pt(Rs_P_AutoSkip, "go", (t, e) => new Uc(e).waitTxtAndTimer(t, e));
+const Gc = class extends Rs_S {
   //	protected	override	onFinish() {}
   onUserAct() {
     argChk_Boolean(this.hArg, "er", !1) && hTag.er(this.hArg), sndMng.clearCache(), elmHint.hidden = !0, new RsEvtRsv();
   }
-}
-const Bc = class extends Rs_S {
+};
+let Rs_P_Wait = Gc;
+// [p] クリック待ち
+pt(Rs_P_Wait, "go", (t) => {
+  argChk_Boolean(t, "visible", !0) && (layMng.breakPage(t), goTxt());
+  const e = argChk_Boolean(t, "global", !0);
+  return new Gc(t).waitEventBase(!0, e), !0;
+});
+const $c = class extends Rs_S {
   onFinish() {
     cancelAutoSkip();
     const t = argChk_Boolean(this.hArg, "global", !0);
@@ -23472,8 +23477,8 @@ const Bc = class extends Rs_S {
     new RsEvtRsv();
   }
 };
-let Rs_WaitClick = Bc;
-pt(Rs_WaitClick, "go", (t) => new Bc(t).waitTxtAndTimer(0, t));
+let Rs_WaitClick = $c;
+pt(Rs_WaitClick, "go", (t) => new $c(t).waitTxtAndTimer(0, t));
 class Rs_WaitAny extends Rs_S {
   constructor(t, e) {
     super(t), this.onFire = e;
@@ -23490,7 +23495,7 @@ class Rs_WaitAny extends Rs_S {
   }
 }
 var pi;
-const Uc = class extends Rs_S {
+const jc = class extends Rs_S {
   constructor() {
     super(...arguments);
     pt(this, "wait", () => !1);
@@ -23547,8 +23552,8 @@ const Uc = class extends Rs_S {
   onUserAct() {
   }
 };
-let RsPagination = Uc;
-pi = new WeakMap(), pt(RsPagination, "go", (e) => new Uc(e).page(e));
+let RsPagination = jc;
+pi = new WeakMap(), pt(RsPagination, "go", (e) => new jc(e).page(e));
 var top = "top", bottom = "bottom", right = "right", left = "left", auto = "auto", basePlacements = [top, bottom, right, left], start = "start", end = "end", clippingParents = "clippingParents", viewport = "viewport", popper = "popper", reference = "reference", variationPlacements = /* @__PURE__ */ basePlacements.reduce(function(o, t) {
   return o.concat([t + "-" + start, t + "-" + end]);
 }, []), placements = /* @__PURE__ */ [].concat(basePlacements, [auto]).reduce(function(o, t) {
@@ -24454,7 +24459,7 @@ var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyS
   defaultModifiers
 });
 const { GamepadListener } = require("gamepad.js");
-var Ye, jr, Le, We, ko, Do, mc, Fo, gc, Bo, yc, Ws, qs, Uo, bc, Go, De, Zs, Ks, $o, hu, cd, lu, fd, jo, xc, uu, dd, qe;
+var Ye, jr, Le, We, ko, Do, mc, Fo, gc, Bo, yc, Ws, qs, Uo, bc, Go, De, Zs, Ks, $o, hu, pd, lu, vd, jo, xc, uu, md, qe;
 class EventMng {
   constructor(t, e, r, N, k, D, B, $, H) {
     K(this, Do);
@@ -24517,7 +24522,7 @@ class EventMng {
       // AndroidのBackキーだと思う
     });
     var Z, tt;
-    if (this.cfg = t, this.hTag = e, this.appPixi = r, this.main = N, this.layMng = k, this.val = D, this.scrItr = $, this.sys = H, e.clear_event = (J) => ReadState.clear_event(J), e.event = (J) => et(this, lu, fd).call(this, J), e.l = (J) => U(this, We).l(J), e.p = (J) => U(this, We).p(J), e.s = (J) => U(this, We).s(J), e.set_cancel_skip = () => !1, e.set_focus = (J) => et(this, uu, dd).call(this, J), e.wait = (J) => U(this, We).wait(J), e.waitclick = (J) => U(this, We).waitclick(J), e.page = (J) => U(this, We).page(J), B.setEvtMng(this), $.setOtherObj(this, k), TxtLayer.setEvtMng(N, this, H), k.setEvtMng(this), H.setFire((J, it) => this.fire(J, it)), CmnLib.isDbg) {
+    if (this.cfg = t, this.hTag = e, this.appPixi = r, this.main = N, this.layMng = k, this.val = D, this.scrItr = $, this.sys = H, e.clear_event = (J) => ReadState.clear_event(J), e.event = (J) => et(this, lu, vd).call(this, J), e.l = (J) => U(this, We).l(J), e.p = (J) => U(this, We).p(J), e.s = (J) => U(this, We).s(J), e.set_cancel_skip = () => !1, e.set_focus = (J) => et(this, uu, md).call(this, J), e.wait = (J) => U(this, We).wait(J), e.waitclick = (J) => U(this, We).waitclick(J), e.page = (J) => U(this, We).page(J), B.setEvtMng(this), $.setOtherObj(this, k), TxtLayer.setEvtMng(N, this, H), k.setEvtMng(this), H.setFire((J, it) => this.fire(J, it)), CmnLib.isDbg) {
       const J = {
         pause: () => {
           if (!U(this, We).isWait)
@@ -24656,7 +24661,7 @@ class EventMng {
     !t.fn && !t.label && !t.url && this.main.errScript("fnまたはlabelまたはurlは必須です"), t.fn ?? (t.fn = this.scrItr.scriptFn), e.interactive = e.buttonMode = !0;
     const D = ((X = t.key) == null ? void 0 : X.toLowerCase()) ?? " ", B = argChk_Boolean(t, "global", !1);
     ReadState.setEvt2Fnc(B, D, () => this.main.resumeByJumpOrCall(t)), e.on("pointerdown", (V) => U(this, We).fire(D, V));
-    const $ = t.hint ? () => et(this, hu, cd).call(this, t, e) : () => {
+    const $ = t.hint ? () => et(this, hu, pd).call(this, t, e) : () => {
     }, H = () => {
       r(), U(this, De).hidden = !0;
     }, z = () => ($(), N());
@@ -24727,7 +24732,7 @@ Ye = new WeakMap(), jr = new WeakMap(), Le = new WeakMap(), We = new WeakMap(), 
     }
     Q(this, Ws, !1);
   }, 250);
-}, Go = new WeakMap(), De = new WeakMap(), Zs = new WeakMap(), Ks = new WeakMap(), $o = new WeakMap(), hu = new WeakSet(), cd = function(t, e) {
+}, Go = new WeakMap(), De = new WeakMap(), Zs = new WeakMap(), Ks = new WeakMap(), $o = new WeakMap(), hu = new WeakSet(), pd = function(t, e) {
   const r = e instanceof Button ? e.getBtnBounds() : e.getBounds();
   if (!(t[":タグ名"] === "link")) {
     const k = e.parent.parent;
@@ -24750,7 +24755,7 @@ Ye = new WeakMap(), jr = new WeakMap(), Le = new WeakMap(), We = new WeakMap(), 
     width: r.width,
     height: r.height
   }), U(this, Ks).update(), U(this, De).hidden = !1;
-}, lu = new WeakSet(), fd = function(t) {
+}, lu = new WeakSet(), vd = function(t) {
   const e = t.key;
   if (!e)
     throw "keyは必須です";
@@ -24809,7 +24814,7 @@ Ye = new WeakMap(), jr = new WeakMap(), Le = new WeakMap(), We = new WeakMap(), 
     e = e.parentElement;
   } while (e !== null);
   return !0;
-}, uu = new WeakSet(), dd = function(t) {
+}, uu = new WeakSet(), md = function(t) {
   const { add: e, del: r, to: N } = t;
   if ((e == null ? void 0 : e.slice(0, 4)) === "dom=") {
     const k = ReadState.getHtmlElmList(e);
@@ -24849,7 +24854,7 @@ class CallStack {
     this.fn = t, this.idx = e, this.csArg = r;
   }
 }
-var Qt, se, Lt, pe, ce, yr, Ho, Ec, Un, Hr, cu, zr, zo, Sc, Vo, Tc, Xo, Vr, os, Gn, va, $n, br, ye, fu, pd, jn, ma, du, vd, Yo, Js, ei, pu, md, vu, _d, xr, Jr, mu, gd, Hn, zn, Wo, qo, Zo, vi, _u, yd, gu, bd, yu, xd, Ko, wc, bu, Ed, xu, Sd, Jo, Pc, Qo, Vn, ga, Xn, Qi, Pr, th, Cc, eh, ih, Rc, Eu, Su, rh, Tu, Td, Fe, wu, wd, nh, Oc, Pu, Cu, Ru, Pd, Ou, Cd, Er, sh, Mc, Mu, Rd, Iu, Od, Au, Lu, Md, ah, Qs, Nu, Id, ku, Ad, Di, Du, Ld, Fu, Nd;
+var Qt, se, Lt, pe, ce, yr, Ho, Ec, Un, Hr, cu, zr, zo, Sc, Vo, Tc, Xo, Vr, os, Gn, va, $n, br, ye, fu, _d, jn, ma, du, gd, Yo, Js, ei, pu, yd, vu, bd, xr, Jr, mu, xd, Hn, zn, Wo, qo, Zo, vi, _u, Ed, gu, Sd, yu, Td, Ko, wc, bu, wd, xu, Pd, Jo, Pc, Qo, Vn, ga, Xn, Qi, Pr, th, Cc, eh, ih, Rc, Eu, Su, rh, Tu, Cd, Fe, wu, Rd, nh, Oc, Pu, Cu, Ru, Od, Ou, Md, Er, sh, Mc, Mu, Id, Iu, Ad, Au, Lu, Ld, ah, Qs, Nu, Nd, ku, kd, Di, Du, Dd, Fu, Fd;
 const oi = class {
   constructor(t, e, r, N, k, D, B, $, H) {
     K(this, Ho);
@@ -24939,7 +24944,7 @@ const oi = class {
         this.sys.send2Dbg(t.ri, {});
       },
       // 情報問い合わせ系
-      stack: (t) => this.sys.send2Dbg(t.ri, { a: et(this, du, vd).call(this) }),
+      stack: (t) => this.sys.send2Dbg(t.ri, { a: et(this, du, gd).call(this) }),
       eval: (t) => {
         this.sys.send2Dbg(t.ri, { v: this.prpPrs.parse(t.txt) });
       },
@@ -25011,15 +25016,15 @@ const oi = class {
       hPages: {},
       aIfStk: [-1]
     });
-    this.cfg = t, this.hTag = e, this.main = r, this.val = N, this.alzTagArg = k, this.runAnalyze = D, this.prpPrs = B, this.sndMng = $, this.sys = H, e.let_ml = (X) => et(this, pu, md).call(this, X), e.endlet_ml = () => !1, e.dump_stack = () => et(this, vu, _d).call(this), e.dump_script = (X) => et(this, mu, gd).call(this, X), e.else = // その他ifブロック開始
+    this.cfg = t, this.hTag = e, this.main = r, this.val = N, this.alzTagArg = k, this.runAnalyze = D, this.prpPrs = B, this.sndMng = $, this.sys = H, e.let_ml = (X) => et(this, pu, yd).call(this, X), e.endlet_ml = () => !1, e.dump_stack = () => et(this, vu, bd).call(this), e.dump_script = (X) => et(this, mu, xd).call(this, X), e.else = // その他ifブロック開始
     e.elsif = // 別条件のifブロック開始
-    e.endif = () => et(this, _u, yd).call(this), e.if = (X) => et(this, gu, bd).call(this, X), e.call = (X) => et(this, yu, xd).call(this, X), e.jump = (X) => et(this, bu, Ed).call(this, X), e.pop_stack = (X) => et(this, xu, Sd).call(this, X), e.return = (X) => et(this, Jo, Pc).call(this, X), e.bracket2macro = (X) => et(this, Mu, Rd).call(this, X), e.char2macro = (X) => et(this, Iu, Od).call(this, X), e.endmacro = (X) => et(this, Jo, Pc).call(this, X), e.macro = (X) => et(this, Lu, Md).call(this, X), e.load = (X) => et(this, Nu, Id).call(this, X), e.reload_script = (X) => et(this, ku, Ad).call(this, X), e.record_place = () => et(this, Du, Ld).call(this), e.save = (X) => et(this, Fu, Nd).call(this, X), t.oCfg.debug.token && Q(this, eh, (X) => console.log(`🌱 トークン fn:${U(this, se)} idx:${U(this, Lt)} ln:${U(this, pe)} token【${X}】`)), N.defTmp("const.sn.vctCallStk.length", () => U(this, ce).length);
+    e.endif = () => et(this, _u, Ed).call(this), e.if = (X) => et(this, gu, Sd).call(this, X), e.call = (X) => et(this, yu, Td).call(this, X), e.jump = (X) => et(this, bu, wd).call(this, X), e.pop_stack = (X) => et(this, xu, Pd).call(this, X), e.return = (X) => et(this, Jo, Pc).call(this, X), e.bracket2macro = (X) => et(this, Mu, Id).call(this, X), e.char2macro = (X) => et(this, Iu, Ad).call(this, X), e.endmacro = (X) => et(this, Jo, Pc).call(this, X), e.macro = (X) => et(this, Lu, Ld).call(this, X), e.load = (X) => et(this, Nu, Nd).call(this, X), e.reload_script = (X) => et(this, ku, kd).call(this, X), e.record_place = () => et(this, Du, Dd).call(this), e.save = (X) => et(this, Fu, Fd).call(this, X), t.oCfg.debug.token && Q(this, eh, (X) => console.log(`🌱 トークン fn:${U(this, se)} idx:${U(this, Lt)} ln:${U(this, pe)} token【${X}】`)), N.defTmp("const.sn.vctCallStk.length", () => U(this, ce).length);
     const z = t.oCfg.init.escape;
     if (U(this, yr).setEscape(z), RubySpliter.setEscape(z), CmnLib.isDbg) {
       H.addHook((V, Y) => {
         var q, W;
         return (W = (q = U(this, Un))[V]) == null ? void 0 : W.call(q, Y);
-      }), this.isBreak = et(this, fu, pd);
+      }), this.isBreak = et(this, fu, _d);
       const X = this.analyzeInit;
       this.analyzeInit = () => {
         this.analyzeInit = () => {
@@ -25138,7 +25143,7 @@ const oi = class {
     console.groupEnd();
   }
   analyzeInit() {
-    const t = et(this, Tu, Td).call(this, U(this, Qt), !!this.val.getVal("mp:const.sn.macro.name"), U(this, pe), U(this, Xn), U(this, Lt));
+    const t = et(this, Tu, Cd).call(this, U(this, Qt), !!this.val.getVal("mp:const.sn.macro.name"), U(this, pe), U(this, Xn), U(this, Lt));
     Q(this, Lt, t.idx), Q(this, pe, t.ln), this.runAnalyze();
   }
   get isKidoku() {
@@ -25231,7 +25236,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   return U(this, ye) === 2 || U(this, ye) === 4 ? 1 : 0;
 }, Gn = new WeakSet(), va = function() {
   return U(this, Lt) < U(this, Qt).len ? !1 : (this.sys.callHook("stopOnEntry", {}), this.main.setLoop(!1, "スクリプト終端です"), !0);
-}, $n = new WeakMap(), br = new WeakMap(), ye = new WeakMap(), fu = new WeakSet(), pd = function(t) {
+}, $n = new WeakMap(), br = new WeakMap(), ye = new WeakMap(), fu = new WeakSet(), _d = function(t) {
   switch (U(this, ye)) {
     case 6:
       et(this, jn, ma).call(this), Q(this, ye, 7);
@@ -25275,7 +25280,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   var e;
   const t = (e = U(oi, $n)[getFn(U(this, se))]) == null ? void 0 : e[U(this, pe)];
   t != null && t.hitCondition && --t.hitCondition;
-}, du = new WeakSet(), vd = function() {
+}, du = new WeakSet(), gd = function() {
   const t = U(this, ye) === 3 ? 1 : 0, e = U(this, Qt).aToken[U(this, Lt) - 1 + t], r = U(this, zr).call(this, U(this, se)), N = tagToken2Name(e), k = N ? `[${N}]` : e, D = this.val.getVal("mp:const.sn.macro") ?? "{}";
   if (U(this, Lt) === 0)
     return [{ fn: r, ln: 1, col: 1, nm: k, ma: D }];
@@ -25293,7 +25298,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     });
   }
   return $;
-}, Yo = new WeakMap(), Js = new WeakMap(), ei = new WeakMap(), pu = new WeakSet(), md = function(t) {
+}, Yo = new WeakMap(), Js = new WeakMap(), ei = new WeakMap(), pu = new WeakSet(), yd = function(t) {
   const { name: e } = t;
   if (!e)
     throw "nameは必須です";
@@ -25302,7 +25307,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   for (; U(this, Lt) < N && (r = U(this, Qt).aToken[U(this, Lt)], r === ""); ++Me(this, Lt)._)
     ;
   return t.text = r, t.cast = "str", this.hTag.let(t), Q(this, Lt, U(this, Lt) + 2), Q(this, pe, U(this, pe) + (r.match(/\n/g) ?? []).length), !1;
-}, vu = new WeakSet(), _d = function() {
+}, vu = new WeakSet(), bd = function() {
   if (U(this, Lt) === 0)
     return console.group(`🥟 [dump_stack] スクリプト現在地 fn:${U(this, se)} line:1 col:0`), console.groupEnd(), !1;
   const t = et(this, xr, Jr).call(this, U(this, Qt), U(this, Lt)), e = `スクリプト現在地 fn:${U(this, se)} line:${t.ln} col:${t.col_s + 1}`;
@@ -25334,7 +25339,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
       break;
   }
   return r;
-}, mu = new WeakSet(), gd = function(t) {
+}, mu = new WeakSet(), xd = function(t) {
   const { set_fnc: e, break_fnc: r } = t;
   if (!e)
     throw "set_fncは必須です";
@@ -25355,11 +25360,11 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     });
   }
   return !1;
-}, Hn = new WeakMap(), zn = new WeakMap(), Wo = new WeakMap(), qo = new WeakMap(), Zo = new WeakMap(), vi = new WeakMap(), _u = new WeakSet(), yd = function() {
+}, Hn = new WeakMap(), zn = new WeakMap(), Wo = new WeakMap(), qo = new WeakMap(), Zo = new WeakMap(), vi = new WeakMap(), _u = new WeakSet(), Ed = function() {
   if (U(this, vi)[0] === -1)
     throw "ifブロック内ではありません";
   return Q(this, Lt, U(this, vi)[0]), U(this, vi).shift(), !1;
-}, gu = new WeakSet(), bd = function(t) {
+}, gu = new WeakSet(), Sd = function(t) {
   const { exp: e } = t;
   if (!e)
     throw "expは必須です";
@@ -25411,15 +25416,15 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     }
   }
   throw "[endif]がないままスクリプト終端です";
-}, yu = new WeakSet(), xd = function(t) {
+}, yu = new WeakSet(), Td = function(t) {
   argChk_Boolean(t, "count", !1) || et(this, sh, Mc).call(this);
   const { fn: e } = t;
   return e && U(this, Hr).call(this, e), et(this, Ko, wc).call(this, { ":hEvt1Time": U(this, Js).popLocalEvts(), ":hMp": this.val.cloneMp() }), argChk_Boolean(t, "clear_local_event", !1) && this.hTag.clear_event({}), et(this, Qi, Pr).call(this, e, t.label), !0;
 }, Ko = new WeakSet(), wc = function(t) {
   U(this, Qt).aLNum[U(this, Lt)] = U(this, pe), U(this, Qo) || (t[":resvToken"] = "", et(this, Vn, ga).call(this)), U(this, ce).push(new CallStack(U(this, se), U(this, Lt), t)), U(this, vi).unshift(-1);
-}, bu = new WeakSet(), Ed = function(t) {
+}, bu = new WeakSet(), wd = function(t) {
   return argChk_Boolean(t, "count", !0) || et(this, sh, Mc).call(this), U(this, vi)[0] = -1, et(this, Qi, Pr).call(this, t.fn, t.label), !0;
-}, xu = new WeakSet(), Sd = function(t) {
+}, xu = new WeakSet(), Pd = function(t) {
   if (argChk_Boolean(t, "clear", !1))
     Q(this, ce, []);
   else if (!U(this, ce).pop())
@@ -25481,18 +25486,18 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
       H[t].data = Y.join(`
 `), delete H[t + ":base"];
     }
-    this.nextToken = et(this, th, Cc), Q(this, pe, 1), et(this, wu, wd).call(this, H[t].data), this.hTag.record_place({}), this.main.resume(() => this.analyzeInit());
+    this.nextToken = et(this, th, Cc), Q(this, pe, 1), et(this, wu, Rd).call(this, H[t].data), this.hTag.record_place({}), this.main.resume(() => this.analyzeInit());
   }), this.main.stop();
 }, th = new WeakSet(), Cc = function() {
   var e, r;
   if (et(this, ih, Rc).call(this))
     return "";
-  et(this, Ou, Cd).call(this), (e = U(this, Qt).aLNum)[r = U(this, Lt)] || (e[r] = U(this, pe));
+  et(this, Ou, Md).call(this), (e = U(this, Qt).aLNum)[r = U(this, Lt)] || (e[r] = U(this, pe));
   const t = U(this, Qt).aToken[U(this, Lt)];
   return U(this, eh).call(this, t), ++Me(this, Lt)._, t;
 }, eh = new WeakMap(), ih = new WeakSet(), Rc = function() {
   return U(this, Lt) < U(this, Qt).len ? !1 : (this.main.errScript("スクリプト終端です"), !0);
-}, Eu = new WeakMap(), Su = new WeakMap(), rh = new WeakMap(), Tu = new WeakSet(), Td = function(t, e, r, N, k) {
+}, Eu = new WeakMap(), Su = new WeakMap(), rh = new WeakMap(), Tu = new WeakSet(), Cd = function(t, e, r, N, k) {
   var z, X;
   const D = t.aToken.length;
   if (!N) {
@@ -25554,12 +25559,12 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     q === 91 && (r += (Y.match(/\n/g) ?? []).length, U(this, yr).testTagLetml(Y) && (H = !0));
   }
   throw H ? "[let_ml]の終端・[endlet_ml]がありません" : (DebugMng.myTrace(`[jump系] ラベル【${N}】がありません`, "ET"), "Dummy");
-}, Fe = new WeakMap(), wu = new WeakSet(), wd = function(t) {
+}, Fe = new WeakMap(), wu = new WeakSet(), Rd = function(t) {
   let e = "";
   try {
     e = "ScriptIterator.resolveScript";
     const r = U(this, yr).resolveScript(t);
-    e = "ScriptIterator.replaceScript_Wildcard", et(this, Ru, Pd).call(this, r), U(this, Fe)[U(this, se)] = Q(this, Qt, r);
+    e = "ScriptIterator.replaceScript_Wildcard", et(this, Ru, Od).call(this, r), U(this, Fe)[U(this, se)] = Q(this, Qt, r);
   } catch (r) {
     r instanceof Error ? e += `例外 mes=${r.message}(${r.name})` : e = r, this.main.errScript(e, !1);
   }
@@ -25568,7 +25573,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   Q(this, se, t.fn), Q(this, Lt, t.idx);
   const e = U(this, Fe)[U(this, se)];
   e && Q(this, Qt, e), Q(this, pe, U(this, Qt).aLNum[t.idx]);
-}, Pu = new WeakMap(), Cu = new WeakMap(), Ru = new WeakSet(), Pd = function(t) {
+}, Pu = new WeakMap(), Cu = new WeakMap(), Ru = new WeakSet(), Od = function(t) {
   for (let e = t.len - 1; e >= 0; --e) {
     const r = t.aToken[e];
     if (!U(this, Pu).test(r))
@@ -25592,7 +25597,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     }
   }
   t.len = t.aToken.length;
-}, Ou = new WeakSet(), Cd = function() {
+}, Ou = new WeakSet(), Md = function() {
   const t = this.val.getAreaKidoku(U(this, se));
   if (!t)
     throw `recordKidoku fn:'${U(this, se)}' (areas === null)`;
@@ -25604,11 +25609,11 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
 }, Er = new WeakMap(), sh = new WeakSet(), Mc = function() {
   var t;
   (t = this.val.getAreaKidoku(U(this, se))) == null || t.erase(U(this, Lt)), Q(this, Er, !1);
-}, Mu = new WeakSet(), Rd = function(t) {
+}, Mu = new WeakSet(), Id = function(t) {
   return U(this, yr).bracket2macro(t, this.hTag, U(this, Qt), U(this, Lt)), !1;
-}, Iu = new WeakSet(), Od = function(t) {
+}, Iu = new WeakSet(), Ad = function(t) {
   return U(this, yr).char2macro(t, this.hTag, U(this, Qt), U(this, Lt)), !1;
-}, Au = new WeakMap(), Lu = new WeakSet(), Md = function(t) {
+}, Au = new WeakMap(), Lu = new WeakSet(), Ld = function(t) {
   var k, D;
   const { name: e } = t;
   if (!e)
@@ -25627,7 +25632,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     $ === 10 ? Q(this, pe, U(this, pe) + B.length) : $ === 91 && Q(this, pe, U(this, pe) + (B.match(/\n/g) ?? []).length);
   }
   throw `マクロ[${e}]定義の終端・[endmacro]がありません`;
-}, ah = new WeakMap(), Qs = new WeakMap(), Nu = new WeakSet(), Id = function(t) {
+}, ah = new WeakMap(), Qs = new WeakMap(), Nu = new WeakSet(), Nd = function(t) {
   if (!("place" in t))
     throw "placeは必須です";
   const e = Number(t.place);
@@ -25637,7 +25642,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   if (!r)
     throw `place【${e}】は存在しません`;
   return new RsEvtRsv(), this.loadFromMark(t, r);
-}, ku = new WeakSet(), Ad = function(t) {
+}, ku = new WeakSet(), kd = function(t) {
   const e = this.val.getMark(0);
   delete U(this, Fe)[getFn(e.hSave["const.sn.scriptFn"])];
   const r = {};
@@ -25648,7 +25653,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
       r[N] = U(this, Fe)[N];
     }
   return Q(this, Fe, r), t.do_rec = !1, new RsEvtRsv(), this.loadFromMark(t, e, !1);
-}, Di = new WeakMap(), Du = new WeakSet(), Ld = function() {
+}, Di = new WeakMap(), Du = new WeakSet(), Dd = function() {
   if (this.main.isDestroyed())
     return !1;
   const { fn: t, idx: e } = this.nowScrIdx();
@@ -25657,7 +25662,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     hPages: U(this, ei).record(),
     aIfStk: U(this, vi).slice(U(this, ce).length)
   }), !1;
-}, Fu = new WeakSet(), Nd = function(t) {
+}, Fu = new WeakSet(), Fd = function(t) {
   if (!("place" in t))
     throw "placeは必須です";
   const e = Number(t.place);
@@ -25666,7 +25671,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   return e === r && this.val.setVal_Nochk("sys", "const.sn.save.place", r + 1), !1;
 }, K(ScriptIterator, cu, /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/), // reload 再生成 Main に受け渡すため static
 K(ScriptIterator, $n, {}), K(ScriptIterator, br, {});
-var ii, wi, Be, Pi, Sr, Yn, Ne, oh, Tr, ta, Wn, hh, lh, ea, Bu, kd, uh, ch, ia, ra, Rh, qn, Zn;
+var ii, wi, Be, Pi, Sr, Yn, Ne, oh, Tr, ta, Wn, hh, lh, ea, Bu, Bd, uh, ch, ia, ra, Rh, qn, Zn;
 const us = class {
   constructor(t) {
     K(this, Bu);
@@ -25703,7 +25708,7 @@ const us = class {
     K(this, qn, !1);
     pt(this, "isDestroyed", () => U(this, qn));
     K(this, Zn, void 0);
-    this.sys = t, skipHello(), Config.generate(t).then((e) => Q(this, ii, e)).then(() => et(this, Bu, kd).call(this)).catch((e) => console.error("load err fn:prj.json e:%o", e));
+    this.sys = t, skipHello(), Config.generate(t).then((e) => Q(this, ii, e)).then(() => et(this, Bu, Bd).call(this)).catch((e) => console.error("load err fn:prj.json e:%o", e));
   }
   // thisの扱いによりメソッド代入はダメ
   errScript(t, e = !0) {
@@ -25728,7 +25733,7 @@ const us = class {
   }
 };
 let Main = us;
-ii = new WeakMap(), wi = new WeakMap(), Be = new WeakMap(), Pi = new WeakMap(), Sr = new WeakMap(), Yn = new WeakMap(), Ne = new WeakMap(), oh = new WeakMap(), Tr = new WeakMap(), ta = new WeakMap(), Wn = new WeakMap(), hh = new WeakMap(), lh = new WeakMap(), ea = new WeakMap(), Bu = new WeakSet(), kd = async function() {
+ii = new WeakMap(), wi = new WeakMap(), Be = new WeakMap(), Pi = new WeakMap(), Sr = new WeakMap(), Yn = new WeakMap(), Ne = new WeakMap(), oh = new WeakMap(), Tr = new WeakMap(), ta = new WeakMap(), Wn = new WeakMap(), hh = new WeakMap(), lh = new WeakMap(), ea = new WeakMap(), Bu = new WeakSet(), Bd = async function() {
   var N;
   const t = (N = document.createElement("canvas")) == null ? void 0 : N.getContext("2d");
   if (!t)

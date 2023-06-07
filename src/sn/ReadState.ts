@@ -143,31 +143,39 @@ export class ReadState {
 
 	s(hArg: HArg) {this.#recodePage(); return Rs_S.go(hArg);}
 
-	readonly	wait: ITag = hArg=> Rs_Wait.go(hArg);
+	readonly	wait: ITag = hArg=> {
+		if (skip_enabled) {		// Fスキップ時
+			if (! skip_all && ! scrItr.isNextKidoku) {cancelAutoSkip(); return false;}
+
+			return false;
+		}
+
+		return Rs_Wait.go(hArg);
+	}
 	readonly	waitclick: ITag = hArg=> Rs_WaitClick.go(hArg);
 
 	protected	waitTxtAndTimer(time: number, hArg: HArg): boolean {
 		ReadState.eeTextBreak.once(ReadState.NOTICE_COMP_TXT, ()=> {
 //console.log(`fn:ReadState.ts B) Txt Fin... time Wait:${time}`);
-			this.finishLimitedEvent();
+			this.finishLimitedEvent();		// 1)文字表示待ち
 			if (time === 0) {this.onFinish(); return;}
 
 			const tw = new Tween({})
 			.to({}, time)
 			.onComplete(()=> {
-				this.finishLimitedEvent();
+				this.finishLimitedEvent();		// 2)時間待ち
 				remove(tw);
 				this.onFinish();
 			})
 			.start();
-			this.waitLimitedEvent(hArg, ()=> {
+			this.waitLimitedEvent(hArg, ()=> {	// 2)時間待ち
 				tw.stop();
 				remove(tw);	//x	tw.end();
 				this.onUserAct();
 			});
 		});
 
-		return this.waitLimitedEvent(hArg, ()=> {
+		return this.waitLimitedEvent(hArg, ()=> {	// 1)文字表示待ち
 //console.log(`fn:ReadState.ts b) Txt Skip`);
 			ReadState.eeTextBreak.off(ReadState.NOTICE_COMP_TXT);
 			this.onUserAct();	// 並び重要
@@ -382,12 +390,11 @@ class Rs_S extends ReadState {
 
 
 // === [wait] ===
-class Rs_Wait extends ReadState {
-	static	go(hArg: HArg): boolean {
-		// 文字表示終了待ち→[wait]
+class Rs_Wait extends ReadState {		// 文字表示終了待ち→[wait]
+	static	readonly	go: ITag = hArg=> {
 		const time = argChk_Num(hArg, 'time', NaN);	// skip時でもエラーは出したげたい
-		return new Rs_Wait(hArg).waitTxtAndTimer(skip_enabled ?0 :time, hArg);
-	}
+		return new Rs_Wait(hArg).waitTxtAndTimer(time, hArg);
+	}	// 魔法数字、見えるぐらい少し待つ
 	protected	override	onFinish() {new RsEvtRsv}
 	protected	override	onUserAct() {this.onFinish();}
 }
@@ -407,7 +414,7 @@ class Rs_L_AutoSkip extends ReadState {	// 文字表示終了待ち（そして[
 }
 
 class Rs_L_Wait extends Rs_S {		// [p] クリック待ち
-	static	override	go(hArg: HArg): boolean {
+	static	override	readonly	go: ITag = hArg=> {
 		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakLine(hArg); goTxt();}
 
 		const glb = argChk_Boolean(hArg, 'global', true);
@@ -433,7 +440,7 @@ class Rs_P_AutoSkip extends ReadState {	// 文字表示終了待ち（そして[
 }
 
 class Rs_P_Wait extends Rs_S {		// [p] クリック待ち
-	static	override	go(hArg: HArg): boolean {
+	static	override	readonly	go: ITag = hArg=> {
 		// [p]メソッド内でやるとスキップの利きが悪い
 		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakPage(hArg); goTxt();}
 
