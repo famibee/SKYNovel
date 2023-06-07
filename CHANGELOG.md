@@ -1,3 +1,10 @@
+# [1.47.0](https://github.com/famibee/SKYNovel/compare/v1.46.1...v1.47.0) (2023-06-07)
+
+
+### Features
+
+* [page]に style 属性追加、ページ移動中の既読文字に適用出来るように ([988d66f](https://github.com/famibee/SKYNovel/commit/988d66f2f1095379bda80a9b333e0e3a4c6267f7))
+
 - feat: [page]に style 属性追加、ページ移動中の既読文字に CSS Style を適用出来るように
 	- ただし[span]区間ではその style 属性で（CSSプロパティごとに）上書きされる
 	- デフォルトは文字色が黄色に（[page style='color: yellow;']）
