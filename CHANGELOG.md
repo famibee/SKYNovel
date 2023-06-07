@@ -1,3 +1,10 @@
+## [1.47.2](https://github.com/famibee/SKYNovel/compare/v1.47.1...v1.47.2) (2023-06-07)
+
+
+### Bug Fixes
+
+* [wait]にFスキップで突っ込んだときにクリック待ちになる件 ([01a173a](https://github.com/famibee/SKYNovel/commit/01a173a0fe4e2040535a122f72066522e05ae461))
+
 - fix: [wait]にFスキップで突っ込んだときにクリック待ちになる件
 
 
