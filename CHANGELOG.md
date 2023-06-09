@@ -1,3 +1,10 @@
+## [1.47.3](https://github.com/famibee/SKYNovel/compare/v1.47.2...v1.47.3) (2023-06-09)
+
+
+### Bug Fixes
+
+* [macro]内 ifブロック中で [return] 時、IFスタックを積み残す件 ([4d03461](https://github.com/famibee/SKYNovel/commit/4d03461341fa3c95e5a85e800e53b985feae93fd))
+
 - fix: [macro]内で [if]ブロック中にて [return] によるマクロ脱出時、IFスタックを積み残す件
 - fix: [call]先で [if]ブロック中にて [return] 脱出時、IFスタックを積み残す件
 - fix: ページ移動の履歴記録数もログ保存長 prj.json：log.max_len で制限するように
