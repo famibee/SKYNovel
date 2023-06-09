@@ -106,7 +106,7 @@ export class ConfigBase implements IConfig {
 			detail		: '',	// 内容紹介。端的に記入
 			version		: '1.0',
 		},
-		log		: {max_len: 1024},	// プレイヤーが読んだ文章を読み返せる履歴の長さ
+		log		: {max_len: 64},	// プレイヤーが読んだ文章を読み返せる履歴のページ数
 		init	: {
 			bg_color			: '#000000',	// 背景色
 			tagch_msecwait		: 10,		// 通常文字表示待ち時間（未読／既読）

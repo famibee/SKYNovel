@@ -96,6 +96,7 @@ export class ScriptIterator {
 
 		if (cfg.oCfg.debug.token) this.#dbgToken = token=> console.log(`🌱 トークン fn:${this.#scriptFn} idx:${this.#idxToken} ln:${this.#lineNum} token【${token}】`);
 
+		val.defTmp('const.sn.aIfStk.length', ()=> this.#aIfStk.length);
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.#aCallStk.length);
 
 		const ce = cfg.oCfg.init.escape;
@@ -584,7 +585,7 @@ export class ScriptIterator {
 
 
 //	// 条件分岐
-	#aIfStk	: number[]	= [-1];	// FIFOバッファ（push/unshift）
+	#aIfStk	: number[]	= [-1];	// 先頭に積む FIFOバッファ（unshift / shift）
 	#endif() {
 		if (this.#aIfStk[0] === -1) throw 'ifブロック内ではありません';
 
@@ -663,7 +664,7 @@ export class ScriptIterator {
 
 		const {fn} = hArg;
 		if (fn) this.#cnvSnPath(fn);	// chk only
-		this.#callSub({':hEvt1Time': this.#evtMng.popLocalEvts(), ':hMp': this.val.cloneMp()});
+		this.#callSub({':hEvt1Time': this.#evtMng.popLocalEvts(), ':hMp': this.val.cloneMp(), ':lenIfStk': this.#aIfStk.length});
 
 		if (argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
 		this.#jumpWork(fn, hArg.label);
@@ -703,7 +704,7 @@ export class ScriptIterator {
 		const cs = this.#aCallStk.pop();
 		if (! cs) throw '[return] スタックが空です';
 		const csa = cs.csArg;
-		this.#aIfStk.shift();	// 最初の要素を取り除く
+		this.#aIfStk = this.#aIfStk.slice(-csa[':lenIfStk']);	// 最初の要素を取り除く
 
 		const hMp = csa[':hMp'];	// マクロからの復帰の場合にmp:値も復帰
 		if (hMp) this.val.setMp(hMp);
@@ -1073,12 +1074,14 @@ export class ScriptIterator {
 		this.#REGSTEPIN = new RegExp(`\\[(${this.#strStepin})\\b`);
 		this.hTag[name] = hArgM=> {
 			hArgM.design_unit = hArg.design_unit;
-			this.#callSub({...hArgM, ':hMp': this.val.cloneMp()} as any);
+			this.#callSub({...(<ICallStackArg>hArgM), ':hMp': this.val.cloneMp(), ':lenIfStk': this.#aIfStk.length});
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
 			//for (const k of Object.keys(hArg)) this.val.setVal_Nochk('mp', k, hArg[k]);
 			this.val.setMp(hArgM as any);
-			this.val.setVal_Nochk('mp', 'const.sn.macro', JSON.stringify(hArg));
+			this.val.setVal_Nochk('mp', 'const.sn.macro', JSON.stringify({
+				name: hArg.name,
+			}));	// ムダに大きいスクリプター用情報を削除
 			this.val.setVal_Nochk('mp', 'const.sn.me_call_scriptFn', this.#scriptFn);
 
 			this.#lineNum = ln;

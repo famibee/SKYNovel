@@ -181,7 +181,7 @@ export class EventMng implements IEvtMng {
 				fnc();
 			});
 		}
-		ReadState.init((rs: ReadState)=> this.#rs = rs, main, val, layMng, scrItr, sndMng, hTag, this.#fcs, procWheel4wle, this.#elmHint);
+		ReadState.init((rs: ReadState)=> this.#rs = rs, main, val, layMng, scrItr, sndMng, hTag, this.#fcs, procWheel4wle, this.#elmHint, cfg);
 
 		// Gamepad
 		if (CmnLib.debugLog) {

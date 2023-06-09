@@ -13,6 +13,7 @@ import {ScriptIterator} from './ScriptIterator';
 import {EventListenerCtn} from './EventListenerCtn';
 import {SoundMng} from './SoundMng';
 import {FocusMng} from './FocusMng';
+import {Config} from './Config';
 
 import {Container, utils} from 'pixi.js';
 import {Tween, remove} from '@tweenjs/tween.js'
@@ -28,6 +29,7 @@ let fcs		: FocusMng;
 let	goTxt	: ()=> void;
 let procWheel4wle: (elc: EventListenerCtn, onIntr: ()=> void)=> void;
 let	elmHint	: HTMLElement;
+let	cfg		: Config;
 
 let	tagL_enabled	= true;		// 頁末まで一気に読み進むか(l無視)
 let	skip_all		= false;	// falseなら既読のみをスキップ
@@ -63,7 +65,7 @@ interface IPageLog {
 };
 
 export class ReadState {
-	static	init($chgSt: (rs: ReadState)=> void, $main: IMain, $val: IVariable, $layMng: LayerMng, $scrItr: ScriptIterator, $sndMng: SoundMng, $hTag: IHTag, $fcs: FocusMng, $procWheel4wle: (elc: EventListenerCtn, onIntr: ()=> void)=> void, $elmHint: HTMLElement) {
+	static	init($chgSt: (rs: ReadState)=> void, $main: IMain, $val: IVariable, $layMng: LayerMng, $scrItr: ScriptIterator, $sndMng: SoundMng, $hTag: IHTag, $fcs: FocusMng, $procWheel4wle: (elc: EventListenerCtn, onIntr: ()=> void)=> void, $elmHint: HTMLElement, $cfg: Config) {
 		chgSt = $chgSt;
 		main = $main;
 		val = $val;
@@ -75,6 +77,7 @@ export class ReadState {
 		goTxt = ()=> layMng.goTxt();
 		procWheel4wle = $procWheel4wle;
 		elmHint = $elmHint;
+		cfg = $cfg;
 		new RsEvtRsv;
 
 		val.defTmp('sn.tagL.enabled', ()=> tagL_enabled);
@@ -331,11 +334,14 @@ export class ReadState {
 		if (ReadState.aPage.findIndex(p=> p.key === key) > -1) return;
 
 		if (ReadState.aPage.at(-1)?.week) ReadState.aPage.pop();
-		ReadState.aPage.push({key, week,
+		const max_len = cfg.oCfg.log.max_len;
+		if (ReadState.aPage.push({key, week,
 			fn		: val.getVal('save:const.sn.scriptFn', fn),
 			index	: val.getVal('save:const.sn.scriptIdx', 0),
 			mark	: scrItr.nowMark(),
-		});
+		}) > max_len) {
+			ReadState.aPage = ReadState.aPage.slice(-max_len);	// 一定数を保つ
+		}
 	}
 }
 

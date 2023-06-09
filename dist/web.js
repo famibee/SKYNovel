@@ -8,7 +8,7 @@ var U = (o, t, e) => (zu(o, t, "read from private field"), e ? e.call(o) : t.get
   if (t.has(o))
     throw TypeError("Cannot add the same private member more than once");
   t instanceof WeakSet ? t.add(o) : t.set(o, e);
-}, Q = (o, t, e, r) => (zu(o, t, "write to private field"), r ? r.call(o, e) : t.set(o, e), e), Me = (o, t, e, r) => ({
+}, Q = (o, t, e, r) => (zu(o, t, "write to private field"), r ? r.call(o, e) : t.set(o, e), e), Ie = (o, t, e, r) => ({
   set _(N) {
     Q(o, t, N, e);
   },
@@ -97,7 +97,7 @@ platform$1.exports;
       ft && (lt = nt, nt = null);
       var mt = lt.navigator || {}, wt = mt.userAgent || "";
       nt || (nt = wt);
-      var Pt = ft ? !!mt.likeChrome : /\bChrome\b/.test(nt) && !/internal|\n/i.test(X.toString()), Mt = "Object", xt = ft ? Mt : "ScriptBridgingProxyObject", yt = ft ? Mt : "Environment", Ot = ft && lt.java ? "JavaPackage" : tt(lt.java), jt = ft ? Mt : "RuntimeObject", It = /\bJava/.test(Ot) && lt.java, Et = It && tt(lt.environment) == yt, bt = It ? "a" : "α", Ut = It ? "b" : "β", Gt = lt.document || {}, Ft = lt.operamini || lt.opera, Wt = $.test(Wt = ft && Ft ? Ft["[[Class]]"] : tt(Ft)) ? Wt : Ft = null, ut, qt = nt, At = [], oe = null, Zt = nt == wt, St = Zt && Ft && typeof Ft.version == "function" && Ft.version(), ae, kt = Ce([
+      var Pt = ft ? !!mt.likeChrome : /\bChrome\b/.test(nt) && !/internal|\n/i.test(X.toString()), Mt = "Object", xt = ft ? Mt : "ScriptBridgingProxyObject", yt = ft ? Mt : "Environment", Ot = ft && lt.java ? "JavaPackage" : tt(lt.java), jt = ft ? Mt : "RuntimeObject", It = /\bJava/.test(Ot) && lt.java, Et = It && tt(lt.environment) == yt, bt = It ? "a" : "α", Ut = It ? "b" : "β", Gt = lt.document || {}, Ft = lt.operamini || lt.opera, Wt = $.test(Wt = ft && Ft ? Ft["[[Class]]"] : tt(Ft)) ? Wt : Ft = null, ut, qt = nt, At = [], oe = null, Zt = nt == wt, St = Zt && Ft && typeof Ft.version == "function" && Ft.version(), ae, kt = Re([
         { label: "EdgeHTML", pattern: "Edge" },
         "Trident",
         { label: "WebKit", pattern: "AppleWebKit" },
@@ -107,7 +107,7 @@ platform$1.exports;
         "Tasman",
         "KHTML",
         "Gecko"
-      ]), vt = Re([
+      ]), vt = Oe([
         "Adobe AIR",
         "Arora",
         "Avant Browser",
@@ -190,7 +190,7 @@ platform$1.exports;
         "Xbox One",
         { label: "Xbox 360", pattern: "Xbox" },
         "Xoom"
-      ]), Yt = ri({
+      ]), Yt = ni({
         Apple: { iPad: 1, iPhone: 1, iPod: 1 },
         Alcatel: {},
         Archos: {},
@@ -245,34 +245,34 @@ platform$1.exports;
         "Windows 98;",
         "Windows "
       ]);
-      function Ce(ge) {
+      function Re(ge) {
         return at(ge, function(le, te) {
           return le || RegExp("\\b" + (te.pattern || it(te)) + "\\b", "i").exec(nt) && (te.label || te);
         });
       }
-      function ri(ge) {
-        return at(ge, function(le, te, ni) {
-          return le || (te[Nt] || te[/^[a-z]+(?: +[a-z]+\b)*/i.exec(Nt)] || RegExp("\\b" + it(ni) + "(?:\\b|\\w*\\d)", "i").exec(nt)) && ni;
+      function ni(ge) {
+        return at(ge, function(le, te, si) {
+          return le || (te[Nt] || te[/^[a-z]+(?: +[a-z]+\b)*/i.exec(Nt)] || RegExp("\\b" + it(si) + "(?:\\b|\\w*\\d)", "i").exec(nt)) && si;
         });
       }
-      function Re(ge) {
+      function Oe(ge) {
         return at(ge, function(le, te) {
           return le || RegExp("\\b" + (te.pattern || it(te)) + "\\b", "i").exec(nt) && (te.label || te);
         });
       }
       function mi(ge) {
         return at(ge, function(le, te) {
-          var ni = te.pattern || it(te);
-          return !le && (le = RegExp("\\b" + ni + "(?:/[\\d.]+|[ \\w.]*)", "i").exec(nt)) && (le = Y(le, ni, te.label || te)), le;
+          var si = te.pattern || it(te);
+          return !le && (le = RegExp("\\b" + si + "(?:/[\\d.]+|[ \\w.]*)", "i").exec(nt)) && (le = Y(le, si, te.label || te)), le;
         });
       }
       function _i(ge) {
         return at(ge, function(le, te) {
-          var ni = te.pattern || it(te);
-          return !le && (le = RegExp("\\b" + ni + " *\\d+[.\\w_]*", "i").exec(nt) || RegExp("\\b" + ni + " *\\w+-[\\w]*", "i").exec(nt) || RegExp("\\b" + ni + "(?:; *(?:[a-z]+[_-])?[a-z]+\\d+|[^ ();-]*)", "i").exec(nt)) && ((le = String(te.label && !RegExp(ni, "i").test(te.label) ? te.label : le).split("/"))[1] && !/[\d.]+/.test(le[0]) && (le[0] += " " + le[1]), te = te.label || te, le = W(le[0].replace(RegExp(ni, "i"), te).replace(RegExp("; *(?:" + te + "[_-])?", "i"), " ").replace(RegExp("(" + te + ")[-_.]?(\\w)", "i"), "$1 $2"))), le;
+          var si = te.pattern || it(te);
+          return !le && (le = RegExp("\\b" + si + " *\\d+[.\\w_]*", "i").exec(nt) || RegExp("\\b" + si + " *\\w+-[\\w]*", "i").exec(nt) || RegExp("\\b" + si + "(?:; *(?:[a-z]+[_-])?[a-z]+\\d+|[^ ();-]*)", "i").exec(nt)) && ((le = String(te.label && !RegExp(si, "i").test(te.label) ? te.label : le).split("/"))[1] && !/[\d.]+/.test(le[0]) && (le[0] += " " + le[1]), te = te.label || te, le = W(le[0].replace(RegExp(si, "i"), te).replace(RegExp("; *(?:" + te + "[_-])?", "i"), " ").replace(RegExp("(" + te + ")[-_.]?(\\w)", "i"), "$1 $2"))), le;
         });
       }
-      function Ze(ge) {
+      function Ke(ge) {
         return at(ge, function(le, te) {
           return le || (RegExp(te + "(?:-[\\d.]+/|(?: for [\\w-]+)?[ /-])([\\d.]+[^ ();/_-]*)", "i").exec(nt) || 0)[1] || null;
         });
@@ -280,7 +280,7 @@ platform$1.exports;
       function Bi() {
         return this.description || "";
       }
-      if (kt && (kt = [kt]), /\bAndroid\b/.test(_t) && !Nt && (ut = /\bAndroid[^;]*;(.*?)(?:Build|\) AppleWebKit)\b/i.exec(nt)) && (Nt = st(ut[1]).replace(/^[a-z]{2}-[a-z]{2};\s*/i, "") || null), Yt && !Nt ? Nt = _i([Yt]) : Yt && Nt && (Nt = Nt.replace(RegExp("^(" + it(Yt) + ")[-_.\\s]", "i"), Yt + " ").replace(RegExp("^(" + it(Yt) + ")[-_.]?(\\w)", "i"), Yt + " $2")), (ut = /\bGoogle TV\b/.exec(Nt)) && (Nt = ut[0]), /\bSimulator\b/i.test(nt) && (Nt = (Nt ? Nt + " " : "") + "Simulator"), vt == "Opera Mini" && /\bOPiOS\b/.test(nt) && At.push("running in Turbo/Uncompressed mode"), vt == "IE" && /\blike iPhone OS\b/.test(nt) ? (ut = ht(nt.replace(/like iPhone OS/, "")), Yt = ut.manufacturer, Nt = ut.product) : /^iP/.test(Nt) ? (vt || (vt = "Safari"), _t = "iOS" + ((ut = / OS ([\d_]+)/i.exec(nt)) ? " " + ut[1].replace(/_/g, ".") : "")) : vt == "Konqueror" && /^Linux\b/i.test(_t) ? _t = "Kubuntu" : Yt && Yt != "Google" && (/Chrome/.test(vt) && !/\bMobile Safari\b/i.test(nt) || /\bVita\b/.test(Nt)) || /\bAndroid\b/.test(_t) && /^Chrome/.test(vt) && /\bVersion\//i.test(nt) ? (vt = "Android Browser", _t = /\bAndroid\b/.test(_t) ? _t : "Android") : vt == "Silk" ? (/\bMobi/i.test(nt) || (_t = "Android", At.unshift("desktop mode")), /Accelerated *= *true/i.test(nt) && At.unshift("accelerated")) : vt == "UC Browser" && /\bUCWEB\b/.test(nt) ? At.push("speed mode") : vt == "PaleMoon" && (ut = /\bFirefox\/([\d.]+)\b/.exec(nt)) ? At.push("identifying as Firefox " + ut[1]) : vt == "Firefox" && (ut = /\b(Mobile|Tablet|TV)\b/i.exec(nt)) ? (_t || (_t = "Firefox OS"), Nt || (Nt = ut[1])) : !vt || (ut = !/\bMinefield\b/i.test(nt) && /\b(?:Firefox|Safari)\b/.exec(vt)) ? (vt && !Nt && /[\/,]|^[^(]+?\)/.test(nt.slice(nt.indexOf(ut + "/") + 8)) && (vt = null), (ut = Nt || Yt || _t) && (Nt || Yt || /\b(?:Android|Symbian OS|Tablet OS|webOS)\b/.test(_t)) && (vt = /[a-z]+(?: Hat)?/i.exec(/\bAndroid\b/.test(_t) ? _t : ut) + " Browser")) : vt == "Electron" && (ut = (/\bChrome\/([\d.]+)\b/.exec(nt) || 0)[1]) && At.push("Chromium " + ut), St || (St = Ze([
+      if (kt && (kt = [kt]), /\bAndroid\b/.test(_t) && !Nt && (ut = /\bAndroid[^;]*;(.*?)(?:Build|\) AppleWebKit)\b/i.exec(nt)) && (Nt = st(ut[1]).replace(/^[a-z]{2}-[a-z]{2};\s*/i, "") || null), Yt && !Nt ? Nt = _i([Yt]) : Yt && Nt && (Nt = Nt.replace(RegExp("^(" + it(Yt) + ")[-_.\\s]", "i"), Yt + " ").replace(RegExp("^(" + it(Yt) + ")[-_.]?(\\w)", "i"), Yt + " $2")), (ut = /\bGoogle TV\b/.exec(Nt)) && (Nt = ut[0]), /\bSimulator\b/i.test(nt) && (Nt = (Nt ? Nt + " " : "") + "Simulator"), vt == "Opera Mini" && /\bOPiOS\b/.test(nt) && At.push("running in Turbo/Uncompressed mode"), vt == "IE" && /\blike iPhone OS\b/.test(nt) ? (ut = ht(nt.replace(/like iPhone OS/, "")), Yt = ut.manufacturer, Nt = ut.product) : /^iP/.test(Nt) ? (vt || (vt = "Safari"), _t = "iOS" + ((ut = / OS ([\d_]+)/i.exec(nt)) ? " " + ut[1].replace(/_/g, ".") : "")) : vt == "Konqueror" && /^Linux\b/i.test(_t) ? _t = "Kubuntu" : Yt && Yt != "Google" && (/Chrome/.test(vt) && !/\bMobile Safari\b/i.test(nt) || /\bVita\b/.test(Nt)) || /\bAndroid\b/.test(_t) && /^Chrome/.test(vt) && /\bVersion\//i.test(nt) ? (vt = "Android Browser", _t = /\bAndroid\b/.test(_t) ? _t : "Android") : vt == "Silk" ? (/\bMobi/i.test(nt) || (_t = "Android", At.unshift("desktop mode")), /Accelerated *= *true/i.test(nt) && At.unshift("accelerated")) : vt == "UC Browser" && /\bUCWEB\b/.test(nt) ? At.push("speed mode") : vt == "PaleMoon" && (ut = /\bFirefox\/([\d.]+)\b/.exec(nt)) ? At.push("identifying as Firefox " + ut[1]) : vt == "Firefox" && (ut = /\b(Mobile|Tablet|TV)\b/i.exec(nt)) ? (_t || (_t = "Firefox OS"), Nt || (Nt = ut[1])) : !vt || (ut = !/\bMinefield\b/i.test(nt) && /\b(?:Firefox|Safari)\b/.exec(vt)) ? (vt && !Nt && /[\/,]|^[^(]+?\)/.test(nt.slice(nt.indexOf(ut + "/") + 8)) && (vt = null), (ut = Nt || Yt || _t) && (Nt || Yt || /\b(?:Android|Symbian OS|Tablet OS|webOS)\b/.test(_t)) && (vt = /[a-z]+(?: Hat)?/i.exec(/\bAndroid\b/.test(_t) ? _t : ut) + " Browser")) : vt == "Electron" && (ut = (/\bChrome\/([\d.]+)\b/.exec(nt) || 0)[1]) && At.push("Chromium " + ut), St || (St = Ke([
         "(?:Cloud9|CriOS|CrMo|Edge|Edg|EdgA|EdgiOS|FxiOS|HeadlessChrome|IEMobile|Iron|Opera ?Mini|OPiOS|OPR|Raven|SamsungBrowser|Silk(?!/[\\d.]+$)|UCBrowser|YaBrowser)",
         "Version",
         it(vt),
@@ -316,7 +316,7 @@ platform$1.exports;
         }
       else
         (/\bBlackBerry\b/.test(Nt) || /\bBB10\b/.test(nt)) && (ut = (RegExp(Nt.replace(/ +/g, " *") + "/([.\\d]+)", "i").exec(nt) || 0)[1] || St) ? (ut = [ut, /BB10/.test(nt)], _t = (ut[1] ? (Nt = null, Yt = "BlackBerry") : "Device Software") + " " + ut[0], St = null) : this != Z && Nt != "Wii" && (Zt && Ft || /Opera/.test(vt) && /\b(?:MSIE|Firefox)\b/i.test(nt) || vt == "Firefox" && /\bOS X (?:\d+\.){2,}/.test(_t) || vt == "IE" && (_t && !/^Win/.test(_t) && St > 5.5 || /\bWindows XP\b/.test(_t) && St > 8 || St == 8 && !/\bTrident\b/.test(nt))) && !$.test(ut = ht.call(Z, nt.replace($, "") + ";")) && ut.name && (ut = "ing as " + ut.name + ((ut = ut.version) ? " " + ut : ""), $.test(vt) ? (/\bIE\b/.test(ut) && _t == "Mac OS" && (_t = null), ut = "identify" + ut) : (ut = "mask" + ut, Wt ? vt = W(Wt.replace(/([a-z])([A-Z])/g, "$1 $2")) : vt = "Opera", /\bIE\b/.test(ut) && (_t = null), Zt || (St = null)), kt = ["Presto"], At.push(ut));
-      (ut = (/\bAppleWebKit\/([\d.]+\+?)/i.exec(nt) || 0)[1]) && (ut = [parseFloat(ut.replace(/\.(\d)$/, ".0$1")), ut], vt == "Safari" && ut[1].slice(-1) == "+" ? (vt = "WebKit Nightly", oe = "alpha", St = ut[1].slice(0, -1)) : (St == ut[1] || St == (ut[2] = (/\bSafari\/([\d.]+\+?)/i.exec(nt) || 0)[1])) && (St = null), ut[1] = (/\b(?:Headless)?Chrome\/([\d.]+)/i.exec(nt) || 0)[1], ut[0] == 537.36 && ut[2] == 537.36 && parseFloat(ut[1]) >= 28 && kt == "WebKit" && (kt = ["Blink"]), !Zt || !Pt && !ut[1] ? (kt && (kt[1] = "like Safari"), ut = (ut = ut[0], ut < 400 ? 1 : ut < 500 ? 2 : ut < 526 ? 3 : ut < 533 ? 4 : ut < 534 ? "4+" : ut < 535 ? 5 : ut < 537 ? 6 : ut < 538 ? 7 : ut < 601 ? 8 : ut < 602 ? 9 : ut < 604 ? 10 : ut < 606 ? 11 : ut < 608 ? 12 : "12")) : (kt && (kt[1] = "like Chrome"), ut = ut[1] || (ut = ut[0], ut < 530 ? 1 : ut < 532 ? 2 : ut < 532.05 ? 3 : ut < 533 ? 4 : ut < 534.03 ? 5 : ut < 534.07 ? 6 : ut < 534.1 ? 7 : ut < 534.13 ? 8 : ut < 534.16 ? 9 : ut < 534.24 ? 10 : ut < 534.3 ? 11 : ut < 535.01 ? 12 : ut < 535.02 ? "13+" : ut < 535.07 ? 15 : ut < 535.11 ? 16 : ut < 535.19 ? 17 : ut < 536.05 ? 18 : ut < 536.1 ? 19 : ut < 537.01 ? 20 : ut < 537.11 ? "21+" : ut < 537.13 ? 23 : ut < 537.18 ? 24 : ut < 537.24 ? 25 : ut < 537.36 ? 26 : kt != "Blink" ? "27" : "28")), kt && (kt[1] += " " + (ut += typeof ut == "number" ? ".x" : /[.+]/.test(ut) ? "" : "+")), vt == "Safari" && (!St || parseInt(St) > 45) ? St = ut : vt == "Chrome" && /\bHeadlessChrome/i.test(nt) && At.unshift("headless")), vt == "Opera" && (ut = /\bzbov|zvav$/.exec(_t)) ? (vt += " ", At.unshift("desktop mode"), ut == "zvav" ? (vt += "Mini", St = null) : vt += "Mobile", _t = _t.replace(RegExp(" *" + ut + "$"), "")) : vt == "Safari" && /\bChrome\b/.exec(kt && kt[1]) ? (At.unshift("desktop mode"), vt = "Chrome Mobile", St = null, /\bOS X\b/.test(_t) ? (Yt = "Apple", _t = "iOS 4.3+") : _t = null) : /\bSRWare Iron\b/.test(vt) && !St && (St = Ze("Chrome")), St && St.indexOf(ut = /[\d.]+$/.exec(_t)) == 0 && nt.indexOf("/" + ut + "-") > -1 && (_t = st(_t.replace(ut, ""))), _t && _t.indexOf(vt) != -1 && !RegExp(vt + " OS").test(_t) && (_t = _t.replace(RegExp(" *" + it(vt) + " *"), "")), kt && !/\b(?:Avant|Nook)\b/.test(vt) && (/Browser|Lunascape|Maxthon/.test(vt) || vt != "Safari" && /^iOS/.test(_t) && /\bSafari\b/.test(kt[1]) || /^(?:Adobe|Arora|Breach|Midori|Opera|Phantom|Rekonq|Rock|Samsung Internet|Sleipnir|SRWare Iron|Vivaldi|Web)/.test(vt) && kt[1]) && (ut = kt[kt.length - 1]) && At.push(ut), At.length && (At = ["(" + At.join("; ") + ")"]), Yt && Nt && Nt.indexOf(Yt) < 0 && At.push("on " + Yt), Nt && At.push((/^on /.test(At[At.length - 1]) ? "" : "on ") + Nt), _t && (ut = / ([\d.+]+)$/.exec(_t), ae = ut && _t.charAt(_t.length - ut[0].length - 1) == "/", _t = {
+      (ut = (/\bAppleWebKit\/([\d.]+\+?)/i.exec(nt) || 0)[1]) && (ut = [parseFloat(ut.replace(/\.(\d)$/, ".0$1")), ut], vt == "Safari" && ut[1].slice(-1) == "+" ? (vt = "WebKit Nightly", oe = "alpha", St = ut[1].slice(0, -1)) : (St == ut[1] || St == (ut[2] = (/\bSafari\/([\d.]+\+?)/i.exec(nt) || 0)[1])) && (St = null), ut[1] = (/\b(?:Headless)?Chrome\/([\d.]+)/i.exec(nt) || 0)[1], ut[0] == 537.36 && ut[2] == 537.36 && parseFloat(ut[1]) >= 28 && kt == "WebKit" && (kt = ["Blink"]), !Zt || !Pt && !ut[1] ? (kt && (kt[1] = "like Safari"), ut = (ut = ut[0], ut < 400 ? 1 : ut < 500 ? 2 : ut < 526 ? 3 : ut < 533 ? 4 : ut < 534 ? "4+" : ut < 535 ? 5 : ut < 537 ? 6 : ut < 538 ? 7 : ut < 601 ? 8 : ut < 602 ? 9 : ut < 604 ? 10 : ut < 606 ? 11 : ut < 608 ? 12 : "12")) : (kt && (kt[1] = "like Chrome"), ut = ut[1] || (ut = ut[0], ut < 530 ? 1 : ut < 532 ? 2 : ut < 532.05 ? 3 : ut < 533 ? 4 : ut < 534.03 ? 5 : ut < 534.07 ? 6 : ut < 534.1 ? 7 : ut < 534.13 ? 8 : ut < 534.16 ? 9 : ut < 534.24 ? 10 : ut < 534.3 ? 11 : ut < 535.01 ? 12 : ut < 535.02 ? "13+" : ut < 535.07 ? 15 : ut < 535.11 ? 16 : ut < 535.19 ? 17 : ut < 536.05 ? 18 : ut < 536.1 ? 19 : ut < 537.01 ? 20 : ut < 537.11 ? "21+" : ut < 537.13 ? 23 : ut < 537.18 ? 24 : ut < 537.24 ? 25 : ut < 537.36 ? 26 : kt != "Blink" ? "27" : "28")), kt && (kt[1] += " " + (ut += typeof ut == "number" ? ".x" : /[.+]/.test(ut) ? "" : "+")), vt == "Safari" && (!St || parseInt(St) > 45) ? St = ut : vt == "Chrome" && /\bHeadlessChrome/i.test(nt) && At.unshift("headless")), vt == "Opera" && (ut = /\bzbov|zvav$/.exec(_t)) ? (vt += " ", At.unshift("desktop mode"), ut == "zvav" ? (vt += "Mini", St = null) : vt += "Mobile", _t = _t.replace(RegExp(" *" + ut + "$"), "")) : vt == "Safari" && /\bChrome\b/.exec(kt && kt[1]) ? (At.unshift("desktop mode"), vt = "Chrome Mobile", St = null, /\bOS X\b/.test(_t) ? (Yt = "Apple", _t = "iOS 4.3+") : _t = null) : /\bSRWare Iron\b/.test(vt) && !St && (St = Ke("Chrome")), St && St.indexOf(ut = /[\d.]+$/.exec(_t)) == 0 && nt.indexOf("/" + ut + "-") > -1 && (_t = st(_t.replace(ut, ""))), _t && _t.indexOf(vt) != -1 && !RegExp(vt + " OS").test(_t) && (_t = _t.replace(RegExp(" *" + it(vt) + " *"), "")), kt && !/\b(?:Avant|Nook)\b/.test(vt) && (/Browser|Lunascape|Maxthon/.test(vt) || vt != "Safari" && /^iOS/.test(_t) && /\bSafari\b/.test(kt[1]) || /^(?:Adobe|Arora|Breach|Midori|Opera|Phantom|Rekonq|Rock|Samsung Internet|Sleipnir|SRWare Iron|Vivaldi|Web)/.test(vt) && kt[1]) && (ut = kt[kt.length - 1]) && At.push(ut), At.length && (At = ["(" + At.join("; ") + ")"]), Yt && Nt && Nt.indexOf(Yt) < 0 && At.push("on " + Yt), Nt && At.push((/^on /.test(At[At.length - 1]) ? "" : "on ") + Nt), _t && (ut = / ([\d.+]+)$/.exec(_t), ae = ut && _t.charAt(_t.length - ut[0].length - 1) == "/", _t = {
         architecture: 32,
         family: ut && !ae ? _t.replace(ut[0], "") : _t,
         version: ut ? ut[1] : null,
@@ -10809,8 +10809,8 @@ function buildNonNativeLine(o, t) {
       _t ? k.join === LINE_JOIN.BEVEL || oe / tt > J ? (Ft ? (V.push(Zt, St), V.push(st + lt * yt, ht + ft * yt), V.push(Zt, St), V.push(st + mt * yt, ht + wt * yt)) : (V.push(st - lt * xt, ht - ft * xt), V.push(ae, kt), V.push(st - mt * xt, ht - wt * xt), V.push(ae, kt)), q += 2) : k.join === LINE_JOIN.ROUND ? Ft ? (V.push(Zt, St), V.push(st + lt * yt, ht + ft * yt), q += round$1(st, ht, st + lt * yt, ht + ft * yt, st + mt * yt, ht + wt * yt, V, !0) + 4, V.push(Zt, St), V.push(st + mt * yt, ht + wt * yt)) : (V.push(st - lt * xt, ht - ft * xt), V.push(ae, kt), q += round$1(st, ht, st - lt * xt, ht - ft * xt, st - mt * xt, ht - wt * xt, V, !1) + 4, V.push(st - mt * xt, ht - wt * xt), V.push(ae, kt)) : (V.push(Zt, St), V.push(ae, kt)) : (V.push(st - lt * xt, ht - ft * xt), V.push(st + lt * yt, ht + ft * yt), k.join === LINE_JOIN.ROUND ? Ft ? q += round$1(st, ht, st + lt * yt, ht + ft * yt, st + mt * yt, ht + wt * yt, V, !0) + 2 : q += round$1(st, ht, st - lt * xt, ht - ft * xt, st - mt * xt, ht - wt * xt, V, !1) + 2 : k.join === LINE_JOIN.MITER && oe / tt <= J && (Ft ? (V.push(ae, kt), V.push(ae, kt)) : (V.push(Zt, St), V.push(Zt, St)), q += 2), V.push(st - mt * xt, ht - wt * xt), V.push(st + mt * yt, ht + wt * yt), q += 2);
     }
     it = r[(Y - 2) * 2], at = r[(Y - 2) * 2 + 1], st = r[(Y - 1) * 2], ht = r[(Y - 1) * 2 + 1], lt = -(at - ht), ft = it - st, Pt = Math.sqrt(lt * lt + ft * ft), lt /= Pt, ft /= Pt, lt *= Z, ft *= Z, V.push(st - lt * xt, ht - ft * xt), V.push(st + lt * yt, ht + ft * yt), $ || (k.cap === LINE_CAP.ROUND ? q += round$1(st - lt * (xt - yt) * 0.5, ht - ft * (xt - yt) * 0.5, st - lt * xt, ht - ft * xt, st + lt * yt, ht + ft * yt, V, !1) + 2 : k.cap === LINE_CAP.SQUARE && (q += square(st, ht, lt, ft, xt, yt, !1, V)));
-    for (var Ce = t.indices, ri = GRAPHICS_CURVES.epsilon * GRAPHICS_CURVES.epsilon, Ot = W; Ot < q + W - 2; ++Ot)
-      it = V[Ot * 2], at = V[Ot * 2 + 1], st = V[(Ot + 1) * 2], ht = V[(Ot + 1) * 2 + 1], ot = V[(Ot + 2) * 2], nt = V[(Ot + 2) * 2 + 1], !(Math.abs(it * (ht - nt) + st * (nt - at) + ot * (at - ht)) < ri) && Ce.push(Ot, Ot + 1, Ot + 2);
+    for (var Re = t.indices, ni = GRAPHICS_CURVES.epsilon * GRAPHICS_CURVES.epsilon, Ot = W; Ot < q + W - 2; ++Ot)
+      it = V[Ot * 2], at = V[Ot * 2 + 1], st = V[(Ot + 1) * 2], ht = V[(Ot + 1) * 2 + 1], ot = V[(Ot + 2) * 2], nt = V[(Ot + 2) * 2 + 1], !(Math.abs(it * (ht - nt) + st * (nt - at) + ot * (at - ht)) < ni) && Re.push(Ot, Ot + 1, Ot + 2);
   }
 }
 function buildNativeLine(o, t) {
@@ -13806,11 +13806,11 @@ void main(void)\r
     for (var ot in yt) {
       var bt = yt[ot];
       if (this.anchor.x !== 0 || this.anchor.y !== 0)
-        for (var Ce = 0, ri = this._textWidth * this.anchor.x, Re = this._textHeight * this.anchor.y, mi = 0; mi < bt.total; mi++)
-          bt.vertices[Ce++] -= ri, bt.vertices[Ce++] -= Re, bt.vertices[Ce++] -= ri, bt.vertices[Ce++] -= Re, bt.vertices[Ce++] -= ri, bt.vertices[Ce++] -= Re, bt.vertices[Ce++] -= ri, bt.vertices[Ce++] -= Re;
+        for (var Re = 0, ni = this._textWidth * this.anchor.x, Oe = this._textHeight * this.anchor.y, mi = 0; mi < bt.total; mi++)
+          bt.vertices[Re++] -= ni, bt.vertices[Re++] -= Oe, bt.vertices[Re++] -= ni, bt.vertices[Re++] -= Oe, bt.vertices[Re++] -= ni, bt.vertices[Re++] -= Oe, bt.vertices[Re++] -= ni, bt.vertices[Re++] -= Oe;
       this._maxLineHeight = st * k;
-      var _i = bt.mesh.geometry.getBuffer("aVertexPosition"), Ze = bt.mesh.geometry.getBuffer("aTextureCoord"), Bi = bt.mesh.geometry.getIndex();
-      _i.data = bt.vertices, Ze.data = bt.uvs, Bi.data = bt.indices, _i.update(), Ze.update(), Bi.update();
+      var _i = bt.mesh.geometry.getBuffer("aVertexPosition"), Ke = bt.mesh.geometry.getBuffer("aTextureCoord"), Bi = bt.mesh.geometry.getIndex();
+      _i.data = bt.vertices, Ke.data = bt.uvs, Bi.data = bt.indices, _i.update(), Ke.update(), Bi.update();
     }
     for (var ot = 0; ot < B.length; ot++)
       charRenderDataPool.push(B[ot]);
@@ -16255,8 +16255,8 @@ class ConfigBase {
         // 内容紹介。端的に記入
         version: "1.0"
       },
-      log: { max_len: 1024 },
-      // プレイヤーが読んだ文章を読み返せる履歴の長さ
+      log: { max_len: 64 },
+      // プレイヤーが読んだ文章を読み返せる履歴のページ数
       init: {
         bg_color: "#000000",
         // 背景色
@@ -16437,7 +16437,7 @@ function splitAmpersand(o) {
     cast: e === 3 ? t[2].trim() : void 0
   };
 }
-var tn, en, xa, Ea, Sa, je, Ta, cs, mh;
+var tn, en, xa, Ea, Sa, He, Ta, cs, mh;
 class Grammar {
   constructor() {
     K(this, cs);
@@ -16446,12 +16446,12 @@ class Grammar {
     K(this, xa, new RegExp(""));
     K(this, Ea, "");
     K(this, Sa, "");
-    K(this, je, void 0);
+    K(this, He, void 0);
     K(this, Ta, void 0);
     this.setEscape("");
   }
   setEscape(t) {
-    if (U(this, je) && t in U(this, je))
+    if (U(this, He) && t in U(this, He))
       throw "[エスケープ文字] char【" + t + "】が登録済みの括弧マクロまたは一文字マクロです";
     Q(this, tn, new RegExp(
       (t ? `\\${t}\\S|` : "") + // エスケープシーケンス
@@ -16474,24 +16474,24 @@ class Grammar {
       throw "[bracket2macro] textは括弧の前後を示す二文字を指定してください";
     if (!(k in e))
       throw `[bracket2macro] 未定義のタグ又はマクロ[${k}]です`;
-    U(this, je) ?? Q(this, je, {});
+    U(this, He) ?? Q(this, He, {});
     const $ = D.charAt(1);
-    if (B in U(this, je))
+    if (B in U(this, He))
       throw "[bracket2macro] text【" + B + "】が登録済みの括弧マクロまたは一文字マクロです";
-    if ($ in U(this, je))
+    if ($ in U(this, He))
       throw "[bracket2macro] text【" + $ + "】が登録済みの括弧マクロまたは一文字マクロです";
     if (U(this, en).test(B))
       throw "[bracket2macro] text【" + B + "】は括弧マクロに使用できない文字です";
     if (U(this, en).test($))
       throw "[bracket2macro] text【" + $ + "】は括弧マクロに使用できない文字です";
-    U(this, je)[$] = "0", U(this, je)[B] = `[${k} text=`, this.addC2M(`\\${B}[^\\${$}]*\\${$}`, `\\${B}\\${$}`), et(this, cs, mh).call(this, r, N);
+    U(this, He)[$] = "0", U(this, He)[B] = `[${k} text=`, this.addC2M(`\\${B}[^\\${$}]*\\${$}`, `\\${B}\\${$}`), et(this, cs, mh).call(this, r, N);
   }
   // 一文字マクロの定義
   char2macro(t, e, r, N) {
     const { char: k, name: D } = t;
     if (!k)
       throw "[char2macro] charは必須です";
-    if (U(this, je) ?? Q(this, je, {}), k in U(this, je))
+    if (U(this, He) ?? Q(this, He, {}), k in U(this, He))
       throw "[char2macro] char【" + k + "】が登録済みの括弧マクロまたは一文字マクロです";
     if (U(this, en).test(k))
       throw "[char2macro] char【" + k + "】は一文字マクロに使用できない文字です";
@@ -16499,7 +16499,7 @@ class Grammar {
       throw "[char2macro] nameは必須です";
     if (!(D in e))
       throw `[char2macro] 未定義のタグ又はマクロ[${D}]です`;
-    U(this, je)[k] = `[${D}]`, this.addC2M(`\\${k}`, `\\${k}`), et(this, cs, mh).call(this, r, N);
+    U(this, He)[k] = `[${D}]`, this.addC2M(`\\${k}`, `\\${k}`), et(this, cs, mh).call(this, r, N);
   }
   addC2M(t, e) {
     Q(this, Ea, U(this, Ea) + `${t}|`), Q(this, Sa, U(this, Sa) + `${e}`), Q(this, xa, new RegExp(
@@ -16535,8 +16535,8 @@ class Grammar {
   }
   //4tst
 }
-tn = new WeakMap(), en = new WeakMap(), xa = new WeakMap(), Ea = new WeakMap(), Sa = new WeakMap(), je = new WeakMap(), Ta = new WeakMap(), cs = new WeakSet(), mh = function(t, e = 0) {
-  if (U(this, je)) {
+tn = new WeakMap(), en = new WeakMap(), xa = new WeakMap(), Ea = new WeakMap(), Sa = new WeakMap(), He = new WeakMap(), Ta = new WeakMap(), cs = new WeakSet(), mh = function(t, e = 0) {
+  if (U(this, He)) {
     for (let r = t.len - 1; r >= e; --r) {
       const N = t.aToken[r];
       if (this.testNoTxt(N.at(0) ?? `
@@ -16548,7 +16548,7 @@ tn = new WeakMap(), en = new WeakMap(), xa = new WeakMap(), Ea = new WeakMap(), 
       let B = 1;
       for (let $ = D.length - 1; $ >= 0; --$) {
         let H = D[$];
-        const z = U(this, je)[H.at(0) ?? " "];
+        const z = U(this, He)[H.at(0) ?? " "];
         z && (H = z + (z.at(-1) === "]" ? "" : `'${H.slice(1, -1)}']`)), t.aToken.splice(r, B, H), t.aLNum.splice(r, B, k), B = 0;
       }
     }
@@ -16688,8 +16688,8 @@ var parsimmon_umd_min = { exports: {} };
         return B(rt, function() {
           var gt;
           dt = { v: dt.v << 1 | (gt = dt.buf, gt[0] >> 7), buf: function(Tt) {
-            var Ct = $(function(Rt, Vt, ve, $e) {
-              return Rt.concat(ve === $e.length - 1 ? Buffer.from([Vt, 0]).readUInt16BE(0) : $e.readUInt16BE(ve));
+            var Ct = $(function(Rt, Vt, ve, je) {
+              return Rt.concat(ve === je.length - 1 ? Buffer.from([Vt, 0]).readUInt16BE(0) : je.readUInt16BE(ve));
             }, [], Tt);
             return Buffer.from(H(function(Rt) {
               return (Rt << 1 & 65535) >> 8;
@@ -16720,8 +16720,8 @@ var parsimmon_umd_min = { exports: {} };
           throw new Error(Tt + " bit range requested exceeds 48 bit (6 byte) Number max.");
         return new k(function(Ct, Rt) {
           var Vt = gt + Rt;
-          return Vt > Ct.length ? nt(Rt, gt.toString() + " bytes") : ot(Vt, $(function(ve, $e) {
-            var ke = z($e, ve.buf);
+          return Vt > Ct.length ? nt(Rt, gt.toString() + " bytes") : ot(Vt, $(function(ve, je) {
+            var ke = z(je, ve.buf);
             return { coll: ve.coll.concat(ke.v), buf: ke.buf };
           }, { coll: [], buf: Ct.slice(Rt, Vt) }, rt).coll);
         });
@@ -16786,13 +16786,13 @@ var parsimmon_umd_min = { exports: {} };
             var Vt = Array.from(Ct);
             return Vt.sort(), Vt;
           }
-          for (var ve = {}, $e = 0; $e < gt.length; $e++)
-            ve[gt[$e]] = !0;
+          for (var ve = {}, je = 0; je < gt.length; je++)
+            ve[gt[je]] = !0;
           for (var ke = 0; ke < Tt.length; ke++)
             ve[Tt[ke]] = !0;
           var ir = [];
-          for (var si in ve)
-            ({}).hasOwnProperty.call(ve, si) && ir.push(si);
+          for (var ai in ve)
+            ({}).hasOwnProperty.call(ve, ai) && ir.push(ai);
           return ir.sort(), ir;
         }(rt.expected, ct.expected) : ct.expected;
         return { status: rt.status, index: rt.index, value: rt.value, furthest: ct.furthest, expected: dt };
@@ -16845,35 +16845,35 @@ var parsimmon_umd_min = { exports: {} };
         return { from: rt - ct > 0 ? rt - ct : 0, to: rt + dt > gt ? gt : rt + dt };
       }
       function ut(rt, ct) {
-        var dt, gt, Tt, Ct, Rt, Vt = ct.index, ve = Vt.offset, $e = 1;
+        var dt, gt, Tt, Ct, Rt, Vt = ct.index, ve = Vt.offset, je = 1;
         if (ve === rt.length)
           return "Got the end of the input";
         if (ht(rt)) {
-          var ke = ve - ve % It, ir = ve - ke, si = Wt(ke, Et, bt + It, rt.length), rr = H(function(Oe) {
+          var ke = ve - ve % It, ir = ve - ke, ai = Wt(ke, Et, bt + It, rt.length), rr = H(function(Me) {
             return H(function(is) {
               return Ft(is.toString(16), 2, "0");
-            }, Oe);
-          }, function(Oe, is) {
-            var rs = Oe.length, qr = [], ns = 0;
+            }, Me);
+          }, function(Me, is) {
+            var rs = Me.length, qr = [], ns = 0;
             if (rs <= is)
-              return [Oe.slice()];
+              return [Me.slice()];
             for (var ss = 0; ss < rs; ss++)
-              qr[ns] || qr.push([]), qr[ns].push(Oe[ss]), (ss + 1) % is == 0 && ns++;
+              qr[ns] || qr.push([]), qr[ns].push(Me[ss]), (ss + 1) % is == 0 && ns++;
             return qr;
-          }(rt.slice(si.from, si.to).toJSON().data, It));
-          Ct = function(Oe) {
-            return Oe.from === 0 && Oe.to === 1 ? { from: Oe.from, to: Oe.to } : { from: Oe.from / It, to: Math.floor(Oe.to / It) };
-          }(si), gt = ke / It, dt = 3 * ir, ir >= 4 && (dt += 1), $e = 2, Tt = H(function(Oe) {
-            return Oe.length <= 4 ? Oe.join(" ") : Oe.slice(0, 4).join(" ") + "  " + Oe.slice(4).join(" ");
+          }(rt.slice(ai.from, ai.to).toJSON().data, It));
+          Ct = function(Me) {
+            return Me.from === 0 && Me.to === 1 ? { from: Me.from, to: Me.to } : { from: Me.from / It, to: Math.floor(Me.to / It) };
+          }(ai), gt = ke / It, dt = 3 * ir, ir >= 4 && (dt += 1), je = 2, Tt = H(function(Me) {
+            return Me.length <= 4 ? Me.join(" ") : Me.slice(0, 4).join(" ") + "  " + Me.slice(4).join(" ");
           }, rr), (Rt = (8 * (Ct.to > 0 ? Ct.to - 1 : Ct.to)).toString(16).length) < 2 && (Rt = 2);
         } else {
           var es = rt.split(/\r\n|[\n\r\u2028\u2029]/);
           dt = Vt.column - 1, gt = Vt.line - 1, Ct = Wt(gt, Ot, jt, es.length), Tt = es.slice(Ct.from, Ct.to), Rt = Ct.to.toString().length;
         }
         var Hd = gt - Ct.from;
-        return ht(rt) && (Rt = (8 * (Ct.to > 0 ? Ct.to - 1 : Ct.to)).toString(16).length) < 2 && (Rt = 2), $(function(Oe, is, rs) {
+        return ht(rt) && (Rt = (8 * (Ct.to > 0 ? Ct.to - 1 : Ct.to)).toString(16).length) < 2 && (Rt = 2), $(function(Me, is, rs) {
           var qr, ns = rs === Hd, ss = ns ? "> " : Ut;
-          return qr = ht(rt) ? Ft((8 * (Ct.from + rs)).toString(16), Rt, "0") : Ft((Ct.from + rs + 1).toString(), Rt, " "), [].concat(Oe, [ss + qr + " | " + is], ns ? [Ut + Gt(" ", Rt) + " | " + Ft("", dt, " ") + Gt("^", $e)] : []);
+          return qr = ht(rt) ? Ft((8 * (Ct.from + rs)).toString(16), Rt, "0") : Ft((Ct.from + rs + 1).toString(), Rt, " "), [].concat(Me, [ss + qr + " | " + is], ns ? [Ut + Gt(" ", Rt) + " | " + Ft("", dt, " ") + Gt("^", je)] : []);
         }, [], Tt).join(`
 `);
       }
@@ -16979,25 +16979,25 @@ var parsimmon_umd_min = { exports: {} };
           return nt(dt, rt);
         });
       }
-      function Ce(rt) {
+      function Re(rt) {
         if (at(rt))
           return k(function(ct, dt) {
             var gt = rt._(ct, dt);
             return gt.index = dt, gt.value = "", gt;
           });
         if (typeof rt == "string")
-          return Ce(vt(rt));
+          return Re(vt(rt));
         if (rt instanceof RegExp)
-          return Ce(Nt(rt));
+          return Re(Nt(rt));
         throw new Error("not a string, regexp, or parser: " + rt);
       }
-      function ri(rt) {
+      function ni(rt) {
         return wt(rt), k(function(ct, dt) {
           var gt = rt._(ct, dt), Tt = ct.slice(dt, gt.index);
           return gt.status ? nt(dt, 'not "' + Tt + '"') : ot(dt, null);
         });
       }
-      function Re(rt) {
+      function Oe(rt) {
         return xt(rt), k(function(ct, dt) {
           var gt = Pt(ct, dt);
           return dt < ct.length && rt(gt) ? ot(dt + 1, gt) : nt(dt, "a character/byte matching " + rt);
@@ -17111,11 +17111,11 @@ var parsimmon_umd_min = { exports: {} };
           return ct[0];
         });
       }, D.mark = function() {
-        return Zt(Ze, this, Ze, function(rt, ct, dt) {
+        return Zt(Ke, this, Ke, function(rt, ct, dt) {
           return { start: rt, value: ct, end: dt };
         });
       }, D.node = function(rt) {
-        return Zt(Ze, this, Ze, function(ct, dt, gt) {
+        return Zt(Ke, this, Ke, function(ct, dt, gt) {
           return { name: rt, value: dt, start: ct, end: gt };
         });
       }, D.sepBy = function(rt) {
@@ -17123,9 +17123,9 @@ var parsimmon_umd_min = { exports: {} };
       }, D.sepBy1 = function(rt) {
         return kt(this, rt);
       }, D.lookahead = function(rt) {
-        return this.skip(Ce(rt));
+        return this.skip(Re(rt));
       }, D.notFollowedBy = function(rt) {
-        return this.skip(ri(rt));
+        return this.skip(ni(rt));
       }, D.desc = function(rt) {
         st(rt) || (rt = [rt]);
         var ct = this;
@@ -17146,7 +17146,7 @@ var parsimmon_umd_min = { exports: {} };
           return Tt.status ? lt(rt(Tt.value)._(dt, Tt.index), Tt) : Tt;
         });
       }, D.concat = D.or, D.empty = _i, D.of = Yt, D["fantasy-land/ap"] = D.ap, D["fantasy-land/chain"] = D.chain, D["fantasy-land/concat"] = D.concat, D["fantasy-land/empty"] = D.empty, D["fantasy-land/of"] = D.of, D["fantasy-land/map"] = D.map;
-      var Ze = k(function(rt, ct) {
+      var Ke = k(function(rt, ct) {
         return ot(ct, mt(rt, ct));
       }), Bi = k(function(rt, ct) {
         return ct >= rt.length ? nt(ct, "any character/byte") : ot(ct + 1, Pt(rt, ct));
@@ -17154,7 +17154,7 @@ var parsimmon_umd_min = { exports: {} };
         return ot(rt.length, rt.slice(ct));
       }), ge = k(function(rt, ct) {
         return ct < rt.length ? nt(ct, "EOF") : ot(ct, null);
-      }), le = Nt(/[0-9]/).desc("a digit"), te = Nt(/[0-9]*/).desc("optional digits"), ni = Nt(/[a-z]/i).desc("a letter"), Ud = Nt(/[a-z]*/i).desc("optional letters"), Gd = Nt(/\s*/).desc("optional whitespace"), $d = Nt(/\s+/).desc("whitespace"), Hc = vt("\r"), zc = vt(`
+      }), le = Nt(/[0-9]/).desc("a digit"), te = Nt(/[0-9]*/).desc("optional digits"), si = Nt(/[a-z]/i).desc("a letter"), Ud = Nt(/[a-z]*/i).desc("optional letters"), Gd = Nt(/\s*/).desc("optional whitespace"), $d = Nt(/\s+/).desc("whitespace"), Hc = vt("\r"), zc = vt(`
 `), Vc = vt(`\r
 `), Xc = St(Vc, zc, Hc).desc("newline"), jd = St(Xc, ge);
       k.all = xe, k.alt = St, k.any = Bi, k.cr = Hc, k.createLanguage = function(rt) {
@@ -17168,18 +17168,18 @@ var parsimmon_umd_min = { exports: {} };
         return ct;
       }, k.crlf = Vc, k.custom = function(rt) {
         return k(rt(ot, nt));
-      }, k.digit = le, k.digits = te, k.empty = _i, k.end = jd, k.eof = ge, k.fail = _t, k.formatError = qt, k.index = Ze, k.isParser = at, k.lazy = mi, k.letter = ni, k.letters = Ud, k.lf = zc, k.lookahead = Ce, k.makeFailure = nt, k.makeSuccess = ot, k.newline = Xc, k.noneOf = function(rt) {
-        return Re(function(ct) {
+      }, k.digit = le, k.digits = te, k.empty = _i, k.end = jd, k.eof = ge, k.fail = _t, k.formatError = qt, k.index = Ke, k.isParser = at, k.lazy = mi, k.letter = si, k.letters = Ud, k.lf = zc, k.lookahead = Re, k.makeFailure = nt, k.makeSuccess = ot, k.newline = Xc, k.noneOf = function(rt) {
+        return Oe(function(ct) {
           return rt.indexOf(ct) < 0;
         }).desc("none of '" + rt + "'");
-      }, k.notFollowedBy = ri, k.of = Yt, k.oneOf = function(rt) {
+      }, k.notFollowedBy = ni, k.of = Yt, k.oneOf = function(rt) {
         for (var ct = rt.split(""), dt = 0; dt < ct.length; dt++)
           ct[dt] = "'" + ct[dt] + "'";
-        return Re(function(gt) {
+        return Oe(function(gt) {
           return rt.indexOf(gt) >= 0;
         }).desc(ct);
       }, k.optWhitespace = Gd, k.Parser = k, k.range = function(rt, ct) {
-        return Re(function(dt) {
+        return Oe(function(dt) {
           return rt <= dt && dt <= ct;
         }).desc(rt + "-" + ct);
       }, k.regex = Nt, k.regexp = Nt, k.sepBy = ae, k.sepBy1 = kt, k.seq = oe, k.seqMap = Zt, k.seqObj = function() {
@@ -17198,14 +17198,14 @@ var parsimmon_umd_min = { exports: {} };
         }
         if (dt === 0)
           throw new Error("seqObj expects at least one named parser, found zero");
-        return k(function(ve, $e) {
-          for (var ke, ir = {}, si = 0; si < Tt; si += 1) {
+        return k(function(ve, je) {
+          for (var ke, ir = {}, ai = 0; ai < Tt; ai += 1) {
             var rr, es;
-            if (st(gt[si]) ? (rr = gt[si][0], es = gt[si][1]) : (rr = null, es = gt[si]), !(ke = lt(es._(ve, $e), ke)).status)
+            if (st(gt[ai]) ? (rr = gt[ai][0], es = gt[ai][1]) : (rr = null, es = gt[ai]), !(ke = lt(es._(ve, je), ke)).status)
               return ke;
-            rr && (ir[rr] = ke.value), $e = ke.index;
+            rr && (ir[rr] = ke.value), je = ke.index;
           }
-          return lt(ot($e, ir), ke);
+          return lt(ot(je, ir), ke);
         });
       }, k.string = vt, k.succeed = Yt, k.takeWhile = function(rt) {
         return xt(rt), k(function(ct, dt) {
@@ -17213,7 +17213,7 @@ var parsimmon_umd_min = { exports: {} };
             gt++;
           return ot(gt, ct.slice(dt, gt));
         });
-      }, k.test = Re, k.whitespace = $d, k["fantasy-land/empty"] = _i, k["fantasy-land/of"] = Yt, k.Binary = { bitSeq: Y, bitSeqObj: function(rt) {
+      }, k.test = Oe, k.whitespace = $d, k["fantasy-land/empty"] = _i, k["fantasy-land/of"] = Yt, k.Binary = { bitSeq: Y, bitSeqObj: function(rt) {
         V();
         var ct = {}, dt = 0, gt = H(function(Ct) {
           if (st(Ct)) {
@@ -17666,7 +17666,7 @@ class Areas {
     return t.slice(1);
   }
 }
-var Ie, gi, Se, ar, Te, hi, Gi, Ra, Fh, Oa, Xu, Ma, Ia, Bh, tf, Uh, ef, yi, Ui, Gh, rf, $h, nf, jh, sf, Hh, af, zh, of, Vh, hf, Xh, lf, Yh, uf, vs, gh, Aa, Yu, La, an, Na, Wu, Wh, qh, ms, ka, _s, yh, Zh, cf, Kh, ff, Da, qu, Fa, Zu, Jh, df;
+var Ae, gi, Te, ar, we, li, Gi, Ra, Fh, Oa, Xu, Ma, Ia, Bh, tf, Uh, ef, yi, Ui, Gh, rf, $h, nf, jh, sf, Hh, af, zh, of, Vh, hf, Xh, lf, Yh, uf, vs, gh, Aa, Yu, La, an, Na, Wu, Wh, qh, ms, ka, _s, yh, Zh, cf, Kh, ff, Da, qu, Fa, Zu, Jh, df;
 const ls = class {
   constructor(t, e) {
     K(this, Oa);
@@ -17706,17 +17706,17 @@ const ls = class {
     K(this, Da);
     K(this, Fa);
     K(this, Jh);
-    K(this, Ie, { sys: {}, save: {}, tmp: {}, mp: {} });
-    K(this, gi, U(this, Ie).save);
-    K(this, Se, U(this, Ie).tmp);
+    K(this, Ae, { sys: {}, save: {}, tmp: {}, mp: {} });
+    K(this, gi, U(this, Ae).save);
+    K(this, Te, U(this, Ae).tmp);
     K(this, ar, void 0);
-    K(this, Te, { sys: {}, mark: {}, kidoku: {} });
-    K(this, hi, void 0);
+    K(this, we, { sys: {}, mark: {}, kidoku: {} });
+    K(this, li, void 0);
     K(this, Gi, {});
     K(this, Ra, void 0);
     K(this, Fh, {
       auth: (t, e) => et(this, Oa, Xu).call(this, e.hBreakpoint.aData),
-      var: (t, e) => U(this, ar).send2Dbg(e.ri, { v: U(this, Ie)[e.scope] ?? {} }),
+      var: (t, e) => U(this, ar).send2Dbg(e.ri, { v: U(this, Ae)[e.scope] ?? {} }),
       set_var: (t, e) => {
         try {
           U(this, La).call(this, e.nm, e.val), U(this, ar).send2Dbg(e.ri, {});
@@ -17732,7 +17732,7 @@ const ls = class {
     });
     K(this, Ia, (t) => {
     });
-    pt(this, "getMark", (t) => U(this, Te).mark[t]);
+    pt(this, "getMark", (t) => U(this, we).mark[t]);
     pt(this, "getAreaKidoku", (t) => U(this, Gi)[t]);
     K(this, La, (t, e, r = !0) => {
       if (!t)
@@ -17742,7 +17742,7 @@ const ls = class {
       const N = PropParser.getValName(t);
       if (N === null)
         throw "[変数参照] name(" + t + ")が変数名として異常です";
-      const k = U(this, Ie)[N.scope];
+      const k = U(this, Ae)[N.scope];
       if (!k)
         throw "[変数に値セット] scopeが異常【" + N.scope + "】です";
       const D = N.name;
@@ -17756,7 +17756,7 @@ const ls = class {
       const r = PropParser.getValName(t);
       if (r === null)
         throw "[変数参照] name(" + t + ")が変数名として異常です";
-      const N = U(this, Ie)[r.scope];
+      const N = U(this, Ae)[r.scope];
       if (!N)
         throw "[変数参照] scopeが異常【" + r.scope + "】です";
       const k = r.name;
@@ -17798,7 +17798,7 @@ const ls = class {
     K(this, qh, () => {
       const t = { tmp: {}, sys: {}, save: {}, mp: {} };
       for (let e in t) {
-        const r = U(this, Ie)[e], N = t[e];
+        const r = U(this, Ae)[e], N = t[e];
         for (let [k, D] of Object.entries(r))
           N[k] = Object.prototype.toString.call(D) === "[object Function]" ? D() : D;
       }
@@ -17831,23 +17831,23 @@ const ls = class {
     });
     if (this.cfg = t, e.let = (k) => et(this, yi, Ui).call(this, k), e.let_abs = (k) => et(this, Gh, rf).call(this, k), e.let_char_at = (k) => et(this, $h, nf).call(this, k), e.let_index_of = (k) => et(this, jh, sf).call(this, k), e.let_length = (k) => et(this, Hh, af).call(this, k), e.let_replace = (k) => et(this, zh, of).call(this, k), e.let_round = (k) => et(this, Vh, hf).call(this, k), e.let_search = (k) => et(this, Xh, lf).call(this, k), e.let_substr = (k) => et(this, Yh, uf).call(this, k), e.clearsysvar = () => et(this, vs, gh).call(this), e.clearvar = () => et(this, Aa, Yu).call(this), e.dump_val = () => U(this, qh).call(this), e.copybookmark = (k) => et(this, Bh, tf).call(this, k), e.erasebookmark = (k) => et(this, Uh, ef).call(this, k), U(this, gi)["sn.userFnTail"] = "", this.defTmp("const.sn.bookmark.json", () => {
       const k = [];
-      for (const D of Object.keys(U(this, Te).mark).sort()) {
-        const B = { ...U(this, Te).mark[D].json };
+      for (const D of Object.keys(U(this, we).mark).sort()) {
+        const B = { ...U(this, we).mark[D].json };
         B.place = D, k.push(B);
       }
       return JSON.stringify(k);
-    }), U(this, Se)["const.sn.isFirstBoot"] = !0, U(this, Se)["const.sn.last_page_text"] = "", U(this, Se)["const.sn.last_page_plain_text"] = "", U(this, Se)["const.sn.displayState"] = !1, U(this, Se)["const.Date.getTime"] = () => (/* @__PURE__ */ new Date()).getTime(), U(this, Se)["const.Date.getDateStr"] = () => getDateStr(), U(this, Se)["const.sn.platform"] = JSON.stringify(platform), et(this, vs, gh).call(this), et(this, Aa, Yu).call(this), U(this, Se)["const.sn.config.window.width"] = t.oCfg.window.width, U(this, Se)["const.sn.config.window.height"] = t.oCfg.window.height, U(this, Se)["const.sn.config.book.title"] = t.oCfg.book.title, U(this, Se)["const.sn.config.book.version"] = t.oCfg.book.version, U(this, Se)["const.sn.Math.PI"] = Math.PI, typeof window > "u")
+    }), U(this, Te)["const.sn.isFirstBoot"] = !0, U(this, Te)["const.sn.last_page_text"] = "", U(this, Te)["const.sn.last_page_plain_text"] = "", U(this, Te)["const.sn.displayState"] = !1, U(this, Te)["const.Date.getTime"] = () => (/* @__PURE__ */ new Date()).getTime(), U(this, Te)["const.Date.getDateStr"] = () => getDateStr(), U(this, Te)["const.sn.platform"] = JSON.stringify(platform), et(this, vs, gh).call(this), et(this, Aa, Yu).call(this), U(this, Te)["const.sn.config.window.width"] = t.oCfg.window.width, U(this, Te)["const.sn.config.window.height"] = t.oCfg.window.height, U(this, Te)["const.sn.config.book.title"] = t.oCfg.book.title, U(this, Te)["const.sn.config.book.version"] = t.oCfg.book.version, U(this, Te)["const.sn.Math.PI"] = Math.PI, typeof window > "u")
       return;
     const r = window, N = r.AudioContext ?? r.webkitAudioContext;
-    U(this, Se)["const.sn.needClick2Play"] = () => new N().state === "suspended";
+    U(this, Te)["const.sn.needClick2Play"] = () => new N().state === "suspended";
   }
   setSys(t) {
-    Q(this, ar, t), t.initVal(U(this, Te), U(this, Se), (e) => {
+    Q(this, ar, t), t.initVal(U(this, we), U(this, Te), (e) => {
       this.updateData(e), sessionStorage.clear();
       const r = this.cfg.getNs();
       Q(this, Ma, this.cfg.oCfg.debug.variable ? () => {
         const k = {};
-        for (const [X, V] of Object.entries(U(this, hi)))
+        for (const [X, V] of Object.entries(U(this, li)))
           k["sys:" + X] = V instanceof Function ? V() : V;
         sessionStorage[r + "sys"] = JSON.stringify(k);
         const D = {};
@@ -17855,19 +17855,19 @@ const ls = class {
           D["save:" + X] = V instanceof Function ? V() : V;
         sessionStorage[r + "save"] = JSON.stringify(D);
         const B = {};
-        for (const [X, V] of Object.entries(U(this, Se)))
+        for (const [X, V] of Object.entries(U(this, Te)))
           B[X] = V instanceof Function ? V() : V;
         sessionStorage[r + "tmp"] = JSON.stringify(B);
         const $ = {};
-        for (const [X, V] of Object.entries(U(this, Ie).mp))
+        for (const [X, V] of Object.entries(U(this, Ae).mp))
           $[X] = V instanceof Function ? V() : V;
         sessionStorage[r + "mp"] = JSON.stringify($);
         const H = {};
-        for (const [X, V] of Object.entries(U(this, Te).mark))
+        for (const [X, V] of Object.entries(U(this, we).mark))
           H[X] = V instanceof Function ? V() : V;
         sessionStorage[r + "mark"] = JSON.stringify(H);
         const z = {};
-        for (const [X, V] of Object.entries(U(this, Te).kidoku))
+        for (const [X, V] of Object.entries(U(this, we).kidoku))
           z[X] = V instanceof Function ? V() : V;
         sessionStorage[r + "kidoku"] = JSON.stringify(z), t.flush();
       } : () => t.flush()), Q(this, Ra, (k, D) => t.callHook(k, D)), t.addHook((k, D) => {
@@ -17875,12 +17875,12 @@ const ls = class {
         return ($ = (B = U(this, Fh))[k]) == null ? void 0 : $.call(B, k, D);
       });
       const N = this.getVal("sys:sn.tagCh.msecWait", -1);
-      (U(this, Se)["const.sn.isFirstBoot"] || N === -1) && et(this, vs, gh).call(this);
+      (U(this, Te)["const.sn.isFirstBoot"] || N === -1) && et(this, vs, gh).call(this);
     });
   }
   updateData(t) {
-    Q(this, Te, t), Q(this, hi, U(this, Ie).sys = U(this, Te).sys), Q(this, Gi, {});
-    for (const [e, r] of Object.entries(U(this, Te).kidoku)) {
+    Q(this, we, t), Q(this, li, U(this, Ae).sys = U(this, we).sys), Q(this, Gi, {});
+    for (const [e, r] of Object.entries(U(this, we).kidoku)) {
       const N = new Areas();
       N.hAreas = { ...r }, U(this, Gi)[e] = N;
     }
@@ -17893,22 +17893,22 @@ const ls = class {
     Q(this, Ia, t);
   }
   defTmp(t, e) {
-    U(this, Se)[t] = e;
+    U(this, Te)[t] = e;
   }
   cloneMp() {
-    return { ...U(this, Ie).mp };
+    return { ...U(this, Ae).mp };
   }
   setMp(t) {
-    U(this, Ie).mp = t;
+    U(this, Ae).mp = t;
   }
   setMark(t, e) {
-    U(this, Te).mark[t] = e, this.flush();
+    U(this, we).mark[t] = e, this.flush();
   }
   cloneSave() {
-    return { ...U(this, Ie).save };
+    return { ...U(this, Ae).save };
   }
   mark2save(t) {
-    Q(this, gi, U(this, Ie).save = { ...t.hSave }), Q(this, ms, U(this, gi)["sn.doRecLog"] ?? !1);
+    Q(this, gi, U(this, Ae).save = { ...t.hSave }), Q(this, ms, U(this, gi)["sn.doRecLog"] ?? !1);
   }
   // 既読系
   loadScrWork(t) {
@@ -17916,12 +17916,12 @@ const ls = class {
   }
   saveKidoku() {
     for (const [t, { hAreas: e }] of Object.entries(U(this, Gi)))
-      U(this, Te).kidoku[t] = { ...e };
+      U(this, we).kidoku[t] = { ...e };
     this.flush();
   }
   setVal_Nochk(t, e, r, N = !1) {
     var B, $;
-    const k = U(this, Ie)[t];
+    const k = U(this, Ae)[t];
     N && (r = et(this, Na, Wu).call(this, r));
     const D = t + ":" + e;
     if (D in U(ls, an)) {
@@ -17942,7 +17942,7 @@ const ls = class {
   }
 };
 let Variable = ls;
-Ie = new WeakMap(), gi = new WeakMap(), Se = new WeakMap(), ar = new WeakMap(), Te = new WeakMap(), hi = new WeakMap(), Gi = new WeakMap(), Ra = new WeakMap(), Fh = new WeakMap(), Oa = new WeakSet(), Xu = function(t) {
+Ae = new WeakMap(), gi = new WeakMap(), Te = new WeakMap(), ar = new WeakMap(), we = new WeakMap(), li = new WeakMap(), Gi = new WeakMap(), Ra = new WeakMap(), Fh = new WeakMap(), Oa = new WeakSet(), Xu = function(t) {
   Q(ls, an, {});
   for (const e of t)
     U(ls, an)[e.dataId] = 1;
@@ -17954,14 +17954,14 @@ Ie = new WeakMap(), gi = new WeakMap(), Se = new WeakMap(), ar = new WeakMap(), 
   const e = Number(t.from), r = Number(t.to);
   if (e === r)
     return !1;
-  if (!(e in U(this, Te).mark))
+  if (!(e in U(this, we).mark))
     throw `from:${e} のセーブデータは存在しません`;
-  return this.setMark(r, { ...U(this, Te).mark[e] }), U(this, ar).copyBMFolder(e, r), !1;
+  return this.setMark(r, { ...U(this, we).mark[e] }), U(this, ar).copyBMFolder(e, r), !1;
 }, Uh = new WeakSet(), ef = function(t) {
   const { place: e } = t;
   if (!e)
     throw "placeは必須です";
-  return delete U(this, Te).mark[e], this.flush(), U(this, ar).eraseBMFolder(e), !1;
+  return delete U(this, we).mark[e], this.flush(), U(this, ar).eraseBMFolder(e), !1;
 }, yi = new WeakSet(), Ui = function(t) {
   if (!t.name)
     throw "nameは必須です";
@@ -18017,14 +18017,14 @@ Ie = new WeakMap(), gi = new WeakMap(), Se = new WeakMap(), ar = new WeakMap(), 
   const e = argChk_Num(t, "pos", 0);
   return t.text = t.len !== "all" ? (t.text ?? "").slice(e, e + int(argChk_Num(t, "len", 1))) : (t.text ?? "").slice(e), et(this, yi, Ui).call(this, t), !1;
 }, vs = new WeakSet(), gh = function() {
-  const t = Q(this, hi, U(this, Ie).sys = U(this, Te).sys = {});
+  const t = Q(this, li, U(this, Ae).sys = U(this, we).sys = {});
   typeof process < "u" || (this.setVal_Nochk("sys", "const.sn.window.x", 0), this.setVal_Nochk("sys", "const.sn.window.y", 0)), this.setVal_Nochk("sys", "sn.tagCh.doWait", !0), this.setVal_Nochk("sys", "sn.tagCh.doWait_Kidoku", !0), this.setVal_Nochk("sys", "sn.tagCh.msecWait", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.tagCh.msecWait_Kidoku", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.tagCh.canskip", !0), this.setVal_Nochk("sys", "sn.skip.mode", "s"), this.setVal_Nochk("sys", "sn.auto.msecPageWait", argChk_Num(t, "sn.auto.msecPageWait", this.cfg.oCfg.init.auto_msecpagewait ?? 3500)), this.setVal_Nochk("sys", "sn.auto.msecPageWait_Kidoku", argChk_Num(t, "sn.auto.msecPageWait", this.cfg.oCfg.init.auto_msecpagewait ?? 3500)), this.setVal_Nochk("sys", "sn.auto.msecLineWait", 500), this.setVal_Nochk("sys", "sn.auto.msecLineWait_Kidoku", 500), this.setVal_Nochk("sys", "const.sn.sound.BGM.volume", 1), this.setVal_Nochk("sys", "const.sn.sound.SE.volume", 1), this.setVal_Nochk("sys", "const.sn.sound.SYS.volume", 1);
-  for (const [r, N] of Object.entries(U(this, Te).kidoku))
+  for (const [r, N] of Object.entries(U(this, we).kidoku))
     N.hAreas = {}, U(this, Gi)[r].clear();
-  return this.setVal_Nochk("sys", "TextLayer.Back.Alpha", 0.5), U(this, Ie).mark = U(this, Te).mark = {}, this.setVal_Nochk("sys", "const.sn.save.place", 1), this.flush(), !1;
+  return this.setVal_Nochk("sys", "TextLayer.Back.Alpha", 0.5), U(this, Ae).mark = U(this, we).mark = {}, this.setVal_Nochk("sys", "const.sn.save.place", 1), this.flush(), !1;
 }, Aa = new WeakSet(), Yu = function() {
   const t = U(this, gi)["const.sn.mesLayer"] ?? "", e = U(this, gi)["sn.doRecLog"] ?? !1, r = U(this, gi)["const.sn.sLog"] ?? "[]";
-  return Q(this, gi, U(this, Ie).save = {}), this.setVal_Nochk("save", "const.sn.mesLayer", t), this.setVal_Nochk("save", "sn.doRecLog", e), this.setVal_Nochk("save", "const.sn.sLog", r), !1;
+  return Q(this, gi, U(this, Ae).save = {}), this.setVal_Nochk("save", "const.sn.mesLayer", t), this.setVal_Nochk("save", "sn.doRecLog", e), this.setVal_Nochk("save", "const.sn.sLog", r), !1;
 }, La = new WeakMap(), an = new WeakMap(), Na = new WeakSet(), Wu = function(t) {
   const e = t;
   if (e === "true")
@@ -18036,23 +18036,23 @@ Ie = new WeakMap(), gi = new WeakMap(), Se = new WeakMap(), ar = new WeakMap(), 
   if (e !== "undefined")
     return U(this, Wh).test(e) ? parseFloat(e) : t;
 }, Wh = new WeakMap(), qh = new WeakMap(), ms = new WeakMap(), ka = new WeakMap(), _s = new WeakSet(), yh = function(t) {
-  argChk_Boolean(U(this, hi), t, !0);
+  argChk_Boolean(U(this, li), t, !0);
 }, Zh = new WeakSet(), cf = function(t) {
-  argChk_Num(U(this, hi), t, 10), U(this, hi)["sn.tagCh.doWait"];
+  argChk_Num(U(this, li), t, 10), U(this, li)["sn.tagCh.doWait"];
 }, Kh = new WeakSet(), ff = function(t) {
   argChk_Num(
-    U(this, hi),
+    U(this, li),
     t,
     this.cfg.oCfg.init.tagch_msecwait === void 0 ? 10 : this.cfg.oCfg.init.tagch_msecwait
-  ), U(this, hi)["sn.tagCh.doWait_Kidoku"];
+  ), U(this, li)["sn.tagCh.doWait_Kidoku"];
 }, Da = new WeakSet(), qu = function(t) {
   argChk_Num(
-    U(this, hi),
+    U(this, li),
     t,
     this.cfg.oCfg.init.auto_msecpagewait === void 0 ? 3500 : this.cfg.oCfg.init.auto_msecpagewait
   );
 }, Fa = new WeakSet(), Zu = function(t) {
-  argChk_Num(U(this, hi), t, 500);
+  argChk_Num(U(this, li), t, 500);
 }, Jh = new WeakSet(), df = function(t) {
   return argChk_Boolean(U(this, gi), t, !0);
 }, // reload 再生成 Main に受け渡すため static
@@ -19457,8 +19457,8 @@ var y = p.filter(function(o) {
   return s = o, o;
 }(new S());
 "extensions" in n ? extensions.add(m) : Loader.registerPlugin(m);
-let cfg, val$1, main$3, sys, evtMng;
-var Ue, be, gs, Ua, Ga, Ku;
+let cfg$1, val$1, main$3, sys, evtMng;
+var Ge, be, gs, Ua, Ga, Ku;
 const Ee = class {
   constructor() {
     K(this, Ga);
@@ -19472,15 +19472,15 @@ const Ee = class {
     pt(this, "stopfadese", (t) => U(this, be).stt.stopfadese(U(this, be), t));
   }
   static init(t, e, r, N) {
-    Q(Ee, Ue, {}), cfg = t, val$1 = e, main$3 = r, sys = N;
+    Q(Ee, Ge, {}), cfg$1 = t, val$1 = e, main$3 = r, sys = N;
   }
   static setEvtMng(t) {
     evtMng = t;
   }
   static delLoopPlay(t) {
-    delete U(Ee, Ue)[t];
+    delete U(Ee, Ge)[t];
     const e = "const.sn.sound." + t + ".";
-    val$1.setVal_Nochk("save", e + "fn", ""), val$1.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(U(Ee, Ue))), val$1.flush();
+    val$1.setVal_Nochk("save", e + "fn", ""), val$1.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(U(Ee, Ge))), val$1.flush();
   }
   static getVol(t, e) {
     const r = argChk_Num(t, "volume", e);
@@ -19491,7 +19491,7 @@ const Ee = class {
     if (e === r)
       return;
     const N = "const.sn.sound." + e + ".", k = Number(val$1.getVal("save:" + N + "volume")), D = String(val$1.getVal("save:" + N + "fn")), B = "const.sn.sound." + r + ".", $ = Number(val$1.getVal("save:" + B + "volume")), H = String(val$1.getVal("save:" + B + "fn"));
-    val$1.setVal_Nochk("save", N + "volume", $), val$1.setVal_Nochk("save", B + "volume", k), val$1.setVal_Nochk("save", N + "fn", H), val$1.setVal_Nochk("save", B + "fn", D), e in U(Ee, Ue) != r in U(Ee, Ue) && (e in U(Ee, Ue) ? (delete U(Ee, Ue)[e], U(Ee, Ue)[r] = 0) : (delete U(Ee, Ue)[r], U(Ee, Ue)[e] = 0), val$1.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(U(Ee, Ue)))), val$1.flush();
+    val$1.setVal_Nochk("save", N + "volume", $), val$1.setVal_Nochk("save", B + "volume", k), val$1.setVal_Nochk("save", N + "fn", H), val$1.setVal_Nochk("save", B + "fn", D), e in U(Ee, Ge) != r in U(Ee, Ge) && (e in U(Ee, Ge) ? (delete U(Ee, Ge)[e], U(Ee, Ge)[r] = 0) : (delete U(Ee, Ge)[r], U(Ee, Ge)[e] = 0), val$1.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(U(Ee, Ge)))), val$1.flush();
   }
   init(t) {
     const { buf: e = "SE", fn: r = "" } = t, N = argChk_Num(t, "start_ms", 0), k = argChk_Num(t, "end_ms", U(Ee, gs)), D = argChk_Num(t, "ret_ms", 0), B = argChk_Num(t, "pan", 0), $ = argChk_Num(t, "speed", 1);
@@ -19510,7 +19510,7 @@ const Ee = class {
     const z = Ee.getVol(t, 1);
     val$1.setVal_Nochk("save", H + "volume", z);
     const X = z * Number(val$1.getVal("sys:" + H + "volume", 1)), V = argChk_Boolean(t, "loop", !1);
-    V ? (U(Ee, Ue)[e] = 0, val$1.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(U(Ee, Ue)))) : Ee.delLoopPlay(e), val$1.setVal_Nochk("save", H + "start_ms", N), val$1.setVal_Nochk("save", H + "end_ms", k), val$1.setVal_Nochk("save", H + "ret_ms", D), val$1.setVal_Nochk("tmp", H + "playing", !0), val$1.flush();
+    V ? (U(Ee, Ge)[e] = 0, val$1.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(U(Ee, Ge)))) : Ee.delLoopPlay(e), val$1.setVal_Nochk("save", H + "start_ms", N), val$1.setVal_Nochk("save", H + "end_ms", k), val$1.setVal_Nochk("save", H + "ret_ms", D), val$1.setVal_Nochk("tmp", H + "playing", !0), val$1.flush();
     const Y = R.find(r);
     Q(this, be, {
       fn: r,
@@ -19603,8 +19603,8 @@ const Ee = class {
   }
 };
 let SndBuf = Ee;
-Ue = new WeakMap(), be = new WeakMap(), gs = new WeakMap(), Ua = new WeakMap(), Ga = new WeakSet(), Ku = function(t, e) {
-  const r = cfg.searchPath(t, SEARCH_PATH_ARG_EXT.SOUND);
+Ge = new WeakMap(), be = new WeakMap(), gs = new WeakMap(), Ua = new WeakMap(), Ga = new WeakSet(), Ku = function(t, e) {
+  const r = cfg$1.searchPath(t, SEARCH_PATH_ARG_EXT.SOUND);
   if (r.slice(-4) !== ".bin") {
     e.url = r, E.from(e);
     return;
@@ -19617,7 +19617,7 @@ Ue = new WeakMap(), be = new WeakMap(), gs = new WeakMap(), Ua = new WeakMap(), 
     var D;
     e.source = (D = k[t]) == null ? void 0 : D.data, E.from(e);
   });
-}, K(SndBuf, Ue, {}), K(SndBuf, gs, 999e3);
+}, K(SndBuf, Ge, {}), K(SndBuf, gs, 999e3);
 function stop2var(o, t) {
   if (o.loop)
     SndBuf.delLoopPlay(t);
@@ -19804,7 +19804,7 @@ class SsStop {
   }
   // ok
 }
-var He, $a, ja, tl, pf, el, vf, il, mf, rl, _f, Ha, Ju, hn, ha, za, Qu, ys, bh, Va, tc, nl, gf, ln, la, sl, yf, Xa, ec, Ya, ic, al, bf, Wa, rc, ol, xf;
+var ze, $a, ja, tl, pf, el, vf, il, mf, rl, _f, Ha, Ju, hn, ha, za, Qu, ys, bh, Va, tc, nl, gf, ln, la, sl, yf, Xa, ec, Ya, ic, al, bf, Wa, rc, ol, xf;
 class SoundMng {
   constructor(t, e, r, N, k) {
     // 音量設定（独自拡張）
@@ -19840,7 +19840,7 @@ class SoundMng {
     K(this, Wa);
     // 再生トラックの交換
     K(this, ol);
-    K(this, He, {});
+    K(this, ze, {});
     K(this, $a, {});
     K(this, ja, void 0);
     this.val = r, e.volume = (D) => et(this, tl, pf).call(this, D), e.fadebgm = (D) => et(this, Ha, Ju).call(this, D), e.fadeoutbgm = (D) => et(this, il, mf).call(this, D), e.fadeoutse = (D) => et(this, rl, _f).call(this, D), e.fadese = (D) => et(this, hn, ha).call(this, D), e.playbgm = (D) => et(this, za, Qu).call(this, D), e.playse = (D) => et(this, ys, bh).call(this, D), e.stop_allse = () => et(this, Va, tc).call(this), e.stopbgm = (D) => et(this, nl, gf).call(this, D), e.stopse = (D) => et(this, ln, la).call(this, D), e.wb = (D) => et(this, sl, yf).call(this, D), e.wf = (D) => et(this, Xa, ec).call(this, D), e.stopfadese = (D) => et(this, Ya, ic).call(this, D), e.wl = (D) => et(this, al, bf).call(this, D), e.ws = (D) => et(this, Wa, rc).call(this, D), e.xchgbuf = (D) => et(this, ol, xf).call(this, D), r.setVal_Nochk("save", "const.sn.loopPlaying", "{}"), r.setVal_Nochk("tmp", "const.sn.sound.codecs", JSON.stringify(I.supported)), SndBuf.init(t, r, N, k), R.disableAutoPause = !0;
@@ -19881,7 +19881,7 @@ class SoundMng {
       r();
   }
 }
-He = new WeakMap(), $a = new WeakMap(), ja = new WeakMap(), tl = new WeakSet(), pf = function(t) {
+ze = new WeakMap(), $a = new WeakMap(), ja = new WeakMap(), tl = new WeakSet(), pf = function(t) {
   const { buf: e = "SE" } = t, r = "const.sn.sound." + e + ".volume", N = et(this, el, vf).call(this, t, 1);
   return Number(this.val.getVal("sys:" + r)) === N ? !1 : (this.val.setVal_Nochk("sys", r, N), this.val.flush(), t.time = 0, t.volume = Number(this.val.getVal("save:" + r)), et(this, hn, ha).call(this, t));
 }, el = new WeakSet(), vf = function(t, e) {
@@ -19896,43 +19896,43 @@ He = new WeakMap(), $a = new WeakMap(), ja = new WeakMap(), tl = new WeakSet(), 
 }, hn = new WeakSet(), ha = function(t) {
   var r;
   const { buf: e = "SE" } = t;
-  return et(this, Ya, ic).call(this, t), (r = U(this, He)[e]) == null || r.fade(t), !1;
+  return et(this, Ya, ic).call(this, t), (r = U(this, ze)[e]) == null || r.fade(t), !1;
 }, za = new WeakSet(), Qu = function(t) {
   return t.buf = "BGM", t.canskip = !1, argChk_Boolean(t, "loop", !0), et(this, ys, bh).call(this, t);
 }, ys = new WeakSet(), bh = function(t) {
   const { buf: e = "SE", fn: r } = t;
   if (et(this, ln, la).call(this, { buf: e }), !r)
     throw `[playse] fnは必須です buf:${e}`;
-  return argChk_Boolean(t, "canskip", !0) && U(this, ja).isSkipping() ? !1 : (U(this, He)[e] = new SndBuf()).init(t);
+  return argChk_Boolean(t, "canskip", !0) && U(this, ja).isSkipping() ? !1 : (U(this, ze)[e] = new SndBuf()).init(t);
 }, Va = new WeakSet(), tc = function() {
-  for (const t of Object.keys(U(this, He)))
+  for (const t of Object.keys(U(this, ze)))
     et(this, ln, la).call(this, { buf: t });
-  return Q(this, He, {}), R.stopAll(), !1;
+  return Q(this, ze, {}), R.stopAll(), !1;
 }, nl = new WeakSet(), gf = function(t) {
   return t.buf = "BGM", et(this, ln, la).call(this, t);
 }, ln = new WeakSet(), la = function(t) {
   var r;
   const { buf: e = "SE" } = t;
-  return (r = U(this, He)[e]) == null || r.stopse(t), !1;
+  return (r = U(this, ze)[e]) == null || r.stopse(t), !1;
 }, sl = new WeakSet(), yf = function(t) {
   return t.buf = "BGM", et(this, Xa, ec).call(this, t);
 }, Xa = new WeakSet(), ec = function(t) {
   var r;
   const { buf: e = "SE" } = t;
-  return (r = U(this, He)[e]) == null ? void 0 : r.wf(t);
+  return (r = U(this, ze)[e]) == null ? void 0 : r.wf(t);
 }, Ya = new WeakSet(), ic = function(t) {
   var r;
   const { buf: e = "SE" } = t;
-  return (r = U(this, He)[e]) == null || r.stopfadese(t), !1;
+  return (r = U(this, ze)[e]) == null || r.stopfadese(t), !1;
 }, al = new WeakSet(), bf = function(t) {
   return t.buf = "BGM", et(this, Wa, rc).call(this, t);
 }, Wa = new WeakSet(), rc = function(t) {
   var r;
   const { buf: e = "SE" } = t;
-  return (r = U(this, He)[e]) == null ? void 0 : r.ws(t);
+  return (r = U(this, ze)[e]) == null ? void 0 : r.ws(t);
 }, ol = new WeakSet(), xf = function(t) {
   const { buf: e = "SE", buf2: r = "SE" } = t;
-  return e === r || ([U(this, He)[e], U(this, He)[r]] = [U(this, He)[r], U(this, He)[e]], SndBuf.xchgbuf(t)), !1;
+  return e === r || ([U(this, ze)[e], U(this, ze)[r]] = [U(this, ze)[r], U(this, ze)[e]], SndBuf.xchgbuf(t)), !1;
 };
 var fe;
 const Ac = class {
@@ -20604,7 +20604,7 @@ ul = new WeakMap(), Mr = new WeakMap(), or = new WeakMap(), un = new WeakMap(), 
   }
   N();
 }), pt(GrpLayer, "hFn2VElm", {}), K(GrpLayer, pl, /\?([^?]+)$/), K(GrpLayer, dn, {}), K(GrpLayer, eo, {});
-var Ts, io, pn, Kt, Hi, ur, vl, li, Ar, Dt, bi, ze, Ve, ws, Eh, Ii, cr, ro, Ps, ml, wf, vn, Cs, Lr, mn, _n, gn, Rs, no, Nr, so, sc, fr, ao, dr, zi, Os, oo, ac, kr, yn, ho, oc, Ke;
+var Ts, io, pn, Kt, Hi, ur, vl, ui, Ar, Dt, bi, Ve, Xe, ws, Eh, Ii, cr, ro, Ps, ml, wf, vn, Cs, Lr, mn, _n, gn, Rs, no, Nr, so, sc, fr, ao, dr, zi, Os, oo, ac, kr, yn, ho, oc, Je;
 const Ht = class extends Container {
   constructor(e, r, N) {
     super();
@@ -20619,7 +20619,7 @@ const Ht = class extends Container {
     K(this, Hi, new Container());
     // サンプリング先
     K(this, ur, new Graphics());
-    K(this, li, new TxtLayDesignCast(this.spLay, this));
+    K(this, ui, new TxtLayDesignCast(this.spLay, this));
     K(this, Ar, new TxtLayPadDesignCast(this));
     K(this, Dt, {
       fontsize: 24,
@@ -20636,8 +20636,8 @@ const Ht = class extends Container {
       // paddingBottom
     });
     K(this, bi, !1);
-    K(this, ze, 0);
     K(this, Ve, 0);
+    K(this, Xe, 0);
     K(this, Ii, 0);
     K(this, cr, !1);
     K(this, ro, 0);
@@ -20651,8 +20651,8 @@ const Ht = class extends Container {
     K(this, Os, 0);
     K(this, kr, "Quadratic.Out");
     K(this, yn, "Quadratic.Out");
-    K(this, Ke, void 0);
-    this.spLay = e, this.canFocus = r, this.sys = N, U(this, Kt).classList.add("sn_tx"), U(this, Kt).style.position = "absolute", U(Ht, io).view.parentElement.appendChild(U(this, Kt)), this.addChild(U(this, Hi)), this.addChild(U(this, ur)), U(this, ur).name = "grpDbgMasume", U(this, li).adopt(U(this, Ar));
+    K(this, Je, void 0);
+    this.spLay = e, this.canFocus = r, this.sys = N, U(this, Kt).classList.add("sn_tx"), U(this, Kt).style.position = "absolute", U(Ht, io).view.parentElement.appendChild(U(this, Kt)), this.addChild(U(this, Hi)), this.addChild(U(this, ur)), U(this, ur).name = "grpDbgMasume", U(this, ui).adopt(U(this, Ar));
   }
   static init(e, r) {
     Q(Ht, Ts, e), Q(Ht, io, r), Q(Ht, _n, /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/), Q(Ht, gn, /[［（｛〈「『【〔“〝]/), Q(Ht, Rs, /[─‥…]/);
@@ -20683,7 +20683,7 @@ const Ht = class extends Container {
         U(this, Kt).style.cssText = "";
     else
       "alpha" in e && (r.opacity = String(this.spLay.alpha));
-    if ("width" in e && (r.width = (e.width ?? "0") + "px"), "height" in e && (r.height = (e.height ?? "0") + "px"), "pl" in e && (r.paddingLeft = (e.pl ?? "0") + "px"), "pr" in e && (r.paddingRight = (e.pr ?? "0") + "px"), "pt" in e && (r.paddingTop = (e.pt ?? "0") + "px"), "pb" in e && (r.paddingBottom = (e.pb ?? "0") + "px"), "kinsoku_sol" in e && Q(Ht, _n, new RegExp(`[${e.kinsoku_sol}]`)), "kinsoku_eol" in e && Q(Ht, gn, new RegExp(`[${e.kinsoku_eol}]`)), "kinsoku_dns" in e && Q(Ht, Rs, new RegExp(`[${e.kinsoku_dns}]`)), et(this, ws, Eh).call(this), U(this, li).sethArg(e), Q(this, Ii, this.spLay.position.x), r.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`, this.cvsResize(), r.display = this.spLay.visible ? "inline" : "none", r.textShadow = e.filter ?? r.textShadow ?? "", Q(this, bi, argChk_Boolean(e, "break_fixed", U(this, bi))), Q(this, ze, argChk_Num(e, "break_fixed_left", U(this, ze))), Q(this, Ve, argChk_Num(e, "break_fixed_top", U(this, Ve))), ":redraw" in e && U(this, mn) > 0) {
+    if ("width" in e && (r.width = (e.width ?? "0") + "px"), "height" in e && (r.height = (e.height ?? "0") + "px"), "pl" in e && (r.paddingLeft = (e.pl ?? "0") + "px"), "pr" in e && (r.paddingRight = (e.pr ?? "0") + "px"), "pt" in e && (r.paddingTop = (e.pt ?? "0") + "px"), "pb" in e && (r.paddingBottom = (e.pb ?? "0") + "px"), "kinsoku_sol" in e && Q(Ht, _n, new RegExp(`[${e.kinsoku_sol}]`)), "kinsoku_eol" in e && Q(Ht, gn, new RegExp(`[${e.kinsoku_eol}]`)), "kinsoku_dns" in e && Q(Ht, Rs, new RegExp(`[${e.kinsoku_dns}]`)), et(this, ws, Eh).call(this), U(this, ui).sethArg(e), Q(this, Ii, this.spLay.position.x), r.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`, this.cvsResize(), r.display = this.spLay.visible ? "inline" : "none", r.textShadow = e.filter ?? r.textShadow ?? "", Q(this, bi, argChk_Boolean(e, "break_fixed", U(this, bi))), Q(this, Ve, argChk_Num(e, "break_fixed_left", U(this, Ve))), Q(this, Xe, argChk_Num(e, "break_fixed_top", U(this, Xe))), ":redraw" in e && U(this, mn) > 0) {
       const N = [
         U(this, Kt).innerHTML.replaceAll(/(animation-delay: )\d+ms/g, "$10ms"),
         `<span class='sn_ch' data-add='{"ch_in_style":"default"}'>　</span>`
@@ -20693,7 +20693,7 @@ const Ht = class extends Container {
   }
   cvsResize() {
     const e = U(this, Kt).style, r = this.sys.cvsScale;
-    e.left = `${this.sys.ofsLeft4elm + U(this, Ii) * r}px`, e.top = `${this.sys.ofsTop4elm + this.spLay.position.y * r}px`, e.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x * r}, ${this.spLay.scale.y * r})`, U(this, li).cvsResize(), U(this, Ar).cvsResize();
+    e.left = `${this.sys.ofsLeft4elm + U(this, Ii) * r}px`, e.top = `${this.sys.ofsTop4elm + this.spLay.position.y * r}px`, e.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x * r}, ${this.spLay.scale.y * r})`, U(this, ui).cvsResize(), U(this, Ar).cvsResize();
   }
   get tategaki() {
     return U(this, cr);
@@ -20722,7 +20722,7 @@ const Ht = class extends Container {
         U(this, Dt).$height - U(this, Dt).pad_top - U(this, Dt).pad_bottom
       ).endFill()), U(this, Kt).innerHTML = [...e].join("").replaceAll(/[\n\t]/g, "") + U(Ht, no), !U(this, bi)) {
         const ot = globalThis.getComputedStyle(U(this, Kt)), nt = parseFloat(ot.fontSize);
-        U(this, cr) ? (Q(this, ze, (U(this, Dt).$width - U(this, Dt).pad_left - U(this, Dt).pad_right - nt * 1.5) * this.sys.cvsScale), Q(this, Ve, 0)) : (Q(this, ze, 0), Q(this, Ve, nt / 2 * this.sys.cvsScale));
+        U(this, cr) ? (Q(this, Ve, (U(this, Dt).$width - U(this, Dt).pad_left - U(this, Dt).pad_right - nt * 1.5) * this.sys.cvsScale), Q(this, Xe, 0)) : (Q(this, Ve, 0), Q(this, Xe, nt / 2 * this.sys.cvsScale));
       }
     } else
       k = U(this, Kt).innerHTML, U(this, Kt).querySelectorAll(":scope > br").forEach((ot) => U(this, Kt).removeChild(ot)), U(this, Kt).insertAdjacentHTML(
@@ -20764,7 +20764,7 @@ const Ht = class extends Container {
           continue;
         const ft = this.tategaki ? lt.rect.y : lt.rect.x;
         if (nt <= ft || ((st = (at = lt.elm.previousElementSibling) == null ? void 0 : at.children[0]) == null ? void 0 : st.tagName) === "BR") {
-          nt = ft, U(this, bi) || (Q(this, ze, lt.rect.x), Q(this, Ve, lt.rect.y));
+          nt = ft, U(this, bi) || (Q(this, Ve, lt.rect.x), Q(this, Xe, lt.rect.y));
           continue;
         }
         let mt = V - 1;
@@ -20772,9 +20772,9 @@ const Ht = class extends Container {
           --mt;
         const wt = ot[mt], Pt = wt.ch;
         if (!U(this, bi)) {
-          Q(this, ze, wt.rect.x), Q(this, Ve, wt.rect.y);
+          Q(this, Ve, wt.rect.x), Q(this, Xe, wt.rect.y);
           const Ot = globalThis.getComputedStyle(wt.elm), jt = parseFloat(Ot.fontSize);
-          U(this, cr) ? Q(this, Ve, U(this, Ve) + jt) : Q(this, ze, U(this, ze) + jt);
+          U(this, cr) ? Q(this, Xe, U(this, Xe) + jt) : Q(this, Ve, U(this, Ve) + jt);
         }
         nt = -1 / 0;
         const Mt = V;
@@ -20841,8 +20841,8 @@ const Ht = class extends Container {
     }
     const tt = U(this, Kt).querySelectorAll("span.sn_ch");
     Q(this, Nr, () => (Q(this, Nr, () => !1), tt.forEach((ot) => ot.className = ot.className.replaceAll(/ go_ch_in_[^\s"]+/g, "")), U(Ht, zi).position.set(
-      U(this, ze),
-      U(this, Ve)
+      U(this, Ve),
+      U(this, Xe)
     ), U(Ht, zi).visible = !0, U(Ht, pn).noticeCompTxt(), !0)), tt.forEach((ot) => ot.className = ot.className.replaceAll(/sn_ch_in_([^\s"]+)/g, "go_ch_in_$1")), N > 0 && ++N;
     let J;
     for (let ot = X - 2; ot >= 0; --ot) {
@@ -20952,45 +20952,45 @@ const Ht = class extends Container {
     var r;
     et(this, ho, oc).call(this);
     const e = new Ht(this.spLay, () => this.canFocus(), this.sys);
-    return Q(e, Dt, U(this, Dt)), U(e, Kt).style.cssText = U(this, Kt).style.cssText, Q(e, Ii, U(this, Ii)), e.name = this.name, et(r = e, ws, Eh).call(r), U(e, li).sethArg(U(this, li).gethArg()), Q(e, vn, U(this, vn)), Q(e, kr, U(this, kr)), Q(e, yn, U(this, yn)), Q(e, bi, U(this, bi)), Q(e, ze, U(this, ze)), Q(e, Ve, U(this, Ve)), this.destroy(), e;
+    return Q(e, Dt, U(this, Dt)), U(e, Kt).style.cssText = U(this, Kt).style.cssText, Q(e, Ii, U(this, Ii)), e.name = this.name, et(r = e, ws, Eh).call(r), U(e, ui).sethArg(U(this, ui).gethArg()), Q(e, vn, U(this, vn)), Q(e, kr, U(this, kr)), Q(e, yn, U(this, yn)), Q(e, bi, U(this, bi)), Q(e, Ve, U(this, Ve)), Q(e, Xe, U(this, Xe)), this.destroy(), e;
   }
   record() {
     return {
       infTL: U(this, Dt),
       cssText: U(this, Kt).style.cssText,
       left: U(this, Ii),
-      idc_hArg: U(this, li).gethArg(),
+      idc_hArg: U(this, ui).gethArg(),
       ch_filter: U(this, vn),
       fi_easing: U(this, kr),
       fo_easing: U(this, yn),
       break_fixed: U(this, bi),
-      break_fixed_left: U(this, ze),
-      break_fixed_top: U(this, Ve)
+      break_fixed_left: U(this, Ve),
+      break_fixed_top: U(this, Xe)
     };
   }
   playback(e) {
-    Q(this, Dt, e.infTL), this.position.set(U(this, Dt).pad_left, U(this, Dt).pad_top), U(this, Kt).style.cssText = e.cssText, Q(this, Ii, e.left), et(this, ws, Eh).call(this), U(this, li).sethArg(e.idc_hArg), Q(this, vn, e.ch_filter), Q(this, kr, e.fi_easing), Q(this, yn, e.fo_easing), Q(this, bi, e.break_fixed ?? !1), Q(this, ze, e.break_fixed_left ?? 0), Q(this, Ve, e.break_fixed_top ?? 0);
+    Q(this, Dt, e.infTL), this.position.set(U(this, Dt).pad_left, U(this, Dt).pad_top), U(this, Kt).style.cssText = e.cssText, Q(this, Ii, e.left), et(this, ws, Eh).call(this), U(this, ui).sethArg(e.idc_hArg), Q(this, vn, e.ch_filter), Q(this, kr, e.fi_easing), Q(this, yn, e.fo_easing), Q(this, bi, e.break_fixed ?? !1), Q(this, Ve, e.break_fixed_left ?? 0), Q(this, Xe, e.break_fixed_top ?? 0);
   }
   snapshot(e, r) {
     et(this, ml, wf).call(this, (N) => {
-      Q(this, Ke, new Sprite(N)), U(this, cr) && (U(this, Ke).x += CmnLib.stageW - (U(this, Ii) + U(this, Dt).$width)), U(this, Ke).y -= U(this, Ps), U(this, Ke).texture.frame = new Rectangle(
+      Q(this, Je, new Sprite(N)), U(this, cr) && (U(this, Je).x += CmnLib.stageW - (U(this, Ii) + U(this, Dt).$width)), U(this, Je).y -= U(this, Ps), U(this, Je).texture.frame = new Rectangle(
         0,
         0,
-        Math.min(U(this, Ke).width, U(this, Dt).$width - U(this, Ii)),
-        Math.min(U(this, Ke).height, U(this, Dt).$height)
-      ), U(this, Hi).addChild(U(this, Ke)), e.render(U(this, Ke), { clear: !1 }), r();
+        Math.min(U(this, Je).width, U(this, Dt).$width - U(this, Ii)),
+        Math.min(U(this, Je).height, U(this, Dt).$height)
+      ), U(this, Hi).addChild(U(this, Je)), e.render(U(this, Je), { clear: !1 }), r();
     }, !1);
   }
   snapshot_end() {
-    U(this, Ke) && (U(this, Hi).removeChild(U(this, Ke)), Q(this, Ke, void 0));
+    U(this, Je) && (U(this, Hi).removeChild(U(this, Je)), Q(this, Je, void 0));
   }
   makeDesignCast(e) {
-    e(U(this, li));
-    const r = U(this, li).gethArg();
+    e(U(this, ui));
+    const r = U(this, ui).gethArg();
     U(this, Ar).sethArg({ ...r, ":id_dc": r[":id_tag"] + "_pad" }), e(U(this, Ar));
   }
   showDesignCast() {
-    U(this, li).visible = !0, U(this, Ar).visible = !0;
+    U(this, ui).visible = !0, U(this, Ar).visible = !0;
   }
   dump() {
     const e = [], r = U(this, Kt).style, N = r.length;
@@ -21005,7 +21005,7 @@ const Ht = class extends Container {
   }
 };
 let TxtStage = Ht;
-Ts = new WeakMap(), io = new WeakMap(), pn = new WeakMap(), Kt = new WeakMap(), Hi = new WeakMap(), ur = new WeakMap(), vl = new WeakMap(), li = new WeakMap(), Ar = new WeakMap(), Dt = new WeakMap(), bi = new WeakMap(), ze = new WeakMap(), Ve = new WeakMap(), ws = new WeakSet(), Eh = function() {
+Ts = new WeakMap(), io = new WeakMap(), pn = new WeakMap(), Kt = new WeakMap(), Hi = new WeakMap(), ur = new WeakMap(), vl = new WeakMap(), ui = new WeakMap(), Ar = new WeakMap(), Dt = new WeakMap(), bi = new WeakMap(), Ve = new WeakMap(), Xe = new WeakMap(), ws = new WeakSet(), Eh = function() {
   const e = U(this, Kt).style, r = parseFloat(e.fontSize || "0");
   U(this, Dt).fontsize = r, U(this, Dt).pad_left = parseFloat(e.paddingLeft || "0"), U(this, Dt).pad_right = parseFloat(e.paddingRight || "0"), U(this, Dt).pad_top = parseFloat(e.paddingTop || "0"), U(this, Dt).pad_bottom = parseFloat(e.paddingBottom || "0"), U(this, Dt).$width = parseFloat(e.width || "0"), U(this, Dt).$height = parseFloat(e.height || "0"), this.position.set(U(this, Dt).pad_left, U(this, Dt).pad_top), Q(this, cr, e.writingMode === "vertical-rl"), Q(this, ro, 0), Q(this, Ps, 0);
   const N = e.lineHeight ?? "0";
@@ -21253,7 +21253,7 @@ Ts = new WeakMap(), io = new WeakMap(), pn = new WeakMap(), Kt = new WeakMap(), 
       B instanceof Container && U(Ht, pn).unButton(B), B.destroy();
   };
   N === 0 ? (U(this, Kt).textContent = "", k()) : (D = r.lastElementChild) == null || D.addEventListener("animationend", k, { once: !0, passive: !0 }), Q(this, Kt, e);
-}, Ke = new WeakMap(), K(TxtStage, Ts, void 0), K(TxtStage, io, void 0), K(TxtStage, pn, void 0), K(TxtStage, vl, {
+}, Je = new WeakMap(), K(TxtStage, Ts, void 0), K(TxtStage, io, void 0), K(TxtStage, pn, void 0), K(TxtStage, vl, {
   "background-color": 0,
   "border-bottom-width": 0,
   "border-left-width": 0,
@@ -21501,7 +21501,7 @@ uo = new WeakMap(), co = new WeakMap(), Ai = new WeakMap(), pr = new WeakMap(), 
 }, pt(Button, "fontFamily", "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif"), K(Button, uo, (e, r) => {
 }), K(Button, co, (e, r, N, k) => {
 });
-var As, Li, fo, Ls, po, hc, vo, lc, mo, xn, _o, vr, En, yl, Rf, mr, xi, Ni, ue, Xi, ee, go, Yi, bl, Je, Sn, ua, Tn, Ns, wn, ca, ks, yo, uc, bo, cc, Pn, Cn, Ds, xo, Fs, Dr, Qe, xl, Of, ui, Eo, Bs, Sh, _r, Kr, Wi, ki, Ei, Si, So, fc, Us, Th, To, dc, Rn, On;
+var As, Li, fo, Ls, po, hc, vo, lc, mo, xn, _o, vr, En, yl, Rf, mr, xi, Ni, ue, Xi, ee, go, Yi, bl, Qe, Sn, ua, Tn, Ns, wn, ca, ks, yo, uc, bo, cc, Pn, Cn, Ds, xo, Fs, Dr, ti, xl, Of, ci, Eo, Bs, Sh, _r, Kr, Wi, ki, Ei, Si, So, fc, Us, Th, To, dc, Rn, On;
 const Xt = class extends Layer {
   constructor() {
     super();
@@ -21526,7 +21526,7 @@ const Xt = class extends Layer {
     K(this, ee, new TxtStage(this.spLay, () => this.canFocus(), U(Xt, _o)));
     K(this, go, new RubySpliter());
     K(this, Yi, document.createElement("span"));
-    K(this, Je, new Container());
+    K(this, Qe, new Container());
     K(this, Tn, "");
     K(this, Ns, !0);
     K(this, ks, "");
@@ -21536,8 +21536,8 @@ const Xt = class extends Layer {
     K(this, xo, new RegExp("[　]"));
     pt(this, "isCur", !1);
     K(this, Dr, () => "");
-    K(this, Qe, "");
-    K(this, ui, !1);
+    K(this, ti, "");
+    K(this, ci, !1);
     K(this, Eo, (e, r) => {
       var H, z, X;
       U(Xt, As).oCfg.debug.putCh && console.log(`🖊 文字表示 text:\`${e}\` ruby:\`${r}\` name:\`${this.name_}\``);
@@ -21546,12 +21546,12 @@ const Xt = class extends Layer {
       const [D, ...B] = N, $ = B.join("｜");
       switch (N.length) {
         case 1:
-          if (Q(this, ui, !0), e === `
+          if (Q(this, ci, !0), e === `
 `) {
             U(this, ki) ? (Q(this, ki, !1), k = "<ruby>　<rt>　</rt></ruby><br/>") : k = "<br/>";
             break;
           }
-          U(this, ki) && (Q(this, ki, !1), r === "" && (r = "　")), k = et(this, Bs, Sh).call(this, e, r, U(this, Qe));
+          U(this, ki) && (Q(this, ki, !1), r === "" && (r = "　")), k = et(this, Bs, Sh).call(this, e, r, U(this, ti));
           break;
         default:
           switch (D) {
@@ -21563,13 +21563,13 @@ const Xt = class extends Layer {
             case "121":
             case "even":
             case "1ruby":
-              Q(this, ki, !1), Q(this, ui, !0), k = et(this, Bs, Sh).call(this, e, $, D);
+              Q(this, ki, !1), Q(this, ci, !0), k = et(this, Bs, Sh).call(this, e, $, D);
               break;
             case "gotxt":
-              et(this, Us, Th).call(this), U(this, ui) ? (this.isCur && U(Xt, Ls).recText(
+              et(this, Us, Th).call(this), U(this, ci) ? (this.isCur && U(Xt, Ls).recText(
                 U(this, Ei).join("").replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, "").replaceAll(/style='(anim\S+ \S+?;\s*)+/g, "style='").replaceAll(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, "").replaceAll(/class='sn_ch .+?'/g, "class='sn_ch'").replaceAll("display: none;", "").replaceAll("class='offrec'", "style='display: none;'")
                 // 囲んだ領域は履歴で非表示
-              ), U(this, ee).goTxt(U(this, Ei), U(this, Wi) === 0), Q(this, ui, !1), Q(this, Wi, 0)) : this.isCur && U(Xt, xn).noticeCompTxt();
+              ), U(this, ee).goTxt(U(this, Ei), U(this, Wi) === 0), Q(this, ci, !1), Q(this, Wi, 0)) : this.isCur && U(Xt, xn).noticeCompTxt();
               return;
             case "add":
               {
@@ -21581,7 +21581,7 @@ const Xt = class extends Layer {
               U(this, Ei).push("</span>"), et(this, Us, Th).call(this);
               return;
             case "grp":
-              Q(this, ui, !0);
+              Q(this, ci, !0);
               {
                 const V = JSON.parse($);
                 if (V.id ?? (V.id = U(this, Ei).length), V.id === "break") {
@@ -21593,13 +21593,13 @@ const Xt = class extends Layer {
                 k = `<span${Y} style='${q} ${V.style}'><ruby><span data-cmd='grp' data-arg='${JSON.stringify(V)}'${W} style='${q} display: inline;'>　</span><rt${W}${this.mkStyle_r_align(
                   "　",
                   V.r,
-                  U(this, Qe),
+                  U(this, ti),
                   U(this, Yi).style.cssText + (((H = U(this, Si).at(-1)) == null ? void 0 : H.o.r_style) ?? "") + V.r_style
                 )}>${V.r}</rt></ruby></span>`;
               }
               break;
             case "tcy":
-              Q(this, ki, !1), Q(this, ui, !0);
+              Q(this, ki, !1), Q(this, ci, !0);
               {
                 const { t: V, r: Y = "", wait: q = null, style: W = "", r_style: Z = "" } = JSON.parse($);
                 U(Xt, Li).doRecLog() && (Q(this, Rn, U(this, Rn) + (e + (r ? `《${r}》` : ""))), Q(this, On, U(this, On) + V));
@@ -21609,7 +21609,7 @@ text-combine-upright: all;
 -webkit-text-combine: horizontal;'>${V}</span><rt${at}${this.mkStyle_r_align(
                   V,
                   tt,
-                  U(this, Qe),
+                  U(this, ti),
                   U(this, Yi).style.cssText + (((z = U(this, Si).at(-1)) == null ? void 0 : z.o.r_style) ?? "") + Z
                 )}>${tt}</rt></ruby></span>`;
               }
@@ -21618,10 +21618,10 @@ text-combine-upright: all;
               TxtStage.delBreak();
               return;
             case "span":
-              Q(this, ui, !0), et(this, To, dc).call(this, JSON.parse($));
+              Q(this, ci, !0), et(this, To, dc).call(this, JSON.parse($));
               return;
             case "link":
-              Q(this, ui, !0);
+              Q(this, ci, !0);
               {
                 const V = JSON.parse($);
                 V[":link"] = " data-lnk='@'";
@@ -21630,10 +21630,10 @@ text-combine-upright: all;
               }
               return;
             case "endlink":
-              Q(this, ui, !0), U(this, Ei).push("</span>"), et(this, Us, Th).call(this);
+              Q(this, ci, !0), U(this, Ei).push("</span>"), et(this, Us, Th).call(this);
               return;
             default:
-              Q(this, ui, !0), k = et(this, Bs, Sh).call(this, e, r, U(this, Qe));
+              Q(this, ci, !0), k = et(this, Bs, Sh).call(this, e, r, U(this, ti));
           }
           break;
       }
@@ -21647,15 +21647,15 @@ text-combine-upright: all;
     K(this, Rn, "");
     K(this, On, "");
     pt(this, "addButton", (e) => new Promise((r) => {
-      e.key = `btn=[${U(this, Je).children.length}] ` + this.name_, e[":id_tag"] = e.key.slice(0, -7), argChk_Boolean(e, "hint_tate", U(this, ee).tategaki);
+      e.key = `btn=[${U(this, Qe).children.length}] ` + this.name_, e[":id_tag"] = e.key.slice(0, -7), argChk_Boolean(e, "hint_tate", U(this, ee).tategaki);
       const N = new Button(e, U(Xt, xn), () => r(), () => this.canFocus());
-      N.name = JSON.stringify(e).replaceAll('"', "'"), U(this, Je).addChild(N);
+      N.name = JSON.stringify(e).replaceAll('"', "'"), U(this, Qe).addChild(N);
     }));
     pt(this, "record", () => ({
       ...super.record(),
       enabled: this.enabled,
       r_cssText: U(this, Yi).style.cssText,
-      r_align: U(this, Qe),
+      r_align: U(this, ti),
       // バック
       b_do: U(this, ue) === void 0 ? void 0 : U(this, ue) instanceof Sprite ? "Sprite" : "Graphics",
       b_pic: U(this, Xi),
@@ -21665,9 +21665,9 @@ text-combine-upright: all;
       ffs: U(this, Pn),
       txs: U(this, ee).record(),
       strNoFFS: U(this, Ds),
-      btns: U(this, Je).children.map((e) => e.name)
+      btns: U(this, Qe).children.map((e) => e.name)
     }));
-    this.spLay.addChild(U(this, ee)), U(this, go).init(U(this, Eo)), this.spLay.addChild(U(this, Je)), U(this, Je).name = "cntBtn";
+    this.spLay.addChild(U(this, ee)), U(this, go).init(U(this, Eo)), this.spLay.addChild(U(this, Qe)), U(this, Qe).name = "cntBtn";
     const e = 16;
     this.lay({ style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${e}px;`, in_style: "default", out_style: "default", back_clear: "true" });
   }
@@ -21745,7 +21745,7 @@ text-combine-upright: all;
     U(this, ee).cvsResize();
   }
   cvsResizeChildren() {
-    for (const e of U(this, Je).children)
+    for (const e of U(this, Qe).children)
       e.cvsResize();
   }
   procSetX(e) {
@@ -21755,7 +21755,7 @@ text-combine-upright: all;
     U(this, ee).lay({ y: e });
   }
   lay(e) {
-    if (super.lay(e), Layer.setXY(this.spLay, e, this.spLay), e[":id_tag"] = this.name_.slice(0, -7), RubySpliter.setting(e), et(this, bo, cc).call(this, e), U(this, ee).lay(e), "r_align" in e && Q(this, Qe, e.r_align ?? ""), Q(this, Dr, CmnLib.isSafari ? U(this, ee).tategaki ? (r, N) => `text-align: start; height: ${N}em; padding-top: ${r}; padding-bottom: ${r};` : (r, N) => `text-align: start; width: ${N}em; padding-left: ${r}; padding-right: ${r};` : U(this, ee).tategaki ? (r) => `text-align: justify; text-align-last: justify; padding-top: ${r}; padding-bottom: ${r};` : (r) => `text-align: justify; text-align-last: justify; padding-left: ${r}; padding-right: ${r};`), CmnLib.isFirefox && (this.mkStyle_r_align = et(this, xl, Of)), "r_style" in e)
+    if (super.lay(e), Layer.setXY(this.spLay, e, this.spLay), e[":id_tag"] = this.name_.slice(0, -7), RubySpliter.setting(e), et(this, bo, cc).call(this, e), U(this, ee).lay(e), "r_align" in e && Q(this, ti, e.r_align ?? ""), Q(this, Dr, CmnLib.isSafari ? U(this, ee).tategaki ? (r, N) => `text-align: start; height: ${N}em; padding-top: ${r}; padding-bottom: ${r};` : (r, N) => `text-align: start; width: ${N}em; padding-left: ${r}; padding-right: ${r};` : U(this, ee).tategaki ? (r) => `text-align: justify; text-align-last: justify; padding-top: ${r}; padding-bottom: ${r};` : (r) => `text-align: justify; text-align-last: justify; padding-left: ${r}; padding-right: ${r};`), CmnLib.isFirefox && (this.mkStyle_r_align = et(this, xl, Of)), "r_style" in e)
       if (e.r_style) {
         const r = document.createElement("span");
         r.style.cssText = e.r_style;
@@ -21771,7 +21771,7 @@ text-combine-upright: all;
       } else
         U(this, Yi).style.cssText = "";
     if ("alpha" in e)
-      for (const r of U(this, Je).children)
+      for (const r of U(this, Qe).children)
         r.alpha = this.spLay.alpha;
     return et(this, Sn, ua).call(this, e), et(this, wn, ca).call(this, e), et(this, yo, uc).call(this, e, (r) => {
       r && U(Xt, mo).resume();
@@ -21843,11 +21843,11 @@ text-combine-upright: all;
   }
   clearLay(e) {
     super.clearLay(e), this.clearText();
-    for (const r of U(this, Je).removeChildren())
+    for (const r of U(this, Qe).removeChildren())
       r.destroy();
   }
   playback(e, r) {
-    super.playback(e, r), this.enabled = e.enabled, U(this, Yi).style.cssText = e.r_cssText, Q(this, Qe, e.r_align), this.cvsResize(), et(this, bo, cc).call(this, e), U(this, ee).playback(e.txs), Q(this, xi, e.b_alpha), Q(this, Ni, e.b_alpha_isfixed), r.push(new Promise((k) => {
+    super.playback(e, r), this.enabled = e.enabled, U(this, Yi).style.cssText = e.r_cssText, Q(this, ti, e.r_align), this.cvsResize(), et(this, bo, cc).call(this, e), U(this, ee).playback(e.txs), Q(this, xi, e.b_alpha), Q(this, Ni, e.b_alpha_isfixed), r.push(new Promise((k) => {
       const D = e.b_do ? e.b_do === "Sprite" ? { b_pic: e.b_pic } : { b_color: e.b_color } : { b_pic: "" };
       D.b_alpha = e.b_alpha, D.b_alpha_isfixed = e.b_alpha_isfixed, et(this, yo, uc).call(this, D, (B) => {
         B && k();
@@ -21867,18 +21867,18 @@ text-combine-upright: all;
   }
   makeDesignCastChildren(e) {
     if (this.spLay.visible)
-      for (const r of U(this, Je).children)
+      for (const r of U(this, Qe).children)
         r.makeDesignCast(e);
   }
   showDesignCast() {
     U(this, ee).showDesignCast();
   }
   showDesignCastChildren() {
-    for (const e of U(this, Je).children)
+    for (const e of U(this, Qe).children)
       e.showDesignCast();
   }
   dump() {
-    return U(this, Eo).call(this, "", "gotxt｜"), super.dump() + `, "enabled":"${this.enabled}", ${U(this, ee).dump()}, "b_pic":"${U(this, Xi)}", "b_color":"${U(this, mr)}", "b_alpha":${U(this, xi)}, "b_alpha_isfixed":"${U(this, Ni)}", "width":${U(this, ee).getWidth}, "height":${U(this, ee).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${U(this, Je).children.map((e) => e.children[0].name ?? "{}").join(",")}]`;
+    return U(this, Eo).call(this, "", "gotxt｜"), super.dump() + `, "enabled":"${this.enabled}", ${U(this, ee).dump()}, "b_pic":"${U(this, Xi)}", "b_color":"${U(this, mr)}", "b_alpha":${U(this, xi)}, "b_alpha_isfixed":"${U(this, Ni)}", "width":${U(this, ee).getWidth}, "height":${U(this, ee).getHeight}, "pixi_obj":[${this.spLay.children.map((e) => `{"class":"${e instanceof Sprite ? "Sprite" : e instanceof Graphics ? "Graphics" : e instanceof Container ? "Container" : "?"}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(",")}], "button":[${U(this, Qe).children.map((e) => e.children[0].name ?? "{}").join(",")}]`;
   }
 };
 let TxtLayer = Xt;
@@ -21928,7 +21928,7 @@ As = new WeakMap(), Li = new WeakMap(), fo = new WeakMap(), Ls = new WeakMap(), 
   if (k.length !== N)
     throw "[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい";
   return Q(Xt, En, {}), k.forEach((D, B) => U(Xt, En)[r[B]] = uint(D)), U(Xt, Li).setVal_Nochk("save", "const.sn.autowc.time", e.time), !1;
-}, mr = new WeakMap(), xi = new WeakMap(), Ni = new WeakMap(), ue = new WeakMap(), Xi = new WeakMap(), ee = new WeakMap(), go = new WeakMap(), Yi = new WeakMap(), bl = new WeakMap(), Je = new WeakMap(), Sn = new WeakSet(), ua = function(e) {
+}, mr = new WeakMap(), xi = new WeakMap(), Ni = new WeakMap(), ue = new WeakMap(), Xi = new WeakMap(), ee = new WeakMap(), go = new WeakMap(), Yi = new WeakMap(), bl = new WeakMap(), Qe = new WeakMap(), Sn = new WeakSet(), ua = function(e) {
   const { in_style: r } = e;
   if (!r)
     return;
@@ -21961,7 +21961,7 @@ As = new WeakMap(), Li = new WeakMap(), fo = new WeakMap(), Ls = new WeakMap(), 
   return U(this, ue) && (U(this, ue).visible = N > 0, U(this, ue).alpha = N), r(!1), !1;
 }, bo = new WeakSet(), cc = function(e) {
   "noffs" in e && (Q(this, Ds, e.noffs ?? ""), Q(this, xo, new RegExp(`[　${U(this, Ds)}]`))), "ffs" in e && (U(this, Pn) ?? Q(this, Pn, ""), Q(this, Cn, U(this, Pn) === "" ? () => "" : (r) => U(this, xo).test(r) ? "" : ` font-feature-settings: ${U(this, Pn)};`));
-}, Pn = new WeakMap(), Cn = new WeakMap(), Ds = new WeakMap(), xo = new WeakMap(), Fs = new WeakMap(), Dr = new WeakMap(), Qe = new WeakMap(), xl = new WeakSet(), Of = function(e, r, N, k = "") {
+}, Pn = new WeakMap(), Cn = new WeakMap(), Ds = new WeakMap(), xo = new WeakMap(), Fs = new WeakMap(), Dr = new WeakMap(), ti = new WeakMap(), xl = new WeakSet(), Of = function(e, r, N, k = "") {
   if (!N)
     return ` style='${k}'`;
   const D = e.length * 2;
@@ -21995,7 +21995,7 @@ As = new WeakMap(), Li = new WeakMap(), fo = new WeakMap(), Ls = new WeakMap(), 
       B = `text-align: ${N};`;
   }
   return ` style='${B} ${k}'`;
-}, ui = new WeakMap(), Eo = new WeakMap(), Bs = new WeakSet(), Sh = function(e, r, N) {
+}, ci = new WeakMap(), Eo = new WeakMap(), Bs = new WeakSet(), Sh = function(e, r, N) {
   var H;
   const k = e === " " ? "&nbsp;" : e;
   U(Xt, Li).doRecLog() && (Q(this, Rn, U(this, Rn) + (k + (r ? `《${r}》` : ""))), e !== " " && Q(this, On, U(this, On) + e));
@@ -22024,20 +22024,20 @@ As = new WeakMap(), Li = new WeakMap(), fo = new WeakMap(), Ls = new WeakMap(), 
 }, Wi = new WeakMap(), ki = new WeakMap(), Ei = new WeakMap(), Si = new WeakMap(), So = new WeakSet(), fc = function(e) {
   U(this, Si).push({
     o: e,
-    r_align: U(this, Qe),
+    r_align: U(this, ti),
     ch_in_style: U(this, Tn),
     ch_out_style: U(this, ks)
-  }), "r_align" in e && Q(this, Qe, e.r_align), et(this, Sn, ua).call(this, e), et(this, wn, ca).call(this, e);
+  }), "r_align" in e && Q(this, ti, e.r_align), et(this, Sn, ua).call(this, e), et(this, wn, ca).call(this, e);
 }, Us = new WeakSet(), Th = function() {
   const e = U(this, Si).pop();
-  e && (Q(this, Qe, e.r_align), et(this, Sn, ua).call(this, { in_style: e.ch_in_style }), et(this, wn, ca).call(this, { out_style: e.ch_out_style }));
+  e && (Q(this, ti, e.r_align), et(this, Sn, ua).call(this, { in_style: e.ch_in_style }), et(this, wn, ca).call(this, { out_style: e.ch_out_style }));
 }, To = new WeakSet(), dc = function(e) {
   const r = U(this, Si).at(-1);
   if (!r) {
     et(this, So, fc).call(this, e);
     return;
   }
-  r.o = { ...r.o, ...e }, !e.style && !e.r_style && (r.o.style = "", r.o.r_style = ""), "r_align" in e && Q(this, Qe, e.r_align), et(this, Sn, ua).call(this, e), et(this, wn, ca).call(this, e);
+  r.o = { ...r.o, ...e }, !e.style && !e.r_style && (r.o.style = "", r.o.r_style = ""), "r_align" in e && Q(this, ti, e.r_align), et(this, Sn, ua).call(this, e), et(this, wn, ca).call(this, e);
 }, Rn = new WeakMap(), On = new WeakMap(), // 文字出現演出
 K(TxtLayer, po), // 文字消去演出
 K(TxtLayer, vo), K(TxtLayer, yl), K(TxtLayer, As, void 0), K(TxtLayer, Li, void 0), K(TxtLayer, fo, void 0), K(TxtLayer, Ls, void 0), K(TxtLayer, mo, void 0), K(TxtLayer, xn, void 0), K(TxtLayer, _o, void 0), // 文字ごとのウェイト
@@ -22180,7 +22180,7 @@ Gs = new WeakMap(), Mn = new WeakMap(), El = new WeakSet(), Mf = function(t) {
   if (!this.val.getVal("tmp:" + N))
     throw `frame【${e}】が読み込まれていません`;
   const k = r.style;
-  if (argChk_Boolean(t, "float", !1) ? k.zIndex = `${++Me(this, wo)._}` : "index" in t ? k.zIndex = `${argChk_Num(t, "index", 0)}` : t.dive && (k.zIndex = `-${++Me(this, wo)._}`), "alpha" in t) {
+  if (argChk_Boolean(t, "float", !1) ? k.zIndex = `${++Ie(this, wo)._}` : "index" in t ? k.zIndex = `${argChk_Num(t, "index", 0)}` : t.dive && (k.zIndex = `-${++Ie(this, wo)._}`), "alpha" in t) {
     const B = k.opacity = String(t.alpha);
     this.val.setVal_Nochk("tmp", N + ".alpha", B);
   }
@@ -22272,7 +22272,7 @@ ${e}`, lt = () => {
     yt.start();
   return this.hTwInf[nt] = { tw: Ot, resume: !1 }, !1;
 };
-var Ti, ne, me, Fr, In, Hs, Po, Co, Ro, zs, Oo, pc, Br, ci, Cl, kf, ti, Rl, Df, Ol, Ff, Ml, Bf, Jt, qi, Zi, Mo, Il, Uf, Vs, Ph, Al, Gf, Ll, Io, Nl, An, Ln, gr, we, Nn, kl, $f, Pe, Xe, ai, Dl, jf, Fl, Hf, Bl, zf, kn, fa, Ul, Vf, fi, Gl, Xf, $l, Yf, jl, Wf, Hl, qf, zl, Zf, Ur, Dn, da, di, Vl, Kf, Ao, Xl, Jf, Ki, Fn, Gr, as, Ge, Ji, Yl, Qf, Wl, td, ql, ed, Zl, id, Kl, rd, Jl, nd, Ql, sd, Lo, vc, tu, ad, eu, od, iu, hd, ru, ld, nu, ud, su, cd, au, fd;
+var Ti, ne, me, Fr, In, Hs, Po, Co, Ro, zs, Oo, pc, Br, fi, Cl, kf, ei, Rl, Df, Ol, Ff, Ml, Bf, Jt, qi, Zi, Mo, Il, Uf, Vs, Ph, Al, Gf, Ll, Io, Nl, An, Ln, gr, Pe, Nn, kl, $f, Ce, Ye, oi, Dl, jf, Fl, Hf, Bl, zf, kn, fa, Ul, Vf, di, Gl, Xf, $l, Yf, jl, Wf, Hl, qf, zl, Zf, Ur, Dn, da, pi, Vl, Kf, Ao, Xl, Jf, Ki, Fn, Gr, as, $e, Ji, Yl, Qf, Wl, td, ql, ed, Zl, id, Kl, rd, Jl, nd, Ql, sd, Lo, vc, tu, ad, eu, od, iu, hd, ru, ld, nu, ud, su, cd, au, fd;
 const Rr = class {
   constructor(t, e, r, N, k, D, B, $, H, z) {
     K(this, Oo);
@@ -22292,7 +22292,7 @@ const Rr = class {
     K(this, Al);
     // ページ裏表を交換
     K(this, kl);
-    K(this, Xe);
+    K(this, Ye);
     K(this, Dl);
     K(this, Fl);
     // トランス終了待ち
@@ -22369,8 +22369,8 @@ const Rr = class {
     K(this, zs, "");
     pt(this, "getFrmDisabled", (t) => U(this, Fr).getFrmDisabled(t));
     K(this, Br, void 0);
-    K(this, ci, void 0);
-    K(this, ti, (t, e = this.currentTxtlayForeNeedErr, r = !0) => e.tagCh("｜　《" + t + "》"));
+    K(this, fi, void 0);
+    K(this, ei, (t, e = this.currentTxtlayForeNeedErr, r = !0) => e.tagCh("｜　《" + t + "》"));
     pt(this, "goTxt", () => {
     });
     pt(this, "breakLine", (t) => {
@@ -22429,12 +22429,12 @@ void main(void) {
       width: CmnLib.stageW,
       height: CmnLib.stageH
     }));
-    K(this, we, new Sprite(U(this, gr)));
+    K(this, Pe, new Sprite(U(this, gr)));
     K(this, Nn, []);
-    K(this, Pe, { tw: void 0, resume: !1 });
+    K(this, Ce, { tw: void 0, resume: !1 });
     // トゥイーン開始
-    K(this, fi, {});
-    K(this, di, (t) => {
+    K(this, di, {});
+    K(this, pi, (t) => {
       throw U(this, Fn).call(this), 0;
     });
     // 操作対象のメッセージレイヤの指定
@@ -22446,7 +22446,7 @@ void main(void) {
     K(this, Fn, () => {
       throw "文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい";
     });
-    K(this, Ge, { text: "" });
+    K(this, $e, { text: "" });
     K(this, Ji, []);
     this.cfg = t, this.hTag = e, this.appPixi = r, this.val = N, this.main = k, this.scrItr = D, this.sys = B, this.sndMng = $, this.alzTagArg = H, this.prpPrs = z;
     const X = () => {
@@ -22456,7 +22456,7 @@ void main(void) {
       else
         for (const W of U(this, qi))
           U(this, Jt)[W].fore.cvsResize();
-      U(this, Fr).cvsResize(), U(this, ci).cvsResize();
+      U(this, Fr).cvsResize(), U(this, fi).cvsResize();
     };
     if (CmnLib.isMobile)
       U(this, Hs).add(globalThis, "orientationchange", X, { passive: !0 });
@@ -22468,17 +22468,17 @@ void main(void) {
         }, 1e3 / 60 * 10));
       }, { passive: !0 });
     }
-    B.cvsResize(), TxtLayer.init(t, e, N, this, (W) => U(this, Jt)[W.layname].fore === W, r), GrpLayer.init(k, t, r, B, $, N), Button.init(t), Q(this, Fr, new FrameMng(t, e, r, N, k, B, U(this, fi))), B.hFactoryCls.grp = () => new GrpLayer(), B.hFactoryCls.txt = () => new TxtLayer(), e.loadplugin = (W) => et(this, Ol, Ff).call(this, W), e.snapshot = (W) => et(this, Rl, Df).call(this, W), e.add_lay = (W) => et(this, Ml, Bf).call(this, W), e.clear_lay = (W) => et(this, Al, Gf).call(this, W), e.finish_trans = () => et(this, kn, fa).call(this), e.lay = (W) => et(this, Il, Uf).call(this, W), e.trans = (W) => et(this, kl, $f).call(this, W), e.wt = (W) => et(this, Bl, zf).call(this, W), e.quake = (W) => et(this, Ul, Vf).call(this, W), e.stop_quake = (W) => e.finish_trans(W), e.wq = (W) => e.wt(W), e.pause_tsy = (W) => et(this, Hl, qf).call(this, W), e.resume_tsy = (W) => et(this, zl, Zf).call(this, W), e.stop_tsy = (W) => et(this, jl, Wf).call(this, W), e.tsy = (W) => et(this, Gl, Xf).call(this, W), e.wait_tsy = (W) => et(this, $l, Yf).call(this, W), e.ch = (W) => et(this, Dn, da).call(this, W), e.clear_text = (W) => et(this, Yl, Qf).call(this, W), e.current = (W) => U(this, Ao).call(this, W), e.endlink = (W) => et(this, Wl, td).call(this, W), e.er = (W) => et(this, ql, ed).call(this, W), e.graph = (W) => et(this, Zl, id).call(this, W), e.link = (W) => et(this, Kl, rd).call(this, W), e.r = (W) => et(this, Jl, nd).call(this, W), e.rec_ch = (W) => et(this, Lo, vc).call(this, W), e.rec_r = (W) => et(this, Ql, sd).call(this, W), e.reset_rec = (W) => et(this, tu, ad).call(this, W), e.ruby2 = (W) => et(this, eu, od).call(this, W), e.span = (W) => et(this, iu, hd).call(this, W), e.tcy = (W) => et(this, ru, ld).call(this, W), e.add_face = (W) => GrpLayer.add_face(W), e.wv = (W) => GrpLayer.wv(W), e.dump_lay = (W) => et(this, nu, ud).call(this, W), e.enable_event = (W) => et(this, su, cd).call(this, W), e.button = (W) => et(this, au, fd).call(this, W), t.existsBreakline && (this.breakLine = (W) => {
+    B.cvsResize(), TxtLayer.init(t, e, N, this, (W) => U(this, Jt)[W.layname].fore === W, r), GrpLayer.init(k, t, r, B, $, N), Button.init(t), Q(this, Fr, new FrameMng(t, e, r, N, k, B, U(this, di))), B.hFactoryCls.grp = () => new GrpLayer(), B.hFactoryCls.txt = () => new TxtLayer(), e.loadplugin = (W) => et(this, Ol, Ff).call(this, W), e.snapshot = (W) => et(this, Rl, Df).call(this, W), e.add_lay = (W) => et(this, Ml, Bf).call(this, W), e.clear_lay = (W) => et(this, Al, Gf).call(this, W), e.finish_trans = () => et(this, kn, fa).call(this), e.lay = (W) => et(this, Il, Uf).call(this, W), e.trans = (W) => et(this, kl, $f).call(this, W), e.wt = (W) => et(this, Bl, zf).call(this, W), e.quake = (W) => et(this, Ul, Vf).call(this, W), e.stop_quake = (W) => e.finish_trans(W), e.wq = (W) => e.wt(W), e.pause_tsy = (W) => et(this, Hl, qf).call(this, W), e.resume_tsy = (W) => et(this, zl, Zf).call(this, W), e.stop_tsy = (W) => et(this, jl, Wf).call(this, W), e.tsy = (W) => et(this, Gl, Xf).call(this, W), e.wait_tsy = (W) => et(this, $l, Yf).call(this, W), e.ch = (W) => et(this, Dn, da).call(this, W), e.clear_text = (W) => et(this, Yl, Qf).call(this, W), e.current = (W) => U(this, Ao).call(this, W), e.endlink = (W) => et(this, Wl, td).call(this, W), e.er = (W) => et(this, ql, ed).call(this, W), e.graph = (W) => et(this, Zl, id).call(this, W), e.link = (W) => et(this, Kl, rd).call(this, W), e.r = (W) => et(this, Jl, nd).call(this, W), e.rec_ch = (W) => et(this, Lo, vc).call(this, W), e.rec_r = (W) => et(this, Ql, sd).call(this, W), e.reset_rec = (W) => et(this, tu, ad).call(this, W), e.ruby2 = (W) => et(this, eu, od).call(this, W), e.span = (W) => et(this, iu, hd).call(this, W), e.tcy = (W) => et(this, ru, ld).call(this, W), e.add_face = (W) => GrpLayer.add_face(W), e.wv = (W) => GrpLayer.wv(W), e.dump_lay = (W) => et(this, nu, ud).call(this, W), e.enable_event = (W) => et(this, su, cd).call(this, W), e.button = (W) => et(this, au, fd).call(this, W), t.existsBreakline && (this.breakLine = (W) => {
       delete W.visible, W.id = "break", W.pic = "breakline";
       const Z = encodeURIComponent(JSON.stringify(W));
-      U(this, ti).call(this, "grp｜" + Z);
+      U(this, ei).call(this, "grp｜" + Z);
     }), t.existsBreakpage && (this.breakPage = (W) => {
       delete W.visible, W.id = "break", W.pic = "breakpage";
       const Z = encodeURIComponent(JSON.stringify(W));
-      U(this, ti).call(this, "grp｜" + Z);
+      U(this, ei).call(this, "grp｜" + Z);
     }), Q(this, In, parseColor(String(t.oCfg.init.bg_color)));
     const V = new Graphics();
-    V.beginFill(U(this, In), 1).lineStyle(0, U(this, In)).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill(), U(this, ne).addChild(V.clone()), U(this, me).addChild(V), U(this, me).visible = !1, U(this, ne).name = "page:A", U(this, me).name = "page:B", Q(this, Ti, r.stage), U(this, Ti).addChild(U(this, me)), U(this, Ti).addChild(U(this, ne)), U(this, Ti).addChild(U(this, Ln)), U(this, Ti).addChild(U(this, we)), U(this, Ti).name = "stage", r.ticker.add(U(this, Po));
+    V.beginFill(U(this, In), 1).lineStyle(0, U(this, In)).drawRect(0, 0, CmnLib.stageW, CmnLib.stageH).endFill(), U(this, ne).addChild(V.clone()), U(this, me).addChild(V), U(this, me).visible = !1, U(this, ne).name = "page:A", U(this, me).name = "page:B", Q(this, Ti, r.stage), U(this, Ti).addChild(U(this, me)), U(this, Ti).addChild(U(this, ne)), U(this, Ti).addChild(U(this, Ln)), U(this, Ti).addChild(U(this, Pe)), U(this, Ti).name = "stage", r.ticker.add(U(this, Po));
     const Y = (W, Z) => {
       et(this, Cl, kf).call(this, Number(Z));
     };
@@ -22487,7 +22487,7 @@ void main(void) {
     q("", N.getVal("tmp:sn.button.fontFamily", Button.fontFamily)), N.defValTrg("tmp:sn.button.fontFamily", q), N.defTmp("const.sn.log.json", () => {
       var W;
       return JSON.stringify(
-        (U(this, Ge).text = ((W = U(this, Ge).text) == null ? void 0 : W.replaceAll("</span><span class='sn_ch'>", "")) ?? "") ? [...U(this, Ji), U(this, Ge)] : U(this, Ji)
+        (U(this, $e).text = ((W = U(this, $e).text) == null ? void 0 : W.replaceAll("</span><span class='sn_ch'>", "")) ?? "") ? [...U(this, Ji), U(this, $e)] : U(this, Ji)
       );
     }), N.defTmp("const.sn.last_page_text", () => {
       var W;
@@ -22508,7 +22508,7 @@ void main(void) {
     );
   }
   setEvtMng(t) {
-    Q(this, ci, t), U(this, Fr).setEvtMng(t), GrpLayer.setEvtMng(t);
+    Q(this, fi, t), U(this, Fr).setEvtMng(t), GrpLayer.setEvtMng(t);
   }
   before_destroy() {
     for (const t of Object.values(U(this, Jt)))
@@ -22519,13 +22519,13 @@ void main(void) {
   }
   // トゥイーン全停止
   stopAllTw() {
-    Q(this, fi, {}), removeAll();
+    Q(this, di, {}), removeAll();
   }
   clearBreak() {
-    this.currentTxtlayFore && (this.clearBreak = () => U(this, ti).call(this, "del｜break"), this.clearBreak());
+    this.currentTxtlayFore && (this.clearBreak = () => U(this, ei).call(this, "del｜break"), this.clearBreak());
   }
   clickTxtLay() {
-    return this.currentTxtlayFore ? et(this, Xe, ai).call(this).some((t) => {
+    return this.currentTxtlayFore ? et(this, Ye, oi).call(this).some((t) => {
       const e = U(this, Jt)[t].fore;
       return e instanceof TxtLayer && e.click();
     }) : !1;
@@ -22546,7 +22546,7 @@ void main(void) {
     return U(this, Ki) ? U(this, Ki).fore : null;
   }
   recText(t) {
-    U(this, Ge).text = t, this.val.setVal_Nochk(
+    U(this, $e).text = t, this.val.setVal_Nochk(
       "save",
       "const.sn.sLog",
       String(this.val.getVal("const.sn.log.json"))
@@ -22554,7 +22554,7 @@ void main(void) {
     );
   }
   recPagebreak() {
-    U(this, Ge).text && (U(this, Ge).text = U(this, Ge).text.replaceAll("</span><span class='sn_ch'>", ""), U(this, Ji).push(U(this, Ge)) > this.cfg.oCfg.log.max_len && Q(this, Ji, U(this, Ji).slice(-this.cfg.oCfg.log.max_len)), Q(this, Ge, { text: "" }));
+    U(this, $e).text && (U(this, $e).text = U(this, $e).text.replaceAll("</span><span class='sn_ch'>", ""), U(this, Ji).push(U(this, $e)) > this.cfg.oCfg.log.max_len && Q(this, Ji, U(this, Ji).slice(-this.cfg.oCfg.log.max_len)), Q(this, $e, { text: "" }));
   }
   record() {
     const t = {};
@@ -22570,7 +22570,7 @@ void main(void) {
   }
   playback(t, e) {
     var D;
-    Q(this, Ji, JSON.parse(String(this.val.getVal("save:const.sn.sLog")))), Q(this, Ge, { text: "" });
+    Q(this, Ji, JSON.parse(String(this.val.getVal("save:const.sn.sLog")))), Q(this, $e, { text: "" });
     const r = [], N = [];
     for (const [B, { fore: $, fore: { idx: H }, back: z, cls: X }] of Object.entries(t)) {
       N.push({ layer: B, idx: H });
@@ -22592,15 +22592,15 @@ void main(void) {
 };
 let LayerMng = Rr;
 Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), In = new WeakMap(), Hs = new WeakMap(), Po = new WeakMap(), Co = new WeakMap(), Ro = new WeakMap(), zs = new WeakMap(), Oo = new WeakSet(), pc = function(t) {
-  [Me(this, Ro)._, this.zs = ""] = t.split("/");
+  [Ie(this, Ro)._, this.zs = ""] = t.split("/");
   const e = U(this, Jt)[U(this, Ro)];
   e && (U(this, zs) ? e.fore.showDesignCastChildren() : e.fore.showDesignCast());
-}, Br = new WeakMap(), ci = new WeakMap(), Cl = new WeakSet(), kf = function(t) {
-  for (const e of et(this, Xe, ai).call(this)) {
+}, Br = new WeakMap(), fi = new WeakMap(), Cl = new WeakSet(), kf = function(t) {
+  for (const e of et(this, Ye, oi).call(this)) {
     const r = U(this, Jt)[e];
     r.fore instanceof TxtLayer && (r.fore.chgBackAlpha(t), r.back.chgBackAlpha(t));
   }
-}, ti = new WeakMap(), Rl = new WeakSet(), Df = function(t) {
+}, ei = new WeakMap(), Rl = new WeakSet(), Df = function(t) {
   const e = t.fn ? t.fn.slice(0, 10) === "userdata:/" ? t.fn : `downloads:/${t.fn + getDateStr("-", "_", "", "_")}.png` : `downloads:/snapshot${getDateStr("-", "_", "", "_")}.png`, r = this.cfg.searchPath(e);
   if (!("layer" in t) && this.sys.canCapturePage(r, () => this.main.resume()))
     return !0;
@@ -22613,15 +22613,15 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
     backgroundColor: k & 16777215,
     autoDensity: !0
   }), B = [], $ = t.page !== "back" ? "fore" : "back";
-  if (U(this, Pe).tw)
+  if (U(this, Ce).tw)
     B.push(new Promise((H) => {
       U(this, me).visible = !0;
       for (const z of U(this, Nn))
         D.render(z, { clear: !1 });
-      U(this, me).visible = !1, U(this, Ln).visible = !0, U(this, ne).filters = U(this, we).filters, U(this, ne).visible = !0, D.render(U(this, ne), { clear: !1 }), U(this, ne).visible = !1, U(this, ne).filters = [], H();
+      U(this, me).visible = !1, U(this, Ln).visible = !0, U(this, ne).filters = U(this, Pe).filters, U(this, ne).visible = !0, D.render(U(this, ne), { clear: !1 }), U(this, ne).visible = !1, U(this, ne).filters = [], H();
     }));
   else
-    for (const H of et(this, Xe, ai).call(this, t.layer))
+    for (const H of et(this, Ye, oi).call(this, t.layer))
       B.push(
         new Promise((z) => U(this, Jt)[H][$].snapshot(D, () => z()))
       );
@@ -22630,8 +22630,8 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
     if (D.render(U(this, Ti), { renderTexture: H }), await this.sys.savePic(
       r,
       D.plugins.extract.base64(Sprite.from(H))
-    ), !U(this, Pe).tw)
-      for (const z of et(this, Xe, ai).call(this, t.layer))
+    ), !U(this, Ce).tw)
+      for (const z of et(this, Ye, oi).call(this, t.layer))
         U(this, Jt)[z][$].snapshot_end();
     D.destroy(!0), this.main.resume();
   }), !0;
@@ -22667,11 +22667,11 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
   switch (U(this, Jt)[e] = new Pages(e, r, U(this, ne), U(this, me), t, this.sys, this.val, N), U(this, qi).push(e), r) {
     case "txt":
       U(this, Zi) || (Q(this, Fn, () => {
-      }), Q(this, di, et(this, Vl, Kf)), Q(this, Ao, et(this, Xl, Jf)), this.hTag.current({ layer: e }), this.goTxt = () => {
-        U(this, ci).isSkipping() ? Q(Rr, Ur, 0) : this.setNormalChWait();
-        for (const k of et(this, Xe, ai).call(this)) {
+      }), Q(this, pi, et(this, Vl, Kf)), Q(this, Ao, et(this, Xl, Jf)), this.hTag.current({ layer: e }), this.goTxt = () => {
+        U(this, fi).isSkipping() ? Q(Rr, Ur, 0) : this.setNormalChWait();
+        for (const k of et(this, Ye, oi).call(this)) {
           const D = U(this, Jt)[k].fore;
-          D instanceof TxtLayer && U(this, ti).call(this, "gotxt｜", D, !1);
+          D instanceof TxtLayer && U(this, ei).call(this, "gotxt｜", D, !1);
         }
       }), this.val.setVal_Nochk(
         "save",
@@ -22711,15 +22711,15 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
     const r = U(this, Jt)[et(this, Gr, as).call(this, { layer: e })];
     t.page === "both" ? (r.fore.clearLay(t), r.back.clearLay(t)) : r.getPage(t).clearLay(t);
   }), !1;
-}, Ll = new WeakMap(), Io = new WeakMap(), Nl = new WeakMap(), An = new WeakMap(), Ln = new WeakMap(), gr = new WeakMap(), we = new WeakMap(), Nn = new WeakMap(), kl = new WeakSet(), $f = function(t) {
-  et(this, kn, fa).call(this), U(this, ci).hideHint();
+}, Ll = new WeakMap(), Io = new WeakMap(), Nl = new WeakMap(), An = new WeakMap(), Ln = new WeakMap(), gr = new WeakMap(), Pe = new WeakMap(), Nn = new WeakMap(), kl = new WeakSet(), $f = function(t) {
+  et(this, kn, fa).call(this), U(this, fi).hideHint();
   const { layer: e } = t;
   Q(this, Nn, []);
   const r = {}, N = [];
-  for (const Z of et(this, Xe, ai).call(this, e))
+  for (const Z of et(this, Ye, oi).call(this, e))
     r[Z] = !0, N.push(U(this, Jt)[Z].fore);
   const k = [];
-  for (const Z of et(this, Xe, ai).call(this)) {
+  for (const Z of et(this, Ye, oi).call(this)) {
     const tt = U(this, Jt)[Z][r[Z] ? "back" : "fore"];
     U(this, Nn).push(tt.spLay), k.push(tt);
   }
@@ -22749,12 +22749,12 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
     };
   }
   const $ = () => {
-    D(), U(this, Ln).visible = !0, B(), U(this, we).visible = !0;
+    D(), U(this, Ln).visible = !0, B(), U(this, Pe).visible = !0;
   };
-  U(this, we).alpha = 1;
+  U(this, Pe).alpha = 1;
   const H = () => {
     var tt;
-    this.appPixi.ticker && this.appPixi.ticker.remove($), [Me(this, ne)._, Me(this, me)._] = [U(this, me), U(this, ne)];
+    this.appPixi.ticker && this.appPixi.ticker.remove($), [Ie(this, ne)._, Ie(this, me)._] = [U(this, me), U(this, ne)];
     const Z = [];
     for (const [J, it] of Object.entries(U(this, Jt))) {
       if (r[J]) {
@@ -22764,28 +22764,28 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
       const { fore: { spLay: at }, back: { spLay: st } } = it, ht = U(this, ne).getChildIndex(st);
       U(this, ne).removeChild(st), U(this, me).removeChild(at), U(this, ne).addChildAt(at, ht), U(this, me).addChildAt(st, ht);
     }
-    Promise.allSettled(Z), U(this, ne).visible = !0, U(this, me).visible = !1, U(this, Ln).visible = !1, U(this, we).visible = !1, (tt = U(this, Pe).tw) == null || tt.stop(), U(this, Pe).resume && this.main.resume(), Q(this, Pe, { tw: void 0, resume: !1 });
+    Promise.allSettled(Z), U(this, ne).visible = !0, U(this, me).visible = !1, U(this, Ln).visible = !1, U(this, Pe).visible = !1, (tt = U(this, Ce).tw) == null || tt.stop(), U(this, Ce).resume && this.main.resume(), Q(this, Ce, { tw: void 0, resume: !1 });
   };
-  Q(this, Pe, { tw: void 0, resume: !1 });
+  Q(this, Ce, { tw: void 0, resume: !1 });
   const z = argChk_Num(t, "time", 0);
-  if (z === 0 || U(this, ci).isSkipping())
+  if (z === 0 || U(this, fi).isSkipping())
     return H(), !1;
   const { ease: X, glsl: V, rule: Y } = t, q = CmnTween.ease(X);
   if (!V && !Y)
-    return U(this, we).filters = [], U(this, Pe).tw = new Tween(U(this, we)).to({ alpha: 0 }, z).delay(argChk_Num(t, "delay", 0)).easing(q).onComplete(H).start(), this.appPixi.ticker.add($), !1;
+    return U(this, Pe).filters = [], U(this, Ce).tw = new Tween(U(this, Pe)).to({ alpha: 0 }, z).delay(argChk_Num(t, "delay", 0)).easing(q).onComplete(H).start(), this.appPixi.ticker.add($), !1;
   const W = V ? new Filter(void 0, V, U(this, Io)) : U(this, Nl);
-  if (W.uniforms.vague = argChk_Num(t, "vague", 0.04), W.uniforms.tick = 0, U(this, Pe).tw = new Tween(W.uniforms).to({ tick: 1 }, z).delay(argChk_Num(t, "delay", 0)).easing(q).onComplete(H), U(this, we).filters = [W], V)
-    return U(this, Pe).tw.start(), this.appPixi.ticker.add($), !1;
+  if (W.uniforms.vague = argChk_Num(t, "vague", 0.04), W.uniforms.tick = 0, U(this, Ce).tw = new Tween(W.uniforms).to({ tick: 1 }, z).delay(argChk_Num(t, "delay", 0)).easing(q).onComplete(H), U(this, Pe).filters = [W], V)
+    return U(this, Ce).tw.start(), this.appPixi.ticker.add($), !1;
   if (!Y)
     throw "ruleが指定されていません";
   return GrpLayer.csv2Sprites(Y, void 0, (Z) => {
     var tt;
-    W.uniforms.rule = Z.texture, Z.destroy(), (tt = U(this, Pe).tw) == null || tt.start(), this.appPixi.ticker.add($);
+    W.uniforms.rule = Z.texture, Z.destroy(), (tt = U(this, Ce).tw) == null || tt.start(), this.appPixi.ticker.add($);
   }), !1;
-}, Pe = new WeakMap(), Xe = new WeakSet(), ai = function(t = "") {
+}, Ce = new WeakMap(), Ye = new WeakSet(), oi = function(t = "") {
   return t ? t.split(",") : U(this, qi);
 }, Dl = new WeakSet(), jf = function(t, e) {
-  const r = et(this, Xe, ai).call(this, t.layer);
+  const r = et(this, Ye, oi).call(this, t.layer);
   for (const N of r) {
     if (!N)
       continue;
@@ -22796,22 +22796,22 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
   }
   return r;
 }, Fl = new WeakSet(), Hf = function(t = "") {
-  return et(this, Xe, ai).call(this, t).sort((e, r) => {
+  return et(this, Ye, oi).call(this, t).sort((e, r) => {
     const N = U(this, ne).getChildIndex(U(this, Jt)[e].fore.spLay), k = U(this, ne).getChildIndex(U(this, Jt)[r].fore.spLay);
     return N < k ? -1 : N > k ? 1 : 0;
   });
 }, Bl = new WeakSet(), zf = function(t) {
-  return U(this, Pe).tw ? U(this, Pe).resume = U(this, ci).waitEvent(t, () => et(this, kn, fa).call(this)) : !1;
+  return U(this, Ce).tw ? U(this, Ce).resume = U(this, fi).waitEvent(t, () => et(this, kn, fa).call(this)) : !1;
 }, kn = new WeakSet(), fa = function() {
   var t;
-  return (t = U(this, Pe).tw) == null || t.end(), !1;
+  return (t = U(this, Ce).tw) == null || t.end(), !1;
 }, Ul = new WeakSet(), Vf = function(t) {
   et(this, kn, fa).call(this);
   const e = argChk_Num(t, "time", NaN);
-  if (e === 0 || U(this, ci).isSkipping())
+  if (e === 0 || U(this, fi).isSkipping())
     return !1;
   const { layer: r, ease: N } = t, k = [];
-  for (const Y of et(this, Xe, ai).call(this, r))
+  for (const Y of et(this, Ye, oi).call(this, r))
     k.push(U(this, Jt)[Y].fore.spLay);
   U(this, gr).resize(CmnLib.stageW, CmnLib.stageH);
   const D = () => {
@@ -22823,31 +22823,31 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
       );
     U(this, ne).visible = !1;
   };
-  U(this, we).visible = !0, U(this, we).alpha = 1;
+  U(this, Pe).visible = !0, U(this, Pe).alpha = 1;
   const B = uint(argChk_Num(t, "hmax", 10)), $ = uint(argChk_Num(t, "vmax", 10)), H = B === 0 ? () => {
-  } : () => U(this, we).x = Math.round(Math.random() * B * 2) - B, z = $ === 0 ? () => {
-  } : () => U(this, we).y = Math.round(Math.random() * $ * 2) - $;
-  U(this, we).filters = [];
-  const X = argChk_Num(t, "repeat", 1), V = new Tween(U(this, we)).to({ x: 0, y: 0 }, e).delay(argChk_Num(t, "delay", 0)).easing(CmnTween.ease(N)).onUpdate(() => {
+  } : () => U(this, Pe).x = Math.round(Math.random() * B * 2) - B, z = $ === 0 ? () => {
+  } : () => U(this, Pe).y = Math.round(Math.random() * $ * 2) - $;
+  U(this, Pe).filters = [];
+  const X = argChk_Num(t, "repeat", 1), V = new Tween(U(this, Pe)).to({ x: 0, y: 0 }, e).delay(argChk_Num(t, "delay", 0)).easing(CmnTween.ease(N)).onUpdate(() => {
     H(), z();
   }).repeat(X > 0 ? X - 1 : 1 / 0).yoyo(argChk_Boolean(t, "yoyo", !1)).onComplete(() => {
     var Y, q;
-    (Y = this.appPixi.ticker) == null || Y.remove(D), U(this, ne).visible = !0, U(this, we).visible = !1, U(this, we).x = 0, U(this, we).y = 0, (q = U(this, Pe).tw) == null || q.stop(), U(this, Pe).resume && this.main.resume(), Q(this, Pe, { tw: void 0, resume: !1 });
+    (Y = this.appPixi.ticker) == null || Y.remove(D), U(this, ne).visible = !0, U(this, Pe).visible = !1, U(this, Pe).x = 0, U(this, Pe).y = 0, (q = U(this, Ce).tw) == null || q.stop(), U(this, Ce).resume && this.main.resume(), Q(this, Ce, { tw: void 0, resume: !1 });
   }).start();
-  return Q(this, Pe, { tw: V, resume: !1 }), this.appPixi.ticker.add(D), !1;
-}, fi = new WeakMap(), Gl = new WeakSet(), Xf = function(t) {
+  return Q(this, Ce, { tw: V, resume: !1 }), this.appPixi.ticker.add(D), !1;
+}, di = new WeakMap(), Gl = new WeakSet(), Xf = function(t) {
   const { layer: e, render: r, path: N, name: k, ease: D, chain: B } = t;
   if (!e)
     throw "layerは必須です";
   const $ = et(this, Gr, as).call(this, t);
   let H = U(this, Jt)[$].fore, z = () => {
   };
-  const X = U(this, ci).isSkipping();
+  const X = U(this, fi).isSkipping();
   !X && r && (H.renderStart(), z = () => H.renderEnd());
   const V = k ?? e, Y = () => {
     var ft, mt;
-    const lt = U(this, fi)[V];
-    lt && (z(), delete U(this, fi)[V], (ft = lt.tw) == null || ft.stop(), lt.resume && this.main.resume(), (mt = lt.onEnd) == null || mt.call(lt));
+    const lt = U(this, di)[V];
+    lt && (z(), delete U(this, di)[V], (ft = lt.tw) == null || ft.stop(), lt.resume && this.main.resume(), (mt = lt.onEnd) == null || mt.call(lt));
   }, q = cnvTweenArg(t, H), W = X ? 0 : argChk_Num(t, "time", NaN), Z = CmnTween.ease(D), tt = argChk_Num(t, "repeat", 1), J = tt > 0 ? tt - 1 : 1 / 0, it = argChk_Boolean(t, "yoyo", !1), at = argChk_Num(t, "delay", 0), st = new Tween(H).to(q, W).easing(Z).repeat(J).yoyo(it).delay(at);
   let ht = st;
   if (N) {
@@ -22872,14 +22872,14 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
     CmnLib.debugLog && console.groupEnd();
   }
   if (ht.onComplete(Y), B) {
-    const lt = U(this, fi)[B ?? ""];
+    const lt = U(this, di)[B ?? ""];
     if (!(lt != null && lt.tw))
       throw `${B}は存在しない・または終了したトゥイーンです`;
     delete lt.onEnd, lt.tw.chain(st);
   } else
     st.start();
   const ot = argChk_Boolean(t, "arrive", !1), nt = argChk_Boolean(t, "backlay", !1);
-  return U(this, fi)[V] = { tw: ht, resume: !1, onEnd: () => {
+  return U(this, di)[V] = { tw: ht, resume: !1, onEnd: () => {
     if (ot && Object.assign(H, q), nt) {
       const lt = U(this, Jt)[$].back.spLay;
       for (const ft of Object.keys(hMemberCnt))
@@ -22891,8 +22891,8 @@ Ti = new WeakMap(), ne = new WeakMap(), me = new WeakMap(), Fr = new WeakMap(), 
 ${r}` : N ?? e;
   if (!k)
     throw "トゥイーンが指定されていません";
-  const D = U(this, fi)[k];
-  return D != null && D.tw ? D.resume = U(this, ci).waitEvent(t, () => {
+  const D = U(this, di)[k];
+  return D != null && D.tw ? D.resume = U(this, fi).waitEvent(t, () => {
     var B;
     return (B = D.tw) == null ? void 0 : B.end();
   }) : !1;
@@ -22902,33 +22902,33 @@ ${r}` : N ?? e;
 ${r}` : N ?? e;
   if (!k)
     throw "トゥイーンが指定されていません";
-  return (B = (D = U(this, fi)[k]) == null ? void 0 : D.tw) == null || B.end(), !1;
+  return (B = (D = U(this, di)[k]) == null ? void 0 : D.tw) == null || B.end(), !1;
 }, Hl = new WeakSet(), qf = function(t) {
   var D, B;
   const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
   if (!k)
     throw "トゥイーンが指定されていません";
-  return (B = (D = U(this, fi)[k]) == null ? void 0 : D.tw) == null || B.pause(), !1;
+  return (B = (D = U(this, di)[k]) == null ? void 0 : D.tw) == null || B.pause(), !1;
 }, zl = new WeakSet(), Zf = function(t) {
   var D, B;
   const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
   if (!k)
     throw "トゥイーンが指定されていません";
-  return (B = (D = U(this, fi)[k]) == null ? void 0 : D.tw) == null || B.resume(), !1;
+  return (B = (D = U(this, di)[k]) == null ? void 0 : D.tw) == null || B.resume(), !1;
 }, Ur = new WeakMap(), Dn = new WeakSet(), da = function(t) {
   const { text: e } = t;
   if (!e)
     throw "textは必須です";
-  const r = U(this, di).call(this, t);
-  delete t.text, U(this, ci).isSkipping() ? t.wait = 0 : "wait" in t && argChk_Num(t, "wait", NaN);
+  const r = U(this, pi).call(this, t);
+  delete t.text, U(this, fi).isSkipping() ? t.wait = 0 : "wait" in t && argChk_Num(t, "wait", NaN);
   const N = encodeURIComponent(JSON.stringify(t));
-  U(this, ti).call(this, "add｜" + N, r);
+  U(this, ei).call(this, "add｜" + N, r);
   const k = argChk_Boolean(t, "record", !0), D = this.val.doRecLog();
   return k || this.val.setVal_Nochk("save", "sn.doRecLog", k), r.tagCh(e.replaceAll("[r]", `
-`)), this.val.setVal_Nochk("save", "sn.doRecLog", D), U(this, ti).call(this, "add_close｜", r), !1;
-}, di = new WeakMap(), Vl = new WeakSet(), Kf = function(t) {
+`)), this.val.setVal_Nochk("save", "sn.doRecLog", D), U(this, ei).call(this, "add_close｜", r), !1;
+}, pi = new WeakMap(), Vl = new WeakSet(), Kf = function(t) {
   const e = et(this, Gr, as).call(this, t, U(this, Zi)), N = U(this, Jt)[e].getPage(t);
   if (!(N instanceof TxtLayer))
     throw e + "はTxtLayerではありません";
@@ -22940,7 +22940,7 @@ ${r}` : N ?? e;
   if (Q(this, Ki, U(this, Jt)[e]), !(U(this, Ki).getPage(t) instanceof TxtLayer))
     throw `${e}はTxtLayerではありません`;
   this.recPagebreak(), Q(this, Zi, e), this.val.setVal_Nochk("save", "const.sn.mesLayer", e);
-  for (const r of et(this, Xe, ai).call(this)) {
+  for (const r of et(this, Ye, oi).call(this)) {
     const N = U(this, Jt)[r];
     N.fore instanceof TxtLayer && (N.fore.isCur = N.back.isCur = r === e);
   }
@@ -22952,33 +22952,33 @@ ${r}` : N ?? e;
   if (!(r in U(this, Jt)))
     throw "属性 layer【" + r + "】が不正です。レイヤーがありません";
   return t.layer = r;
-}, Ge = new WeakMap(), Ji = new WeakMap(), Yl = new WeakSet(), Qf = function(t) {
-  const e = U(this, di).call(this, t);
+}, $e = new WeakMap(), Ji = new WeakMap(), Yl = new WeakSet(), Qf = function(t) {
+  const e = U(this, pi).call(this, t);
   return t.layer === U(this, Zi) && t.page === "fore" && this.recPagebreak(), e.clearText(), !1;
 }, Wl = new WeakSet(), td = function(t) {
-  return U(this, ti).call(this, "endlink｜", U(this, di).call(this, t)), !1;
+  return U(this, ei).call(this, "endlink｜", U(this, pi).call(this, t)), !1;
 }, ql = new WeakSet(), ed = function(t) {
   return argChk_Boolean(t, "rec_page_break", !0) && this.recPagebreak(), U(this, Ki) && (U(this, Ki).fore.clearLay(t), U(this, Ki).back.clearLay(t)), !1;
 }, Zl = new WeakSet(), id = function(t) {
   if (!t.pic)
     throw "[graph] picは必須です";
   const e = encodeURIComponent(JSON.stringify(t));
-  return U(this, ti).call(this, "grp｜" + e, U(this, di).call(this, t)), !1;
+  return U(this, ei).call(this, "grp｜" + e, U(this, pi).call(this, t)), !1;
 }, Kl = new WeakSet(), rd = function(t) {
   if (!t.fn && !t.label && !t.url)
     throw "fnまたはlabelまたはurlは必須です";
   t.fn ?? (t.fn = this.scrItr.scriptFn), t.style ?? (t.style = "background-color: rgba(255,0,0,0.5);"), t.style_hover ?? (t.style_hover = "background-color: rgba(255,0,0,0.9);"), t.style_clicked ?? (t.style_clicked = t.style);
   const e = encodeURIComponent(JSON.stringify(t));
-  return U(this, ti).call(this, "link｜" + e, U(this, di).call(this, t)), !1;
+  return U(this, ei).call(this, "link｜" + e, U(this, pi).call(this, t)), !1;
 }, Jl = new WeakSet(), nd = function(t) {
   return t.text = `
 `, et(this, Dn, da).call(this, t);
 }, Ql = new WeakSet(), sd = function(t) {
   return et(this, Lo, vc).call(this, { ...t, text: "[r]" });
 }, Lo = new WeakSet(), vc = function(t) {
-  return Q(this, Ge, { ...t, text: U(this, Ge).text }), t.text ? (t.record = !0, t.style ?? (t.style = ""), t.style += "display: none;", t.wait = 0, et(this, Dn, da).call(this, t)) : !1;
+  return Q(this, $e, { ...t, text: U(this, $e).text }), t.text ? (t.record = !0, t.style ?? (t.style = ""), t.style += "display: none;", t.wait = 0, et(this, Dn, da).call(this, t)) : !1;
 }, tu = new WeakSet(), ad = function(t) {
-  return Q(this, Ji, []), Q(this, Ge, { text: t.text ?? "" }), this.val.setVal_Nochk(
+  return Q(this, Ji, []), Q(this, $e, { text: t.text ?? "" }), this.val.setVal_Nochk(
     "save",
     "const.sn.sLog",
     t.text ? `[{text:"${t.text}"}]` : "[]"
@@ -22992,15 +22992,15 @@ ${r}` : N ?? e;
   return t.text = "｜" + encodeURIComponent(e) + "《" + encodeURIComponent(r) + "》", delete t.t, delete t.r, et(this, Dn, da).call(this, t);
 }, iu = new WeakSet(), hd = function(t) {
   const e = encodeURIComponent(JSON.stringify(t));
-  return U(this, ti).call(this, "span｜" + e, U(this, di).call(this, t)), !1;
+  return U(this, ei).call(this, "span｜" + e, U(this, pi).call(this, t)), !1;
 }, ru = new WeakSet(), ld = function(t) {
   if (!t.t)
     throw "[tcy] tは必須です";
   const e = encodeURIComponent(JSON.stringify(t));
-  return U(this, ti).call(this, "tcy｜" + e, U(this, di).call(this, t)), !1;
+  return U(this, ei).call(this, "tcy｜" + e, U(this, pi).call(this, t)), !1;
 }, nu = new WeakSet(), ud = function(t) {
   console.group("🥟 [dump_lay]");
-  for (const e of et(this, Xe, ai).call(this, t.layer)) {
+  for (const e of et(this, Ye, oi).call(this, t.layer)) {
     const r = U(this, Jt)[e];
     try {
       console.info(
@@ -23015,9 +23015,9 @@ ${r}` : N ?? e;
   return console.groupEnd(), !1;
 }, su = new WeakSet(), cd = function(t) {
   const e = et(this, Gr, as).call(this, t, U(this, Zi)), r = argChk_Boolean(t, "enabled", !0);
-  return U(this, di).call(this, t).enabled = r, this.val.setVal_Nochk("save", "const.sn.layer." + e + ".enabled", r), !1;
+  return U(this, pi).call(this, t).enabled = r, this.val.setVal_Nochk("save", "const.sn.layer." + e + ".enabled", r), !1;
 }, au = new WeakSet(), fd = function(t) {
-  return Pages.argChk_page(t, "back"), t.fn ?? (t.fn = this.scrItr.scriptFn), U(this, di).call(this, t).addButton(t), this.scrItr.recodeDesign(t), !1;
+  return Pages.argChk_page(t, "back"), t.fn ?? (t.fn = this.scrItr.scriptFn), U(this, pi).call(this, t).addButton(t), this.scrItr.recodeDesign(t), !1;
 }, // 11 match 301 step (0.1ms) PCRE2 https://regex101.com/r/reinpq/1
 // List ${x}${x2}/${y}${y2}/${o}${o2}=${json}\n
 /*
@@ -23110,7 +23110,7 @@ class FocusMng {
   }
   remove(t) {
     const e = U(this, _e).findIndex((r) => r.btn === t);
-    e < 0 || (U(this, _e).splice(e, 1), U(this, _e).length === 0 ? Q(this, de, -1) : e <= U(this, de) && --Me(this, de)._);
+    e < 0 || (U(this, _e).splice(e, 1), U(this, _e).length === 0 ? Q(this, de, -1) : e <= U(this, de) && --Ie(this, de)._);
   }
   isFocus(t) {
     return U(this, de) < 0 ? !1 : U(this, _e)[U(this, de)].btn === t;
@@ -23119,7 +23119,7 @@ class FocusMng {
     et(this, Bn, pa).call(this);
     const t = U(this, _e).length;
     if (t !== 0) {
-      --Me(this, de)._ < 0 && Q(this, de, t - 1);
+      --Ie(this, de)._ < 0 && Q(this, de, t - 1);
       for (let e = t; e >= 1; --e) {
         const r = (U(this, de) + e) % t;
         if (U(this, _e)[r].on()) {
@@ -23134,7 +23134,7 @@ class FocusMng {
     et(this, Bn, pa).call(this);
     const t = U(this, _e).length;
     if (t !== 0) {
-      ++Me(this, de)._ >= t && Q(this, de, 0);
+      ++Ie(this, de)._ >= t && Q(this, de, 0);
       for (let e = 0; e < t; ++e) {
         const r = (U(this, de) + e) % t;
         if (U(this, _e)[r].on()) {
@@ -23169,12 +23169,12 @@ _e = new WeakMap(), de = new WeakMap(), Xs = new WeakMap(), ou = new WeakSet(), 
     !(e.btn instanceof Container) || e.btn.parent ? e.off() : U(this, _e).splice(t, 1);
   }
 };
-let chgSt, main$2, val, layMng, scrItr, sndMng, hTag, fcs, goTxt, procWheel4wle, elmHint, tagL_enabled = !0, skip_all = !1, skip_enabled = !1, auto_enabled = !1, hLocalEvt2Fnc = {}, hGlobalEvt2Fnc = {};
+let chgSt, main$2, val, layMng, scrItr, sndMng, hTag, fcs, goTxt, procWheel4wle, elmHint, cfg, tagL_enabled = !0, skip_all = !1, skip_enabled = !1, auto_enabled = !1, hLocalEvt2Fnc = {}, hGlobalEvt2Fnc = {};
 function cancelAutoSkip() {
   tagL_enabled || (tagL_enabled = !0, val.setVal_Nochk("tmp", "sn.tagL.enabled", !0)), skip_enabled && (skip_enabled = !1, val.setVal_Nochk("tmp", "sn.skip.enabled", !1)), auto_enabled && (auto_enabled = !1, val.setVal_Nochk("tmp", "sn.auto.enabled", !1));
 }
 var $r, Ys, Ch;
-const Ae = class {
+const Se = class {
   constructor(t) {
     K(this, Ys);
     pt(this, "wait", (t) => skip_enabled ? (!skip_all && !scrItr.isNextKidoku && cancelAutoSkip(), !1) : Rs_Wait.go(t));
@@ -23183,8 +23183,8 @@ const Ae = class {
     pt(this, "isWait", !1);
     this.hArg = t, chgSt(this);
   }
-  static init(t, e, r, N, k, D, B, $, H, z) {
-    chgSt = t, main$2 = e, val = r, layMng = N, scrItr = k, sndMng = D, hTag = B, fcs = $, goTxt = () => layMng.goTxt(), procWheel4wle = H, elmHint = z, new RsEvtRsv(), val.defTmp("sn.tagL.enabled", () => tagL_enabled), val.defValTrg("tmp:sn.tagL.enabled", (X, V) => tagL_enabled = String(V) !== "false"), val.defTmp("sn.skip.all", () => skip_all), val.defValTrg("tmp:sn.skip.all", (X, V) => skip_all = String(V) !== "false"), val.defTmp("sn.skip.enabled", () => skip_enabled), val.defValTrg("tmp:sn.skip.enabled", (X, V) => skip_enabled = String(V) !== "false"), val.defTmp("sn.auto.enabled", () => auto_enabled), val.defValTrg("tmp:sn.auto.enabled", (X, V) => auto_enabled = String(V) !== "false"), hLocalEvt2Fnc = {}, hGlobalEvt2Fnc = {};
+  static init(t, e, r, N, k, D, B, $, H, z, X) {
+    chgSt = t, main$2 = e, val = r, layMng = N, scrItr = k, sndMng = D, hTag = B, fcs = $, goTxt = () => layMng.goTxt(), procWheel4wle = H, elmHint = z, cfg = X, new RsEvtRsv(), val.defTmp("sn.tagL.enabled", () => tagL_enabled), val.defValTrg("tmp:sn.tagL.enabled", (V, Y) => tagL_enabled = String(Y) !== "false"), val.defTmp("sn.skip.all", () => skip_all), val.defValTrg("tmp:sn.skip.all", (V, Y) => skip_all = String(Y) !== "false"), val.defTmp("sn.skip.enabled", () => skip_enabled), val.defValTrg("tmp:sn.skip.enabled", (V, Y) => skip_enabled = String(Y) !== "false"), val.defTmp("sn.auto.enabled", () => auto_enabled), val.defValTrg("tmp:sn.auto.enabled", (V, Y) => auto_enabled = String(Y) !== "false"), hLocalEvt2Fnc = {}, hGlobalEvt2Fnc = {};
   }
   get isSkipping() {
     return skip_enabled;
@@ -23208,19 +23208,19 @@ const Ae = class {
     if (t.slice(0, 4) !== "dom=")
       return;
     const N = e ? hGlobalEvt2Fnc[r] : hLocalEvt2Fnc[r];
-    Ae.getHtmlElmList(t).el.forEach((k) => k.removeEventListener("click", N)), e ? delete hGlobalEvt2Fnc[r] : delete hLocalEvt2Fnc[r];
+    Se.getHtmlElmList(t).el.forEach((k) => k.removeEventListener("click", N)), e ? delete hGlobalEvt2Fnc[r] : delete hLocalEvt2Fnc[r];
   }
   static clear_event(t) {
     const e = argChk_Boolean(t, "global", !1), r = e ? hGlobalEvt2Fnc : hLocalEvt2Fnc;
     for (const [N, k] of Object.entries(r))
-      N.slice(0, 4) === "dom=" && Ae.getHtmlElmList(N).el.forEach((D) => D.removeEventListener("click", k));
+      N.slice(0, 4) === "dom=" && Se.getHtmlElmList(N).el.forEach((D) => D.removeEventListener("click", k));
     return e ? hGlobalEvt2Fnc = {} : hLocalEvt2Fnc = {}, !1;
   }
   s(t) {
     return et(this, Ys, Ch).call(this), Rs_S.go(t);
   }
   waitTxtAndTimer(t, e) {
-    return Ae.eeTextBreak.once(Ae.NOTICE_COMP_TXT, () => {
+    return Se.eeTextBreak.once(Se.NOTICE_COMP_TXT, () => {
       if (this.finishLimitedEvent(), t === 0) {
         this.onFinish();
         return;
@@ -23232,11 +23232,11 @@ const Ae = class {
         r.stop(), remove$6(r), this.onUserAct();
       });
     }), this.waitLimitedEvent(e, () => {
-      Ae.eeTextBreak.off(Ae.NOTICE_COMP_TXT), this.onUserAct();
+      Se.eeTextBreak.off(Se.NOTICE_COMP_TXT), this.onUserAct();
     });
   }
   static noticeCompTxt() {
-    Ae.eeTextBreak.emit(Ae.NOTICE_COMP_TXT);
+    Se.eeTextBreak.emit(Se.NOTICE_COMP_TXT);
   }
   static popLocalEvts() {
     const t = hLocalEvt2Fnc;
@@ -23251,7 +23251,7 @@ const Ae = class {
     //	hTag.event()は内部で使わず、こうする
     hLocalEvt2Fnc.enter = hLocalEvt2Fnc.arrowdown = // hTag.event({key:'downwheel', breakout: fnc});
     //	hTag.event()は内部で使わず、こうする
-    hLocalEvt2Fnc["wheel.y>0"] = () => this.onUserAct() : (delete hLocalEvt2Fnc.click, delete hLocalEvt2Fnc.enter, delete hLocalEvt2Fnc.arrowdown, delete hLocalEvt2Fnc["wheel.y>0"]), Ae.getEvt2Fnc = e ? (r) => hLocalEvt2Fnc[r] ?? hGlobalEvt2Fnc[r] : (r) => hLocalEvt2Fnc[r], scrItr.noticeWait(), CmnLib.debugLog) {
+    hLocalEvt2Fnc["wheel.y>0"] = () => this.onUserAct() : (delete hLocalEvt2Fnc.click, delete hLocalEvt2Fnc.enter, delete hLocalEvt2Fnc.arrowdown, delete hLocalEvt2Fnc["wheel.y>0"]), Se.getEvt2Fnc = e ? (r) => hLocalEvt2Fnc[r] ?? hGlobalEvt2Fnc[r] : (r) => hLocalEvt2Fnc[r], scrItr.noticeWait(), CmnLib.debugLog) {
       const r = /* @__PURE__ */ Object.create(null);
       r.local = Object.keys(hLocalEvt2Fnc), r.global = Object.keys(hGlobalEvt2Fnc), console.log("🎍 wait event... %o", r);
     }
@@ -23310,11 +23310,11 @@ const Ae = class {
   page(t) {
     if (!("clear" in t || "style" in t || "to" in t))
       throw "clear か style か to は必須です";
-    argChk_Boolean(t, "clear", !1) && (Ae.aPage = []);
+    argChk_Boolean(t, "clear", !1) && (Se.aPage = []);
     const { to: e, style: r } = t;
-    switch (r && (Ae.stylePage = r), e) {
+    switch (r && (Se.stylePage = r), e) {
       case "prev":
-        if (Ae.aPage.length < 2)
+        if (Se.aPage.length < 2)
           return !1;
         break;
       default:
@@ -23323,19 +23323,23 @@ const Ae = class {
     return RsPagination.go(t);
   }
 };
-let ReadState = Ae;
+let ReadState = Se;
 $r = new WeakMap(), Ys = new WeakSet(), Ch = function(t = !1) {
-  var k;
+  var D;
   if (!val.getVal("save:sn.doRecLog"))
     return;
   const { fn: e, idx: r } = scrItr.nowScrIdx(), N = r - 1 + ":" + e;
-  Ae.aPage.findIndex((D) => D.key === N) > -1 || ((k = Ae.aPage.at(-1)) != null && k.week && Ae.aPage.pop(), Ae.aPage.push({
+  if (Se.aPage.findIndex((B) => B.key === N) > -1)
+    return;
+  (D = Se.aPage.at(-1)) != null && D.week && Se.aPage.pop();
+  const k = cfg.oCfg.log.max_len;
+  Se.aPage.push({
     key: N,
     week: t,
     fn: val.getVal("save:const.sn.scriptFn", e),
     index: val.getVal("save:const.sn.scriptIdx", 0),
     mark: scrItr.nowMark()
-  }));
+  }) > k && (Se.aPage = Se.aPage.slice(-k));
 }, pt(ReadState, "getEvt2Fnc", (t) => hLocalEvt2Fnc[t] ?? hGlobalEvt2Fnc[t]), pt(ReadState, "eeTextBreak", new i$1()), // static必須
 pt(ReadState, "NOTICE_COMP_TXT", "sn:notice_comp_txt"), pt(ReadState, "aPage", []), pt(ReadState, "stylePage", "color: yellow;");
 class RsEvtRsv extends ReadState {
@@ -23494,31 +23498,31 @@ class Rs_WaitAny extends Rs_S {
     this.onFire();
   }
 }
-var pi;
+var vi;
 const jc = class extends Rs_S {
   constructor() {
     super(...arguments);
     pt(this, "wait", () => !1);
     pt(this, "waitclick", () => !1);
     pt(this, "waitTxtAndTimer", () => !1);
-    K(this, pi, ReadState.aPage.length - 1);
+    K(this, vi, ReadState.aPage.length - 1);
   }
   get isSkipping() {
-    return !ReadState.aPage[U(this, pi)].week;
+    return !ReadState.aPage[U(this, vi)].week;
   }
   // return true で良いのだが、[l]でページ移動モードになったあと、[l]に戻ってモード終了してから、[p]に至る文字表示が瞬時表示になる対策
   s(e) {
     return Rs_S.go(e);
   }
   l(e) {
-    if (!ReadState.aPage[U(this, pi)].week)
+    if (!ReadState.aPage[U(this, vi)].week)
       return !1;
     const r = ReadState.aPage.length;
-    return U(this, pi) === r - 1 ? Rs_L_Wait.go(e) : (argChk_Boolean(e, "visible", !0) && (layMng.breakLine(e), goTxt()), this.waitEventBase(!1, !0), !0);
+    return U(this, vi) === r - 1 ? Rs_L_Wait.go(e) : (argChk_Boolean(e, "visible", !0) && (layMng.breakLine(e), goTxt()), this.waitEventBase(!1, !0), !0);
   }
   p(e) {
     const r = ReadState.aPage.length;
-    return U(this, pi) === r - 1 ? Rs_P_Wait.go(e) : (argChk_Boolean(e, "visible", !0) && (layMng.breakPage(e), goTxt()), this.waitEventBase(!1, !0), !0);
+    return U(this, vi) === r - 1 ? Rs_P_Wait.go(e) : (argChk_Boolean(e, "visible", !0) && (layMng.breakPage(e), goTxt()), this.waitEventBase(!1, !0), !0);
   }
   page(e) {
     const { to: r } = e;
@@ -23527,23 +23531,23 @@ const jc = class extends Rs_S {
     const N = ReadState.aPage.length;
     switch (r) {
       case "prev":
-        if (U(this, pi) === 0)
+        if (U(this, vi) === 0)
           return !1;
-        --Me(this, pi)._;
+        --Ie(this, vi)._;
         break;
       case "next":
-        if (U(this, pi) === N - 1)
+        if (U(this, vi) === N - 1)
           return !1;
-        ++Me(this, pi)._;
+        ++Ie(this, vi)._;
         break;
       default:
         throw `属性to「${r}」は異常です`;
     }
-    const { fn: k, index: D, mark: B } = ReadState.aPage[U(this, pi)];
+    const { fn: k, index: D, mark: B } = ReadState.aPage[U(this, vi)];
     return scrItr.loadFromMark({
       fn: k,
       index: D,
-      style: U(this, pi) === N - 1 ? void 0 : ReadState.stylePage
+      style: U(this, vi) === N - 1 ? void 0 : ReadState.stylePage
       //r_style までは不要か
     }, B);
   }
@@ -23553,7 +23557,7 @@ const jc = class extends Rs_S {
   }
 };
 let RsPagination = jc;
-pi = new WeakMap(), pt(RsPagination, "go", (e) => new jc(e).page(e));
+vi = new WeakMap(), pt(RsPagination, "go", (e) => new jc(e).page(e));
 var top = "top", bottom = "bottom", right = "right", left = "left", auto = "auto", basePlacements = [top, bottom, right, left], start = "start", end = "end", clippingParents = "clippingParents", viewport = "viewport", popper = "popper", reference = "reference", variationPlacements = /* @__PURE__ */ basePlacements.reduce(function(o, t) {
   return o.concat([t + "-" + start, t + "-" + end]);
 }, []), placements = /* @__PURE__ */ [].concat(basePlacements, [auto]).reduce(function(o, t) {
@@ -24252,8 +24256,8 @@ function preventOverflow(o) {
       ht[at] = Yt, wt[at] = Yt - Ot;
     }
     if (B) {
-      var _t, Ce = at === "x" ? top : left, ri = at === "x" ? bottom : right, Re = ht[st], mi = st === "y" ? "height" : "width", _i = Re + Z[Ce], Ze = Re - Z[ri], Bi = [top, left].indexOf(tt) !== -1, xe = (_t = mt == null ? void 0 : mt[st]) != null ? _t : 0, ge = Bi ? _i : Re - ot[mi] - nt[mi] - xe + ft.altAxis, le = Bi ? Re + ot[mi] + nt[mi] - xe - ft.altAxis : Ze, te = Y && Bi ? withinMaxClamp(ge, Re, le) : within(Y ? ge : _i, Re, Y ? le : Ze);
-      ht[st] = te, wt[st] = te - Re;
+      var _t, Re = at === "x" ? top : left, ni = at === "x" ? bottom : right, Oe = ht[st], mi = st === "y" ? "height" : "width", _i = Oe + Z[Re], Ke = Oe - Z[ni], Bi = [top, left].indexOf(tt) !== -1, xe = (_t = mt == null ? void 0 : mt[st]) != null ? _t : 0, ge = Bi ? _i : Oe - ot[mi] - nt[mi] - xe + ft.altAxis, le = Bi ? Oe + ot[mi] + nt[mi] - xe - ft.altAxis : Ke, te = Y && Bi ? withinMaxClamp(ge, Oe, le) : within(Y ? ge : _i, Oe, Y ? le : Ke);
+      ht[st] = te, wt[st] = te - Oe;
     }
     t.modifiersData[r] = wt;
   }
@@ -24459,7 +24463,7 @@ var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyS
   defaultModifiers
 });
 const { GamepadListener } = require("gamepad.js");
-var Ye, jr, Le, We, ko, Do, mc, Fo, gc, Bo, yc, Ws, qs, Uo, bc, Go, De, Zs, Ks, $o, hu, pd, lu, vd, jo, xc, uu, md, qe;
+var We, jr, Le, qe, ko, Do, mc, Fo, gc, Bo, yc, Ws, qs, Uo, bc, Go, De, Zs, Ks, $o, hu, pd, lu, vd, jo, xc, uu, md, Ze;
 class EventMng {
   constructor(t, e, r, N, k, D, B, $, H) {
     K(this, Do);
@@ -24476,13 +24480,13 @@ class EventMng {
     K(this, jo);
     // フォーカス移動
     K(this, uu);
-    K(this, Ye, new EventListenerCtn());
+    K(this, We, new EventListenerCtn());
     K(this, jr, new GamepadListener({
       analog: !1,
       deadZone: 0.3
     }));
     K(this, Le, new FocusMng());
-    K(this, We, void 0);
+    K(this, qe, void 0);
     K(this, ko, (t) => {
     });
     K(this, Ws, !1);
@@ -24508,7 +24512,7 @@ class EventMng {
     // 予約イベントの発生待ち
     pt(this, "waitEvent", (t, e) => Rs_WaitAny.waitEvent(t, e));
     // 0:no push  1:one push  2:push repeating
-    K(this, qe, {
+    K(this, Ze, {
       Alt: 0,
       Meta: 0,
       // COMMANDキー
@@ -24522,10 +24526,10 @@ class EventMng {
       // AndroidのBackキーだと思う
     });
     var Z, tt;
-    if (this.cfg = t, this.hTag = e, this.appPixi = r, this.main = N, this.layMng = k, this.val = D, this.scrItr = $, this.sys = H, e.clear_event = (J) => ReadState.clear_event(J), e.event = (J) => et(this, lu, vd).call(this, J), e.l = (J) => U(this, We).l(J), e.p = (J) => U(this, We).p(J), e.s = (J) => U(this, We).s(J), e.set_cancel_skip = () => !1, e.set_focus = (J) => et(this, uu, md).call(this, J), e.wait = (J) => U(this, We).wait(J), e.waitclick = (J) => U(this, We).waitclick(J), e.page = (J) => U(this, We).page(J), B.setEvtMng(this), $.setOtherObj(this, k), TxtLayer.setEvtMng(N, this, H), k.setEvtMng(this), H.setFire((J, it) => this.fire(J, it)), CmnLib.isDbg) {
+    if (this.cfg = t, this.hTag = e, this.appPixi = r, this.main = N, this.layMng = k, this.val = D, this.scrItr = $, this.sys = H, e.clear_event = (J) => ReadState.clear_event(J), e.event = (J) => et(this, lu, vd).call(this, J), e.l = (J) => U(this, qe).l(J), e.p = (J) => U(this, qe).p(J), e.s = (J) => U(this, qe).s(J), e.set_cancel_skip = () => !1, e.set_focus = (J) => et(this, uu, md).call(this, J), e.wait = (J) => U(this, qe).wait(J), e.waitclick = (J) => U(this, qe).waitclick(J), e.page = (J) => U(this, qe).page(J), B.setEvtMng(this), $.setOtherObj(this, k), TxtLayer.setEvtMng(N, this, H), k.setEvtMng(this), H.setFire((J, it) => this.fire(J, it)), CmnLib.isDbg) {
       const J = {
         pause: () => {
-          if (!U(this, We).isWait)
+          if (!U(this, qe).isWait)
             return;
           const it = {};
           $.recodeDesign(it), H.callHook("_enterDesign", it), H.send2Dbg("_enterDesign", it);
@@ -24579,7 +24583,7 @@ class EventMng {
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>
-</div>`), Q(this, De, document.querySelector(".sn_hint")), Q(this, Zs, U(this, De).querySelector("span")), Q(this, Ks, createPopper(U(this, Go), U(this, De))), U(this, De).hidden = !0, r.stage.interactive = !0, CmnLib.isMobile ? r.stage.on("pointerdown", (J) => this.fire("click", J)) : U(this, Ye).add(r.stage, "pointerdown", (J) => {
+</div>`), Q(this, De, document.querySelector(".sn_hint")), Q(this, Zs, U(this, De).querySelector("span")), Q(this, Ks, createPopper(U(this, Go), U(this, De))), U(this, De).hidden = !0, r.stage.interactive = !0, CmnLib.isMobile ? r.stage.on("pointerdown", (J) => this.fire("click", J)) : U(this, We).add(r.stage, "pointerdown", (J) => {
       switch (J.data.button) {
         case 0:
           this.fire("click", J);
@@ -24588,22 +24592,22 @@ class EventMng {
           this.fire("middleclick", J);
           break;
       }
-    }), U(this, Ye).add(window, "keydown", (J) => et(this, Do, mc).call(this, J)), U(this, Ye).add(Main.cvs, "contextmenu", (J) => et(this, Fo, gc).call(this, J));
+    }), U(this, We).add(window, "keydown", (J) => et(this, Do, mc).call(this, J)), U(this, We).add(Main.cvs, "contextmenu", (J) => et(this, Fo, gc).call(this, J));
     const z = () => D.setVal_Nochk("tmp", "const.sn.navigator.language", navigator.language);
-    U(this, Ye).add(window, "languagechange", (J) => {
+    U(this, We).add(window, "languagechange", (J) => {
       z(), this.fire("sn:chgNavLang", J), clearTextureCache();
     }), z();
     const X = (J) => {
       CmnLib.isDarkMode = J.matches, D.setVal_Nochk("tmp", "const.sn.isDarkMode", CmnLib.isDarkMode);
     }, V = globalThis.matchMedia("(prefers-color-scheme: dark)");
-    X(V), U(this, Ye).add(V, "change", (J) => {
+    X(V), U(this, We).add(V, "change", (J) => {
       X(J), this.fire("sn:chgDarkMode", J);
     });
     let Y = (J, it) => {
     };
-    "WheelEvent" in window && (U(this, Ye).add(Main.cvs, "wheel", (J) => et(this, Bo, yc).call(this, J), { passive: !0 }), Q(this, ko, (J) => U(this, Ye).add(J, "wheel", (it) => et(this, Bo, yc).call(this, it), { passive: !0 })), Y = (J, it) => J.add(Main.cvs, "wheel", (at) => {
+    "WheelEvent" in window && (U(this, We).add(Main.cvs, "wheel", (J) => et(this, Bo, yc).call(this, J), { passive: !0 }), Q(this, ko, (J) => U(this, We).add(J, "wheel", (it) => et(this, Bo, yc).call(this, it), { passive: !0 })), Y = (J, it) => J.add(Main.cvs, "wheel", (at) => {
       at.isComposing || at.deltaY <= 0 || (at.stopPropagation(), it());
-    })), ReadState.init((J) => Q(this, We, J), N, D, k, $, B, e, U(this, Le), Y, U(this, De)), CmnLib.debugLog && (U(this, jr).on("gamepad:connected", (J) => console.log(`👺<'gamepad:connected' index:${J.detail.index} id:${J.detail.gamepad.id}`)), U(this, jr).on("gamepad:disconnected", (J) => console.log(`👺<'gamepad:disconnected' index:${J.detail.index} id:${J.detail.gamepad.id}`)));
+    })), ReadState.init((J) => Q(this, qe, J), N, D, k, $, B, e, U(this, Le), Y, U(this, De), t), CmnLib.debugLog && (U(this, jr).on("gamepad:connected", (J) => console.log(`👺<'gamepad:connected' index:${J.detail.index} id:${J.detail.gamepad.id}`)), U(this, jr).on("gamepad:disconnected", (J) => console.log(`👺<'gamepad:disconnected' index:${J.detail.index} id:${J.detail.gamepad.id}`)));
     const q = [
       "",
       "ArrowUp",
@@ -24634,18 +24638,18 @@ class EventMng {
           (!it || it instanceof Container ? globalThis : it).dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: !0 }));
         } else
           Main.cvs.dispatchEvent(new Event("contextmenu"));
-    }), U(this, jr).start(), U(this, Ye).add(window, "keyup", (J) => {
-      J.isComposing || J.key in U(this, qe) && (U(this, qe)[J.key] = 0);
-    }), D.defTmp("const.sn.key.alternate", () => U(this, qe).Alt > 0), D.defTmp("const.sn.key.command", () => U(this, qe).Meta > 0), D.defTmp("const.sn.key.control", () => U(this, qe).Control > 0), D.defTmp("const.sn.key.end", () => U(this, qe).End > 0), D.defTmp("const.sn.key.escape", () => U(this, qe).Escape > 0), D.defTmp("const.sn.key.back", () => U(this, qe).GoBack > 0);
+    }), U(this, jr).start(), U(this, We).add(window, "keyup", (J) => {
+      J.isComposing || J.key in U(this, Ze) && (U(this, Ze)[J.key] = 0);
+    }), D.defTmp("const.sn.key.alternate", () => U(this, Ze).Alt > 0), D.defTmp("const.sn.key.command", () => U(this, Ze).Meta > 0), D.defTmp("const.sn.key.control", () => U(this, Ze).Control > 0), D.defTmp("const.sn.key.end", () => U(this, Ze).End > 0), D.defTmp("const.sn.key.escape", () => U(this, Ze).Escape > 0), D.defTmp("const.sn.key.back", () => U(this, Ze).GoBack > 0);
   }
   resvFlameEvent(t) {
-    U(this, Ye).add(t, "keydown", (e) => et(this, Do, mc).call(this, e)), U(this, Ye).add(t, "contextmenu", (e) => et(this, Fo, gc).call(this, e)), U(this, ko).call(this, t);
+    U(this, We).add(t, "keydown", (e) => et(this, Do, mc).call(this, e)), U(this, We).add(t, "contextmenu", (e) => et(this, Fo, gc).call(this, e)), U(this, ko).call(this, t);
   }
   destroy() {
-    U(this, Le).destroy(), U(this, Ye).clear();
+    U(this, Le).destroy(), U(this, We).clear();
   }
   fire(t, e) {
-    U(this, We).fire(t, e);
+    U(this, qe).fire(t, e);
   }
   popLocalEvts() {
     return ReadState.popLocalEvts();
@@ -24660,7 +24664,7 @@ class EventMng {
     var X;
     !t.fn && !t.label && !t.url && this.main.errScript("fnまたはlabelまたはurlは必須です"), t.fn ?? (t.fn = this.scrItr.scriptFn), e.interactive = e.buttonMode = !0;
     const D = ((X = t.key) == null ? void 0 : X.toLowerCase()) ?? " ", B = argChk_Boolean(t, "global", !1);
-    ReadState.setEvt2Fnc(B, D, () => this.main.resumeByJumpOrCall(t)), e.on("pointerdown", (V) => U(this, We).fire(D, V));
+    ReadState.setEvt2Fnc(B, D, () => this.main.resumeByJumpOrCall(t)), e.on("pointerdown", (V) => U(this, qe).fire(D, V));
     const $ = t.hint ? () => et(this, hu, pd).call(this, t, e) : () => {
     }, H = () => {
       r(), U(this, De).hidden = !0;
@@ -24702,13 +24706,13 @@ class EventMng {
   }
   // キー押下によるスキップ中か
   isSkipping() {
-    return U(this, We).isSkipping ? !0 : Object.keys(U(this, qe)).some((t) => U(this, qe)[t] === 2);
+    return U(this, qe).isSkipping ? !0 : Object.keys(U(this, Ze)).some((t) => U(this, Ze)[t] === 2);
   }
 }
-Ye = new WeakMap(), jr = new WeakMap(), Le = new WeakMap(), We = new WeakMap(), ko = new WeakMap(), Do = new WeakSet(), mc = function(t) {
+We = new WeakMap(), jr = new WeakMap(), Le = new WeakMap(), qe = new WeakMap(), ko = new WeakMap(), Do = new WeakSet(), mc = function(t) {
   if (t.isComposing)
     return;
-  t.key in U(this, qe) && (U(this, qe)[t.key] = t.repeat ? 2 : 1);
+  t.key in U(this, Ze) && (U(this, Ze)[t.key] = t.repeat ? 2 : 1);
   const e = (t.altKey ? t.key === "Alt" ? "" : "alt+" : "") + (t.ctrlKey ? t.key === "Control" ? "" : "ctrl+" : "") + (t.shiftKey ? t.key === "Shift" ? "" : "shift+" : "") + t.key;
   this.fire(e, t);
 }, Fo = new WeakSet(), gc = function(t) {
@@ -24788,8 +24792,8 @@ Ye = new WeakMap(), jr = new WeakMap(), Le = new WeakMap(), We = new WeakMap(), 
         break;
     }
     B.forEach((H, z) => D.el.forEach((X) => {
-      U(this, Ye).add(X, H, (V) => {
-        if (!U(this, We).isWait || this.layMng.getFrmDisabled(D.id) || H === "keydown" && V.key !== "Enter")
+      U(this, We).add(X, H, (V) => {
+        if (!U(this, qe).isWait || this.layMng.getFrmDisabled(D.id) || H === "keydown" && V.key !== "Enter")
           return;
         const Y = X.dataset;
         for (const [q, W] of Object.entries(Y))
@@ -24847,15 +24851,15 @@ Ye = new WeakMap(), jr = new WeakMap(), Le = new WeakMap(), We = new WeakMap(), 
       break;
   }
   return !1;
-}, qe = new WeakMap();
+}, Ze = new WeakMap();
 class CallStack {
-  constructor(t = "", e = 0, r = { ":hEvt1Time": {}, ":hMp": {} }) {
+  constructor(t = "", e = 0, r = { ":hEvt1Time": {}, ":hMp": {}, ":lenIfStk": 1 }) {
     pt(this, "toString", () => `[fn:${this.fn}, idx:${this.idx}, csArg:${this.csArg}]`);
     this.fn = t, this.idx = e, this.csArg = r;
   }
 }
-var Qt, se, Lt, pe, ce, yr, Ho, Ec, Un, Hr, cu, zr, zo, Sc, Vo, Tc, Xo, Vr, os, Gn, va, $n, br, ye, fu, _d, jn, ma, du, gd, Yo, Js, ei, pu, yd, vu, bd, xr, Jr, mu, xd, Hn, zn, Wo, qo, Zo, vi, _u, Ed, gu, Sd, yu, Td, Ko, wc, bu, wd, xu, Pd, Jo, Pc, Qo, Vn, ga, Xn, Qi, Pr, th, Cc, eh, ih, Rc, Eu, Su, rh, Tu, Cd, Fe, wu, Rd, nh, Oc, Pu, Cu, Ru, Od, Ou, Md, Er, sh, Mc, Mu, Id, Iu, Ad, Au, Lu, Ld, ah, Qs, Nu, Nd, ku, kd, Di, Du, Dd, Fu, Fd;
-const oi = class {
+var Qt, se, Lt, pe, ce, yr, Ho, Ec, Un, Hr, cu, zr, zo, Sc, Vo, Tc, Xo, Vr, os, Gn, va, $n, br, ye, fu, _d, jn, ma, du, gd, Yo, Js, ii, pu, yd, vu, bd, xr, Jr, mu, xd, Hn, zn, Wo, qo, Zo, Fe, _u, Ed, gu, Sd, yu, Td, Ko, wc, bu, wd, xu, Pd, Jo, Pc, Qo, Vn, ga, Xn, Qi, Pr, th, Cc, eh, ih, Rc, Eu, Su, rh, Tu, Cd, Be, wu, Rd, nh, Oc, Pu, Cu, Ru, Od, Ou, Md, Er, sh, Mc, Mu, Id, Iu, Ad, Au, Lu, Ld, ah, Qs, Nu, Nd, ku, kd, Di, Du, Dd, Fu, Fd;
+const hi = class {
   constructor(t, e, r, N, k, D, B, $, H) {
     K(this, Ho);
     K(this, zo);
@@ -24874,7 +24878,7 @@ const oi = class {
     K(this, xr);
     // 外部へスクリプトを表示
     K(this, mu);
-    // FIFOバッファ（push/unshift）
+    // 先頭に積む FIFOバッファ（unshift / shift）
     K(this, _u);
     K(this, gu);
     //	// ラベル・ジャンプ
@@ -24929,7 +24933,7 @@ const oi = class {
       //auth: // constructorで
       //launch:	// ここでは冒頭停止に間に合わないのでanalyzeInit()で
       disconnect: () => {
-        Q(oi, $n, {}), Q(oi, br, {}), this.isBreak = () => !1, U(this, Un).continue({}), Q(this, ye, 0);
+        Q(hi, $n, {}), Q(hi, br, {}), this.isBreak = () => !1, U(this, Un).continue({}), Q(this, ye, 0);
       },
       restart: () => this.isBreak = () => !1,
       // ブレークポイント登録
@@ -24938,9 +24942,9 @@ const oi = class {
         U(this, ye) === 0 && (Q(this, ye, 1), this.main.setLoop(!1, `変数 ${t.dataId}【${t.old_v}】→【${t.new_v}】データブレーク`), this.sys.callHook("stopOnDataBreakpoint", {}), this.sys.send2Dbg("stopOnDataBreakpoint", {}));
       },
       set_func_break: (t) => {
-        Q(oi, br, {});
+        Q(hi, br, {});
         for (const e of t.a)
-          U(oi, br)[e.name] = 1;
+          U(hi, br)[e.name] = 1;
         this.sys.send2Dbg(t.ri, {});
       },
       // 情報問い合わせ系
@@ -24971,7 +24975,7 @@ const oi = class {
     });
     K(this, Hr, (t) => this.cfg.searchPath(t, SEARCH_PATH_ARG_EXT.SCRIPT));
     // https://regex101.com/r/Km54EK/1 141 steps (~0ms)
-    K(this, zr, (t) => (this.sys.pathBaseCnvSnPath4Dbg + U(this, Hr).call(this, t)).replace(U(oi, cu), `$1/prj/$2/${U(this, se)}$3`));
+    K(this, zr, (t) => (this.sys.pathBaseCnvSnPath4Dbg + U(this, Hr).call(this, t)).replace(U(hi, cu), `$1/prj/$2/${U(this, se)}$3`));
     pt(this, "cnvPath4Dbg", (t) => this.sys.pathBaseCnvSnPath4Dbg + t.replace("/crypto_prj/", "/prj/"));
     K(this, Xo, 0);
     K(this, ye, 0);
@@ -24981,7 +24985,7 @@ const oi = class {
     K(this, Yo, (t) => {
     });
     K(this, Js, void 0);
-    K(this, ei, void 0);
+    K(this, ii, void 0);
     K(this, Hn, () => {
     });
     K(this, zn, () => {
@@ -24992,7 +24996,7 @@ const oi = class {
     });
     K(this, Zo, 5);
     //	// 条件分岐
-    K(this, vi, [-1]);
+    K(this, Fe, [-1]);
     K(this, Qo, "");
     K(this, Xn, "");
     // シナリオ解析処理ループ・冒頭処理
@@ -25002,7 +25006,7 @@ const oi = class {
     K(this, Eu, /(\*{2,})([^\|]*)/);
     K(this, Su, /\[macro\s/);
     K(this, rh, /\[endmacro[\s\]]/);
-    K(this, Fe, /* @__PURE__ */ Object.create(null));
+    K(this, Be, /* @__PURE__ */ Object.create(null));
     K(this, Pu, /^\[(call|loadplugin)\s/);
     K(this, Cu, /\bfn\s*=\s*[^\s\]]+/);
     K(this, Er, !1);
@@ -25018,7 +25022,7 @@ const oi = class {
     });
     this.cfg = t, this.hTag = e, this.main = r, this.val = N, this.alzTagArg = k, this.runAnalyze = D, this.prpPrs = B, this.sndMng = $, this.sys = H, e.let_ml = (X) => et(this, pu, yd).call(this, X), e.endlet_ml = () => !1, e.dump_stack = () => et(this, vu, bd).call(this), e.dump_script = (X) => et(this, mu, xd).call(this, X), e.else = // その他ifブロック開始
     e.elsif = // 別条件のifブロック開始
-    e.endif = () => et(this, _u, Ed).call(this), e.if = (X) => et(this, gu, Sd).call(this, X), e.call = (X) => et(this, yu, Td).call(this, X), e.jump = (X) => et(this, bu, wd).call(this, X), e.pop_stack = (X) => et(this, xu, Pd).call(this, X), e.return = (X) => et(this, Jo, Pc).call(this, X), e.bracket2macro = (X) => et(this, Mu, Id).call(this, X), e.char2macro = (X) => et(this, Iu, Ad).call(this, X), e.endmacro = (X) => et(this, Jo, Pc).call(this, X), e.macro = (X) => et(this, Lu, Ld).call(this, X), e.load = (X) => et(this, Nu, Nd).call(this, X), e.reload_script = (X) => et(this, ku, kd).call(this, X), e.record_place = () => et(this, Du, Dd).call(this), e.save = (X) => et(this, Fu, Fd).call(this, X), t.oCfg.debug.token && Q(this, eh, (X) => console.log(`🌱 トークン fn:${U(this, se)} idx:${U(this, Lt)} ln:${U(this, pe)} token【${X}】`)), N.defTmp("const.sn.vctCallStk.length", () => U(this, ce).length);
+    e.endif = () => et(this, _u, Ed).call(this), e.if = (X) => et(this, gu, Sd).call(this, X), e.call = (X) => et(this, yu, Td).call(this, X), e.jump = (X) => et(this, bu, wd).call(this, X), e.pop_stack = (X) => et(this, xu, Pd).call(this, X), e.return = (X) => et(this, Jo, Pc).call(this, X), e.bracket2macro = (X) => et(this, Mu, Id).call(this, X), e.char2macro = (X) => et(this, Iu, Ad).call(this, X), e.endmacro = (X) => et(this, Jo, Pc).call(this, X), e.macro = (X) => et(this, Lu, Ld).call(this, X), e.load = (X) => et(this, Nu, Nd).call(this, X), e.reload_script = (X) => et(this, ku, kd).call(this, X), e.record_place = () => et(this, Du, Dd).call(this), e.save = (X) => et(this, Fu, Fd).call(this, X), t.oCfg.debug.token && Q(this, eh, (X) => console.log(`🌱 トークン fn:${U(this, se)} idx:${U(this, Lt)} ln:${U(this, pe)} token【${X}】`)), N.defTmp("const.sn.aIfStk.length", () => U(this, Fe).length), N.defTmp("const.sn.vctCallStk.length", () => U(this, ce).length);
     const z = t.oCfg.init.escape;
     if (U(this, yr).setEscape(z), RubySpliter.setEscape(z), CmnLib.isDbg) {
       H.addHook((V, Y) => {
@@ -25033,9 +25037,9 @@ const oi = class {
         const Y = V.hBreakpoint.hFn2hLineBP;
         for (const [q, W] of Object.entries(Y))
           et(this, Ho, Ec).call(this, q, W);
-        Q(oi, br, {});
+        Q(hi, br, {});
         for (const q of V.hBreakpoint.aFunc)
-          U(oi, br)[q.name] = 1;
+          U(hi, br)[q.name] = 1;
         if (V.stopOnEntry) {
           for (; ; ) {
             let q = this.nextToken();
@@ -25062,13 +25066,13 @@ const oi = class {
     return U(this, se);
   }
   subIdxToken() {
-    --Me(this, Lt)._;
+    --Ie(this, Lt)._;
   }
   get lineNum() {
     return U(this, pe);
   }
   jumpJustBefore() {
-    et(this, Qi, Pr).call(this, U(this, se), "", --Me(this, Lt)._);
+    et(this, Qi, Pr).call(this, U(this, se), "", --Ie(this, Lt)._);
   }
   destroy() {
     this.isBreak = () => !1;
@@ -25118,7 +25122,7 @@ const oi = class {
     return N(D);
   }
   setOtherObj(t, e) {
-    Q(this, Js, t), Q(this, ei, e);
+    Q(this, Js, t), Q(this, ii, e);
   }
   dumpErrForeLine() {
     if (U(this, Lt) === 0) {
@@ -25154,7 +25158,7 @@ const oi = class {
     if (U(this, ce).length > 0) {
       const k = U(this, ce)[0];
       t = k.fn, e = k.idx;
-      const D = U(this, Fe)[t];
+      const D = U(this, Be)[t];
       D && (r = D.len);
     }
     const N = this.val.getAreaKidoku(t);
@@ -25164,7 +25168,7 @@ const oi = class {
     return U(this, Er) ? this.val.getVal("sys:sn.tagCh.doWait_Kidoku") ? uint(this.val.getVal("sys:sn.tagCh.msecWait_Kidoku")) : 0 : this.val.getVal("sys:sn.tagCh.doWait") ? uint(this.val.getVal("sys:sn.tagCh.msecWait")) : 0;
   }
   loadFromMark(t, e, r = !0) {
-    this.hTag.clear_event({}), this.val.mark2save(e), this.val.setMp({}), U(this, ei).recPagebreak(), r && this.sndMng.playLoopFromSaveObj(), argChk_Boolean(t, "do_rec", !0) && Q(this, Di, {
+    this.hTag.clear_event({}), this.val.mark2save(e), this.val.setMp({}), U(this, ii).recPagebreak(), r && this.sndMng.playLoopFromSaveObj(), argChk_Boolean(t, "do_rec", !0) && Q(this, Di, {
       hSave: this.val.cloneSave(),
       hPages: { ...e.hPages },
       aIfStk: [...e.aIfStk]
@@ -25176,16 +25180,16 @@ const oi = class {
     };
     this.hTag.autowc(N);
     const k = String(this.val.getVal("save:const.sn.scriptFn")), D = Number(this.val.getVal("save:const.sn.scriptIdx"));
-    return Q(this, vi, [...U(this, Di).aIfStk]), Q(this, ce, []), U(this, ei).cover(!0), U(this, ei).stopAllTw(), t.index ? (U(this, ei).playback(U(this, Di).hPages, () => {
+    return Q(this, Fe, [...U(this, Di).aIfStk]), Q(this, ce, []), U(this, ii).cover(!0), U(this, ii).stopAllTw(), t.index ? (U(this, ii).playback(U(this, Di).hPages, () => {
       var H;
       const { style: B, r_style: $ } = t;
-      B && ((H = U(this, ei).currentTxtlayFore) == null || H.lay({ style: B, r_style: $ })), U(this, ei).cover(!1), et(this, Qi, Pr).call(this, t.fn ?? k, "", t.index);
-    }), !0) : (delete U(this, Fe)[k], U(this, ei).playback(
+      B && ((H = U(this, ii).currentTxtlayFore) == null || H.lay({ style: B, r_style: $ })), U(this, ii).cover(!1), et(this, Qi, Pr).call(this, t.fn ?? k, "", t.index);
+    }), !0) : (delete U(this, Be)[k], U(this, ii).playback(
       U(this, Di).hPages,
       "label" in t ? () => {
-        U(this, ei).cover(!1), Q(this, se, k), Q(this, Lt, D), this.hTag.call({ fn: t.fn, label: t.label });
+        U(this, ii).cover(!1), Q(this, se, k), Q(this, Lt, D), this.hTag.call({ fn: t.fn, label: t.label });
       } : () => {
-        U(this, ei).cover(!1), et(this, Qi, Pr).call(this, k, "", D);
+        U(this, ii).cover(!1), et(this, Qi, Pr).call(this, k, "", D);
       }
     ), !0);
   }
@@ -25213,18 +25217,18 @@ const oi = class {
     } else
       e = U(this, se), r = U(this, Lt);
     t[":path"] = U(this, zr).call(this, e);
-    const k = et(this, xr, Jr).call(this, U(this, Fe)[e], r);
+    const k = et(this, xr, Jr).call(this, U(this, Be)[e], r);
     t[":ln"] = k.ln, t[":col_s"] = k.col_s, t[":col_e"] = k.col_e;
     const D = r - 1;
-    t[":idx_tkn"] = D, t[":token"] = U(this, Fe)[e].aToken[D], this.sys.send2Dbg("_recodeDesign", t);
+    t[":idx_tkn"] = D, t[":token"] = U(this, Be)[e].aToken[D], this.sys.send2Dbg("_recodeDesign", t);
   }
   replace(t, e) {
     U(this, Qt).aToken[t] = e;
   }
 };
-let ScriptIterator = oi;
+let ScriptIterator = hi;
 Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), ce = new WeakMap(), yr = new WeakMap(), Ho = new WeakSet(), Ec = function(t, e) {
-  U(oi, $n)[U(this, zr).call(this, t)] = e;
+  U(hi, $n)[U(this, zr).call(this, t)] = e;
 }, Un = new WeakMap(), Hr = new WeakMap(), cu = new WeakMap(), zr = new WeakMap(), zo = new WeakSet(), Sc = function(t) {
   if (et(this, Gn, va).call(this))
     return;
@@ -25254,10 +25258,10 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
       et(this, jn, ma).call(this), Q(this, ye, 0);
       break;
     default:
-      if (tagToken2Name(t) in U(oi, br))
+      if (tagToken2Name(t) in U(hi, br))
         return Q(this, ye, 2), this.main.setLoop(!1, `関数 ${t} ブレーク`), this.sys.callHook("stopOnBreakpoint", {}), this.sys.send2Dbg("stopOnBreakpoint", {}), !0;
       {
-        const e = U(oi, $n)[U(this, zr).call(this, U(this, se))];
+        const e = U(hi, $n)[U(this, zr).call(this, U(this, se))];
         if (!e)
           break;
         const r = e[U(this, pe)];
@@ -25278,7 +25282,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   return !1;
 }, jn = new WeakSet(), ma = function() {
   var e;
-  const t = (e = U(oi, $n)[getFn(U(this, se))]) == null ? void 0 : e[U(this, pe)];
+  const t = (e = U(hi, $n)[getFn(U(this, se))]) == null ? void 0 : e[U(this, pe)];
   t != null && t.hitCondition && --t.hitCondition;
 }, du = new WeakSet(), gd = function() {
   const t = U(this, ye) === 3 ? 1 : 0, e = U(this, Qt).aToken[U(this, Lt) - 1 + t], r = U(this, zr).call(this, U(this, se)), N = tagToken2Name(e), k = N ? `[${N}]` : e, D = this.val.getVal("mp:const.sn.macro") ?? "{}";
@@ -25288,7 +25292,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   if (H === 0)
     return $;
   for (let z = H - 1; z >= 0; --z) {
-    const X = U(this, ce)[z], V = U(this, Fe)[X.fn], Y = V.aToken[X.idx - 1], q = et(this, xr, Jr).call(this, V, X.idx), W = tagToken2Name(Y);
+    const X = U(this, ce)[z], V = U(this, Be)[X.fn], Y = V.aToken[X.idx - 1], q = et(this, xr, Jr).call(this, V, X.idx), W = tagToken2Name(Y);
     $.push({
       fn: U(this, zr).call(this, X.fn),
       ln: q.ln,
@@ -25298,13 +25302,13 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     });
   }
   return $;
-}, Yo = new WeakMap(), Js = new WeakMap(), ei = new WeakMap(), pu = new WeakSet(), yd = function(t) {
+}, Yo = new WeakMap(), Js = new WeakMap(), ii = new WeakMap(), pu = new WeakSet(), yd = function(t) {
   const { name: e } = t;
   if (!e)
     throw "nameは必須です";
   let r = "";
   const N = U(this, Qt).len;
-  for (; U(this, Lt) < N && (r = U(this, Qt).aToken[U(this, Lt)], r === ""); ++Me(this, Lt)._)
+  for (; U(this, Lt) < N && (r = U(this, Qt).aToken[U(this, Lt)], r === ""); ++Ie(this, Lt)._)
     ;
   return t.text = r, t.cast = "str", this.hTag.let(t), Q(this, Lt, U(this, Lt) + 2), Q(this, pe, U(this, pe) + (r.match(/\n/g) ?? []).length), !1;
 }, vu = new WeakSet(), bd = function() {
@@ -25316,7 +25320,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   if (r > 0) {
     console.info(e);
     for (let N = r - 1; N >= 0; --N) {
-      const k = U(this, ce)[N], D = k.csArg[":hMp"], B = D ? D[":タグ名"] : void 0, $ = k.csArg[":タグ名"] ?? "", H = et(this, xr, Jr).call(this, U(this, Fe)[k.fn], k.idx);
+      const k = U(this, ce)[N], D = k.csArg[":hMp"], B = D ? D[":タグ名"] : void 0, $ = k.csArg[":タグ名"] ?? "", H = et(this, xr, Jr).call(this, U(this, Be)[k.fn], k.idx);
       console.info(
         `${r - N}つ前のコール元 fn:${k.fn} line:${H.ln} col:${H.col_s + 1}` + (B ? "（[" + B + "]マクロ内）" : " ") + `で [${$} ...]をコール`
       );
@@ -25360,10 +25364,10 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     });
   }
   return !1;
-}, Hn = new WeakMap(), zn = new WeakMap(), Wo = new WeakMap(), qo = new WeakMap(), Zo = new WeakMap(), vi = new WeakMap(), _u = new WeakSet(), Ed = function() {
-  if (U(this, vi)[0] === -1)
+}, Hn = new WeakMap(), zn = new WeakMap(), Wo = new WeakMap(), qo = new WeakMap(), Zo = new WeakMap(), Fe = new WeakMap(), _u = new WeakSet(), Ed = function() {
+  if (U(this, Fe)[0] === -1)
     throw "ifブロック内ではありません";
-  return Q(this, Lt, U(this, vi)[0]), U(this, vi).shift(), !1;
+  return Q(this, Lt, U(this, Fe)[0]), U(this, Fe).shift(), !1;
 }, gu = new WeakSet(), Sd = function(t) {
   const { exp: e } = t;
   if (!e)
@@ -25374,7 +25378,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   const k = U(this, Qt).aLNum[U(this, Lt)];
   let D = U(this, pe) - (k || 0);
   const B = U(this, Qt).len;
-  for (; U(this, Lt) < B; ++Me(this, Lt)._) {
+  for (; U(this, Lt) < B; ++Ie(this, Lt)._) {
     const $ = U(this, Qt).aLNum[U(this, Lt)];
     U(this, Qt).aLNum[U(this, Lt)] = ($ || 0) + D;
     const H = U(this, Qt).aToken[U(this, Lt)];
@@ -25412,36 +25416,36 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
           --r;
           break;
         }
-        return N === -1 ? (++Me(this, Lt)._, U(this, Qt).aLNum[U(this, Lt)] += D) : (U(this, vi).unshift(U(this, Lt) + 1), Q(this, Lt, N), Q(this, pe, U(this, Qt).aLNum[U(this, Lt)])), !1;
+        return N === -1 ? (++Ie(this, Lt)._, U(this, Qt).aLNum[U(this, Lt)] += D) : (U(this, Fe).unshift(U(this, Lt) + 1), Q(this, Lt, N), Q(this, pe, U(this, Qt).aLNum[U(this, Lt)])), !1;
     }
   }
   throw "[endif]がないままスクリプト終端です";
 }, yu = new WeakSet(), Td = function(t) {
   argChk_Boolean(t, "count", !1) || et(this, sh, Mc).call(this);
   const { fn: e } = t;
-  return e && U(this, Hr).call(this, e), et(this, Ko, wc).call(this, { ":hEvt1Time": U(this, Js).popLocalEvts(), ":hMp": this.val.cloneMp() }), argChk_Boolean(t, "clear_local_event", !1) && this.hTag.clear_event({}), et(this, Qi, Pr).call(this, e, t.label), !0;
+  return e && U(this, Hr).call(this, e), et(this, Ko, wc).call(this, { ":hEvt1Time": U(this, Js).popLocalEvts(), ":hMp": this.val.cloneMp(), ":lenIfStk": U(this, Fe).length }), argChk_Boolean(t, "clear_local_event", !1) && this.hTag.clear_event({}), et(this, Qi, Pr).call(this, e, t.label), !0;
 }, Ko = new WeakSet(), wc = function(t) {
-  U(this, Qt).aLNum[U(this, Lt)] = U(this, pe), U(this, Qo) || (t[":resvToken"] = "", et(this, Vn, ga).call(this)), U(this, ce).push(new CallStack(U(this, se), U(this, Lt), t)), U(this, vi).unshift(-1);
+  U(this, Qt).aLNum[U(this, Lt)] = U(this, pe), U(this, Qo) || (t[":resvToken"] = "", et(this, Vn, ga).call(this)), U(this, ce).push(new CallStack(U(this, se), U(this, Lt), t)), U(this, Fe).unshift(-1);
 }, bu = new WeakSet(), wd = function(t) {
-  return argChk_Boolean(t, "count", !0) || et(this, sh, Mc).call(this), U(this, vi)[0] = -1, et(this, Qi, Pr).call(this, t.fn, t.label), !0;
+  return argChk_Boolean(t, "count", !0) || et(this, sh, Mc).call(this), U(this, Fe)[0] = -1, et(this, Qi, Pr).call(this, t.fn, t.label), !0;
 }, xu = new WeakSet(), Pd = function(t) {
   if (argChk_Boolean(t, "clear", !1))
     Q(this, ce, []);
   else if (!U(this, ce).pop())
     throw "[pop_stack] スタックが空です";
-  return et(this, Vn, ga).call(this), Q(this, vi, [-1]), this.val.setMp({}), !1;
+  return et(this, Vn, ga).call(this), Q(this, Fe, [-1]), this.val.setMp({}), !1;
 }, Jo = new WeakSet(), Pc = function(t) {
   const e = U(this, ce).pop();
   if (!e)
     throw "[return] スタックが空です";
   const r = e.csArg;
-  U(this, vi).shift();
+  Q(this, Fe, U(this, Fe).slice(-r[":lenIfStk"]));
   const N = r[":hMp"];
   N && this.val.setMp(N);
   const k = r[":resvToken"];
   k ? this.nextToken = () => (et(this, Vn, ga).call(this), k) : et(this, Vn, ga).call(this), r[":hEvt1Time"] && U(this, Js).pushLocalEvts(r[":hEvt1Time"]);
   const { fn: D, label: B } = t;
-  return D || B ? (et(this, Qi, Pr).call(this, D, B), !0) : e.fn in U(this, Fe) ? (et(this, nh, Oc).call(this, e), !1) : (et(this, Qi, Pr).call(this, e.fn, "", e.idx), !0);
+  return D || B ? (et(this, Qi, Pr).call(this, D, B), !0) : e.fn in U(this, Be) ? (et(this, nh, Oc).call(this, e), !1) : (et(this, Qi, Pr).call(this, e.fn, "", e.idx), !0);
 }, Qo = new WeakMap(), Vn = new WeakSet(), ga = function() {
   Q(this, Qo, ""), this.nextToken = et(this, th, Cc);
 }, Xn = new WeakMap(), Qi = new WeakSet(), Pr = function(t = "", e = "", r = 0) {
@@ -25457,7 +25461,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     return;
   }
   Q(this, se, t);
-  const k = U(this, Fe)[t];
+  const k = U(this, Be)[t];
   if (k) {
     Q(this, Qt, k), this.analyzeInit();
     return;
@@ -25494,7 +25498,7 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     return "";
   et(this, Ou, Md).call(this), (e = U(this, Qt).aLNum)[r = U(this, Lt)] || (e[r] = U(this, pe));
   const t = U(this, Qt).aToken[U(this, Lt)];
-  return U(this, eh).call(this, t), ++Me(this, Lt)._, t;
+  return U(this, eh).call(this, t), ++Ie(this, Lt)._, t;
 }, eh = new WeakMap(), ih = new WeakSet(), Rc = function() {
   return U(this, Lt) < U(this, Qt).len ? !1 : (this.main.errScript("スクリプト終端です"), !0);
 }, Eu = new WeakMap(), Su = new WeakMap(), rh = new WeakMap(), Tu = new WeakSet(), Cd = function(t, e, r, N, k) {
@@ -25559,19 +25563,19 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
     q === 91 && (r += (Y.match(/\n/g) ?? []).length, U(this, yr).testTagLetml(Y) && (H = !0));
   }
   throw H ? "[let_ml]の終端・[endlet_ml]がありません" : (DebugMng.myTrace(`[jump系] ラベル【${N}】がありません`, "ET"), "Dummy");
-}, Fe = new WeakMap(), wu = new WeakSet(), Rd = function(t) {
+}, Be = new WeakMap(), wu = new WeakSet(), Rd = function(t) {
   let e = "";
   try {
     e = "ScriptIterator.resolveScript";
     const r = U(this, yr).resolveScript(t);
-    e = "ScriptIterator.replaceScript_Wildcard", et(this, Ru, Od).call(this, r), U(this, Fe)[U(this, se)] = Q(this, Qt, r);
+    e = "ScriptIterator.replaceScript_Wildcard", et(this, Ru, Od).call(this, r), U(this, Be)[U(this, se)] = Q(this, Qt, r);
   } catch (r) {
     r instanceof Error ? e += `例外 mes=${r.message}(${r.name})` : e = r, this.main.errScript(e, !1);
   }
   this.val.loadScrWork(U(this, se));
 }, nh = new WeakSet(), Oc = function(t) {
   Q(this, se, t.fn), Q(this, Lt, t.idx);
-  const e = U(this, Fe)[U(this, se)];
+  const e = U(this, Be)[U(this, se)];
   e && Q(this, Qt, e), Q(this, pe, U(this, Qt).aLNum[t.idx]);
 }, Pu = new WeakMap(), Cu = new WeakMap(), Ru = new WeakSet(), Od = function(t) {
   for (let e = t.len - 1; e >= 0; --e) {
@@ -25623,11 +25627,13 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   if (U(this, Au).test(e))
     throw `[${e}]はマクロ名として異常です`;
   const r = U(this, pe), N = new CallStack(U(this, se), U(this, Lt));
-  for (Q(this, ah, U(this, ah) + ("|" + e)), Q(this, Qs, new RegExp(`\\[(${U(this, ah)})\\b`)), this.hTag[e] = (B) => (B.design_unit = t.design_unit, et(this, Ko, wc).call(this, { ...B, ":hMp": this.val.cloneMp() }), this.val.setMp(B), this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify(t)), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", U(this, se)), Q(this, pe, r), et(this, nh, Oc).call(this, N), !1); U(this, Lt) < U(this, Qt).len; ++Me(this, Lt)._) {
+  for (Q(this, ah, U(this, ah) + ("|" + e)), Q(this, Qs, new RegExp(`\\[(${U(this, ah)})\\b`)), this.hTag[e] = (B) => (B.design_unit = t.design_unit, et(this, Ko, wc).call(this, { ...B, ":hMp": this.val.cloneMp(), ":lenIfStk": U(this, Fe).length }), this.val.setMp(B), this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify({
+    name: t.name
+  })), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", U(this, se)), Q(this, pe, r), et(this, nh, Oc).call(this, N), !1); U(this, Lt) < U(this, Qt).len; ++Ie(this, Lt)._) {
     (k = U(this, Qt).aLNum)[D = U(this, Lt)] || (k[D] = U(this, pe));
     const B = U(this, Qt).aToken[U(this, Lt)];
     if (B.search(U(this, rh)) > -1)
-      return ++Me(this, Lt)._, !1;
+      return ++Ie(this, Lt)._, !1;
     const $ = B.charCodeAt(0);
     $ === 10 ? Q(this, pe, U(this, pe) + B.length) : $ === 91 && Q(this, pe, U(this, pe) + (B.match(/\n/g) ?? []).length);
   }
@@ -25644,23 +25650,23 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   return new RsEvtRsv(), this.loadFromMark(t, r);
 }, ku = new WeakSet(), kd = function(t) {
   const e = this.val.getMark(0);
-  delete U(this, Fe)[getFn(e.hSave["const.sn.scriptFn"])];
+  delete U(this, Be)[getFn(e.hSave["const.sn.scriptFn"])];
   const r = {};
-  for (const N in U(this, Fe))
+  for (const N in U(this, Be))
     try {
       U(this, Hr).call(this, N + "@");
     } catch {
-      r[N] = U(this, Fe)[N];
+      r[N] = U(this, Be)[N];
     }
-  return Q(this, Fe, r), t.do_rec = !1, new RsEvtRsv(), this.loadFromMark(t, e, !1);
+  return Q(this, Be, r), t.do_rec = !1, new RsEvtRsv(), this.loadFromMark(t, e, !1);
 }, Di = new WeakMap(), Du = new WeakSet(), Dd = function() {
   if (this.main.isDestroyed())
     return !1;
   const { fn: t, idx: e } = this.nowScrIdx();
   return this.val.setVal_Nochk("save", "const.sn.scriptFn", t), this.val.setVal_Nochk("save", "const.sn.scriptIdx", e), Q(this, Di, {
     hSave: this.val.cloneSave(),
-    hPages: U(this, ei).record(),
-    aIfStk: U(this, vi).slice(U(this, ce).length)
+    hPages: U(this, ii).record(),
+    aIfStk: U(this, Fe).slice(U(this, ce).length)
   }), !1;
 }, Fu = new WeakSet(), Fd = function(t) {
   if (!("place" in t))
@@ -25671,14 +25677,14 @@ Qt = new WeakMap(), se = new WeakMap(), Lt = new WeakMap(), pe = new WeakMap(), 
   return e === r && this.val.setVal_Nochk("sys", "const.sn.save.place", r + 1), !1;
 }, K(ScriptIterator, cu, /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/), // reload 再生成 Main に受け渡すため static
 K(ScriptIterator, $n, {}), K(ScriptIterator, br, {});
-var ii, wi, Be, Pi, Sr, Yn, Ne, oh, Tr, ta, Wn, hh, lh, ea, Bu, Bd, uh, ch, ia, ra, Rh, qn, Zn;
+var ri, wi, Ue, Pi, Sr, Yn, Ne, oh, Tr, ta, Wn, hh, lh, ea, Bu, Bd, uh, ch, ia, ra, Rh, qn, Zn;
 const us = class {
   constructor(t) {
     K(this, Bu);
     K(this, ra);
-    K(this, ii, void 0);
+    K(this, ri, void 0);
     K(this, wi, void 0);
-    K(this, Be, /* @__PURE__ */ Object.create(null));
+    K(this, Ue, /* @__PURE__ */ Object.create(null));
     // タグ処理辞書
     K(this, Pi, void 0);
     K(this, Sr, void 0);
@@ -25708,7 +25714,7 @@ const us = class {
     K(this, qn, !1);
     pt(this, "isDestroyed", () => U(this, qn));
     K(this, Zn, void 0);
-    this.sys = t, skipHello(), Config.generate(t).then((e) => Q(this, ii, e)).then(() => et(this, Bu, Bd).call(this)).catch((e) => console.error("load err fn:prj.json e:%o", e));
+    this.sys = t, skipHello(), Config.generate(t).then((e) => Q(this, ri, e)).then(() => et(this, Bu, Bd).call(this)).catch((e) => console.error("load err fn:prj.json e:%o", e));
   }
   // thisの扱いによりメソッド代入はダメ
   errScript(t, e = !0) {
@@ -25717,10 +25723,10 @@ const us = class {
   }
   resumeByJumpOrCall(t) {
     if (t.url) {
-      U(this, Be).navigate_to(t), U(this, Ne).jumpJustBefore();
+      U(this, Ue).navigate_to(t), U(this, Ne).jumpJustBefore();
       return;
     }
-    U(this, Pi).setVal_Nochk("tmp", "sn.eventArg", t.arg ?? ""), U(this, Pi).setVal_Nochk("tmp", "sn.eventLabel", t.label ?? ""), argChk_Boolean(t, "call", !1) ? (U(this, Ne).subIdxToken(), this.resume(() => U(this, Be).call(t))) : (U(this, Be).clear_event({}), this.resume(() => U(this, Be).jump(t)));
+    U(this, Pi).setVal_Nochk("tmp", "sn.eventArg", t.arg ?? ""), U(this, Pi).setVal_Nochk("tmp", "sn.eventLabel", t.label ?? ""), argChk_Boolean(t, "call", !1) ? (U(this, Ne).subIdxToken(), this.resume(() => U(this, Ue).call(t))) : (U(this, Ue).clear_event({}), this.resume(() => U(this, Ue).jump(t)));
   }
   setLoop(t, e = "") {
     Q(this, ia, t) ? this.resume() : this.stop(), this.sys.setTitleInfo(e ? ` -- ${e}中` : "");
@@ -25729,26 +25735,26 @@ const us = class {
     U(this, ta).fire(t, e);
   }
   async destroy(t = 0) {
-    U(this, qn) || (Q(this, qn, !0), U(this, lh) && (this.stop(), Q(this, ia, !1), U(this, Tr).before_destroy(), t > 0 && await new Promise((e) => setTimeout(e, t)), Q(this, Be, {}), U(this, ta).destroy(), U(this, Ne).destroy(), U(this, Tr).destroy(), U(this, oh).destroy(), U(this, wi).ticker.remove(U(this, uh)), U(this, Zn) && U(this, wi) && us.cvs.parentNode.appendChild(U(this, Zn)), clearTextureCache(), U(this, wi).destroy(!0), this.sys.destroy()));
+    U(this, qn) || (Q(this, qn, !0), U(this, lh) && (this.stop(), Q(this, ia, !1), U(this, Tr).before_destroy(), t > 0 && await new Promise((e) => setTimeout(e, t)), Q(this, Ue, {}), U(this, ta).destroy(), U(this, Ne).destroy(), U(this, Tr).destroy(), U(this, oh).destroy(), U(this, wi).ticker.remove(U(this, uh)), U(this, Zn) && U(this, wi) && us.cvs.parentNode.appendChild(U(this, Zn)), clearTextureCache(), U(this, wi).destroy(!0), this.sys.destroy()));
   }
 };
 let Main = us;
-ii = new WeakMap(), wi = new WeakMap(), Be = new WeakMap(), Pi = new WeakMap(), Sr = new WeakMap(), Yn = new WeakMap(), Ne = new WeakMap(), oh = new WeakMap(), Tr = new WeakMap(), ta = new WeakMap(), Wn = new WeakMap(), hh = new WeakMap(), lh = new WeakMap(), ea = new WeakMap(), Bu = new WeakSet(), Bd = async function() {
+ri = new WeakMap(), wi = new WeakMap(), Ue = new WeakMap(), Pi = new WeakMap(), Sr = new WeakMap(), Yn = new WeakMap(), Ne = new WeakMap(), oh = new WeakMap(), Tr = new WeakMap(), ta = new WeakMap(), Wn = new WeakMap(), hh = new WeakMap(), lh = new WeakMap(), ea = new WeakMap(), Bu = new WeakSet(), Bd = async function() {
   var N;
   const t = (N = document.createElement("canvas")) == null ? void 0 : N.getContext("2d");
   if (!t)
     throw "argChk_Color err";
   CmnLib.cc4ColorName = t;
   const e = {
-    width: U(this, ii).oCfg.window.width,
-    height: U(this, ii).oCfg.window.height,
-    backgroundColor: parseColor(String(U(this, ii).oCfg.init.bg_color)),
+    width: U(this, ri).oCfg.window.width,
+    height: U(this, ri).oCfg.window.height,
+    backgroundColor: parseColor(String(U(this, ri).oCfg.init.bg_color)),
     // このString()は後方互換性のため必須
     //	resolution		: sys.resolution,
     resolution: globalThis.devicePixelRatio ?? 1
     // 理想
   }, r = document.getElementById(U(this, ea));
-  r && (Q(this, Zn, r.cloneNode(!0)), U(this, Zn).id = U(this, ea), e.view = r), Q(this, wi, new Application(e)), us.cvs = U(this, wi).view, r || (document.body.appendChild(us.cvs), us.cvs.id = U(this, ea)), Q(this, Pi, new Variable(U(this, ii), U(this, Be))), Q(this, Sr, new PropParser(U(this, Pi), U(this, ii).oCfg.init.escape ?? "\\")), await Promise.allSettled(this.sys.init(U(this, Be), U(this, wi), U(this, Pi), this)), U(this, Be).title({ text: U(this, ii).oCfg.book.title || "SKYNovel" }), Q(this, Yn, new SoundMng(U(this, ii), U(this, Be), U(this, Pi), this, this.sys)), Q(this, Ne, new ScriptIterator(U(this, ii), U(this, Be), this, U(this, Pi), U(this, hh), () => et(this, ra, Rh).call(this), U(this, Sr), U(this, Yn), this.sys)), Q(this, oh, new DebugMng(this.sys, U(this, Be), U(this, Ne))), Q(this, Tr, new LayerMng(U(this, ii), U(this, Be), U(this, wi), U(this, Pi), this, U(this, Ne), this.sys, U(this, Yn), U(this, hh), U(this, Sr))), Q(this, ta, new EventMng(U(this, ii), U(this, Be), U(this, wi), this, U(this, Tr), U(this, Pi), U(this, Yn), U(this, Ne), this.sys)), U(this, wi).ticker.add(U(this, uh)), this.resumeByJumpOrCall({ fn: "main" }), Q(this, lh, !0);
+  r && (Q(this, Zn, r.cloneNode(!0)), U(this, Zn).id = U(this, ea), e.view = r), Q(this, wi, new Application(e)), us.cvs = U(this, wi).view, r || (document.body.appendChild(us.cvs), us.cvs.id = U(this, ea)), Q(this, Pi, new Variable(U(this, ri), U(this, Ue))), Q(this, Sr, new PropParser(U(this, Pi), U(this, ri).oCfg.init.escape ?? "\\")), await Promise.allSettled(this.sys.init(U(this, Ue), U(this, wi), U(this, Pi), this)), U(this, Ue).title({ text: U(this, ri).oCfg.book.title || "SKYNovel" }), Q(this, Yn, new SoundMng(U(this, ri), U(this, Ue), U(this, Pi), this, this.sys)), Q(this, Ne, new ScriptIterator(U(this, ri), U(this, Ue), this, U(this, Pi), U(this, hh), () => et(this, ra, Rh).call(this), U(this, Sr), U(this, Yn), this.sys)), Q(this, oh, new DebugMng(this.sys, U(this, Ue), U(this, Ne))), Q(this, Tr, new LayerMng(U(this, ri), U(this, Ue), U(this, wi), U(this, Pi), this, U(this, Ne), this.sys, U(this, Yn), U(this, hh), U(this, Sr))), Q(this, ta, new EventMng(U(this, ri), U(this, Ue), U(this, wi), this, U(this, Tr), U(this, Pi), U(this, Yn), U(this, Ne), this.sys)), U(this, wi).ticker.add(U(this, uh)), this.resumeByJumpOrCall({ fn: "main" }), Q(this, lh, !0);
 }, uh = new WeakMap(), ch = new WeakMap(), ia = new WeakMap(), ra = new WeakSet(), Rh = function() {
   for (; U(this, ia); ) {
     let t = U(this, Ne).nextToken();
@@ -25781,7 +25787,7 @@ ii = new WeakMap(), wi = new WeakMap(), Be = new WeakMap(), Pi = new WeakMap(), 
             if (U(this, Ne).isBreak(t))
               return;
             const r = splitAmpersand(t.slice(1));
-            r.name = U(this, Sr).getValAmpersand(r.name), r.text = String(U(this, Sr).parse(r.text)), U(this, Be).let(r);
+            r.name = U(this, Sr).getValAmpersand(r.name), r.text = String(U(this, Sr).parse(r.text)), U(this, Ue).let(r);
             continue;
           }
           if (t.charAt(1) === "&")

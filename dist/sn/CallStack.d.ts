@@ -4,6 +4,7 @@ export interface ICallStackArg {
     ':hEvt1Time': IHEvt2Fnc;
     ':hMp': IValMp;
     ':タグ名'?: string;
+    ':lenIfStk': number;
 }
 export declare class CallStack {
     readonly fn: string;

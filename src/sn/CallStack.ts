@@ -12,10 +12,11 @@ export interface ICallStackArg {
 	':hEvt1Time'	: IHEvt2Fnc;	// call元のローカル予約イベント
 	':hMp'			: IValMp;		// call元のmp:
 	':タグ名'?		: string;
+	':lenIfStk'		: number;
 }
 
 export class CallStack {
-	constructor(readonly fn = '', readonly idx = 0, readonly csArg: ICallStackArg = {':hEvt1Time': {}, ':hMp': {}}) {}
+	constructor(readonly fn = '', readonly idx = 0, readonly csArg: ICallStackArg = {':hEvt1Time': {}, ':hMp': {}, ':lenIfStk': 1}) {}
 
 	readonly	toString = ()=> `[fn:${this.fn}, idx:${this.idx}, csArg:${this.csArg}]`;
 

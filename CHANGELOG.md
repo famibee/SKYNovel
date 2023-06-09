@@ -1,3 +1,18 @@
+- fix: [macro]内で [if]ブロック中にて [return] によるマクロ脱出時、IFスタックを積み残す件
+- fix: [call]先で [if]ブロック中にて [return] 脱出時、IFスタックを積み残す件
+- fix: ページ移動の履歴記録数もログ保存長 prj.json：log.max_len で制限するように
+- fix: 画像レイヤのページ情報でのムダに大きいスクリプター用情報を削除
+- feat: 組み込み変数：IFスタックの深さを返す const.sn.aIfStk.length 追加
+- 保存データ mark でむやみに巨大になっているものを削除処理・設定値で対策。体感速度も落ちていた
+	- fix: aIFStk が中身 -1 の巨大配列（とある作品で 321）に（前述のIFスタック積み残しによる）
+	- fix: hPages 画像レイヤの idc_hArg - ":hMp:" - const.sn.macro のムダに大きいスクリプター用情報
+	- fix: cfg.log.max_len: デフォルト値 1024 を 64 (ぐらい)に
+		- save:const.sn.sLog が、とある作品で 367kB にもなっていた。
+		- 元ネタの const.sn.log.json が追加される一方だった
+			- AIRNovel：履歴の保存「行数」
+			- SKYNovel：履歴の保存「ページ数」
+
+
 ## [1.47.2](https://github.com/famibee/SKYNovel/compare/v1.47.1...v1.47.2) (2023-06-07)
 
 
