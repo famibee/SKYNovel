@@ -1,3 +1,10 @@
+# [1.48.0](https://github.com/famibee/SKYNovel/compare/v1.47.3...v1.48.0) (2023-06-10)
+
+
+### Features
+
+* セーブによるディスク書きこみ連打の対策（最短 500ms ほどは開ける） ([bcb6287](https://github.com/famibee/SKYNovel/commit/bcb6287097aedef8ff0c02a6aa343c4227f52118))
+
 - feat: セーブによるディスク書きこみ連打の対策（最短 500ms ほどは開ける）
 - fix: 【;[endmacro]】のようなコメント文を[endmacro]のように判定する場合がある件
 - fix: esbuild 設定に【 target: 'esnext' 】追加、Safari・Firefox・Edge で動作確認
