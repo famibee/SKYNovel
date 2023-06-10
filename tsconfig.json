@@ -1,7 +1,7 @@
 {
 	"compileOnSave": true,
 	"compilerOptions": {
-		"target": "es2022",
+		"target": "esnext",
 		"lib": ["esnext","DOM"],
 		"module": "commonjs",
 		"sourceMap": true,

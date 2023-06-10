@@ -46,7 +46,7 @@ export class ScriptIterator {
 	#lineNum	= 0;
 	get lineNum() {return this.#lineNum;}
 	readonly addLineNum	= (len: number)=> this.#lineNum += len;
-	jumpJustBefore() {this.#jumpWork(this.#scriptFn, '', --this.#idxToken);}
+	jumpJustBefore() {this.#jumpWork(this.#scriptFn, '', --this.#idxToken)}
 		// 直前にジャンプ
 
 
@@ -673,7 +673,7 @@ export class ScriptIterator {
 	}
 	#callSub(csa: ICallStackArg) {
 		this.#script.aLNum[this.#idxToken] = this.#lineNum;	// 戻ったときの行番号
-		if (! this.#resvToken) {csa[':resvToken'] = ''; this.#clearResvToken();}
+		if (! this.#resvToken) {csa[':resvToken'] = ''; this.#clearResvToken()}
 		this.#aCallStk.push(new CallStack(this.#scriptFn, this.#idxToken, csa));
 		this.#aIfStk.unshift(-1);	// 最初に要素を追加
 	}
@@ -830,8 +830,8 @@ export class ScriptIterator {
 
 
 	readonly #REG_NONAME_LABEL		= /(\*{2,})([^\|]*)/;
-	readonly #REG_TOKEN_MACRO_BEGIN	= /\[macro\s/;
-	readonly #REG_TOKEN_MACRO_END	= /\[endmacro[\s\]]/;
+	readonly #REG_TOKEN_MACRO_BEGIN	= /^\[macro\s/;
+	readonly #REG_TOKEN_MACRO_END	= /^\[endmacro[\s\]]/;
 	#seekScript(st: Script, inMacro: boolean, ln: number, skipLabel: string, idx: number): ISeek {
 		//console.log(`seekScript (from)inMacro:${inMacro} (from)ln:${ln} (to)skipLabel:${skipLabel}: (to)idx:${idx}`);
 		const len = st.aToken.length;

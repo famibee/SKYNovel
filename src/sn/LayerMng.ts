@@ -64,7 +64,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 			let tid: NodeJS.Timeout | undefined = undefined;
 			this.#elc.add(globalThis, 'resize', ()=> {
 				if (tid) return;
-				tid = setTimeout(()=> {tid = undefined; fncResizeLay();}, 1000 /60 *10);	// clearTimeout()不要と判断
+				tid = setTimeout(()=> {tid = undefined; fncResizeLay()}, 1000 /60 *10);	// clearTimeout()不要と判断
 			}, {passive: true});
 		}
 		sys.cvsResize();
@@ -271,7 +271,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		GrpLayer.setEvtMng(evtMng);
 	}
 
-	before_destroy() {for (const p of Object.values(this.#hPages)) p.destroy();}
+	before_destroy() {for (const p of Object.values(this.#hPages)) p.destroy()}
 	destroy() {
 		this.#elc.clear();
 		GrpLayer.destroy();
@@ -286,7 +286,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		LayerMng.#msecChWait = 10;
 	}
 	// トゥイーン全停止
-	stopAllTw() {this.#hTwInf = {}; removeAll();}
+	stopAllTw() {this.#hTwInf = {}; removeAll()}
 
 
 	// 既存の全文字レイヤの実際のバック不透明度、を再計算
@@ -495,7 +495,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 		return pg.lay(hArg);
 	}
-	#rebuildLayerRankInfo() {this.#aLayName = this.#sortLayers();}
+	#rebuildLayerRankInfo() {this.#aLayName = this.#sortLayers()}
 
 	// レイヤ設定の消去
 	#clear_lay(hArg: HArg) {
@@ -598,7 +598,7 @@ void main(void) {
 		};
 		if (! aBack.some(lay=> lay.containMovement)) {
 			let oldFnc = fncRenderBack;	// 動きがないなら最初に一度
-			fncRenderBack = ()=> {fncRenderBack = ()=> {}; oldFnc();};
+			fncRenderBack = ()=> {fncRenderBack = ()=> {}; oldFnc()};
 		}
 
 		this.#rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
@@ -610,7 +610,7 @@ void main(void) {
 		};
 		if (! aFore.some(lay=> lay.containMovement)) {
 			let oldFnc = fncRenderFore;	// 動きがないなら最初に一度
-			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc();};
+			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc()};
 		}
 		const fncRender = ()=> {
 			fncRenderBack();
@@ -775,7 +775,7 @@ void main(void) {
 		.to({x: 0, y: 0}, time)
 		.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(CmnTween.ease(ease))
-		.onUpdate(()=> {fncH(); fncV();})
+		.onUpdate(()=> {fncH(); fncV()})
 		.repeat(repeat > 0 ?repeat -1 :Infinity)	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 		.onComplete(()=> {
@@ -841,7 +841,7 @@ void main(void) {
 			for (const {groups} of path.matchAll(LayerMng.REG_TSY_PATH)) {
 				const {x, x2, y, y2, o, o2, json} = groups!;
 				let hArg2: any = {};
-				if (json) try {hArg2 = JSON.parse(json);} catch (e) {
+				if (json) try {hArg2 = JSON.parse(json)} catch (e) {
 					console.error(`🍝 json=${json} `+ e);
 					continue;
 				}
@@ -1097,10 +1097,10 @@ void main(void) {
 	}
 
 	// 改行
-	#r(hArg: HArg) {hArg.text = '\n'; return this.#ch(hArg);}
+	#r(hArg: HArg) {hArg.text = '\n'; return this.#ch(hArg)}
 
 	// 履歴改行
-	#rec_r(hArg: HArg) {return this.#rec_ch({...hArg, text: '[r]'});};
+	#rec_r(hArg: HArg) {return this.#rec_ch({...hArg, text: '[r]'})};
 
 	// 履歴書き込み
 	#rec_ch(hArg: HArg) {

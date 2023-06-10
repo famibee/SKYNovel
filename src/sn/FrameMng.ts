@@ -325,14 +325,14 @@ export class FrameMng implements IGetFrm {
 
 		const tw = new Tween(hNow)
 		.to(hTo, dur).easing(nEase).repeat(repeat).yoyo(yoyo).delay(delay)
-		.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH();});
+		.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH()});
 		let twLast = tw;
 		if (path) {
 			if (CmnLib.debugLog) console.group(`🍝 [tsy_frame] path=${path}= start(${hNow.x},${hNow.y},${hNow.alpha})`);
 			for (const {groups} of path.matchAll(LayerMng.REG_TSY_PATH)) {
 				const {x, x2, y, y2, o, o2, json} = groups!;
 				let hArg2: any = {};
-				if (json) try {hArg2 = JSON.parse(json);} catch (e) {
+				if (json) try {hArg2 = JSON.parse(json)} catch (e) {
 					console.error(`🍝 json=${json} `+ e);
 					continue;
 				}

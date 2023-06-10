@@ -61,8 +61,8 @@ export class GrpLayer extends Layer {
 			for (const v of Object.values(GrpLayer.hFn2VElm)) v.volume = vol;
 		};
 		sndMng.setNoticeChgVolume(
-			vol=> {GrpLayer.#glbVol = vol; fnc();},
-			vol=> {GrpLayer.#movVol = vol; fnc();}
+			vol=> {GrpLayer.#glbVol = vol; fnc()},
+			vol=> {GrpLayer.#movVol = vol; fnc()}
 		);
 
 		if (GrpLayer.#sys.crypto) GrpLayer.#dec2cache = GrpLayer.#dec2cache4Cripto;
@@ -83,7 +83,7 @@ export class GrpLayer extends Layer {
 		super();
 		if (CmnLib.isDbg) {
 			this.setSp = sp=> this.#idc.setSp(sp);
-			this.cvsResize = ()=> {super.cvsResize(); this.#idc.cvsResize();}
+			this.cvsResize = ()=> {super.cvsResize(); this.#idc.cvsResize()}
 		}
 	}
 	private	setSp(_sp: Sprite) {}
@@ -159,7 +159,7 @@ export class GrpLayer extends Layer {
 				fncAllComp(needLoad);
 			};
 			if (csv in utils.TextureCache) fnc();
-			else {needLoad = true; (new Loader).add(csv, csv).load(fnc);}
+			else {needLoad = true; (new Loader).add(csv, csv).load(fnc)}
 
 			return needLoad;
 		}
@@ -355,12 +355,12 @@ export class GrpLayer extends Layer {
 
 		if (this.#evtMng.isSkipping() || hve.ended) {GrpLayer.#stopVideo(fn); return false;}
 
-		const fnc = ()=> {GrpLayer.#stopVideo(fn); this.#main.resume();};
+		const fnc = ()=> {GrpLayer.#stopVideo(fn); this.#main.resume()};
 		hve.addEventListener('ended', fnc, {once: true, passive: true});
 
 		return GrpLayer.#evtMng.waitEvent(
 			hArg, 
-			()=> {hve.removeEventListener('ended', fnc); fnc();}
+			()=> {hve.removeEventListener('ended', fnc); fnc()}
 		);
 	}
 	static	#stopVideo(fn: string) {
@@ -394,7 +394,7 @@ export class GrpLayer extends Layer {
 		}
 		if (! this.containMovement) {
 			let oldFnc = fncRenderFore;	// 動きがないなら最初に一度
-			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc();};
+			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc()};
 		}
 		this.#fncRender = ()=> {
 			fncRenderFore();
@@ -515,7 +515,7 @@ export class GrpLayer extends Layer {
 
 		aPrm.push(new Promise(re=> this.laySub(
 			{fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y, alpha: hLay.alpha, blendmode: Layer.getNum2Blendmode(hLay.blendMode), rotation: hLay.rotation, scale_x: hLay.scale_x, scale_y: hLay.scale_y},
-			_isStop=> {this.spLay.position.set(hLay.x, hLay.y); re();},
+			_isStop=> {this.spLay.position.set(hLay.x, hLay.y); re()},
 				// Layer.setXY()の後に再度移動
 		)));
 	}
@@ -526,7 +526,7 @@ export class GrpLayer extends Layer {
 	}
 	//makeDesignCastChildren(_gdc: IMakeDesignCast) {}
 
-	override cvsResize() {super.cvsResize();}
+	override cvsResize() {super.cvsResize()}
 
 	override showDesignCast() {this.#idc.visible = true;}
 	//showDesignCastChildren() {}

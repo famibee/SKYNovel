@@ -113,7 +113,7 @@ export class TxtLayer extends Layer {
 	animation: sn_ch_in_${name} ${o.wait}ms ${o.ease} 0s both;
 }
 @keyframes sn_ch_in_${name} {
-	from {transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y});}
+	from {transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y})}
 	to {opacity: 1; transform: none;}
 }
 `);
@@ -235,13 +235,13 @@ export class TxtLayer extends Layer {
 	override get name() {return this.name_;}	// getは継承しないらしい
 
 
-	override cvsResize() {this.#txs.cvsResize();}
+	override cvsResize() {this.#txs.cvsResize()}
 	override cvsResizeChildren() {
 		for (const b of this.#cntBtn.children) (b as Button).cvsResize();
 	}
 
-	protected	override	procSetX(x: number) {this.#txs.lay({x});}
-	protected	override	procSetY(y: number) {this.#txs.lay({y});}
+	protected	override	procSetX(x: number) {this.#txs.lay({x})}
+	protected	override	procSetY(y: number) {this.#txs.lay({y})}
 
 	override lay(hArg: HArg) {
 		super.lay(hArg);
@@ -488,7 +488,7 @@ export class TxtLayer extends Layer {
 		return ` style='${st} ${add_sty}'`;
 	}
 
-	tagCh(text: string): void {this.#rbSpl.putTxt(text);}
+	tagCh(text: string): void {this.#rbSpl.putTxt(text)}
 	#needGoTxt = false;
 	readonly	#putCh	: IPutCh = (ch, ruby)=> {
 		if (TxtLayer.#cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
@@ -848,7 +848,7 @@ text-combine-upright: all;
 		rnd.render(this.spLay, {clear: false});
 		this.#txs.snapshot(rnd, re);
 	}
-	override snapshot_end() {this.#txs.snapshot_end();}
+	override snapshot_end() {this.#txs.snapshot_end()}
 
 	override makeDesignCast(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
@@ -861,7 +861,7 @@ text-combine-upright: all;
 		}
 	}
 
-	override showDesignCast() {this.#txs.showDesignCast();}
+	override showDesignCast() {this.#txs.showDesignCast()}
 	override showDesignCastChildren() {
 		for (const btn of this.#cntBtn.children) {
 			(btn as Button).showDesignCast();

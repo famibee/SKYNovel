@@ -1,3 +1,8 @@
+- feat: セーブによるディスク書きこみ連打の対策（最短 500ms ほどは開ける）
+- fix: 【;[endmacro]】のようなコメント文を[endmacro]のように判定する場合がある件
+- fix: esbuild 設定に【 target: 'esnext' 】追加、Safari・Firefox・Edge で動作確認
+
+
 ## [1.47.3](https://github.com/famibee/SKYNovel/compare/v1.47.2...v1.47.3) (2023-06-09)
 
 
@@ -162,7 +167,7 @@
 - fix: [link]で必要な属性が指定されなかった「fnまたはlabelまたはurlは必須です」エラーで、適切なスクリプト位置を表示するように
 - fix: [link]で属性 clicksebuf, entersebuf, leavesebuf 省略時に「SYS」になっていなかった件（タグリファレンス・[button]に合わせた）
 - docs: タグリファレンスの [button][link]に url 属性を追記、[event]には既にあったが更新
-- 既知の問題（これ以降は無し）
+- 既知の問題（これ以前は無し）
 	- TODO: アプリ版で[event key=sn:chgNavLang]が発生しない件
 		- @famibee/skynovel@1.42.0 に戻してもダメ。もともと出来てないのでは？
 

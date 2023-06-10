@@ -28,9 +28,9 @@ export declare class SysBase implements ISysRoots, ISysBase {
     };
     initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari) => void): void;
     flush(): void;
+    protected flushSub(): void;
     protected run(): Promise<void>;
     protected val: IVariable;
-    protected appPixi: Application;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
     protected static readonly VALNM_CFG_NS = "const.sn.cfg.ns";
     get cvsWidth(): number;

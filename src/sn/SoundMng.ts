@@ -45,7 +45,7 @@ export class SoundMng {
 	}
 
 	#evtMng	: IEvtMng;
-	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng; SndBuf.setEvtMng(evtMng);}
+	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng; SndBuf.setEvtMng(evtMng)}
 	setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume) {
 		this.val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> setGlbVol(sound.volumeAll = Number(val)));
 		this.val.defValTrg('sys:sn.sound.movie_volume', (_name: string, val: any)=> setMovVol(Number(val)));
@@ -78,11 +78,11 @@ export class SoundMng {
 	}
 
 	// BGM/効果音のフェードアウト（loadから使うのでマクロ化禁止）
-	#fadeoutbgm(hArg: HArg) {hArg.volume = 0; return this.#fadebgm(hArg);}
+	#fadeoutbgm(hArg: HArg) {hArg.volume = 0; return this.#fadebgm(hArg)}
 	// 効果音のフェードアウト（loadから使うのでマクロ化禁止）
-	#fadeoutse(hArg: HArg) {hArg.volume = 0; return this.#fadese(hArg);}
+	#fadeoutse(hArg: HArg) {hArg.volume = 0; return this.#fadese(hArg)}
 	// BGMのフェード（loadから使うのでマクロ化禁止）
-	#fadebgm(hArg: HArg) {hArg.buf = 'BGM'; return this.#fadese(hArg);}
+	#fadebgm(hArg: HArg) {hArg.buf = 'BGM'; return this.#fadese(hArg)}
 	// 効果音のフェード
 	#fadese(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
@@ -113,7 +113,7 @@ export class SoundMng {
 		return sb.init(hArg);
 	}
 
-	clearCache() {sound.removeAll();}
+	clearCache() {sound.removeAll()}
 
 	// 全効果音再生の停止
 	#stop_allse() {
@@ -125,7 +125,7 @@ export class SoundMng {
 		return false;
 	}
 	// BGM 演奏の停止（loadから使うのでマクロ化禁止）
-	#stopbgm(hArg: HArg) {hArg.buf = 'BGM'; return this.#stopse(hArg);}
+	#stopbgm(hArg: HArg) {hArg.buf = 'BGM'; return this.#stopse(hArg)}
 	// 効果音再生の停止
 	#stopse(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
@@ -135,7 +135,7 @@ export class SoundMng {
 	}
 
 	// BGM フェードの終了待ち
-	#wb(hArg: HArg) {hArg.buf = 'BGM'; return this.#wf(hArg);}
+	#wb(hArg: HArg) {hArg.buf = 'BGM'; return this.#wf(hArg)}
 
 	// 効果音フェードの終了待ち
 	#wf(hArg: HArg) {
@@ -152,7 +152,7 @@ export class SoundMng {
 	}
 
 	// BGM 再生の終了待ち
-	#wl(hArg: HArg) {hArg.buf = 'BGM'; return this.#ws(hArg);}
+	#wl(hArg: HArg) {hArg.buf = 'BGM'; return this.#ws(hArg)}
 	// 効果音再生の終了待ち
 	#ws(hArg: HArg) {
 		const {buf = 'SE'} = hArg;

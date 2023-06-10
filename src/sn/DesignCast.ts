@@ -53,7 +53,7 @@ export class DesignCast {
 
 // 画像レイヤ
 export class GrpLayDesignCast extends DesignCast {
-	constructor(_spLay: Sprite, _gl: GrpLayer) {super('#29e', true);}
+	constructor(_spLay: Sprite, _gl: GrpLayer) {super('#29e', true)}
 	setSp(_sp: Sprite) {}
 }
 
@@ -65,7 +65,7 @@ export class TxtLayDesignCast extends DesignCast {
 }
 // 文字レイヤ・パディング
 export class TxtLayPadDesignCast extends DesignCast {
-	constructor(_ts: TxtStage) {super('#9e2');}
+	constructor(_ts: TxtStage) {super('#9e2')}
 }
 
 // 文字レイヤ・ボタン基本
@@ -83,6 +83,6 @@ export class TxtBtnDesignCast extends BtnDesignCast {
 
 // 文字レイヤ・画像ボタン
 export class PicBtnDesignCast extends BtnDesignCast {
-	constructor(btn: Button, hArg: HArg) {super(btn, hArg);}
+	constructor(btn: Button, hArg: HArg) {super(btn, hArg)}
 	setSp(_sp: Sprite) {}
 }

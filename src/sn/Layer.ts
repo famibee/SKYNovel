@@ -297,7 +297,7 @@ export class Layer {
 		if (! pos || pos === 'c') {c = CmnLib.stageW *0.5;}
 		else if (pos === 'r') {c = CmnLib.stageW - b_width *0.5;}
 		else if (pos === 'l') {c = b_width *0.5;}
-		else {c = int(pos);}
+		else {c = int(pos)}
 
 		ret.x = int(c -b_width *0.5);
 		ret.y = CmnLib.stageH -b_height;

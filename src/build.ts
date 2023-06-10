@@ -22,6 +22,7 @@ const oDts = {
 // === ブラウザ用 ===
 build({
 	build: {
+		target		: 'esnext',
 		lib: {
 			entry	: resolve(__dirname, 'web'),
 			fileName: _=> 'web.js',
@@ -40,6 +41,7 @@ build({
 // === アプリ用 ===
 build({
 	build: {
+		target		: 'esnext',
 		lib: {
 			entry	: resolve(__dirname, 'app'),
 			fileName: _=> 'app.js',
@@ -61,6 +63,7 @@ build({
 
 build({
 	build: {
+		target		: 'esnext',
 		lib: {
 			entry	: resolve(__dirname, 'appMain'),
 			fileName: _=> 'appMain.js',
@@ -84,6 +87,7 @@ build({
 
 build({
 	build: {
+		target		: 'esnext',
 		lib: {
 			entry	: resolve(__dirname, 'preload'),
 			fileName: _=> 'preload.js',

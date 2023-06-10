@@ -163,7 +163,7 @@ export class appMain {
 		this.#isMovingWin = false;
 	}
 
-	openDevTools() {this.bw.webContents.openDevTools();}
+	openDevTools() {this.bw.webContents.openDevTools()}
 
 
 	static	#ins: appMain;

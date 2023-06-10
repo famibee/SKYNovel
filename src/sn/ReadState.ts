@@ -93,7 +93,7 @@ export class ReadState {
 		hGlobalEvt2Fnc = {};
 	}
 
-	protected	constructor(protected readonly hArg: HArg) {chgSt(this);}
+	protected	constructor(protected readonly hArg: HArg) {chgSt(this)}
 
 	get	isSkipping(): boolean {return skip_enabled}
 
@@ -108,11 +108,11 @@ export class ReadState {
 			const ifrm = document.getElementById(id) as HTMLIFrameElement;
 			const win = ifrm.contentWindow!;
 			sel = KeY.slice(idx +1);
-			return {el: win.document.querySelectorAll(sel), id: id, sel: sel};
+			return {el: win.document.querySelectorAll(sel), id, sel};
 		}
 
 		sel = KeY.slice(4);
-		return {el: document.querySelectorAll(sel), id: '', sel: sel};
+		return {el: document.querySelectorAll(sel), id: '', sel};
 	}
 
 
@@ -144,7 +144,7 @@ export class ReadState {
 		return false;
 	}
 
-	s(hArg: HArg) {this.#recodePage(); return Rs_S.go(hArg);}
+	s(hArg: HArg) {this.#recodePage(); return Rs_S.go(hArg)}
 
 	readonly	wait: ITag = hArg=> {
 		if (skip_enabled) {		// Fスキップ時
@@ -261,7 +261,7 @@ export class ReadState {
 
 		return true;
 	}
-	finishLimitedEvent() {this.#elcLimEvt.clear();}
+	finishLimitedEvent() {this.#elcLimEvt.clear()}
 	readonly	#elcLimEvt	= new EventListenerCtn;
 
 
@@ -402,7 +402,7 @@ class Rs_Wait extends ReadState {		// 文字表示終了待ち→[wait]
 		return new Rs_Wait(hArg).waitTxtAndTimer(time, hArg);
 	}	// 魔法数字、見えるぐらい少し待つ
 	protected	override	onFinish() {new RsEvtRsv}
-	protected	override	onUserAct() {this.onFinish();}
+	protected	override	onUserAct() {this.onFinish()}
 }
 
 
@@ -410,18 +410,18 @@ class Rs_Wait extends ReadState {		// 文字表示終了待ち→[wait]
 class Rs_L extends ReadState {		// 文字表示終了待ち（そして[l]）
 	static	readonly	go: ITag = hArg=> new Rs_L(hArg).waitTxtAndTimer(0, hArg);
 	protected	override	onFinish() {Rs_L_Wait.go(this.hArg)}
-	protected	override	onUserAct() {this.onFinish();}
+	protected	override	onUserAct() {this.onFinish()}
 }
 
 class Rs_L_AutoSkip extends ReadState {	// 文字表示終了待ち（そして[l]auto/skipウェイト待ち）
 	static	readonly	go = (time: number, hArg: HArg)=> new Rs_L_AutoSkip(hArg).waitTxtAndTimer(time, hArg);
 	protected	override	onFinish() {new RsEvtRsv}
-	protected	override	onUserAct() {Rs_L_Wait.go(this.hArg);}
+	protected	override	onUserAct() {Rs_L_Wait.go(this.hArg)}
 }
 
 class Rs_L_Wait extends Rs_S {		// [p] クリック待ち
 	static	override	readonly	go: ITag = hArg=> {
-		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakLine(hArg); goTxt();}
+		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakLine(hArg); goTxt()}
 
 		const glb = argChk_Boolean(hArg, 'global', true);
 		new Rs_L_Wait(hArg).waitEventBase(true, glb);
@@ -436,19 +436,19 @@ class Rs_L_Wait extends Rs_S {		// [p] クリック待ち
 class Rs_P extends ReadState {		// 文字表示終了待ち（そして[p]）
 	static	readonly	go: ITag = hArg=> new Rs_P(hArg).waitTxtAndTimer(0, hArg);
 	protected	override	onFinish() {Rs_P_Wait.go(this.hArg)}
-	protected	override	onUserAct() {this.onFinish();}
+	protected	override	onUserAct() {this.onFinish()}
 }
 
 class Rs_P_AutoSkip extends ReadState {	// 文字表示終了待ち（そして[p]auto/skipウェイト待ち）
 	static	readonly	go = (time: number, hArg: HArg)=> new Rs_P_AutoSkip(hArg).waitTxtAndTimer(time, hArg);
 	protected	override	onFinish() {new RsEvtRsv}
-	protected	override	onUserAct() {Rs_P_Wait.go(this.hArg);}
+	protected	override	onUserAct() {Rs_P_Wait.go(this.hArg)}
 }
 
 class Rs_P_Wait extends Rs_S {		// [p] クリック待ち
 	static	override	readonly	go: ITag = hArg=> {
 		// [p]メソッド内でやるとスキップの利きが悪い
-		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakPage(hArg); goTxt();}
+		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakPage(hArg); goTxt()}
 
 		const glb = argChk_Boolean(hArg, 'global', true);
 		new Rs_P_Wait(hArg).waitEventBase(true, glb);
@@ -480,7 +480,7 @@ class Rs_WaitClick extends Rs_S {
 
 // === [wt][wait_tsy][wv][ws][wl][wf][wb] ===
 export class Rs_WaitAny extends Rs_S {
-	private	constructor(hArg: HArg, private readonly onFire: ()=> void) {super(hArg);}
+	private	constructor(hArg: HArg, private readonly onFire: ()=> void) {super(hArg)}
 	static	waitEvent(hArg: HArg, onFire: ()=> void): boolean {
 		//this.recodePage();	// [wt][wv][wait_tsy][wf][ws]ではやらない、過ぎ去るので
 
@@ -500,7 +500,7 @@ export class RsPagination extends Rs_S {
 	override	get	isSkipping(): boolean {return ! ReadState.aPage[this.#pos].week}
 		// return true で良いのだが、[l]でページ移動モードになったあと、[l]に戻ってモード終了してから、[p]に至る文字表示が瞬時表示になる対策
 
-	override	s(hArg: HArg): boolean {return Rs_S.go(hArg);}
+	override	s(hArg: HArg): boolean {return Rs_S.go(hArg)}
 
 	override	readonly	wait = ()=> false;
 	override	readonly	waitclick = ()=> false;
@@ -512,7 +512,7 @@ export class RsPagination extends Rs_S {
 		const len = ReadState.aPage.length;
 		if (this.#pos === len -1) return Rs_L_Wait.go(hArg);	// ページ末尾ならページ移動終了
 
-		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakLine(hArg); goTxt();}
+		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakLine(hArg); goTxt()}
 		this.waitEventBase(false, true);
 		return true;
 	}
@@ -521,7 +521,7 @@ export class RsPagination extends Rs_S {
 		const len = ReadState.aPage.length;
 		if (this.#pos === len -1) return Rs_P_Wait.go(hArg);	// ページ末尾ならページ移動終了
 
-		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakPage(hArg); goTxt();}
+		if (argChk_Boolean(hArg, 'visible', true)) {layMng.breakPage(hArg); goTxt()}
 		this.waitEventBase(false, true);
 		return true;
 	}

@@ -77,7 +77,7 @@ export class SysApp extends SysNode {
 			? this.#hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
 			: this.#hInfo.userData.replaceAll('\\', '/') +'/';
 
-		this.flush = ()=> to_app.flush(this.data);
+		this.flushSub = ()=> to_app.flush(this.data);
 		this.#setStore()
 		.then(async ()=> {
 			const first = hTmp['const.sn.isFirstBoot']
@@ -211,7 +211,7 @@ export class SysApp extends SysNode {
 			const inp = document.createElement('input');
 			inp.type = 'file';
 			inp.accept = '.spd, text/plain';
-			inp.onchange = ()=> {if (inp.files) rs(inp.files[0].path); else rj();};
+			inp.onchange = ()=> {if (inp.files) rs(inp.files[0].path); else rj()};
 			inp.click();
 		})
 		.then(async (inp: string)=> {
@@ -244,7 +244,7 @@ export class SysApp extends SysNode {
 		return false;
 	}
 	// タイトル指定
-	protected override titleSub(title: string) {to_app.win_setTitle(title);}
+	protected override titleSub(title: string) {to_app.win_setTitle(title)}
 
 	// 全画面状態切替
 	protected override readonly	tglFlscr_sub = async ()=>

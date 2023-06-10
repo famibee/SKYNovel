@@ -220,8 +220,8 @@ export class SndBuf {
 					...o,
 					url		: snd.options.url,
 					source	: ab,
-				});}
-				snd.filters = [new filters.StereoFilter(pan)];
+				})}
+				if (pan !== 0) snd.filters = [new filters.StereoFilter(pan)];
 			}
 			return false;
 		}
@@ -422,7 +422,7 @@ class SsWaitingFade implements ISndState {
 }
 
 class SsStop implements ISndState {
-	constructor(sb: ISndBuf, stop = true) {if (stop) sb.snd.stop();}
+	constructor(sb: ISndBuf, stop = true) {if (stop) sb.snd.stop()}
 	onLoad() {}			// ok
 	stopse() {}			// ok
 	ws =()=> false;		// ok

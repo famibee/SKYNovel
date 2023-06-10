@@ -88,10 +88,11 @@ export class TxtStage extends Container {
 		this.addChild(this.#grpDbgMasume);
 		this.#grpDbgMasume.name = 'grpDbgMasume';
 
+		this.#idc = new TxtLayDesignCast(this.spLay, this);
 		this.#idc.adopt(this.#idcCh);
 	}
 
-	readonly	#idc	= new TxtLayDesignCast(this.spLay, this);
+	readonly	#idc	:TxtLayDesignCast;
 	readonly	#idcCh	= new TxtLayPadDesignCast(this);
 	#infTL :IInfTxLay = {
 		fontsize	: 24,
@@ -1103,7 +1104,7 @@ export class TxtStage extends Container {
 				c.destroy();
 			}
 		};
-		if (sum_wait === 0) {this.#htmTxt.textContent = ''; end();}
+		if (sum_wait === 0) {this.#htmTxt.textContent = ''; end()}
 		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});
 
 		this.#htmTxt = n;

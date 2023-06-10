@@ -108,7 +108,7 @@ export class SysWeb extends SysBase {
 		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
 
 		const ns = this.cfg.getNs();
-		this.flush = this.crypto
+		this.flushSub = this.crypto
 		? async ()=> {
 			store.set(ns +'sys_', this.enc(JSON.stringify(this.data.sys)));
 			store.set(ns +'mark_', this.enc(JSON.stringify(this.data.mark)));
@@ -227,7 +227,7 @@ export class SysWeb extends SysBase {
 			const inp = document.createElement('input');
 			inp.type = 'file';
 			inp.accept = '.swpd, text/plain';
-			inp.onchange = ()=> {if (inp.files) rs(inp.files[0]); else rj();};
+			inp.onchange = ()=> {if (inp.files) rs(inp.files[0]); else rj()};
 			inp.click();
 		})
 		.then(file=> new Promise(rs=> {

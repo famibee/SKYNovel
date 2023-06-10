@@ -129,7 +129,7 @@ export class Variable implements IVariable {
 
 			sessionStorage.clear();
 			const ns = this.cfg.getNs();
-			this.#flush = (this.cfg.oCfg.debug.variable) ?()=> {
+			this.#flush = this.cfg.oCfg.debug.variable ?()=> {
 				const oSys: any = {};
 				for (const [k, v] of Object.entries(this.#hSys)) {
 					oSys['sys:'+ k] = (v instanceof Function) ?v(): v;
@@ -209,7 +209,7 @@ export class Variable implements IVariable {
 		}
 	}
 	#flush	= ()=> {};
-	flush() {this.#flush();}	// 先にこのメソッドへの参照を配ってしまうので、中身を入れ替える
+	flush() {this.#flush()}	// 先にこのメソッドへの参照を配ってしまうので、中身を入れ替える
 
 	setDoRecProc(fnc: (doRec: boolean)=> void) {this.#doRecProc = fnc;}
 	#doRecProc = (_doRec: boolean)=> {};

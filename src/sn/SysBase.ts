@@ -43,7 +43,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	get crypto() {return this.arg.crypto}
 	fetch = (url: string)=> fetch(url);
 
-	destroy() {this.elc.clear();}
+	destroy() {this.elc.clear()}
 
 	resolution	= 1;
 
@@ -52,28 +52,40 @@ export class SysBase implements ISysRoots, ISysBase {
 
 	protected	readonly	data	= {sys:{}, mark:{}, kidoku:{}};
 	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
-	flush() {}
+	flush() {
+		if (this.#tidFlush) {this.#rsvFlush = true; return}	// 次の Timeout 時に予約
+
+		this.flushSub();	// ひとまず即時
+		this.#tidFlush = setTimeout(()=> {
+			this.#tidFlush = undefined;
+			if (! this.#rsvFlush) return;	// 予約もないのでなにもせず通常状態に
+
+			this.#rsvFlush = false;			// 次の予約を待つためリセット
+			this.flush();	// 次の Timeout 後に
+		}, 500);
+	}
+	#tidFlush	: NodeJS.Timeout | undefined = undefined;
+	#rsvFlush	: boolean = false;
+	protected	flushSub() {}
 
 
 	protected async run() {}
 
 
 	protected	val		: IVariable;
-	protected	appPixi	: Application;
 	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
 		this.val = val;
-		this.appPixi = appPixi;
 		let mes = '';
 		try {
-			this.val.setSys(this);
+			val.setSys(this);
 
-			//l = String(this.val.getVal('save:const.sn.sLog'));
+			//l = String(val.getVal('save:const.sn.sLog'));
 			mes = 'sys';	// tst sys
-			mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
+			mes += Number(val.getVal('sys:TextLayer.Back.Alpha', 1));
 			mes = 'kidoku';	// tst kidoku
-			this.val.saveKidoku();
+			val.saveKidoku();
 		//	mes = 'save';	// tst save
-		//	mes += String(this.val.getVal('save:sn.doRecLog', 'false'));
+		//	mes += String(val.getVal('save:sn.doRecLog', 'false'));
 		} catch (e) {
 			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
 		}
@@ -98,7 +110,7 @@ export class SysBase implements ISysRoots, ISysBase {
 		val.setVal_Nochk('tmp', 'const.sn.isDbg', ()=> CmnLib.isDbg);
 		val.setVal_Nochk('tmp', 'const.sn.isPackaged', ()=> CmnLib.isPackaged);
 
-		this.val.defTmp('const.sn.displayState', ()=> this.isFullScr);
+		val.defTmp('const.sn.displayState', ()=> this.isFullScr);
 
 		val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
 			// [import]時のチェック用
@@ -121,7 +133,7 @@ export class SysBase implements ISysRoots, ISysBase {
 			searchPath: (fn, extptn = '')=>	this.cfg.searchPath(fn, extptn),
 			getVal: val.getVal,
 			resume: ()=> main.resume(),
-			render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> this.appPixi.renderer.render(dsp, {renderTexture, clear}),
+			render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> appPixi.renderer.render(dsp, {renderTexture, clear}),
 			setDec: fnc=> this.#preFromPlg = fnc,
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,
@@ -355,7 +367,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	setFire(fire: IFire) {this.fire = fire}
 
 	#aFncHook: IFncHook[]	= [];
-	addHook(fnc: IFncHook) {this.#aFncHook.push(fnc);}
+	addHook(fnc: IFncHook) {this.#aFncHook.push(fnc)}
 	callHook: IFncHook = (_type, _o)=> {};
 
 	send2Dbg: IFncHook = (type, o)=> {

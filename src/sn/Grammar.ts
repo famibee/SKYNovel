@@ -219,7 +219,7 @@ export function	splitAmpersand(token: string): {
 
 
 export class Grammar {
-	constructor() {this.setEscape('');}
+	constructor() {this.setEscape('')}
 
 	#REG_TOKEN	: RegExp;
 	setEscape(ce: string) {
@@ -341,8 +341,8 @@ export class Grammar {
 		this.#replaceScr_C2M(scr);
 		return scr;
 	}
-	testTagLetml(tkn: string): boolean {return /^\[let_ml\s/.test(tkn);};
-	testTagEndLetml(tkn: string): boolean {return /^\[endlet_ml\s*]/.test(tkn);};
+	testTagLetml(tkn: string): boolean {return /^\[let_ml\s/.test(tkn)};
+	testTagEndLetml(tkn: string): boolean {return /^\[endlet_ml\s*]/.test(tkn)};
 
 	analyzToken(token: string): RegExpExecArray | null {	// 4LspWs
 		this.#REG_TOKEN.lastIndex = 0;	// /gなので必要

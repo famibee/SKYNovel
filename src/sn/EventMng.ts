@@ -295,12 +295,12 @@ export class EventMng implements IEvtMng {
 		this.#elc.clear();
 	}
 
-	fire(KEY: string, e: Event) {this.#rs.fire(KEY, e);}
+	fire(KEY: string, e: Event) {this.#rs.fire(KEY, e)}
 
-	popLocalEvts(): IHEvt2Fnc {return ReadState.popLocalEvts();}
+	popLocalEvts(): IHEvt2Fnc {return ReadState.popLocalEvts()}
 	pushLocalEvts(h: IHEvt2Fnc) {ReadState.pushLocalEvts(h)}
 
-	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn);}
+	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn)}
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
 		if (! hArg.fn && ! hArg.label && ! hArg.url) this.main.errScript('fnまたはlabelまたはurlは必須です');
 		hArg.fn ??= this.scrItr.scriptFn;
@@ -316,7 +316,7 @@ export class EventMng implements IEvtMng {
 		const onHint = hArg.hint ?()=> this.#dispHint(hArg, ctnBtn) :()=> {};
 		// マウスオーバーでの見た目変化
 		const nr = ()=> {normal(); this.#elmHint.hidden = true;};
-		const hv = ()=> {onHint(); return hover();};
+		const hv = ()=> {onHint(); return hover()};
 		ctnBtn.on('pointerover', hv);
 		ctnBtn.on('pointerout', ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()});
 		ctnBtn.on('pointerdown', ()=> {
@@ -406,7 +406,7 @@ export class EventMng implements IEvtMng {
 		try {
 			const o = hArg.hint_opt ?{...this.#oHintOpt, ...JSON.parse(hArg.hint_opt)}: this.#oHintOpt;
 			this.#popper.setOptions(o);
-		} catch (e) {console.error(mesErrJSON(hArg, 'hint_opt', e.message));}
+		} catch (e) {console.error(mesErrJSON(hArg, 'hint_opt', e.message))}
 
 		this.#elmV.getBoundingClientRect = ()=> DOMRect.fromRect({
 			x: this.sys.ofsLeft4elm +rctBtn.x *this.sys.cvsScale,
@@ -428,7 +428,7 @@ export class EventMng implements IEvtMng {
 //	waitLimitedEvent(hArg: HArg, onUserAct: ()=> void): boolean {
 //		return this.#rs.waitLimitedEvent(hArg, onUserAct);
 //	}
-//	finishLimitedEvent() {this.#rs.finishLimitedEvent();}
+//	finishLimitedEvent() {this.#rs.finishLimitedEvent()}
 
 
 	#event(hArg: HArg): boolean {
