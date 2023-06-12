@@ -422,8 +422,9 @@ class SsWaitingFade implements ISndState {
 }
 
 class SsStop implements ISndState {
-	constructor({snd}: ISndBuf, stop = true) {if (stop) {snd.stop(); snd.destroy()}}
-		// destroy がないと再生が残るケースが
+	constructor(sb: ISndBuf, stop = true) {
+		if (stop) {sb.snd.stop(); if (sb.loop) sb.snd.destroy()}
+	}	// destroy がないと再生が残るケースが。効果音だと破棄が激しいのでループモノ(BGM)だけにする
 	onLoad() {}			// ok
 	stopse() {}			// ok
 	ws =()=> false;		// ok

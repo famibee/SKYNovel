@@ -20849,10 +20849,10 @@ class SsWaitingFade {
   stopfadese = () => stopfadese(this.tw);
 }
 class SsStop {
-  constructor({ snd: t }, e = !0) {
-    e && (t.stop(), t.destroy());
+  constructor(t, e = !0) {
+    e && (t.snd.stop(), t.loop && t.snd.destroy());
   }
-  // destroy がないと再生が残るケースが
+  // destroy がないと再生が残るケースが。効果音だと破棄が激しいのでループモノ(BGM)だけにする
   onLoad() {
   }
   // ok

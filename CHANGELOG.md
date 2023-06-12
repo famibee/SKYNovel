@@ -1,3 +1,6 @@
+- fix: 前回の destroy() をループモノ(BGM)だけに限定
+
+
 ## [1.48.1](https://github.com/famibee/SKYNovel/compare/v1.48.0...v1.48.1) (2023-06-12)
 
 
