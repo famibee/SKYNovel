@@ -1,3 +1,10 @@
+## [1.48.1](https://github.com/famibee/SKYNovel/compare/v1.48.0...v1.48.1) (2023-06-12)
+
+
+### Bug Fixes
+
+* @pixi/sound@4.4.0 で stop() による再生停止しない場合があった件 ([836a537](https://github.com/famibee/SKYNovel/commit/836a53732dd7fe4d63dc1e351dd6c5a1ff4c8572))
+
 - fix: @pixi/sound@4.4.0 で stop() による再生停止しない場合があり、destroy() もするように
 
 
