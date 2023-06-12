@@ -1,3 +1,10 @@
+## [1.48.2](https://github.com/famibee/SKYNovel/compare/v1.48.1...v1.48.2) (2023-06-12)
+
+
+### Bug Fixes
+
+* 前回の destroy() をループモノ(BGM)だけに限定 ([74aec62](https://github.com/famibee/SKYNovel/commit/74aec623f517150e00ee87acdaf4f0caeb86a43f))
+
 - fix: 前回の destroy() をループモノ(BGM)だけに限定
 
 
