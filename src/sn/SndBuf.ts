@@ -422,7 +422,8 @@ class SsWaitingFade implements ISndState {
 }
 
 class SsStop implements ISndState {
-	constructor(sb: ISndBuf, stop = true) {if (stop) sb.snd.stop()}
+	constructor({snd}: ISndBuf, stop = true) {if (stop) {snd.stop(); snd.destroy()}}
+		// destroy がないと再生が残るケースが
 	onLoad() {}			// ok
 	stopse() {}			// ok
 	ws =()=> false;		// ok

@@ -1,3 +1,6 @@
+- fix: @pixi/sound@4.4.0 で stop() による再生停止しない場合があり、destroy() もするように
+
+
 # [1.48.0](https://github.com/famibee/SKYNovel/compare/v1.47.3...v1.48.0) (2023-06-10)
 
 

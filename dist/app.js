@@ -19382,9 +19382,10 @@ class Cg {
   stopfadese = () => Yr(this.tw);
 }
 class zi {
-  constructor(t, e = !0) {
-    e && t.snd.stop();
+  constructor({ snd: t }, e = !0) {
+    e && (t.stop(), t.destroy());
   }
+  // destroy がないと再生が残るケースが
   onLoad() {
   }
   // ok
