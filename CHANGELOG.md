@@ -1,3 +1,10 @@
+## [1.48.3](https://github.com/famibee/SKYNovel/compare/v1.48.2...v1.48.3) (2023-06-14)
+
+
+### Bug Fixes
+
+* [tsy][wait_tsy]まわりをリファクタリング ([e5a73cc](https://github.com/famibee/SKYNovel/commit/e5a73cc14b388c100976e154d863d1000f60493c))
+
 - fix: [tsy][wait_tsy][pause_tsy][resume_tsy][stop_tsy]まわりをリファクタリング
 - fix: [tsy] でクリックスキップのタイミングとレイヤページの兼ね合いで不具合がある可能性に対処
 
