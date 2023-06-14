@@ -34,40 +34,6 @@ export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''
 		+ (spl_ms === '' ?'' :spl_ms+ String(now.getMilliseconds()));
 }
 
-export const hMemberCnt	= {
-	alpha		: 0,
-	height		: 0,
-	rotation	: 0,
-	scale_x		: 0,
-	scale_y		: 0,
-	pivot_x		: 0,
-	pivot_y		: 0,
-	width		: 0,
-	x			: 0,
-	y			: 0,
-};			// rotationX〜Z、scaleZ、zは設定すると
-			// 三次元方向の拡大縮小ルーチンが働き画像がぼやけるので
-			// backlayで設定しない方針
-export function cnvTweenArg(hArg: HArg, lay: any): {} {
-	const hTo: any = {};
-	for (const nm of Object.keys(hMemberCnt)) {
-		if (! (nm in hArg)) continue;
-
-		// {x:500}			X位置を500に
-		// {x:'=500'}		現在のX位置に+500加算した位置
-		// {x:'=-500'}		現在のX位置に-500加算した位置
-		// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
-		// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
-		const v = String((hArg as any)[nm]);
-		const a = ((v.at(0) === '=') ?v.slice(1) :v).split(',');
-		const a0 = hTo[nm] = parseFloat(a[0]);
-		if (a.length > 1) hTo[nm] += Math.round(Math.random()
-			* (parseFloat(a[1]) -a0 +1));
-		if (v.at(0) === '=') hTo[nm] += parseFloat(lay[nm]);	// 相対に
-	}
-	return hTo;
-}
-
 
 const	css_key4del	= '/* SKYNovel */';
 export function initStyle() {

@@ -5,23 +5,21 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IEvtMng, cnvTweenArg, argChk_Boolean, argChk_Num} from './CmnLib';
-import {ITwInf, CmnTween} from './CmnTween';
+import {CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
+import {CmnTween} from './CmnTween';
 import {IHTag, HArg} from './Grammar';
 import {IVariable, IMain, IGetFrm} from './CmnInterface';
 import {SysBase} from './SysBase';
 import {Config} from './Config';
 import {GrpLayer} from './GrpLayer';
-import {LayerMng} from './LayerMng';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {Main} from './Main';
 
 import {Application, Loader, LoaderResource} from 'pixi.js';
-import {Tween} from '@tweenjs/tween.js'
 
 
 export class FrameMng implements IGetFrm {
-	constructor(private readonly cfg: Config, hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase, private readonly hTwInf: {[name: string]: ITwInf}) {
+	constructor(private readonly cfg: Config, hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase) {
 		//	HTMLフレーム
 		hTag.add_frame		= o=> this.#add_frame(o);	// フレーム追加
 		hTag.let_frame		= o=> this.#let_frame(o);	// フレーム変数を取得
@@ -238,7 +236,7 @@ export class FrameMng implements IGetFrm {
 
 	// フレームをトゥイーン開始
 	#tsy_frame(hArg: HArg) {
-		const {id, alpha, x, y, scale_x, scale_y, rotate, width, height, ease, path, chain} = hArg;
+		const {id, alpha, x, y, scale_x, scale_y, rotate, width, height} = hArg;
 		if (! id) throw 'idは必須です';
 		const f = document.getElementById(id) as HTMLIFrameElement;
 		if (! f) throw `id【${id}】はフレームではありません`;
@@ -256,7 +254,7 @@ export class FrameMng implements IGetFrm {
 		}
 		if (width) hNow.w = this.val.getVal(`tmp:${vn}.width`);
 		if (height) hNow.h = this.val.getVal(`tmp:${vn}.height`);
-		const hArg2 = cnvTweenArg(hArg, hNow);
+		const hArg2 = CmnTween.cnvTweenArg(hArg, hNow);
 
 		const hTo: any = {};
 		let fncA = ()=> {};
@@ -304,66 +302,9 @@ export class FrameMng implements IGetFrm {
 		}
 
 		this.appPixi.stage.interactive = false;
-		const tw_nm = `frm\n${id}`;
-		const onComplete = ()=> {
-			this.appPixi.stage.interactive = true;
-			// この辺は LayerMng.ts tsy()と同様なので、変更時は相互に合わせること
-			const ti = this.hTwInf[tw_nm];
-			if (! ti) return;
-
-			delete this.hTwInf[tw_nm];
-			ti.tw?.stop();
-			if (ti.resume) this.main.resume();
-			ti.onEnd?.();
-		};
-		const dur = this.#evtMng.isSkipping() ?0 :argChk_Num(hArg, 'time', NaN);
-		const nEase = CmnTween.ease(ease);
-		const rep = argChk_Num(hArg, 'repeat', 1);
-		const repeat = rep > 0 ?rep -1 :Infinity;// 一度リピート→計二回なので
-		const yoyo = argChk_Boolean(hArg, 'yoyo', false);
-		const delay = argChk_Num(hArg, 'delay', 0);
-
-		const tw = new Tween(hNow)
-		.to(hTo, dur).easing(nEase).repeat(repeat).yoyo(yoyo).delay(delay)
-		.onUpdate(()=> {fncA(); fncXYSR(); fncW(); fncH()});
-		let twLast = tw;
-		if (path) {
-			if (CmnLib.debugLog) console.group(`🍝 [tsy_frame] path=${path}= start(${hNow.x},${hNow.y},${hNow.alpha})`);
-			for (const {groups} of path.matchAll(LayerMng.REG_TSY_PATH)) {
-				const {x, x2, y, y2, o, o2, json} = groups!;
-				let hArg2: any = {};
-				if (json) try {hArg2 = JSON.parse(json)} catch (e) {
-					console.error(`🍝 json=${json} `+ e);
-					continue;
-				}
-				else {
-					if (x ?? x2) hArg2.x = x ?? x2;
-					if (y ?? y2) hArg2.y = y ?? y2;
-					if (o ?? o2) hArg2.alpha = o ?? o2;
-				}
-
-				const hTo2 = cnvTweenArg(hArg2, hNow);
-				if (CmnLib.debugLog) console.info(`🍝 {x:${x} y:${y} o:${o}} => hTo:${JSON.stringify(hTo2)}`);
-
-				const twNew = new Tween(hNow)	//.delay(delay)
-				.to(hTo2, dur).easing(nEase).repeat(repeat).yoyo(yoyo)
-				twLast.chain(twNew);
-
-				twLast = twNew;
-			}
-			if (CmnLib.debugLog) console.groupEnd();
-		}
-		twLast.onComplete(onComplete);
-
-		if (chain) {
-			const twFrom = this.hTwInf[chain ?? ''];
-			if (! twFrom || ! twFrom.tw) throw `${chain}は存在しない・または終了したトゥイーンです`;
-			delete twFrom.onEnd;
-			twFrom.tw.chain(tw);
-		}
-		else tw.start();
-
-		this.hTwInf[tw_nm] = {tw: twLast, resume: false};
+		CmnTween.tsy(`frm\n${id}`, hArg, hNow, ()=> {
+			fncA(); fncXYSR(); fncW(); fncH();
+		}, ()=> this.appPixi.stage.interactive = true, ()=> {});
 
 		return false;
 	}

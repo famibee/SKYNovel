@@ -356,14 +356,10 @@ class SsPlaying implements ISndState {
 			return;
 		}
 
-		const repeat = argChk_Num(hArg, 'repeat', 1);
 //console.log('fadese start from:%f to:%f', sb.snd.volume, vol);
-		const tw = new Tween(sb.snd)
+		const tw = new Tween(sb.snd);
+		CmnTween.setTwProp(tw, hArg)
 		.to({volume: vol}, time)
-		.delay(delay)
-		.easing(CmnTween.ease(hArg.ease))
-		.repeat(repeat > 0 ?repeat -1 :Infinity)	// 一度リピート→計二回なので
-		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 		.onComplete(()=> {
 			remove(tw);
 			sb.stt.compFade();

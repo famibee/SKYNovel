@@ -1,3 +1,7 @@
+- fix: [tsy][wait_tsy][pause_tsy][resume_tsy][stop_tsy]まわりをリファクタリング
+- fix: [tsy] でクリックスキップのタイミングとレイヤページの兼ね合いで不具合がある可能性に対処
+
+
 ## [1.48.2](https://github.com/famibee/SKYNovel/compare/v1.48.1...v1.48.2) (2023-06-12)
 
 

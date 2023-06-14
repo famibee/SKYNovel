@@ -35,13 +35,11 @@ export declare class LayerMng implements IGetFrm, IRecorder {
     setEvtMng(evtMng: IEvtMng): void;
     before_destroy(): void;
     destroy(): void;
-    stopAllTw(): void;
     goTxt: () => void;
     breakLine: (_hArg: HArg) => void;
     breakPage: (_hArg: HArg) => void;
     clearBreak(): void;
     clickTxtLay(): boolean;
-    static REG_TSY_PATH: RegExp;
     static get msecChWait(): number;
     static set msecChWait(v: number);
     setNormalChWait(): void;

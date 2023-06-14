@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, getDateStr, uint, IEvtMng, cnvTweenArg, hMemberCnt, argChk_Boolean, argChk_Num, getExt, addStyle, argChk_Color, parseColor} from './CmnLib';
+import {CmnLib, getDateStr, uint, IEvtMng, argChk_Boolean, argChk_Num, getExt, addStyle, argChk_Color, parseColor} from './CmnLib';
 import {CmnTween, ITwInf} from './CmnTween';
 import {IHTag, HArg} from './Grammar';
 import {IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder} from './CmnInterface';
@@ -25,7 +25,7 @@ import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {DesignCast} from './DesignCast';
 import {EventListenerCtn} from './EventListenerCtn';
 
-import {Tween, update, removeAll} from '@tweenjs/tween.js'
+import {Tween, update} from '@tweenjs/tween.js'
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 
 export interface IMakeDesignCast { (idc	: DesignCast): void; };
@@ -73,7 +73,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng, val);
 		Button.init(cfg);
 
-		this.#frmMng = new FrameMng(cfg, hTag, appPixi, val, main, sys, this.#hTwInf);
+		this.#frmMng = new FrameMng(cfg, hTag, appPixi, val, main, sys);
 		sys.hFactoryCls.grp = ()=> new GrpLayer;
 		sys.hFactoryCls.txt = ()=> new TxtLayer;
 
@@ -94,11 +94,11 @@ export class LayerMng implements IGetFrm, IRecorder {
 		hTag.stop_quake		= o=> hTag.finish_trans(o);	// 画面揺らし中断
 		hTag.wq				= o=> hTag.wt(o);			// 画面揺らし終了待ち
 
-		hTag.pause_tsy		= o=> this.#pause_tsy(o);	// 一時停止
-		hTag.resume_tsy		= o=> this.#resume_tsy(o);	// 一時停止再開
-		hTag.stop_tsy		= o=> this.#stop_tsy(o);	// トゥイーン中断
+		hTag.pause_tsy		= o=> CmnTween.pause_tsy(o);	// 一時停止
+		hTag.resume_tsy		= o=> CmnTween.resume_tsy(o);	// 一時停止再開
+		hTag.stop_tsy		= o=> CmnTween.stop_tsy(o);	// トゥイーン中断
 		hTag.tsy			= o=> this.#tsy(o);			// トゥイーン開始
-		hTag.wait_tsy		= o=> this.#wait_tsy(o);	// トゥイーン終了待ち
+		hTag.wait_tsy		= o=> CmnTween.wait_tsy(o);	// トゥイーン終了待ち
 
 		//	文字・文字レイヤ
 	//	hTag.auto_pager		= o=> this.auto_pager(o);	// 自動改ページの設定
@@ -269,6 +269,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		this.#evtMng = evtMng;
 		this.#frmMng.setEvtMng(evtMng);
 		GrpLayer.setEvtMng(evtMng);
+		CmnTween.init(evtMng, this.main);
 	}
 
 	before_destroy() {for (const p of Object.values(this.#hPages)) p.destroy()}
@@ -281,12 +282,10 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 		this.#frmMng.destroy();
 
-		this.stopAllTw();
+		CmnTween.stopAllTw();
 		this.appPixi.ticker.remove(this.#fncTicker);
 		LayerMng.#msecChWait = 10;
 	}
-	// トゥイーン全停止
-	stopAllTw() {this.#hTwInf = {}; removeAll()}
 
 
 	// 既存の全文字レイヤの実際のバック不透明度、を再計算
@@ -658,16 +657,16 @@ void main(void) {
 		if (time === 0 || this.#evtMng.isSkipping()) {comp(); return false;}
 
 		// クロスフェード
-		const {ease, glsl, rule} = hArg;
-		const nEase = CmnTween.ease(ease);
+		const {glsl, rule} = hArg;
 		if (! glsl && ! rule) {
 			this.#spTransFore.filters = [];
+
 			this.#tiTrans.tw = new Tween(this.#spTransFore)
-				.to({alpha: 0}, time)
-				.delay(argChk_Num(hArg, 'delay', 0))
-				.easing(nEase)
-				.onComplete(comp)
-				.start();
+			CmnTween.setTwProp(this.#tiTrans.tw, hArg)
+			.to({alpha: 0}, time)
+			.onComplete(comp)
+			.start();
+
 			this.appPixi.ticker.add(fncRender);
 			return false;
 		}
@@ -678,11 +677,11 @@ void main(void) {
 			: this.#fltRule;
 		flt.uniforms.vague = argChk_Num(hArg, 'vague', 0.04);
 		flt.uniforms.tick = 0;
-		this.#tiTrans.tw = new Tween(flt.uniforms)
-			.to({tick: 1}, time)
-			.delay(argChk_Num(hArg, 'delay', 0))
-			.easing(nEase)
-			.onComplete(comp);
+
+		this.#tiTrans.tw = new Tween(flt.uniforms);
+		CmnTween.setTwProp(this.#tiTrans.tw, hArg)
+		.to({tick: 1}, time)
+		.onComplete(comp);
 		this.#spTransFore.filters = [flt];
 		if (glsl) {
 			this.#tiTrans.tw!.start();
@@ -744,7 +743,7 @@ void main(void) {
 		if (time === 0) return false;	// skip時でもエラーは出したげたい
 		if (this.#evtMng.isSkipping()) return false;
 
-		const {layer, ease} = hArg;
+		const {layer} = hArg;
 		const aDo: DisplayObject[] = [];
 		for (const lay_nm of this.#getLayers(layer)) {
 			aDo.push(this.#hPages[lay_nm].fore.spLay);
@@ -770,14 +769,10 @@ void main(void) {
 			? ()=> {}
 			: ()=> this.#spTransFore.y = Math.round(Math.random()* v*2) -v;
 		this.#spTransFore.filters = [];
-		const repeat = argChk_Num(hArg, 'repeat', 1);
-		const tw = new Tween(this.#spTransFore)
+		const tw = new Tween(this.#spTransFore);
+		CmnTween.setTwProp(tw, hArg)
 		.to({x: 0, y: 0}, time)
-		.delay(argChk_Num(hArg, 'delay', 0))
-		.easing(CmnTween.ease(ease))
 		.onUpdate(()=> {fncH(); fncV()})
-		.repeat(repeat > 0 ?repeat -1 :Infinity)	// 一度リピート→計二回なので
-		.yoyo(argChk_Boolean(hArg, 'yoyo', false))
 		.onComplete(()=> {
 			this.appPixi.ticker?.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
@@ -798,159 +793,32 @@ void main(void) {
 
 
 	// トゥイーン開始
-	#hTwInf	: {[tw_nm: string]: ITwInf}	= {};
 	#tsy(hArg: HArg) {
-		const {layer, render, path, name, ease, chain} = hArg;
+		const {layer, render, name} = hArg;
 		if (! layer) throw 'layerは必須です';
 
 		const lay = this.#argChk_layer(hArg);
 		let hNow = this.#hPages[lay].fore;
 
 		let finishBlendLayer = ()=> {};
-		const isSkip = this.#evtMng.isSkipping();
-		if (! isSkip && render) {
+		if (render && ! this.#evtMng.isSkipping()) {
 			hNow.renderStart();
 			finishBlendLayer = ()=> hNow.renderEnd();
 		}
 
-		const tw_nm = name ?? layer;
-		const onComplete = ()=> {
-			// この辺は FrameMng.ts tsy_frame()と同様なので、変更時は相互に合わせること
-			const ti = this.#hTwInf[tw_nm];
-			if (! ti) return;
-
-			finishBlendLayer();
-			delete this.#hTwInf[tw_nm];
-			ti.tw?.stop();
-			if (ti.resume) this.main.resume();
-			ti.onEnd?.();
-		};
-		const hTo = cnvTweenArg(hArg, hNow);
-		const dur = isSkip ?0 :argChk_Num(hArg, 'time', NaN);
-		const nEase = CmnTween.ease(ease);
-		const rep = argChk_Num(hArg, 'repeat', 1);
-		const repeat = rep > 0 ?rep -1 :Infinity;// 一度リピート→計二回なので
-		const yoyo = argChk_Boolean(hArg, 'yoyo', false);
-		const delay = argChk_Num(hArg, 'delay', 0);
-
-		const tw = new Tween(hNow)
-		.to(hTo, dur).easing(nEase).repeat(repeat).yoyo(yoyo).delay(delay);
-		let twLast = tw;
-		if (path) {
-			if (CmnLib.debugLog) console.group(`🍝 [tsy] path=${path}= start(${hNow.x},${hNow.y},${hNow.alpha})`);
-			for (const {groups} of path.matchAll(LayerMng.REG_TSY_PATH)) {
-				const {x, x2, y, y2, o, o2, json} = groups!;
-				let hArg2: any = {};
-				if (json) try {hArg2 = JSON.parse(json)} catch (e) {
-					console.error(`🍝 json=${json} `+ e);
-					continue;
-				}
-				else {
-					if (x ?? x2) hArg2.x = x ?? x2;
-					if (y ?? y2) hArg2.y = y ?? y2;
-					if (o ?? o2) hArg2.alpha = o ?? o2;
-				}
-
-				const hTo2 = cnvTweenArg(hArg2, hNow);
-				if (CmnLib.debugLog) console.info(`🍝 ${
-					json ?? `{x:${x} y:${y} o:${o}}`
-				} => hTo:${JSON.stringify(hTo2)}`);
-
-				const twNew = new Tween(hNow)	//.delay(delay);
-				.to(hTo2, dur).easing(nEase).repeat(repeat).yoyo(yoyo)
-				twLast.chain(twNew);
-
-				twLast = twNew;
-			}
-			if (CmnLib.debugLog) console.groupEnd();
-		}
-		twLast.onComplete(onComplete);
-
-		if (chain) {	// 指定レイヤのアニメ終了に、このトゥイーンを続ける
-			const twFrom = this.#hTwInf[chain ?? ''];
-			if (! twFrom?.tw) throw `${chain}は存在しない・または終了したトゥイーンです`;
-			delete twFrom.onEnd;
-			twFrom.tw.chain(tw);
-		}
-		else tw.start();
-
+		const hTo = CmnTween.cnvTweenArg(hArg, hNow);
 		const arrive = argChk_Boolean(hArg, 'arrive', false);
 		const backlay = argChk_Boolean(hArg, 'backlay', false);
-		this.#hTwInf[tw_nm] = {tw: twLast, resume: false, onEnd: ()=> {
+		const backCnt: any = this.#hPages[lay].back.spLay;	// fore, back が変わる恐れで外へ
+		CmnTween.tsy(name ?? layer, hArg, hNow, ()=> {}, finishBlendLayer, ()=> {
 			if (arrive) Object.assign(hNow, hTo);
-			if (backlay) {
-				const backCnt: any = this.#hPages[lay].back.spLay;
-				for (const nm of Object.keys(hMemberCnt)) backCnt[nm] = (<any>hNow)[nm];
-			}
-		}}
+			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) backCnt[nm] = (<any>hNow)[nm];
+		});
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
 
 		return false;
 	}
-	// 11 match 301 step (0.1ms) PCRE2 https://regex101.com/r/reinpq/1
-		// List ${x}${x2}/${y}${y2}/${o}${o2}=${json}\n
-/*
-\(\s*
-(?:	(?<x>[-=\d\.]+)	|	(['"])	(?<x2>.*?)	\2	)?
-(?:
-	\s*,\s*
-	(?:	(?<y>[-=\d\.]+)	|	(['"])	(?<y2>.*?)	\5	)?
-	(?:
-		\s*,\s*
-		(?:	(?<o>[-=\d\.]+)	|	(['"])	(?<o2>.*?)	\8	)
-
-	)?
-)?
-|
-(?<json>\{[^{}]*})
-*/
-	static	REG_TSY_PATH	= /\(\s*(?:(?<x>[-=\d\.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d\.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d\.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
-
-	// トゥイーン終了待ち
-	#wait_tsy(hArg: HArg) {
-		const {layer='', id, name} = hArg;
-		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
-		if (! tw_nm) throw 'トゥイーンが指定されていません';
-		const ti = this.#hTwInf[tw_nm];
-		if (! ti?.tw) return false;
-
-		return ti.resume = this.#evtMng.waitEvent(hArg, ()=> ti.tw?.end());	// stop()とend()は別
-	}
-
-	// トゥイーン中断
-	#stop_tsy(hArg: HArg) {
-		const {layer='', id, name} = hArg;
-		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
-		if (! tw_nm) throw 'トゥイーンが指定されていません';
-
-		this.#hTwInf[tw_nm]?.tw?.end();	// stop()とend()は別
-
-		return false;
-	}
-
-	// 一時停止
-	#pause_tsy(hArg: HArg) {
-		const {layer='', id, name} = hArg;
-		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
-		if (! tw_nm) throw 'トゥイーンが指定されていません';
-
-		this.#hTwInf[tw_nm]?.tw?.pause();
-
-		return false;
-	}
-
-	// 一時停止再開
-	#resume_tsy(hArg: HArg) {
-		const {layer='', id, name} = hArg;
-		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
-		if (! tw_nm) throw 'トゥイーンが指定されていません';
-
-		this.#hTwInf[tw_nm]?.tw?.resume();
-
-		return false;
-	}
-
 
 //	// 文字・文字レイヤ
 	static		#msecChWait		= 10;

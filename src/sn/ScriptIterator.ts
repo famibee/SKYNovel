@@ -20,6 +20,7 @@ import {SoundMng} from './SoundMng';
 import {SysBase} from './SysBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {RsEvtRsv} from './ReadState';
+import {CmnTween} from './CmnTween';
 
 import {Loader} from 'pixi.js';
 
@@ -1150,7 +1151,7 @@ export class ScriptIterator {
 		this.#aCallStk = [];
 
 		this.#layMng.cover(true);
-		this.#layMng.stopAllTw();
+		CmnTween.stopAllTw();
 		if (hArg.index) {	// ページ移動用
 //console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${hArg.fn ?? fn} idx:${hArg.index ?? idx}`);
 			this.#layMng.playback(this.#mark.hPages, ()=> {
