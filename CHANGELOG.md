@@ -1,3 +1,10 @@
+## [1.48.4](https://github.com/famibee/SKYNovel/compare/v1.48.3...v1.48.4) (2023-06-15)
+
+
+### Bug Fixes
+
+* （文字表示以外の）Tween系をリファクタリング・統合 ([f202c3b](https://github.com/famibee/SKYNovel/commit/f202c3b09777b58a8152c5fa0867262913f5bfec))
+
 - fix: （文字表示以外の）Tween系をリファクタリング・統合
 	- [trans][wt][finish_trans][wait_tsy][stop_tsy][pause_tsy][resume_tsy][quake]
 - fix: オートリード時のクリック停止で、通過した[wt][wait_tsy]のクリックキャンセル処理が走る件
