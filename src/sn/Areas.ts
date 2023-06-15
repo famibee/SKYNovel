@@ -10,7 +10,7 @@ import {IAreas} from './CmnInterface';
 export class Areas implements IAreas {
 	hAreas	: {[name: string]: number}	= Object.create(null);
 
-	clear() {this.hAreas = {};}
+	clear() {this.hAreas = {}}
 
 	search(idx: number): boolean {
 		return Object.entries(this.hAreas)
@@ -69,7 +69,7 @@ export class Areas implements IAreas {
 		}
 	}
 
-	get count(): number {return Object.keys(this.hAreas).length;}	// 4tst
+	get count(): number {return Object.keys(this.hAreas).length}	// 4tst
 
 	toString(): string {
 		let ret = ',';

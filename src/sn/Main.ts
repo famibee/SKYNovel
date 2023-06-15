@@ -171,14 +171,14 @@ export class Main implements IMain {
 			// \t タブ
 			if (uc === 9) continue;
 			// \n 改行
-			if (uc === 10) {this.#scrItr.addLineNum(token.length); continue;}
+			if (uc === 10) {this.#scrItr.addLineNum(token.length); continue}
 			// [ タグ開始
 			if (uc === 91) {
 				if (this.#scrItr.isBreak(token)) return;
 				try {
 					const cl = (token.match(/\n/g) ?? []).length;
 					if (cl > 0) this.#scrItr.addLineNum(cl);
-					if (this.#scrItr.タグ解析(token)) {this.stop(); break;}
+					if (this.#scrItr.タグ解析(token)) {this.stop(); break}
 					continue;
 				}
 				catch (e) {

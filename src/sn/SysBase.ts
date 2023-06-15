@@ -48,7 +48,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	resolution	= 1;
 
 	protected	cfg: IConfig;
-	async loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig) {this.cfg = cfg;}
+	async loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig) {this.cfg = cfg}
 
 	protected	readonly	data	= {sys:{}, mark:{}, kidoku:{}};
 	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
@@ -156,13 +156,13 @@ export class SysBase implements ISysRoots, ISysBase {
 	#ofsTop4elm  = 0;
 	#ofsPadLeft_Dom2PIXI	= 0;
 	#ofsPadTop_Dom2PIXI		= 0;
-	get	cvsWidth(): number {return this.#cvsWidth;};
-	get	cvsHeight(): number {return this.#cvsHeight;};
-	get	cvsScale(): number {return this.#cvsScale;};
-	get	ofsLeft4elm(): number {return this.#ofsLeft4elm;};
-	get	ofsTop4elm(): number {return this.#ofsTop4elm;};
-	get	ofsPadLeft_Dom2PIXI(): number {return this.#ofsPadLeft_Dom2PIXI;};
-	get	ofsPadTop_Dom2PIXI(): number {return this.#ofsPadTop_Dom2PIXI;};
+	get	cvsWidth(): number {return this.#cvsWidth};
+	get	cvsHeight(): number {return this.#cvsHeight};
+	get	cvsScale(): number {return this.#cvsScale};
+	get	ofsLeft4elm(): number {return this.#ofsLeft4elm};
+	get	ofsTop4elm(): number {return this.#ofsTop4elm};
+	get	ofsPadLeft_Dom2PIXI(): number {return this.#ofsPadLeft_Dom2PIXI};
+	get	ofsPadTop_Dom2PIXI(): number {return this.#ofsPadTop_Dom2PIXI};
 	protected	isFullScr	= false;
 	cvsResize() {
 		let w = globalThis.innerWidth;
@@ -307,7 +307,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	#sk: Socket | undefined = undefined;
 	readonly	#hHook: {[type: string]: (o: any)=> void}	= {
 		auth		: o=> {
-			if (o.t !== this.cfg.oCfg.debuger_token) {this.end(); return;}
+			if (o.t !== this.cfg.oCfg.debuger_token) {this.end(); return}
 
 			this.toast('接続');
 		},
@@ -397,7 +397,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		protected titleSub(_txt: string) {}
 
 	#tglFlscr: ITag = hArg=> {
-		if (! hArg.key) {this.tglFlscr_sub(); return false;}
+		if (! hArg.key) {this.tglFlscr_sub(); return false}
 
 		const key = hArg.key.toLowerCase();
 		this.elc.add(document, 'keydown', (e: KeyboardEvent)=> {
@@ -427,7 +427,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 
 	#preFromPlg: (ext: string, d: string | ArrayBuffer)=> PLUGIN_PRE_RET = (_ext, d)=> ({ret: d.toString(), ext_num: 0,});
 
-	decStr(ext: string, d: string) {return this.#preFromPlg(ext, d).ret;}
+	decStr(ext: string, d: string) {return this.#preFromPlg(ext, d).ret}
 	async dec(ext: string, d: ArrayBuffer) {
 		const {ret, ext_num} = this.#preFromPlg(ext, d);
 		const fm = this.#hN2Ext[ext_num];
@@ -478,7 +478,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	protected $path_userdata	= '';
 	get path_userdata() {return this.$path_userdata}
 
-	canCapturePage(_fn: string, _fnc: ()=> void): boolean {return false;}
+	canCapturePage(_fn: string, _fnc: ()=> void): boolean {return false}
 	async savePic(_fn: string, _data_url: string) {};
 	async appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException)=> void) {}
 	async ensureFileSync(_path: string) {}

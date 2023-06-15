@@ -42,7 +42,7 @@ class MyVal implements IVariable {
 	flush(): void {};
 	setDoRecProc(_doRecProc: (doRec: boolean)=> void): void {}
 
-	getVal(arg_name: string): any {return this.#hGetVal[arg_name];}
+	getVal(arg_name: string): any {return this.#hGetVal[arg_name]}
 	setVal_Nochk = (_sc: string, _nm: string, _v: any, _ac?: boolean)=> {};
 
 	defTmp = (_name: string, _fnc: typeProcVal)=> {};
@@ -672,13 +672,13 @@ it.each([
 
 
 ])(`$i`, ({i, o, toBeNull, toBeNaN, toBeUndefined, toBeTruthy, toThrowError})=> {
-	if (toThrowError) {expect(()=> parser.parse(i)).toThrowError(); return;}
+	if (toThrowError) {expect(()=> parser.parse(i)).toThrowError(); return}
 
 	const ex = expect(parser.parse(i));
-	if (toBeNull) {ex.toBeNull(); return;}
-	if (toBeNaN) {ex.toBeNaN(); return;}
-	if (toBeUndefined) {ex.toBeUndefined(); return;}
-	if (toBeTruthy) {ex.toBeTruthy(); return;}
+	if (toBeNull) {ex.toBeNull(); return}
+	if (toBeNaN) {ex.toBeNaN(); return}
+	if (toBeUndefined) {ex.toBeUndefined(); return}
+	if (toBeTruthy) {ex.toBeTruthy(); return}
 	ex.toBe(o);
 });
 

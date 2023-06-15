@@ -46,7 +46,7 @@ export class SysNode extends SysBase {
 			this.ensureFileSync(fn);
 			await this.writeFileSync(fn, Buffer.from(bs64, 'base64'));
 			if (CmnLib.debugLog) console.log(`画像ファイル ${fn} を保存しました`);
-		} catch (e) {throw e;}
+		} catch (e) {throw e}
 	};
 
 	protected	async readFileSync(_path: string): Promise<string> {return ''};

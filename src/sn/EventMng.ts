@@ -19,7 +19,7 @@ import {SoundMng} from './SoundMng';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
-import {ReadState, Rs_WaitAny} from './ReadState';
+import {ReadState} from './ReadState';
 
 import {Container, Application, utils} from 'pixi.js';
 const {GamepadListener} = require('gamepad.js');
@@ -266,7 +266,7 @@ export class EventMng implements IEvtMng {
 		//if (! e.isTrusted) return;
 		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
 
-		if (this.#wheeling) {this.#extend_wheel = true; return;}
+		if (this.#wheeling) {this.#extend_wheel = true; return}
 		this.#wheeling = true;
 		this.#ev_wheel_waitstop();
 
@@ -315,7 +315,7 @@ export class EventMng implements IEvtMng {
 		// マウスカーソルを載せるとヒントをツールチップス表示する
 		const onHint = hArg.hint ?()=> this.#dispHint(hArg, ctnBtn) :()=> {};
 		// マウスオーバーでの見た目変化
-		const nr = ()=> {normal(); this.#elmHint.hidden = true;};
+		const nr = ()=> {normal(); this.#elmHint.hidden = true};
 		const hv = ()=> {onHint(); return hover()};
 		ctnBtn.on('pointerover', hv);
 		ctnBtn.on('pointerout', ()=> {if (this.#fcs.isFocus(ctnBtn)) hv(); else nr()});
@@ -397,7 +397,7 @@ export class EventMng implements IEvtMng {
 			rctBtn.x += cpp.x;	// レイヤ位置を加算
 			rctBtn.y += cpp.y;
 		}
-		if (! hArg.hint) {this.#elmHint.hidden = true; return;}
+		if (! hArg.hint) {this.#elmHint.hidden = true; return}
 
 		this.#elmHint.style.cssText = `position:${this.#elmHint.style.position}; transform:${this.#elmHint.style.transform};`+ (hArg.hint_style ?? '');
 		this.#spanHint.style.cssText = '';
@@ -417,12 +417,12 @@ export class EventMng implements IEvtMng {
 
 		this.#elmHint.hidden = false;
 	}
-	hideHint() {this.#elmHint.hidden = true;}
-	cvsResize() {this.#elmHint.hidden = true;}
+	hideHint() {this.#elmHint.hidden = true}
+	cvsResize() {this.#elmHint.hidden = true}
 
 
 	// 予約イベントの発生待ち
-	readonly	waitEvent = (hArg: HArg, onFire: ()=> void)=> Rs_WaitAny.waitEvent(hArg, onFire);
+	readonly	waitEvent = (hArg: HArg, onIntr: ()=> void)=> this.#rs.waitEvent(hArg, onIntr);
 
 	// 予約イベントの発生待ちしない waitEvent
 //	waitLimitedEvent(hArg: HArg, onUserAct: ()=> void): boolean {

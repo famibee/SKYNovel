@@ -50,7 +50,7 @@ export class TxtStage extends Container {
 		TxtStage.#reg分割禁止	= /[─‥…]/;
 	}
 	static	#evtMng	: IEvtMng;
-	static setEvtMng(evtMng: IEvtMng) {TxtStage.#evtMng = evtMng;}
+	static setEvtMng(evtMng: IEvtMng) {TxtStage.#evtMng = evtMng}
 
 	static	destroy() {
 		TxtStage.#hChInStyle	= Object.create(null);
@@ -880,7 +880,7 @@ export class TxtStage extends Container {
 				: elm;
 			break;
 		}
-		if (! lastElm || instant || begin === len) {this.#fncEndChIn(); return;}
+		if (! lastElm || instant || begin === len) {this.#fncEndChIn(); return}
 			// 「animation-duration: 0ms;」だと animationend が発生しないので
 			// === は右クリック戻りで起こる
 
@@ -906,7 +906,7 @@ export class TxtStage extends Container {
 		);
 		else sp.position.set(rct.x, rct.y,);
 		const st: ISpTw = {
-			sp: sp,
+			sp,
 			tw: new Tween(sp)
 				.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, angle: 0 }, cis.wait ?? 0)
 				.easing(ease)
@@ -925,7 +925,7 @@ export class TxtStage extends Container {
 	skipChIn(): boolean {	// true: 文字出現中だったので、停止する
 		let wasChInIng = this.#fncEndChIn();
 		for (const st of this.#aSpTw) {	// Text Skip。stop() と end() は別！
-			if (st.tw) {st.tw.stop().end(); wasChInIng = true;}
+			if (st.tw) {st.tw.stop().end(); wasChInIng = true}
 		}
 		this.#aSpTw = [];
 		return wasChInIng;
@@ -937,7 +937,7 @@ export class TxtStage extends Container {
 		TxtStage.#hChInStyle = Object.create(null);
 		TxtStage.#hChOutStyle = Object.create(null);
 	}
-	static	getChInStyle(name: string) {return TxtStage.#hChInStyle[name];}
+	static	getChInStyle(name: string) {return TxtStage.#hChInStyle[name]}
 	static	ch_in_style(hArg: HArg): any {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
@@ -980,7 +980,7 @@ export class TxtStage extends Container {
 		join	: boolean;
 		ease	: string;
 	}}	= Object.create(null);
-	static	getChOutStyle(name: string) {return TxtStage.#hChOutStyle[name];}
+	static	getChOutStyle(name: string) {return TxtStage.#hChOutStyle[name]}
 	static	ch_out_style(hArg: HArg): any {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
@@ -1090,7 +1090,7 @@ export class TxtStage extends Container {
 
 			const cos = TxtStage.#hChOutStyle[add.ch_out_style];
 			if (! cos) return;
-			if (cos.wait === 0) {elm.style.display = 'none'; return;}
+			if (cos.wait === 0) {elm.style.display = 'none'; return}
 
 			sum_wait += cos.wait;
 			if (! cos.join) elm.style.animationDelay = '0ms';
@@ -1190,7 +1190,7 @@ export class TxtStage extends Container {
 		}, false);
 	}
 	snapshot_end() {
-		if (this.#sss) {this.#cntTxt.removeChild(this.#sss); this.#sss = undefined;}
+		if (this.#sss) {this.#cntTxt.removeChild(this.#sss); this.#sss = undefined}
 	}
 
 	makeDesignCast(gdc: IMakeDesignCast) {
@@ -1200,7 +1200,7 @@ export class TxtStage extends Container {
 		this.#idcCh.sethArg({...o, ':id_dc': o[':id_tag'] +'_pad'});
 		gdc(this.#idcCh);
 	}
-	showDesignCast() {this.#idc.visible = true; this.#idcCh.visible = true;}
+	showDesignCast() {this.#idc.visible = true; this.#idcCh.visible = true}
 
 	dump(): string {
 		const aStyle: string[] = [];

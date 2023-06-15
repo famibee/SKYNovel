@@ -29,7 +29,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	#evtMng	: IEvtMng;
-	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng;}
+	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng}
 
 	#hIfrm	: {[id: string]: HTMLIFrameElement} = Object.create(null);
 	destroy() {
@@ -302,7 +302,7 @@ export class FrameMng implements IGetFrm {
 		}
 
 		this.appPixi.stage.interactive = false;
-		CmnTween.tsy(`frm\n${id}`, hArg, hNow, ()=> {
+		CmnTween.tween(`frm\n${id}`, hArg, hNow, CmnTween.cnvTweenArg(hArg, hNow), ()=> {
 			fncA(); fncXYSR(); fncW(); fncH();
 		}, ()=> this.appPixi.stage.interactive = true, ()=> {});
 

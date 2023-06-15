@@ -68,7 +68,7 @@ export class GrpLayer extends Layer {
 		if (GrpLayer.#sys.crypto) GrpLayer.#dec2cache = GrpLayer.#dec2cache4Cripto;
 	}
 	static	#evtMng	: IEvtMng;
-	static	setEvtMng(evtMng: IEvtMng) {GrpLayer.#evtMng = evtMng;}
+	static	setEvtMng(evtMng: IEvtMng) {GrpLayer.#evtMng = evtMng}
 	static	destroy() {
 		GrpLayer.#elc.clear();
 
@@ -277,14 +277,14 @@ export class GrpLayer extends Layer {
 //				URL.revokeObjectURL(r.src);
 			}
 		}
-		if (res.extension !== 'json') {next(); return;}
+		if (res.extension !== 'json') {next(); return}
 
 		// アニメ登録
-		if (typeof r !== 'string') {next(); return;}
+		if (typeof r !== 'string') {next(); return}
 
 		const {meta, frames} = res.data = JSON.parse(r);
 		res.type = LoaderResource.TYPE.JSON;
-		if (! meta?.image) {next(); return;}
+		if (! meta?.image) {next(); return}
 
 		const fn = getFn(meta.image);
 		const url = GrpLayer.#cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SP_GSM);
@@ -353,7 +353,7 @@ export class GrpLayer extends Layer {
 		const hve = GrpLayer.hFn2VElm[fn];
 		if (! hve || hve.loop) return false;
 
-		if (this.#evtMng.isSkipping() || hve.ended) {GrpLayer.#stopVideo(fn); return false;}
+		if (this.#evtMng.isSkipping() || hve.ended) {GrpLayer.#stopVideo(fn); return false}
 
 		const fnc = ()=> {GrpLayer.#stopVideo(fn); this.#main.resume()};
 		hve.addEventListener('ended', fnc, {once: true, passive: true});
@@ -430,7 +430,7 @@ export class GrpLayer extends Layer {
 		if (GrpLayer.#sys.crypto && getExt(url2) === 'bin') ld2.use((res, next)=> {
 			GrpLayer.#sys.dec(res.extension, res.data)
 			.then(r=> {
-				if (res.extension !== 'bin') {next?.(); return;}
+				if (res.extension !== 'bin') {next?.(); return}
 				res.data = r;
 				if (r instanceof HTMLImageElement) {
 					res.type = LoaderResource.TYPE.IMAGE;
@@ -480,7 +480,7 @@ export class GrpLayer extends Layer {
 
 		return false;
 	}
-	static	clearFace2Name(): void {GrpLayer.#hFace = {};}
+	static	clearFace2Name(): void {GrpLayer.#hFace = {}}
 
 	// アニメ・動画を含むか
 	override get containMovement(): boolean {
@@ -528,7 +528,7 @@ export class GrpLayer extends Layer {
 
 	override cvsResize() {super.cvsResize()}
 
-	override showDesignCast() {this.#idc.visible = true;}
+	override showDesignCast() {this.#idc.visible = true}
 	//showDesignCastChildren() {}
 
 	override readonly dump = ()=> super.dump() +`, "pic":"${this.#csvFn}"`;

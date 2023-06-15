@@ -13,8 +13,8 @@ import {IMakeDesignCast} from './LayerMng';
 export class Layer {
 				layname	= '';
 	protected	name_	= '';
-	set name(nm) {this.name_ = nm;}
-	get name() {return this.name_;}
+	set name(nm) {this.name_ = nm}
+	get name() {return this.name_}
 	readonly	spLay	= new Sprite(Texture.EMPTY);
 
 	// tsy用
@@ -134,7 +134,7 @@ export class Layer {
 	}
 
 	// アニメ・動画があるか
-	get containMovement(): boolean {return false;}
+	get containMovement(): boolean {return false}
 
 	renderStart() {}
 	renderEnd() {}
@@ -167,7 +167,7 @@ export class Layer {
 		x		: this.spLay.x,
 		y		: this.spLay.y,
 		visible	: this.spLay.visible,
-	};}
+	}}
 	playback(hLay: any, _aPrm: Promise<void>[]): void {
 		this.name = hLay.name;
 		//idx	// コール順に意味があるので親でやる
@@ -207,7 +207,7 @@ export class Layer {
 	}
 
 	static	setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp = false, isButton = false): void {
-		if (hArg.pos) {Layer.setXYByPos(base, hArg.pos, ret); return;}
+		if (hArg.pos) {Layer.setXYByPos(base, hArg.pos, ret); return}
 
 		const rct_base = base.getBounds();
 		const r_absclX	= (ret.scale.x < 0)? -ret.scale.x : ret.scale.x;
@@ -294,9 +294,9 @@ export class Layer {
 		const b_height = (r_absclY === 1)? rct_base.height: rct_base.height*r_absclY;
 
 		let c = 0;	// 忘れたけど、プルプルするからintなんだっけ
-		if (! pos || pos === 'c') {c = CmnLib.stageW *0.5;}
-		else if (pos === 'r') {c = CmnLib.stageW - b_width *0.5;}
-		else if (pos === 'l') {c = b_width *0.5;}
+		if (! pos || pos === 'c') {c = CmnLib.stageW *0.5}
+		else if (pos === 'r') {c = CmnLib.stageW - b_width *0.5}
+		else if (pos === 'l') {c = b_width *0.5}
 		else {c = int(pos)}
 
 		ret.x = int(c -b_width *0.5);

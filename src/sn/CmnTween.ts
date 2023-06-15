@@ -5,13 +5,14 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import { IMain } from './CmnInterface';
+import {IMain} from './CmnInterface';
 import {IEvtMng, CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './Grammar';
 
-import {Tween, Easing, removeAll} from '@tweenjs/tween.js'
+import {Tween, Easing, removeAll, update} from '@tweenjs/tween.js'
+import {Application} from 'pixi.js';
 
-export interface ITwInf {
+interface ITwInf {
 	tw		: Tween<any> | undefined;
 	resume	: boolean;
 	onEnd?	: ()=> void;
@@ -22,18 +23,27 @@ export class CmnTween {
 
 	static	#evtMng	: IEvtMng;
 	static	#main	: IMain;
-	static	init(evtMng: IEvtMng, main: IMain) {
+	static	#appPixi: Application;
+	static	init(evtMng: IEvtMng, main: IMain, appPixi: Application) {
 		CmnTween.#hTwInf = {};
 		CmnTween.#evtMng = evtMng;
 		CmnTween.#main = main;
+		CmnTween.#appPixi = appPixi;
+
+		CmnTween.#appPixi.ticker.add(CmnTween.#fncTicker);	// TWEEN 更新
+	}
+	static	#fncTicker = ()=> update();
+	static	destroy() {
+		CmnTween.stopAllTw();
+		CmnTween.#appPixi.ticker.remove(CmnTween.#fncTicker);
 	}
 
 	static	setTwProp(tw: Tween<any>, hArg: HArg): Tween<any> {
-		tw.delay(argChk_Num(hArg, 'delay', 0))
+		const repeat = argChk_Num(hArg, 'repeat', 1);
+		return tw.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(CmnTween.ease(hArg.ease))
-		.repeat(CmnTween.repeat(hArg))
+		.repeat(repeat > 0 ?repeat -1 :Infinity)	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false));
-		return tw;
 	}
 	static	readonly #hEase: {[name: string]: (k: number)=> number}	= {
 		'Back.In'			: k=> Easing.Back.In(k),
@@ -75,11 +85,6 @@ export class CmnTween {
 		return CmnTween.#hEase[nm];
 	}
 
-	static	repeat(hArg: HArg): number {
-		const repeat = argChk_Num(hArg, 'repeat', 1);
-		return repeat > 0 ?repeat -1 :Infinity;	// 一度リピート→計二回なので
-	}
-
 	static readonly hMemberCnt	= {
 		alpha		: 0,
 		height		: 0,
@@ -116,15 +121,19 @@ export class CmnTween {
 	// トゥイーン全停止
 	static	stopAllTw() {CmnTween.#hTwInf = {}; removeAll()}
 
-	static	tsy(tw_nm: string, hArg: HArg, hNow: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void): void {
-		const hTo = CmnTween.cnvTweenArg(hArg, hNow);
-		const dur = this.#evtMng.isSkipping() ?0 :argChk_Num(hArg, 'time', NaN);
+	static	tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void): void {
+		const tw = CmnTween.tweenA(tw_nm, hArg, hNow, hTo, onUpdate, onComplete, onEnd);
+		CmnTween.tweenB(hArg.chain, tw);
+	}
+	static	tweenA(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void): Tween<any> {
+		const time = this.#evtMng.isSkipping() ?0 :argChk_Num(hArg, 'time', NaN);
 		const tw = new Tween(hNow)
-		.to(hTo, dur)
+		.to(hTo, time)
 		.onUpdate(onUpdate);
 		CmnTween.setTwProp(tw, hArg);
+		CmnTween.#hTwInf[tw_nm] = {tw, resume: false, onEnd};
 
-		const {path, chain} = hArg;
+		const {path} = hArg;
 		let twLast = tw;
 		if (path) {
 			if (CmnLib.debugLog) console.group(`🍝 [${hArg[':タグ名']}] path=${path}= start(${hNow.x},${hNow.y},${hNow.alpha})`);
@@ -147,7 +156,7 @@ export class CmnTween {
 				} => hTo:${JSON.stringify(hTo2)}`);
 
 				const twNew = new Tween(hNow)
-				.to(hTo2, dur);
+				.to(hTo2, time);
 				CmnTween.setTwProp(twNew, hArg);
 				twLast.chain(twNew);
 
@@ -160,22 +169,24 @@ export class CmnTween {
 			if (! ti) return;
 			delete CmnTween.#hTwInf[tw_nm];
 
-			ti.tw?.stop();
+			ti.tw = undefined;
+			tw.stop();
 			if (ti.resume) CmnTween.#main.resume();
 			ti.onEnd?.();
 
 			onComplete();
 		});
 
+		return tw;
+	}
+	static	tweenB(chain: string | undefined, tw: Tween<any>) {
 		if (chain) {	// 指定レイヤのアニメ終了に、このトゥイーンを続ける
-			const twFrom = CmnTween.#hTwInf[chain ?? ''];
+			const twFrom = CmnTween.#hTwInf[chain];
 			if (! twFrom?.tw) throw `${chain}は存在しない・または終了したトゥイーンです`;
 			delete twFrom.onEnd;
 			twFrom.tw.chain(tw);
 		}
 		else tw.start();
-
-		CmnTween.#hTwInf[tw_nm] = {tw, resume: false, onEnd};
 	}
 	// 11 match 301 step (0.1ms) PCRE2 https://regex101.com/r/reinpq/1
 		// List ${x}${x2}/${y}${y2}/${o}${o2}=${json}\n
@@ -195,6 +206,20 @@ export class CmnTween {
 (?<json>\{[^{}]*})
 */
 	static	readonly	#REG_TSY_PATH	= /\(\s*(?:(?<x>[-=\d\.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d\.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d\.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
+
+	// トランス終了待ち
+	static	wt(hArg: HArg) {
+		const ti = CmnTween.#hTwInf[CmnTween.TW_INT_TRANS];
+		if (! ti?.tw) return false;
+
+		return ti.resume = CmnTween.#evtMng.waitEvent(hArg, ()=> CmnTween.finish_trans());
+	}
+	static	readonly	TW_INT_TRANS = 'trans\n';
+	static	get	isTrans(): boolean {return CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw !== undefined}
+
+	// レイヤのトランジションの停止
+	static	finish_trans(): boolean {CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw?.end(); return false}
+
 
 	// トゥイーン終了待ち
 	static	wait_tsy(hArg: HArg) {

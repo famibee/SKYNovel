@@ -62,8 +62,8 @@ export class appMain {
 		ipcMain.handle('win_ev_devtools_opened', (_, fnc)=> bw.webContents.on('devtools-opened', fnc));
 
 		let	st: any;
-		ipcMain.handle('Store', (_, o)=> {st = new Store(o); return;});	// return必要、Storeをcloneしてしまうので
-		ipcMain.handle('flush', (_, o)=> {st.store = o; return;});
+		ipcMain.handle('Store', (_, o)=> {st = new Store(o); return});	// return必要、Storeをcloneしてしまうので
+		ipcMain.handle('flush', (_, o)=> {st.store = o; return});
 		ipcMain.handle('Store_isEmpty', ()=> st.size === 0);
 		ipcMain.handle('Store_get', ()=> st.store);
 
@@ -121,11 +121,11 @@ export class appMain {
 		const {x, y} = this.bw.getBounds();
 		this.#tid = setTimeout(()=> {	// clearTimeout()不要と判断
 			this.#tid = undefined;
-			if (this.#skipDelayWinPos) {this.#skipDelayWinPos = false; return;}
+			if (this.#skipDelayWinPos) {this.#skipDelayWinPos = false; return}
 
 			this.#isMovingWin = false;
 			const rct = this.bw.getBounds();
-			if (x !== rct.x || y !== rct.y) {this.#onMove(); return;}
+			if (x !== rct.x || y !== rct.y) {this.#onMove(); return}
 			this.#window(false, rct.x, rct.y, this.#stageW, this.#stageH);
 		}, 1000 /60 *10);
 	}

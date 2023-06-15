@@ -1,3 +1,10 @@
+- fix: （文字表示以外の）Tween系をリファクタリング・統合
+	- [trans][wt][finish_trans][wait_tsy][stop_tsy][pause_tsy][resume_tsy][quake]
+- fix: オートリード時のクリック停止で、通過した[wt][wait_tsy]のクリックキャンセル処理が走る件
+	- クリック時に立ち絵などが移動するなどの現象、不定
+- fix: 内部リード状態が変化するたびにヒント消去
+
+
 ## [1.48.3](https://github.com/famibee/SKYNovel/compare/v1.48.2...v1.48.3) (2023-06-14)
 
 

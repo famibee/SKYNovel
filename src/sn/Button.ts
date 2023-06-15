@@ -179,7 +179,7 @@ export class Button extends Container {
 
 		if (! hArg.b_pic) Layer.setBlendmode(this, hArg);	// 重なり順でここ
 		Button.#procMasume4txt(this, txt);
-		if (! this.#o.enabled) {if (! isStop) resolve(); return;}
+		if (! this.#o.enabled) {if (! isStop) resolve(); return}
 
 		const style_hover = style.clone();
 		if (hArg.style_hover) try {
@@ -216,7 +216,7 @@ export class Button extends Container {
 	}
 
 	makeDesignCast(_gdc: IMakeDesignCast) {}
-	showDesignCast() {this.#idc.visible = true;}
+	showDesignCast() {this.#idc.visible = true}
 	cvsResize() {}
 
 	#loaded_b_pic(sp: Sprite, txt: Text) {

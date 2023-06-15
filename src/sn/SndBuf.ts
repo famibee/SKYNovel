@@ -74,8 +74,8 @@ export class SndBuf {
 
 		if (buf1 in SndBuf.#hLP !== buf2 in SndBuf.#hLP) {	// 演算子の優先順位確認済
 			if (buf1 in SndBuf.#hLP)
-					{delete SndBuf.#hLP[buf1]; SndBuf.#hLP[buf2] = 0;}
-			else	{delete SndBuf.#hLP[buf2]; SndBuf.#hLP[buf1] = 0;}
+					{delete SndBuf.#hLP[buf1]; SndBuf.#hLP[buf2] = 0}
+			else	{delete SndBuf.#hLP[buf2]; SndBuf.#hLP[buf1] = 0}
 			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
 		}
 		val.flush();
@@ -137,7 +137,7 @@ export class SndBuf {
 			speed,
 			volume,
 			loaded	: (e, s2)=> {
-				if (e) {main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false); return;}
+				if (e) {main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false); return}
 				if (! s2) return;
 
 				this.#sb.snd = s2;

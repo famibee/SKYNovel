@@ -71,9 +71,9 @@ export class Variable implements IVariable {
 			= Stage.supportsOrientationChange;
 		if (this.hTmp['const.Stage.supportsOrientationChange']) {
 			this.hTmp['const.Stage.orientation']
-				= ()=> {return stage.orientation;};
+				= ()=> {return stage.orientation};
 			this.hTmp['const.Stage.deviceOrientation']
-				= ()=> {return stage.deviceOrientation;};
+				= ()=> {return stage.deviceOrientation};
 
 			const lenSO:uint = stage.supportedOrientations.length;
 			for (let iSO:uint=0; iSO<lenSO; ++iSO) {
@@ -211,12 +211,12 @@ export class Variable implements IVariable {
 	#flush	= ()=> {};
 	flush() {this.#flush()}	// 先にこのメソッドへの参照を配ってしまうので、中身を入れ替える
 
-	setDoRecProc(fnc: (doRec: boolean)=> void) {this.#doRecProc = fnc;}
+	setDoRecProc(fnc: (doRec: boolean)=> void) {this.#doRecProc = fnc}
 	#doRecProc = (_doRec: boolean)=> {};
 
-	defTmp(name: string, fnc: typeProcVal) {this.#hTmp[name] = fnc;};
+	defTmp(name: string, fnc: typeProcVal) {this.#hTmp[name] = fnc};
 	cloneMp(): IValMp {return {...this.#hScopes.mp}}
-	setMp(mp: IValMp) {this.#hScopes.mp = mp;}
+	setMp(mp: IValMp) {this.#hScopes.mp = mp}
 	setMark(place: number, mark: IMark) {this.#data.mark[place] = mark; this.flush()}
 	readonly	getMark = (place: number)=> this.#data.mark[place];
 	cloneSave(): IValSave {return {...this.#hScopes.save}}
@@ -541,7 +541,7 @@ export class Variable implements IVariable {
 //console.log(`fn:Variable.ts line:550   nm:${nm} type:${Object.prototype.toString.call(v)} v:%o`, v);
 				if (Object.prototype.toString.call(v) !== '[object Object]') {
 //console.log(`fn:Variable.ts line:552   != o i:${i} len:${len} C:${i +1 === len}`);
-					if (i +1 === len) {val = v; break;}	// 最下層ならそのまま返す
+					if (i +1 === len) {val = v; break}	// 最下層ならそのまま返す
 					continue;
 						// 短い名前でヒットしたが、JSONでもなく
 						// 変数名にはまだ続きがあるので探索続行
@@ -550,11 +550,11 @@ export class Variable implements IVariable {
 				let j = i;	// JSONオブジェクトの階層を降りつつ探索
 				while (++j < len) {
 //console.log(`fn:Variable.ts line:561   nm:${nm} j:${j} aNm[j]=${aNm[j]}= A:${! (aNm[j] in v)}`);
-					if (! (aNm[j] in v)) {val = def; break;}
+					if (! (aNm[j] in v)) {val = def; break}
 					v = v[aNm[j]];
 //console.log(`fn:Variable.ts line:564   v:${v} J:${j +1 === len}`);
 					if (Object.prototype.toString.call(v) !== '[object Object]'
-						|| j +1 === len) {val = v; break;}// 最下層ならそのまま返す
+						|| j +1 === len) {val = v; break}// 最下層ならそのまま返す
 				}
 
 				if (val instanceof Object) val = JSON.stringify(val);
@@ -596,7 +596,7 @@ export class Variable implements IVariable {
 	}
 
 	#doRecLog	= false;
-	doRecLog() {return this.#doRecLog;}
+	doRecLog() {return this.#doRecLog}
 
 
 	#hValTrg	: {[name: string]: ISetVal}	= {
@@ -639,7 +639,7 @@ export class Variable implements IVariable {
 			}
 		),
 	};
-	defValTrg(name: string, fnc: ISetVal) {this.#hValTrg[name] = fnc;}
+	defValTrg(name: string, fnc: ISetVal) {this.#hValTrg[name] = fnc}
 	#runFirst_Bool_hSysVal_true(name: string): void {
 			argChk_Boolean(this.#hSys, name, true);
 		}

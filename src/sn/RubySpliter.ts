@@ -12,13 +12,13 @@ export interface IAutoPage { (idx: number, str: string): void; }
 
 export class RubySpliter {
 	static	#sesame		= 'ヽ';
-	static	setting(hArg: HArg) {if (hArg.sesame) RubySpliter.#sesame = hArg.sesame;}
-	static	getSesame() {return RubySpliter.#sesame;}
+	static	setting(hArg: HArg) {if (hArg.sesame) RubySpliter.#sesame = hArg.sesame}
+	static	getSesame() {return RubySpliter.#sesame}
 
-	static	destroy() {RubySpliter.#sesame = 'ヽ';}
+	static	destroy() {RubySpliter.#sesame = 'ヽ'}
 
 	#putCh	: IPutCh	= ()=> {};
-	init(putCh: IPutCh) {this.#putCh = putCh;}
+	init(putCh: IPutCh) {this.#putCh = putCh}
 
 /*
 		★Unicodeで「漢字」の正規表現 – ものかの http://tama-san.com/kanji-regex/
@@ -72,9 +72,9 @@ export class RubySpliter {
 	putTxt(text: string) {
 		for (const {groups} of text.matchAll(RubySpliter.#REG_RUBY)) {
 			const {ruby, kan_ruby, kan, ce, txt='', str} = groups!;
-			if (ruby) {this.putTxtRb(decodeURIComponent(str), ruby); continue;}
+			if (ruby) {this.putTxtRb(decodeURIComponent(str), ruby); continue}
 
-			if (kan_ruby) {this.putTxtRb(kan, kan_ruby); continue;}
+			if (kan_ruby) {this.putTxtRb(kan, kan_ruby); continue}
 			if (ce) {this.#putCh(ce.slice(1), ''); continue}
 
 			for (const v of Array.from(<string>txt)) this.#putCh(v, '');
@@ -84,7 +84,7 @@ export class RubySpliter {
 
 	putTxtRb(text: string, ruby: string) {	// テスト用にpublic
 		// 自動区切りを行わない（内部的 json文法）
-		if (/^\w+｜{"/.test(ruby)) {this.#putCh(text, ruby); return;}
+		if (/^\w+｜{"/.test(ruby)) {this.#putCh(text, ruby); return}
 
 		const a: string[] = Array.from(text);
 		const len = a.length;

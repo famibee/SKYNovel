@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, getDateStr, uint, IEvtMng, argChk_Boolean, argChk_Num, getExt, addStyle, argChk_Color, parseColor} from './CmnLib';
-import {CmnTween, ITwInf} from './CmnTween';
+import {CmnTween} from './CmnTween';
 import {IHTag, HArg} from './Grammar';
 import {IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder} from './CmnInterface';
 import {Pages} from './Pages';
@@ -25,7 +25,6 @@ import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {DesignCast} from './DesignCast';
 import {EventListenerCtn} from './EventListenerCtn';
 
-import {Tween, update} from '@tweenjs/tween.js'
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 
 export interface IMakeDesignCast { (idc	: DesignCast): void; };
@@ -85,13 +84,13 @@ export class LayerMng implements IGetFrm, IRecorder {
 		//	レイヤ共通
 		hTag.add_lay		= o=> this.#add_lay(o);		// レイヤを追加する
 		hTag.clear_lay		= o=> this.#clear_lay(o);	// レイヤ設定の消去
-		hTag.finish_trans	= ()=> this.#finish_trans();// トランス強制終了
+		hTag.finish_trans	= ()=> CmnTween.finish_trans();// トランス強制終了
 		hTag.lay			= o=> this.#lay(o);			// レイヤ設定
 		hTag.trans			= o=> this.#trans(o);		// ページ裏表を交換
-		hTag.wt				= o=> this.#wt(o);			// トランス終了待ち
+		hTag.wt				= o=> CmnTween.wt(o);		// トランス終了待ち
 
 		hTag.quake			= o=> this.#quake(o);		// 画面を揺らす
-		hTag.stop_quake		= o=> hTag.finish_trans(o);	// 画面揺らし中断
+		hTag.stop_quake		= hTag.finish_trans;		// 画面揺らし中断
 		hTag.wq				= o=> hTag.wt(o);			// 画面揺らし終了待ち
 
 		hTag.pause_tsy		= o=> CmnTween.pause_tsy(o);	// 一時停止
@@ -172,8 +171,6 @@ export class LayerMng implements IGetFrm, IRecorder {
 		this.#stage.addChild(this.#spTransBack);
 		this.#stage.addChild(this.#spTransFore);
 		this.#stage.name = 'stage';	// 4tst
-
-		appPixi.ticker.add(this.#fncTicker);	// TWEEN 更新
 /*
 		console.group('new DispMng info');
 		console.info(appPixi.renderer);
@@ -209,15 +206,14 @@ export class LayerMng implements IGetFrm, IRecorder {
 			});
 		}
 	}
-	#fncTicker = ()=> update();
 	private	cvsResizeDesign() {}
 
 
 	readonly	#hProcDbgRes
 	: {[type: string]: (type: string, o: any)=> boolean}	= {
-		attach		: _=> {DesignCast.leaveMode();	return false;},
-		continue	: _=> {DesignCast.leaveMode();	return false;},
-		disconnect	: _=> {DesignCast.leaveMode();	return false;},
+		attach		: _=> {DesignCast.leaveMode();	return false},
+		continue	: _=> {DesignCast.leaveMode();	return false},
+		disconnect	: _=> {DesignCast.leaveMode();	return false},
 		_enterDesign: _=> {
 			DesignCast.enterMode();
 			for (const layer of this.#aLayName) {
@@ -231,8 +227,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 		//	this.selectNode(this.firstGrplay);	return false;
 				// 制作中は普通画像レイヤをいじるのが主なので、これがいい
 		},
-		_replaceToken: (_, o)=> {DesignCast.replaceToken(o); return false;},
-		_selectNode	: (_, o)=> {this.#selectNode(o.node); return false;},
+		_replaceToken: (_, o)=> {DesignCast.replaceToken(o); return false},
+		_selectNode	: (_, o)=> {this.#selectNode(o.node); return false},
 	}
 	#modeLn		= '';
 	#modeLnSub	= '';
@@ -269,7 +265,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		this.#evtMng = evtMng;
 		this.#frmMng.setEvtMng(evtMng);
 		GrpLayer.setEvtMng(evtMng);
-		CmnTween.init(evtMng, this.main);
+		CmnTween.init(evtMng, this.main, this.appPixi);
 	}
 
 	before_destroy() {for (const p of Object.values(this.#hPages)) p.destroy()}
@@ -282,8 +278,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 		this.#frmMng.destroy();
 
-		CmnTween.stopAllTw();
-		this.appPixi.ticker.remove(this.#fncTicker);
+		CmnTween.destroy();
 		LayerMng.#msecChWait = 10;
 	}
 
@@ -344,7 +339,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		});
 		const a = [];
 		const pg = (hArg.page !== 'back') ?'fore' :'back';
-		if (this.#tiTrans.tw) a.push(new Promise<void>(re=> {	// [trans]中
+		if (CmnTween.isTrans) a.push(new Promise<void>(re=> {	// [trans]中
 			this.#back.visible = true;
 			for (const lay of this.#aBackTransAfter) {
 				rnd.render(lay, {clear: false});
@@ -369,7 +364,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 				fn,
 				rnd.plugins.extract.base64(Sprite.from(renTx)),
 			);
-			if (! this.#tiTrans.tw) for (const v of this.#getLayers(hArg.layer)) this.#hPages[v][pg].snapshot_end();
+			if (! CmnTween.isTrans) for (const v of this.#getLayers(hArg.layer)) this.#hPages[v][pg].snapshot_end();
 			rnd.destroy(true);
 			this.main.resume();
 		});
@@ -568,7 +563,7 @@ void main(void) {
 
 	// ページ裏表を交換
 	#trans(hArg: HArg) {
-		this.#finish_trans();
+		CmnTween.finish_trans();
 		this.#evtMng.hideHint();
 
 		const {layer} = hArg;
@@ -625,12 +620,12 @@ void main(void) {
 		//this.sprRtAtTransFore.visible = true;	// trans中専用fore(Render Texture)
 		this.#spTransFore.alpha = 1;
 		const comp = ()=> {
-			if (this.appPixi.ticker) this.appPixi.ticker.remove(fncRender);
+			this.appPixi.ticker?.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			[this.#fore, this.#back] = [this.#back, this.#fore];
 			const aPrm: Promise<void>[] = [];
 			for (const [layer, pg] of Object.entries(this.#hPages)) {
-				if (hTarget[layer]) {pg.transPage(aPrm); continue;}
+				if (hTarget[layer]) {pg.transPage(aPrm); continue}
 
 				// transしないために交換する
 				const {fore: {spLay: f}, back: {spLay: b}} = pg;
@@ -646,27 +641,17 @@ void main(void) {
 			this.#back.visible = false;
 			this.#spTransBack.visible = false;
 			this.#spTransFore.visible = false;
-			this.#tiTrans.tw?.stop();
-			if (this.#tiTrans.resume) this.main.resume();
-			this.#tiTrans = {tw: undefined, resume: false};
 		};
-		this.#tiTrans = {tw: undefined, resume: false};
 		const time = argChk_Num(hArg, 'time', 0);
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
-		if (time === 0 || this.#evtMng.isSkipping()) {comp(); return false;}
+		if (time === 0 || this.#evtMng.isSkipping()) {comp(); return false}
 
 		// クロスフェード
-		const {glsl, rule} = hArg;
+		const {glsl, rule, chain} = hArg;
 		if (! glsl && ! rule) {
 			this.#spTransFore.filters = [];
-
-			this.#tiTrans.tw = new Tween(this.#spTransFore)
-			CmnTween.setTwProp(this.#tiTrans.tw, hArg)
-			.to({alpha: 0}, time)
-			.onComplete(comp)
-			.start();
-
+			CmnTween.tween(CmnTween.TW_INT_TRANS, hArg, this.#spTransFore, {alpha: 0}, ()=> {}, comp, ()=> {});
 			this.appPixi.ticker.add(fncRender);
 			return false;
 		}
@@ -677,30 +662,26 @@ void main(void) {
 			: this.#fltRule;
 		flt.uniforms.vague = argChk_Num(hArg, 'vague', 0.04);
 		flt.uniforms.tick = 0;
-
-		this.#tiTrans.tw = new Tween(flt.uniforms);
-		CmnTween.setTwProp(this.#tiTrans.tw, hArg)
-		.to({tick: 1}, time)
-		.onComplete(comp);
 		this.#spTransFore.filters = [flt];
 		if (glsl) {
-			this.#tiTrans.tw!.start();
+			CmnTween.tween(CmnTween.TW_INT_TRANS, hArg, flt.uniforms, {tick: 1}, ()=> {}, comp, ()=> {});
 			this.appPixi.ticker.add(fncRender);
 			return false;
 		}
 
 		if (! rule) throw 'ruleが指定されていません';
+		const tw = CmnTween.tweenA(CmnTween.TW_INT_TRANS, hArg, flt.uniforms, {tick: 1}, ()=> {}, comp, ()=> {});
 		GrpLayer.csv2Sprites(rule, undefined, sp=> {
 			flt.uniforms.rule = sp.texture;
 			sp.destroy();
-			this.#tiTrans.tw?.start();
+
+			CmnTween.tweenB(chain, tw);
 			this.appPixi.ticker.add(fncRender);
 		});
 		return false;
 	}
-	#tiTrans : ITwInf = {tw: undefined, resume: false};
 
-	#getLayers(layer = ''): string[] {return (layer)? layer.split(',') : this.#aLayName;}
+	#getLayers(layer = ''): string[] {return (layer)? layer.split(',') : this.#aLayName}
 	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): ReadonlyArray<string> {
 		const vct = this.#getLayers(hArg.layer);
 		for (const ln of vct) {
@@ -725,20 +706,10 @@ void main(void) {
 		});
 	}
 
-	// トランス終了待ち
-	#wt(hArg: HArg) {
-		if (! this.#tiTrans.tw) return false;
-
-		return this.#tiTrans.resume = this.#evtMng.waitEvent(hArg, ()=> this.#finish_trans());
-	}
-
-	// レイヤのトランジションの停止
-	#finish_trans() {this.#tiTrans.tw?.end(); return false;}
-
 
 	// 画面を揺らす
 	#quake(hArg: HArg) {
-		this.#finish_trans();
+		CmnTween.finish_trans();
 		const time = argChk_Num(hArg, 'time', NaN);
 		if (time === 0) return false;	// skip時でもエラーは出したげたい
 		if (this.#evtMng.isSkipping()) return false;
@@ -769,23 +740,15 @@ void main(void) {
 			? ()=> {}
 			: ()=> this.#spTransFore.y = Math.round(Math.random()* v*2) -v;
 		this.#spTransFore.filters = [];
-		const tw = new Tween(this.#spTransFore);
-		CmnTween.setTwProp(tw, hArg)
-		.to({x: 0, y: 0}, time)
-		.onUpdate(()=> {fncH(); fncV()})
-		.onComplete(()=> {
+
+		CmnTween.tween(CmnTween.TW_INT_TRANS, hArg, this.#spTransFore, {x: 0, y: 0}, ()=> {fncH(); fncV()}, ()=> {
 			this.appPixi.ticker?.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			this.#fore.visible = true;
 			this.#spTransFore.visible = false;
 			this.#spTransFore.x = 0;	// 必須、onUpdateのせいかtoの値にしてくれない
 			this.#spTransFore.y = 0;
-			this.#tiTrans.tw?.stop();
-			if (this.#tiTrans.resume) this.main.resume();
-			this.#tiTrans = {tw: undefined, resume: false};
-		})
-		.start();
-		this.#tiTrans = {tw, resume: false};
+		}, ()=> {});
 		this.appPixi.ticker.add(fncRender);
 
 		return false;
@@ -797,8 +760,8 @@ void main(void) {
 		const {layer, render, name} = hArg;
 		if (! layer) throw 'layerは必須です';
 
-		const lay = this.#argChk_layer(hArg);
-		let hNow = this.#hPages[lay].fore;
+		const pg = this.#hPages[this.#argChk_layer(hArg)];
+		const hNow = pg.fore;
 
 		let finishBlendLayer = ()=> {};
 		if (render && ! this.#evtMng.isSkipping()) {
@@ -809,8 +772,8 @@ void main(void) {
 		const hTo = CmnTween.cnvTweenArg(hArg, hNow);
 		const arrive = argChk_Boolean(hArg, 'arrive', false);
 		const backlay = argChk_Boolean(hArg, 'backlay', false);
-		const backCnt: any = this.#hPages[lay].back.spLay;	// fore, back が変わる恐れで外へ
-		CmnTween.tsy(name ?? layer, hArg, hNow, ()=> {}, finishBlendLayer, ()=> {
+		const backCnt: any = pg.back.spLay;	// fore, back が変わる恐れで外へ
+		CmnTween.tween(name ?? layer, hArg, hNow, CmnTween.cnvTweenArg(hArg, hNow), ()=> {}, finishBlendLayer, ()=> {
 			if (arrive) Object.assign(hNow, hTo);
 			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) backCnt[nm] = (<any>hNow)[nm];
 		});
@@ -822,8 +785,8 @@ void main(void) {
 
 //	// 文字・文字レイヤ
 	static		#msecChWait		= 10;
-	static get	msecChWait() {return LayerMng.#msecChWait;}
-	static set	msecChWait(v) {LayerMng.#msecChWait = v;}
+	static get	msecChWait() {return LayerMng.#msecChWait}
+	static set	msecChWait(v) {LayerMng.#msecChWait = v}
 	// 文字を追加する
 	#ch(hArg: HArg) {
 		const {text} = hArg;
@@ -928,7 +891,7 @@ void main(void) {
 
 
 	// ハイパーリンクの終了
-	#endlink(hArg: HArg) {this.#cmdTxt('endlink｜', this.#getTxtLayer(hArg)); return false;}
+	#endlink(hArg: HArg) {this.#cmdTxt('endlink｜', this.#getTxtLayer(hArg)); return false}
 
 	// ページ両面の文字消去
 	#er(hArg: HArg) {

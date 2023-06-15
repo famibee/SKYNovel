@@ -67,8 +67,8 @@ export class Pages {
 
 		throw Error('属性 page【'+ v +'】が不正です');
 	}
-	get fore(): Layer {return this.#pg.fore;}
-	get back(): Layer {return this.#pg.back;}
+	get fore(): Layer {return this.#pg.fore}
+	get back(): Layer {return this.#pg.back}
 
 	transPage(aPrm: Promise<void>[]): void {
 		[this.#pg.back, this.#pg.fore] = [this.#pg.fore, this.#pg.back];

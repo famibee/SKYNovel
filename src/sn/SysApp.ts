@@ -189,7 +189,7 @@ export class SysApp extends SysNode {
 	};
 
 	// アプリの終了
-	protected override readonly	close = ()=> {to_app.win_close(); return false;}
+	protected override readonly	close = ()=> {to_app.win_close(); return false}
 
 	// プレイデータをエクスポート
 	protected override readonly	_export = ()=> {

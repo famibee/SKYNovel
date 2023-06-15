@@ -175,7 +175,7 @@ export class ConfigBase implements IConfig {
 	#existsBreakpage = false;
 	get existsBreakpage(): boolean {return this.#existsBreakpage}
 
-	getNs() {return `skynovel.${this.oCfg.save_ns} - `;}
+	getNs() {return `skynovel.${this.oCfg.save_ns} - `}
 
 	readonly	#REG_PATH = /([^\/\s]+)\.([^\d]\w+)/;
 		// 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
@@ -243,7 +243,7 @@ export class ConfigBase implements IConfig {
 		const regExt = new RegExp(extptn);
 		for (const [fn, h_exts] of Object.entries(this.hPathFn2Exts)) {
 			if (fn.search(regPtn) === -1) continue;
-			if (extptn === '') {aRet.push(h_exts); continue;}
+			if (extptn === '') {aRet.push(h_exts); continue}
 
 			const o :IExts = {};
 			let isa = false;

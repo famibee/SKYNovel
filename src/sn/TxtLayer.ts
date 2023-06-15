@@ -220,7 +220,7 @@ export class TxtLayer extends Layer {
 		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true'});
 	}
 	override destroy() {
-		if (this.#b_do) {this.spLay.removeChild(this.#b_do).destroy(); this.#b_do = undefined;}
+		if (this.#b_do) {this.spLay.removeChild(this.#b_do).destroy(); this.#b_do = undefined}
 
 		this.clearText();
 		this.#txs.destroy();
@@ -231,8 +231,8 @@ export class TxtLayer extends Layer {
 
 		TxtLayer.#rec = tx=> tx;
 	}
-	override set name(nm: string) {this.name_ = nm; this.#txs.name = nm;}
-	override get name() {return this.name_;}	// getは継承しないらしい
+	override set name(nm: string) {this.name_ = nm; this.#txs.name = nm}
+	override get name() {return this.name_}	// getは継承しないらしい
 
 
 	override cvsResize() {this.#txs.cvsResize()}
@@ -572,7 +572,7 @@ export class TxtLayer extends Layer {
 			{
 				const o = JSON.parse(a1);
 				o.id ??= this.#aSpan.length;
-				if (o.id === 'break') {this.#txs.dispBreak(o); return;}	// breakではない
+				if (o.id === 'break') {this.#txs.dispBreak(o); return}	// breakではない
 
 				this.#firstCh = false;
 				o.delay = this.#cumDelay;	// 画像のスライドインで使う
@@ -740,7 +740,7 @@ text-combine-upright: all;
 	}
 	#mergePushSpan(o :any) {
 		const stk = this.#stkASpan.at(-1);
-		if (! stk) {this.#pushSpan(o); return;}
+		if (! stk) {this.#pushSpan(o); return}
 
 		stk.o = {...stk.o, ...o};
 		if (! o.style && ! o.r_style) {stk.o.style = ''; stk.o.r_style = ''}

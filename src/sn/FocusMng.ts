@@ -32,7 +32,7 @@ export class FocusMng {
 			cmp.on('pointerdown', ()=> {
 				for (let i=this.#aBtn.length -1; i>=0; --i) {
 					const b = this.#aBtn[i];
-					if (b.btn === cmp) {this.#idx = i; return;}
+					if (b.btn === cmp) {this.#idx = i; return}
 				}
 				this.#idx = -1;
 			});
@@ -44,7 +44,7 @@ export class FocusMng {
 		this.#elc.add(cmp, 'focus', ()=> {
 			for (let i=this.#aBtn.length -1; i>=0; --i) {
 				const b = this.#aBtn[i];
-				if (b.btn === cmp) {this.#idx = i; return;}
+				if (b.btn === cmp) {this.#idx = i; return}
 			}
 			this.#idx = -1;
 		});
@@ -131,7 +131,7 @@ export class FocusMng {
 		if (--this.#idx < 0) this.#idx = len -1;
 		for (let i=len; i>=1; --i) {
 			const j = (this.#idx +i) % len;
-			if (this.#aBtn[j].on()) {this.#idx = j; this.#logFocus(j); return;}
+			if (this.#aBtn[j].on()) {this.#idx = j; this.#logFocus(j); return}
 		}
 		this.#idx = -1;
 	}
@@ -143,7 +143,7 @@ export class FocusMng {
 		if (++this.#idx >= len) this.#idx = 0;
 		for (let i=0; i<len; ++i) {
 			const j = (this.#idx +i) % len;
-			if (this.#aBtn[j].on()) {this.#idx = j; this.#logFocus(j); return;}
+			if (this.#aBtn[j].on()) {this.#idx = j; this.#logFocus(j); return}
 		}
 		this.#idx = -1;
 	}

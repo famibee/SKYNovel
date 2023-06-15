@@ -38,11 +38,12 @@ export declare class ReadState {
     protected static readonly NOTICE_COMP_TXT = "sn:notice_comp_txt";
     static popLocalEvts(): IHEvt2Fnc;
     static pushLocalEvts(h: IHEvt2Fnc): void;
-    protected waitEventBase(canUserAct: boolean, glb: boolean): void;
-    waitLimitedEvent(hArg: HArg, onUserAct: () => void): boolean;
+    protected waitRsvEvent(canUserAct: boolean, glb: boolean): void;
+    waitLimitedEvent(hArg: HArg, onIntr: () => void): boolean;
     finishLimitedEvent(): void;
     l(hArg: HArg): boolean;
     p(hArg: HArg): boolean;
+    waitEvent(hArg: HArg, onFire: () => void): boolean;
     protected onFinish(): void;
     protected onUserAct(): void;
     readonly isWait: boolean;
@@ -54,24 +55,19 @@ export declare class ReadState {
 export declare class RsEvtRsv extends ReadState {
     constructor();
 }
-declare class Rs_S extends ReadState {
-    static readonly go: ITag;
-    protected onFinish(): void;
-    protected onUserAct(): void;
+declare class Rs_S_base extends ReadState {
     readonly isWait = true;
     fire(KEY: string, e: Event): void;
 }
-export declare class Rs_WaitAny extends Rs_S {
-    private readonly onFire;
-    private constructor();
-    static waitEvent(hArg: HArg, onFire: () => void): boolean;
+declare class Rs_S extends Rs_S_base {
+    static readonly go: ITag;
     protected onFinish(): void;
     protected onUserAct(): void;
 }
 export declare class RsPagination extends Rs_S {
     #private;
     get isSkipping(): boolean;
-    s(hArg: HArg): boolean;
+    readonly s: ITag;
     readonly wait: () => boolean;
     readonly waitclick: () => boolean;
     protected readonly waitTxtAndTimer: () => boolean;
