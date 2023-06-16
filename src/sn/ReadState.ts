@@ -166,12 +166,14 @@ export class ReadState {
 			const tw = new Tween({})
 			.to({}, time)
 			.onComplete(()=> {
+//console.log(`fn:ReadState.ts 2) COMP`);
 				this.finishLimitedEvent();		// 2)時間待ち
 				remove(tw);
 				this.onFinish();
 			})
 			.start();
 			this.waitLimitedEvent(hArg, ()=> {	// 2)時間待ち
+//console.log(`fn:ReadState.ts 2) CANCEL`);
 				tw.stop();
 				remove(tw);	//x	tw.end();
 //console.log(`fn:ReadState.ts waitTxtAndTimer 2)`);
@@ -182,7 +184,7 @@ export class ReadState {
 		return this.waitLimitedEvent(hArg, ()=> {	// 1)文字表示待ち
 //console.log(`fn:ReadState.ts b) Txt Skip`);
 			ReadState.eeTextBreak.off(ReadState.NOTICE_COMP_TXT);
-			if (this.#elcLimEvt.isEmpty) return;	// イベント登録解除に失敗するケースがあるので
+	///		if (this.#elcLimEvt.isEmpty) return;	// イベント登録解除に失敗するケースがあるので
 //console.log(`fn:ReadState.ts waitTxtAndTimer 1)`);
 			this.onUserAct();	// 並び重要
 		});
@@ -245,7 +247,7 @@ export class ReadState {
 		goTxt();
 		val.saveKidoku();
 		const fnc = ()=> {
-			if (this.#elcLimEvt.isEmpty) return;	// イベント登録解除に失敗するケースがあるので
+	///		if (this.#elcLimEvt.isEmpty) return;	// イベント登録解除に失敗するケースがあるので
 			this.#elcLimEvt.clear(); cancelAutoSkip(); onIntr()
 		};
 

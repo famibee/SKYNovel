@@ -24261,7 +24261,7 @@ class ReadState {
         r.stop(), remove$6(r), this.onUserAct();
       });
     }), this.waitLimitedEvent(e, () => {
-      ReadState.eeTextBreak.off(ReadState.NOTICE_COMP_TXT), !this.#t.isEmpty && this.onUserAct();
+      ReadState.eeTextBreak.off(ReadState.NOTICE_COMP_TXT), this.onUserAct();
     });
   }
   static noticeCompTxt() {
@@ -24294,7 +24294,7 @@ class ReadState {
   waitLimitedEvent(t, e) {
     goTxt(), val.saveKidoku();
     const r = () => {
-      this.#t.isEmpty || (this.#t.clear(), cancelAutoSkip(), e());
+      this.#t.clear(), cancelAutoSkip(), e();
     };
     return skip_enabled && !skip_all && !scrItr.isNextKidoku && cancelAutoSkip(), argChk_Boolean(t, "canskip", !0) && (this.#t.add(window, "pointerdown", (N) => {
       N.stopPropagation(), r();

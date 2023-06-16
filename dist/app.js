@@ -22794,7 +22794,7 @@ class ht {
         i.stop(), Ko(i), this.onUserAct();
       });
     }), this.waitLimitedEvent(e, () => {
-      ht.eeTextBreak.off(ht.NOTICE_COMP_TXT), !this.#t.isEmpty && this.onUserAct();
+      ht.eeTextBreak.off(ht.NOTICE_COMP_TXT), this.onUserAct();
     });
   }
   static noticeCompTxt() {
@@ -22827,7 +22827,7 @@ class ht {
   waitLimitedEvent(t, e) {
     xr(), zt.saveKidoku();
     const i = () => {
-      this.#t.isEmpty || (this.#t.clear(), Zr(), e());
+      this.#t.clear(), Zr(), e();
     };
     return Qe && !Fi && !Ce.isNextKidoku && Zr(), Y(t, "canskip", !0) && (this.#t.add(window, "pointerdown", (n) => {
       n.stopPropagation(), i();
