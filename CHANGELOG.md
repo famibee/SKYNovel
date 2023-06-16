@@ -1,3 +1,10 @@
+## [1.48.5](https://github.com/famibee/SKYNovel/compare/v1.48.4...v1.48.5) (2023-06-16)
+
+
+### Bug Fixes
+
+* 文字表示中のクリックで操作を受け付けなくなる件 ([e77ff86](https://github.com/famibee/SKYNovel/commit/e77ff86df0fc8f0d2ae359679ed08660443bef0b))
+
 - fix: 文字表示中のクリックで操作を受け付けなくなる件
 	- 前回の【オートリード時のクリック停止で〜】によるデグレード、いったん対応を無効化
 
