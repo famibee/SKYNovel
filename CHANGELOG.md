@@ -1,3 +1,10 @@
+## [1.48.6](https://github.com/famibee/SKYNovel/compare/v1.48.5...v1.48.6) (2023-06-18)
+
+
+### Bug Fixes
+
+* 文字表示関係修正、前回・前々回の件を解消 ([abcfccb](https://github.com/famibee/SKYNovel/commit/abcfccb753b7ef1256d812b0f342413aa828d245))
+
 - fix: 文字表示関係修正、前回・前々回の件を解消
 
 
