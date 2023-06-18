@@ -1,3 +1,6 @@
+- fix: 文字表示関係修正、前回・前々回の件を解消
+
+
 ## [1.48.5](https://github.com/famibee/SKYNovel/compare/v1.48.4...v1.48.5) (2023-06-16)
 
 

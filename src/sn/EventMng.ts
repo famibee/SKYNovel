@@ -418,17 +418,7 @@ export class EventMng implements IEvtMng {
 		this.#elmHint.hidden = false;
 	}
 	hideHint() {this.#elmHint.hidden = true}
-	cvsResize() {this.#elmHint.hidden = true}
-
-
-	// 予約イベントの発生待ち
-	readonly	waitEvent = (hArg: HArg, onIntr: ()=> void)=> this.#rs.waitEvent(hArg, onIntr);
-
-	// 予約イベントの発生待ちしない waitEvent
-//	waitLimitedEvent(hArg: HArg, onUserAct: ()=> void): boolean {
-//		return this.#rs.waitLimitedEvent(hArg, onUserAct);
-//	}
-//	finishLimitedEvent() {this.#rs.finishLimitedEvent()}
+	cvsResize() {this.hideHint()}
 
 
 	#event(hArg: HArg): boolean {
@@ -554,6 +544,16 @@ export class EventMng implements IEvtMng {
 		}
 		return false;
 	}
+
+
+	// 予約イベントの発生待ち
+	readonly	waitEvent = (hArg: HArg, onIntr: ()=> void)=> this.#rs.waitEvent(hArg, onIntr);
+
+	// 予約イベントの発生待ちしない waitEvent
+//	waitLimitedEvent(hArg: HArg, onUserAct: ()=> void): boolean {
+//		return this.#rs.waitLimitedEvent(hArg, onUserAct);
+//	}
+//	finishLimitedEvent() {this.#rs.finishLimitedEvent()}
 
 
 	noticeCompTxt() {ReadState.noticeCompTxt()}

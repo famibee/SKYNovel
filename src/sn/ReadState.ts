@@ -27,7 +27,7 @@ let sndMng	: SoundMng;
 let hTag	: IHTag;
 let fcs		: FocusMng;
 let	goTxt	: ()=> void;
-let procWheel4wle: (elc: EventListenerCtn, onIntr: ()=> void)=> void;
+let procWheel4wle: (elc: EventListenerCtn, onIntr: ()=> void)=> void	= ()=> {};
 let	elmHint	: HTMLElement;
 let	cfg		: Config;
 
@@ -63,6 +63,35 @@ interface IPageLog {
 	mark	: IMark;
 	week	: boolean;
 };
+
+class WaitLimitedEventer {
+	readonly	#elc	= new EventListenerCtn;
+	#onIntr: ()=> void	= ()=> {};
+
+	constructor(hArg: HArg, onIntr: ()=> void) {
+		this.#onIntr = ()=> {this.destroy(); cancelAutoSkip(); onIntr()};
+
+		// 既読スキップ時
+		if (skip_enabled) {
+			if (! skip_all && ! scrItr.isNextKidoku) cancelAutoSkip();	// 未読で停止
+		//	else {fnc(); return false}	// これを有効にすると Fスキップ時速すぎて文字が見えない
+		}
+
+		if (argChk_Boolean(hArg, 'canskip', true)) {
+			this.#elc.add(window, 'pointerdown', e=> {e.stopPropagation(); this.#onIntr()});
+			this.#elc.add(window, 'keydown', (e: any)=> {
+				//if (! e.isTrusted) return;
+				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
+				e.stopPropagation();
+				this.#onIntr();
+			});
+			procWheel4wle(this.#elc, this.#onIntr);
+		}
+	}
+	destroy() {this.#onIntr = ()=> {}; this.#elc.clear()}
+
+}
+
 
 export class ReadState {
 	static	init($chgSt: (rs: ReadState)=> void, $main: IMain, $val: IVariable, $layMng: LayerMng, $scrItr: ScriptIterator, $sndMng: SoundMng, $hTag: IHTag, $fcs: FocusMng, $procWheel4wle: (elc: EventListenerCtn, onIntr: ()=> void)=> void, $elmHint: HTMLElement, $cfg: Config) {
@@ -158,7 +187,7 @@ export class ReadState {
 	readonly	waitclick: ITag = hArg=> Rs_WaitClick.go(hArg);
 
 	protected	waitTxtAndTimer(time: number, hArg: HArg): boolean {
-		ReadState.eeTextBreak.once(ReadState.NOTICE_COMP_TXT, ()=> {
+		ReadState.#eeCompTxt.once(ReadState.#EENM_COMP_TXT, ()=> {
 //console.log(`fn:ReadState.ts B) Txt Fin... time Wait:${time}`);
 			this.finishLimitedEvent();		// 1)文字表示待ち
 			if (time === 0) {this.onFinish(); return}
@@ -176,22 +205,19 @@ export class ReadState {
 //console.log(`fn:ReadState.ts 2) CANCEL`);
 				tw.stop();
 				remove(tw);	//x	tw.end();
-//console.log(`fn:ReadState.ts waitTxtAndTimer 2)`);
 				this.onUserAct();
 			});
 		});
 
 		return this.waitLimitedEvent(hArg, ()=> {	// 1)文字表示待ち
 //console.log(`fn:ReadState.ts b) Txt Skip`);
-			ReadState.eeTextBreak.off(ReadState.NOTICE_COMP_TXT);
-	///		if (this.#elcLimEvt.isEmpty) return;	// イベント登録解除に失敗するケースがあるので
-//console.log(`fn:ReadState.ts waitTxtAndTimer 1)`);
+			ReadState.#eeCompTxt.removeAllListeners();
 			this.onUserAct();	// 並び重要
 		});
 	}
-	static	noticeCompTxt() {ReadState.eeTextBreak.emit(ReadState.NOTICE_COMP_TXT)}
-	protected	static	readonly	eeTextBreak	= new utils.EventEmitter;	// static必須
-	protected	static	readonly	NOTICE_COMP_TXT	= 'sn:notice_comp_txt';
+	static	noticeCompTxt() {ReadState.#eeCompTxt.emit(ReadState.#EENM_COMP_TXT)}
+	static	readonly	#eeCompTxt		= new utils.EventEmitter;	// static必須
+	static	readonly	#EENM_COMP_TXT	= 'sn:notice_comp_txt';
 
 
 	static	popLocalEvts(): IHEvt2Fnc {
@@ -244,34 +270,15 @@ export class ReadState {
 	// 予約イベントの発生待ちしない waitRsvEvent()
 	// 使う場合、外部要因でキャンセルした際は finishLimitedEvent() で後始末を忘れないこと
 	waitLimitedEvent(hArg: HArg, onIntr: ()=> void): boolean {
+		this.#wle.destroy();
+		this.#wle = new WaitLimitedEventer(hArg, onIntr);
 		goTxt();
 		val.saveKidoku();
-		const fnc = ()=> {
-	///		if (this.#elcLimEvt.isEmpty) return;	// イベント登録解除に失敗するケースがあるので
-			this.#elcLimEvt.clear(); cancelAutoSkip(); onIntr()
-		};
-
-		// 既読スキップ時
-		if (skip_enabled) {
-			if (! skip_all && ! scrItr.isNextKidoku) cancelAutoSkip();	// 未読で停止
-		//	else {fnc(); return false}	// これを有効にすると Fスキップ時速すぎて文字が見えない
-		}
-
-		if (argChk_Boolean(hArg, 'canskip', true)) {
-			this.#elcLimEvt.add(window, 'pointerdown', e=> {e.stopPropagation(); fnc()});
-			this.#elcLimEvt.add(window, 'keydown', (e: any)=> {
-				//if (! e.isTrusted) return;
-				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
-				e.stopPropagation();
-				fnc();
-			});
-			procWheel4wle(this.#elcLimEvt, fnc);
-		}
 
 		return true;
 	}
-	finishLimitedEvent() {this.#elcLimEvt.clear()}
-	readonly	#elcLimEvt	= new EventListenerCtn;
+	finishLimitedEvent() {this.#wle.destroy()}
+	#wle	= new WaitLimitedEventer({}, ()=> {});
 
 
 	l(hArg: HArg): boolean {

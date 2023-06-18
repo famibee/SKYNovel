@@ -6,7 +6,6 @@ import { EventListenerCtn } from './EventListenerCtn';
 import { SoundMng } from './SoundMng';
 import { FocusMng } from './FocusMng';
 import { Config } from './Config';
-import { utils } from 'pixi.js';
 interface IPageLog {
     key: string;
     fn: string;
@@ -34,8 +33,6 @@ export declare class ReadState {
     readonly waitclick: ITag;
     protected waitTxtAndTimer(time: number, hArg: HArg): boolean;
     static noticeCompTxt(): void;
-    protected static readonly eeTextBreak: utils.EventEmitter<string | symbol>;
-    protected static readonly NOTICE_COMP_TXT = "sn:notice_comp_txt";
     static popLocalEvts(): IHEvt2Fnc;
     static pushLocalEvts(h: IHEvt2Fnc): void;
     protected waitRsvEvent(canUserAct: boolean, glb: boolean): void;
