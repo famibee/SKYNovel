@@ -52,11 +52,11 @@ export declare class ReadState {
 export declare class RsEvtRsv extends ReadState {
     constructor();
 }
-declare class Rs_S_base extends ReadState {
+declare class Rs_S_fire extends ReadState {
     readonly isWait = true;
     fire(KEY: string, e: Event): void;
 }
-declare class Rs_S extends Rs_S_base {
+declare class Rs_S extends Rs_S_fire {
     static readonly go: ITag;
     protected onFinish(): void;
     protected onUserAct(): void;

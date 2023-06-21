@@ -4,9 +4,9 @@ import { HArg } from './Grammar';
 import { IMain, IVariable } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
-import { Sprite, Container, Texture, BLEND_MODES, Application } from 'pixi.js';
 import { SoundMng } from './SoundMng';
 import { IMakeDesignCast } from './LayerMng';
+import { Sprite, Container, Texture, BLEND_MODES, Application } from 'pixi.js';
 export type IFncCompSpr = (sp: Sprite) => void;
 interface IResAniSpr {
     aTex: Texture[];

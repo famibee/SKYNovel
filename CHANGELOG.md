@@ -1,3 +1,9 @@
+- fix: [ws canskip=false]の場合に、なにもイベント予約せずイベント待ちで停止していた件
+- fix: [trans]〜[wt]中に右クリックメニューすると、強制的に戻って立ち絵表示なども再度行ってしまう件
+- fix: [wt]などでキャンセルされなかった場合の後処理の不足を加筆
+	- [wt][wait_tsy][wv][ws][wl][wf][wb]
+
+
 ## [1.48.6](https://github.com/famibee/SKYNovel/compare/v1.48.5...v1.48.6) (2023-06-18)
 
 

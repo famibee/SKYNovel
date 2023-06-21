@@ -28,6 +28,7 @@ export declare class EventMng implements IEvtMng {
     hideHint(): void;
     cvsResize(): void;
     readonly waitEvent: (hArg: HArg, onIntr: () => void) => boolean;
+    finishLimitedEvent(): void;
     noticeCompTxt(): void;
     isSkipping(): boolean;
 }

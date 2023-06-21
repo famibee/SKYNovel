@@ -171,6 +171,7 @@ export class CmnTween {
 
 			ti.tw = undefined;
 			tw.stop();
+			CmnTween.#evtMng.finishLimitedEvent();	// waitEvent 使用者の通常 break 時義務
 			if (ti.resume) CmnTween.#main.resume();
 			ti.onEnd?.();
 

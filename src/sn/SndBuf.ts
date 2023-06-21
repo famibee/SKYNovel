@@ -319,8 +319,6 @@ class SsPlaying implements ISndState {
 	ws(sb: ISndBuf, hArg: HArg) {
 		if (sb.loop) return false;
 
-		if (! argChk_Boolean(hArg, 'canskip', false)) return true;
-
 		const {buf = 'SE'} = hArg;
 		const stop = argChk_Boolean(hArg, 'stop', true);
 		argChk_Boolean(hArg, 'canskip', false);	// evtMng.waitEvent() のデフォルトと違うので先行上書き
@@ -378,7 +376,7 @@ class SsWaitingStop implements ISndState {
 	onLoad() {}			// ok
 	stopse(sb: ISndBuf)	{sb.stt = new SsStop(sb)}
 	ws =()=> false;		// ok
-	onPlayEnd()			{main.resume()}
+	onPlayEnd()			{evtMng.finishLimitedEvent(); main.resume()}
 	fade() {}			// ok
 	wf =()=> false;		// ok
 	compFade() {}		// ok
@@ -401,7 +399,7 @@ class SsFade implements ISndState {
 
 		return false;
 	}
-	compFade() {}
+	compFade() {}		// ok
 	stopfadese =()=> stopfadese(this.tw);
 }
 
@@ -413,7 +411,7 @@ class SsWaitingFade implements ISndState {
 	onPlayEnd() {}		// ok
 	fade() {}			// ok
 	wf =()=> false;		// ok
-	compFade() {main.resume()}
+	compFade() {evtMng.finishLimitedEvent(); main.resume()}
 	stopfadese =()=> stopfadese(this.tw);
 }
 

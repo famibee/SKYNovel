@@ -400,7 +400,7 @@ export class ScriptIterator {
 		}
 		hArg[':タグ名'] = tag_name;
 /*
-		{
+		{	// タグ位置のコールスタック情報を埋め込むコード（デバッグ用）
 			const lc0 = this.#cnvIdx2lineCol(this.#script, this.#idxToken);
 			let now = `存在位置 fn:${this.#scriptFn} line:${lc0.ln} col:${lc0.col_s +1}`;
 			hArg[':path'] = now;
@@ -420,6 +420,7 @@ export class ScriptIterator {
 			}
 		}
 */
+		// タグ位置情報を埋め込むコード（デバッグ用）
 //		hArg[':path'] = this.#scriptFn;
 //		hArg[':ln'] = this.#lineNum;
 		// valやdefの値について。null はありえない。'null'や'undefined' はありえる。

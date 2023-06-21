@@ -12,13 +12,14 @@ import {HArg} from './Grammar';
 import {IMain, IVariable, SYS_DEC_RET} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
-import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, Rectangle, RenderTexture, Application} from 'pixi.js';
 import {EventListenerCtn} from './EventListenerCtn';
 import {SoundMng} from './SoundMng';
 import {IMakeDesignCast} from './LayerMng';
 import {GrpLayDesignCast} from './DesignCast';
 import {DebugMng} from './DebugMng';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+
+import {Sprite, Container, Texture, BLEND_MODES, utils, Loader, LoaderResource, AnimatedSprite, Rectangle, RenderTexture, Application} from 'pixi.js';
 
 export type IFncCompSpr = (sp: Sprite)=> void;
 
@@ -356,11 +357,12 @@ export class GrpLayer extends Layer {
 		if (this.#evtMng.isSkipping() || hve.ended) {GrpLayer.#stopVideo(fn); return false}
 
 		const fnc = ()=> {GrpLayer.#stopVideo(fn); this.#main.resume()};
-		hve.addEventListener('ended', fnc, {once: true, passive: true});
+		const fncEnded = ()=> {this.#evtMng.finishLimitedEvent(); fnc()};	// waitEvent 使用者の通常 break 時義務
+		hve.addEventListener('ended', fncEnded, {once: true, passive: true});
 
 		return GrpLayer.#evtMng.waitEvent(
 			hArg, 
-			()=> {hve.removeEventListener('ended', fnc); fnc()}
+			()=> {hve.removeEventListener('ended', fncEnded); fnc()}
 		);
 	}
 	static	#stopVideo(fn: string) {
