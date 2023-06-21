@@ -1,3 +1,10 @@
+## [1.48.7](https://github.com/famibee/SKYNovel/compare/v1.48.6...v1.48.7) (2023-06-21)
+
+
+### Bug Fixes
+
+* [ws canskip=false]の場合に、イベント予約せず待ちで停止していた件 ([fbc7824](https://github.com/famibee/SKYNovel/commit/fbc782420b03204a5e8d0f46e0030f46dc7737e6))
+
 - fix: [ws canskip=false]の場合に、なにもイベント予約せずイベント待ちで停止していた件
 - fix: [trans]〜[wt]中に右クリックメニューすると、強制的に戻って立ち絵表示なども再度行ってしまう件
 - fix: [wt]などでキャンセルされなかった場合の後処理の不足を加筆
