@@ -326,6 +326,7 @@ class SsPlaying implements ISndState {
 			stop2var(sb, buf);
 			sb.stt.onPlayEnd();	// まず一回やる
 			if (stop) sb.stt.stopse(sb); else sb.stt.onPlayEnd = ()=> {};
+				// else後は SsWaitingStop か SsStop の想定
 		})) {
 			sb.stt = new SsWaitingStop;
 			return true;
