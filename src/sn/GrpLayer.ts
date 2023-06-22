@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, int, IEvtMng, argChk_Num, getFn, getExt} from './CmnLib';
+import {CmnLib, int, IEvtMng, argChk_Num, getFn, getExt, argChk_Boolean} from './CmnLib';
 import {HArg} from './Grammar';
 import {IMain, IVariable, SYS_DEC_RET} from './CmnInterface';
 import {Config} from './Config';
@@ -356,14 +356,15 @@ export class GrpLayer extends Layer {
 
 		if (this.#evtMng.isSkipping() || hve.ended) {GrpLayer.#stopVideo(fn); return false}
 
-		const fnc = ()=> {GrpLayer.#stopVideo(fn); this.#main.resume()};
-		const fncEnded = ()=> {this.#evtMng.finishLimitedEvent(); fnc()};	// waitEvent 使用者の通常 break 時義務
-		hve.addEventListener('ended', fncEnded, {once: true, passive: true});
+		const fncBreak = ()=> this.#evtMng.breakLimitedEvent();	// waitEvent 使用者の通常 break 時義務
+		hve.addEventListener('ended', fncBreak, {once: true, passive: true});
 
-		return GrpLayer.#evtMng.waitEvent(
-			hArg, 
-			()=> {hve.removeEventListener('ended', fncEnded); fnc()}
-		);
+		const stop = argChk_Boolean(hArg, 'stop', true);
+		return GrpLayer.#evtMng.waitEvent(hArg, ()=> {
+			hve.removeEventListener('ended', fncBreak);
+			if (stop) GrpLayer.#stopVideo(fn);
+			fncBreak()
+		});
 	}
 	static	#stopVideo(fn: string) {
 		const hve = GrpLayer.hFn2VElm[fn];

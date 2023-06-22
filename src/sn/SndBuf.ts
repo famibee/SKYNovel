@@ -321,10 +321,11 @@ class SsPlaying implements ISndState {
 
 		const {buf = 'SE'} = hArg;
 		const stop = argChk_Boolean(hArg, 'stop', true);
-		argChk_Boolean(hArg, 'canskip', false);	// evtMng.waitEvent() のデフォルトと違うので先行上書き
+		argChk_Boolean(hArg, 'canskip', false);	// waitEvent() のデフォルトと違うので先行上書き
 		if (evtMng.waitEvent(hArg, ()=> {	// 順番固定
-			stop2var(sb, buf); sb.stt.onPlayEnd();
-			if (stop) sb.stt.stopse(sb);
+			stop2var(sb, buf);
+			sb.stt.onPlayEnd();	// まず一回やる
+			if (stop) sb.stt.stopse(sb); else sb.stt.onPlayEnd = ()=> {};
 		})) {
 			sb.stt = new SsWaitingStop;
 			return true;
@@ -376,7 +377,7 @@ class SsWaitingStop implements ISndState {
 	onLoad() {}			// ok
 	stopse(sb: ISndBuf)	{sb.stt = new SsStop(sb)}
 	ws =()=> false;		// ok
-	onPlayEnd()			{evtMng.finishLimitedEvent(); main.resume()}
+	onPlayEnd()			{evtMng.breakLimitedEvent()}
 	fade() {}			// ok
 	wf =()=> false;		// ok
 	compFade() {}		// ok
@@ -391,7 +392,7 @@ class SsFade implements ISndState {
 	onPlayEnd() {}		// ok
 	fade() {}			// ok
 	wf(sb: ISndBuf, hArg: HArg) {
-		argChk_Boolean(hArg, 'canskip', false);	// evtMng.waitEvent() のデフォルトと違うので先行上書き
+		argChk_Boolean(hArg, 'canskip', false);	// waitEvent() のデフォルトと違うので先行上書き
 		if (evtMng.waitEvent(hArg, ()=> stopfadese(this.tw))) {
 			sb.stt = new SsWaitingFade(this.tw);
 			return true;
@@ -411,7 +412,7 @@ class SsWaitingFade implements ISndState {
 	onPlayEnd() {}		// ok
 	fade() {}			// ok
 	wf =()=> false;		// ok
-	compFade() {evtMng.finishLimitedEvent(); main.resume()}
+	compFade() {evtMng.breakLimitedEvent()}
 	stopfadese =()=> stopfadese(this.tw);
 }
 

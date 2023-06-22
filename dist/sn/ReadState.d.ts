@@ -37,7 +37,7 @@ export declare class ReadState {
     static pushLocalEvts(h: IHEvt2Fnc): void;
     protected waitRsvEvent(canUserAct: boolean, glb: boolean): void;
     waitLimitedEvent(hArg: HArg, onIntr: () => void): boolean;
-    finishLimitedEvent(): void;
+    breakLimitedEvent(): void;
     l(hArg: HArg): boolean;
     p(hArg: HArg): boolean;
     waitEvent(hArg: HArg, onFire: () => void): boolean;

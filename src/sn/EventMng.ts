@@ -547,9 +547,9 @@ export class EventMng implements IEvtMng {
 
 
 	// テキスト表示待ちと処理終了待ち（予約イベント受付しない）
-	//	waitEvent を使用する場合、通常 break 時は finishLimitedEvent() すること
+	//	waitEvent を使用する場合、通常 break 時は breakLimitedEvent() すること
 	readonly	waitEvent = (hArg: HArg, onIntr: ()=> void)=> this.#rs.waitEvent(hArg, onIntr);
-	finishLimitedEvent() {this.#rs.finishLimitedEvent()}
+	breakLimitedEvent() {this.#rs.breakLimitedEvent()}
 
 
 	noticeCompTxt() {ReadState.noticeCompTxt()}

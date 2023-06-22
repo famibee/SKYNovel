@@ -68,16 +68,13 @@ class WaitLimitedEventer {
 	readonly	#elc	= new EventListenerCtn;
 
 	constructor(hArg: HArg, onIntr: ()=> void) {
-		const fnc = ()=> {
-			this.destroy(); cancelAutoSkip(); onIntr()};
-
-		// 既読スキップ時
-		if (skip_enabled) {
+		if (skip_enabled) {		// Fスキップ時
 			if (! skip_all && ! scrItr.isNextKidoku) cancelAutoSkip();	// 未読で停止
 		//	else {fnc(); return false}	// これを有効にすると Fスキップ時速すぎて文字が見えない
 		}
 
 		if (argChk_Boolean(hArg, 'canskip', true)) {
+			const fnc = ()=> {this.destroy(); cancelAutoSkip(); onIntr()};
 			this.#elc.add(window, 'pointerdown', e=> {e.stopPropagation(); fnc()});
 			this.#elc.add(window, 'keydown', (e: any)=> {
 				//if (! e.isTrusted) return;
@@ -189,14 +186,14 @@ export class ReadState {
 	protected	waitTxtAndTimer(time: number, hArg: HArg): boolean {
 		ReadState.#eeCompTxt.once(ReadState.#EENM_COMP_TXT, ()=> {	// 1)文字表示待ち
 //console.log(`fn:ReadState.ts B) Txt Fin... time Wait:${time}`);
-			this.finishLimitedEvent();	// waitEvent 使用者の通常 break 時義務
+			this.#wle.destroy();	// waitEvent 使用者の通常 break 時義務
 			if (time === 0) {this.onFinish(); return}
 
 			const tw = new Tween({})
 			.to({}, time)
 			.onComplete(()=> {	// 2)時間待ち
 //console.log(`fn:ReadState.ts 2) COMP`);
-				this.finishLimitedEvent();	// waitEvent 使用者の通常 break 時義務
+				this.#wle.destroy();	// waitEvent 使用者の通常 break 時義務
 				remove(tw);
 				this.onFinish();
 			})
@@ -270,14 +267,14 @@ export class ReadState {
 
 
 	// 予約イベントの発生待ちしない waitRsvEvent()
-	// 使う場合、外部要因でキャンセルした際は finishLimitedEvent() で後始末を忘れないこと
+	// 使う場合、外部要因でキャンセルした際は breakLimitedEvent() で後始末を忘れないこと
 	waitLimitedEvent(hArg: HArg, onIntr: ()=> void): boolean {
 		this.#wle.destroy();
 		this.#wle = new WaitLimitedEventer(hArg, onIntr);
 
 		return true;
 	}
-	finishLimitedEvent() {this.#wle.destroy()}
+	breakLimitedEvent() {this.#wle.destroy(); main.resume()}
 	#wle	= new WaitLimitedEventer({}, ()=> {});	// ':タグ名' は未定義、デバッグ時に無視を
 
 

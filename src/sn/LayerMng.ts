@@ -265,7 +265,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		this.#evtMng = evtMng;
 		this.#frmMng.setEvtMng(evtMng);
 		GrpLayer.setEvtMng(evtMng);
-		CmnTween.init(evtMng, this.main, this.appPixi);
+		CmnTween.init(evtMng, this.appPixi);
 	}
 
 	before_destroy() {for (const p of Object.values(this.#hPages)) p.destroy()}

@@ -1,11 +1,10 @@
-import { IMain } from './CmnInterface';
 import { IEvtMng } from './CmnLib';
 import { HArg } from './Grammar';
 import { Tween } from '@tweenjs/tween.js';
 import { Application } from 'pixi.js';
 export declare class CmnTween {
     #private;
-    static init(evtMng: IEvtMng, main: IMain, appPixi: Application): void;
+    static init(evtMng: IEvtMng, appPixi: Application): void;
     static destroy(): void;
     static setTwProp(tw: Tween<any>, hArg: HArg): Tween<any>;
     static ease(nm: string | undefined): (k: number) => number;

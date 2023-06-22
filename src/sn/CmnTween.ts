@@ -5,7 +5,6 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IMain} from './CmnInterface';
 import {IEvtMng, CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './Grammar';
 
@@ -14,7 +13,6 @@ import {Application} from 'pixi.js';
 
 interface ITwInf {
 	tw		: Tween<any> | undefined;
-	resume	: boolean;
 	onEnd?	: ()=> void;
 }
 
@@ -22,12 +20,10 @@ export class CmnTween {
 	static	#hTwInf	: {[tw_nm: string]: ITwInf}	= {};
 
 	static	#evtMng	: IEvtMng;
-	static	#main	: IMain;
 	static	#appPixi: Application;
-	static	init(evtMng: IEvtMng, main: IMain, appPixi: Application) {
+	static	init(evtMng: IEvtMng, appPixi: Application) {
 		CmnTween.#hTwInf = {};
 		CmnTween.#evtMng = evtMng;
-		CmnTween.#main = main;
 		CmnTween.#appPixi = appPixi;
 
 		CmnTween.#appPixi.ticker.add(CmnTween.#fncTicker);	// TWEEN 更新
@@ -131,7 +127,7 @@ export class CmnTween {
 		.to(hTo, time)
 		.onUpdate(onUpdate);
 		CmnTween.setTwProp(tw, hArg);
-		CmnTween.#hTwInf[tw_nm] = {tw, resume: false, onEnd};
+		CmnTween.#hTwInf[tw_nm] = {tw, onEnd};
 
 		const {path} = hArg;
 		let twLast = tw;
@@ -171,8 +167,7 @@ export class CmnTween {
 
 			ti.tw = undefined;
 			tw.stop();
-			CmnTween.#evtMng.finishLimitedEvent();	// waitEvent 使用者の通常 break 時義務
-			if (ti.resume) CmnTween.#main.resume();
+			CmnTween.#evtMng.breakLimitedEvent();	// waitEvent 使用者の通常 break 時義務
 			ti.onEnd?.();
 
 			onComplete();
@@ -213,7 +208,7 @@ export class CmnTween {
 		const ti = CmnTween.#hTwInf[CmnTween.TW_INT_TRANS];
 		if (! ti?.tw) return false;
 
-		return ti.resume = CmnTween.#evtMng.waitEvent(hArg, ()=> CmnTween.finish_trans());
+		return CmnTween.#evtMng.waitEvent(hArg, ()=> CmnTween.finish_trans());
 	}
 	static	readonly	TW_INT_TRANS = 'trans\n';
 	static	get	isTrans(): boolean {return CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw !== undefined}
@@ -230,7 +225,7 @@ export class CmnTween {
 		const ti = CmnTween.#hTwInf[tw_nm];
 		if (! ti?.tw) return false;
 
-		return ti.resume = CmnTween.#evtMng.waitEvent(hArg, ()=> ti.tw?.end());	// stop()とend()は別
+		return CmnTween.#evtMng.waitEvent(hArg, ()=> ti.tw?.end());	// stop()とend()は別
 	}
 
 	// トゥイーン中断
