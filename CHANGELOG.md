@@ -1,3 +1,10 @@
+## [1.48.8](https://github.com/famibee/SKYNovel/compare/v1.48.7...v1.48.8) (2023-06-22)
+
+
+### Bug Fixes
+
+* 自動読み進み＆[ws]で再生終了待ち中、クリックで[l][p]まで進み、再生終了で次に進む ([80f1abb](https://github.com/famibee/SKYNovel/commit/80f1abb9794c7702bf9fd2748de5ef361235a28b))
+
 - fix: 自動読み進み＆[ws]で再生終了待ち中、クリックキャンセルで次の[l][p]に進んで放置、再生終了で次に進む件
 - feat: [wv]にクリックキャンセル時の再生停止するかの stop 属性追加
 
