@@ -336,10 +336,10 @@ export class TxtLayer extends Layer {
 			if (this.#b_pic !== hArg.b_pic) {
 				this.#b_pic = hArg.b_pic;
 				if (this.#b_do) {
-					this.spLay.removeChild(this.#b_do);
-					this.#b_do.destroy();
+					this.spLay.removeChild(this.#b_do);	// Graphics かも
+					this.#b_do.destroy();	// Graphics かも
 				}
-				this.#sps.destroy();
+				//this.#sps.destroy();	// Graphics かもなので使用不可
 				this.#sps = new SpritesMng(this.#b_pic, this.spLay, sp=> {
 					this.#b_do = sp;
 					sp.name = 'back(pic)';
@@ -359,7 +359,7 @@ export class TxtLayer extends Layer {
 			if (this.#b_do) {
 				this.spLay.removeChild(this.#b_do);	// Graphics かも
 				this.#b_do.destroy();	// Graphics かも
-				this.#sps.destroy();
+				//this.#sps.destroy();	// Graphics かもなので使用不可
 			}
 			this.#b_pic = '';	// 忘れずクリア
 			this.spLay.addChildAt(
