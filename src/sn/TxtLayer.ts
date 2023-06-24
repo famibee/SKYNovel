@@ -12,7 +12,7 @@ import {IVariable, IPutCh, IMain, IRecorder} from './CmnInterface';
 import {TxtStage} from './TxtStage';
 import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
-import {GrpLayer} from './GrpLayer';
+import {SpritesMng} from './SpritesMng';
 import {Button} from './Button';
 import {LayerMng, IMakeDesignCast} from './LayerMng';
 import {SysBase} from './SysBase';
@@ -313,6 +313,7 @@ export class TxtLayer extends Layer {
 	}
 	#$ch_out_style	= '';
 
+	#sps	= new SpritesMng;
 	#drawBack(hArg: HArg, fncComp: (isStop: boolean)=> void): boolean {
 		if ('back_clear' in hArg) {
 			if (argChk_Boolean(hArg, 'back_clear', false)) {
@@ -338,7 +339,8 @@ export class TxtLayer extends Layer {
 					this.spLay.removeChild(this.#b_do);
 					this.#b_do.destroy();
 				}
-				return GrpLayer.csv2Sprites(this.#b_pic, this.spLay, sp=> {
+				this.#sps.destroy();
+				this.#sps = new SpritesMng(this.#b_pic, this.spLay, sp=> {
 					this.#b_do = sp;
 					sp.name = 'back(pic)';
 					sp.visible = (alpha > 0);
@@ -349,13 +351,15 @@ export class TxtLayer extends Layer {
 					this.spLay.setChildIndex(sp, 0);
 					fncComp(true);
 				});
+				return this.#sps.ret;
 			}
 		}
 		else if ('b_color' in hArg) {
 			this.#b_color = argChk_Color(hArg, 'b_color', 0x000000);
 			if (this.#b_do) {
-				this.spLay.removeChild(this.#b_do);
-				this.#b_do.destroy();
+				this.spLay.removeChild(this.#b_do);	// Graphics かも
+				this.#b_do.destroy();	// Graphics かも
+				this.#sps.destroy();
 			}
 			this.#b_pic = '';	// 忘れずクリア
 			this.spLay.addChildAt(

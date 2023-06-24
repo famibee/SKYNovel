@@ -5,13 +5,12 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
+import {CmnLib, IEvtMng, argChk_Boolean, argChk_Num, getExt} from './CmnLib';
 import {CmnTween} from './CmnTween';
 import {IHTag, HArg} from './Grammar';
 import {IVariable, IMain, IGetFrm} from './CmnInterface';
 import {SysBase} from './SysBase';
 import {Config} from './Config';
-import {GrpLayer} from './GrpLayer';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {Main} from './Main';
 
@@ -19,6 +18,15 @@ import {Application, Loader, LoaderResource} from 'pixi.js';
 
 
 export class FrameMng implements IGetFrm {
+	static	#cfg	: Config;
+	static	#sys	: SysBase;
+	static	#main	: IMain;
+	static	init(cfg: Config, sys: SysBase, main: IMain): void {
+		FrameMng.#cfg = cfg;
+		FrameMng.#sys = sys;
+		FrameMng.#main = main;
+	}
+
 	constructor(private readonly cfg: Config, hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase) {
 		//	HTMLフレーム
 		hTag.add_frame		= o=> this.#add_frame(o);	// フレーム追加
@@ -96,7 +104,7 @@ export class FrameMng implements IGetFrm {
 				const win = ifrm.contentWindow!;
 				this.#evtMng.resvFlameEvent(win);
 				// sn_repRes()をコール。引数は画像ロード処理差し替えメソッド
-				((win as any).sn_repRes)?.((i: HTMLImageElement)=> GrpLayer.loadPic2Img((i.dataset.src ?? ''), i));
+				((win as any).sn_repRes)?.((i: HTMLImageElement)=> FrameMng.#loadPic2Img((i.dataset.src ?? ''), i));
 
 				this.main.resume();
 			};
@@ -116,6 +124,47 @@ export class FrameMng implements IGetFrm {
 			argChk_Num(a, 'height', CmnLib.stageH) *re,
 		);
 	}
+
+	static	#REG_REP_PRM = /\?([^?]+)$/;	// https://regex101.com/r/ZUnoFq/1
+	static	#loadPic2Img(src: string, img: HTMLImageElement, onload?: (img2: HTMLImageElement)=> void) {
+		const srcNoPrm = src.replace(FrameMng.#REG_REP_PRM, '');
+		const prmSrc = (src === srcNoPrm) ?'' :src.slice(srcNoPrm.length);
+		const oUrl = this.#hEncImgOUrl[src];
+		if (oUrl) {img.src = oUrl; return}
+
+		const aImg = this.#hAEncImg[src];
+		if (aImg) {aImg.push(img); return}
+		this.#hAEncImg[src] = [img];
+
+		const url2 = FrameMng.#cfg.searchPath(srcNoPrm, SEARCH_PATH_ARG_EXT.SP_GSM);
+		const ld2 = (new Loader)
+		.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
+		if (FrameMng.#sys.crypto && getExt(url2) === 'bin') ld2.use((res, next)=> {
+			FrameMng.#sys.dec(res.extension, res.data)
+			.then(r=> {
+				if (res.extension !== 'bin') {next?.(); return}
+				res.data = r;
+				if (r instanceof HTMLImageElement) res.type = LoaderResource.TYPE.IMAGE;
+				next?.();
+			})
+			.catch(e=> FrameMng.#main.errScript(`GrpLayer loadPic ロード失敗です fn:${res.name} ${e}`, false));
+		})
+		ld2.load((_ldr, hRes)=> {
+			for (const [s2, {data: {src}}] of Object.entries(hRes)) {
+				const u2 = this.#hEncImgOUrl[s2]
+				= src + (src.slice(0, 5) === 'blob:' ?'' :prmSrc);
+				for (const i of this.#hAEncImg[s2]) {
+					i.src = u2;
+					if (onload) i.onload = ()=> onload(i);
+				}
+				delete this.#hAEncImg[s2];
+			//	URL.revokeObjectURL(u2);// 画面遷移で毎回再生成するので
+			}
+		});
+	}
+	static	#hAEncImg		: {[src: string]: HTMLImageElement[]}	= {};
+	static	#hEncImgOUrl	: {[src: string]: string}				= {};
+
 
 	cvsResize() {	// NOTE: フォントサイズはどう変更すべきか
 		for (const [id, f] of Object.entries(this.#hIfrm)) {

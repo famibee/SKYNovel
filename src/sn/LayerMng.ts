@@ -12,6 +12,7 @@ import {IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder} from './CmnIn
 import {Pages} from './Pages';
 import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';
+import {SpritesMng} from './SpritesMng';
 import {TxtLayer} from './TxtLayer';
 import {RubySpliter} from './RubySpliter';
 import {TxtStage} from './TxtStage';
@@ -70,6 +71,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 		TxtLayer.init(cfg, hTag, val, this, (me: TxtLayer)=> this.#hPages[me.layname].fore === me, appPixi);
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng, val);
+		FrameMng.init(cfg, sys, main);
 		Button.init(cfg);
 
 		this.#frmMng = new FrameMng(cfg, hTag, appPixi, val, main, sys);
@@ -122,10 +124,10 @@ export class LayerMng implements IGetFrm, IRecorder {
 		hTag.tcy			= o=> this.#tcy(o);			// 縦中横を表示する
 
 		//	画像・画像レイヤ
-		hTag.add_face		= o=> GrpLayer.add_face(o);	// 差分名称の定義
+		hTag.add_face		= o=> SpritesMng.add_face(o);	// 差分名称の定義
 
 		//	ムービーレイヤ
-		hTag.wv				= o=> GrpLayer.wv(o);		// ムービー再生終了待ち
+		hTag.wv				= o=> SpritesMng.wv(o);		// ムービー再生終了待ち
 
 		//	デバッグ・その他
 		hTag.dump_lay		= o=> this.#dump_lay(o);	// レイヤのダンプ
@@ -264,7 +266,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 	setEvtMng(evtMng: IEvtMng) {
 		this.#evtMng = evtMng;
 		this.#frmMng.setEvtMng(evtMng);
-		GrpLayer.setEvtMng(evtMng);
+		SpritesMng.setEvtMng(evtMng);
 		CmnTween.init(evtMng, this.appPixi);
 	}
 
@@ -671,7 +673,8 @@ void main(void) {
 
 		if (! rule) throw 'ruleが指定されていません';
 		const tw = CmnTween.tweenA(CmnTween.TW_INT_TRANS, hArg, flt.uniforms, {tick: 1}, ()=> {}, comp, ()=> {});
-		GrpLayer.csv2Sprites(rule, undefined, sp=> {
+		this.#sps.destroy();
+		this.#sps = new SpritesMng(rule, undefined, sp=> {
 			flt.uniforms.rule = sp.texture;
 			sp.destroy();
 
@@ -680,6 +683,7 @@ void main(void) {
 		});
 		return false;
 	}
+	#sps	= new SpritesMng;
 
 	#getLayers(layer = ''): string[] {return (layer)? layer.split(',') : this.#aLayName}
 	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): ReadonlyArray<string> {

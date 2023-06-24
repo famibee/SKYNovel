@@ -1,3 +1,7 @@
+- fix: 画像ロード終了と[trans]開始などの処理の兼ね合いをより厳密に管理するように
+- fix: 画像レイヤをリファクタリング、巨大クラス GrpLayer の役割を新規クラス SpritesMng に分散
+
+
 ## [1.48.8](https://github.com/famibee/SKYNovel/compare/v1.48.7...v1.48.8) (2023-06-22)
 
 

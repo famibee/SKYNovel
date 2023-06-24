@@ -8,7 +8,7 @@
 import {Container, Text, Rectangle, Texture, TextStyle, Sprite, Graphics, IDestroyOptions} from 'pixi.js';
 import {uint, IEvtMng, argChk_Boolean, argChk_Num, CmnLib, mesErrJSON} from './CmnLib';
 import {HArg} from './Grammar';
-import {GrpLayer} from './GrpLayer';
+import {SpritesMng} from './SpritesMng';
 import {Layer} from './Layer';
 import {Config} from './Config';
 import {IMakeDesignCast} from './LayerMng';
@@ -41,6 +41,8 @@ export class Button extends Container {
 	getBtnBounds = ()=> this.#rctBtnTxt;
 		// 文字ボタンは背景画像を含まない位置指定なので、その当たり判定用
 	#rctBtnTxt	= new Rectangle;
+
+	#sps		= new SpritesMng;
 
 	#idc		: DesignCast;
 	readonly	#o	: {
@@ -101,7 +103,7 @@ export class Button extends Container {
 			this.#o.type = 'pic';	// dump用
 			this.#idc = new PicBtnDesignCast(this, hArg);
 
-			GrpLayer.csv2Sprites(
+			this.#sps = new SpritesMng(
 				hArg.pic,
 				this,
 				sp=> {
@@ -156,7 +158,7 @@ export class Button extends Container {
 		this.#o.height = this.height;
 		if (hArg.b_pic) {
 			this.#o.b_pic = hArg.b_pic;
-			isStop = GrpLayer.csv2Sprites(
+			this.#sps = new SpritesMng(
 				hArg.b_pic,
 				this,
 				sp=> {
@@ -169,6 +171,7 @@ export class Button extends Container {
 					if (isStop) resolve();
 				},
 			);
+			isStop = this.#sps.ret;
 		}
 		txt.name = JSON.stringify(this.#o);
 
@@ -212,6 +215,7 @@ export class Button extends Container {
 
 	override	destroy(_options?: IDestroyOptions | boolean): void {
 		this.evtMng.unButton(this);
+		this.#sps.destroy();
 		super.destroy();
 	}
 

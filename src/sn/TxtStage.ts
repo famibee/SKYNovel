@@ -9,7 +9,7 @@ import {CmnLib, IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './Grammar';
 import {Config} from './Config';
 import {CmnTween} from './CmnTween';
-import {GrpLayer} from './GrpLayer';
+import {SpritesMng} from './SpritesMng';
 import {DebugMng} from './DebugMng';
 import {IMakeDesignCast} from './LayerMng';
 import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
@@ -56,7 +56,7 @@ export class TxtStage extends Container {
 		TxtStage.#hChInStyle	= Object.create(null);
 		TxtStage.#hChOutStyle	= Object.create(null);
 
-		TxtStage.#cntBreak	= new Container;
+		TxtStage.delBreak();
 	}
 
 
@@ -798,7 +798,7 @@ export class TxtStage extends Container {
 				const cnt = new Container;	// 親コンテナかまし、即spWork()
 				this.#cntTxt.addChild(cnt);
 					// 次のcsv2Spritesが即終わる場合もあるので先に行なう
-				GrpLayer.csv2Sprites(arg.pic, cnt, sp=> {
+				new SpritesMng(arg.pic, cnt, sp=> {
 					this.#spWork(cnt, arg, add, rct, ease, cis ?? {});
 					if (! cnt.parent) cnt.removeChild(sp);
 				});
@@ -1010,14 +1010,16 @@ export class TxtStage extends Container {
 		};
 	}
 
-	static	#cntBreak	= new Container;
+	static	readonly	#cntBreak	= new Container;
+	static				#spsBreak	= new SpritesMng;
 	dispBreak(o: HArg) {
 		TxtStage.delBreak();
 
 		const cnt = TxtStage.#cntBreak;
 		cnt.visible = false;
 		this.addChild(cnt);	// 次のcsv2Spritesが即終わる場合もあるので先に行なう
-		GrpLayer.csv2Sprites(o.pic!, cnt, sp=> {
+		TxtStage.#spsBreak.destroy();
+		TxtStage.#spsBreak = new SpritesMng(o.pic, cnt, sp=> {
 			if (cnt.parent) {
 				sp.x = argChk_Num(o, 'x', 0);
 				sp.y = argChk_Num(o, 'y', 0);
@@ -1029,11 +1031,8 @@ export class TxtStage extends Container {
 	}
 	static	delBreak() {
 		const cnt = TxtStage.#cntBreak;
-		if (cnt.parent) {
-			cnt.parent.removeChild(cnt);	// 他の文字Layerも想定
-			cnt.removeChildren();
-		}
-		TxtStage.#cntBreak = new Container;
+		cnt.parent?.removeChild(cnt);	// 複数メッセージウインドウを想定
+		TxtStage.#spsBreak.destroy();
 	}
 
 	#lh_half	= 0;	// 「g」などで下が欠ける問題対策
