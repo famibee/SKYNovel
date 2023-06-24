@@ -1,3 +1,10 @@
+## [1.48.11](https://github.com/famibee/SKYNovel/compare/v1.48.10...v1.48.11) (2023-06-24)
+
+
+### Bug Fixes
+
+* 文字レイヤ背景の画像リソース破棄でエラーになる場合があった件（1.48.9デグレード） ([7259407](https://github.com/famibee/SKYNovel/commit/72594074a9a42163e4d044bef4ec40731e12a2cd))
+
 - fix: 文字レイヤ背景の画像リソース破棄でエラーになる場合があった件（1.48.9デグレード）
 
 
