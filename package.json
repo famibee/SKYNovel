@@ -19,7 +19,7 @@
 	"dependencies": {
 		"@pixi/sound": "^4.4.0",
 		"@popperjs/core": "^2.11.8",
-		"@tweenjs/tween.js": "^20.0.3",
+		"@tweenjs/tween.js": "^21.0.0",
 		"adm-zip": "^0.5.10",
 		"buffer": "^6.0.3",
 		"devtools-detect": "^4.0.1",

@@ -1,3 +1,6 @@
+- fix: ライブラリ更新（@tweenjs/tween.js 21.0.0）
+
+
 ## [1.48.9](https://github.com/famibee/SKYNovel/compare/v1.48.8...v1.48.9) (2023-06-24)
 
 
