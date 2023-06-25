@@ -1,3 +1,10 @@
+## [1.48.12](https://github.com/famibee/SKYNovel/compare/v1.48.11...v1.48.12) (2023-06-25)
+
+
+### Bug Fixes
+
+* 使う前に不要になった画像リソースを、即 destroy() するように ([fb6c3d9](https://github.com/famibee/SKYNovel/commit/fb6c3d9eb0f87f626474bf459c5f1af30ef9636e))
+
 - fix: 使う前に不要になった画像リソースを、即 destroy() するように
 
 
