@@ -1,3 +1,6 @@
+- fix: 使う前に不要になった画像リソースを、即 destroy() するように
+
+
 ## [1.48.11](https://github.com/famibee/SKYNovel/compare/v1.48.10...v1.48.11) (2023-06-24)
 
 

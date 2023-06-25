@@ -21506,8 +21506,7 @@ class SpritesMng {
   destroy() {
     this.fncFirstComp = () => {
     }, this.fncAllComp = () => {
-    }, this.#l = () => {
-    }, this.#d.forEach((t) => {
+    }, this.#l = (t) => t.destroy(), this.#d.forEach((t) => {
       t.parent?.removeChild(t), t.destroy();
     }), this.#d = [];
   }

@@ -80,7 +80,7 @@ export class SpritesMng {
 	destroy() {		// これをやるためのクラス、とすら云える
 		this.fncFirstComp	= ()=> {};
 		this.fncAllComp		= ()=> {};
-		this.#addChild		= ()=> {};
+		this.#addChild		= sp=> sp.destroy();
 
 		this.#aSp.forEach(sp=> {sp.parent?.removeChild(sp); sp.destroy()});
 		this.#aSp = [];
