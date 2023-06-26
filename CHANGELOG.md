@@ -1,3 +1,10 @@
+## [1.48.13](https://github.com/famibee/SKYNovel/compare/v1.48.12...v1.48.13) (2023-06-26)
+
+
+### Bug Fixes
+
+* スキップ中は（ごく稀に起こる）画像/動画ロード失敗エラーを DevTools のみ表示する ([d4009ff](https://github.com/famibee/SKYNovel/commit/d4009fffaad1c93c69d04dc16c08740bd3f3cc59))
+
 - fix: スキップ中は（ごく稀に起こる）画像/動画ロード失敗エラーを DevTools のみに表示するように
 - fix: [add_frame]で【sandbox="allow-scripts allow-same-origin"】はsandbox属性が無効になり、警告が出るだけで無意味につき削除
 - fix: 既読処理で AreaKidoku が見つからない例外を出す処理をやめて正常ケースに乗せるように
