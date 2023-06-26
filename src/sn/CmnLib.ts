@@ -59,7 +59,7 @@ import {Container} from 'pixi.js';
 export interface IEvtMng {
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void): void;
 	unButton(em: Container): void;
-	isSkipping(): boolean;
+	get	isSkipping(): boolean;
 	popLocalEvts(): IHEvt2Fnc;
 	pushLocalEvts(a: IHEvt2Fnc): void;
 	waitEvent(hArg: HArg, onFire: ()=> void): boolean;

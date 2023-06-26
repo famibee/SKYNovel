@@ -89,12 +89,12 @@ export class SpritesMng {
 	static	destroy() {
 		SpritesMng.#hFace	= {};
 		SpritesMng.#hFn2ResAniSpr	= {};
-//		SpritesMng.ldrHFn	= {};
+		//SpritesMng.#ldrHFn	= {};
 		SpritesMng.#hFn2VElm	= {};
 	}
 
 
-//	static #ldrHFn: {[fn: string]: 1} = {};
+	//static #ldrHFn: {[fn: string]: 1} = {};
 	static #csv2Sprites(csv: string, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void, addChild: (sp: Sprite)=> void): boolean {
 		// Data URI
 		let needLoad = false;
@@ -132,18 +132,19 @@ export class SpritesMng {
 
 			if (fn in SpritesMng.#hFn2ResAniSpr) return;
 			if (fn in utils.TextureCache) return;
+			//if (fn in utils.BaseTextureCache) return;		// 警告に変化なし
 			if (fn in Loader.shared.resources) return;
-//			if (fn in SpritesMng.ldrHFn) {
+			//if (fn in SpritesMng.#ldrHFn) {
 				// ここに来るという中途半端な状態がある。お陰で警告が出てしまう
-// 以下の試みは効かない
-//	Texture.removeFromCache(fn);
-//	delete utils.TextureCache[fn];
-//	delete Loader.shared.resources[fn];
+				// （警告を消そうとする）以下の試みは効かない。直前の if でそもそもここに来ない
+				//	Texture.removeFromCache(fn);
+				//	delete utils.TextureCache[fn];
+				//	delete Loader.shared.resources[fn];
 				// return;	// これは厳禁、御法度。
-					// 画像ボタンや文字ボタン背景で同じ画像を、間を置かずロードした場合に最初一つしか表示されなくなる。以下は確認用
+					// 画像ボタンや文字ボタン背景で同じ画像を、間を置かずロードした場合に最初一つしか表示されなくなる。以下は確認用ギャラリー
 					// http://localhost:8082/index.html?cur=ch_button
-//			}
-//			SpritesMng.ldrHFn[fn] = 1;
+			//}
+			//SpritesMng.#ldrHFn[fn] = 1;
 
 			needLoad = true;
 			const url = SpritesMng.#cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SP_GSM);
@@ -155,7 +156,7 @@ export class SpritesMng {
 			ldr.add({...xt, name: fn, url});
 		});
 
-		const fncLoaded = (hRes: {[fn: string]: LoaderResource})=> {
+		const fncLoaded = (_: any, hRes: {[fn: string]: LoaderResource})=> {
 			for (const {fn, fnc} of aComp) {
 				const sp = SpritesMng.#mkSprite(fn, hRes);
 				sp.name = fn;	// 4 Debug?
@@ -168,34 +169,37 @@ export class SpritesMng {
 			ldr.use((res, next)=> {
 				this.#sys.dec(res.extension, res.data)
 				.then(r=> SpritesMng.#dec2cache(r, res, ()=> next?.()))
-				.catch(e=> this.#main.errScript(`Graphic ロード失敗です fn:${res.name} ${e}`, false));
+				.catch(e=> {
+					const mes = `画像/動画ロード失敗です fn:${res.name} ${e}`;
+					if (SpritesMng.#evtMng.isSkipping) console.warn(mes); else this.#main.errScript(mes, false);
+				});
 			})
-			.load((_ldr, hRes)=> fncLoaded(hRes));
+			.load(fncLoaded);
 		}
-		else fncLoaded({});
+		else fncLoaded(0, {});
 
 		return needLoad;
 	}
 	static	#hFace			: Ihface	= {};
-	static	#hFn2ResAniSpr	: {[fn: string]:	IResAniSpr} = {};
+	static	#hFn2ResAniSpr	: {[fn: string]: IResAniSpr} = {};
 
 
-	static #dec2cache = (_r: SYS_DEC_RET, res: any, next: ()=> void)=> {
-		switch (res.type) {
+	static #dec2cache = (_r: SYS_DEC_RET, {type, spritesheet, name, data}: any, next: ()=> void)=> {
+		switch (type) {
 			case LoaderResource.TYPE.JSON:
 				// アニメ登録
-				const aFn: string[] = res.spritesheet._frameKeys;
+				const aFn: string[] = spritesheet._frameKeys;
 				SpritesMng.#sortAFrameName(aFn);
-				SpritesMng.#hFn2ResAniSpr[res.name] = {
+				SpritesMng.#hFn2ResAniSpr[name] = {
 					aTex: aFn.map(fn=> Texture.from(fn)),
-					meta: res.data.meta,
+					meta: data.meta,
 				};
 				break;
 
 			case LoaderResource.TYPE.VIDEO:
-				const hve = res.data as HTMLVideoElement;
+				const hve = data as HTMLVideoElement;
 				hve.volume = SpritesMng.#glbVol;
-				SpritesMng.#hFn2VElm[res.name] = SpritesMng.#charmVideoElm(hve);
+				SpritesMng.#hFn2VElm[name] = SpritesMng.#charmVideoElm(hve);
 		}
 		next();
 	}
@@ -252,7 +256,7 @@ export class SpritesMng {
 				}
 				next2?.();
 			})
-			.catch(e=> this.#main.errScript(`Graphic ロード失敗です dec2res4Cripto fn:${res2.name} ${e}`, false));
+			.catch(e=> this.#main.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${res2.name} ${e}`, false));
 		})
 		.add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER})
 		.load((ldr, _hRes)=> {
@@ -308,7 +312,7 @@ export class SpritesMng {
 		const hve = SpritesMng.#hFn2VElm[fn];
 		if (! hve || hve.loop) return false;
 
-		if (SpritesMng.#evtMng.isSkipping() || hve.ended) {SpritesMng.stopVideo(fn); return false}
+		if (SpritesMng.#evtMng.isSkipping || hve.ended) {SpritesMng.stopVideo(fn); return false}
 
 		const fncBreak = ()=> SpritesMng.#evtMng.breakLimitedEvent();	// waitEvent 使用者の通常 break 時義務
 		hve.addEventListener('ended', fncBreak, {once: true, passive: true});

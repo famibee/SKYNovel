@@ -57,8 +57,8 @@ export class FrameMng implements IGetFrm {
 		const v = argChk_Boolean(hArg, 'visible', true);
 		const b_color = hArg.b_color ?` background-color: ${hArg.b_color};` :'';
 		const rct = this.#rect(hArg);
-		Main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id
-		}" sandbox="allow-scripts allow-same-origin" style="opacity: ${a
+		// 【sandbox="allow-scripts allow-same-origin"】は必要なのに警告が出るので削除
+		Main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id}" style="opacity: ${a
 		}; position: absolute; left:${this.sys.ofsLeft4elm +rct.x *this.sys.cvsScale
 		}px; top: ${this.sys.ofsTop4elm +rct.y *this.sys.cvsScale}px; z-index: 1; ${b_color
 		} border: 0px; overflow: hidden; display: ${v ?'inline' :'none'

@@ -122,7 +122,7 @@ export class CmnTween {
 		CmnTween.tweenB(hArg.chain, tw);
 	}
 	static	tweenA(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void): Tween<any> {
-		const time = this.#evtMng.isSkipping() ?0 :argChk_Num(hArg, 'time', NaN);
+		const time = this.#evtMng.isSkipping ?0 :argChk_Num(hArg, 'time', NaN);
 		const tw = new Tween(hNow)
 		.to(hTo, time)
 		.onUpdate(onUpdate);

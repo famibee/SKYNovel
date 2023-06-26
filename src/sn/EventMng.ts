@@ -555,7 +555,7 @@ export class EventMng implements IEvtMng {
 	noticeCompTxt() {ReadState.noticeCompTxt()}
 
 	// キー押下によるスキップ中か
-	isSkipping(): boolean {
+	get	isSkipping(): boolean {
 		if (this.#rs.isSkipping) return true;
 		return Object.keys(this.#hDownKeys).some(k=> this.#hDownKeys[k] === 2);
 	}

@@ -17380,8 +17380,8 @@ class pr {
     this.#e = this.#t.save = { ...t.hSave }, this.#w = this.#e["sn.doRecLog"] ?? !1;
   }
   // 既読系
-  loadScrWork(t) {
-    t in this.#h || (this.#h[t] = new Ol());
+  touchAreaKidoku(t) {
+    return this.#h[t] ??= new Ol();
   }
   getAreaKidoku = (t) => this.#h[t];
   saveKidoku() {
@@ -18130,7 +18130,7 @@ class X {
     X.tweenB(e.chain, h);
   }
   static tweenA(t, e, i, n, s, o, a) {
-    const h = this.#e.isSkipping() ? 0 : D(e, "time", NaN), l = new dn(i).to(n, h).onUpdate(s);
+    const h = this.#e.isSkipping ? 0 : D(e, "time", NaN), l = new dn(i).to(n, h).onUpdate(s);
     X.setTwProp(l, e), X.#t[t] = { tw: l, onEnd: a };
     const { path: u } = e;
     let c = l;
@@ -19419,7 +19419,7 @@ class pn {
     const a = o * Number(Pt.getVal("sys:" + s, 1)), h = W(e, "stop", o === 0);
     h && Mt.delLoopPlay(i), Pt.flush();
     const l = D(e, "time", NaN), u = D(e, "delay", 0);
-    if (l === 0 && u === 0 || xr.isSkipping()) {
+    if (l === 0 && u === 0 || xr.isSkipping) {
       t.snd.volume = a, t.stt = h ? new Vi(t) : new pn();
       return;
     }
@@ -19589,7 +19589,7 @@ class Dg {
     const { buf: e = "SE", fn: i } = t;
     if (this.#c({ buf: e }), !i)
       throw `[playse] fnは必須です buf:${e}`;
-    return W(t, "canskip", !0) && this.#i.isSkipping() ? !1 : (this.#t[e] = new Mt()).init(t);
+    return W(t, "canskip", !0) && this.#i.isSkipping ? !1 : (this.#t[e] = new Mt()).init(t);
   }
   clearCache() {
     mr.removeAll();
@@ -20046,7 +20046,7 @@ class Y {
   static destroy() {
     Y.#u = {}, Y.#m = {}, Y.#o = {};
   }
-  //	static #ldrHFn: {[fn: string]: 1} = {};
+  //static #ldrHFn: {[fn: string]: 1} = {};
   static #a(t, e, i, n) {
     let s = !1;
     if (t.slice(0, 5) === "data:") {
@@ -20074,33 +20074,36 @@ class Y {
       const v = Y.#t.searchPath(m, ce.SP_GSM), y = this.#i.crypto ? { xhrType: v.slice(-5) === ".json" ? ct.XHR_RESPONSE_TYPE.TEXT : ct.XHR_RESPONSE_TYPE.BUFFER } : {};
       a.add({ ...y, name: m, url: v });
     });
-    const h = (l) => {
-      for (const { fn: u, fnc: c } of o) {
-        const f = Y.#x(u, l);
-        f.name = u, n(f), c(f);
+    const h = (l, u) => {
+      for (const { fn: c, fnc: f } of o) {
+        const d = Y.#x(c, u);
+        d.name = c, n(d), f(d);
       }
       i(s);
     };
     return s ? a.use((l, u) => {
-      this.#i.dec(l.extension, l.data).then((c) => Y.#p(c, l, () => u?.())).catch((c) => this.#r.errScript(`Graphic ロード失敗です fn:${l.name} ${c}`, !1));
-    }).load((l, u) => h(u)) : h({}), s;
+      this.#i.dec(l.extension, l.data).then((c) => Y.#p(c, l, () => u?.())).catch((c) => {
+        const f = `画像/動画ロード失敗です fn:${l.name} ${c}`;
+        Y.#h.isSkipping ? console.warn(f) : this.#r.errScript(f, !1);
+      });
+    }).load(h) : h(0, {}), s;
   }
   static #u = {};
   static #m = {};
-  static #p = (t, e, i) => {
-    switch (e.type) {
+  static #p = (t, { type: e, spritesheet: i, name: n, data: s }, o) => {
+    switch (e) {
       case ct.TYPE.JSON:
-        const n = e.spritesheet._frameKeys;
-        Y.#c(n), Y.#m[e.name] = {
-          aTex: n.map((o) => rt.from(o)),
-          meta: e.data.meta
+        const a = i._frameKeys;
+        Y.#c(a), Y.#m[n] = {
+          aTex: a.map((l) => rt.from(l)),
+          meta: s.meta
         };
         break;
       case ct.TYPE.VIDEO:
-        const s = e.data;
-        s.volume = Y.#n, Y.#o[e.name] = Y.#f(s);
+        const h = s;
+        h.volume = Y.#n, Y.#o[n] = Y.#f(h);
     }
-    i();
+    o();
   };
   static #c(t) {
     const e = /([^\d]+)\d+\.(\w+)/.exec(t[0]);
@@ -20129,7 +20132,7 @@ class Y {
     new Te().use((h, l) => {
       this.#i.dec(h.extension, h.data).then((u) => {
         h.data = u, u instanceof HTMLImageElement && (h.type = ct.TYPE.IMAGE, URL.revokeObjectURL(u.src)), l?.();
-      }).catch((u) => this.#r.errScript(`Graphic ロード失敗です dec2res4Cripto fn:${h.name} ${u}`, !1));
+      }).catch((u) => this.#r.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${h.name} ${u}`, !1));
     }).add({ name: o, url: a, xhrType: ct.XHR_RESPONSE_TYPE.BUFFER }).load((h, l) => {
       for (const { data: u } of Object.values(h.resources)) {
         const { baseTexture: c } = rt.from(u), f = Object.values(s);
@@ -20166,7 +20169,7 @@ class Y {
     const i = Y.#o[e];
     if (!i || i.loop)
       return !1;
-    if (Y.#h.isSkipping() || i.ended)
+    if (Y.#h.isSkipping || i.ended)
       return Y.stopVideo(e), !1;
     const n = () => Y.#h.breakLimitedEvent();
     i.addEventListener("ended", n, { once: !0, passive: !0 });
@@ -21662,7 +21665,7 @@ text-combine-upright: all;
   #R(t, e, i = `
 `) {
     const n = this.#T ? e ?? this.#E.at(0)?.o.wait ?? (it.#a ? it.#u[i.at(0) ?? ""] ?? 0 : Ci.msecChWait) : 0;
-    it.#l.isSkipping() ? this.#W = 0 : t && this.#T && (this.#W += Number(n));
+    it.#l.isSkipping ? this.#W = 0 : t && this.#T && (this.#W += Number(n));
     const s = `data-add='{"ch_in_style":"${this.#k}", "ch_out_style":"${this.#j}"}'`;
     return {
       cl: ` class='sn_ch${n > 0 ? ` sn_ch_in_${this.#k}` : ""}'`,
@@ -21811,7 +21814,7 @@ class Re {
     if (this.val.getVal(`tmp:${h}`))
       throw `frame【${e}】はすでにあります`;
     const l = W(t, "visible", !0), u = t.b_color ? ` background-color: ${t.b_color};` : "", c = this.#l(t);
-    ue.cvs.insertAdjacentHTML("beforebegin", `<iframe id="${e}" sandbox="allow-scripts allow-same-origin" style="opacity: ${n}; position: absolute; left:${this.sys.ofsLeft4elm + c.x * this.sys.cvsScale}px; top: ${this.sys.ofsTop4elm + c.y * this.sys.cvsScale}px; z-index: 1; ${u} border: 0px; overflow: hidden; display: ${l ? "inline" : "none"}; transform: scale(${s}, ${o}) rotate(${a}deg);" width="${c.width * this.sys.cvsScale}" height="${c.height * this.sys.cvsScale}"></iframe>`);
+    ue.cvs.insertAdjacentHTML("beforebegin", `<iframe id="${e}" style="opacity: ${n}; position: absolute; left:${this.sys.ofsLeft4elm + c.x * this.sys.cvsScale}px; top: ${this.sys.ofsTop4elm + c.y * this.sys.cvsScale}px; z-index: 1; ${u} border: 0px; overflow: hidden; display: ${l ? "inline" : "none"}; transform: scale(${s}, ${o}) rotate(${a}deg);" width="${c.width * this.sys.cvsScale}" height="${c.height * this.sys.cvsScale}"></iframe>`);
     const f = this.cfg.searchPath(i, ce.HTML), d = new Te().add({ name: i, url: f, xhrType: ct.XHR_RESPONSE_TYPE.TEXT });
     return this.sys.crypto && d.use((m, p) => {
       try {
@@ -22189,7 +22192,7 @@ class Ci {
       case "txt":
         this.#_ || (this.#Z = () => {
         }, this.#R = this.#W, this.#B = this.#U, this.hTag.current({ layer: e }), this.goTxt = () => {
-          this.#m.isSkipping() ? Ci.#M = 0 : this.setNormalChWait();
+          this.#m.isSkipping ? Ci.#M = 0 : this.setNormalChWait();
           for (const s of this.#b()) {
             const o = this.#o[s].fore;
             o instanceof it && this.#c("gotxt｜", o, !1);
@@ -22346,7 +22349,7 @@ void main(void) {
       }
       Promise.allSettled(v), this.#e.visible = !0, this.#i.visible = !1, this.#z.visible = !1, this.#w.visible = !1;
     };
-    if (D(t, "time", 0) === 0 || this.#m.isSkipping())
+    if (D(t, "time", 0) === 0 || this.#m.isSkipping)
       return l(), !1;
     const { glsl: c, rule: f, chain: d } = t;
     if (!c && !f)
@@ -22391,7 +22394,7 @@ void main(void) {
   }
   // 画面を揺らす
   #X(t) {
-    if (X.finish_trans(), D(t, "time", NaN) === 0 || this.#m.isSkipping())
+    if (X.finish_trans(), D(t, "time", NaN) === 0 || this.#m.isSkipping)
       return !1;
     const { layer: i } = t, n = [];
     for (const u of this.#b(i))
@@ -22425,7 +22428,7 @@ void main(void) {
     const s = this.#o[this.#Y(t)], o = s.fore;
     let a = () => {
     };
-    i && !this.#m.isSkipping() && (o.renderStart(), a = () => o.renderEnd());
+    i && !this.#m.isSkipping && (o.renderStart(), a = () => o.renderEnd());
     const h = X.cnvTweenArg(t, o), l = W(t, "arrive", !1), u = W(t, "backlay", !1), c = s.back.spLay;
     return X.tween(n ?? e, t, o, X.cnvTweenArg(t, o), () => {
     }, a, () => {
@@ -22448,7 +22451,7 @@ void main(void) {
     if (!e)
       throw "textは必須です";
     const i = this.#R(t);
-    delete t.text, this.#m.isSkipping() ? t.wait = 0 : "wait" in t && D(t, "wait", NaN);
+    delete t.text, this.#m.isSkipping ? t.wait = 0 : "wait" in t && D(t, "wait", NaN);
     const n = encodeURIComponent(JSON.stringify(t));
     this.#c("add｜" + n, i);
     const s = W(t, "record", !0), o = this.val.doRecLog();
@@ -24442,7 +24445,7 @@ class Z0 {
     ht.noticeCompTxt();
   }
   // キー押下によるスキップ中か
-  isSkipping() {
+  get isSkipping() {
     return this.#r.isSkipping ? !0 : Object.keys(this.#g).some((t) => this.#g[t] === 2);
   }
   // 0:no push  1:one push  2:push repeating
@@ -25069,7 +25072,7 @@ class xe {
     } catch (i) {
       i instanceof Error ? e += `例外 mes=${i.message}(${i.name})` : e = i, this.main.errScript(e, !1);
     }
-    this.val.loadScrWork(this.#e);
+    this.val.touchAreaKidoku(this.#e);
   }
   #et(t) {
     this.#e = t.fn, this.#i = t.idx;
@@ -25104,9 +25107,7 @@ class xe {
     t.len = t.aToken.length;
   }
   #ht() {
-    const t = this.val.getAreaKidoku(this.#e);
-    if (!t)
-      throw `recordKidoku fn:'${this.#e}' (areas === null)`;
+    const t = this.val.touchAreaKidoku(this.#e);
     if (this.#s.length > 0) {
       t.record(this.#i);
       return;

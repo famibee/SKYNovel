@@ -30,6 +30,6 @@ export declare class EventMng implements IEvtMng {
     readonly waitEvent: (hArg: HArg, onIntr: () => void) => boolean;
     breakLimitedEvent(): void;
     noticeCompTxt(): void;
-    isSkipping(): boolean;
+    get isSkipping(): boolean;
 }
 //# sourceMappingURL=EventMng.d.ts.map

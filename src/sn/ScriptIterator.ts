@@ -956,7 +956,7 @@ export class ScriptIterator {
 			else mes = e as string;
 			this.main.errScript(mes, false);
 		}
-		this.val.loadScrWork(this.#scriptFn);
+		this.val.touchAreaKidoku(this.#scriptFn);
 	}
 
 	#jump_light(cs: CallStack) {
@@ -973,7 +973,7 @@ export class ScriptIterator {
 
 	readonly #REG_WILDCARD	= /^\[(call|loadplugin)\s/;
 	readonly #REG_WILDCARD2	= /\bfn\s*=\s*[^\s\]]+/;
-	#replaceScript_Wildcard(scr: Script): void {
+	#replaceScript_Wildcard(scr: Script) {
 		for (let i=scr.len -1; i>=0; --i) {
 			const token = scr.aToken[i];
 			if (! this.#REG_WILDCARD.test(token)) continue;
@@ -1007,9 +1007,8 @@ export class ScriptIterator {
 	}
 
 
-	#recordKidoku(): void {
-		const areas = this.val.getAreaKidoku(this.#scriptFn);
-		if (! areas) throw `recordKidoku fn:'${this.#scriptFn}' (areas === null)`;
+	#recordKidoku() {
+		const areas = this.val.touchAreaKidoku(this.#scriptFn);
 
 		// マクロ内やサブルーチンではisKidokuを変更させない
 		if (this.#aCallStk.length > 0) {areas.record(this.#idxToken); return}
@@ -1025,8 +1024,8 @@ export class ScriptIterator {
 			// saveKidoku()をコール。
 	}
 	#isKidoku	= false;
-	get isKidoku(): boolean {return this.#isKidoku};
-	#eraseKidoku(): void {
+	get isKidoku() {return this.#isKidoku};
+	#eraseKidoku() {
 		this.val.getAreaKidoku(this.#scriptFn)?.erase(this.#idxToken);
 		this.#isKidoku = false;
 	}

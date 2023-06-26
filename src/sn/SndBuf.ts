@@ -350,7 +350,7 @@ class SsPlaying implements ISndState {
 
 		const time = argChk_Num(hArg, 'time', NaN);
 		const delay = argChk_Num(hArg, 'delay', 0);
-		if ((time === 0 && delay === 0) || evtMng.isSkipping()) {
+		if ((time === 0 && delay === 0) || evtMng.isSkipping) {
 			sb.snd.volume = vol;
 			sb.stt = stop ? new SsStop(sb) : new SsPlaying;
 			return;

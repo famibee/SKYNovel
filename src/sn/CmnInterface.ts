@@ -125,7 +125,7 @@ export interface IVariable {
 	cloneSave(): IValSave;
 	mark2save(mark: IMark): void;
 
-	loadScrWork(fn: string): void;
+	touchAreaKidoku(fn: string): IAreas;
 	getAreaKidoku(fn: string): IAreas;
 	saveKidoku(): void;
 	updateData(data: IData4Vari): void;

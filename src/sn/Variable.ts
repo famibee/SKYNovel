@@ -7,7 +7,7 @@
 
 import {uint, int, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg, IHTag} from './Grammar';
-import {IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook, IValMp, IValSave, Scope} from './CmnInterface';
+import {IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook, IValMp, Scope} from './CmnInterface';
 import {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';
@@ -215,11 +215,11 @@ export class Variable implements IVariable {
 	#doRecProc = (_doRec: boolean)=> {};
 
 	defTmp(name: string, fnc: typeProcVal) {this.#hTmp[name] = fnc};
-	cloneMp(): IValMp {return {...this.#hScopes.mp}}
+	cloneMp() {return {...this.#hScopes.mp}}
 	setMp(mp: IValMp) {this.#hScopes.mp = mp}
 	setMark(place: number, mark: IMark) {this.#data.mark[place] = mark; this.flush()}
 	readonly	getMark = (place: number)=> this.#data.mark[place];
-	cloneSave(): IValSave {return {...this.#hScopes.save}}
+	cloneSave() {return {...this.#hScopes.save}}
 	mark2save(mark: IMark) {
 		this.#hSave = this.#hScopes.save = {...mark.hSave};
 		this.#doRecLog	= this.#hSave['sn.doRecLog'] ?? false;
@@ -227,10 +227,8 @@ export class Variable implements IVariable {
 
 
 	// 既読系
-	loadScrWork(fn: string) {
-		if (! (fn in this.#hAreaKidoku)) this.#hAreaKidoku[fn] = new Areas;
-	}
-	getAreaKidoku = (fn: string): Areas=> this.#hAreaKidoku[fn];
+	touchAreaKidoku(fn: string): Areas {return this.#hAreaKidoku[fn] ??= new Areas}
+	readonly	getAreaKidoku = (fn: string)=> this.#hAreaKidoku[fn];
 	saveKidoku() {
 		for (const [fn, {hAreas}] of Object.entries(this.#hAreaKidoku)) {
 			this.#data.kidoku[fn] = {...hAreas};

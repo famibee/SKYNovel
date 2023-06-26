@@ -418,7 +418,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 				this.#current = this.#$current;
 				this.hTag.current({layer});	// hPages更新後でないと呼べない
 				this.goTxt = ()=> {
-					if (this.#evtMng.isSkipping()) LayerMng.#msecChWait = 0;
+					if (this.#evtMng.isSkipping) LayerMng.#msecChWait = 0;
 					else this.setNormalChWait();
 					for (const name of this.#getLayers()) {
 						const f = this.#hPages[name].fore;
@@ -647,7 +647,7 @@ void main(void) {
 		const time = argChk_Num(hArg, 'time', 0);
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
-		if (time === 0 || this.#evtMng.isSkipping()) {comp(); return false}
+		if (time === 0 || this.#evtMng.isSkipping) {comp(); return false}
 
 		// クロスフェード
 		const {glsl, rule, chain} = hArg;
@@ -716,7 +716,7 @@ void main(void) {
 		CmnTween.finish_trans();
 		const time = argChk_Num(hArg, 'time', NaN);
 		if (time === 0) return false;	// skip時でもエラーは出したげたい
-		if (this.#evtMng.isSkipping()) return false;
+		if (this.#evtMng.isSkipping) return false;
 
 		const {layer} = hArg;
 		const aDo: DisplayObject[] = [];
@@ -768,7 +768,7 @@ void main(void) {
 		const hNow = pg.fore;
 
 		let finishBlendLayer = ()=> {};
-		if (render && ! this.#evtMng.isSkipping()) {
+		if (render && ! this.#evtMng.isSkipping) {
 			hNow.renderStart();
 			finishBlendLayer = ()=> hNow.renderEnd();
 		}
@@ -798,7 +798,7 @@ void main(void) {
 
 		const tl = this.#getTxtLayer(hArg);
 		delete hArg.text;	// [graph]時、次行がルビ文法でトラブったので
-		if (this.#evtMng.isSkipping()) hArg.wait = 0;
+		if (this.#evtMng.isSkipping) hArg.wait = 0;
 		else if ('wait' in hArg) argChk_Num(hArg, 'wait', NaN);
 
 		const sArg = encodeURIComponent(JSON.stringify(hArg));
