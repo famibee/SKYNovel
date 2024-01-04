@@ -27,6 +27,7 @@
 		"noImplicitOverride": true,	// overrideを使用しないオーバーライドをエラーに
 		"esModuleInterop": true,				// pixi.js 6.1.0以降必須
 		"allowSyntheticDefaultImports": true,	// pixi.js 6.1.0以降必須
+		"useDefineForClassFields": true,	// "本来あるべき"コードが生成されるように（今後デフォルトtrueになる予定）
 		"incremental": true			// 差分ビルド
 	},
 	"include": [

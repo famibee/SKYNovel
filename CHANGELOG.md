@@ -1,3 +1,9 @@
+- fix: NaNになるかもしれない値の ??（null合体演算子）による分岐処理を || に修正（src/sn/ReadState.ts）
+- fix: tsconfig.json更新、useDefineForClassFields 追加
+- fix: ライブラリ更新
+- docs: コードブロックライセンス年更新
+
+
 ## [1.48.13](https://github.com/famibee/SKYNovel/compare/v1.48.12...v1.48.13) (2023-06-26)
 
 

@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2023-2023 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2023-2024 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -393,8 +393,8 @@ class Rs_S_fire extends ReadState {
 		if (! ke) {
 			// スマホ用疑似スワイプスクロール
 			if (key.slice(0, 5) === 'swipe') globalThis.scrollBy(
-				-(<any>e).deltaX ?? 0,
-				-(<any>e).deltaY ?? 0,
+				-(<any>e).deltaX || 0,	// NaN なので ?? ではダメ
+				-(<any>e).deltaY || 0,
 			);
 			return;
 		}

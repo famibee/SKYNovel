@@ -8,13 +8,7 @@ function getAugmentedNamespace(o) {
   var t = o.default;
   if (typeof t == "function") {
     var e = function r() {
-      if (this instanceof r) {
-        var N = [null];
-        N.push.apply(N, arguments);
-        var k = Function.bind.apply(t, N);
-        return new k();
-      }
-      return t.apply(this, arguments);
+      return this instanceof r ? Reflect.construct(t, arguments, this.constructor) : t.apply(this, arguments);
     };
     e.prototype = t.prototype;
   } else
@@ -764,8 +758,8 @@ var objectAssign = shouldUseNative() ? Object.assign : function(o, t) {
 };
 const objectAssign$1 = /* @__PURE__ */ getDefaultExportFromCjs(objectAssign);
 /*!
- * @pixi/polyfill - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/polyfill - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/polyfill is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -812,8 +806,8 @@ globalThis.Uint16Array || (globalThis.Uint16Array = Array);
 globalThis.Uint8Array || (globalThis.Uint8Array = Array);
 globalThis.Int32Array || (globalThis.Int32Array = Array);
 /*!
- * @pixi/constants - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/constants - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/constants is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -899,8 +893,8 @@ var BUFFER_TYPE;
   o[o.ELEMENT_ARRAY_BUFFER = 34963] = "ELEMENT_ARRAY_BUFFER", o[o.ARRAY_BUFFER = 34962] = "ARRAY_BUFFER", o[o.UNIFORM_BUFFER = 35345] = "UNIFORM_BUFFER";
 })(BUFFER_TYPE || (BUFFER_TYPE = {}));
 /*!
- * @pixi/settings - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/settings - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/settings is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -1105,30 +1099,28 @@ var settings = {
    * @name RENDER_OPTIONS
    * @memberof PIXI.settings
    * @type {object}
-   * @property {HTMLCanvasElement} [view=null] -
-   * @property {boolean} [antialias=false] -
-   * @property {boolean} [autoDensity=false] -
-   * @property {boolean} [useContextAlpha=true]  -
-   * @property {number} [backgroundColor=0x000000] -
-   * @property {number} [backgroundAlpha=1] -
-   * @property {boolean} [clearBeforeRender=true] -
-   * @property {boolean} [preserveDrawingBuffer=false] -
-   * @property {number} [width=800] -
-   * @property {number} [height=600] -
-   * @property {boolean} [legacy=false] -
+   * @property {boolean} [antialias=false] - {@link PIXI.IRendererOptions.antialias}
+   * @property {boolean} [autoDensity=false] - {@link PIXI.IRendererOptions.autoDensity}
+   * @property {number} [backgroundAlpha=1] - {@link PIXI.IRendererOptions.backgroundAlpha}
+   * @property {number} [backgroundColor=0x000000] - {@link PIXI.IRendererOptions.backgroundColor}
+   * @property {boolean} [clearBeforeRender=true] - {@link PIXI.IRendererOptions.clearBeforeRender}
+   * @property {number} [height=600] - {@link PIXI.IRendererOptions.height}
+   * @property {boolean} [preserveDrawingBuffer=false] - {@link PIXI.IRendererOptions.preserveDrawingBuffer}
+   * @property {boolean|'notMultiplied'} [useContextAlpha=true] - {@link PIXI.IRendererOptions.useContextAlpha}
+   * @property {HTMLCanvasElement} [view=null] - {@link PIXI.IRendererOptions.view}
+   * @property {number} [width=800] - {@link PIXI.IRendererOptions.width}
    */
   RENDER_OPTIONS: {
     view: null,
-    antialias: !1,
+    width: 800,
+    height: 600,
     autoDensity: !1,
     backgroundColor: 0,
     backgroundAlpha: 1,
     useContextAlpha: !0,
     clearBeforeRender: !0,
-    preserveDrawingBuffer: !1,
-    width: 800,
-    height: 600,
-    legacy: !1
+    antialias: !1,
+    preserveDrawingBuffer: !1
   },
   /**
    * Default Garbage Collection mode.
@@ -1757,50 +1749,64 @@ var punycodeExports = punycode$1.exports, shams = function() {
   foo: {}
 }, $Object = Object, hasProto$1 = function() {
   return { __proto__: test }.foo === test.foo && !({ __proto__: null } instanceof $Object);
-}, ERROR_MESSAGE = "Function.prototype.bind called on incompatible ", slice$2 = Array.prototype.slice, toStr$1 = Object.prototype.toString, funcType = "[object Function]", implementation$1 = function(t) {
+}, ERROR_MESSAGE = "Function.prototype.bind called on incompatible ", toStr$1 = Object.prototype.toString, max$1 = Math.max, funcType = "[object Function]", concatty = function(t, e) {
+  for (var r = [], N = 0; N < t.length; N += 1)
+    r[N] = t[N];
+  for (var k = 0; k < e.length; k += 1)
+    r[k + t.length] = e[k];
+  return r;
+}, slicy = function(t, e) {
+  for (var r = [], N = e || 0, k = 0; N < t.length; N += 1, k += 1)
+    r[k] = t[N];
+  return r;
+}, joiny = function(o, t) {
+  for (var e = "", r = 0; r < o.length; r += 1)
+    e += o[r], r + 1 < o.length && (e += t);
+  return e;
+}, implementation$1 = function(t) {
   var e = this;
-  if (typeof e != "function" || toStr$1.call(e) !== funcType)
+  if (typeof e != "function" || toStr$1.apply(e) !== funcType)
     throw new TypeError(ERROR_MESSAGE + e);
-  for (var r = slice$2.call(arguments, 1), N, k = function() {
+  for (var r = slicy(arguments, 1), N, k = function() {
     if (this instanceof N) {
       var H = e.apply(
         this,
-        r.concat(slice$2.call(arguments))
+        concatty(r, arguments)
       );
       return Object(H) === H ? H : this;
-    } else
-      return e.apply(
-        t,
-        r.concat(slice$2.call(arguments))
-      );
-  }, D = Math.max(0, e.length - r.length), B = [], $ = 0; $ < D; $++)
-    B.push("$" + $);
-  if (N = Function("binder", "return function (" + B.join(",") + "){ return binder.apply(this,arguments); }")(k), e.prototype) {
+    }
+    return e.apply(
+      t,
+      concatty(r, arguments)
+    );
+  }, D = max$1(0, e.length - r.length), B = [], $ = 0; $ < D; $++)
+    B[$] = "$" + $;
+  if (N = Function("binder", "return function (" + joiny(B, ",") + "){ return binder.apply(this,arguments); }")(k), e.prototype) {
     var U = function() {
     };
     U.prototype = e.prototype, N.prototype = new U(), U.prototype = null;
   }
   return N;
-}, implementation = implementation$1, functionBind = Function.prototype.bind || implementation, bind$3 = functionBind, src = bind$3.call(Function.call, Object.prototype.hasOwnProperty), undefined$1, $SyntaxError = SyntaxError, $Function = Function, $TypeError$1 = TypeError, getEvalledConstructor = function(o) {
+}, implementation = implementation$1, functionBind = Function.prototype.bind || implementation, call = Function.prototype.call, $hasOwn = Object.prototype.hasOwnProperty, bind$3 = functionBind, hasown = bind$3.call(call, $hasOwn), undefined$1, $SyntaxError$1 = SyntaxError, $Function = Function, $TypeError$3 = TypeError, getEvalledConstructor = function(o) {
   try {
     return $Function('"use strict"; return (' + o + ").constructor;")();
   } catch {
   }
-}, $gOPD = Object.getOwnPropertyDescriptor;
-if ($gOPD)
+}, $gOPD$1 = Object.getOwnPropertyDescriptor;
+if ($gOPD$1)
   try {
-    $gOPD({}, "");
+    $gOPD$1({}, "");
   } catch {
-    $gOPD = null;
+    $gOPD$1 = null;
   }
 var throwTypeError = function() {
-  throw new $TypeError$1();
-}, ThrowTypeError = $gOPD ? function() {
+  throw new $TypeError$3();
+}, ThrowTypeError = $gOPD$1 ? function() {
   try {
     return arguments.callee, throwTypeError;
   } catch {
     try {
-      return $gOPD(arguments, "callee").get;
+      return $gOPD$1(arguments, "callee").get;
     } catch {
       return throwTypeError;
     }
@@ -1863,10 +1869,10 @@ var throwTypeError = function() {
   "%String%": String,
   "%StringIteratorPrototype%": hasSymbols && getProto ? getProto(""[Symbol.iterator]()) : undefined$1,
   "%Symbol%": hasSymbols ? Symbol : undefined$1,
-  "%SyntaxError%": $SyntaxError,
+  "%SyntaxError%": $SyntaxError$1,
   "%ThrowTypeError%": ThrowTypeError,
   "%TypedArray%": TypedArray,
-  "%TypeError%": $TypeError$1,
+  "%TypeError%": $TypeError$3,
   "%Uint8Array%": typeof Uint8Array > "u" ? undefined$1 : Uint8Array,
   "%Uint8ClampedArray%": typeof Uint8ClampedArray > "u" ? undefined$1 : Uint8ClampedArray,
   "%Uint16Array%": typeof Uint16Array > "u" ? undefined$1 : Uint16Array,
@@ -1951,12 +1957,12 @@ var doEval = function o(t) {
   "%URIErrorPrototype%": ["URIError", "prototype"],
   "%WeakMapPrototype%": ["WeakMap", "prototype"],
   "%WeakSetPrototype%": ["WeakSet", "prototype"]
-}, bind$2 = functionBind, hasOwn$1 = src, $concat$1 = bind$2.call(Function.call, Array.prototype.concat), $spliceApply = bind$2.call(Function.apply, Array.prototype.splice), $replace$1 = bind$2.call(Function.call, String.prototype.replace), $strSlice = bind$2.call(Function.call, String.prototype.slice), $exec = bind$2.call(Function.call, RegExp.prototype.exec), rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = function(t) {
+}, bind$2 = functionBind, hasOwn$1 = hasown, $concat$1 = bind$2.call(Function.call, Array.prototype.concat), $spliceApply = bind$2.call(Function.apply, Array.prototype.splice), $replace$1 = bind$2.call(Function.call, String.prototype.replace), $strSlice = bind$2.call(Function.call, String.prototype.slice), $exec = bind$2.call(Function.call, RegExp.prototype.exec), rePropName = /[^%.[\]]+|\[(?:(-?\d+(?:\.\d+)?)|(["'])((?:(?!\2)[^\\]|\\.)*?)\2)\]|(?=(?:\.|\[\])(?:\.|\[\]|%$))/g, reEscapeChar = /\\(\\)?/g, stringToPath = function(t) {
   var e = $strSlice(t, 0, 1), r = $strSlice(t, -1);
   if (e === "%" && r !== "%")
-    throw new $SyntaxError("invalid intrinsic syntax, expected closing `%`");
+    throw new $SyntaxError$1("invalid intrinsic syntax, expected closing `%`");
   if (r === "%" && e !== "%")
-    throw new $SyntaxError("invalid intrinsic syntax, expected opening `%`");
+    throw new $SyntaxError$1("invalid intrinsic syntax, expected opening `%`");
   var N = [];
   return $replace$1(t, rePropName, function(k, D, B, $) {
     N[N.length] = B ? $replace$1($, reEscapeChar, "$1") : D || k;
@@ -1966,37 +1972,37 @@ var doEval = function o(t) {
   if (hasOwn$1(LEGACY_ALIASES, r) && (N = LEGACY_ALIASES[r], r = "%" + N[0] + "%"), hasOwn$1(INTRINSICS, r)) {
     var k = INTRINSICS[r];
     if (k === needsEval && (k = doEval(r)), typeof k > "u" && !e)
-      throw new $TypeError$1("intrinsic " + t + " exists, but is not available. Please file an issue!");
+      throw new $TypeError$3("intrinsic " + t + " exists, but is not available. Please file an issue!");
     return {
       alias: N,
       name: r,
       value: k
     };
   }
-  throw new $SyntaxError("intrinsic " + t + " does not exist!");
+  throw new $SyntaxError$1("intrinsic " + t + " does not exist!");
 }, getIntrinsic = function(t, e) {
   if (typeof t != "string" || t.length === 0)
-    throw new $TypeError$1("intrinsic name must be a non-empty string");
+    throw new $TypeError$3("intrinsic name must be a non-empty string");
   if (arguments.length > 1 && typeof e != "boolean")
-    throw new $TypeError$1('"allowMissing" argument must be a boolean');
+    throw new $TypeError$3('"allowMissing" argument must be a boolean');
   if ($exec(/^%?[^%]*%?$/, t) === null)
-    throw new $SyntaxError("`%` may not be present anywhere but at the beginning and end of the intrinsic name");
+    throw new $SyntaxError$1("`%` may not be present anywhere but at the beginning and end of the intrinsic name");
   var r = stringToPath(t), N = r.length > 0 ? r[0] : "", k = getBaseIntrinsic("%" + N + "%", e), D = k.name, B = k.value, $ = !1, U = k.alias;
   U && (N = U[0], $spliceApply(r, $concat$1([0, 1], U)));
   for (var H = 1, z = !0; H < r.length; H += 1) {
     var V = r[H], X = $strSlice(V, 0, 1), q = $strSlice(V, -1);
     if ((X === '"' || X === "'" || X === "`" || q === '"' || q === "'" || q === "`") && X !== q)
-      throw new $SyntaxError("property names with quotes must have matching quotes");
+      throw new $SyntaxError$1("property names with quotes must have matching quotes");
     if ((V === "constructor" || !z) && ($ = !0), N += "." + V, D = "%" + N + "%", hasOwn$1(INTRINSICS, D))
       B = INTRINSICS[D];
     else if (B != null) {
       if (!(V in B)) {
         if (!e)
-          throw new $TypeError$1("base intrinsic for " + t + " exists, but the property is not available.");
+          throw new $TypeError$3("base intrinsic for " + t + " exists, but the property is not available.");
         return;
       }
-      if ($gOPD && H + 1 >= r.length) {
-        var W = $gOPD(B, V);
+      if ($gOPD$1 && H + 1 >= r.length) {
+        var W = $gOPD$1(B, V);
         z = !!W, z && "get" in W && !("originalValue" in W.get) ? B = W.get : B = B[V];
       } else
         z = hasOwn$1(B, V), B = B[V];
@@ -2004,31 +2010,97 @@ var doEval = function o(t) {
     }
   }
   return B;
-}, callBind$1 = { exports: {} };
-(function(o) {
-  var t = functionBind, e = getIntrinsic, r = e("%Function.prototype.apply%"), N = e("%Function.prototype.call%"), k = e("%Reflect.apply%", !0) || t.call(N, r), D = e("%Object.getOwnPropertyDescriptor%", !0), B = e("%Object.defineProperty%", !0), $ = e("%Math.max%");
-  if (B)
+}, callBind$1 = { exports: {} }, GetIntrinsic$5 = getIntrinsic, $defineProperty$1 = GetIntrinsic$5("%Object.defineProperty%", !0), hasPropertyDescriptors$1 = function() {
+  if ($defineProperty$1)
     try {
-      B({}, "a", { value: 1 });
+      return $defineProperty$1({}, "a", { value: 1 }), !0;
     } catch {
-      B = null;
+      return !1;
     }
-  o.exports = function(z) {
-    var V = k(t, N, arguments);
-    if (D && B) {
-      var X = D(V, "length");
-      X.configurable && B(
-        V,
-        "length",
-        { value: 1 + $(0, z.length - (arguments.length - 1)) }
-      );
+  return !1;
+};
+hasPropertyDescriptors$1.hasArrayLengthDefineBug = function() {
+  if (!hasPropertyDescriptors$1())
+    return null;
+  try {
+    return $defineProperty$1([], "length", { value: 1 }).length !== 1;
+  } catch {
+    return !0;
+  }
+};
+var hasPropertyDescriptors_1 = hasPropertyDescriptors$1, GetIntrinsic$4 = getIntrinsic, $gOPD = GetIntrinsic$4("%Object.getOwnPropertyDescriptor%", !0);
+if ($gOPD)
+  try {
+    $gOPD([], "length");
+  } catch {
+    $gOPD = null;
+  }
+var gopd$1 = $gOPD, hasPropertyDescriptors = hasPropertyDescriptors_1(), GetIntrinsic$3 = getIntrinsic, $defineProperty = hasPropertyDescriptors && GetIntrinsic$3("%Object.defineProperty%", !0);
+if ($defineProperty)
+  try {
+    $defineProperty({}, "a", { value: 1 });
+  } catch {
+    $defineProperty = !1;
+  }
+var $SyntaxError = GetIntrinsic$3("%SyntaxError%"), $TypeError$2 = GetIntrinsic$3("%TypeError%"), gopd = gopd$1, defineDataProperty = function(t, e, r) {
+  if (!t || typeof t != "object" && typeof t != "function")
+    throw new $TypeError$2("`obj` must be an object or a function`");
+  if (typeof e != "string" && typeof e != "symbol")
+    throw new $TypeError$2("`property` must be a string or a symbol`");
+  if (arguments.length > 3 && typeof arguments[3] != "boolean" && arguments[3] !== null)
+    throw new $TypeError$2("`nonEnumerable`, if provided, must be a boolean or null");
+  if (arguments.length > 4 && typeof arguments[4] != "boolean" && arguments[4] !== null)
+    throw new $TypeError$2("`nonWritable`, if provided, must be a boolean or null");
+  if (arguments.length > 5 && typeof arguments[5] != "boolean" && arguments[5] !== null)
+    throw new $TypeError$2("`nonConfigurable`, if provided, must be a boolean or null");
+  if (arguments.length > 6 && typeof arguments[6] != "boolean")
+    throw new $TypeError$2("`loose`, if provided, must be a boolean");
+  var N = arguments.length > 3 ? arguments[3] : null, k = arguments.length > 4 ? arguments[4] : null, D = arguments.length > 5 ? arguments[5] : null, B = arguments.length > 6 ? arguments[6] : !1, $ = !!gopd && gopd(t, e);
+  if ($defineProperty)
+    $defineProperty(t, e, {
+      configurable: D === null && $ ? $.configurable : !D,
+      enumerable: N === null && $ ? $.enumerable : !N,
+      value: r,
+      writable: k === null && $ ? $.writable : !k
+    });
+  else if (B || !N && !k && !D)
+    t[e] = r;
+  else
+    throw new $SyntaxError("This environment does not support defining a property as non-configurable, non-writable, or non-enumerable.");
+}, GetIntrinsic$2 = getIntrinsic, define = defineDataProperty, hasDescriptors = hasPropertyDescriptors_1(), gOPD = gopd$1, $TypeError$1 = GetIntrinsic$2("%TypeError%"), $floor$1 = GetIntrinsic$2("%Math.floor%"), setFunctionLength = function(t, e) {
+  if (typeof t != "function")
+    throw new $TypeError$1("`fn` is not a function");
+  if (typeof e != "number" || e < 0 || e > 4294967295 || $floor$1(e) !== e)
+    throw new $TypeError$1("`length` must be a positive 32-bit integer");
+  var r = arguments.length > 2 && !!arguments[2], N = !0, k = !0;
+  if ("length" in t && gOPD) {
+    var D = gOPD(t, "length");
+    D && !D.configurable && (N = !1), D && !D.writable && (k = !1);
+  }
+  return (N || k || !r) && (hasDescriptors ? define(t, "length", e, !0, !0) : define(t, "length", e)), t;
+};
+(function(o) {
+  var t = functionBind, e = getIntrinsic, r = setFunctionLength, N = e("%TypeError%"), k = e("%Function.prototype.apply%"), D = e("%Function.prototype.call%"), B = e("%Reflect.apply%", !0) || t.call(D, k), $ = e("%Object.defineProperty%", !0), U = e("%Math.max%");
+  if ($)
+    try {
+      $({}, "a", { value: 1 });
+    } catch {
+      $ = null;
     }
-    return V;
+  o.exports = function(V) {
+    if (typeof V != "function")
+      throw new N("a function is required");
+    var X = B(t, D, arguments);
+    return r(
+      X,
+      1 + U(0, V.length - (arguments.length - 1)),
+      !0
+    );
   };
-  var U = function() {
-    return k(t, r, arguments);
+  var H = function() {
+    return B(t, k, arguments);
   };
-  B ? B(o.exports, "apply", { value: U }) : o.exports.apply = U;
+  $ ? $(o.exports, "apply", { value: H }) : o.exports.apply = H;
 })(callBind$1);
 var callBindExports = callBind$1.exports, GetIntrinsic$1 = getIntrinsic, callBind = callBindExports, $indexOf = callBind(GetIntrinsic$1("String.prototype.indexOf")), callBound$1 = function(t, e) {
   var r = GetIntrinsic$1(t, !!e);
@@ -2038,7 +2110,7 @@ const __viteBrowserExternal = {}, __viteBrowserExternal$1 = /* @__PURE__ */ Obje
   __proto__: null,
   default: __viteBrowserExternal
 }, Symbol.toStringTag, { value: "Module" })), require$$0 = /* @__PURE__ */ getAugmentedNamespace(__viteBrowserExternal$1);
-var hasMap = typeof Map == "function" && Map.prototype, mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, "size") : null, mapSize$1 = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get == "function" ? mapSizeDescriptor.get : null, mapForEach = hasMap && Map.prototype.forEach, hasSet = typeof Set == "function" && Set.prototype, setSizeDescriptor = Object.getOwnPropertyDescriptor && hasSet ? Object.getOwnPropertyDescriptor(Set.prototype, "size") : null, setSize = hasSet && setSizeDescriptor && typeof setSizeDescriptor.get == "function" ? setSizeDescriptor.get : null, setForEach = hasSet && Set.prototype.forEach, hasWeakMap = typeof WeakMap == "function" && WeakMap.prototype, weakMapHas = hasWeakMap ? WeakMap.prototype.has : null, hasWeakSet = typeof WeakSet == "function" && WeakSet.prototype, weakSetHas = hasWeakSet ? WeakSet.prototype.has : null, hasWeakRef = typeof WeakRef == "function" && WeakRef.prototype, weakRefDeref = hasWeakRef ? WeakRef.prototype.deref : null, booleanValueOf = Boolean.prototype.valueOf, objectToString = Object.prototype.toString, functionToString = Function.prototype.toString, $match = String.prototype.match, $slice = String.prototype.slice, $replace = String.prototype.replace, $toUpperCase = String.prototype.toUpperCase, $toLowerCase = String.prototype.toLowerCase, $test = RegExp.prototype.test, $concat = Array.prototype.concat, $join = Array.prototype.join, $arrSlice = Array.prototype.slice, $floor = Math.floor, bigIntValueOf = typeof BigInt == "function" ? BigInt.prototype.valueOf : null, gOPS = Object.getOwnPropertySymbols, symToString = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? Symbol.prototype.toString : null, hasShammedSymbols = typeof Symbol == "function" && typeof Symbol.iterator == "object", toStringTag = typeof Symbol == "function" && Symbol.toStringTag && (typeof Symbol.toStringTag === hasShammedSymbols || "symbol") ? Symbol.toStringTag : null, isEnumerable = Object.prototype.propertyIsEnumerable, gPO = (typeof Reflect == "function" ? Reflect.getPrototypeOf : Object.getPrototypeOf) || ([].__proto__ === Array.prototype ? function(o) {
+var hasMap = typeof Map == "function" && Map.prototype, mapSizeDescriptor = Object.getOwnPropertyDescriptor && hasMap ? Object.getOwnPropertyDescriptor(Map.prototype, "size") : null, mapSize$1 = hasMap && mapSizeDescriptor && typeof mapSizeDescriptor.get == "function" ? mapSizeDescriptor.get : null, mapForEach = hasMap && Map.prototype.forEach, hasSet = typeof Set == "function" && Set.prototype, setSizeDescriptor = Object.getOwnPropertyDescriptor && hasSet ? Object.getOwnPropertyDescriptor(Set.prototype, "size") : null, setSize = hasSet && setSizeDescriptor && typeof setSizeDescriptor.get == "function" ? setSizeDescriptor.get : null, setForEach = hasSet && Set.prototype.forEach, hasWeakMap = typeof WeakMap == "function" && WeakMap.prototype, weakMapHas = hasWeakMap ? WeakMap.prototype.has : null, hasWeakSet = typeof WeakSet == "function" && WeakSet.prototype, weakSetHas = hasWeakSet ? WeakSet.prototype.has : null, hasWeakRef = typeof WeakRef == "function" && WeakRef.prototype, weakRefDeref = hasWeakRef ? WeakRef.prototype.deref : null, booleanValueOf = Boolean.prototype.valueOf, objectToString = Object.prototype.toString, functionToString = Function.prototype.toString, $match = String.prototype.match, $slice = String.prototype.slice, $replace = String.prototype.replace, $toUpperCase = String.prototype.toUpperCase, $toLowerCase = String.prototype.toLowerCase, $test = RegExp.prototype.test, $concat = Array.prototype.concat, $join = Array.prototype.join, $arrSlice = Array.prototype.slice, $floor = Math.floor, bigIntValueOf = typeof BigInt == "function" ? BigInt.prototype.valueOf : null, gOPS = Object.getOwnPropertySymbols, symToString = typeof Symbol == "function" && typeof Symbol.iterator == "symbol" ? Symbol.prototype.toString : null, hasShammedSymbols = typeof Symbol == "function" && typeof Symbol.iterator == "object", toStringTag = typeof Symbol == "function" && Symbol.toStringTag && (typeof Symbol.toStringTag === hasShammedSymbols || !0) ? Symbol.toStringTag : null, isEnumerable = Object.prototype.propertyIsEnumerable, gPO = (typeof Reflect == "function" ? Reflect.getPrototypeOf : Object.getPrototypeOf) || ([].__proto__ === Array.prototype ? function(o) {
   return o.__proto__;
 } : null);
 function addNumericSeparator(o, t) {
@@ -2158,6 +2230,10 @@ var utilInspect = require$$0, inspectCustom = utilInspect.custom, inspectSymbol 
     return markBoxed(booleanValueOf.call(t));
   if (isString(t))
     return markBoxed(V(String(t)));
+  if (typeof window < "u" && t === window)
+    return "{ [object Window] }";
+  if (t === commonjsGlobal)
+    return "{ [object globalThis] }";
   if (!isDate(t) && !isRegExp$1(t)) {
     var st = arrObjKeys(t, V), rt = gPO ? gPO(t) === Object.prototype : t instanceof Object || t.constructor === Object, nt = t instanceof Object ? "" : "null prototype", ht = !rt && toStringTag && Object(t) === t && toStringTag in t ? $slice.call(toStr(t), 8, -1) : nt ? "Object" : "", ct = rt || typeof t.constructor != "function" ? "" : t.constructor.name ? t.constructor.name + " " : "", mt = ct + (ht || nt ? "[" + $join.call($concat.call([], ht || [], nt || []), ": ") + "] " : "");
     return st.length === 0 ? mt + "{}" : z ? mt + "{" + indentedJoin(st, z) + "}" : mt + "{ " + $join.call(st, ", ") + " }";
@@ -2965,7 +3041,10 @@ Url.prototype.format = function() {
   var o = this.auth || "";
   o && (o = encodeURIComponent(o), o = o.replace(/%3A/i, ":"), o += "@");
   var t = this.protocol || "", e = this.pathname || "", r = this.hash || "", N = !1, k = "";
-  this.host ? N = o + this.host : this.hostname && (N = o + (this.hostname.indexOf(":") === -1 ? this.hostname : "[" + this.hostname + "]"), this.port && (N += ":" + this.port)), this.query && typeof this.query == "object" && Object.keys(this.query).length && (k = querystring.stringify(this.query));
+  this.host ? N = o + this.host : this.hostname && (N = o + (this.hostname.indexOf(":") === -1 ? this.hostname : "[" + this.hostname + "]"), this.port && (N += ":" + this.port)), this.query && typeof this.query == "object" && Object.keys(this.query).length && (k = querystring.stringify(this.query, {
+    arrayFormat: "repeat",
+    addQueryPrefix: !1
+  }));
   var D = this.search || k && "?" + k || "";
   return t && t.substr(-1) !== ":" && (t += ":"), this.slashes || (!t || slashedProtocol[t]) && N !== !1 ? (N = "//" + (N || ""), e && e.charAt(0) !== "/" && (e = "/" + e)) : N || (N = ""), r && r.charAt(0) !== "#" && (r = "#" + r), D && D.charAt(0) !== "?" && (D = "?" + D), e = e.replace(/[?#]/g, function(B) {
     return encodeURIComponent(B);
@@ -3050,8 +3129,8 @@ Url.prototype.parseHost = function() {
 };
 var parse$1 = urlParse, resolve = urlResolve, format = urlFormat;
 /*!
- * @pixi/utils - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/utils - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/utils is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -3063,7 +3142,7 @@ var url$1 = {
 };
 settings.RETINA_PREFIX = /@([0-9\.]+)x/;
 settings.FAIL_IF_MAJOR_PERFORMANCE_CAVEAT = !1;
-var saidHello = !1, VERSION$1 = "6.5.9";
+var saidHello = !1, VERSION$1 = "6.5.10";
 function skipHello() {
   saidHello = !0;
 }
@@ -3437,8 +3516,8 @@ function getResolutionOfUrl(o, t) {
   return e ? parseFloat(e[1]) : t !== void 0 ? t : 1;
 }
 /*!
- * @pixi/math - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/math - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/math is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -4037,8 +4116,8 @@ var groupD8 = {
   }()
 );
 /*!
- * @pixi/display - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/display - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/display is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -4613,8 +4692,8 @@ var Container = (
 );
 Container.prototype.containerUpdateTransform = Container.prototype.updateTransform;
 /*!
- * @pixi/extensions - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/extensions - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/extensions is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -4742,8 +4821,8 @@ var normalizeExtension = function(o) {
   }
 };
 /*!
- * @pixi/runner - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/runner - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/runner is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -4815,8 +4894,8 @@ Object.defineProperties(Runner.prototype, {
   run: { value: Runner.prototype.emit }
 });
 /*!
- * @pixi/ticker - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/ticker - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/ticker is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -5086,8 +5165,8 @@ var TickerListener = (
   }()
 );
 /*!
- * @pixi/core - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/core - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/core is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -6627,7 +6706,7 @@ var byteSizeMap$1 = { 5126: 4, 5123: 2, 5121: 1 }, UID$3 = 0, map$2 = {
   }()
 ), GLFramebuffer = (
   /** @class */
-  function() {
+  /* @__PURE__ */ function() {
     function o(t) {
       this.framebuffer = t, this.stencil = null, this.dirtyId = -1, this.dirtyFormat = -1, this.dirtySize = -1, this.multisample = MSAA_QUALITY.NONE, this.msaaBuffer = null, this.blitFramebuffer = null, this.mipLevel = 0;
     }
@@ -8319,7 +8398,7 @@ function generateUniformBufferSync(o, t) {
 }
 var IGLUniformData = (
   /** @class */
-  function() {
+  /* @__PURE__ */ function() {
     function o() {
     }
     return o;
@@ -8545,7 +8624,7 @@ function mapTypeAndFormatToInternalFormat(o) {
 }
 var GLTexture = (
   /** @class */
-  function() {
+  /* @__PURE__ */ function() {
     function o(t) {
       this.texture = t, this.width = -1, this.height = -1, this.dirtyId = -1, this.dirtyStyleId = -1, this.mipmap = !1, this.wrapMode = 33071, this.type = TYPES.UNSIGNED_BYTE, this.internalFormat = FORMATS.RGBA, this.samplerType = 0;
     }
@@ -8750,7 +8829,7 @@ var GLTexture = (
   }(i$1)
 ), GLBuffer = (
   /** @class */
-  function() {
+  /* @__PURE__ */ function() {
     function o(t) {
       this.buffer = t || null, this.updateID = -1, this.byteLength = -1, this.refCount = 0;
     }
@@ -8948,7 +9027,7 @@ void main(void)
   }()
 ), BatchDrawCall = (
   /** @class */
-  function() {
+  /* @__PURE__ */ function() {
     function o() {
       this.texArray = null, this.blend = 0, this.type = DRAW_MODES.TRIANGLES, this.start = 0, this.size = 0, this.data = null;
     }
@@ -9262,7 +9341,7 @@ var systems = {}, _loop_2 = function(o) {
 };
 for (var name in _systems)
   _loop_2(name);
-var VERSION = "6.5.9";
+var VERSION = "6.5.10";
 const n = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   AbstractBatchRenderer,
@@ -9348,8 +9427,8 @@ const n = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   uniformParsers
 }, Symbol.toStringTag, { value: "Module" }));
 /*!
- * @pixi/accessibility - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/accessibility - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/accessibility is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -9526,8 +9605,8 @@ var KEY_CODE_TAB = 9, DIV_TOUCH_SIZE = 100, DIV_TOUCH_POS_X = 0, DIV_TOUCH_POS_Y
   }()
 );
 /*!
- * @pixi/interaction - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/interaction - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/interaction is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -10016,8 +10095,8 @@ var MOUSE_POINTER_ID = 1, hitTestEvent = {
   }(i$1)
 );
 /*!
- * @pixi/extract - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/extract - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/extract is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -10076,8 +10155,8 @@ var TEMP_RECT = new Rectangle(), BYTES_PER_PIXEL = 4, Extract = (
   }()
 );
 /*!
- * @pixi/loaders - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/loaders - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/loaders is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -10504,7 +10583,7 @@ function onlyOnce(o) {
 }
 var AsyncQueueItem = (
   /** @class */
-  function() {
+  /* @__PURE__ */ function() {
     function o(t, e) {
       this.data = t, this.callback = e;
     }
@@ -10784,8 +10863,8 @@ var ParsingLoader = (
 );
 extensions.add(TextureLoader, ParsingLoader);
 /*!
- * @pixi/compressed-textures - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/compressed-textures - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/compressed-textures is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -11356,8 +11435,8 @@ var KTXLoader = (
   }()
 );
 /*!
- * @pixi/particle-container - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/particle-container - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/particle-container is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -11632,8 +11711,8 @@ void main(void){
   }(ObjectRenderer)
 );
 /*!
- * @pixi/graphics - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/graphics - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/graphics is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -12455,8 +12534,8 @@ var ArcUtils = (
   }(Container)
 );
 /*!
- * @pixi/sprite - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/sprite - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/sprite is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -12634,8 +12713,8 @@ var tempPoint$2 = new Point(), indices = new Uint16Array([0, 1, 2, 0, 2, 3]), Sp
   }(Container)
 );
 /*!
- * @pixi/text - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/text - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/text is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -13499,8 +13578,8 @@ var defaultDestroyOptions = {
   }(Sprite)
 );
 /*!
- * @pixi/prepare - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/prepare - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/prepare is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -13683,8 +13762,8 @@ var Prepare = (
   }(BasePrepare)
 );
 /*!
- * @pixi/spritesheet - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/spritesheet - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/spritesheet is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -13796,8 +13875,8 @@ var Spritesheet = (
   }()
 );
 /*!
- * @pixi/sprite-tiling - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/sprite-tiling - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/sprite-tiling is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -14061,8 +14140,8 @@ void main(void)
   }(ObjectRenderer)
 );
 /*!
- * @pixi/mesh - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/mesh - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/mesh is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -14372,8 +14451,8 @@ void main(void)
   }(Geometry)
 );
 /*!
- * @pixi/text-bitmap - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/text-bitmap - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/text-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -14409,7 +14488,7 @@ function __extends$8(o, t) {
 }
 var BitmapFontData = (
   /** @class */
-  function() {
+  /* @__PURE__ */ function() {
     function o() {
       this.info = [], this.common = [], this.page = [], this.char = [], this.kerning = [], this.distanceField = [];
     }
@@ -14719,15 +14798,16 @@ var BitmapFont = (
           xadvance: Math.ceil(rt - (z.dropShadow ? z.dropShadowDistance : 0) - (z.stroke ? z.strokeThickness : 0))
         }), q += (ht + 2 * D) * B, q = Math.ceil(q);
       }
-      for (var et = 0, mt = H.length; et < mt; et++)
-        for (var Et = H[et], Ct = 0; Ct < mt; Ct++) {
-          var _t = H[Ct], vt = K.measureText(Et).width, Rt = K.measureText(_t).width, Gt = K.measureText(Et + _t).width, Ot = Gt - (vt + Rt);
-          Ot && X.kerning.push({
-            first: extractCharCode(Et),
-            second: extractCharCode(_t),
-            amount: Ot
-          });
-        }
+      if (!r?.skipKerning)
+        for (var et = 0, mt = H.length; et < mt; et++)
+          for (var Et = H[et], Ct = 0; Ct < mt; Ct++) {
+            var _t = H[Ct], vt = K.measureText(Et).width, Rt = K.measureText(_t).width, Gt = K.measureText(Et + _t).width, Ot = Gt - (vt + Rt);
+            Ot && X.kerning.push({
+              first: extractCharCode(Et),
+              second: extractCharCode(_t),
+              amount: Ot
+            });
+          }
       var bt = new o(X, tt, !0);
       return o.available[t] !== void 0 && o.uninstall(t), o.available[t] = bt, bt;
     }, o.ALPHA = [["a", "z"], ["A", "Z"], " "], o.NUMERIC = [["0", "9"]], o.ALPHANUMERIC = [["a", "z"], ["A", "Z"], ["0", "9"], " "], o.ASCII = [[" ", "~"]], o.defaultOptions = {
@@ -15148,8 +15228,8 @@ var BitmapFontLoader = (
   }()
 );
 /*!
- * @pixi/filter-alpha - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/filter-alpha - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/filter-alpha is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -15216,8 +15296,8 @@ void main(void)
   }), t;
 })(Filter);
 /*!
- * @pixi/filter-blur - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/filter-blur - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/filter-blur is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -15472,8 +15552,8 @@ var BlurFilterPass = (
   }), t;
 })(Filter);
 /*!
- * @pixi/filter-color-matrix - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/filter-color-matrix - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/filter-color-matrix is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16126,8 +16206,8 @@ void main(void)
 );
 ColorMatrixFilter.prototype.grayscale = ColorMatrixFilter.prototype.greyscale;
 /*!
- * @pixi/filter-displacement - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/filter-displacement - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/filter-displacement is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16239,8 +16319,8 @@ void main(void)
   }), t;
 })(Filter);
 /*!
- * @pixi/filter-fxaa - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/filter-fxaa - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/filter-fxaa is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16446,8 +16526,8 @@ void main() {
   return t;
 })(Filter);
 /*!
- * @pixi/filter-noise - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/filter-noise - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/filter-noise is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16552,8 +16632,8 @@ void main()
   }), t;
 })(Filter);
 /*!
- * @pixi/mixin-cache-as-bitmap - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/mixin-cache-as-bitmap - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/mixin-cache-as-bitmap is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16565,7 +16645,7 @@ DisplayObject.prototype._cacheAsBitmapResolution = null;
 DisplayObject.prototype._cacheAsBitmapMultisample = MSAA_QUALITY.NONE;
 var CacheData = (
   /** @class */
-  function() {
+  /* @__PURE__ */ function() {
     function o() {
       this.textureCacheId = null, this.originalRender = null, this.originalRenderCanvas = null, this.originalCalculateBounds = null, this.originalGetLocalBounds = null, this.originalUpdateTransform = null, this.originalDestroy = null, this.originalMask = null, this.originalFilterArea = null, this.originalContainsPoint = null, this.sprite = null;
     }
@@ -16687,8 +16767,8 @@ DisplayObject.prototype._cacheAsBitmapDestroy = function(t) {
   this.cacheAsBitmap = !1, this.destroy(t);
 };
 /*!
- * @pixi/mixin-get-child-by-name - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/mixin-get-child-by-name - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/mixin-get-child-by-name is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16710,8 +16790,8 @@ Container.prototype.getChildByName = function(t, e) {
   return null;
 };
 /*!
- * @pixi/mixin-get-global-position - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/mixin-get-global-position - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/mixin-get-global-position is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16720,8 +16800,8 @@ DisplayObject.prototype.getGlobalPosition = function(t, e) {
   return t === void 0 && (t = new Point()), e === void 0 && (e = !1), this.parent ? this.parent.toGlobal(this.position, t, e) : (t.x = this.position.x, t.y = this.position.y), t;
 };
 /*!
- * @pixi/app - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/app - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/app is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -16825,8 +16905,8 @@ var ResizePlugin = (
 extensions.handleByList(ExtensionType.Application, Application._plugins);
 extensions.add(ResizePlugin);
 /*!
- * @pixi/mesh-extras - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/mesh-extras - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/mesh-extras is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -17102,8 +17182,8 @@ var DEFAULT_BORDER_SIZE = 10;
   }, t;
 })(SimplePlane);
 /*!
- * @pixi/sprite-animated - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * @pixi/sprite-animated - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * @pixi/sprite-animated is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -17249,8 +17329,8 @@ var AnimatedSprite = (
   }(Sprite)
 );
 /*!
- * pixi.js - v6.5.9
- * Compiled Wed, 25 Jan 2023 05:01:45 UTC
+ * pixi.js - v6.5.10
+ * Compiled Thu, 06 Jul 2023 15:25:11 UTC
  *
  * pixi.js is licensed under the MIT License.
  * http://www.opensource.org/licenses/mit-license
@@ -19319,7 +19399,7 @@ var Easing = Object.freeze({
       var e = Interpolation.Utils.Factorial;
       return e(o) / e(t) / e(o - t);
     },
-    Factorial: function() {
+    Factorial: /* @__PURE__ */ function() {
       var o = [1];
       return function(t) {
         var e = 1;
@@ -19702,9 +19782,9 @@ ${r}` : N ?? e;
   }
 }
 /*!
- * @pixi/sound - v4.4.0
+ * @pixi/sound - v4.4.1
  * https://github.com/pixijs/pixi-sound
- * Compiled Thu, 01 Jun 2023 13:56:20 UTC
+ * Compiled Tue, 15 Aug 2023 19:22:13 UTC
  *
  * @pixi/sound is licensed under the MIT license.
  * http://www.opensource.org/licenses/mit-license
@@ -20310,10 +20390,12 @@ var y = p.filter(function(o) {
     return D.connect(k), k.connect(N.destination), e._input = D, e._output = N.destination, e._ctx = N, e._offlineCtx = new t.OfflineAudioContext(1, 2, r.OfflineAudioContext ? Math.max(8e3, Math.min(96e3, N.sampleRate)) : 44100), e.compressor = k, e.analyser = D, e.events = new i$1(), e.volume = 1, e.speed = 1, e.muted = !1, e.paused = !1, e._locked = N.state === "suspended" && ("ontouchstart" in globalThis || "onclick" in globalThis), e._locked && (e._unlock(), e._unlock = e._unlock.bind(e), document.addEventListener("mousedown", e._unlock, !0), document.addEventListener("touchstart", e._unlock, !0), document.addEventListener("touchend", e._unlock, !0)), e.onFocus = e.onFocus.bind(e), e.onBlur = e.onBlur.bind(e), globalThis.addEventListener("focus", e.onFocus), globalThis.addEventListener("blur", e.onBlur), e;
   }
   return c(t, o), t.prototype.onFocus = function() {
-    var e = this._ctx.state;
-    e !== "suspended" && e !== "interrupted" && this._locked || (this.paused = this._pausedOnBlur, this.refreshPaused());
+    if (this.autoPause) {
+      var e = this._ctx.state;
+      e !== "suspended" && e !== "interrupted" && this._locked || (this.paused = this._pausedOnBlur, this.refreshPaused());
+    }
   }, t.prototype.onBlur = function() {
-    !this._locked && this.autoPause && (this._pausedOnBlur = this._paused, this.paused = !0, this.refreshPaused());
+    this.autoPause && (this._locked || (this._pausedOnBlur = this._paused, this.paused = !0, this.refreshPaused()));
   }, t.prototype._unlock = function() {
     this._locked && (this.playEmptySound(), this._ctx.state === "running" && (document.removeEventListener("mousedown", this._unlock, !0), document.removeEventListener("touchend", this._unlock, !0), document.removeEventListener("touchstart", this._unlock, !0), this._locked = !1));
   }, t.prototype.playEmptySound = function() {
@@ -22834,9 +22916,7 @@ class TxtLayer extends Layer {
   };
   #P = new Container();
   constructor() {
-    super(), this.spLay.addChild(this.#a), this.#g.init(this.#M), this.spLay.addChild(this.#P), this.#P.name = "cntBtn";
-    const t = 16;
-    this.lay({ style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${t}px;`, in_style: "default", out_style: "default", back_clear: "true" });
+    super(), this.spLay.addChild(this.#a), this.#g.init(this.#M), this.spLay.addChild(this.#P), this.#P.name = "cntBtn", this.lay({ style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: 16px;`, in_style: "default", out_style: "default", back_clear: "true" });
   }
   destroy() {
     this.#f && (this.spLay.removeChild(this.#f).destroy(), this.#f = void 0), this.clearText(), this.#a.destroy();
@@ -24453,8 +24533,9 @@ class Rs_S_fire extends ReadState {
     const N = ReadState.getEvt2Fnc(r);
     if (!N) {
       r.slice(0, 5) === "swipe" && globalThis.scrollBy(
-        -e.deltaX,
-        -e.deltaY
+        -e.deltaX || 0,
+        // NaN なので ?? ではダメ
+        -e.deltaY || 0
       );
       return;
     }
@@ -26956,7 +27037,7 @@ const decode$1 = (o) => {
     default:
       return o instanceof ArrayBuffer ? o : o.buffer;
   }
-}, SEPARATOR = String.fromCharCode(30), encodePayload = (o, t) => {
+}, SEPARATOR = "", encodePayload = (o, t) => {
   const e = o.length, r = new Array(e);
   let N = 0;
   o.forEach((k, D) => {
@@ -26973,11 +27054,80 @@ const decode$1 = (o) => {
   }
   return r;
 };
+function createPacketEncoderStream() {
+  return new TransformStream({
+    transform(o, t) {
+      encodePacketToBinary(o, (e) => {
+        const r = e.length;
+        let N;
+        if (r < 126)
+          N = new Uint8Array(1), new DataView(N.buffer).setUint8(0, r);
+        else if (r < 65536) {
+          N = new Uint8Array(3);
+          const k = new DataView(N.buffer);
+          k.setUint8(0, 126), k.setUint16(1, r);
+        } else {
+          N = new Uint8Array(9);
+          const k = new DataView(N.buffer);
+          k.setUint8(0, 127), k.setBigUint64(1, BigInt(r));
+        }
+        o.data && typeof o.data != "string" && (N[0] |= 128), t.enqueue(N), t.enqueue(e);
+      });
+    }
+  });
+}
 let TEXT_DECODER;
-function decodePacketFromBinary(o, t, e) {
+function totalLength(o) {
+  return o.reduce((t, e) => t + e.length, 0);
+}
+function concatChunks(o, t) {
+  if (o[0].length === t)
+    return o.shift();
+  const e = new Uint8Array(t);
+  let r = 0;
+  for (let N = 0; N < t; N++)
+    e[N] = o[0][r++], r === o[0].length && (o.shift(), r = 0);
+  return o.length && r < o[0].length && (o[0] = o[0].slice(r)), e;
+}
+function createPacketDecoderStream(o, t) {
   TEXT_DECODER || (TEXT_DECODER = new TextDecoder());
-  const r = t || o[0] < 48 || o[0] > 54;
-  return decodePacket(r ? o : TEXT_DECODER.decode(o), e);
+  const e = [];
+  let r = 0, N = -1, k = !1;
+  return new TransformStream({
+    transform(D, B) {
+      for (e.push(D); ; ) {
+        if (r === 0) {
+          if (totalLength(e) < 1)
+            break;
+          const $ = concatChunks(e, 1);
+          k = ($[0] & 128) === 128, N = $[0] & 127, N < 126 ? r = 3 : N === 126 ? r = 1 : r = 2;
+        } else if (r === 1) {
+          if (totalLength(e) < 2)
+            break;
+          const $ = concatChunks(e, 2);
+          N = new DataView($.buffer, $.byteOffset, $.length).getUint16(0), r = 3;
+        } else if (r === 2) {
+          if (totalLength(e) < 8)
+            break;
+          const $ = concatChunks(e, 8), U = new DataView($.buffer, $.byteOffset, $.length), H = U.getUint32(0);
+          if (H > Math.pow(2, 21) - 1) {
+            B.enqueue(ERROR_PACKET);
+            break;
+          }
+          N = H * Math.pow(2, 32) + U.getUint32(4), r = 3;
+        } else {
+          if (totalLength(e) < N)
+            break;
+          const $ = concatChunks(e, N);
+          B.enqueue(decodePacket(k ? $ : TEXT_DECODER.decode($), t)), r = 0;
+        }
+        if (N === 0 || N > o) {
+          B.enqueue(ERROR_PACKET);
+          break;
+        }
+      }
+    }
+  });
 }
 const protocol$1 = 4;
 function Emitter(o) {
@@ -27031,7 +27181,7 @@ Emitter.prototype.listeners = function(o) {
 Emitter.prototype.hasListeners = function(o) {
   return !!this.listeners(o).length;
 };
-const globalThisShim = (() => typeof self < "u" ? self : typeof window < "u" ? window : Function("return this")())();
+const globalThisShim = typeof self < "u" ? self : typeof window < "u" ? window : Function("return this")();
 function pick(o, ...t) {
   return t.reduce((e, r) => (o.hasOwnProperty(r) && (e[r] = o[r]), e), {});
 }
@@ -27457,7 +27607,7 @@ function unloadHandler() {
   for (let o in Request.requests)
     Request.requests.hasOwnProperty(o) && Request.requests[o].abort();
 }
-const nextTick = (() => typeof Promise == "function" && typeof Promise.resolve == "function" ? (t) => Promise.resolve().then(t) : (t, e) => e(t, 0))(), WebSocket = globalThisShim.WebSocket || globalThisShim.MozWebSocket, usingBrowserWebSocket = !0, defaultBinaryType = "arraybuffer", isReactNative = typeof navigator < "u" && typeof navigator.product == "string" && navigator.product.toLowerCase() === "reactnative";
+const nextTick = typeof Promise == "function" && typeof Promise.resolve == "function" ? (t) => Promise.resolve().then(t) : (t, e) => e(t, 0), WebSocket = globalThisShim.WebSocket || globalThisShim.MozWebSocket, usingBrowserWebSocket = !0, defaultBinaryType = "arraybuffer", isReactNative = typeof navigator < "u" && typeof navigator.product == "string" && navigator.product.toLowerCase() === "reactnative";
 class WS extends Transport {
   /**
    * WebSocket transport constructor.
@@ -27481,7 +27631,7 @@ class WS extends Transport {
     } catch (N) {
       return this.emitReserved("error", N);
     }
-    this.ws.binaryType = this.socket.binaryType || defaultBinaryType, this.addEventListeners();
+    this.ws.binaryType = this.socket.binaryType, this.addEventListeners();
   }
   /**
    * Adds event listeners to the socket
@@ -27534,27 +27684,28 @@ class WS extends Transport {
     return !!WebSocket;
   }
 }
-function shouldIncludeBinaryHeader(o, t) {
-  return o.type === "message" && typeof o.data != "string" && t[0] >= 48 && t[0] <= 54;
-}
 class WT extends Transport {
   get name() {
     return "webtransport";
   }
   doOpen() {
-    typeof WebTransport == "function" && (this.transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]), this.transport.closed.then(() => this.onClose()), this.transport.ready.then(() => {
+    typeof WebTransport == "function" && (this.transport = new WebTransport(this.createUri("https"), this.opts.transportOptions[this.name]), this.transport.closed.then(() => {
+      this.onClose();
+    }).catch((t) => {
+      this.onError("webtransport error", t);
+    }), this.transport.ready.then(() => {
       this.transport.createBidirectionalStream().then((t) => {
-        const e = t.readable.getReader();
-        this.writer = t.writable.getWriter();
-        let r;
-        const N = () => {
-          e.read().then(({ done: D, value: B }) => {
-            D || (!r && B.byteLength === 1 && B[0] === 54 ? r = !0 : (this.onPacket(decodePacketFromBinary(B, r, "arraybuffer")), r = !1), N());
+        const e = createPacketDecoderStream(Number.MAX_SAFE_INTEGER, this.socket.binaryType), r = t.readable.pipeThrough(e).getReader(), N = createPacketEncoderStream();
+        N.readable.pipeTo(t.writable), this.writer = N.writable.getWriter();
+        const k = () => {
+          r.read().then(({ done: B, value: $ }) => {
+            B || (this.onPacket($), k());
+          }).catch((B) => {
           });
         };
-        N();
-        const k = this.query.sid ? `0{"sid":"${this.query.sid}"}` : "0";
-        this.writer.write(new TextEncoder().encode(k)).then(() => this.onOpen());
+        k();
+        const D = { type: "open" };
+        this.query.sid && (D.data = `{"sid":"${this.query.sid}"}`), this.writer.write(D).then(() => this.onOpen());
       });
     }));
   }
@@ -27562,12 +27713,10 @@ class WT extends Transport {
     this.writable = !1;
     for (let e = 0; e < t.length; e++) {
       const r = t[e], N = e === t.length - 1;
-      encodePacketToBinary(r, (k) => {
-        shouldIncludeBinaryHeader(r, k) && this.writer.write(Uint8Array.of(54)), this.writer.write(k).then(() => {
-          N && nextTick(() => {
-            this.writable = !0, this.emitReserved("drain");
-          }, this.setTimeoutFn);
-        });
+      this.writer.write(r).then(() => {
+        N && nextTick(() => {
+          this.writable = !0, this.emitReserved("drain");
+        }, this.setTimeoutFn);
       });
     }
   }
@@ -27597,6 +27746,8 @@ const transports = {
   "anchor"
 ];
 function parse(o) {
+  if (o.length > 2e3)
+    throw "URI too long";
   const t = o, e = o.indexOf("["), r = o.indexOf("]");
   e != -1 && r != -1 && (o = o.substring(0, e) + o.substring(e, r).replace(/:/g, ";") + o.substring(r, o.length));
   let N = re.exec(o || ""), k = {}, D = 14;
@@ -27622,7 +27773,7 @@ let Socket$1 = class de extends Emitter {
    * @param {Object} opts - options
    */
   constructor(t, e = {}) {
-    super(), this.writeBuffer = [], t && typeof t == "object" && (e = t, t = null), t ? (t = parse(t), e.hostname = t.host, e.secure = t.protocol === "https" || t.protocol === "wss", e.port = t.port, t.query && (e.query = t.query)) : e.host && (e.hostname = parse(e.host).host), installTimerFunctions(this, e), this.secure = e.secure != null ? e.secure : typeof location < "u" && location.protocol === "https:", e.hostname && !e.port && (e.port = this.secure ? "443" : "80"), this.hostname = e.hostname || (typeof location < "u" ? location.hostname : "localhost"), this.port = e.port || (typeof location < "u" && location.port ? location.port : this.secure ? "443" : "80"), this.transports = e.transports || [
+    super(), this.binaryType = defaultBinaryType, this.writeBuffer = [], t && typeof t == "object" && (e = t, t = null), t ? (t = parse(t), e.hostname = t.host, e.secure = t.protocol === "https" || t.protocol === "wss", e.port = t.port, t.query && (e.query = t.query)) : e.host && (e.hostname = parse(e.host).host), installTimerFunctions(this, e), this.secure = e.secure != null ? e.secure : typeof location < "u" && location.protocol === "https:", e.hostname && !e.port && (e.port = this.secure ? "443" : "80"), this.hostname = e.hostname || (typeof location < "u" ? location.hostname : "localhost"), this.port = e.port || (typeof location < "u" && location.port ? location.port : this.secure ? "443" : "80"), this.transports = e.transports || [
       "polling",
       "websocket",
       "webtransport"
@@ -27639,7 +27790,7 @@ let Socket$1 = class de extends Emitter {
         threshold: 1024
       },
       transportOptions: {},
-      closeOnBeforeunload: !0
+      closeOnBeforeunload: !1
     }, e), this.opts.path = this.opts.path.replace(/\/$/, "") + (this.opts.addTrailingSlash ? "/" : ""), typeof this.opts.query == "string" && (this.opts.query = decode(this.opts.query)), this.id = null, this.upgrades = null, this.pingInterval = null, this.pingTimeout = null, this.pingTimeoutTimer = null, typeof addEventListener == "function" && (this.opts.closeOnBeforeunload && (this.beforeunloadEventListener = () => {
       this.transport && (this.transport.removeAllListeners(), this.transport.close());
     }, addEventListener("beforeunload", this.beforeunloadEventListener, !1)), this.hostname !== "localhost" && (this.offlineEventListener = () => {
@@ -27658,13 +27809,13 @@ let Socket$1 = class de extends Emitter {
   createTransport(t) {
     const e = Object.assign({}, this.opts.query);
     e.EIO = protocol$1, e.transport = t, this.id && (e.sid = this.id);
-    const r = Object.assign({}, this.opts.transportOptions[t], this.opts, {
+    const r = Object.assign({}, this.opts, {
       query: e,
       socket: this,
       hostname: this.hostname,
       secure: this.secure,
       port: this.port
-    });
+    }, this.opts.transportOptions[t]);
     return new transports[t](r);
   }
   /**
@@ -27767,12 +27918,12 @@ let Socket$1 = class de extends Emitter {
    */
   onPacket(t) {
     if (this.readyState === "opening" || this.readyState === "open" || this.readyState === "closing")
-      switch (this.emitReserved("packet", t), this.emitReserved("heartbeat"), t.type) {
+      switch (this.emitReserved("packet", t), this.emitReserved("heartbeat"), this.resetPingTimeout(), t.type) {
         case "open":
           this.onHandshake(JSON.parse(t.data));
           break;
         case "ping":
-          this.resetPingTimeout(), this.sendPacket("pong"), this.emitReserved("ping"), this.emitReserved("pong");
+          this.sendPacket("pong"), this.emitReserved("ping"), this.emitReserved("pong");
           break;
         case "error":
           const e = new Error("server error");
