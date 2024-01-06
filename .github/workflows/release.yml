@@ -7,6 +7,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     steps:
     - uses: actions/checkout@v3
 
@@ -20,9 +23,9 @@ jobs:
 
     - run: npm run semantic-release
       env:
-        GITHUB_TOKEN: ${{secrets.GH_TOKEN}}
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-        NODE_AUTH_TOKEN: ${{secrets.GH_TOKEN}}
+        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     - run: npx can-npm-publish --verbose && npm publish || echo "Does not publish"
       env:
