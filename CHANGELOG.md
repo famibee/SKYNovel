@@ -2,7 +2,7 @@
 - fix: tsconfig.json更新、useDefineForClassFields 追加
 - fix: ライブラリ更新
 - docs: コードブロックライセンス年更新
-- fix: release.yml 更新2.2
+- fix: pub 1/11-1
 
 
 ## [1.48.13](https://github.com/famibee/SKYNovel/compare/v1.48.12...v1.48.13) (2023-06-26)
