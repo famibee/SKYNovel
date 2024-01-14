@@ -18808,10 +18808,10 @@ class Areas {
   }
   // 4tst
   toString() {
-    let t = ",";
+    let t = "";
     for (const e of Object.keys(this.hAreas).map((r) => parseInt(r)).sort((r, N) => r - N))
       t += e === this.hAreas[e] ? "," + e : "," + e + "~" + this.hAreas[e];
-    return t.slice(1);
+    return t;
   }
 }
 class Variable {

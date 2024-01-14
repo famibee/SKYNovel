@@ -72,7 +72,7 @@ export class Areas implements IAreas {
 	get count(): number {return Object.keys(this.hAreas).length}	// 4tst
 
 	toString(): string {
-		let ret = ',';
+		let ret = '';
 
 		for (const k of Object.keys(this.hAreas)
 		.map(k=> parseInt(k))
@@ -82,7 +82,7 @@ export class Areas implements IAreas {
 			: ','+ k +'~'+ this.hAreas[k];
 		}
 
-		return ret.slice(1);
+		return ret;	// 先頭に , が付いている。削除したいが、修正すると互換性に問題あり凍結
 	}
 
 }

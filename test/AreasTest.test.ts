@@ -43,6 +43,8 @@ it('test_record_erase_0', ()=> {
 	expect(areas.search(0)).toBe(false);
 	expect(areas.search(1)).toBe(false);
 	expect(areas.count).toBe(0);
+
+	expect(areas.toString()).toBe('');
 });
 
 it('test_record', ()=> {
@@ -104,6 +106,8 @@ it('test_record', ()=> {
 	expect(areas.search(13)).toBe(true);
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
+
+	expect(areas.toString()).toBe(',9~13');
 /*
 	import flash.utils.ByteArray;
 	const ba:ByteArray = new ByteArray;
@@ -164,6 +168,8 @@ it('test_replace', ()=> {
 	expect(areas.search(11)).toBe(true);
 	expect(areas.search(12)).toBe(false);
 	expect(areas.count).toBe(1);
+
+	expect(areas.toString()).toBe(',9~11');
 });
 
 it('test_erase_7_8_14', ()=> {
@@ -210,6 +216,8 @@ it('test_erase_7_8_14', ()=> {
 	expect(areas.search(13)).toBe(true);
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
+
+	expect(areas.toString()).toBe(',9~13');
 });
 it('test_erase_9', ()=> {
 	areas.record(9);
@@ -235,6 +243,8 @@ it('test_erase_9', ()=> {
 	expect(areas.search(13)).toBe(true);
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
+
+	expect(areas.toString()).toBe(',10~13');
 });
 it('test_erase_10_9', ()=> {
 	areas.record(9);
@@ -270,6 +280,8 @@ it('test_erase_10_9', ()=> {
 	expect(areas.search(13)).toBe(true);
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
+
+	expect(areas.toString()).toBe(',11~13');
 });
 it('test_erase_12_13', ()=> {
 	areas.record(9);
@@ -305,6 +317,8 @@ it('test_erase_12_13', ()=> {
 	expect(areas.search(13)).toBe(false);
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
+
+	expect(areas.toString()).toBe(',9~11');
 });
 it('test_erase_13', ()=> {
 	areas.record(9);
@@ -330,6 +344,8 @@ it('test_erase_13', ()=> {
 	expect(areas.search(13)).toBe(false);
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
+
+	expect(areas.toString()).toBe(',9~12');
 });
 it('test_erase_14', ()=> {
 	areas.record(9);
@@ -355,4 +371,6 @@ it('test_erase_14', ()=> {
 	expect(areas.search(13)).toBe(true);
 	expect(areas.search(14)).toBe(false);
 	expect(areas.count).toBe(1);
+
+	expect(areas.toString()).toBe(',9~13');
 });

@@ -13,7 +13,7 @@ jobs:
     - uses: actions/setup-node@v3
       with:
         registry-url: https://npm.pkg.github.com/
-        node-version: '18'
+        node-version: '20'
 
     - run: npm ci
     - run: npm test
@@ -46,7 +46,7 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: '18'
+          node-version: '20'
           scope: '@famibee'
 
       - run: npm ci

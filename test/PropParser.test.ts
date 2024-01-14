@@ -57,7 +57,7 @@ class MyVal implements IVariable {
 	cloneSave = ()=> ({});
 	mark2save(_mark: IMark) {};
 
-	loadScrWork = (_fn: string)=> {};
+	touchAreaKidoku = (fn: string)=> new Areas;
 	getAreaKidoku = (_fn: string)=> new Areas;
 	saveKidoku(): void {};
 	updateData(_data: IData4Vari): void {};

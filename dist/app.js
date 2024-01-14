@@ -17260,10 +17260,10 @@ class Ml {
   }
   // 4tst
   toString() {
-    let t = ",";
+    let t = "";
     for (const e of Object.keys(this.hAreas).map((i) => parseInt(i)).sort((i, n) => i - n))
       t += e === this.hAreas[e] ? "," + e : "," + e + "~" + this.hAreas[e];
-    return t.slice(1);
+    return t;
   }
 }
 class pr {

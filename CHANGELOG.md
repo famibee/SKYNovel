@@ -1,8 +1,10 @@
-- fix: NaNになるかもしれない値の ??（null合体演算子）による分岐処理を || に修正（src/sn/ReadState.ts）
+- fix(ReadState): NaNになるかもしれない値の ??（null合体演算子）による分岐処理を || に修正
+- test(PropParser.test): テストクラス MyVal の実装不足にダミー追記
 - fix: tsconfig.json更新、useDefineForClassFields 追加
+- fix(release.yml): 【node-version: '18'】に更新
 - fix: ライブラリ更新
 - docs: コードブロックライセンス年更新
-- fix: pub 1/13-1
+- fix: pub 1/14-1
 
 
 ## [1.48.13](https://github.com/famibee/SKYNovel/compare/v1.48.12...v1.48.13) (2023-06-26)
