@@ -1,3 +1,21 @@
+## [1.48.14](https://github.com/famibee/SKYNovel/compare/v1.48.13...v1.48.14) (2024-02-03)
+
+
+### Bug Fixes
+
+* NaNになるかもしれない値の ??（null合体演算子）による分岐処理を || に修正（src/sn/ReadState.ts） ([cf9b692](https://github.com/famibee/SKYNovel/commit/cf9b692ea9f7b28836d002c0aaa422b347d07c69))
+* pub 1/11-1 ([c5ece62](https://github.com/famibee/SKYNovel/commit/c5ece62bff0bb1860035293a633053ac9e663a3e))
+* pub 1/13-1 ([df07e6b](https://github.com/famibee/SKYNovel/commit/df07e6bd8ec7563f5633ea9219412c21e466f50a))
+* pub 1/14-1 ([6f73d61](https://github.com/famibee/SKYNovel/commit/6f73d615c00e09abab7a05ce80c344612e306591))
+* release.yml 更新1 ([fb23327](https://github.com/famibee/SKYNovel/commit/fb23327712d4d0db03cc68ccb36994344d2535bd))
+* release.yml 更新2 ([99b14ed](https://github.com/famibee/SKYNovel/commit/99b14ed53ee3b0990cf25dc2d9d18ed903e29a95))
+* release.yml 更新2.1 ([6bab75f](https://github.com/famibee/SKYNovel/commit/6bab75f94a48d219f0e1887d93c6425759dbe879))
+* release.yml 更新2.2 ([e34a7bd](https://github.com/famibee/SKYNovel/commit/e34a7bd2255aa68bab82d77cd54b679276ff8e1b))
+* キー更新 ([83cfb27](https://github.com/famibee/SKYNovel/commit/83cfb273fe60c6f3892dfd8f16f7a2f7c68a468a))
+* キー更新2 ([f274ac8](https://github.com/famibee/SKYNovel/commit/f274ac8997f2f551ac2c9007f130efe983e63c09))
+* キー更新3 ([411b2dd](https://github.com/famibee/SKYNovel/commit/411b2dd3f3554326a77a024f205faf1346ba820f))
+* ライブラリ更新 ([b9bedf0](https://github.com/famibee/SKYNovel/commit/b9bedf0ce14f6cbeac9f333864e94db8d0e8164f))
+
 - fix(ReadState): NaNになるかもしれない値の ??（null合体演算子）による分岐処理を || に修正
 - test(PropParser.test): テストクラス MyVal の実装不足にダミー追記
 - fix: tsconfig.json更新、useDefineForClassFields 追加
