@@ -2077,7 +2077,19 @@ var $SyntaxError = GetIntrinsic$3("%SyntaxError%"), $TypeError$2 = GetIntrinsic$
     var D = gOPD(t, "length");
     D && !D.configurable && (N = !1), D && !D.writable && (k = !1);
   }
-  return (N || k || !r) && (hasDescriptors ? define(t, "length", e, !0, !0) : define(t, "length", e)), t;
+  return (N || k || !r) && (hasDescriptors ? define(
+    /** @type {Parameters<define>[0]} */
+    t,
+    "length",
+    e,
+    !0,
+    !0
+  ) : define(
+    /** @type {Parameters<define>[0]} */
+    t,
+    "length",
+    e
+  )), t;
 };
 (function(o) {
   var t = functionBind, e = getIntrinsic, r = setFunctionLength, N = e("%TypeError%"), k = e("%Function.prototype.apply%"), D = e("%Function.prototype.call%"), B = e("%Reflect.apply%", !0) || t.call(D, k), $ = e("%Object.defineProperty%", !0), U = e("%Math.max%");
