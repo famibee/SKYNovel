@@ -17888,12 +17888,14 @@ var vt = Object.freeze({
       return this._isPlaying;
     }, r.prototype.isPaused = function() {
       return this._isPaused;
+    }, r.prototype.getDuration = function() {
+      return this._duration;
     }, r.prototype.to = function(t, e) {
       if (e === void 0 && (e = 1e3), this._isPlaying)
         throw new Error("Can not call Tween.to() while Tween is already started or paused. Stop the Tween first.");
-      return this._valuesEnd = t, this._propertiesAreSetUp = !1, this._duration = e, this;
+      return this._valuesEnd = t, this._propertiesAreSetUp = !1, this._duration = e < 0 ? 0 : e, this;
     }, r.prototype.duration = function(t) {
-      return t === void 0 && (t = 1e3), this._duration = t, this;
+      return t === void 0 && (t = 1e3), this._duration = t < 0 ? 0 : t, this;
     }, r.prototype.dynamic = function(t) {
       return t === void 0 && (t = !1), this._isDynamic = t, this;
     }, r.prototype.start = function(t, e) {
@@ -17995,30 +17997,37 @@ var vt = Object.freeze({
     }, r.prototype.onStop = function(t) {
       return this._onStopCallback = t, this;
     }, r.prototype.update = function(t, e) {
+      var i = this, n;
       if (t === void 0 && (t = Vr()), e === void 0 && (e = !0), this._isPaused)
         return !0;
-      var i, n, s = this._startTime + this._duration;
+      var s, o = this._startTime + this._duration;
       if (!this._goToEnd && !this._isPlaying) {
-        if (t > s)
+        if (t > o)
           return !1;
         e && this.start(t, !0);
       }
       if (this._goToEnd = !1, t < this._startTime)
         return !0;
-      this._onStartCallbackFired === !1 && (this._onStartCallback && this._onStartCallback(this._object), this._onStartCallbackFired = !0), this._onEveryStartCallbackFired === !1 && (this._onEveryStartCallback && this._onEveryStartCallback(this._object), this._onEveryStartCallbackFired = !0), n = (t - this._startTime) / this._duration, n = this._duration === 0 || n > 1 ? 1 : n;
-      var o = this._easingFunction(n);
-      if (this._updateProperties(this._object, this._valuesStart, this._valuesEnd, o), this._onUpdateCallback && this._onUpdateCallback(this._object, n), n === 1)
+      this._onStartCallbackFired === !1 && (this._onStartCallback && this._onStartCallback(this._object), this._onStartCallbackFired = !0), this._onEveryStartCallbackFired === !1 && (this._onEveryStartCallback && this._onEveryStartCallback(this._object), this._onEveryStartCallbackFired = !0);
+      var a = t - this._startTime, h = this._duration + ((n = this._repeatDelayTime) !== null && n !== void 0 ? n : this._delayTime), l = this._duration + this._repeat * h, u = function() {
+        if (i._duration === 0 || a > l)
+          return 1;
+        var v = Math.trunc(a / h), y = a - v * h, _ = Math.min(y / i._duration, 1);
+        return _ === 0 && a === i._duration ? 1 : _;
+      }, c = u(), f = this._easingFunction(c);
+      if (this._updateProperties(this._object, this._valuesStart, this._valuesEnd, f), this._onUpdateCallback && this._onUpdateCallback(this._object, c), this._duration === 0 || a >= this._duration)
         if (this._repeat > 0) {
-          isFinite(this._repeat) && this._repeat--;
-          for (i in this._valuesStartRepeat)
-            !this._yoyo && typeof this._valuesEnd[i] == "string" && (this._valuesStartRepeat[i] = // eslint-disable-next-line
+          var d = Math.min(Math.trunc((a - this._duration) / h) + 1, this._repeat);
+          isFinite(this._repeat) && (this._repeat -= d);
+          for (s in this._valuesStartRepeat)
+            !this._yoyo && typeof this._valuesEnd[s] == "string" && (this._valuesStartRepeat[s] = // eslint-disable-next-line
             // @ts-ignore FIXME?
-            this._valuesStartRepeat[i] + parseFloat(this._valuesEnd[i])), this._yoyo && this._swapEndStartRepeatValues(i), this._valuesStart[i] = this._valuesStartRepeat[i];
-          return this._yoyo && (this._reversed = !this._reversed), this._repeatDelayTime !== void 0 ? this._startTime = t + this._repeatDelayTime : this._startTime = t + this._delayTime, this._onRepeatCallback && this._onRepeatCallback(this._object), this._onEveryStartCallbackFired = !1, !0;
+            this._valuesStartRepeat[s] + parseFloat(this._valuesEnd[s])), this._yoyo && this._swapEndStartRepeatValues(s), this._valuesStart[s] = this._valuesStartRepeat[s];
+          return this._yoyo && (this._reversed = !this._reversed), this._startTime += h * d, this._onRepeatCallback && this._onRepeatCallback(this._object), this._onEveryStartCallbackFired = !1, !0;
         } else {
           this._onCompleteCallback && this._onCompleteCallback(this._object);
-          for (var a = 0, h = this._chainedTweens.length; a < h; a++)
-            this._chainedTweens[a].start(this._startTime + this._duration, !1);
+          for (var m = 0, p = this._chainedTweens.length; m < p; m++)
+            this._chainedTweens[m].start(this._startTime + this._duration, !1);
           return this._isPlaying = !1, !1;
         }
       return !0;

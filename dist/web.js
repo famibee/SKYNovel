@@ -1720,7 +1720,7 @@ punycode$1.exports;
       e.punycode = D;
   })(commonjsGlobal);
 })(punycode$1, punycode$1.exports);
-var punycodeExports = punycode$1.exports, shams = function() {
+var punycodeExports = punycode$1.exports, range = RangeError, syntax = SyntaxError, type = TypeError, shams = function() {
   if (typeof Symbol != "function" || typeof Object.getOwnPropertySymbols != "function")
     return !1;
   if (typeof Symbol.iterator == "symbol")
@@ -1787,7 +1787,7 @@ var punycodeExports = punycode$1.exports, shams = function() {
     U.prototype = e.prototype, N.prototype = new U(), U.prototype = null;
   }
   return N;
-}, implementation = implementation$1, functionBind = Function.prototype.bind || implementation, call = Function.prototype.call, $hasOwn = Object.prototype.hasOwnProperty, bind$3 = functionBind, hasown = bind$3.call(call, $hasOwn), undefined$1, $SyntaxError$1 = SyntaxError, $Function = Function, $TypeError$3 = TypeError, getEvalledConstructor = function(o) {
+}, implementation = implementation$1, functionBind = Function.prototype.bind || implementation, call = Function.prototype.call, $hasOwn = Object.prototype.hasOwnProperty, bind$3 = functionBind, hasown = bind$3.call(call, $hasOwn), undefined$1, $RangeError = range, $SyntaxError$1 = syntax, $TypeError$3 = type, $Function = Function, getEvalledConstructor = function(o) {
   try {
     return $Function('"use strict"; return (' + o + ").constructor;")();
   } catch {
@@ -1814,6 +1814,7 @@ var throwTypeError = function() {
 }() : throwTypeError, hasSymbols = hasSymbols$1(), hasProto = hasProto$1(), getProto = Object.getPrototypeOf || (hasProto ? function(o) {
   return o.__proto__;
 } : null), needsEval = {}, TypedArray = typeof Uint8Array > "u" || !getProto ? undefined$1 : getProto(Uint8Array), INTRINSICS = {
+  __proto__: null,
   "%AggregateError%": typeof AggregateError > "u" ? undefined$1 : AggregateError,
   "%Array%": Array,
   "%ArrayBuffer%": typeof ArrayBuffer > "u" ? undefined$1 : ArrayBuffer,
@@ -1859,7 +1860,7 @@ var throwTypeError = function() {
   "%parseInt%": parseInt,
   "%Promise%": typeof Promise > "u" ? undefined$1 : Promise,
   "%Proxy%": typeof Proxy > "u" ? undefined$1 : Proxy,
-  "%RangeError%": RangeError,
+  "%RangeError%": $RangeError,
   "%ReferenceError%": ReferenceError,
   "%Reflect%": typeof Reflect > "u" ? undefined$1 : Reflect,
   "%RegExp%": RegExp,
@@ -1906,6 +1907,7 @@ var doEval = function o(t) {
   }
   return INTRINSICS[t] = e, e;
 }, LEGACY_ALIASES = {
+  __proto__: null,
   "%ArrayBufferPrototype%": ["ArrayBuffer", "prototype"],
   "%ArrayPrototype%": ["Array", "prototype"],
   "%ArrayProto_entries%": ["Array", "prototype", "entries"],
@@ -19448,12 +19450,14 @@ var Easing = Object.freeze({
       return this._isPlaying;
     }, o.prototype.isPaused = function() {
       return this._isPaused;
+    }, o.prototype.getDuration = function() {
+      return this._duration;
     }, o.prototype.to = function(t, e) {
       if (e === void 0 && (e = 1e3), this._isPlaying)
         throw new Error("Can not call Tween.to() while Tween is already started or paused. Stop the Tween first.");
-      return this._valuesEnd = t, this._propertiesAreSetUp = !1, this._duration = e, this;
+      return this._valuesEnd = t, this._propertiesAreSetUp = !1, this._duration = e < 0 ? 0 : e, this;
     }, o.prototype.duration = function(t) {
-      return t === void 0 && (t = 1e3), this._duration = t, this;
+      return t === void 0 && (t = 1e3), this._duration = t < 0 ? 0 : t, this;
     }, o.prototype.dynamic = function(t) {
       return t === void 0 && (t = !1), this._isDynamic = t, this;
     }, o.prototype.start = function(t, e) {
@@ -19555,30 +19559,37 @@ var Easing = Object.freeze({
     }, o.prototype.onStop = function(t) {
       return this._onStopCallback = t, this;
     }, o.prototype.update = function(t, e) {
+      var r = this, N;
       if (t === void 0 && (t = now()), e === void 0 && (e = !0), this._isPaused)
         return !0;
-      var r, N, k = this._startTime + this._duration;
+      var k, D = this._startTime + this._duration;
       if (!this._goToEnd && !this._isPlaying) {
-        if (t > k)
+        if (t > D)
           return !1;
         e && this.start(t, !0);
       }
       if (this._goToEnd = !1, t < this._startTime)
         return !0;
-      this._onStartCallbackFired === !1 && (this._onStartCallback && this._onStartCallback(this._object), this._onStartCallbackFired = !0), this._onEveryStartCallbackFired === !1 && (this._onEveryStartCallback && this._onEveryStartCallback(this._object), this._onEveryStartCallbackFired = !0), N = (t - this._startTime) / this._duration, N = this._duration === 0 || N > 1 ? 1 : N;
-      var D = this._easingFunction(N);
-      if (this._updateProperties(this._object, this._valuesStart, this._valuesEnd, D), this._onUpdateCallback && this._onUpdateCallback(this._object, N), N === 1)
+      this._onStartCallbackFired === !1 && (this._onStartCallback && this._onStartCallback(this._object), this._onStartCallbackFired = !0), this._onEveryStartCallbackFired === !1 && (this._onEveryStartCallback && this._onEveryStartCallback(this._object), this._onEveryStartCallbackFired = !0);
+      var B = t - this._startTime, $ = this._duration + ((N = this._repeatDelayTime) !== null && N !== void 0 ? N : this._delayTime), U = this._duration + this._repeat * $, H = function() {
+        if (r._duration === 0 || B > U)
+          return 1;
+        var Y = Math.trunc(B / $), K = B - Y * $, Z = Math.min(K / r._duration, 1);
+        return Z === 0 && B === r._duration ? 1 : Z;
+      }, z = H(), V = this._easingFunction(z);
+      if (this._updateProperties(this._object, this._valuesStart, this._valuesEnd, V), this._onUpdateCallback && this._onUpdateCallback(this._object, z), this._duration === 0 || B >= this._duration)
         if (this._repeat > 0) {
-          isFinite(this._repeat) && this._repeat--;
-          for (r in this._valuesStartRepeat)
-            !this._yoyo && typeof this._valuesEnd[r] == "string" && (this._valuesStartRepeat[r] = // eslint-disable-next-line
+          var X = Math.min(Math.trunc((B - this._duration) / $) + 1, this._repeat);
+          isFinite(this._repeat) && (this._repeat -= X);
+          for (k in this._valuesStartRepeat)
+            !this._yoyo && typeof this._valuesEnd[k] == "string" && (this._valuesStartRepeat[k] = // eslint-disable-next-line
             // @ts-ignore FIXME?
-            this._valuesStartRepeat[r] + parseFloat(this._valuesEnd[r])), this._yoyo && this._swapEndStartRepeatValues(r), this._valuesStart[r] = this._valuesStartRepeat[r];
-          return this._yoyo && (this._reversed = !this._reversed), this._repeatDelayTime !== void 0 ? this._startTime = t + this._repeatDelayTime : this._startTime = t + this._delayTime, this._onRepeatCallback && this._onRepeatCallback(this._object), this._onEveryStartCallbackFired = !1, !0;
+            this._valuesStartRepeat[k] + parseFloat(this._valuesEnd[k])), this._yoyo && this._swapEndStartRepeatValues(k), this._valuesStart[k] = this._valuesStartRepeat[k];
+          return this._yoyo && (this._reversed = !this._reversed), this._startTime += $ * X, this._onRepeatCallback && this._onRepeatCallback(this._object), this._onEveryStartCallbackFired = !1, !0;
         } else {
           this._onCompleteCallback && this._onCompleteCallback(this._object);
-          for (var B = 0, $ = this._chainedTweens.length; B < $; B++)
-            this._chainedTweens[B].start(this._startTime + this._duration, !1);
+          for (var q = 0, W = this._chainedTweens.length; q < W; q++)
+            this._chainedTweens[q].start(this._startTime + this._duration, !1);
           return this._isPlaying = !1, !1;
         }
       return !0;

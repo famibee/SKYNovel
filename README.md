@@ -10,6 +10,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/famibee/skynovel)
 ![GitHub Release Date](https://img.shields.io/github/release-date/famibee/skynovel)
 ![Release package](https://github.com/famibee/SKYNovel/workflows/Release%20package/badge.svg)
+[![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
 
 WebGL NovelGame framework by PixiJS
 
