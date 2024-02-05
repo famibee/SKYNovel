@@ -1,3 +1,10 @@
+## [1.48.15](https://github.com/famibee/SKYNovel/compare/v1.48.14...v1.48.15) (2024-02-05)
+
+
+### Bug Fixes
+
+* **tween.js:** ライブラリ更新 ([6f48c03](https://github.com/famibee/SKYNovel/commit/6f48c0350e63c87dc90b3cc4132a1ebc193374ca))
+
 - fix(tween.js): ライブラリ更新
 
 
