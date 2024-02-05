@@ -6,6 +6,7 @@
 * **tween.js:** ライブラリ更新 ([6f48c03](https://github.com/famibee/SKYNovel/commit/6f48c0350e63c87dc90b3cc4132a1ebc193374ca))
 
 - fix(tween.js): ライブラリ更新
+- fix(release.yml): 【node-version: '20'】に更新
 
 
 ## [1.48.14](https://github.com/famibee/SKYNovel/compare/v1.48.13...v1.48.14) (2024-02-03)
