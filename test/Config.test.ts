@@ -28,33 +28,33 @@ it('testsetSearchPath_0', ()=> {
 	expect(cfg.searchPath('http://bbb')).toBe('http://bbb');
 
 	expect(()=> cfg.searchPath('ccc'))
-	.toThrowError('サーチパスに存在しないファイル【ccc】です');
+	.toThrow('サーチパスに存在しないファイル【ccc】です');
 
 	expect(cfg.searchPath('update.png')).toBe('test/:dummy dir:/mat/update.png');
 	expect(cfg.searchPath('update', SEARCH_PATH_ARG_EXT.TST_PNGPNG_)).toBe('test/:dummy dir:/mat/update.png');
 
 	expect(()=> cfg.searchPath('update', SEARCH_PATH_ARG_EXT.TST_HH))
-	.toThrowError('サーチ対象拡張子群【hh】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【update】');
+	.toThrow('サーチ対象拡張子群【hh】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【update】');
 
 	expect(()=> cfg.searchPath('update.ddd', SEARCH_PATH_ARG_EXT.TST_EEE))
-	.toThrowError('指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】');
+	.toThrow('指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】');
 
 	expect(()=> cfg.searchPath('update.ggg', SEARCH_PATH_ARG_EXT.TST_GGG))
-	.toThrowError('サーチパスに存在しない拡張子【ggg】です。探索ファイル名=【update.ggg】、サーチ対象拡張子群【ggg】');
+	.toThrow('サーチパスに存在しない拡張子【ggg】です。探索ファイル名=【update.ggg】、サーチ対象拡張子群【ggg】');
 
 	expect(()=> cfg.searchPath('update', SEARCH_PATH_ARG_EXT.TST_PNGXML))
-	.toThrowError('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【png|xml】で絞り込むか、ファイル名を個別にして下さい。');
+	.toThrow('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【png|xml】で絞り込むか、ファイル名を個別にして下さい。');
 
 	expect(()=> cfg.searchPath('update'))
-	.toThrowError('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。');
+	.toThrow('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。');
 
 	expect(cfg.searchPath('update2.png')).toBe('test/:dummy dir:/mat/update2.png');
 	expect(()=> cfg.searchPath('update3.png'))
-	.toThrowError('サーチパスに存在しないファイル【update3.png】です');
+	.toThrow('サーチパスに存在しないファイル【update3.png】です');
 
 	expect(cfg.searchPath('update2', SEARCH_PATH_ARG_EXT.TST_PNGPNG_)).toBe('test/:dummy dir:/mat/update2.png');
 	expect(()=> cfg.searchPath('update3', SEARCH_PATH_ARG_EXT.TST_PNGPNG_))
-	.toThrowError('サーチパスに存在しないファイル【update3】です');
+	.toThrow('サーチパスに存在しないファイル【update3】です');
 
 	expect(cfg.searchPath('update0', SEARCH_PATH_ARG_EXT.SCRIPT)).toBe('test/:dummy dir:/mat/update0.sn');
 	expect(cfg.searchPath('update', SEARCH_PATH_ARG_EXT.SCRIPT)).toBe('test/:dummy dir:/mat/update.sn');
@@ -65,25 +65,25 @@ it('testsetSearchPath_1_userFnTail', ()=> {
 	expect(cfg.searchPath('http://bbb')).toBe('http://bbb');
 
 	expect(()=> cfg.searchPath('ccc'))
-	.toThrowError('サーチパスに存在しないファイル【ccc】です');
+	.toThrow('サーチパスに存在しないファイル【ccc】です');
 
 	expect(cfg.searchPath('update.png')).toBe('test/:dummy dir:/mat/update@@ex.png');
 	expect(cfg.searchPath('update', SEARCH_PATH_ARG_EXT.TST_PNGPNG_)).toBe('test/:dummy dir:/mat/update@@ex.png');
 
 	expect(()=> cfg.searchPath('update', SEARCH_PATH_ARG_EXT.TST_HH))
-	.toThrowError('サーチ対象拡張子群【hh】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【update】');
+	.toThrow('サーチ対象拡張子群【hh】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【update】');
 
 	expect(()=> cfg.searchPath('update.ddd', SEARCH_PATH_ARG_EXT.TST_EEE))
-	.toThrowError('指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】');
+	.toThrow('指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】');
 
 	expect(()=> cfg.searchPath('update.ggg', SEARCH_PATH_ARG_EXT.TST_GGG))
-	.toThrowError('サーチパスに存在しない拡張子【ggg】です。探索ファイル名=【update.ggg】、サーチ対象拡張子群【ggg】');
+	.toThrow('サーチパスに存在しない拡張子【ggg】です。探索ファイル名=【update.ggg】、サーチ対象拡張子群【ggg】');
 
 	expect(()=> cfg.searchPath('update', SEARCH_PATH_ARG_EXT.TST_PNGXML))
-	.toThrowError('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【png|xml】で絞り込むか、ファイル名を個別にして下さい。');
+	.toThrow('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【png|xml】で絞り込むか、ファイル名を個別にして下さい。');
 
 	expect(()=> cfg.searchPath('update'))
-	.toThrowError('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。');
+	.toThrow('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。');
 
 	expect(cfg.searchPath('update2.png')).toBe('test/:dummy dir:/mat/update2.png');
 	expect(cfg.searchPath('update3.png')).toBe('test/:dummy dir:/mat/update3@@ex.png');
@@ -101,7 +101,7 @@ it('test_searchPath_speedtest_0', ()=> {
 		expect(cfg.searchPath('http://bbb')).toBe('http://bbb');
 
 		expect(()=> cfg.searchPath('ccc'))
-		.toThrowError('サーチパスに存在しないファイル【ccc】です');
+		.toThrow('サーチパスに存在しないファイル【ccc】です');
 	//}
 //	const time = (new Date).getTime() - old_time;	// 実行後に測定
 	//assert.fail('経過時間:' + time);		// 差
@@ -113,10 +113,10 @@ it('test_searchPath_speedtest_1', ()=> {
 		expect(cfg.searchPath('update', SEARCH_PATH_ARG_EXT.TST_PNGPNG_)).toBe('test/:dummy dir:/mat/update.png');
 
 		expect(()=> cfg.searchPath('update', SEARCH_PATH_ARG_EXT.TST_HH))
-		.toThrowError('サーチ対象拡張子群【hh】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【update】');
+		.toThrow('サーチ対象拡張子群【hh】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【update】');
 
 		expect(()=> cfg.searchPath('update.ddd', SEARCH_PATH_ARG_EXT.TST_EEE))
-		.toThrowError('指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】');
+		.toThrow('指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】');
 	//}
 //	const time = (new Date()).getTime() - old_time;	// 実行後に測定
 //	assert.fail('経過時間:' + time);		// 差
@@ -125,13 +125,13 @@ it('test_searchPath_speedtest_2', ()=> {
 //	const old_time = (new Date()).getTime();
 	//for (let i=0; i<1000; ++i) {
 	expect(()=> cfg.searchPath('update.ggg', SEARCH_PATH_ARG_EXT.TST_GGG))
-	.toThrowError('サーチパスに存在しない拡張子【ggg】です。探索ファイル名=【update.ggg】、サーチ対象拡張子群【ggg】');
+	.toThrow('サーチパスに存在しない拡張子【ggg】です。探索ファイル名=【update.ggg】、サーチ対象拡張子群【ggg】');
 
 	expect(()=> cfg.searchPath('update', SEARCH_PATH_ARG_EXT.TST_PNGXML))
-	.toThrowError('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【png|xml】で絞り込むか、ファイル名を個別にして下さい。');
+	.toThrow('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【png|xml】で絞り込むか、ファイル名を個別にして下さい。');
 
 	expect(()=> cfg.searchPath('update'))
-	.toThrowError('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。');
+	.toThrow('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。');
 	//}
 //		const time = (new Date()).getTime() - old_time;	// 実行後に測定
 	//assert.fail('経過時間:' + time);		// 差

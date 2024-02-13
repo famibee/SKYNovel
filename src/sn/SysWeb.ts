@@ -93,7 +93,7 @@ export class SysWeb extends SysBase {
 		if (! res.ok) throw Error(res.statusText);
 
 		const src = await res.text();
-		const oJs = JSON.parse(this.decStr(fn, src));
+		const oJs = JSON.parse(await this.dec(fn, src));
 		for (const [nm, v] of Object.entries(oJs)) {
 			const h = hPathFn2Exts[nm] = <any>v;
 			for (const [ext, w] of Object.entries(h)) {
@@ -102,7 +102,7 @@ export class SysWeb extends SysBase {
 		}
 	}
 
-	override initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
+	override async	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		// システム情報
 		const hn = encodeURIComponent(document.location.hostname);
 		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
@@ -110,9 +110,9 @@ export class SysWeb extends SysBase {
 		const ns = this.cfg.getNs();
 		this.flushSub = this.crypto
 		? async ()=> {
-			store.set(ns +'sys_', this.enc(JSON.stringify(this.data.sys)));
-			store.set(ns +'mark_', this.enc(JSON.stringify(this.data.mark)));
-			store.set(ns +'kidoku_',this.enc(JSON.stringify(this.data.kidoku)));
+			store.set(ns +'sys_', await this.enc(JSON.stringify(this.data.sys)));
+			store.set(ns +'mark_', await this.enc(JSON.stringify(this.data.mark)));
+			store.set(ns +'kidoku_',await this.enc(JSON.stringify(this.data.kidoku)));
 		}
 		: ()=> {
 			store.set(ns +'sys', this.data.sys);
@@ -142,14 +142,14 @@ export class SysWeb extends SysBase {
 		let mes = '';
 		try {
 			mes = 'sys';	// tst sys
-			this.data.sys = JSON.parse(this.decStr('json', store.get(ns +'sys_')));
+			this.data.sys = JSON.parse(await this.dec('json', store.get(ns +'sys_')));
 			mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
 			mes = 'mark';	// tst mark
-			this.data.mark = JSON.parse(this.decStr('json', store.get(ns +'mark_')));
+			this.data.mark = JSON.parse(await this.dec('json', store.get(ns +'mark_')));
 			mes = 'kidoku';	// tst kidoku
-			this.data.kidoku = JSON.parse(this.decStr('json', store.get(ns +'kidoku_')));
+			this.data.kidoku = JSON.parse(await this.dec('json', store.get(ns +'kidoku_')));
 		} catch (e) {
-			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
+			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります(a) %o`, e);
 		}
 		comp(this.data);
 	}
@@ -236,7 +236,7 @@ export class SysWeb extends SysBase {
 			rd.onload = ()=> rs(rd.result);
 		}))
 		.then(async (s: string)=> {
-			const o = JSON.parse(this.crypto ?this.decStr('json', s) :s);
+			const o = JSON.parse(this.crypto ?await this.dec('json', s) :s);
 			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
 			if (o.sys[SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {
 				console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase.VALNM_CFG_NS]}】のプレイデータです`);

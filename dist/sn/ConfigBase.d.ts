@@ -67,11 +67,12 @@ export interface IConfig {
 }
 export interface ISysRoots {
     loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
-    decStr(ext: string, d: string): string;
+    dec(ext: string, tx: string): Promise<string>;
+    decAB(ab: ArrayBuffer): Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer>;
     get cur(): string;
     get crypto(): boolean;
     fetch(url: string): Promise<Response>;
-    hash(data: string): string;
+    hash(str: string): string;
 }
 export type HSysBaseArg = {
     cur: string;

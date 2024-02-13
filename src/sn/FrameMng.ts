@@ -67,13 +67,13 @@ export class FrameMng implements IGetFrm {
 		const url = this.cfg.searchPath(src, SEARCH_PATH_ARG_EXT.HTML);
 		const ld = (new Loader())
 		.add({name: src, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
-		if (this.sys.crypto) ld.use((res, next)=> {
+		if (this.sys.crypto) ld.use(async (res, next)=> {
 			try {
-				res.data = this.sys.decStr(res.extension, res.data);
+				res.data = await this.sys.dec(res.extension, res.data);
 			} catch (e) {
 				this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false);
 			}
-			next?.();
+			next();
 		});
 		ld.load((_ldr, hRes)=> {
 			const ifrm = document.getElementById(id) as HTMLIFrameElement;
@@ -139,16 +139,18 @@ export class FrameMng implements IGetFrm {
 		const url2 = FrameMng.#cfg.searchPath(srcNoPrm, SEARCH_PATH_ARG_EXT.SP_GSM);
 		const ld2 = (new Loader)
 		.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
-		if (FrameMng.#sys.crypto && getExt(url2) === 'bin') ld2.use((res, next)=> {
-			FrameMng.#sys.dec(res.extension, res.data)
-			.then(r=> {
-				if (res.extension !== 'bin') {next?.(); return}
+		if (FrameMng.#sys.crypto && getExt(url2) === 'bin') ld2.use(async (res, next)=> {
+			try {
+				const r = await FrameMng.#sys.decAB(res.data);
+				if (res.extension !== 'bin') {next(); return}
+
 				res.data = r;
 				if (r instanceof HTMLImageElement) res.type = LoaderResource.TYPE.IMAGE;
-				next?.();
-			})
-			.catch(e=> FrameMng.#main.errScript(`GrpLayer loadPic ロード失敗です fn:${res.name} ${e}`, false));
-		})
+			} catch (e) {
+				FrameMng.#main.errScript(`GrpLayer loadPic ロード失敗です fn:${res.name} ${e}`, false)
+			}
+			next();
+		});
 		ld2.load((_ldr, hRes)=> {
 			for (const [s2, {data: {src}}] of Object.entries(hRes)) {
 				const u2 = this.#hEncImgOUrl[s2]

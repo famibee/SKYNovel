@@ -6,7 +6,7 @@ export declare class Variable implements IVariable {
     #private;
     private readonly cfg;
     constructor(cfg: Config, hTag: IHTag);
-    setSys(sys: ISysBase): void;
+    setSys(sys: ISysBase): Promise<void>;
     updateData(data: IData4Vari): void;
     flush(): void;
     setDoRecProc(fnc: (doRec: boolean) => void): void;

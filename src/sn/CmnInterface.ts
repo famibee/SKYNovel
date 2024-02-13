@@ -21,9 +21,9 @@ export interface IPropParser {
 
 // =============== Plugin
 import {DisplayObject, RenderTexture} from 'pixi.js';
-export type PLUGIN_PRE_RET = {
-	ret		: string;
+export type PLUGIN_DECAB_RET = {
 	ext_num	: number;
+	ab		: ArrayBuffer;
 };
 export type T_PLUGIN_INFO = {
 	window: {
@@ -39,10 +39,11 @@ export type IPluginInitArg = {
 	getVal(arg_name: string, def?: number | string): object;
 	resume(fnc?: ()=> void): void;
 	render(dsp: DisplayObject, renTx?: RenderTexture, clear?: boolean): void;
-	setDec(fnc: (ext: string, d: string | ArrayBuffer)=> PLUGIN_PRE_RET): void;
-	setEnc(fnc: (d: string)=> string): void;
+	setDec(fnc: (ext: string, tx: string)=> Promise<string>): void;
+	setDecAB(fnc: (ab: ArrayBuffer)=> Promise<PLUGIN_DECAB_RET>): void;
+	setEnc(fnc: (tx: string)=> Promise<string>): void;
 	getStK(fnc: ()=> string): void;
-	getHash(fnc: (data: string)=> string): void;
+	getHash(fnc: (str: string)=> string): void;
 }
 export interface IPlugin {
 	init(pia: IPluginInitArg): Promise<void>;
@@ -62,11 +63,12 @@ export type HSysBaseArg = {
 	dip		: string;
 }
 
-export type SYS_DEC_RET = HTMLImageElement | ArrayBuffer | HTMLVideoElement | string;
+export type SYS_DEC_RET = HTMLImageElement | HTMLVideoElement | ArrayBuffer;
 export interface ISysBase {
-	initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void): void;
+	initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari)=> void): Promise<void>;
 	flush(): void;
-	dec(ext: string, ab: ArrayBuffer): Promise<SYS_DEC_RET>;
+	dec(ext: string, tx: string): Promise<string>;
+	decAB(ab: ArrayBuffer): Promise<SYS_DEC_RET>;
 
 	addHook(fnc: IFncHook): void;
 	callHook: IFncHook;

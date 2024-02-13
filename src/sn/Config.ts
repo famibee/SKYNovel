@@ -15,7 +15,7 @@ export class Config extends ConfigBase {
 		const c = new Config(sys);
 		const fn = sys.cur +'prj.json';
 		const src = await (await sys.fetch(fn)).text();
-		const oJs = JSON.parse(sys.decStr(fn, src));
+		const oJs = JSON.parse(await sys.dec(fn, src));
 		await c.load(oJs);
 		return c;
 	}

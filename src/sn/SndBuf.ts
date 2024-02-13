@@ -249,10 +249,13 @@ export class SndBuf {
 		}
 
 		(new Loader()).add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
-		.use((res, next)=> {
-			sys.dec(res.extension, res.data)
-			.then(r=> {res.data = r; next?.()})
-			.catch(e=> main.errScript(`Sound ロード失敗ですc fn:${res.name} ${e}`, false));
+		.use(async (res, next)=> {
+			try {
+				res.data = await sys.decAB(res.data);
+			} catch (e) {
+				main.errScript(`Sound ロード失敗ですc fn:${res.name} ${e}`, false);
+			}
+			next();
 		})
 		.load((_ldr, hRes)=> {
 			o.source = hRes[fn]?.data;

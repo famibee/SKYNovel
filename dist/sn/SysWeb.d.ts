@@ -16,7 +16,7 @@ export declare class SysWeb extends SysBase {
     protected run: () => Promise<void>;
     stop(): void;
     loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
-    initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
+    initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): Promise<void>;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
     cvsResize(): void;
     pathBaseCnvSnPath4Dbg: string;

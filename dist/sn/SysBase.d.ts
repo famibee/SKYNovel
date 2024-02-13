@@ -26,7 +26,7 @@ export declare class SysBase implements ISysRoots, ISysBase {
         mark: {};
         kidoku: {};
     };
-    initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari) => void): void;
+    initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari) => void): Promise<void>;
     flush(): void;
     protected flushSub(): void;
     protected run(): Promise<void>;
@@ -64,11 +64,11 @@ export declare class SysBase implements ISysRoots, ISysBase {
     protected readonly update_check: ITag;
     protected readonly window: ITag;
     setTitleInfo(txt: string): void;
-    decStr(ext: string, d: string): string;
-    dec(ext: string, d: ArrayBuffer): Promise<string | ArrayBuffer | HTMLImageElement | HTMLVideoElement>;
-    protected enc: (d: string) => string;
+    dec: (_ext: string, tx: string) => Promise<string>;
+    decAB(iab: ArrayBuffer): Promise<ArrayBuffer | HTMLImageElement | HTMLVideoElement>;
+    protected enc: (tx: string) => Promise<string>;
     protected stk: () => string;
-    hash: (_data: string) => string;
+    hash: (_str: string) => string;
     protected readonly isApp: boolean;
     protected $path_downloads: string;
     get path_downloads(): string;

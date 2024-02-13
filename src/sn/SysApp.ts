@@ -61,7 +61,7 @@ export class SysApp extends SysNode {
 	protected 	override $path_userdata		= '';
 	protected	override $path_downloads	= '';
 
-	override initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
+	override async	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
 		// システム情報
 		hTmp['const.sn.isDebugger'] = false;
 			// システムがデバッグ用の特別なバージョンか
@@ -371,9 +371,6 @@ export class SysApp extends SysNode {
 
 		const ab = await res.arrayBuffer();
 		await this.writeFileSync(pathDL, new DataView(ab));	//o
-	//	await this.writeFileSync(pathDL, Buffer.from(ab));	//x
-			// ReferenceError: Buffer is not defined
-	//	await this.writeFileSync(pathDL, new Buffer(ab));	//x
 	}
 
 	// アプリウインドウ設定

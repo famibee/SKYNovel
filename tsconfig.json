@@ -8,7 +8,6 @@
 		"outDir": "dist/",
 		"declaration": true,
 		"declarationMap": true,
-		"newLine": "LF",
 		"removeComments": true,
 		"noImplicitThis": true,		// this に型を明示しないとエラーに
 		"noImplicitReturns": true,	// 暗黙的に undefined を返している関数をエラーに
@@ -22,7 +21,6 @@
 		"allowUnreachableCode": false,	// 到達しえないコードを許容しない (false)
 		"allowUnusedLabels": true,	// 到達しえないラベルを許容しない
 		// オブジェクトへの過剰なプロパティチェックを抑制しない
-		"suppressImplicitAnyIndexErrors": false,
 		"strictPropertyInitialization": false,	// クラス定義時、インスタンス変数の初期化が宣言時、もしくはコンストラクタのどちらでも行われていない場合にエラー
 		"noImplicitOverride": true,	// overrideを使用しないオーバーライドをエラーに
 		"esModuleInterop": true,				// pixi.js 6.1.0以降必須

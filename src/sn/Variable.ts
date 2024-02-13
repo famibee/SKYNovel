@@ -122,9 +122,9 @@ export class Variable implements IVariable {
 	#hSys	: any;
 	#hAreaKidoku	: {[name: string]: Areas}	= {};
 	#callHook		: IFncHook;
-	setSys(sys: ISysBase) {
+	async	setSys(sys: ISysBase) {
 		this.#sys = sys;
-		sys.initVal(this.#data, this.#hTmp, data=> {
+		await sys.initVal(this.#data, this.#hTmp, data=> {
 			this.updateData(data);
 
 			sessionStorage.clear();

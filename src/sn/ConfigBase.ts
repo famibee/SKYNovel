@@ -76,12 +76,13 @@ export interface IConfig {
 
 export interface ISysRoots {
 	loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
-	decStr(ext: string, d: string): string;
+	dec(ext: string, tx: string): Promise<string>;
+	decAB(ab: ArrayBuffer): Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer>;
 
 	get cur()	: string;
 	get crypto(): boolean;
 	fetch(url: string): Promise<Response>;	// ハッシュ値作成ロード用
-	hash(data: string): string;
+	hash(str: string): string;
 }
 export type HSysBaseArg = {
 	cur		: string;
@@ -160,7 +161,7 @@ export class ConfigBase implements IConfig {
 
 		for (const hExts of Object.values(this.hPathFn2Exts)) {
 			for (const [ext, v] of Object.entries(hExts)) {
-				if (ext.slice(-10) !== ':RIPEMD160') continue;
+				if (ext.slice(-3) !== ':id') continue;
 				const hp = v.slice(v.lastIndexOf('/') +1);
 				const fn = hExts[ext.slice(0, -10)];
 				const res = await this.sys.fetch(fn);

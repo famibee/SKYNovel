@@ -12,7 +12,7 @@ import {SysNode} from '../src/sn/SysNode';
 
 //===== Test Class =====
 export class SysTest extends SysNode {
-	protected	override	async readFileSync(_path: string): Promise<string> {return '{}'};
+	protected	override	readFileSync = ()=> Promise.resolve('{}');
 }
 //===== Test Class =====
 

@@ -788,13 +788,13 @@ export class ScriptIterator {
 			// 派生ファイルはない
 			ldr.add({name: fn, url: full_path});
 		}
-		ldr.use((res, next)=> {
+		ldr.use(async (res, next)=> {
 			try {
-				res.data = this.sys.decStr(res.extension, res.data);
+				res.data = await this.sys.dec(res.extension, res.data);
 			} catch (e) {
 				this.main.errScript(`[jump系]snロード失敗です fn:${res.name} ${e}`, false);
 			}
-			next?.();
+			next();
 		})
 		.load((_ldr, hRes)=> {
 			if (fp_diff) {	// 派生ファイルが存在する場合

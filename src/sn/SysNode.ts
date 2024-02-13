@@ -12,9 +12,6 @@ import {IVariable, IMain} from "./CmnInterface";
 import {IHTag} from "./Grammar";
 
 import {Application} from "pixi.js";
-import {Buffer} from 'buffer';
-// @ts-ignore
-window.Buffer = Buffer;
 
 export class SysNode extends SysBase {
 	override async loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig) {
@@ -22,7 +19,7 @@ export class SysNode extends SysBase {
 
 		const fn = this.arg.cur +'path.json';
 		const src = await this.readFileSync(fn);
-		const oJs = JSON.parse(this.decStr(fn, src));
+		const oJs = JSON.parse(await this.dec(fn, src));
 		for (const [nm, v] of Object.entries(oJs)) {
 			const h = hPathFn2Exts[nm] = <any>v;
 			for (const [ext, w] of Object.entries(h)) {
@@ -44,7 +41,7 @@ export class SysNode extends SysBase {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
 		try {
 			this.ensureFileSync(fn);
-			await this.writeFileSync(fn, Buffer.from(bs64, 'base64'));
+			await this.writeFileSync(fn, bs64);
 			if (CmnLib.debugLog) console.log(`画像ファイル ${fn} を保存しました`);
 		} catch (e) {throw e}
 	};

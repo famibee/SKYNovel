@@ -1,3 +1,13 @@
+- feat(IPluginInitArg): 拡張機能 v4.15.0 対応、I/Fで余分な処理を削除・最適化
+	- setDec(), setEnc() I/Fをasync化
+	- async setDec()は string 専用とする
+	- async setDecAB()追加、ArrayBuffer 専用とする
+	- BREAKING CHANGE: 暗号化データに互換性なし、再生成必須
+- fix(tsconfig.json): suppressImplicitAnyIndexErrors・newLine 削除（TypeScript 5.5 以降は完全に削除されるので）
+- fix(buffer): ライブラリ削除。アプリ版 savePic() でも不要につき
+- fix: ライブラリ更新
+
+
 ## [1.48.15](https://github.com/famibee/SKYNovel/compare/v1.48.14...v1.48.15) (2024-02-05)
 
 

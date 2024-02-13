@@ -44,7 +44,10 @@ export class SpritesMng {
 		SpritesMng.#val = val;
 		SpritesMng.#sys = sys;
 		SpritesMng.#main = main;
-		if (sys.crypto) SpritesMng.#dec2cache = SpritesMng.#dec2cache4Cripto;
+		if (sys.crypto) {
+			SpritesMng.#cachePicMov = SpritesMng.#dec2cachePicMov;
+			SpritesMng.#cacheAniSpr = SpritesMng.#dec2cacheAniSpr;
+		}
 
 		const fnc = ()=> {
 			const vol = SpritesMng.#glbVol * SpritesMng.#movVol;
@@ -166,13 +169,20 @@ export class SpritesMng {
 			fncAllComp(needLoad);
 		}
 		if (needLoad) {
-			ldr.use((res, next)=> {
-				this.#sys.dec(res.extension, res.data)
-				.then(r=> SpritesMng.#dec2cache(r, res, ()=> next?.()))
-				.catch(e=> {
+			ldr.use(async (res, next)=> {
+				try {
+					if (res.extension === 'json') {
+						const str = await this.#sys.dec('json', res.data);
+						SpritesMng.#cacheAniSpr(str, res, next);
+						return;
+					}
+
+					const aiv = await this.#sys.decAB(res.data);
+					SpritesMng.#cachePicMov(aiv, res, next);
+				} catch (e) {
 					const mes = `画像/動画ロード失敗です fn:${res.name} ${e}`;
 					if (SpritesMng.#evtMng.isSkipping) console.warn(mes); else this.#main.errScript(mes, false);
-				});
+				}
 			})
 			.load(fncLoaded);
 		}
@@ -184,7 +194,7 @@ export class SpritesMng {
 	static	#hFn2ResAniSpr	: {[fn: string]: IResAniSpr} = {};
 
 
-	static #dec2cache = (_r: SYS_DEC_RET, {type, spritesheet, name, data}: any, next: ()=> void)=> {
+	static #cachePicMov = (_r: SYS_DEC_RET, {type, spritesheet, name, data}: any, next: ()=> void)=> {
 		switch (type) {
 			case LoaderResource.TYPE.JSON:
 				// アニメ登録
@@ -209,36 +219,46 @@ export class SpritesMng {
 
 		const is = a_base_name[1].length;
 		const ie = -a_base_name[2].length -1;
-		return aFn.sort((a, b)=>
-			int(a.slice(is, ie)) > int(b.slice(is, ie)) ?1 :-1
-		);
+		return aFn.sort((a, b)=> int(a.slice(is, ie)) > int(b.slice(is, ie)) ?1 :-1);
 	}
 
+	static #cacheAniSpr = (_r: string, _: any, next: ()=> void)=> next();
 
-	static #dec2cache4Cripto(r: SYS_DEC_RET, res: any, next: ()=> void) {
+	static #dec2cachePicMov(r: SYS_DEC_RET, res: any, next: ()=> void) {
 		res.data = r;
-		if (res.extension === 'bin') {
-			if (r instanceof HTMLImageElement) {
-				res.texture = Texture.fromLoader(r, res.url, res.name);
-				//Texture.addToCache(Texture.from(r), res.name);
-				// res.texture = Texture.from(r);
-					// でも良いが、キャッシュ追加と、それでcsv2Sprites()内で使用するので
-				res.type = LoaderResource.TYPE.IMAGE;
-//				URL.revokeObjectURL(r.src);	// TODO: キャッシュ破棄
-			}
-			else if (r instanceof HTMLVideoElement) {
-				r.volume = SpritesMng.#glbVol;
-				SpritesMng.#hFn2VElm[res.name] = SpritesMng.#charmVideoElm(r);
+		if (res.extension !== 'bin') next();
 
-				res.type = LoaderResource.TYPE.VIDEO;
-//				URL.revokeObjectURL(r.src);
-			}
+		if (r instanceof HTMLImageElement) {
+			res.texture = Texture.fromLoader(r, res.url, res.name);
+			//Texture.addToCache(Texture.from(r), res.name);
+			// res.texture = Texture.from(r);
+				// でも良いが、キャッシュ追加と、それでcsv2Sprites()内で使用するので
+			res.type = LoaderResource.TYPE.IMAGE;
+//			URL.revokeObjectURL(r.src);	// TODO: キャッシュ破棄
 		}
-		if (res.extension !== 'json') {next(); return}
+		else if (r instanceof HTMLVideoElement) {
+			r.volume = SpritesMng.#glbVol;
+			SpritesMng.#hFn2VElm[res.name] = SpritesMng.#charmVideoElm(r);
 
+			res.type = LoaderResource.TYPE.VIDEO;
+//			URL.revokeObjectURL(r.src);
+		}
+		next();
+	}
+	static #charmVideoElm(v: HTMLVideoElement): HTMLVideoElement {
+		// 【PixiJS】iOSとChromeでAutoPlay可能なビデオSpriteの設定 - Qiita https://qiita.com/masato_makino/items/8316e7743acac514e361
+		// v.muted = true;// Chrome対応：自動再生を許可。ないと再開時に DOMException
+		if (SpritesMng.#val.getVal('const.sn.needClick2Play')) {
+			// ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる
+			DebugMng.trace_beforeNew(`[lay系] ${DebugMng.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, 'W');
+			v.muted = true;
+		}
+		v.setAttribute('playsinline', '');	// iOS対応
+		return v;
+	}
+
+	static #dec2cacheAniSpr(r: string, res: any, next: ()=> void) {
 		// アニメ登録
-		if (typeof r !== 'string') {next(); return}
-
 		const {meta, frames} = res.data = JSON.parse(r);
 		res.type = LoaderResource.TYPE.JSON;
 		if (! meta?.image) {next(); return}
@@ -247,14 +267,14 @@ export class SpritesMng {
 		const url = SpritesMng.#cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SP_GSM);
 		(new Loader)
 		.use((res2, next2)=> {
-			this.#sys.dec(res2.extension, res2.data)
+			this.#sys.decAB(res2.data)
 			.then(r2=> {
 				res2.data = r2;
 				if (r2 instanceof HTMLImageElement) {
 					res2.type = LoaderResource.TYPE.IMAGE;
 					URL.revokeObjectURL(r2.src);
 				}
-				next2?.();
+				next2();
 			})
 			.catch(e=> this.#main.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${res2.name} ${e}`, false));
 		})
@@ -277,17 +297,7 @@ export class SpritesMng {
 			next();
 		});
 	}
-	static #charmVideoElm(v: HTMLVideoElement): HTMLVideoElement {
-		// 【PixiJS】iOSとChromeでAutoPlay可能なビデオSpriteの設定 - Qiita https://qiita.com/masato_makino/items/8316e7743acac514e361
-		// v.muted = true;// Chrome対応：自動再生を許可。ないと再開時に DOMException
-		if (SpritesMng.#val.getVal('const.sn.needClick2Play')) {
-			// ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる
-			DebugMng.trace_beforeNew(`[lay系] ${DebugMng.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, 'W');
-			v.muted = true;
-		}
-		v.setAttribute('playsinline', '');	// iOS対応
-		return v;
-	}
+
 	static #mkSprite(fn: string, hRes: {[fn: string]: LoaderResource}): Sprite {
 		const ras = SpritesMng.#hFn2ResAniSpr[fn];
 		if (ras) {

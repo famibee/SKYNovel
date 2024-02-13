@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {IHTag, ITag} from './Grammar';
-import {IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_PRE_RET, T_PLUGIN_INFO} from './CmnInterface';
+import {IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
 import {Main} from './Main';
@@ -33,7 +33,8 @@ export class SysBase implements ISysRoots, ISysBase {
 			getVal: ()=> ({}),
 			resume: ()=> {},
 			render: ()=> {},
-			setDec: fnc=> this.#preFromPlg = fnc,
+			setDec: fnc=> this.dec = fnc,
+			setDecAB: fnc=> this.#plgDecAB = fnc,
 			setEnc: fnc=> this.enc = fnc,
 			getStK: fnc=> this.stk = fnc,
 			getHash: fnc=> this.hash = fnc,
@@ -51,7 +52,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	async loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig) {this.cfg = cfg}
 
 	protected	readonly	data	= {sys:{}, mark:{}, kidoku:{}};
-	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
+	async	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
 	flush() {
 		if (this.#tidFlush) {this.#rsvFlush = true; return}	// 次の Timeout 時に予約
 
@@ -87,7 +88,7 @@ export class SysBase implements ISysRoots, ISysBase {
 		//	mes = 'save';	// tst save
 		//	mes += String(val.getVal('save:sn.doRecLog', 'false'));
 		} catch (e) {
-			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります %o`, e);
+			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります(b) %o`, e);
 		}
 
 		//	システム
@@ -134,10 +135,11 @@ export class SysBase implements ISysRoots, ISysBase {
 			getVal: val.getVal,
 			resume: ()=> main.resume(),
 			render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> appPixi.renderer.render(dsp, {renderTexture, clear}),
-			setDec: fnc=> this.#preFromPlg = fnc,
-			setEnc: fnc=> this.enc = fnc,
-			getStK: fnc=> this.stk = fnc,
-			getHash: fnc=> this.hash = fnc,
+			setDec: ()=> {},
+			setDecAB: ()=> {},
+			setEnc: ()=> {},
+			getStK: ()=> {},
+			getHash: ()=> {},
 		}));
 	}
 	protected	static	readonly	VALNM_CFG_NS = 'const.sn.cfg.ns';
@@ -425,42 +427,43 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	}
 
 
-	#preFromPlg: (ext: string, d: string | ArrayBuffer)=> PLUGIN_PRE_RET = (_ext, d)=> ({ret: d.toString(), ext_num: 0,});
+	#plgDecAB: (ab: ArrayBuffer)=> Promise<PLUGIN_DECAB_RET> = ()=> Promise.resolve({ext_num: 0, ab: new ArrayBuffer(0)});
 
-	decStr(ext: string, d: string) {return this.#preFromPlg(ext, d).ret}
-	async dec(ext: string, d: ArrayBuffer) {
-		const {ret, ext_num} = this.#preFromPlg(ext, d);
+	dec = (_ext: string, tx: string)=> Promise.resolve(tx);
+	async decAB(iab: ArrayBuffer) {
+		const {ext_num, ab} = await this.#plgDecAB(iab);
 		const fm = this.#hN2Ext[ext_num];
-		return fm?.fnc ?await fm.fnc(new Blob([ret], {type: fm.mime})) :ret;
+		return fm?.fnc ?await fm.fnc(ab) :ab;
 	}
 	readonly #hN2Ext: {[id: number]: {
 		ext	: string;
-		fnc	: {(bl: Blob): Promise<HTMLImageElement>}
-			| {(bl: Blob): Promise<ArrayBuffer>}
-			| {(bl: Blob): Promise<HTMLVideoElement>};
-		mime: string;
+		fnc	: {(ab: ArrayBuffer): Promise<HTMLImageElement>}
+			| {(ab: ArrayBuffer): Promise<HTMLVideoElement>}
+			| {(ab: ArrayBuffer): Promise<ArrayBuffer>};	// サウンドファイル用
 	}} = {
-		1	: {ext: 'jpeg', fnc: bl=> this.#genImage(bl), mime: 'image/jpeg'},
-		2	: {ext: 'png', fnc: bl=> this.#genImage(bl), mime: 'image/png'},
-		3	: {ext: 'svg', fnc: bl=> this.#genImage(bl), mime: 'image/svg+xml'},
-		4	: {ext: 'webp', fnc: bl=> this.#genImage(bl), mime: 'image/webp'},
-		10	: {ext: 'mp3', fnc: bl=> bl.arrayBuffer(), mime: 'audio/mpeg'},
-		11	: {ext: 'm4a', fnc: bl=> bl.arrayBuffer(), mime: 'audio/aac'},
-		12	: {ext: 'ogg', fnc: bl=> bl.arrayBuffer(), mime: 'audio/ogg'},
-		13	: {ext: 'aac', fnc: bl=> bl.arrayBuffer(), mime: 'audio/aac'},
-		14	: {ext: 'flac', fnc: bl=> bl.arrayBuffer(), mime: 'audio/flac'},
-		15	: {ext: 'wav', fnc: bl=> bl.arrayBuffer(), mime: 'audio/wav'},
-		20	: {ext: 'mp4', fnc: bl=> this.#genVideo(bl), mime: 'video/mp4'},
-		21	: {ext: 'webm', fnc: bl=> this.#genVideo(bl), mime: 'video/webm'},
-		22	: {ext: 'ogv', fnc: bl=> this.#genVideo(bl), mime: 'video/ogv'},
+		1	: {ext: 'jpeg', fnc: ab=> this.#genImage(ab, 'image/jpeg')},
+		2	: {ext: 'png', fnc: ab=> this.#genImage(ab, 'image/png')},
+		3	: {ext: 'svg', fnc: ab=> this.#genImage(ab, 'image/svg+xml')},
+		4	: {ext: 'webp', fnc: ab=> this.#genImage(ab, 'image/webp')},
+	//	10	: {ext: 'mp3', fnc: async ab=> ab},
+	//	11	: {ext: 'm4a', fnc: async ab=> ab},
+	//	12	: {ext: 'ogg', fnc: async ab=> ab},
+	//	13	: {ext: 'aac', fnc: async ab=> ab},
+	//	14	: {ext: 'flac', fnc: async ab=> ab},
+	//	15	: {ext: 'wav', fnc: async ab=> ab},
+		20	: {ext: 'mp4', fnc: ab=> this.#genVideo(ab, 'video/mp4')},
+		21	: {ext: 'webm', fnc: ab=> this.#genVideo(ab, 'video/webm')},
+		22	: {ext: 'ogv', fnc: ab=> this.#genVideo(ab, 'video/ogv')},
 	};
-	#genImage = (bl: Blob): Promise<HTMLImageElement> => new Promise((rs, rj)=> {
+	#genImage = (ab: ArrayBuffer, type: string): Promise<HTMLImageElement> => new Promise((rs, rj)=> {
+		const bl = new Blob([ab], {type});
 		const img = new Image;
 		img.onload = ()=> rs(img);
 		img.onerror = e=> rj(e);
 		img.src = URL.createObjectURL(bl);
 	});
-	#genVideo = (bl: Blob): Promise<HTMLVideoElement> => new Promise((rs, rj)=> {
+	#genVideo = (ab: ArrayBuffer, type: string): Promise<HTMLVideoElement> => new Promise((rs, rj)=> {
+		const bl = new Blob([ab], {type});
 		const v = document.createElement('video');
 	//	this.elc.add(v, 'loadedmetadata', ()=> console.log(`loadedmetadata duration:${v.duration}`));
 		this.elc.add(v, 'error', ()=> rj(v?.error?.message ?? ''));
@@ -468,9 +471,9 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		v.src = URL.createObjectURL(bl);
 	});
 
-	protected enc = (d: string)=> d;
+	protected enc = async (tx: string)=> tx;
 	protected stk = ()=> '';
-	hash = (_data: string)=> '';
+	hash = (_str: string)=> '';
 
 	protected readonly	isApp: boolean = false;
 	protected $path_downloads	= '';

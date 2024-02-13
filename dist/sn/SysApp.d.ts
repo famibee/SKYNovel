@@ -17,7 +17,7 @@ export declare class SysApp extends SysNode {
     ensureFileSync: (path: string) => Promise<void>;
     protected $path_userdata: string;
     protected $path_downloads: string;
-    initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): void;
+    initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): Promise<void>;
     protected run(): Promise<void>;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
     cvsResize(): void;
