@@ -1,3 +1,6 @@
+- fix: 非暗号化時にアニメスプライトが表示されない件
+
+
 # [1.49.0](https://github.com/famibee/SKYNovel/compare/v1.48.15...v1.49.0) (2024-02-13)
 
 

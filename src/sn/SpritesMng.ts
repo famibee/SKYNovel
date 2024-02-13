@@ -194,18 +194,8 @@ export class SpritesMng {
 	static	#hFn2ResAniSpr	: {[fn: string]: IResAniSpr} = {};
 
 
-	static #cachePicMov = (_r: SYS_DEC_RET, {type, spritesheet, name, data}: any, next: ()=> void)=> {
+	static #cachePicMov = (_r: SYS_DEC_RET, {type, name, data}: any, next: ()=> void)=> {
 		switch (type) {
-			case LoaderResource.TYPE.JSON:
-				// アニメ登録
-				const aFn: string[] = spritesheet._frameKeys;
-				SpritesMng.#sortAFrameName(aFn);
-				SpritesMng.#hFn2ResAniSpr[name] = {
-					aTex: aFn.map(fn=> Texture.from(fn)),
-					meta: data.meta,
-				};
-				break;
-
 			case LoaderResource.TYPE.VIDEO:
 				const hve = data as HTMLVideoElement;
 				hve.volume = SpritesMng.#glbVol;
@@ -222,14 +212,12 @@ export class SpritesMng {
 		return aFn.sort((a, b)=> int(a.slice(is, ie)) > int(b.slice(is, ie)) ?1 :-1);
 	}
 
-	static #cacheAniSpr = (_r: string, _: any, next: ()=> void)=> next();
-
-	static #dec2cachePicMov(r: SYS_DEC_RET, res: any, next: ()=> void) {
+	static async #dec2cachePicMov(r: SYS_DEC_RET, res: any, next: ()=> void) {
 		res.data = r;
 		if (res.extension !== 'bin') next();
 
 		if (r instanceof HTMLImageElement) {
-			res.texture = Texture.fromLoader(r, res.url, res.name);
+			res.texture = await Texture.fromLoader(r, res.url, res.name);
 			//Texture.addToCache(Texture.from(r), res.name);
 			// res.texture = Texture.from(r);
 				// でも良いが、キャッシュ追加と、それでcsv2Sprites()内で使用するので
@@ -257,8 +245,20 @@ export class SpritesMng {
 		return v;
 	}
 
+	static #cacheAniSpr = (_r: string, {type, spritesheet, name, data}: any, next: ()=> void)=> {
+		switch (type) {
+			case LoaderResource.TYPE.JSON:	// switchは必須
+				const aFn: string[] = spritesheet._frameKeys;
+				SpritesMng.#sortAFrameName(aFn);
+				SpritesMng.#hFn2ResAniSpr[name] = {
+					aTex: aFn.map(fn=> Texture.from(fn)),
+					meta: data.meta,
+				};
+		}
+		next();
+	}
+
 	static #dec2cacheAniSpr(r: string, res: any, next: ()=> void) {
-		// アニメ登録
 		const {meta, frames} = res.data = JSON.parse(r);
 		res.type = LoaderResource.TYPE.JSON;
 		if (! meta?.image) {next(); return}
@@ -293,7 +293,6 @@ export class SpritesMng {
 					meta,
 				};
 			}
-
 			next();
 		});
 	}
