@@ -1,3 +1,10 @@
+# [1.49.0](https://github.com/famibee/SKYNovel/compare/v1.48.15...v1.49.0) (2024-02-13)
+
+
+### Features
+
+* **IPluginInitArg:** 拡張機能 v4.15.0 対応、I/Fで余分な処理を削除・最適化 ([9a086a3](https://github.com/famibee/SKYNovel/commit/9a086a377605e6900c6af1c20e6eed060286dff1))
+
 - feat(IPluginInitArg): 拡張機能 v4.15.0 対応、I/Fで余分な処理を削除・最適化
 	- setDec(), setEnc() I/Fをasync化
 	- async setDec()は string 専用とする
