@@ -1,3 +1,10 @@
+## [1.49.2](https://github.com/famibee/SKYNovel/compare/v1.49.1...v1.49.2) (2024-04-13)
+
+
+### Bug Fixes
+
+* ライブラリ更新 ([ed56894](https://github.com/famibee/SKYNovel/commit/ed56894efa1e458cbbcb8cca3e486612d632b952))
+
 - fix: ライブラリ更新
 - refactor: （不具合ではない）マウスカーソル表示を pixi.js v7 以降に対応する記述に
 - memo: 余談だがこれ以降は一部文字を合字フォントでコーディング
