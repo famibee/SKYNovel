@@ -24278,7 +24278,7 @@ class J0 {
     this.#i.remove(t);
   }
   button(t, e, i, n, s) {
-    !t.fn && !t.label && !t.url && this.main.errScript("fnまたはlabelまたはurlは必須です"), t.fn ??= this.scrItr.scriptFn, e.interactive = e.buttonMode = !0;
+    !t.fn && !t.label && !t.url && this.main.errScript("fnまたはlabelまたはurlは必須です"), t.fn ??= this.scrItr.scriptFn, e.interactive = !0, e.cursor = "pointer";
     const o = t.key?.toLowerCase() ?? " ", a = Y(t, "global", !1);
     ht.setEvt2Fnc(a, o, () => this.main.resumeByJumpOrCall(t)), e.on("pointerdown", (c) => this.#r.fire(o, c));
     const h = t.hint ? () => this.#x(t, e) : () => {
@@ -26969,13 +26969,13 @@ class Yc extends Qt {
     }
     const s = this.io.setTimeoutFn(() => {
       delete this.acks[t];
-      for (let o = 0; o < this.sendBuffer.length; o++)
-        this.sendBuffer[o].id === t && this.sendBuffer.splice(o, 1);
+      for (let a = 0; a < this.sendBuffer.length; a++)
+        this.sendBuffer[a].id === t && this.sendBuffer.splice(a, 1);
       e.call(this, new Error("operation has timed out"));
-    }, n);
-    this.acks[t] = (...o) => {
-      this.io.clearTimeoutFn(s), e.apply(this, [null, ...o]);
+    }, n), o = (...a) => {
+      this.io.clearTimeoutFn(s), e.apply(this, a);
     };
+    o.withError = !0, this.acks[t] = o;
   }
   /**
    * Emits an event and waits for an acknowledgement
@@ -26994,9 +26994,9 @@ class Yc extends Qt {
    * @return a Promise that will be fulfilled when the server acknowledges the event
    */
   emitWithAck(t, ...e) {
-    const i = this.flags.timeout !== void 0 || this._opts.ackTimeout !== void 0;
-    return new Promise((n, s) => {
-      e.push((o, a) => i ? o ? s(o) : n(a) : n(o)), this.emit(t, ...e);
+    return new Promise((i, n) => {
+      const s = (o, a) => o ? n(o) : i(a);
+      s.withError = !0, e.push(s), this.emit(t, ...e);
     });
   }
   /**
@@ -27076,7 +27076,21 @@ class Yc extends Qt {
    * @private
    */
   onclose(t, e) {
-    this.connected = !1, delete this.id, this.emitReserved("disconnect", t, e);
+    this.connected = !1, delete this.id, this.emitReserved("disconnect", t, e), this._clearAcks();
+  }
+  /**
+   * Clears the acknowledgement handlers upon disconnection, since the client will never receive an acknowledgement from
+   * the server.
+   *
+   * @private
+   */
+  _clearAcks() {
+    Object.keys(this.acks).forEach((t) => {
+      if (!this.sendBuffer.some((i) => String(i.id) === t)) {
+        const i = this.acks[t];
+        delete this.acks[t], i.withError && i.call(this, new Error("socket has been disconnected"));
+      }
+    });
   }
   /**
    * Called with socket packet.
@@ -27143,14 +27157,14 @@ class Yc extends Qt {
     };
   }
   /**
-   * Called upon a server acknowlegement.
+   * Called upon a server acknowledgement.
    *
    * @param packet
    * @private
    */
   onack(t) {
     const e = this.acks[t.id];
-    typeof e == "function" && (e.apply(this, t.data), delete this.acks[t.id]);
+    typeof e == "function" && (delete this.acks[t.id], e.withError && t.data.unshift(null), e.apply(this, t.data));
   }
   /**
    * Called upon server connect.

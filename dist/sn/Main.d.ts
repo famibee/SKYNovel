@@ -1,6 +1,7 @@
-import { HArg } from './Grammar';
-import { IMain } from './CmnInterface';
 import { SysBase } from './SysBase';
+import { IMain } from './CmnInterface';
+import { HArg } from './Grammar';
+
 export declare class Main implements IMain {
     #private;
     private readonly sys;

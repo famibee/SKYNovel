@@ -1,14 +1,15 @@
-import { HArg } from './Grammar';
-import { IPropParser } from './CmnInterface';
-import { SysBase } from './SysBase';
-import { ScriptIterator } from './ScriptIterator';
-import { HPage } from './LayerMng';
-import { AnalyzeTagArg, HPRM } from './AnalyzeTagArg';
-import { TxtStage } from './TxtStage';
-import { Button } from './Button';
-import { GrpLayer } from './GrpLayer';
-import { Config } from './Config';
 import { Application, Text, Sprite } from 'pixi.js';
+import { Config } from './Config';
+import { GrpLayer } from './GrpLayer';
+import { Button } from './Button';
+import { TxtStage } from './TxtStage';
+import { AnalyzeTagArg, HPRM } from './AnalyzeTagArg';
+import { HPage } from './LayerMng';
+import { ScriptIterator } from './ScriptIterator';
+import { SysBase } from './SysBase';
+import { IPropParser } from './CmnInterface';
+import { HArg } from './Grammar';
+
 export declare class DesignCast {
     readonly bg_col: string;
     readonly isLay: boolean;

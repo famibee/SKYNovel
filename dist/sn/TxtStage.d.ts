@@ -1,9 +1,10 @@
-import { IEvtMng } from './CmnLib';
-import { HArg } from './Grammar';
-import { Config } from './Config';
-import { IMakeDesignCast } from './LayerMng';
-import { SysBase } from './SysBase';
 import { Container, Sprite, Renderer, Application } from 'pixi.js';
+import { SysBase } from './SysBase';
+import { IMakeDesignCast } from './LayerMng';
+import { Config } from './Config';
+import { HArg } from './Grammar';
+import { IEvtMng } from './CmnLib';
+
 interface IInfTxLay {
     fontsize: number;
     $width: number;

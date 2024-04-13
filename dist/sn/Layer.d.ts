@@ -1,6 +1,7 @@
-import { BLEND_MODES, DisplayObject, Container, Sprite, AbstractRenderer } from 'pixi.js';
-import { HArg } from './Grammar';
 import { IMakeDesignCast } from './LayerMng';
+import { HArg } from './Grammar';
+import { BLEND_MODES, DisplayObject, Container, Sprite, AbstractRenderer } from 'pixi.js';
+
 export declare class Layer {
     #private;
     layname: string;

@@ -1,4 +1,5 @@
 import { BrowserWindow } from 'electron';
+
 export declare class appMain {
     #private;
     private readonly bw;

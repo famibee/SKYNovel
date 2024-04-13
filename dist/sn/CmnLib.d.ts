@@ -1,11 +1,12 @@
-import { HArg } from './Grammar';
+import { Container } from 'pixi.js';
 import { IHEvt2Fnc } from './CmnInterface';
+import { HArg } from './Grammar';
+
 export declare function int(o: any): number;
 export declare function uint(o: any): number;
 export declare function getDateStr(spl_dd?: string, spl_dt?: string, spl_tt?: string, spl_ms?: string): string;
 export declare function initStyle(): void;
 export declare function addStyle(style: string): void;
-import { Container } from 'pixi.js';
 export interface IEvtMng {
     button(hArg: HArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     unButton(em: Container): void;

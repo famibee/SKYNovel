@@ -1,8 +1,9 @@
-import { HArg } from './Grammar';
-import { IVariable } from './CmnInterface';
-import { Layer } from './Layer';
-import { SysBase } from './SysBase';
 import { Container } from 'pixi.js';
+import { SysBase } from './SysBase';
+import { Layer } from './Layer';
+import { IVariable } from './CmnInterface';
+import { HArg } from './Grammar';
+
 export declare class Pages {
     #private;
     readonly cls: string;

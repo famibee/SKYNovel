@@ -1,12 +1,13 @@
-import { IEvtMng } from './CmnLib';
-import { IHTag, HArg } from './Grammar';
-import { IVariable, IMain, IHEvt2Fnc } from './CmnInterface';
-import { LayerMng } from './LayerMng';
-import { ScriptIterator } from './ScriptIterator';
-import { SoundMng } from './SoundMng';
-import { Config } from './Config';
-import { SysBase } from './SysBase';
 import { Container, Application } from 'pixi.js';
+import { SysBase } from './SysBase';
+import { Config } from './Config';
+import { SoundMng } from './SoundMng';
+import { ScriptIterator } from './ScriptIterator';
+import { LayerMng } from './LayerMng';
+import { IVariable, IMain, IHEvt2Fnc } from './CmnInterface';
+import { IHTag, HArg } from './Grammar';
+import { IEvtMng } from './CmnLib';
+
 export declare class EventMng implements IEvtMng {
     #private;
     private readonly cfg;

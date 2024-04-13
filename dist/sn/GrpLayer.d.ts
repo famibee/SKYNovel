@@ -1,11 +1,12 @@
-import { Layer } from './Layer';
-import { HArg } from './Grammar';
-import { IMain, IVariable } from './CmnInterface';
-import { Config } from './Config';
-import { SysBase } from './SysBase';
-import { SoundMng } from './SoundMng';
-import { IMakeDesignCast } from './LayerMng';
 import { Application } from 'pixi.js';
+import { IMakeDesignCast } from './LayerMng';
+import { SoundMng } from './SoundMng';
+import { SysBase } from './SysBase';
+import { Config } from './Config';
+import { IMain, IVariable } from './CmnInterface';
+import { HArg } from './Grammar';
+import { Layer } from './Layer';
+
 export declare class GrpLayer extends Layer {
     #private;
     static init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: IVariable): void;
@@ -26,7 +27,7 @@ export declare class GrpLayer extends Layer {
         name: string;
         idx: number;
         alpha: number;
-        blendMode: import("pixi.js").BLEND_MODES;
+        blendMode: import('pixi.js').BLEND_MODES;
         rotation: number;
         scale_x: number;
         scale_y: number;

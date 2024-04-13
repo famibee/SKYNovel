@@ -1,8 +1,9 @@
-import { IEvtMng } from './CmnLib';
-import { IVariable, IMain } from './CmnInterface';
-import { Config } from './Config';
-import { SysBase } from './SysBase';
 import { HArg } from './Grammar';
+import { SysBase } from './SysBase';
+import { Config } from './Config';
+import { IVariable, IMain } from './CmnInterface';
+import { IEvtMng } from './CmnLib';
+
 export declare class SndBuf {
     #private;
     static init($cfg: Config, $val: IVariable, $main: IMain, $sys: SysBase): void;

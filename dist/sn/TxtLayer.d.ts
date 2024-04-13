@@ -1,11 +1,12 @@
-import { Layer } from './Layer';
-import { IEvtMng } from './CmnLib';
-import { IHTag, HArg } from './Grammar';
-import { IVariable, IMain, IRecorder } from './CmnInterface';
-import { Config } from './Config';
-import { IMakeDesignCast } from './LayerMng';
-import { SysBase } from './SysBase';
 import { Renderer, Application } from 'pixi.js';
+import { SysBase } from './SysBase';
+import { IMakeDesignCast } from './LayerMng';
+import { Config } from './Config';
+import { IVariable, IMain, IRecorder } from './CmnInterface';
+import { IHTag, HArg } from './Grammar';
+import { IEvtMng } from './CmnLib';
+import { Layer } from './Layer';
+
 export declare class TxtLayer extends Layer {
     #private;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recorder: IRecorder, isPageFore: (me: TxtLayer) => boolean, appPixi: Application): void;

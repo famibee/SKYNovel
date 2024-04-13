@@ -1,5 +1,6 @@
-import { SysBase } from './SysBase';
 import { ConfigBase, SEARCH_PATH_ARG_EXT } from './ConfigBase';
+import { SysBase } from './SysBase';
+
 export declare class Config extends ConfigBase {
     readonly sys: SysBase;
     static generate(sys: SysBase): Promise<Config>;

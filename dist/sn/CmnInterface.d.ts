@@ -1,4 +1,7 @@
+import { Layer } from './Layer';
+import { DisplayObject, RenderTexture } from 'pixi.js';
 import { HArg, ITag } from './Grammar';
+
 export interface IMyTrace {
     (txt: string, lvl?: string, fnline?: boolean, adjust_line?: number): void;
 }
@@ -6,7 +9,6 @@ export interface IPropParser {
     parse(s: string): any;
     getValAmpersand(val: string): string;
 }
-import { DisplayObject, RenderTexture } from 'pixi.js';
 export type PLUGIN_DECAB_RET = {
     ext_num: number;
     ab: ArrayBuffer;
@@ -37,7 +39,6 @@ export interface IPlugin {
 export interface HPlugin {
     [name: string]: IPlugin;
 }
-import { Layer } from './Layer';
 export interface ILayerFactory {
     (): Layer;
 }

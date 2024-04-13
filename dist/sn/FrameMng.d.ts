@@ -1,9 +1,10 @@
-import { IEvtMng } from './CmnLib';
-import { IHTag } from './Grammar';
-import { IVariable, IMain, IGetFrm } from './CmnInterface';
-import { SysBase } from './SysBase';
-import { Config } from './Config';
 import { Application } from 'pixi.js';
+import { Config } from './Config';
+import { SysBase } from './SysBase';
+import { IVariable, IMain, IGetFrm } from './CmnInterface';
+import { IHTag } from './Grammar';
+import { IEvtMng } from './CmnLib';
+
 export declare class FrameMng implements IGetFrm {
     #private;
     private readonly cfg;

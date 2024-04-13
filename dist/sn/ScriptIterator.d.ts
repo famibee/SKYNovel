@@ -1,11 +1,12 @@
-import { IHTag, HArg } from './Grammar';
-import { IMain, IVariable, IMark, IPropParser } from './CmnInterface';
-import { Config } from './Config';
-import { AnalyzeTagArg } from './AnalyzeTagArg';
-import { EventMng } from './EventMng';
-import { LayerMng } from './LayerMng';
-import { SoundMng } from './SoundMng';
 import { SysBase } from './SysBase';
+import { SoundMng } from './SoundMng';
+import { LayerMng } from './LayerMng';
+import { EventMng } from './EventMng';
+import { AnalyzeTagArg } from './AnalyzeTagArg';
+import { Config } from './Config';
+import { IMain, IVariable, IMark, IPropParser } from './CmnInterface';
+import { IHTag, HArg } from './Grammar';
+
 export declare class ScriptIterator {
     #private;
     private readonly cfg;

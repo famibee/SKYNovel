@@ -306,7 +306,8 @@ export class EventMng implements IEvtMng {
 		hArg.fn ??= this.scrItr.scriptFn;
 
 		// クリックイベント
-		ctnBtn.interactive = ctnBtn.buttonMode = true;
+		ctnBtn.interactive = true;
+		ctnBtn.cursor = 'pointer';
 		const key = hArg.key?.toLowerCase() ?? ' ';
 		const glb = argChk_Boolean(hArg, 'global', false);
 		ReadState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
