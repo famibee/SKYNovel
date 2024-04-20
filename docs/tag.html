@@ -313,9 +313,9 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>Number</td><td>絶対値を求める数</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td></td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>実数</td><td>絶対値を求める数</td></tr>
+<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td>num、int、uint、bool、str</td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
 </table>
 
 </p>
@@ -324,10 +324,10 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>元になる文字列</td></tr>
-<tr><td>pos</td><td></td><td>0</td><td>0（先頭）〜</td><td>何番目の文字を取り出すか</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td></td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>元になる文字列</td></tr>
+<tr><td>pos</td><td></td><td>0</td><td>0（先頭）〜</td><td>何番目の文字を取り出すか。0（先頭）</td></tr>
+<tr><td>cast</td><td></td>実数<td>出来るだけ数値変換</td><td>num、int、uint、bool、str</td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
 </table>
 
 </p>
@@ -336,11 +336,11 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数。-1の場合は見つからなかった</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>元になる文字列</td></tr>
-<tr class="y"><td>val</td><td>y</td><td></td><td>String</td><td>探す文字列</td></tr>
-<tr><td>start</td><td></td><td>0</td><td>0（先頭）〜</td><td>検索を開始する位置</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td></td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数。-1の場合は見つからなかった</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>元になる文字列</td></tr>
+<tr class="y"><td>val</td><td>y</td><td></td><td>文字列</td><td>探す文字列</td></tr>
+<tr><td>start</td><td></td><td>0</td><td>0〜</td><td>検索を開始する位置。0（先頭）</td></tr>
+<tr><td>cast</td><td></td>実数<td>出来るだけ数値変換</td><td>num、int、uint、bool、str</td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
 </table>
 
 </p>
@@ -349,9 +349,9 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>長さを求める文字列</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td></td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>長さを求める文字列</td></tr>
+<tr><td>cast</td><td></td>実数<td>出来るだけ数値変換</td><td>num、int、uint、bool、str</td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
 </table>
 
 </p>
@@ -360,7 +360,7 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数</td></tr>
 </table>
 
 </p>
@@ -369,12 +369,12 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>置換対象の文字列</td></tr>
-<tr class="y"><td>reg</td><td>y</td><td></td><td>String</td><td>正規表現</td></tr>
-<tr><td>flags</td><td></td><td>（なし）</td><td>String</td><td>正規表現のフラグ</td></tr>
-<tr class="y"><td>val</td><td>y</td><td></td><td>String</td><td>置き換える文字列</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td></td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>置換対象の文字列</td></tr>
+<tr class="y"><td>reg</td><td>y</td><td></td><td>文字列</td><td>正規表現</td></tr>
+<tr><td>flags</td><td></td><td>（なし）</td><td>文字列</td><td>正規表現のフラグ</td></tr>
+<tr class="y"><td>val</td><td>y</td><td></td><td>文字列</td><td>置き換える文字列</td></tr>
+<tr><td>cast</td><td></td>実数<td>出来るだけ数値変換</td><td>num、int、uint、bool、str</td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
 </table>
 
 </p>
@@ -383,9 +383,9 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>Number</td><td>四捨五入する数</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td></td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>実数</td><td>四捨五入する数</td></tr>
+<tr><td>cast</td><td></td>実数<td>出来るだけ数値変換</td><td>num、int、uint、bool、str</td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
 </table>
 
 </p>
@@ -394,11 +394,11 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>検索対象の文字列</td></tr>
-<tr class="y"><td>reg</td><td>y</td><td></td><td>String</td><td>正規表現</td></tr>
-<tr><td>flags</td><td></td><td>（なし）</td><td>String</td><td>正規表現のフラグ</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td></td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>検索対象の文字列</td></tr>
+<tr class="y"><td>reg</td><td>y</td><td></td><td>文字列</td><td>正規表現</td></tr>
+<tr><td>flags</td><td></td><td>（なし）</td><td>文字列</td><td>正規表現のフラグ</td></tr>
+<tr><td>cast</td><td></td>実数<td>出来るだけ数値変換</td><td>num、int、uint、bool、str</td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
 </table>
 
 </p>
@@ -407,11 +407,11 @@
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>元になる文字列</td></tr>
-<tr><td>pos</td><td></td><td>0</td><td>0（先頭）〜<br/>または<br/>〜-1（末尾）</td><td>何番目の文字から取り出すか。<br/>負の値なら「後ろから何個目か」。-1が最後の文字。<br/>【pos=-3 len=all】とすると、後ろから３文字を取り出す。</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>元になる文字列</td></tr>
+<tr><td>pos</td><td></td><td>0</td><td>整数</td><td>何番目の文字から取り出すか。<br/>負の値なら「後ろから何個目か」。0（先頭）が先頭、-1が最後の文字。<br/>【pos=-3 len=all】とすると、後ろから３文字を取り出す</td></tr>
 <tr><td>len</td><td></td><td>1</td><td>文字数、または all</td><td>何文字取り出すか。all でpos以降の全て</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td></td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
+<tr><td>cast</td><td></td>実数<td>出来るだけ数値変換</td><td>num、int、uint、bool、str</td><td>値をセットする際の型。（詳細は[let]を参照）</td></tr>
 </table>
 
 </p>
@@ -421,9 +421,9 @@
 	変数については「<a href="dev.md#reserve_value_sys">SKYNovel 組み込み変数</a>」を参照して下さい
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>変数名</td><td>代入する変数</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>セットする値</td></tr>
-<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td>（コメントを参照）</td><td>値をセットする際の型。<br/>num……数値（実数）。「01」は数値の1となる。<br/>int……数値（符合付き整数）<br/>uint……数値（符合なし整数）<br/>bool……Boolean<br/>str……文字列。「01」は「01」のまま。</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>代入変数名</td><td>代入する変数</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>セットする値</td></tr>
+<tr><td>cast</td><td></td><td>出来るだけ数値変換</td><td>num、int、uint、bool、str</td><td>値をセットする際の型。<br/>num……数値（実数）。「01」は数値の1となる。<br/>int……数値（符合付き整数）<br/>uint……数値（符合なし整数）<br/>bool……true、false<br/>str……文字列。「01」は「01」のまま</td></tr>
 </table>
 <pre>
 [let]を使わない、より簡潔な記述文法があります。
@@ -462,8 +462,8 @@
 これにより、[add_lay visible=false ...]等とすると、非表示状態でレイヤ追加できます。
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>layer</td><td>y</td><td></td><td>String</td><td>レイヤ名を指定する。<br/>未使用のレイヤ名でなければエラー＆アプリ停止</td></tr>
-<tr class="y"><td>class</td><td>y</td><td></td><td>grp（画像レイヤ）、<br/>txt（文字レイヤ）、<br/>またはプラグインで追加した値</td><td>レイヤの種類</td></tr>
+<tr class="y"><td>layer</td><td>y</td><td></td><td>未使用のレイヤ名</td><td>レイヤ名を指定する。<br/>未使用のレイヤ名でなければエラー＆アプリ停止</td></tr>
+<tr class="y"><td>class</td><td>y</td><td></td><td>grp、txt</td><td>レイヤの種類。grp（画像レイヤ）、txt（文字レイヤ）のレイヤ種別</td></tr>
 <tr><td colspan="3">（その他）</td><td colspan="2">[lay]に指定できる属性</td></tr>
 </table>
 
@@ -476,9 +476,9 @@
 	※背景や背景画像はクリアしません（b_color、b_alpha、b_alpha_isfixed）
 	　クリアしたい場合は、[lay back_clear=true]</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（半角カンマ区切りで複数レイヤを指定可能）</td><td></td></tr>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（カンマ区切りで複数可）</td><td></td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back、both</td><td>ページの裏表（both指定で両面）</td></tr>
-<tr><td>filter</td><td></td><td>false</td><td>Boolean</td><td>true：フィルタもクリア</td></tr>
+<tr><td>filter</td><td></td><td>false</td><td>true、false</td><td>true：フィルタもクリア</td></tr>
 </table>
 
 </p>
@@ -499,26 +499,26 @@
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>layer</td><td>y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr><td>visible</td><td></td><td>現在値</td><td>Boolean</td><td>true：表示、false：非表示</td></tr>
-<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>レイヤの透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.html#blendMode" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
-<tr><td>pos</td><td></td><td>c※</td><td>c、l、r、横座標</td><td>主に立ち絵に使う。横と縦座標を同時に設定する。<br/>横座標は指定した値（文字cの場合は画面中央、lは左寄り、rは右寄り）に設定し、画像下端を画面下端に接するように自動計算する。</td></tr>
-<tr><td>left</td><td></td><td>0</td><td>画面左上を(0, 0)とする横座標※</td><td>レイヤやボタン左端の画面左端からの距離</td></tr>
-<tr><td>center</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>レイヤやボタン中央の画面左端からの距離</td></tr>
-<tr><td>right</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>レイヤやボタン右端の画面左端からの距離</td></tr>
-<tr><td>s_right</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>レイヤやボタン右端の画面右端からの距離</td></tr>
-<tr><td>top</td><td></td><td>0</td><td>画面左上を(0, 0)とする縦座標※</td><td>レイヤやボタン上端の画面上端からの距離</td></tr>
-<tr><td>middle</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>レイヤやボタン中央の画面上端からの距離</td></tr>
-<tr><td>bottom</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>レイヤやボタン下端の画面上端からの距離</td></tr>
-<tr><td>s_bottom</td><td></td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>レイヤやボタン下端の画面下端からの距離</td></tr>
-<tr><td>rotation</td><td></td><td>0</td><td>-180〜180</td><td>回転角を度単位で指定。時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る</td></tr>
-<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
-<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
-<tr><td>pivot_x</td><td></td><td>0.0</td><td>正負の実数値</td><td>左上を基準として、回転や移動時の基準を指定</td></tr>
-<tr><td>pivot_y</td><td></td><td>0.0</td><td>正負の実数値</td><td>左上を基準として、回転や移動時の基準を指定</td></tr>
-<tr><td>float</td><td></td><td>何もしない</td><td>Boolean</td><td>true：レイヤを最前面に移動する。</td></tr>
+<tr><td>visible</td><td></td><td>現在値</td><td>true、false</td><td>true：表示、false：非表示</td></tr>
+<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0</td><td>レイヤの透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.html#blendMode" target="_blank" rel="noopener">blendModeの解説</a>を参照</td></tr>
+<tr><td>pos</td><td></td><td>c</td><td>c・l・r・横座標</td><td>主に立ち絵に使う。横と縦座標を同時に設定する。<br/>横座標は指定した値（文字cの場合は画面中央、lは左寄り、rは右寄り）に設定し、画像下端を画面下端に接するように自動計算する</td></tr>
+<tr><td>left</td><td></td><td>0</td><td>実数</td><td>レイヤやボタン左端の画面左端からの距離</td></tr>
+<tr><td>center</td><td></td><td>0</td><td>実数</td><td>レイヤやボタン中央の画面左端からの距離</td></tr>
+<tr><td>right</td><td></td><td>0</td><td>実数</td><td>レイヤやボタン右端の画面左端からの距離</td></tr>
+<tr><td>s_right</td><td></td><td>0</td><td>実数</td><td>レイヤやボタン右端の画面右端からの距離</td></tr>
+<tr><td>top</td><td></td><td>0</td><td>実数</td><td>レイヤやボタン上端の画面上端からの距離</td></tr>
+<tr><td>middle</td><td></td><td>0</td><td>実数</td><td>レイヤやボタン中央の画面上端からの距離</td></tr>
+<tr><td>bottom</td><td></td><td>0</td><td>実数</td><td>レイヤやボタン下端の画面上端からの距離</td></tr>
+<tr><td>s_bottom</td><td></td><td>0</td><td>実数</td><td>レイヤやボタン下端の画面下端からの距離</td></tr>
+<tr><td>rotation</td><td></td><td>0</td><td>-180〜180；回転角度</td><td>回転角を度単位で指定。時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る</td></tr>
+<tr><td>scale_x</td><td></td><td>1.0</td><td>実数</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>実数</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>pivot_x</td><td></td><td>0.0</td><td>実数</td><td>左上を基準として、回転や移動時の基準を指定</td></tr>
+<tr><td>pivot_y</td><td></td><td>0.0</td><td>実数</td><td>左上を基準として、回転や移動時の基準を指定</td></tr>
+<tr><td>float</td><td></td><td>何もしない</td><td>true、false</td><td>true：レイヤを最前面に移動する</td></tr>
 <tr><td>index</td><td></td><td>何もしない</td><td>0〜</td><td>レイヤをindexで指定したインデックスに移動する。<br/>0がもっとも背後。レイヤを重ねるたびに1加算したindexになる</td></tr>
-<tr><td>dive</td><td></td><td>何もしない</td><td>レイヤ名</td><td>レイヤをdiveで指定したレイヤのすぐ後ろに潜り込ませる。</td></tr>
+<tr><td>dive</td><td></td><td>何もしない</td><td>レイヤ名</td><td>レイヤをdiveで指定したレイヤのすぐ後ろに潜り込ませる</td></tr>
 </table>
 
 </p>
@@ -529,18 +529,18 @@
 
 <table><tr><th>SKYNovel での blendmode 属性の値</th><th>Photoshop ブレンドモード名</th><th>コメント</th></tr>
 <tr><td>normal		</td><td>標準	</td><td>表示オブジェクトは、背景の前に表示されます。（なにもしない）</td></tr>
-<tr><td>add			</td><td>加算	</td><td>表示オブジェクトの要素カラーの値を背景色に加算し、その際に上限 0xFF を適用します。</td></tr>
-<tr><td>multiply	</td><td>乗算	</td><td>表示オブジェクトの要素カラーの値と背景色の要素カラーの値を乗算した後、0xFF で割って正規化し、色を暗くします。</td></tr>
-<tr><td>screen		</td><td>スクリーン	</td><td>表示オブジェクトの色の補数（逆）と背景色の補数を乗算して、ブリーチ効果を得ます。</td></tr>
+<tr><td>add			</td><td>加算	</td><td>表示オブジェクトの要素カラーの値を背景色に加算し、その際に上限 0xFF を適用します</td></tr>
+<tr><td>multiply	</td><td>乗算	</td><td>表示オブジェクトの要素カラーの値と背景色の要素カラーの値を乗算した後、0xFF で割って正規化し、色を暗くします</td></tr>
+<tr><td>screen		</td><td>スクリーン	</td><td>表示オブジェクトの色の補数（逆）と背景色の補数を乗算して、ブリーチ効果を得ます</td></tr>
 <!--
-<tr><td>overlay		</td><td>オーバーレイ	</td><td>背景の暗さに基づいて、各ピクセルの色を調整します。</td></tr>
-<tr><td>darken		</td><td>比較 (暗)	</td><td>表示オブジェクトの要素カラーと背景色のうち暗い方（値が小さい方）の色を選択します。</td></tr>
-<tr><td>lighten		</td><td>比較 (明)	</td><td>表示オブジェクトの要素カラーと背景色のうち明るい方（値が大きい方）の色を選択します。</td></tr>
+<tr><td>overlay		</td><td>オーバーレイ	</td><td>背景の暗さに基づいて、各ピクセルの色を調整します</td></tr>
+<tr><td>darken		</td><td>比較 (暗)	</td><td>表示オブジェクトの要素カラーと背景色のうち暗い方（値が小さい方）の色を選択します</td></tr>
+<tr><td>lighten		</td><td>比較 (明)	</td><td>表示オブジェクトの要素カラーと背景色のうち明るい方（値が大きい方）の色を選択します</td></tr>
 <tr><td>color_dodge	</td><td>	</td><td></td></tr>
 <tr><td>color_burn	</td><td>	</td><td></td></tr>
-<tr><td>hard_light	</td><td>ハードライト	</td><td>表示オブジェクトの暗さに基づいて、各ピクセルの色を調整します。</td></tr>
+<tr><td>hard_light	</td><td>ハードライト	</td><td>表示オブジェクトの暗さに基づいて、各ピクセルの色を調整します</td></tr>
 <tr><td>soft_light	</td><td>	</td><td></td></tr>
-<tr><td>difference	</td><td>差の絶対値	</td><td>表示オブジェクトの各ピクセルのアルファ値を背景に適用します。</td></tr>
+<tr><td>difference	</td><td>差の絶対値	</td><td>表示オブジェクトの各ピクセルのアルファ値を背景に適用します</td></tr>
 <tr><td>exclusion	</td><td>	</td><td></td></tr>
 <tr><td>hue			</td><td>	</td><td></td></tr>
 <tr><td>saturation	</td><td>	</td><td></td></tr>
@@ -557,9 +557,9 @@
 <tr><td>dst_in		</td><td>	</td><td></td></tr>
 <tr><td>dst_out		</td><td>	</td><td></td></tr>
 <tr><td>dst_atop	</td><td>	</td><td></td></tr>
-<tr><td>subtract	</td><td>減算	</td><td>結果の下限を 0 として、表示オブジェクトの要素カラーの値をその背景色の値から減算します。</td></tr>
+<tr><td>subtract	</td><td>減算	</td><td>結果の下限を 0 として、表示オブジェクトの要素カラーの値をその背景色の値から減算します</td></tr>
 <tr><td>src_over	</td><td>	</td><td></td></tr>
-<tr><td>erase		</td><td>消去	</td><td>表示オブジェクトのアルファ値に基づいて背景を消去します。</td></tr>
+<tr><td>erase		</td><td>消去	</td><td>表示オブジェクトのアルファ値に基づいて背景を消去します</td></tr>
 <tr><td>xor			</td><td>	</td><td></td></tr>
 -->
 </table>
@@ -573,14 +573,14 @@
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>b_color</td><td></td><td>(↑と同じ)</td><td>色指定。0x000000など</td><td>テキスト背後の矩形色。初期値は 0x000000（黒）</td></tr>
 <tr><td>b_alpha</td><td></td><td>(↑と同じ)</td><td>実数：0.0（透明）〜1.0（不透過）</td><td>テキスト背後の矩形不透明度。<br/>表示しない場合は0を指定。初期値は 0</td></tr>
-<tr><td>b_alpha_isfixed</td><td></td><td>現在値</td><td>Boolean</td><td>true：テキスト背後の矩形不透明度を、「b_alpha属性と sys:TextLayer.Back.Alpha の掛け算とせず」、b_alpha属性値そのものにする。（これは2017/2/13以前の仕様）</td></tr>
+<tr><td>b_alpha_isfixed</td><td></td><td>現在値</td><td>true、false</td><td>true：テキスト背後の矩形不透明度を、「b_alpha属性と sys:TextLayer.Back.Alpha の掛け算とせず」、b_alpha属性値そのものにする。（これは2017/2/13以前の仕様）</td></tr>
 <tr><td>b_pic</td><td></td><td>(↑と同じ)</td><td>画像ファイル名</td><td>文字レイヤ背後の枠画像を指定する。b_alphaの影響を受ける。<br/>（これを指定するとb_colorは無視される）</td></tr>
-<tr><td>back_clear</td><td></td><td>現在値</td><td>Boolean</td><td>true：背景をクリアする</td></tr>
-<tr><td>break_fixed</td><td rowspan="3"></td><td rowspan="3">現在値</td><td>Boolean</td><td>
+<tr><td>back_clear</td><td></td><td>現在値</td><td>true、false</td><td>true：背景をクリアする</td></tr>
+<tr><td>break_fixed</td><td rowspan="3"></td><td rowspan="3">現在値</td><td>true、false</td><td>
 	true：クリック待ちマークを固定位置に表示<br/>
 	false：最後に表示した文字の次、改行せずぶら下げ位置に表示
 </td></tr>
-<tr><td>break_fixed_left</td><td rowspan="2">Integer</td><td rowspan="2">クリック待ちマークの表示位置を指定する</td></tr>
+<tr><td>break_fixed_left</td><td rowspan="2">整数</td><td rowspan="2">クリック待ちマークの表示位置を指定する</td></tr>
 <tr><td>break_fixed_top</td></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
 	文字の CSS Style を指定する。<br/>
@@ -593,7 +593,7 @@
 	「color: red;」「color: blue;」と個別指定時は、過去値を上書きする。<br/>
 	空白文字を指定時は全てクリアする<br/>
 </td></tr>
-<tr><td>r_align</td><td></td><td>現在値</td><td>（コメントで解説）</td><td>ルビ揃えを指定する。<br/>left ……（肩付き）先頭親文字から、ルビ間は密着<br/>center ……（中付き）センター合わせ、〃<br/>right ……（右／下揃え）末尾親文字から、〃<br/>justify
+<tr><td>r_align</td><td></td><td>現在値</td><td>left、center、right、justify、121、even、1ruby</td><td>ルビ揃えを指定する。<br/>left ……（肩付き）先頭親文字から、ルビ間は密着<br/>center ……（中付き）センター合わせ、〃<br/>right ……（右／下揃え）末尾親文字から、〃<br/>justify
 	……（両端揃え）先頭から末尾親文字間に、ルビ間は均等にあける<br/>121 ……（1-2-1(JIS)）ルビの前後を比率1、ルビ間を比率2であける<br/>even ……（均等アキ）ルビの前後、ルビ間も均等にあける<br/>1ruby
 	……（1ルビ文字アキ）ルビの前後をルビ一文字空け、ルビ間は均等にあける<br/><br/>初期値は center。<br/>
 	<br/>
@@ -615,21 +615,21 @@
 	初期値は指定なし<br/>
 	→【参考】<a href="https://ics.media/entry/14087/" target="_blank" rel="noopener">文字詰めできるCSSのfont-feature-settingsが凄い！ 日本語フォントこそ指定したい自動カーニング - ICS MEDIA</a>
 </td></tr>
-<tr><td>noffs</td><td></td><td>現在値</td><td>String</td><td>
+<tr><td>noffs</td><td></td><td>現在値</td><td>文字列</td><td>
 	font-feature-settingsの対象としない文字を指定できる。複数指定可能。<br/>
 	デフォルト値は指定なし。（ただしインライン画像やクリック待ち記号表示のため、全角空白は必ず指定に含まれる）
 </td></tr>
-<tr><td>kinsoku_sol</td><td></td><td>何もしない</td><td>String</td><td>
+<tr><td>kinsoku_sol</td><td></td><td>何もしない</td><td>文字列</td><td>
 	行頭禁則の禁則処理文字を変更できる。対象文字を列挙した文字列を指定。<br/>
 	デフォルト値は以下の通り。<br/>
 、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々
 </td></tr>
-<tr><td>kinsoku_eol</td><td></td><td>何もしない</td><td>String</td><td>
+<tr><td>kinsoku_eol</td><td></td><td>何もしない</td><td>文字列</td><td>
 	行末禁則の禁則処理文字を変更できる。対象文字を列挙した文字列を指定。<br/>
 	デフォルト値は以下の通り。<br/>
 ［（｛〈「『【〔“〝
 </td></tr>
-<tr><td>kinsoku_dns</td><td></td><td>何もしない</td><td>String</td><td>
+<tr><td>kinsoku_dns</td><td></td><td>何もしない</td><td>文字列</td><td>
 	分割禁止の禁則処理文字を変更できる。対象文字を列挙した文字列を指定。<br/>
 	デフォルト値は以下の通り。<br/>
 ─‥…
@@ -639,17 +639,17 @@
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
 
-<tr><td>draggable</td><td></td><td>false</td><td>Boolean</td><td>true：テキスト背後の矩形をドラッグできる</td></tr>
-<tr><td>drag_x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>ドラッグ範囲の左上始点。</td></tr>
+<tr><td>draggable</td><td></td><td>false</td><td>true、false</td><td>true：テキスト背後の矩形をドラッグできる</td></tr>
+<tr><td>drag_x</td><td></td><td>0</td><td>画面左上を原点とする座標</td><td>ドラッグ範囲の左上始点</td></tr>
 <tr><td>drag_y</td><td></td><td>0</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
-<tr><td>drag_w</td><td></td><td>画面横幅</td><td>ドラッグ範囲縦横ピクセル数</td><td>ドラッグ範囲縦横サイズ。</td></tr>
+<tr><td>drag_w</td><td></td><td>画面横幅</td><td>ドラッグ範囲縦横ピクセル数</td><td>ドラッグ範囲縦横サイズ</td></tr>
 <tr><td>drag_h</td><td></td><td>画面縦幅</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
 <tr><td>dragmove_fn</td><td>...</td><td>...</td><td>...</td><td>ドラッグ中にサブルーチンコールする先。<br/>指定方法は[jump]と同様</td></tr>
 <tr><td>dragmove_label</td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
-<tr><td>dragmove_arg</td><td></td><td></td><td>String</td><td>指定した場合、ドラッグ中コール先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
+<tr><td>dragmove_arg</td><td></td><td></td><td>文字列</td><td>指定した場合、ドラッグ中コール先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
 <tr><td>h_scroll</td><td></td><td></td><td>ピクセル数</td><td>横スクロールさせる量</td></tr>
 <tr><td>v_scroll</td><td></td><td></td><td>ピクセル数</td><td>縦スクロールさせる量</td></tr>
-<tr><td>mouse_wheel_enabled</td><td></td><td></td><td>Boolean</td><td>マウスホイールでスクロール許可するか否か</td></tr>
+<tr><td>mouse_wheel_enabled</td><td></td><td></td><td>true、false</td><td>マウスホイールでスクロール許可するか否か</td></tr>
 </table>
 
 </p>
@@ -659,25 +659,26 @@
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td>何もしない</td><td>画像ファイル名</td><td>
 	基本画像・動画ファイルを指定する<br/>
+	基本画像ファイルを指定する。複数指定時はこの属性一つで基本画像（先頭）と差分名称（二つめ以降）を指定できる。<br/>
 	動画ファイルを指定時はロードしてすぐに動画再生が始まる。<br/>
 	<br/>
 	※ただし、ブラウザ版では「ページロード後に一度だけでもクリック（クリック待ちでもボタンでも可）されていないと再生させない」というブラウザの挙動があるため、再生する前のいつでもいいのでクリックの機会を作ること。<br/>
 	※ ムービー再生されない場合、DevTools に【Uncaught (in promise) DOMException: play() failed because the user didn't interact with the document first.】のようなエラーが出ていればこの件。<br/>
 </td></tr>
-<tr><td>face</td><td></td><td>何もしない</td><td>[add_face]で登録した差分名称（半角カンマ区切りで複数可能）</td><td>差分名称を指定する。<br/>[fg fn="a" face="b,c,d"]なら「基本a」の上に「差分b」を重ね、「差分c」を重ね、「差分d」を重ねる。<br/><br/>【注意】fnは同じでface属性だけを指定→指定なしにした場合、表示が変わりませんが不具合ではありません。
+<tr><td>face</td><td></td><td>何もしない</td><td>差分名称（カンマ区切りで複数可）</td><td>差分名称または画像ファイル名を指定する。<br/>[fg fn="a" face="b,c,d"]なら「基本a」の上に「差分b」を重ね、「差分c」を重ね、「差分d」を重ねる。<br/><br/>【注意】fnは同じでface属性だけを指定→指定なしにした場合、表示が変わりませんが不具合ではありません。
 	「face属性指定なし」は「何もしない」、つまり変化させないからです。<br/>[fg layer=upd fn="a" face="b"]<br/>[l]<br/>[fg layer=upd fn="a"]<br/>[l]<br/><br/>差分名称を無くしたい場合、明確に空文字（""）を指定します。<br/>[fg
 	layer=upd fn="a" face="b"]<br/>[l]<br/>[fg layer=upd fn="a" face=""]<br/>[l]</td></tr>
 
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
 
-<tr><td>draggable</td><td></td><td>false</td><td>Boolean</td><td>true：テキスト背後の矩形をドラッグできる</td></tr>
-<tr><td>drag_x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>ドラッグ範囲の左上始点。</td></tr>
+<tr><td>draggable</td><td></td><td>false</td><td>true、false</td><td>true：テキスト背後の矩形をドラッグできる</td></tr>
+<tr><td>drag_x</td><td></td><td>0</td><td>画面左上を原点とする座標</td><td>ドラッグ範囲の左上始点</td></tr>
 <tr><td>drag_y</td><td></td><td>0</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
-<tr><td>drag_w</td><td></td><td>画面横幅</td><td>ドラッグ範囲縦横ピクセル数</td><td>ドラッグ範囲縦横サイズ。</td></tr>
+<tr><td>drag_w</td><td></td><td>画面横幅</td><td>ドラッグ範囲縦横ピクセル数</td><td>ドラッグ範囲縦横サイズ</td></tr>
 <tr><td>drag_h</td><td></td><td>画面縦幅</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
 <tr><td>dragmove_fn</td><td>...</td><td>...</td><td>...</td><td>ドラッグ中にサブルーチンコールする先。<br/>指定方法は[jump]と同様</td></tr>
 <tr><td>dragmove_label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)</td></tr>
-<tr><td>dragmove_arg</td><td></td><td></td><td>String</td><td>指定した場合、ドラッグ中コール先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
+<tr><td>dragmove_arg</td><td></td><td></td><td>文字列</td><td>指定した場合、ドラッグ中コール先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
 </table>
 
 </p>
@@ -694,12 +695,12 @@
 	また[trans]～[wt]間で文字表示や[ch]は動作未定義、非推奨。<br/>
 	[trans]終了を待たず何かをするのは避けた方がよいでしょう。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>処理対象レイヤ名（カンマ区切りで複数可能）</td><td>クロスフェードするレイヤ。指定以外のレイヤは変化させない</td></tr>
-<tr><td>time</td><td></td><td>0</td><td>ミリ秒</td><td>変化にかける時間</td></tr>
-<tr><td>delay</td><td></td><td>0</td><td>ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
-<tr><td>rule</td><td></td><td>画面全体ピクセルで同時にクロスフェードする</td><td>画像ファイル名</td><td>指定した場合はルール画像として、ピクセル単位でクロスフェードするタイミングをずらす。<br/>ルール画像の黒いピクセル（と同じ位置にあるピクセル）が先に処理され、白が最後になる。</td></tr>
-<tr><td>vague</td><td></td><td>0.04</td><td>トランジション期間全体を1とした値</td><td>表レイヤと裏レイヤの境界を曖昧にぼかす度合い</td></tr>
-<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（カンマ区切りで複数可能）</td><td>クロスフェードするレイヤ。指定以外のレイヤは変化させない</td></tr>
+<tr><td>time</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>変化にかける時間</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
+<tr><td>rule</td><td></td><td>画面全体ピクセルで同時にクロスフェードする</td><td>画像ファイル名</td><td>指定した場合はルール画像として、ピクセル単位でクロスフェードするタイミングをずらす。<br/>ルール画像の黒いピクセル（と同じ位置にあるピクセル）が先に処理され、白が最後になる</td></tr>
+<tr><td>vague</td><td></td><td>0.04</td><td>0.0〜1.0</td><td>トランジション期間全体を1とした値。表レイヤと裏レイヤの境界を曖昧にぼかす度合い</td></tr>
+<tr><td>ease</td><td></td><td>Linear.None</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>
 指定できる値は以下の通り。<br/>
 Back.In、Back.InOut、Back.Out<br/>
 Bounce.In、Bounce.InOut、Bounce.Out<br/>
@@ -735,8 +736,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	また[trans]～[wt]間で文字表示や[ch]は動作未定義、非推奨。<br/>
 	[trans]終了を待たず何かをするのは避けた方がよいでしょう<br/></p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
-<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>trueでクリックキャンセル可能にする</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -752,7 +753,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
 <tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td>処理対象のフレーム</td></tr>
 </table>
 
 </p>
@@ -765,7 +766,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
 <tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td>処理対象のフレーム</td></tr>
 </table>
 
 </p>
@@ -778,7 +779,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
 <tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td>処理対象のフレーム</td></tr>
 </table>
 
 </p>
@@ -800,12 +801,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
 <tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
-<tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
-<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0以下で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
-<tr><td>arrive</td><td></td><td>false</td><td>Boolean</td><td>trueならクリックキャンセルでアニメ終端までSkip。<br/>falseならその場で停止</td></tr>
-<tr><td>backlay</td><td></td><td>false</td><td>Boolean</td><td>trueならトゥイーン終了時、fore→backへ属性をコピーする。<br/>コピーする属性はalpha, height, rotation, scale_x, scale_y, pivot_x, pivot_y, width, left, top。</td></tr>
-<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>
+<tr class="y"><td>time</td><td>y</td><td></td><td>0〜；ミリ秒</td><td>トゥイーンにかける時間</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
+<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0以下で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう</td></tr>
+<tr><td>arrive</td><td></td><td>false</td><td>true、false</td><td>trueならクリックキャンセルでアニメ終端までSkip。<br/>falseならその場で停止</td></tr>
+<tr><td>backlay</td><td></td><td>false</td><td>true、false</td><td>trueならトゥイーン終了時、fore→backへ属性をコピーする。<br/>コピーする属性はalpha, height, rotation, scale_x, scale_y, pivot_x, pivot_y, width, left, top</td></tr>
+<tr><td>ease</td><td></td><td>Linear.None</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>
 指定できる値は以下の通り。<br/>
 Back.In、Back.InOut、Back.Out<br/>
 Bounce.In、Bounce.InOut、Bounce.Out<br/>
@@ -822,9 +823,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 ・<a href="https://github.com/tweenjs/tween.js/blob/master/README.md" target="_blank" rel="noopener">tween.js/README.md at master · tweenjs/tween.js</a><br/>
 ・<a href="https://ics.media/tutorial-createjs/tween/" target="_blank" rel="noopener">CreateJS でのトゥイーンの作成方法 - ICS MEDIA</a><br/>
 </td></tr>
-<tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
+<tr><td>yoyo</td><td></td><td>false</td><td>true、false</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
 <tr><td>chain</td><td></td><td>なにもしない</td><td>レイヤ名</td><td>指定したレイヤのトゥイーンアニメが終了してから、このトゥイーンを続けて開始する</td></tr>
-<tr class="y"><td>alpha</td><td rowspan="11">いずれかを指定</td><td rowspan="11">何もしない</td><td rowspan="10"></td><td rowspan="10">同名属性の変化目標値</td></tr>
+<tr class="y"><td>alpha</td><td rowspan="11">いずれかを指定</td><td rowspan="11">何もしない</td><td rowspan="11">相対値か絶対値</td><td rowspan="10">同名属性の変化目標値</td></tr>
 <tr class="y"><td>height</td></tr>
 <tr class="y"><td>rotation</td></tr>
 <tr class="y"><td>scale_x</td></tr>
@@ -834,7 +835,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>width</td></tr>
 <tr class="y"><td>x</td></tr>
 <tr class="y"><td>y</td></tr>
-<tr class="y"><td>path</td><td>※コメントで解説</td><td>
+<tr class="y"><td>path</td><td>
 	指定すると複数のポイントを連続してトゥイーンアニメする。<br/>
 	ポイントは半角丸括弧()【吉里吉里拡張】や{}【JSON形式】が連続する文字列。<br/>
 	<br/>
@@ -858,7 +859,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	　JSON解析失敗はスイッチにかかわらず出力する。<br/>
 
 </td></tr>
-<tr><td>render</td><td></td><td>false</td><td>Boolean</td><td>
+<tr><td>render</td><td></td><td>false</td><td>true、false</td><td>
 	trueを指定すると[trans]のように絵を合成してから不透明度を適用するように（半透明時に差分境界が見えなくなる）
 </td></tr>
 </table>
@@ -876,9 +877,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
 <tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名</td></tr>
-<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
-<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td>処理対象のフレーム</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>クリックなど（→詳細は<a href="#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -892,9 +893,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p>textに指定した文字に対し、timeに指定した数値が対応する。<br/>
 	通常の文字表示速度にtimeの数値を掛け算する。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>enabled</td><td></td><td>現在値</td><td>Boolean</td><td>自動ウェイトを有効にするか。初期値false</td></tr>
-<tr><td>text</td><td>両方同時に指定、或いは省略</td><td>現在値</td><td>String</td><td>ウェイトを指定する文字の集まり</td></tr>
-<tr><td>time</td><td>(↑と同じ)</td><td>現在値</td><td>カンマ区切りの数値</td><td>文字表示ウェイト倍数</td></tr>
+<tr><td>enabled</td><td></td><td>現在値</td><td>true、false</td><td>自動ウェイトを有効にするか。初期値false</td></tr>
+<tr><td>text</td><td>両方同時に指定、或いは省略</td><td>現在値</td><td>一文字（カンマ区切りで複数可）</td><td>ウェイトを指定する文字の集まり</td></tr>
+<tr><td>time</td><td>(↑と同じ)</td><td>現在値</td><td>0〜（カンマ区切りで複数可）</td><td>文字表示ウェイト倍数</td></tr>
 </table>
 <p>　以下のように指定する。<br/>
 	[autowc enabled=true text="４５６" time="50,100,150"]<br/>
@@ -917,22 +918,22 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td>y</td><td></td><td>文字出現演出名</td><td>文字出現演出を特定する名前</td></tr>
-<tr><td>wait</td><td></td><td>500</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
-<tr><td>alpha</td><td></td><td>0.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
-<tr><td>x</td><td rowspan="2"></td><td rowspan="2">'=0'</td><td rowspan="2">
-	以下のような相対位置指定が出来る<br/>
+<tr><td>wait</td><td></td><td>500</td><td>0〜；ミリ秒</td><td>一時的な文字表示速度。0で瞬時</td></tr>
+<tr><td>alpha</td><td></td><td>0.0</td><td>0.0〜1.0；透過度</td><td>0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>x</td><td></td><td>'=0'</td></td><td>実数か相対位置指定</td><td rowspan="2">
+	変化の初期値。以下のような相対位置指定が出来る<br/>
 	500     ──　X位置を500に<br/>
 	'=500'  ──　文字表示位置を基準に+500加算した位置<br/>
 	'=-500' ──　文字表示位置を基準に-500加算した位置
 
-</td><td rowspan="2">変化の初期値</td></tr>
-<tr><td>y</td></tr>
+</td></tr>
+<tr><td>y</td><td></td><td>'=0'</td></td><td>実数か相対位置指定</td></tr>
 
-<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
-<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
-<tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
-<tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>文字を順番に出すか（true）同時か（false）</td></tr>
-<tr><td>ease</td><td></td><td>'ease-out'</td><td></td><td>
+<tr><td>scale_x</td><td></td><td>1.0</td><td>実数</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>実数</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>rotate</td><td></td><td>0</td><td>-360〜360；回転角度</td><td>正の値は時計回り</td></tr>
+<tr><td>join</td><td></td><td>true</td><td>true、false</td><td>文字を順番に出すか（true）同時か（false）</td></tr>
+<tr><td>ease</td><td></td><td>'ease-out'</td><td>animation-timing-function</td><td>
 	<a href="https://developer.mozilla.org/ja/docs/Web/CSS/animation-timing-function" target="_blank" rel="noopener">CSSのanimation-timing-function プロパティ</a>
 </td></tr>
 </table>
@@ -946,21 +947,21 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td>y</td><td></td><td>文字消去演出名</td><td>文字消去演出を特定する名前</td></tr>
-<tr><td>wait</td><td></td><td>500</td><td>ミリ秒</td><td>一時的な文字消去速度。0で瞬時。</td></tr>
-<tr><td>alpha</td><td></td><td>0.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
-<tr><td>x</td><td rowspan="2"></td><td rowspan="2">'=0'</td><td rowspan="2">
-	以下のような相対位置指定が出来る<br/>
+<tr><td>wait</td><td></td><td>500</td><td>0〜；ミリ秒</td><td>一時的な文字消去速度。0で瞬時</td></tr>
+<tr><td>alpha</td><td></td><td>0.0</td><td>0.0〜1.0</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>x</td><td></td><td>'=0'</td><td>実数か相対位置指定</td><td rowspan="2">
+	変化の目標値。以下のような相対位置指定が出来る<br/>
 	500     ──　X位置を500に<br/>
 	'=500'  ──　文字位置を基準に+500加算した位置<br/>
 	'=-500' ──　文字位置を基準に-500加算した位置
 
-</td><td rowspan="2">変化の目標値</td></tr>
-<tr><td>y</td></tr>
+</td></tr>
+<tr><td>y</td><td></td><td>'=0'</td><td>実数か相対位置指定</td></tr>
 
-<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
-<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
-<tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
-<tr><td>join</td><td></td><td>false</td><td>Boolean</td><td>文字を順番に出すか（true）同時か（false）</td></tr>
+<tr><td>scale_x</td><td></td><td>1.0</td><td>実数</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>実数</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>rotate</td><td></td><td>0</td><td>実数</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
+<tr><td>join</td><td></td><td>false</td><td>true、false</td><td>文字を順番に出すか（true）同時か（false）</td></tr>
 <tr><td>ease</td><td></td><td>'ease-out'</td><td></td><td>
 	<a href="https://developer.mozilla.org/ja/docs/Web/CSS/animation-timing-function" target="_blank" rel="noopener">CSSのanimation-timing-function プロパティ</a>
 </td></tr>
@@ -974,9 +975,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>表示したい文字列。ルビ文法（《》）も解析する。改行も [r] で出来る</td></tr>
-<tr><td>record</td><td></td><td>true</td><td>Boolean</td><td>履歴に保存するか</td></tr>
-<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>表示したい文字列</td><td>ルビ文法（《》）も解析する。改行も [r] で出来る</td></tr>
+<tr><td>record</td><td></td><td>true</td><td>true、false</td><td>履歴に保存するか</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>0〜；ミリ秒</td><td>一時的な文字表示速度。0で瞬時</td></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
 	文字の CSS Style を指定する。<br/>
 	このタグによる表示のみに適用、以降は元に戻る。<br/>
@@ -1042,7 +1043,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>rec_page_break</td><td></td><td>true</td><td>Boolean</td><td>履歴を改ページするか</td></tr>
+<tr><td>rec_page_break</td><td></td><td>true</td><td>true、false</td><td>履歴を改ページするか</td></tr>
 </table>
 
 </p>
@@ -1056,9 +1057,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr class="y"><td>pic</td><td>y</td><td></td><td>画像ファイル名</td><td>表示する画像やアニメpng</td></tr>
-<tr><td>r</td><td></td><td>ルビ無し</td><td>String</td><td>ルビ文字列（ただしあまりに他の文字サイズと大きく異なる場合は正しい位置に表示されない）</td></tr>
-<tr><td>width</td><td></td><td>画像の横サイズ（※）</td><td>1〜</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>height</td><td></td><td>画像の縦サイズ（※）</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
+<tr><td>r</td><td></td><td>ルビ無し</td><td>ルビ文字列</td><td>ただしあまりに他の文字サイズと大きく異なる場合は正しい位置に表示されない</td></tr>
+<tr><td>width</td><td></td><td>画像の横サイズ（※）</td><td>1〜</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
+<tr><td>height</td><td></td><td>画像の縦サイズ（※）</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
 	他の文字と並べて表示したい場合は style='font-size: 60px;' などとサイズ指定する。<br/>
 	このタグによる表示のみに適用、以降は元に戻る。<br/>
@@ -1068,7 +1069,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	ルビの CSS Style を指定する。<br/>
 	このタグによる表示のみに適用、以降は元に戻る
 </td></tr>
-<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>0〜；ミリ秒</td><td>一時的な文字表示速度。0で瞬時</td></tr>
 </table>
 <p>※省略時は画像サイズになるが、ロード完了直後に文字配置を決めるのでちらつく。それを嫌う際に指定する<br/>
 	※特にモバイルなどでゲーム画面が自動で拡大縮小される場合、省略したらその時の本文文字サイズとして扱われる。なるべくサイズ指定を推奨。</p>
@@ -1092,22 +1093,22 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>r_style_clicked</td><td></td><td>r_styleの値</td><td>CSS style</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしている）のルビの CSS スタイル</td></tr>
 <tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.htm#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
 <tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.htm#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
-<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
-<tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>0〜；ミリ秒</td><td>一時的な文字表示速度。0で瞬時</td></tr>
+<tr><td>call</td><td></td><td>false</td><td>true、false</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る</td></tr>
 <tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>クリック時にジャンプする先</td></tr>
 <tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
 <tr><td>url</td><td>fnかlabelか、このurlを指定</td><td>fn・label によるスクリプトジャンプ</td><td>ブラウザで開けるURL</td><td>クリック時にURLを開く。指定時は fn・label を無視する</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
-<tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
-<tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
-<tr><td>onleave</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>true、false</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
+<tr><td>arg</td><td></td><td></td><td>ジャンプ先に渡したい値</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
+<tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること</td></tr>
+<tr><td>onleave</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること</td></tr>
 <tr><td>clickse</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、クリック時に効果音を再生する</td></tr>
 <tr><td>enterse</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、ボタン上にマウスカーソルが載った時に効果音を再生する</td></tr>
 <tr><td>leavese</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、ボタン上からマウスカーソルが外れた時に効果音を再生する</td></tr>
 <tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
-<tr><td>hint</td><td></td><td>表示しない</td><td>String</td><td>
+<tr><td>hint</td><td></td><td>表示しない</td><td>ヒント文字列</td><td>
 	指定した場合のみ、マウスカーソルを載せるとツールチップス表示する。<br/>
 	<s>hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う</s>
 </td></tr>
@@ -1118,11 +1119,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	border-radius: 4px;<br/>
 	font-size: 1.2em;<br/>
 	ほか（狭いので省略）<br/>
-</td><td>css</td><td>ツールチップ矩形のスタイル</td></tr>
+</td><td>CSS style</td><td>ツールチップ矩形のスタイル</td></tr>
 <tr><td>hint_opt</td><td></td><td>[button]と同様</td><td>json</td><td>
 	解説は<a href="tag.htm#button" target="_blank" rel="noopener">[button]</a>を参照
 </td></tr>
-<tr><td><s>hint_tate</s></td><td></td><td><s>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</s></td><td><s>Boolean</s></td><td><s>
+<tr><td><s>hint_tate</s></td><td></td><td><s>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</s></td><td><s>true、false</s></td><td><s>
 	ツールチップスをリンクに対してどの位置に表示するか。<br/>
 	false：リンクの上に表示（横書き文字レイヤの動作）<br/>
 	true：リンクの右に横倒しで表示（縦書き文字レイヤの動作）<br/>
@@ -1140,6 +1141,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ名</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
+
+<tr><td>record</td><td></td><td>true</td><td>true、false</td><td>履歴に保存するか</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>0〜；ミリ秒</td><td>一時的な文字表示速度。0で瞬時</td></tr>
+<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>文字の CSS Style を指定する。<br/>このタグによる表示のみに適用、以降は元に戻る</td></tr>
 </table>
 
 </p>
@@ -1152,8 +1157,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 		→<a href="https://famibee.github.io/SKYNovel_gallery/index.html?cur=log_and_play" target="_blank" rel="noopener">参考（機能ギャラリー・履歴と機能追加）</a>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>text</td><td></td><td>現在値</td><td>String</td><td>
-	表示したい文字列。ルビ文法（《》）も使用可能、[r]で改行
+<tr><td>text</td><td></td><td>現在値</td><td>表示したい文字列</td><td>
+	ルビ文法（《》）も使用可能、[r]で改行
 </td></tr>
 <tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
 	文字の CSS Style を指定する。<br/>
@@ -1180,7 +1185,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <p>応用として、履歴に加工した文字列を設定し、履歴画面に機能を追加する事も。</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>text</td><td></td><td>全てクリア</td><td>String</td><td>履歴に設定したい文字列</td></tr>
+<tr><td>text</td><td></td><td>全てクリア</td><td>文字列</td><td>履歴に設定したい文字列</td></tr>
 </table>
 
 </p>
@@ -1192,8 +1197,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ名</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>t</td><td>y</td><td></td><td>String</td><td>親文字列</td></tr>
-<tr class="y"><td>r</td><td>y</td><td></td><td>String</td><td>ルビ文字列</td></tr>
+<tr class="y"><td>t</td><td>y</td><td></td><td>文字列</td><td>親文字列</td></tr>
+<tr class="y"><td>r</td><td>y</td><td></td><td>文字列</td><td>ルビ文字列</td></tr>
 <tr><td>style</td><td></td><td>全てクリア</td><td>CSS style</td><td>
 	文字の CSS Style を指定する。<br/>
 	このタグによる表示のみに適用、以降は元に戻る
@@ -1202,6 +1207,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	ルビの CSS Style を指定する。<br/>
 	このタグによる表示のみに適用、以降は元に戻る
 </td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>0〜；ミリ秒</td><td>一時的な文字表示速度。0で瞬時</td></tr>
 </table>
 
 </p>
@@ -1230,7 +1236,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	フォーカス移動対象から外す。<br/>
 	【例】[set_focus del='dom=archive:.card-image,.btn_delete']
 </td></tr>
-<tr><td>need_err</td><td></td><td>true</td><td>Boolean</td><td>
+<tr><td>need_err</td><td></td><td>true</td><td>true、false</td><td>
 	HTML内にセレクタ（add・del属性）に対応する要素が見つからない場合にエラーを出すか
 </td></tr>
 </table>
@@ -1246,7 +1252,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>ミリ秒</td><td>一時的な文字表示速度。0で瞬時。</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>0〜；ミリ秒</td><td>一時的な文字表示速度。0で瞬時</td></tr>
 <tr><td>style</td><td></td><td>全てクリア</td><td>CSS style</td><td>
 	文字の CSS Style を指定する。<br/>
 	このタグ以降の文字表示に適用される。
@@ -1269,8 +1275,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>t</td><td>y</td><td></td><td>String</td><td>縦中横文字列、通常半角文字を指定する。</td></tr>
-<tr><td>r</td><td></td><td>ルビ無し</td><td>String</td><td>ルビ文字列</td></tr>
+<tr class="y"><td>t</td><td>y</td><td></td><td>縦中横文字列</td><td>縦中横文字列、通常半角文字を指定する</td></tr>
+<tr><td>r</td><td></td><td>ルビ無し</td><td>ルビ文字列</td><td>ルビ文字列</td></tr>
 <tr><td>style</td><td></td><td>全てクリア</td><td>CSS style</td><td>
 	文字の CSS Style を指定する。<br/>
 	このタグによる表示のみに適用、以降は元に戻る
@@ -1293,9 +1299,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>name</td><td>y</td><td></td><td>差分名称</td><td>[lay]タグface属性で指定する差分名称</td></tr>
 <tr><td>fn</td><td></td><td>属性nameの値</td><td>画像ファイル名</td><td>表示する画像、アニメpng</td></tr>
-<tr><td>dx</td><td></td><td>0</td><td>基本画像左上を(0, 0)とする座標</td><td>差分画像の表示横位置</td></tr>
-<tr><td>dy</td><td></td><td>0</td><td>(↑と同じ)</td><td>差分画像の表示縦位置</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.html#blendMode" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
+<tr><td>dx</td><td></td><td>0</td><td>実数；横座標</td><td>基本画像左上を原点とする差分画像の表示横位置</td></tr>
+<tr><td>dy</td><td></td><td>0</td><td>実数；縦座標</td><td>基本画像左上を原点とする差分画像の表示縦位置</td></tr>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名</td><td>このレイヤと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.html#blendMode" target="_blank" rel="noopener">blendModeの解説</a>を参照</td></tr>
 </table>
 	例えば同じ画像で差分表示位置やブレンドモードが違う登録をしたい場合、<br/>
 	[add_face name="a_normal" fn="画像" dx=0 dy=0]<br/>
@@ -1311,9 +1317,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p>何かしらの画像レイヤで再生している動画の終了を待つ</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td></td><td>動画ファイル名</td><td>再生終了を待つ動画</td></tr>
-<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
-<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
-<tr><td>stop</td><td></td><td>true</td><td>Boolean</td><td>trueで「クリックキャンセル時の再生停止」、falseなら行なわない。</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>stop</td><td></td><td>true</td><td>true、false</td><td>trueで「クリックキャンセル時の再生停止」、falseなら行なわない</td></tr>
 </table>
 
 </p>
@@ -1327,7 +1333,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	注：これは HTML要素の iframe（インラインフレーム要素）で、フレームは全てのレイヤの手前に表示され、互い違いに重ねられない。<br/>
 	<a href="dev.htm#reserve_value_tmp">const.sn.frm.（フレーム名）系</a>の値もセットする。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>id</td><td>y</td><td></td><td>String</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる。</td></tr>
+<tr class="y"><td>id</td><td>y</td><td></td><td>文字列</td><td>フレーム名。他のタグなどで操作・参照する歳の名前となる</td></tr>
 <tr class="y"><td>src</td><td>y</td><td></td><td>
 	<del>ファイルパス</del><br/>ファイル名
 </td><td>
@@ -1335,16 +1341,16 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	<del>パス（prj/をルートとする相対指定）</del><br/>
 	ファイル名（画像や音声などのfn属性と同じように）
 </td></tr>
-<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
-<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
-<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
-<tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
-<tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
+<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>scale_x</td><td></td><td>1.0</td><td>実数</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>実数</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>rotate</td><td></td><td>0</td><td>-360〜360；回転角度</td><td>正の値は時計回り</td></tr>
+<tr><td>visible</td><td></td><td>true</td><td>true、false</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
 <tr><td>b_color</td><td></td><td>透過</td><td>色指定。0x000000など</td><td>背後の矩形色。初期値は 透過（htmlで画像を表示すれば表示）</td></tr>
-<tr><td>x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>画面内におけるフレームの横位置を指定</td></tr>
-<tr><td>y</td><td></td><td>0</td><td>(↑と同じ)</td><td>画面内におけるフレームの縦位置を指定</td></tr>
-<tr><td>width</td><td></td><td>フレームの横サイズ</td><td>1〜</td><td>表示するフレームの横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>height</td><td></td><td>フレームの縦サイズ</td><td>1〜</td><td>保存するフレームの縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
+<tr><td>x</td><td></td><td>0</td><td>実数；横座標</td><td>画面左上を原点とする画面内におけるフレームの横位置を指定</td></tr>
+<tr><td>y</td><td></td><td>0</td><td>実数；縦座標</td><td>画面左上を原点とする画面内におけるフレームの縦位置を指定</td></tr>
+<tr><td>width</td><td></td><td>フレームの横サイズ</td><td>1〜；横幅</td><td>表示するフレームの横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
+<tr><td>height</td><td></td><td>フレームの縦サイズ</td><td>1〜；縦幅</td><td>保存するフレームの縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
 </table>
 
 </p>
@@ -1354,20 +1360,20 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td><a href="tag.htm#add_fram" target="_blank" rel="noopener">[add_fram]</a>で定義したフレーム名</td></tr>
-<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
-<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
-<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
-<tr><td>float</td><td></td><td>何もしない</td><td>Boolean</td><td>true：フレームを最前面に移動する。</td></tr>
+<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>scale_x</td><td></td><td>1.0</td><td>実数</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>実数</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>float</td><td></td><td>何もしない</td><td>true、false</td><td>true：フレームを最前面に移動する</td></tr>
 <tr><td>index</td><td></td><td>何もしない</td><td>0〜</td><td>フレームをindexで指定したインデックスに移動する。<br/>0がもっとも背後。フレームを重ねるたびに1加算したindexになる</td></tr>
-<tr><td>dive</td><td></td><td>何もしない</td><td>フレーム名</td><td>フレームをdiveで指定したフレームのすぐ後ろに潜り込ませる。</td></tr>
-<tr><td>rotate</td><td></td><td>0</td><td>Number</td><td>回転角度（単位：deg 度）、正の値は時計回り</td></tr>
-<tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
-<tr><td>disabled</td><td></td><td>false</td><td>Boolean</td><td>trueでスライダーなど操作不可・[event]の【dom=系】イベント無効、falseで可能</td></tr>
+<tr><td>dive</td><td></td><td>何もしない</td><td>フレーム名</td><td>フレームをdiveで指定したフレームのすぐ後ろに潜り込ませる</td></tr>
+<tr><td>rotate</td><td></td><td>0</td><td>-360〜360；回転角度</td><td>正の値は時計回り</td></tr>
+<tr><td>visible</td><td></td><td>true</td><td>true、false</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
+<tr><td>disabled</td><td></td><td>false</td><td>true、false</td><td>trueでスライダーなど操作不可・[event]の【dom=系】イベント無効、falseで可能</td></tr>
 <tr><td>b_color</td><td></td><td>透過</td><td>色指定。0x000000など</td><td>背後の矩形色。初期値は 透過（htmlで画像を表示すれば表示）</td></tr>
-<tr><td>x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>画面内におけるフレームの横位置を指定</td></tr>
-<tr><td>y</td><td></td><td>0</td><td>(↑と同じ)</td><td>画面内におけるフレームの縦位置を指定</td></tr>
-<tr><td>width</td><td></td><td>フレームの横サイズ</td><td>1〜</td><td>表示するフレームの横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>height</td><td></td><td>フレームの縦サイズ</td><td>1〜</td><td>保存するフレームの縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
+<tr><td>x</td><td></td><td>0</td><td>実数；横座標</td><td>画面左上を原点とする画面内におけるフレームの横位置を指定</td></tr>
+<tr><td>y</td><td></td><td>0</td><td>実数；縦座標</td><td>画面左上を原点とする画面内におけるフレームの縦位置を指定</td></tr>
+<tr><td>width</td><td></td><td>フレームの横サイズ</td><td>1〜；横幅</td><td>表示するフレームの横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
+<tr><td>height</td><td></td><td>フレームの縦サイズ</td><td>1〜；縦幅</td><td>保存するフレームの縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
 </table>
 
 </p>
@@ -1379,7 +1385,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	【const.sn.frm.（id名）.（var_name名）】に値がセットされる。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td><a href="tag.htm#add_fram" target="_blank" rel="noopener">[add_fram]</a>で定義したフレーム名</td></tr>
-<tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数/関数名。</td></tr>
+<tr class="y"><td>var_name</td><td>y</td><td></td><td>文字列</td><td>フレーム内の変数/関数名</td></tr>
 </table>
 
 </p>
@@ -1389,8 +1395,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td><a href="tag.htm#add_fram" target="_blank" rel="noopener">[add_fram]</a>で定義したフレーム名</td></tr>
-<tr class="y"><td>var_name</td><td>y</td><td></td><td>String</td><td>フレーム内の変数名。</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td></td><td>フレーム内の変数にセットする値。</td></tr>
+<tr class="y"><td>var_name</td><td>y</td><td></td><td>文字列</td><td>フレーム内の変数名</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td></td><td>フレーム内の変数にセットする値</td></tr>
 </table>
 
 </p>
@@ -1406,13 +1412,13 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td><a href="tag.htm#add_fram" target="_blank" rel="noopener">[add_fram]</a>で定義したフレーム名</td></tr>
-<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>トゥイーンにかける時間</td></tr>
-<tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
-<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0以下で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
-<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
-<tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>0〜；ミリ秒</td><td>トゥイーンにかける時間</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
+<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0以下で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう</td></tr>
+<tr><td>ease</td><td></td><td>Linear.None</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
+<tr><td>yoyo</td><td></td><td>false</td><td>true、false</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
 <tr><td>chain</td><td></td><td>なにもしない</td><td>レイヤ名</td><td>指定したレイヤのトゥイーンアニメが終了してから、このトゥイーンを続けて開始する</td></tr>
-<tr class="y"><td>alpha</td><td rowspan="9">いずれかを指定</td><td rowspan="9">何もしない</td><td rowspan="9"></td><td rowspan="6">同名属性の変化目標値</td></tr>
+<tr class="y"><td>alpha</td><td rowspan="9">いずれかを指定</td><td rowspan="9">何もしない</td><td rowspan="9">相対値か絶対値</td><td rowspan="6">同名属性の変化目標値</td></tr>
 <tr class="y"><td>height</td></tr>
 <tr class="y"><td>rotation</td></tr>
 <tr class="y"><td>scale_x</td></tr>
@@ -1432,7 +1438,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>trueを指定すると全ての大域イベントを削除する。<br/>falseの場合は大域以外の全てのイベントを削除する</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>true、false</td><td>trueを指定すると全ての大域イベントを削除する。<br/>falseの場合は大域以外の全てのイベントを削除する</td></tr>
 </table>
 
 </p>
@@ -1444,7 +1450,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	有効にすればマウスイベントが発生するようになり、再びイベント待ちされるようになる</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>イベント有効無効を設定するレイヤ</td></tr>
-<tr><td>enabled</td><td></td><td>true</td><td>Boolean</td><td>イベントを有効にするか</td></tr>
+<tr><td>enabled</td><td></td><td>true</td><td>true、false</td><td>イベントを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1454,22 +1460,22 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <p>あるイベントが発生した際、global=falseのイベント予約は全て削除（予約破棄）される</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>key</td><td>y</td><td></td><td>click、rightclick、middleclick、upwheel、downwheel、<br/>イベントのキー名※1</td><td>イベントを発生させるトリガーイベント<br/><br/>修飾キーの同時押し（あるいは修飾キーを押しといて通常キー）を任意に組み合わせられます。「半角プラスで」「ABC順に」「イベントのキー名の前に」繋げて下さい。<br/>（例1）key=alt+enter<br/>（例2）key=alt+ctrl+shift+enter</td></tr>
-<tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
-<tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>イベント発生時にジャンプする先。指定方法は[jump]と同様。<br/>callの場合、ジャンプ先から[return]で戻ると、<br/>再度[s]などのイベント待ち状態に戻る。</td></tr>
+<tr class="y"><td>key</td><td>y</td><td></td><td>click、rightclick、middleclick、upwheel、downwheel、<br/>イベント名※1</td><td>イベントを発生させるトリガーイベント<br/><br/>修飾キーの同時押し（あるいは修飾キーを押しといて通常キー）を任意に組み合わせられます。「半角プラスで」「ABC順に」「イベントのキー名の前に」繋げて下さい。<br/>（例1）key=alt+enter<br/>（例2）key=alt+ctrl+shift+enter</td></tr>
+<tr><td>call</td><td></td><td>false</td><td>true、false</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る</td></tr>
+<tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>イベント発生時にジャンプする先。指定方法は[jump]と同様。<br/>callの場合、ジャンプ先から[return]で戻ると、<br/>再度[s]などのイベント待ち状態に戻る</td></tr>
 <tr><td>label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)<br/>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
 <tr><td>url</td><td>fnかlabelか、このurlを指定</td><td>fn・label によるスクリプトジャンプ</td><td>ブラウザで開けるURL</td><td>クリック時にURLを開く。指定時は fn・label を無視する</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>trueを指定すると大域的なイベント扱いとなり、<br/>イベント発生時にイベント予約が削除されない</td></tr>
-<tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
-<tr><td>del</td><td></td><td></td><td>Boolean</td><td>trueを指定すると予約済みイベントを削除する。<br/>fn/label/callとdelは同時指定できません</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>true、false</td><td>trueを指定すると大域的なイベント扱いとなり、<br/>イベント発生時にイベント予約が削除されない</td></tr>
+<tr><td>arg</td><td></td><td></td><td>ジャンプ先に渡したい値</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
+<tr><td>del</td><td></td><td></td><td>true、false</td><td>trueを指定すると予約済みイベントを削除する。<br/>fn/label/callとdelは同時指定できません</td></tr>
 <tr><td>frame</td><td></td><td>10</td><td>1〜</td><td>※未実装<br/><br/>key=enter_frameの場合のみ有効。<br/>フレームイベントは毎秒何度も（[window]のframerate回）発生するが、 アプリ全体が重くなるので、適度に間引いてイベントを時々発生させるため、
 	フレーム何回に一回イベントを発生させるかを指定する。<br/>例）30フレームで動作するアプリでframe=15を指定すると、30/15=0.5秒に一回発生（タイミングにより厳密ではない）</td></tr>
-<tr><td>need_err</td><td></td><td>true</td><td>Boolean</td><td>
+<tr><td>need_err</td><td></td><td>true</td><td>true、false</td><td>
 	HTML内にセレクタ（key属性）に対応する要素が見つからない場合にエラーを出すか
 </td></tr>
 </table>
 
-	※1 イベントのキー名は以下の表を参考に。<br/>
+	※1 イベント名は以下の表を参考に。<br/>
 	<br/>
 	技術的の話をすると、値は JavaScriptでの keydownイベントの <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key" target="_blank" rel="noopener">keyプロパティの値</a>（<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" target="_blank" rel="noopener">Key Values - Web APIs | MDN</a>）を基本とする。<br/>
 	（keyCode（<a href="https://qiita.com/ledsun/items/fb2570cc1542039f4516" target="_blank" rel="noopener">非推奨</a>）・codeプロパティとは違うので注意）<br/>
@@ -1562,12 +1568,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	[event]などでイベントが登録されていれば、イベント発生待ちを行う。<br/>
 	吉里吉里仕様【スキップできない】記述から、スキップや自動読みさせない<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
-<tr><td>x</td><td></td><td>0</td><td>正負の実数値</td><td>文字表示位置左上を(0, 0)とする横座標</td></tr>
-<tr><td>y</td><td></td><td>0</td><td>正負の実数値</td><td>文字表示位置左上を(0, 0)とする縦座標</td></tr>
-<tr><td>width</td><td></td><td>画像の横サイズ</td><td>1〜</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>height</td><td></td><td>画像の縦サイズ</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>visible</td><td></td><td>true</td><td>true、false</td><td>trueで行末クリック待ち記号を表示、falseで非表示</td></tr>
+<tr><td>x</td><td></td><td>0</td><td>実数；横座標</td><td>文字表示位置左上を原点とする横座標</td></tr>
+<tr><td>y</td><td></td><td>0</td><td>実数；縦座標</td><td>文字表示位置左上を原点とする縦座標</td></tr>
+<tr><td>width</td><td></td><td>画像の横サイズ</td><td>1〜；横幅</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
+<tr><td>height</td><td></td><td>画像の縦サイズ</td><td>1〜；縦幅</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1579,13 +1585,13 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	クリックやキー押下が発生した場合、処理を再開する。<br/>
 	[event]などでイベントが登録されていれば、イベント発生待ちを行う。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>visible</td><td></td><td>true</td><td>Boolean</td><td>trueで改ページ記号を表示、falseで非表示</td></tr>
-<tr><td>er</td><td></td><td>何もしない</td><td>Boolean</td><td>trueで改ページ待ち後に[er]処理を行なう</td></tr>
-<tr><td>x</td><td></td><td>0</td><td>正負の実数値</td><td>文字表示位置左上を(0, 0)とする横座標</td></tr>
-<tr><td>y</td><td></td><td>0</td><td>正負の実数値</td><td>文字表示位置左上を(0, 0)とする縦座標</td></tr>
-<tr><td>width</td><td></td><td>画像の横サイズ</td><td>1〜</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>height</td><td></td><td>画像の縦サイズ</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>visible</td><td></td><td>true</td><td>true、false</td><td>trueで改ページ記号を表示、falseで非表示</td></tr>
+<tr><td>er</td><td></td><td>何もしない</td><td>true、false</td><td>trueで改ページ待ち後に[er]処理を行なう</td></tr>
+<tr><td>x</td><td></td><td>0</td><td>実数；横座標</td><td>文字表示位置左上を原点とする横座標</td></tr>
+<tr><td>y</td><td></td><td>0</td><td>実数；縦座標</td><td>文字表示位置左上を原点とする縦座標</td></tr>
+<tr><td>width</td><td></td><td>画像の横サイズ</td><td>1〜；横幅</td><td>表示する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
+<tr><td>height</td><td></td><td>画像の縦サイズ</td><td>1〜；縦幅</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1594,7 +1600,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-	<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+	<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 	シナリオファイルの順次処理を停止する。<br/>
@@ -1614,9 +1620,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 	[event]などでイベントが登録されていても、イベント発生待ちを行わない。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>処理を待つ時間</td></tr>
-<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は[waitclick]）でウエイトをキャンセルできるか</td></tr>
-<tr><td><s>global</s></td><td></td><td><s>false</s></td><td><s>Boolean</s></td><td><s>グローバルイベント待ちを有効にするか</s></td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>0〜；ミリ秒</td><td>処理を待つ時間</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>クリックなど（→詳細は[waitclick]）でウエイトをキャンセルできるか</td></tr>
+<tr><td><s>global</s></td><td></td><td><s>false</s></td><td><s>true、false</s></td><td><s>グローバルイベント待ちを有効にするか</s></td></tr>
 </table>
 
 </p>
@@ -1645,9 +1651,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>volume</td><td>y</td><td></td><td>0.0〜1.0（実数）</td><td>音量</td></tr>
-<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>フェード時間</td></tr>
-<tr><td>delay</td><td></td><td>0</td><td>ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
+<tr class="y"><td>volume</td><td>y</td><td></td><td>0.0〜1.0</td><td>音量</td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>0〜；ミリ秒</td><td>フェード時間</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
 </table>
 
 </p>
@@ -1656,9 +1662,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>フェード時間</td></tr>
-<tr><td>stop</td><td></td><td>true</td><td>Boolean</td><td>trueで「フェード終了時の再生停止」、falseなら行なわない。</td></tr>
-<tr><td>delay</td><td></td><td>0</td><td>ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>0〜；ミリ秒</td><td>フェード時間</td></tr>
+<tr><td>stop</td><td></td><td>true</td><td>true、false</td><td>trueで「フェード終了時の再生停止」、falseなら行なわない</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
 </table>
 
 </p>
@@ -1667,10 +1673,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
-<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>フェード時間</td></tr>
-<tr><td>stop</td><td></td><td>true</td><td>Boolean</td><td>trueで「フェード終了時の再生停止」、falseなら行なわない。</td></tr>
-<tr><td>delay</td><td></td><td>0</td><td>ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>効果音を識別する名前。サウンドバッファを変えれば同時に複数の音を操作することが出来ます</td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>0〜；ミリ秒</td><td>フェード時間</td></tr>
+<tr><td>stop</td><td></td><td>true</td><td>true、false</td><td>trueで「フェード終了時の再生停止」、falseなら行なわない</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
 </table>
 
 </p>
@@ -1679,10 +1685,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
-<tr class="y"><td>volume</td><td>y</td><td></td><td>0.0〜1.0（実数）</td><td>音量</td></tr>
-<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒</td><td>フェード時間</td></tr>
-<tr><td>delay</td><td></td><td>0</td><td>ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>効果音を識別する名前。サウンドバッファを変えれば同時に複数の音を操作することが出来ます</td></tr>
+<tr class="y"><td>volume</td><td>y</td><td></td><td>0.0〜1.0</td><td>音量</td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>0〜；ミリ秒</td><td>フェード時間</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>変化する前に待機する遅延時間</td></tr>
 </table>
 
 </p>
@@ -1693,21 +1699,21 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 [playse]とは違い、キー押下Skip中でも必ず再生を行なう。（canskip = false）
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td></td><td>BGM音声ファイル名</td><td>再生する音声ファイル名</td></tr>
-<tr><td>loop</td><td></td><td>true</td><td>Boolean</td><td>trueでBGMのようにループ再生する。</td></tr>
-<tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生音量。ただし音量を示すシステム変数（sys:const.an.sound.BGM.volume）は変更しない</td></tr>
-<tr><td>speed</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生速度（0:遅い、1.0:元のまま）</td></tr>
-<tr><td>pan</td><td></td><td>0.0</td><td>-1.0〜1.0（実数）</td><td>音を出す左右位置（-1.0=左端、0.0=中央(省略値)、1.0=右端）</td></tr>
-<tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
-<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>trueでキー押下Skip中なら再生をしない</td></tr>
-<tr><td>start_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>
+<tr><td>loop</td><td></td><td>true</td><td>true、false</td><td>trueでBGMのようにループ再生する</td></tr>
+<tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0</td><td>再生音量。ただし音量を示すシステム変数（sys:const.an.sound.BGM.volume）は変更しない</td></tr>
+<tr><td>speed</td><td></td><td>1.0</td><td>0.0〜1.0</td><td>再生速度（0:遅い、1.0:元のまま）</td></tr>
+<tr><td>pan</td><td></td><td>0.0</td><td>-1.0〜1.0</td><td>音を出す左右位置（-1.0=左端、0.0=中央(省略値)、1.0=右端）</td></tr>
+<tr><td>join</td><td></td><td>true</td><td>true、false</td><td>trueで読み込みを待って次のタグへ進む</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>trueでキー押下Skip中なら再生をしない</td></tr>
+<tr><td>start_ms</td><td></td><td>0（冒頭）</td><td>0〜；ミリ秒</td><td>
 	再生の開始位置を指定する。
 </td></tr>
-<tr><td>end_ms</td><td></td><td>末端</td><td>ミリ秒</td><td>
+<tr><td>end_ms</td><td></td><td>末端</td><td>0〜；ミリ秒</td><td>
 	再生の終了位置を指定する。<br/>
 	正の値は「冒頭から何ms目を終端とするか」<br/>
 	負の値は「末尾から何ms手前を終端とするか」の指定。
 </td></tr>
-<tr><td>ret_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>
+<tr><td>ret_ms</td><td></td><td>0（冒頭）</td><td>0〜；ミリ秒</td><td>
 	ループ戻り位置を指定する。<br/>
 	ループ再生中にend_ms指定位置（省略時は末尾）に到達した場合、この指定位置に戻る。
 	ループ再生しない（loop=false）際は無視される。<br/>
@@ -1721,22 +1727,22 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr class="y"><td>fn</td><td>y</td><td></td><td>効果音音声ファイル名</td><td>再生する音声ファイル名</td></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
-<tr><td>loop</td><td></td><td>false</td><td>Boolean</td><td>trueでBGMのようにループ再生する。</td></tr>
-<tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生音量。ただし音量を示すシステム変数（sys:const.an.sound.【サウンドバッファ名】.volume）は変更しない</td></tr>
-<tr><td>speed</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>再生速度（0:遅い、1.0:元のまま）</td></tr>
-<tr><td>pan</td><td></td><td>0.0</td><td>-1.0〜1.0（実数）</td><td>音を出す左右位置（-1.0=左端、0.0=中央(省略値)、1.0=右端）</td></tr>
-<tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
-<tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>trueでキー押下Skip中なら再生をしない</td></tr>
-<tr><td>start_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>
+<tr><td>buf</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>効果音を識別する名前。サウンドバッファを変えれば同時に複数の音を操作することが出来ます</td></tr>
+<tr><td>loop</td><td></td><td>false</td><td>true、false</td><td>trueでBGMのようにループ再生する</td></tr>
+<tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0</td><td>再生音量。ただし音量を示すシステム変数（sys:const.an.sound.【サウンドバッファ名】.volume）は変更しない</td></tr>
+<tr><td>speed</td><td></td><td>1.0</td><td>0.0〜1.0</td><td>再生速度（0:遅い、1.0:元のまま）</td></tr>
+<tr><td>pan</td><td></td><td>0.0</td><td>-1.0〜1.0</td><td>音を出す左右位置（-1.0=左端、0.0=中央(省略値)、1.0=右端）</td></tr>
+<tr><td>join</td><td></td><td>true</td><td>true、false</td><td>trueで読み込みを待って次のタグへ進む</td></tr>
+<tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>trueでキー押下Skip中なら再生をしない</td></tr>
+<tr><td>start_ms</td><td></td><td>0（冒頭）</td><td>0〜；ミリ秒</td><td>
 	再生の開始位置を指定する。
 </td></tr>
-<tr><td>end_ms</td><td></td><td>末端</td><td>ミリ秒</td><td>
+<tr><td>end_ms</td><td></td><td>末端</td><td>0〜；ミリ秒</td><td>
 	再生の終了位置を指定する。<br/>
 	正の値は「冒頭から何ms目を終端とするか」<br/>
 	負の値は「末尾から何ms手前を終端とするか」の指定。
 </td></tr>
-<tr><td>ret_ms</td><td></td><td>0（冒頭）</td><td>ミリ秒</td><td>
+<tr><td>ret_ms</td><td></td><td>0（冒頭）</td><td>0〜；ミリ秒</td><td>
 	ループ戻り位置を指定する。<br/>
 	ループ再生中にend_ms指定位置（省略時は末尾）に到達した場合、この指定位置に戻る。
 	ループ再生しない（loop=false）際は無視される。<br/>
@@ -1759,7 +1765,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。<br/>BGMと指定するとBGMの指定。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。<br/>BGMと指定するとBGMの指定</td></tr>
 </table>
 
 </p>
@@ -1768,7 +1774,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>効果音を識別する名前。サウンドバッファを変えれば同時に複数の音を操作することが出来ます</td></tr>
 </table>
 
 </p>
@@ -1778,8 +1784,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 	BGMや効果音を指定した音量にする。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。<br/>BGMと指定するとBGMの音量設定。</td></tr>
-<tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>音量</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。<br/>BGMと指定するとBGMの音量設定</td></tr>
+<tr><td>volume</td><td></td><td>1.0</td><td>0.0〜1.0</td><td>音量</td></tr>
 </table>
 
 </p>
@@ -1788,8 +1794,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
-<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>canskip</td><td></td><td>false</td><td>true、false</td><td>trueでクリックキャンセル可能にする</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1798,9 +1804,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
-<tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
-<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>効果音を識別する名前。サウンドバッファを変えれば同時に複数の音を操作することが出来ます</td></tr>
+<tr><td>canskip</td><td></td><td>false</td><td>true、false</td><td>trueでクリックキャンセル可能にする</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1812,7 +1818,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	利用時は【音声再生[playbgm]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1823,10 +1829,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	loop=trueなら待たない。
 	利用時は【音声再生[playse]がjoin=true(ちなみにデフォルト)であること】を必須条件とします。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名を変えれば同時に複数の音を操作することが出来ます。</td></tr>
-<tr><td>canskip</td><td></td><td>false</td><td>Boolean</td><td>trueでクリックキャンセル可能にする。</td></tr>
-<tr><td>global</td><td></td><td>true</td><td>Boolean</td><td>グローバルイベント待ちを有効にするか</td></tr>
-<tr><td>stop</td><td></td><td>true</td><td>Boolean</td><td>trueで「クリックキャンセル時の再生停止」、falseなら行なわない。</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>効果音を識別する名前。サウンドバッファを変えれば同時に複数の音を操作することが出来ます</td></tr>
+<tr><td>canskip</td><td></td><td>false</td><td>true、false</td><td>trueでクリックキャンセル可能にする</td></tr>
+<tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>stop</td><td></td><td>true</td><td>true、false</td><td>trueで「クリックキャンセル時の再生停止」、falseなら行なわない</td></tr>
 </table>
 
 </p>
@@ -1835,8 +1841,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>buf</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>サウンドバッファ名</td></tr>
-<tr><td>buf2</td><td></td><td>SE</td><td>効果音を識別するサウンドバッファ名</td><td>もう一つのサウンドバッファ名</td></tr>
+<tr><td>buf</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>サウンドバッファ名</td></tr>
+<tr><td>buf2</td><td></td><td>SE</td><td>サウンドバッファ名</td><td>もう一つのサウンドバッファ名</td></tr>
 </table>
 
 </p>
@@ -1858,7 +1864,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 	詳細は【<a href="dev.htm#cond" target="_blank" rel="noopener">開発者向け情報：式の評価と条件分岐</a>】をご覧下さい。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう。</td></tr>
+<tr class="y"><td>exp</td><td>y</td><td></td><td>条件式</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう</td></tr>
 </table>
 
 </p>
@@ -1876,7 +1882,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 	詳細は【<a href="dev.htm#cond" target="_blank" rel="noopener">開発者向け情報：式の評価と条件分岐</a>】をご覧下さい。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>exp</td><td>y</td><td></td><td>Boolean</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう。</td></tr>
+<tr class="y"><td>exp</td><td>y</td><td></td><td>条件式</td><td>trueの場合処理は直後にうつる。<br/>falseなら次の<a href="tag.htm#elsif" target="_blank" rel="noopener">[elsif]</a>や<a href="tag.htm#else" target="_blank" rel="noopener">[else]</a>の評価を行なう</td></tr>
 </table>
 
 </p>
@@ -1891,11 +1897,11 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>ボタンを配置する文字レイヤ</td></tr>
 <tr><td>page</td><td></td><td>back</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>pic</td><td>y</td><td></td><td>画像ファイル名</td><td>画像ボタンとして配置する画像を指定する。<br/>ただし画像は縦に三等分し、左から「通常時」「クリック押下時」「マウスカーソルを載せた時」の画像として表示する。</td></tr>
+<tr class="y"><td>pic</td><td>y</td><td></td><td>画像ファイル名</td><td>画像ボタンとして配置する画像を指定する。<br/>ただし画像は縦に三等分し、左から「通常時」「クリック押下時」「マウスカーソルを載せた時」の画像として表示する</td></tr>
 <tr class="y"><td>text</td><td>...</td><td></td><td>ボタンにする文字列</td><td>文字ボタンとして配置する文字列を指定する。<br/>picかtextのどちらかの指定を必須とする</td></tr>
-<tr><td>b_pic</td><td></td><td></td><td>画像ファイル名</td><td>文字ボタンの背景画像が指定できる。画像の大きさにかかわらず、文字ボタンのちょうど真ん中に来るよう配置される。</td></tr>
-<tr><td>width</td><td></td><td>※100</td><td>1〜</td><td>文字ボタンの横幅を指定する。画像ボタンの場合はこの指定を無視し、画像横幅の1/3にする。</td></tr>
-<tr><td>height</td><td></td><td>※30</td><td>1〜</td><td>文字ボタンの縦幅を指定する。画像ボタンの場合はこの指定を無視し、画像横幅の1/3にする。<br/>また、文字は必ず横一列になるため、この設定値はフォントサイズと兼用になる。</td></tr>
+<tr><td>b_pic</td><td></td><td></td><td>画像ファイル名</td><td>文字ボタンの背景画像が指定できる。画像の大きさにかかわらず、文字ボタンのちょうど真ん中に来るよう配置される</td></tr>
+<tr><td>width</td><td></td><td>※100</td><td>1〜；横幅</td><td>文字ボタンの横幅を指定する。画像ボタンの場合はこの指定を無視し、画像横幅の1/3にする</td></tr>
+<tr><td>height</td><td></td><td>※30</td><td>1〜；縦幅</td><td>文字ボタンの縦幅を指定する。画像ボタンの場合はこの指定を無視し、画像横幅の1/3にする。<br/>また、文字は必ず横一列になるため、この設定値はフォントサイズと兼用になる</td></tr>
 <tr><td>style</td><td></td><td>※</td><td><del>CSS style</del><br/><a href="https://pixijs.download/dev/docs/PIXI.TextStyle.html" target="_blank" rel="noopener">PIXI TextStyle</a>のJSON文字列（右項で列挙した一部）</td><td>
 	文字ボタン上にマウスカーソルが乗っていない状態のCSS スタイル。<br/>
 	JSONは　style='{"fill": "deepskyblue"}'　のように指定する。<br/>
@@ -1913,32 +1919,32 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	dropShadowBlur: 3;<br/>
 	dropShadowDistance: 0;<br/>
 </td></tr>
-<tr><td>style_hover</td><td></td><td>styleの設定＋「fill: white;」を採用</td><td><a href="https://pixijs.download/dev/docs/PIXI.TextStyle.html" target="_blank" rel="noopener">PIXI TextStyle</a>のJSON文字列</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしていない）のCSS スタイル。<br/>設定できる値はstyleと同様。</td></tr>
-<tr><td>style_clicked</td><td></td><td>style_hoverの設定＋「dropShadow: false;」を採用</td><td><a href="https://pixijs.download/dev/docs/PIXI.TextStyle.html" target="_blank" rel="noopener">PIXI TextStyle</a>のJSON文字列</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしている）のCSS スタイル。<br/>設定できる値はstyleと同様。</td></tr>
-<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0（実数）</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
+<tr><td>style_hover</td><td></td><td>styleの設定＋「fill: white;」を採用</td><td><a href="https://pixijs.download/dev/docs/PIXI.TextStyle.html" target="_blank" rel="noopener">PIXI TextStyle</a>のJSON文字列</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしていない）のCSS スタイル。<br/>設定できる値はstyleと同様</td></tr>
+<tr><td>style_clicked</td><td></td><td>style_hoverの設定＋「dropShadow: false;」を採用</td><td><a href="https://pixijs.download/dev/docs/PIXI.TextStyle.html" target="_blank" rel="noopener">PIXI TextStyle</a>のJSON文字列</td><td>文字ボタン上にマウスカーソルが乗っている状態（クリックしている）のCSS スタイル。<br/>設定できる値はstyleと同様</td></tr>
+<tr><td>alpha</td><td></td><td>1.0</td><td>0.0〜1.0；透過度</td><td>透過度。0（完全透明）〜0.5（半透明）〜1（不透明）</td></tr>
 <tr><td>left<br/>top</td><td></td><td>※</td><td>※</td><td>※詳細は<a href="tag.htm#lay" target="_blank" rel="noopener">[lay]</a>を参照</td></tr>
-<tr><td>rotation</td><td></td><td>0</td><td>-180〜180</td><td>回転角を度単位で指定。時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る</td></tr>
-<tr><td>scale_x</td><td></td><td>1.0</td><td>正負の実数値</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
-<tr><td>scale_y</td><td></td><td>1.0</td><td>正負の実数値</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
-<tr><td>pivot_x</td><td></td><td>0.0</td><td>正負の実数値</td><td>左上を基準として、回転や移動時の基準を指定</td></tr>
-<tr><td>pivot_y</td><td></td><td>0.0</td><td>正負の実数値</td><td>左上を基準として、回転や移動時の基準を指定</td></tr>
-<tr><td>enabled</td><td></td><td>true</td><td>Boolean</td><td>falseだと押せないボタンとなり、クリックイベントが発生しない。<br/>これにより文字レイヤの任意の位置に画像表示できる機能を提供する。<br/>画像は三等分しない。イベントや効果音指定は無効だが、ヒント機能は有効。</td></tr>
-<tr><td>call</td><td></td><td>false</td><td>Boolean</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る。</td></tr>
+<tr><td>rotation</td><td></td><td>0</td><td>-180〜180；回転角度</td><td>時計回りは0～180、反時計回りは0～-180を指定。 左上を中心に回る</td></tr>
+<tr><td>scale_x</td><td></td><td>1.0</td><td>実数</td><td>横方向を何倍に拡大／縮小するか。負の値ならレイヤを左右反転</td></tr>
+<tr><td>scale_y</td><td></td><td>1.0</td><td>実数</td><td>縦方向を何倍に拡大／縮小するか。負の値ならレイヤを上下反転</td></tr>
+<tr><td>pivot_x</td><td></td><td>0.0</td><td>実数</td><td>左上を基準として、回転や移動時の基準を指定</td></tr>
+<tr><td>pivot_y</td><td></td><td>0.0</td><td>実数</td><td>左上を基準として、回転や移動時の基準を指定</td></tr>
+<tr><td>enabled</td><td></td><td>true</td><td>true、false</td><td>falseだと押せないボタンとなり、クリックイベントが発生しない。<br/>これにより文字レイヤの任意の位置に画像表示できる機能を提供する。<br/>画像は三等分しない。イベントや効果音指定は無効だが、ヒント機能は有効</td></tr>
+<tr><td>call</td><td></td><td>false</td><td>true、false</td><td>trueの場合は[call]、falseは[jump]。<br/>ただしcall=trueによりサブルーチンコールした場合、[return]によって「コールする前のイベント予約状態＆待ち状態」に戻る</td></tr>
 <tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>クリック時にジャンプする先</td></tr>
 <tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td>クリック時ジャンプ先で「&sn.eventLabel」にて値を受け取れる</td></tr>
 <tr><td>url</td><td>fnかlabelか、このurlを指定</td><td>fn・label によるスクリプトジャンプ</td><td>ブラウザで開けるURL</td><td>クリック時にURLを開く。指定時は fn・label を無視する</td></tr>
-<tr><td>global</td><td></td><td>false</td><td>Boolean</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
-<tr><td>arg</td><td></td><td></td><td>String</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
-<tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
-<tr><td>onleave</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること。</td></tr>
+<tr><td>global</td><td></td><td>false</td><td>true、false</td><td>詳細は[event]と同様。<br/>※ボタンを[trans]する場合はtrueにしておく</td></tr>
+<tr><td>arg</td><td></td><td></td><td>ジャンプ先に渡したい値</td><td>指定した場合、クリック時ジャンプ先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
+<tr><td>onenter</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり（フォーカス取得）時、指定したラベルをコールする。 必ず[return]で戻ること</td></tr>
+<tr><td>onleave</td><td></td><td>何もしない</td><td>ラベル名</td><td>マウス重なり外れ（フォーカス外れ）時、指定したラベルをコールする。 必ず[return]で戻ること</td></tr>
 <tr><td>clickse</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、クリック時に効果音を再生する</td></tr>
 <tr><td>enterse</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、ボタン上にマウスカーソルが載った時に効果音を再生する</td></tr>
 <tr><td>leavese</td><td></td><td>省略時は無音</td><td>音声ファイル名</td><td>指定すると、ボタン上からマウスカーソルが外れた時に効果音を再生する</td></tr>
 <tr><td>clicksebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>entersebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
 <tr><td>leavesebuf</td><td></td><td>SYS</td><td>サウンドバッファ名</td><td>クリック時効果音を再生するサウンドバッファを指定する</td></tr>
-<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このボタンと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.html#blendMode" target="_blank" rel="noopener">blendModeの解説</a>を参照。</td></tr>
-<tr><td>hint</td><td></td><td>表示しない</td><td>String</td><td>
+<tr><td>blendmode</td><td></td><td>何もしない</td><td>ブレンドモード名（"screen"など）</td><td>このボタンと下のレイヤとの重なりにおいて、<br/>ドット単位で色のブレンド演算を行なう。<br/>詳細は<a href="tag.html#blendMode" target="_blank" rel="noopener">blendModeの解説</a>を参照</td></tr>
+<tr><td>hint</td><td></td><td>表示しない</td><td>ヒント文字列</td><td>
 	指定した場合のみ、マウスカーソルを載せるとツールチップス表示する。<br/>
 	<s>hint(.pngなど)をプロジェクトに含めると、それをツールチップス図形として使う</s>
 </td></tr>
@@ -1949,7 +1955,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	border-radius: 4px;<br/>
 	font-size: 1.2em;<br/>
 	ほか（狭いので省略）<br/>
-</td><td>css</td><td>ツールチップ矩形の CSS スタイル</td></tr>
+</td><td>CSS style</td><td>ツールチップ矩形の CSS スタイル</td></tr>
 <tr><td>hint_opt</td><td></td><td>
 <pre>
 &nbsp;{
@@ -1976,7 +1982,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	<br/>
 	【tips】JSON文法は「文字列は " で囲む、' はダメ」などむやみに厳密なため、サイト「<a href="https://lab.syncer.jp/Tool/JSON-Viewer/">JSON Pretty Linter - JSONの整形と構文チェック</a>」などを使用することを推奨します。<br/>
 </td></tr>
-<tr><td><s>hint_tate</s></td><td></td><td><s>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</s></td><td><s>Boolean</s></td><td><s>
+<tr><td><s>hint_tate</s></td><td></td><td><s>文字レイヤの縦書き指定（writing-mode: vertical-rl なら true）</s></td><td><s>true、false</s></td><td><s>
 	ツールチップスをリンクに対してどの位置に表示するか。<br/>
 	false：リンクの上に表示（横書き文字レイヤの動作）<br/>
 	true：リンクの右に横倒しで表示（縦書き文字レイヤの動作）<br/>
@@ -1988,15 +1994,15 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <tr class="y"><td>（以下は未作成）</td><td></td><td></td><td></td><td>（以下は未作成）</td></tr>
 
-<tr><td>event_at_down</td><td></td><td>false</td><td>Boolean</td><td>true：押すだけでイベント発動（画面常駐のシステムボタンなどに）<br/>false：押して離すとイベント発動</td></tr>
-<tr><td>draggable</td><td></td><td>false</td><td>Boolean</td><td>true：テキスト背後の矩形をドラッグできる。<br/>event_at_down=trueだとクリックイベントが発生しなくなる。</td></tr>
-<tr><td>drag_x</td><td></td><td>0</td><td>画面左上を(0, 0)とする座標</td><td>ドラッグ範囲の左上始点。</td></tr>
+<tr><td>event_at_down</td><td></td><td>false</td><td>true、false</td><td>true：押すだけでイベント発動（画面常駐のシステムボタンなどに）<br/>false：押して離すとイベント発動</td></tr>
+<tr><td>draggable</td><td></td><td>false</td><td>true、false</td><td>true：テキスト背後の矩形をドラッグできる。<br/>event_at_down=trueだとクリックイベントが発生しなくなる</td></tr>
+<tr><td>drag_x</td><td></td><td>0</td><td>画面左上を原点とする座標</td><td>ドラッグ範囲の左上始点</td></tr>
 <tr><td>drag_y</td><td></td><td>0</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
-<tr><td>drag_w</td><td></td><td>画面横幅</td><td>ドラッグ範囲縦横ピクセル数</td><td>ドラッグ範囲縦横サイズ。</td></tr>
+<tr><td>drag_w</td><td></td><td>画面横幅</td><td>ドラッグ範囲縦横ピクセル数</td><td>ドラッグ範囲縦横サイズ</td></tr>
 <tr><td>drag_h</td><td></td><td>画面縦幅</td><td>(↑と同じ)</td><td>(↑と同じ)</td></tr>
 <tr><td>dragmove_fn</td><td>...</td><td>...</td><td>...</td><td>ドラッグ中にサブルーチンコールする先。<br/>指定方法は[jump]と同様</td></tr>
 <tr><td>dragmove_label</td><td>...</td><td>...</td><td>...</td><td>(↑と同じ)</td></tr>
-<tr><td>dragmove_arg</td><td></td><td></td><td>String</td><td>指定した場合、ドラッグ中コール先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
+<tr><td>dragmove_arg</td><td></td><td></td><td>文字列</td><td>指定した場合、ドラッグ中コール先で「&amp;sn.eventArg」にて値を受け取れる</td></tr>
 </table>
 
 </p>
@@ -2009,8 +2015,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>コール先のスクリプトファイル<br/>[call fn=ext_*]のようにワイルドカードをサポート。マッチするスクリプトを順不同にコールする。 （ワイルドカードは後方のみ）</td></tr>
 <tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td></td></tr>
-<tr><td>count</td><td></td><td>false</td><td>Boolean</td><td>タグ位置を既読とするか</td></tr>
-<tr><td>clear_local_event</td><td></td><td>何もしない</td><td>Boolean</td><td>trueの場合は[clear_event]を行なってからコールする。</td></tr>
+<tr><td>count</td><td></td><td>false</td><td>true、false</td><td>タグ位置を既読とするか</td></tr>
+<tr><td>clear_local_event</td><td></td><td>何もしない</td><td>true、false</td><td>trueの場合は[clear_event]を行なってからコールする</td></tr>
 </table>
 
 </p>
@@ -2021,7 +2027,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>fn</td><td>どちらか、もしくは両方を指定</td><td>処理中のスクリプトファイル</td><td>スクリプトファイル名</td><td>コール先のスクリプトファイル</td></tr>
 <tr><td>label</td><td>スクリプトファイルの先頭</td><td>ラベル名（半角アスタリスク*も含む）</td><td>コール先のスクリプトファイルにあるラベル</td><td></td></tr>
-<tr><td>count</td><td></td><td>true</td><td>Boolean</td><td>タグ位置を既読とするか</td></tr>
+<tr><td>count</td><td></td><td>true</td><td>true、false</td><td>タグ位置を既読とするか</td></tr>
 </table>
 <h4>ラベルは例えば以下のように使います。</h4>
 <pre>
@@ -2070,12 +2076,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	　　　（save変数復元で &save:sn.doRecLog = false になるケースがある）<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>clear</td><td rowspan="3">いずれかを指定</td><td>なにもしない</td><td>Boolean</td><td>trueでページ状態記録をクリアする</td></tr>
-<tr><td>to</td><td>なにもしない</td><td>prev または next</td><td>
+<tr><td>clear</td><td rowspan="3">いずれかを指定</td><td>なにもしない</td><td>true、false</td><td>trueでページ状態記録をクリアする</td></tr>
+<tr><td>to</td><td>なにもしない</td><td>prev、next</td><td>
 	prev：ひとつ前のページに戻る<br/>
 	next：ひとつ次のページに進める
 </td></tr>
-<tr><td>style</td><td>なにもしない</td><td>css</td><td>ページ移動中の既読文字に適用する CSS スタイル。初期値は【color: yellow;】</td></tr>
+<tr><td>style</td><td>なにもしない</td><td>CSS style</td><td>ページ移動中の既読文字に適用する CSS スタイル。初期値は【color: yellow;】</td></tr>
 </table>
 
 </p>
@@ -2085,7 +2091,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	極力使用しないコーディングを推奨します。
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>clear</td><td></td><td>false</td><td>Boolean</td><td>true：全て破棄する。空でもエラーを出さない<br/>false：スタックを一つ破棄する。空の場合はエラーメッセージ＆アプリ停止</td></tr>
+<tr><td>clear</td><td></td><td>false</td><td>true、false</td><td>true：全て破棄する。空でもエラーを出さない<br/>false：スタックを一つ破棄する。空の場合はエラーメッセージ＆アプリ停止</td></tr>
 </table>
 
 </p>
@@ -2115,9 +2121,9 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	　　本タグより前にロードされたスクリプトファイルには適用されません。<br/>
 	　　またスクリプトファイルに本タグが記述された場合、本タグより前に出現した半角文字にも適用されません。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>特定の文字</td><td>括弧にする任意の二つの文字。<br/>マクロに出来るのは英文字、空白、;、[、]、<em>、=、&amp;、｜、《、》以外のみ。<br/>正規表現で言えば　/[\w\s;[]</em>=&amp;｜《》]/　以外。<br/>一文字マクロや定義済みの括弧文字は使用できない。</td></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>定義済みのマクロ名</td><td>半角文字に割り当てるマクロ名を指定。<br/>組み込みタグか、[macro]による定義済みマクロ名で無ければならない。<br/>組み込みタグやマクロは属性textだけを指定しても問題なく動作し、
-	それを処理すること。渡される属性textは空文字の場合もある。</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>特定の括弧にする始点終点の二文字文字</td><td>マクロに出来るのは英文字、空白、;、[、]、<em>、=、&amp;、｜、《、》以外のみ。<br/>正規表現で言えば　/[\w\s;[]</em>=&amp;｜《》]/　以外。<br/>一文字マクロや定義済みの括弧文字は使用できない</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>マクロ名</td><td>半角文字に割り当てるマクロ名を指定。<br/>組み込みタグか、[macro]による定義済みマクロ名で無ければならない。<br/>組み込みタグやマクロは属性textだけを指定しても問題なく動作し、
+	それを処理すること。渡される属性textは空文字の場合もある</td></tr>
 </table>
 
 </p>
@@ -2128,8 +2134,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	本タグより前にロードされたスクリプトファイルには適用されません。<br/>
 	またスクリプトファイルに本タグが記述された場合、本タグより前に出現した半角文字にも適用されません。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>char</td><td>y</td><td></td><td>特定の半角文字</td><td>マクロにする半角文字。<br/>マクロに出来るのは英文字、空白、;、[、]、<em>、=、&amp;、｜、《、》以外のみ。<br/>正規表現で言えば　/[\w\s;[]</em>=&amp;｜《》]/　以外。<br/>括弧文字や定義済みの一文字マクロは使用できない。</td></tr>
-<tr class="y"><td>name</td><td>y</td><td></td><td>定義済みのマクロ名</td><td>半角文字に割り当てるマクロ名を指定。<br/>組み込みタグか、[macro]による定義済みマクロ名で無ければならない。</td></tr>
+<tr class="y"><td>char</td><td>y</td><td></td><td>一文字</td><td>マクロにする半角文字。<br/>マクロに出来るのは英文字、空白、;、[、]、<em>、=、&amp;、｜、《、》以外のみ。<br/>正規表現で言えば　/[\w\s;[]</em>=&amp;｜《》]/　以外。<br/>括弧文字や定義済みの一文字マクロは使用できない</td></tr>
+<tr class="y"><td>name</td><td>y</td><td></td><td>定義済みのマクロ名</td><td>半角文字に割り当てるマクロ名を指定。<br/>組み込みタグか、[macro]による定義済みマクロ名で無ければならない</td></tr>
 </table>
 
 </p>
@@ -2146,13 +2152,13 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	渡した属性は、マクロ側で「mp:」「%」スコープにより参照できる。<br/>
 	（ただし式では %a という記述はできず、mp:a 記述のみサポートする）<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>name</td><td>y</td><td>マクロ名</td><td>String</td><td>既存のタグやマクロと重複しないマクロ名</td></tr>
-<tr><td>nowarn_unused</td><td></td><td>false（警告する）</td><td>Boolean</td><td>
+<tr class="y"><td>name</td><td>y</td><td>未定義のマクロ名</td><td>文字列</td><td>既存のタグやマクロと重複しないマクロ名</td></tr>
+<tr><td>nowarn_unused</td><td></td><td>false（警告する）</td><td>true、false</td><td>
 	拡張機能の未使用マクロ警告を抑制、表示しないようにする。<br/>
 	「使われなくても構わないマクロ」であると示す。<br/>
 	SKYNovelの動作には影響なく、拡張機能のみが使用する。
 </td></tr>
-<tr><td>sum</td><td></td><td></td><td>String</td><td>
+<tr><td>sum</td><td></td><td></td><td>文字列</td><td>
 	拡張機能に表示（<a href="#macro_1">※1</a>）するこのマクロの概要。改行記述（<a href="#macro_2">※2</a>）が出来る。<br/>
 	SKYNovelの動作には影響なく、拡張機能のみが使用する。
 </td></tr>
@@ -2162,7 +2168,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	記述に文法がある（<a href="#macro_3">※3</a>）。<br/>
 	SKYNovelの動作には影響なく、拡張機能のみが使用する。
 </td></tr>
-<tr><td>detail</td><td></td><td></td><td>String</td><td>
+<tr><td>detail</td><td></td><td></td><td>文字列</td><td>
 	拡張機能に表示（<a href="#macro_1">※1</a>）するこのマクロの詳細説明。改行記述（※2）が出来る。<br/>
 	SKYNovelの動作には影響なく、拡張機能のみが使用する。
 </td></tr>
@@ -2183,7 +2189,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <h4 id="macro_3">※3 引数説明記述について</h4>
 	書き方があるので、要素を分解して解説する。<br/>
-	<p>例）%no_voice_stop?='Boolean|false|trueなら改ページ後、音声（バッファ名「音声」の効果音）をフェードアウトしない'</p>
+	<p>例）%layer?='レイヤ名|mes|処理対象の文字レイヤ'</p>
 	<ol>
 		<li>【%】
 			<p>この属性が引数説明記述であることを示す。</p>
@@ -2192,7 +2198,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <li>その見た目通り、マクロ定義時の変数名に沿っている。（mp:〜 と同様）</li>
 </ul>
 		</li>
-		<li>【no_voice_stop】
+		<li>【layer】
 			<p>属性名</p>
 <ul>
 <li>【余談】SKYNovel 1.36.0 以降は漢字や平仮名なども属性名に使用できる</li>
@@ -2208,25 +2214,25 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 </ul>
 		</li>
 		<li>【=】</li>
-		<li>【Boolean|false|trueなら〜】
+		<li>【レイヤ名|mes|trueなら〜】
 			<p>属性値はその他の項目。値は | で区切られた複数の項目になっている</p>
 <ul>
-<li>【Boolean】
+<li>【レイヤ名】
 	<ul>
 	<li>一項目：値域・型</li>
-	<li>例は true か false のみの値を持つ「Boolean」が指定されている。</li>
-	<li>他に【String】【Number】など。タグリファレンスを眺めると参考になる。</li>
+	<li>例は「レイヤ名」が指定されているので、[add_lay] で追加したレイヤ名を指定できる</li>
+	<li>他に【ブレンドモード名】【実数】など。タグリファレンスを眺めると参考になる。</li>
 	</ul>
 </li>
-<li>【false】
+<li>【mes】
 	<ul>
 	<li>二項目：省略時の値</li>
-	<li>この項目そのものも省略してもよいが、【||】表記にする</li>
+	<li>例ではレイヤ名「mes」を指定したのと同じになる。この項目そのものも省略してもよいが、【||】表記にすると三項目の説明が書ける</li>
 	</ul>
 </li>
-<li>【trueなら〜】
+<li>【処理対象の文字レイヤ】
 	<ul>
-	<li>三項目：概要</li>
+	<li>三項目：概要、マクロを使う人にわかりやすい説明文</li>
 	</ul>
 </li>
 </ul>
@@ -2243,8 +2249,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	セーブデータパスに to, from 属性と同名のフォルダがあればコピーする
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>from</td><td>y</td><td></td><td>数値</td><td>複写元のしおり番号</td></tr>
-<tr class="y"><td>to</td><td>y</td><td></td><td>数値</td><td>複写先のしおり番号</td></tr>
+<tr class="y"><td>from</td><td>y</td><td></td><td>0〜</td><td>複写元のしおり番号</td></tr>
+<tr class="y"><td>to</td><td>y</td><td></td><td>0〜</td><td>複写先のしおり番号</td></tr>
 </table>
 
 </p>
@@ -2254,7 +2260,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	セーブデータパスに place 属性と同名のフォルダがあれば削除する
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>place</td><td>y</td><td></td><td>数値</td><td>処理対象のしおり番号</td></tr>
+<tr class="y"><td>place</td><td>y</td><td></td><td>0〜</td><td>処理対象のしおり番号</td></tr>
 </table>
 
 </p>
@@ -2263,8 +2269,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>place</td><td>y</td><td></td><td>数値</td><td>処理対象のしおり番号</td></tr>
-<tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>ロード後最初にしたい共通処理をコールする（処理は[return]で終わらせる）。指定方法は[jump]と同様。<br/>ただし指定する際、fnとlabelは両方指定しなければならない。</td></tr>
+<tr class="y"><td>place</td><td>y</td><td></td><td>0〜</td><td>処理対象のしおり番号</td></tr>
+<tr><td>fn</td><td>...</td><td>...</td><td>...</td><td>ロード後最初にしたい共通処理をコールする（処理は[return]で終わらせる）。指定方法は[jump]と同様。<br/>ただし指定する際、fnとlabelは両方指定しなければならない</td></tr>
 </table>
 
 </p>
@@ -2277,8 +2283,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	<br/>
 	※マクロやサブルーチン内に記述された場合、最初に積まれたコールスタック位置をセーブポイントとする。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>保存対象レイヤ名（カンマ区切りで複数可能）</td><td>しおりに状態を保存するレイヤ。Save/Load画面レイヤや設定画面レイヤなど、保存すべきでないレイヤを除いて指定すべき</td></tr>
-<tr><td>reset_sound</td><td></td><td>true</td><td>Boolean</td><td>全てのサウンドを停止・再度再生開始するか</td></tr>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（カンマ区切りで複数可）</td><td>しおりに状態を保存するレイヤ。Save/Load画面レイヤや設定画面レイヤなど、保存すべきでないレイヤを除いて指定すべき</td></tr>
+<tr><td>reset_sound</td><td></td><td>true</td><td>true、false</td><td>全てのサウンドを停止・再度再生開始するか</td></tr>
 </table>
 
 </p>
@@ -2304,8 +2310,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	<a href="tag.htm#record_place" target="_blank" rel="noopener">[record_place]</a>がゲーム状態（レイヤ状態など）をバッファに退避し、<br/>
 	<a href="tag.htm#save" target="_blank" rel="noopener">[save]</a>は指定しおりに書き出す機能。<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>place</td><td>y</td><td></td><td>数値</td><td>処理対象のしおり番号</td></tr>
-<tr><td>path</td><td></td><td>従来通り SharedObjectに保存</td><td>フォルダパス</td><td>指定した場合、しおりをファイルとしてフォルダパス下に保存する。</td></tr>
+<tr class="y"><td>place</td><td>y</td><td></td><td>0〜</td><td>処理対象のしおり番号</td></tr>
+<tr><td>path</td><td></td><td>従来通り SharedObjectに保存</td><td>フォルダパス</td><td>指定した場合、しおりをファイルとしてフォルダパス下に保存する</td></tr>
 </table>
 
 </p>
@@ -2318,13 +2324,13 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table>
 <tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>time</td><td>y</td><td></td><td>ミリ秒数</td><td>揺らす時間</td></tr>
-<tr><td>hmax</td><td></td><td>10</td><td>Integer</td><td>横方向の最大揺らし幅。幅はランダム値を取る</td></tr>
-<tr><td>vmax</td><td></td><td>10</td><td>Integer</td><td>縦方向の最大揺らし幅。幅はランダム値を取る</td></tr>
-<tr><td>delay</td><td></td><td>0</td><td>ミリ秒数</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
-<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0以下で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう。</td></tr>
-<tr><td>ease</td><td></td><td>Linear.None（イージング無し）</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
-<tr><td>yoyo</td><td></td><td>false</td><td>Boolean</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
+<tr class="y"><td>time</td><td>y</td><td></td><td>0〜；ミリ秒</td><td>揺らす時間</td></tr>
+<tr><td>hmax</td><td></td><td>10</td><td>0〜</td><td>横方向の最大揺らし幅。幅はランダム値を取る</td></tr>
+<tr><td>vmax</td><td></td><td>10</td><td>0〜</td><td>縦方向の最大揺らし幅。幅はランダム値を取る</td></tr>
+<tr><td>delay</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
+<tr><td>repeat</td><td></td><td>1</td><td>0〜</td><td>繰返し回数。0以下で無限ループ。1を設定すると「繰り返しなし」、2を設定すると「二回同じ動き」を行なう</td></tr>
+<tr><td>ease</td><td></td><td>Linear.None</td><td>イージング名</td><td>揺れのイージング（値の変化の仕方）を指定する。<br/><a href="https://createjs.com/demos/tweenjs/tween_sparktable" target="_blank" rel="noopener">イージングの変化はこちらの図</a>（または<a href="https://sole.github.io/tween.js/examples/03_graphs.html" target="_blank" rel="noopener">こちら</a>）が分かりやすい。<br/>指定できる値は<a href="tag.htm#tsy" target="_blank" rel="noopener">[tsy]</a>を参照</td></tr>
+<tr><td>yoyo</td><td></td><td>false</td><td>true、false</td><td>（暫定）ヨーヨーのように逆方向に戻って繰り返す</td></tr>
 </table>
 
 </p>
@@ -2332,7 +2338,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h4>画面揺らしを中断する</h4>
 <p class="mb2 px1">
 
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
 
 </p>
 <h2 id="wq" class="w-heading">[wq]画面揺らし終了待ち</h2>
@@ -2340,7 +2346,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 	[event]などでイベントが登録されていても、イベント発生待ちを行わない。<br/>
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td></td><td>true</td><td>Boolean</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
+	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>クリックなど（→詳細は<a href="tag.htm#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
 	</table>
 
 </p>
@@ -2382,8 +2388,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>fn</td><td>y</td><td></td><td>ファイル名</td><td>読み込むプラグインのファイル名<br/>（拡張子はcssのみ、Webフォント用）</td></tr>
-<tr><td>join</td><td></td><td>true</td><td>Boolean</td><td>trueで読み込みを待って次のタグへ進む。</td></tr>
+<tr class="y"><td>fn</td><td>y</td><td></td><td>CSSファイルURL</td><td>読み込むプラグインのファイル名<br/>（拡張子はcssのみ、Webフォント用）</td></tr>
+<tr><td>join</td><td></td><td>true</td><td>true、false</td><td>trueで読み込みを待って次のタグへ進む</td></tr>
 </table>
 
 </p>
@@ -2391,7 +2397,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>url</td><td>y</td><td></td><td>URL文字列</td><td>開くURL</td></tr>
+<tr class="y"><td>url</td><td>y</td><td></td><td>ブラウザで開けるURL</td><td>開くURL</td></tr>
 </table>
 
 </p>
@@ -2405,12 +2411,12 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	※文字の表示とスナップショットは、厳密には同じではないので注意。<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（半角カンマ区切りで複数レイヤを指定可能）</td><td></td></tr>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（カンマ区切りで複数可）</td><td></td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr><td>fn</td><td></td><td>snapshot</td><td>String</td><td>※保存するファイル名<br/>省略時はデスクトップに保存<br/>保存する画像フォーマット（png、jpg）は拡張子で指定</td></tr>
-<tr><td>width</td><td></td><td>アプリ表示部分の横サイズ</td><td>1〜</td><td>保存する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>height</td><td></td><td>アプリ表示部分の縦サイズ</td><td>1〜</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される。</td></tr>
-<tr><td>smoothing</td><td></td><td>false</td><td>Boolean</td><td>拡大・縮小保存される場合、スムージングするか</td></tr>
+<tr><td>fn</td><td></td><td>snapshot</td><td>保存するファイル名</td><td>省略時はデスクトップに保存<br/>保存する画像フォーマット（png、jpg）は拡張子で指定</td></tr>
+<tr><td>width</td><td></td><td>アプリ表示部分の横サイズ</td><td>1〜；横幅</td><td>保存する画像の横ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
+<tr><td>height</td><td></td><td>アプリ表示部分の縦サイズ</td><td>1〜；縦幅</td><td>保存する画像の縦ドットサイズ。<br/>元のサイズと異なる場合は拡大・縮小される</td></tr>
+<tr><td>smoothing</td><td></td><td>false</td><td>true、false</td><td>拡大・縮小保存される場合、スムージングするか</td></tr>
 <tr><td>b_color</td><td></td><td>config.anprjで指定した背景色</td><td>色指定。0xFF000000（黒）など<br/>16進数では透過2桁＋赤2桁＋緑2桁＋青2桁で指定</td><td>テキスト背後の矩形色。pngで 0x0 にすると透過する。<br/>透過しない黒は 0xFF000000</td></tr>
 </table>
 
@@ -2428,7 +2434,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>タイトル文字列</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>タイトル文字列</td></tr>
 </table>
 
 </p>
@@ -2438,7 +2444,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <p>現在の状態は文字列変数「tmp:const.sn.displayState」で分かる。trueならフルスクリーン</p>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>key</td><td></td><td>イベント登録せずモード切替</td><td>イベントのキー名※1</td><td>イベントを発生させるトリガーイベントを予約する。<br/>key属性の値は<a href="tag.htm#event" target="_blank" rel="noopener">[event]</a>を参照</td></tr>
+<tr><td>key</td><td></td><td>イベント登録せずモード切替</td><td>イベントのキー名</td><td>イベントを発生させるトリガーイベントを予約する。<br/>key属性の値は<a href="tag.htm#event" target="_blank" rel="noopener">[event]</a>を参照</td></tr>
 </table>
 
 </p>
@@ -2454,7 +2460,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	<amp-img src="pic/updchk_setting2.png" width="664" height="584" layout="responsive"></amp-img>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>url</td><td>y</td><td></td><td>String</td><td>latest(-mac).ymlや、dmg(exe)を置いたWebサーバーのフォルダURLを指定する。終端は「/」をつけること。</td></tr>
+<tr class="y"><td>url</td><td>y</td><td></td><td>URL文字列</td><td>latest(-mac).ymlや、dmg(exe)を置いたWebサーバーのフォルダURLを指定する。終端は「/」をつけること</td></tr>
 </table>
 
 	Webサーバーの準備方法を説明します。<br/>
@@ -2473,7 +2479,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	　exeやdmgが build/package/ フォルダに生成されますが、いっしょに build/package/update フォルダが新たに生成され、「新しいアップデート機能」に必要なファイルがまとめられています。<br/>
 	<br/>
 
-	<amp-img src="pic/updchk_finder2.png" width="1692" height="144" layout="responsive"></amp-img>
+	<amp-img src="pic/updchk_finder2.png" width="1692" height="344" layout="responsive"></amp-img>
 	　_index.json は OS 違いや CPU アーキテクチャ違いでも一つのファイルです。<br/>
 	　他はファイル名を暗号化したアプリファイル（OS + Arch + 乱数文字列）です。<br/>
 	（内容に変更なくても、生成するたびに乱数文字列とファイル名は変わります）<br/>
@@ -2567,12 +2573,12 @@ Linuxは 100MB 越えなので上げられていません。</p></blockquote>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>width</td><td></td><td>現在値</td><td>1〜</td><td>アプリウインドウの横幅を指定</td></tr>
-<tr><td>height</td><td></td><td>現在値</td><td>1〜</td><td>アプリウインドウの高さを指定</td></tr>
+<tr><td>width</td><td></td><td>現在値</td><td>1〜；横幅</td><td>アプリウインドウの横幅を指定</td></tr>
+<tr><td>height</td><td></td><td>現在値</td><td>1〜；縦幅</td><td>アプリウインドウの高さを指定</td></tr>
 <tr><td>framerate</td><td></td><td>現在値</td><td>1〜</td><td>アプリ全体のフレームレートを変更</td></tr>
-<tr><td>centering</td><td></td><td>何もしない</td><td>Boolean</td><td>trueを指定すると、アプリウインドウをデスクトップの中央に移動する</td></tr>
-<tr><td>x</td><td></td><td>何もしない</td><td>画面左上を(0, 0)とする座標</td><td>デスクトップにおけるアプリウインドウの横位置を指定</td></tr>
-<tr><td>y</td><td></td><td>何もしない</td><td>(↑と同じ)</td><td>デスクトップにおけるアプリウインドウの縦位置を指定</td></tr>
+<tr><td>centering</td><td></td><td>何もしない</td><td>true、false</td><td>trueを指定すると、アプリウインドウをデスクトップの中央に移動する</td></tr>
+<tr><td>x</td><td></td><td>何もしない</td><td>実数；横座標</td><td>デスクトップにおけるアプリウインドウの横位置を指定</td></tr>
+<tr><td>y</td><td></td><td>何もしない</td><td>実数；縦座標</td><td>デスクトップにおけるアプリウインドウの縦位置を指定</td></tr>
 </table>
 
 </p>
@@ -2584,7 +2590,7 @@ Linuxは 100MB 越えなので上げられていません。</p></blockquote>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名</td><td>デバッグ表示するレイヤ名を指定。半角カンマ区切りで複数レイヤを指定可能</td></tr>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（カンマ区切りで複数可）</td><td>デバッグ表示するレイヤ名を指定。半角カンマ区切りで複数レイヤを指定可能</td></tr>
 </table>
 
 </p>
@@ -2596,7 +2602,7 @@ Linuxは 100MB 越えなので上げられていません。</p></blockquote>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>set_fnc</td><td>y</td><td></td><td>GlobalThis要素名</td><td>...（内部APIにつき説明省略）</td></tr>
-<tr><td>need_err</td><td></td><td>true</td><td>Boolean</td><td>
+<tr><td>need_err</td><td></td><td>true</td><td>true、false</td><td>
 	HTML内にセレクタ（set_fnc属性）に対応する要素が見つからない場合にエラーを出すか
 </td></tr>
 </table>
@@ -2618,7 +2624,7 @@ Linuxは 100MB 越えなので上げられていません。</p></blockquote>
 
 	Web版でもログファイルをダウンロードします。ただし連続だと間隔が開いてないと失敗します。
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>ログ出力する値</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>ログ出力する値</td></tr>
 </table>
 
 </p>
@@ -2627,7 +2633,7 @@ Linuxは 100MB 越えなので上げられていません。</p></blockquote>
 <p class="mb2 px1">
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>String</td><td>デバッグ表示する値</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>文字列</td><td>デバッグ表示する値</td></tr>
 </table>
 
 </p>
