@@ -1,3 +1,10 @@
+# [1.50.0](https://github.com/famibee/SKYNovel/compare/v1.49.2...v1.50.0) (2024-04-21)
+
+
+### Features
+
+* **組み込み変数:** const.sn.fn2ext.json 追加。ファイル名から拡張子がわかる json文字列。frame の HTML ファイルなどで必要なため ([f0f41b9](https://github.com/famibee/SKYNovel/commit/f0f41b97a2febbe201d2fa654da3b05e023590ee))
+
 - feat(組み込み変数): const.sn.fn2ext.json 追加。ファイル名から拡張子がわかる json文字列。frame の HTML ファイルなどで必要なため
 - docs(開発者情報): 組み込み変数の説明を拡張機能v4.16.0準拠に
 - docs(タグリファレンス): 引数説明を拡張機能v4.16.0準拠に
