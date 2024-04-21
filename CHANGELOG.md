@@ -1,3 +1,6 @@
+- fix: 非暗号化時に const.sn.fn2ext.json をセットしていなかった件
+
+
 # [1.50.0](https://github.com/famibee/SKYNovel/compare/v1.49.2...v1.50.0) (2024-04-21)
 
 

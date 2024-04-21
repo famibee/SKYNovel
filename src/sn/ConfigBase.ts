@@ -158,9 +158,17 @@ export class ConfigBase implements IConfig {
 
 		this.#existsBreakline = this.matchPath('^breakline$', SEARCH_PATH_ARG_EXT.SP_GSM).length > 0;
 		this.#existsBreakpage = this.matchPath('^breakpage$', SEARCH_PATH_ARG_EXT.SP_GSM).length > 0;
-		if (! this.sys.crypto) return;
 
 		const hFn2Ext: {[fn: string]: string}	= {};
+		if (! this.sys.crypto) {
+			for (const [fn0, hExts] of Object.entries(this.hPathFn2Exts)) {
+				for (const ext of Object.keys(hExts)) {
+					if (ext.charAt(0) === ':') continue;
+					hFn2Ext[fn0] = ext;
+				}
+			}
+		}
+		else
 		for (const [fn0, hExts] of Object.entries(this.hPathFn2Exts)) {
 			for (const [ext, v] of Object.entries(hExts)) {
 				if (ext.charAt(0) !== ':') {

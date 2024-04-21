@@ -17497,7 +17497,7 @@ class ConfigBase {
     return this.#t;
   }
   async load(t) {
-    if (this.oCfg.save_ns = t?.save_ns ?? this.oCfg.save_ns, this.oCfg.window.width = Number(t?.window?.width ?? this.oCfg.window.width), this.oCfg.window.height = Number(t?.window?.height ?? this.oCfg.window.height), this.oCfg.book = { ...this.oCfg.book, ...t.book }, this.oCfg.log.max_len = t.log?.max_len?.max_len ?? this.oCfg.log.max_len, this.oCfg.init = { ...this.oCfg.init, ...t.init }, this.oCfg.debug = { ...this.oCfg.debug, ...t.debug }, this.oCfg.debuger_token = t.debuger_token, await this.sys.loadPath(this.hPathFn2Exts, this), this.#e = this.matchPath(
+    this.oCfg.save_ns = t?.save_ns ?? this.oCfg.save_ns, this.oCfg.window.width = Number(t?.window?.width ?? this.oCfg.window.width), this.oCfg.window.height = Number(t?.window?.height ?? this.oCfg.window.height), this.oCfg.book = { ...this.oCfg.book, ...t.book }, this.oCfg.log.max_len = t.log?.max_len?.max_len ?? this.oCfg.log.max_len, this.oCfg.init = { ...this.oCfg.init, ...t.init }, this.oCfg.debug = { ...this.oCfg.debug, ...t.debug }, this.oCfg.debuger_token = t.debuger_token, await this.sys.loadPath(this.hPathFn2Exts, this), this.#e = this.matchPath(
       "^breakline$",
       "png|jpg|jpeg|json|svg|webp|mp4|webm"
       /* SP_GSM */
@@ -17505,21 +17505,25 @@ class ConfigBase {
       "^breakpage$",
       "png|jpg|jpeg|json|svg|webp|mp4|webm"
       /* SP_GSM */
-    ).length > 0, !this.sys.crypto)
-      return;
+    ).length > 0;
     const e = {};
-    for (const [r, N] of Object.entries(this.hPathFn2Exts))
-      for (const [k, D] of Object.entries(N)) {
-        if (k.charAt(0) !== ":") {
-          e[r] = k;
-          continue;
+    if (this.sys.crypto)
+      for (const [r, N] of Object.entries(this.hPathFn2Exts))
+        for (const [k, D] of Object.entries(N)) {
+          if (k.charAt(0) !== ":") {
+            e[r] = k;
+            continue;
+          }
+          if (k.slice(-3) !== ":id")
+            continue;
+          const B = D.slice(D.lastIndexOf("/") + 1), $ = N[k.slice(0, -10)], H = await (await this.sys.fetch($)).text(), z = this.sys.hash(H);
+          if (B !== z)
+            throw `ファイル改竄エラーです fn:${$}`;
         }
-        if (k.slice(-3) !== ":id")
-          continue;
-        const B = D.slice(D.lastIndexOf("/") + 1), $ = N[k.slice(0, -10)], H = await (await this.sys.fetch($)).text(), z = this.sys.hash(H);
-        if (B !== z)
-          throw `ファイル改竄エラーです fn:${$}`;
-      }
+    else
+      for (const [r, N] of Object.entries(this.hPathFn2Exts))
+        for (const k of Object.keys(N))
+          k.charAt(0) !== ":" && (e[r] = k);
     this.#t = JSON.stringify(e);
   }
   #e = !1;
