@@ -1,3 +1,10 @@
+## [1.50.1](https://github.com/famibee/SKYNovel/compare/v1.50.0...v1.50.1) (2024-04-21)
+
+
+### Bug Fixes
+
+* 非暗号化時に const.sn.fn2ext.json をセットしていなかった件 ([65eba71](https://github.com/famibee/SKYNovel/commit/65eba718e3e2e74f3246f8f0e8da5e74c58d06a3))
+
 - fix: 非暗号化時に const.sn.fn2ext.json をセットしていなかった件
 
 
