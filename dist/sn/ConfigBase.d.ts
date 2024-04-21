@@ -85,6 +85,7 @@ export declare class ConfigBase implements IConfig {
     oCfg: T_CFG;
     userFnTail: string;
     protected hPathFn2Exts: IFn2Path;
+    get jsFn2Ext(): string;
     constructor(sys: ISysRoots);
     load(oCfg: any): Promise<void>;
     get existsBreakline(): boolean;

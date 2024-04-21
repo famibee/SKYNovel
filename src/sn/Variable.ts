@@ -107,6 +107,8 @@ export class Variable implements IVariable {
 		this.#hTmp['const.sn.config.book.title'] = cfg.oCfg.book.title;
 		this.#hTmp['const.sn.config.book.version'] = cfg.oCfg.book.version;
 
+		this.#hTmp['const.sn.fn2ext.json'] = cfg.jsFn2Ext;
+
 		this.#hTmp['const.sn.Math.PI'] = Math.PI;
 
 

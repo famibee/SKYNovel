@@ -130,7 +130,8 @@ export class ConfigBase implements IConfig {
 
 	userFnTail		= '';	// 4tst public
 	protected	hPathFn2Exts	: IFn2Path	= {};
-
+				#jsFn2Ext		: string;
+	get	jsFn2Ext(): string {return this.#jsFn2Ext}
 
 	constructor(readonly sys: ISysRoots) {}
 	async load(oCfg: any) {
@@ -159,8 +160,13 @@ export class ConfigBase implements IConfig {
 		this.#existsBreakpage = this.matchPath('^breakpage$', SEARCH_PATH_ARG_EXT.SP_GSM).length > 0;
 		if (! this.sys.crypto) return;
 
-		for (const hExts of Object.values(this.hPathFn2Exts)) {
+		const hFn2Ext: {[fn: string]: string}	= {};
+		for (const [fn0, hExts] of Object.entries(this.hPathFn2Exts)) {
 			for (const [ext, v] of Object.entries(hExts)) {
+				if (ext.charAt(0) !== ':') {
+					hFn2Ext[fn0] = ext;
+					continue;
+				}
 				if (ext.slice(-3) !== ':id') continue;
 				const hp = v.slice(v.lastIndexOf('/') +1);
 				const fn = hExts[ext.slice(0, -10)];
@@ -170,6 +176,7 @@ export class ConfigBase implements IConfig {
 				if (hp !== hf) throw `ファイル改竄エラーです fn:${fn}`;
 			}
 		}
+		this.#jsFn2Ext = JSON.stringify(hFn2Ext);
 	}
 	#existsBreakline = false;
 	get existsBreakline(): boolean {return this.#existsBreakline}

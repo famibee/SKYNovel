@@ -1757,7 +1757,7 @@ var punycodeExports = punycode$1.exports, esErrors = Error, _eval = EvalError, r
     r[k + t.length] = e[k];
   return r;
 }, slicy = function(t, e) {
-  for (var r = [], N = e || 0, k = 0; N < t.length; N += 1, k += 1)
+  for (var r = [], N = e, k = 0; N < t.length; N += 1, k += 1)
     r[k] = t[N];
   return r;
 }, joiny = function(o, t) {
@@ -3426,9 +3426,9 @@ function premultiplyTintToRgba(o, t, e, r) {
   return e = e || new Float32Array(4), e[0] = (o >> 16 & 255) / 255, e[1] = (o >> 8 & 255) / 255, e[2] = (o & 255) / 255, (r || r === void 0) && (e[0] *= t, e[1] *= t, e[2] *= t), e[3] = t, e;
 }
 function createIndicesForQuads(o, t) {
-  t === void 0 && (t = null);
+  t = null;
   var e = o * 6;
-  if (t = t || new Uint16Array(e), t.length !== e)
+  if (t = new Uint16Array(e), t.length !== e)
     throw new Error("Out buffer length is incorrect, got " + t.length + " and expected " + e);
   for (var r = 0, N = 0; r < e; r += 6, N += 4)
     t[r + 0] = N + 0, t[r + 1] = N + 1, t[r + 2] = N + 2, t[r + 3] = N + 0, t[r + 4] = N + 2, t[r + 5] = N + 3;
@@ -3475,7 +3475,7 @@ function uid() {
 }
 var warnings = {};
 function deprecation(o, t, e) {
-  if (e === void 0 && (e = 3), !warnings[t]) {
+  if (e = 3, !warnings[t]) {
     var r = new Error().stack;
     typeof r > "u" ? console.warn("PixiJS Deprecation Warning: ", t + `
 Deprecated since v` + o) : (r = r.split(`
@@ -3553,9 +3553,9 @@ function trimCanvas(o) {
 }
 var tempAnchor$1;
 function determineCrossOrigin(o, t) {
-  if (t === void 0 && (t = globalThis.location), o.indexOf("data:") === 0)
+  if (t = globalThis.location, o.indexOf("data:") === 0)
     return "";
-  t = t || globalThis.location, tempAnchor$1 || (tempAnchor$1 = document.createElement("a")), tempAnchor$1.href = o;
+  t = globalThis.location, tempAnchor$1 || (tempAnchor$1 = document.createElement("a")), tempAnchor$1.href = o;
   var e = url$1.parse(tempAnchor$1.href), r = !e.port && t.port === "" || e.port === t.port;
   return e.hostname !== t.hostname || !r || e.protocol !== t.protocol ? "anonymous" : "";
 }
@@ -8580,7 +8580,7 @@ var UID = 0, defaultSyncData = { textureCount: 0, uboCount: 0 }, ShaderSystem = 
   }()
 );
 function mapWebGLBlendModesToPixi(o, t) {
-  return t === void 0 && (t = []), t[BLEND_MODES.NORMAL] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.ADD] = [o.ONE, o.ONE], t[BLEND_MODES.MULTIPLY] = [o.DST_COLOR, o.ONE_MINUS_SRC_ALPHA, o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SCREEN] = [o.ONE, o.ONE_MINUS_SRC_COLOR, o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.OVERLAY] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.DARKEN] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.LIGHTEN] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.COLOR_DODGE] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.COLOR_BURN] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.HARD_LIGHT] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SOFT_LIGHT] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.DIFFERENCE] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.EXCLUSION] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.HUE] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SATURATION] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.COLOR] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.LUMINOSITY] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.NONE] = [0, 0], t[BLEND_MODES.NORMAL_NPM] = [o.SRC_ALPHA, o.ONE_MINUS_SRC_ALPHA, o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.ADD_NPM] = [o.SRC_ALPHA, o.ONE, o.ONE, o.ONE], t[BLEND_MODES.SCREEN_NPM] = [o.SRC_ALPHA, o.ONE_MINUS_SRC_COLOR, o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SRC_IN] = [o.DST_ALPHA, o.ZERO], t[BLEND_MODES.SRC_OUT] = [o.ONE_MINUS_DST_ALPHA, o.ZERO], t[BLEND_MODES.SRC_ATOP] = [o.DST_ALPHA, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.DST_OVER] = [o.ONE_MINUS_DST_ALPHA, o.ONE], t[BLEND_MODES.DST_IN] = [o.ZERO, o.SRC_ALPHA], t[BLEND_MODES.DST_OUT] = [o.ZERO, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.DST_ATOP] = [o.ONE_MINUS_DST_ALPHA, o.SRC_ALPHA], t[BLEND_MODES.XOR] = [o.ONE_MINUS_DST_ALPHA, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SUBTRACT] = [o.ONE, o.ONE, o.ONE, o.ONE, o.FUNC_REVERSE_SUBTRACT, o.FUNC_ADD], t;
+  return t = [], t[BLEND_MODES.NORMAL] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.ADD] = [o.ONE, o.ONE], t[BLEND_MODES.MULTIPLY] = [o.DST_COLOR, o.ONE_MINUS_SRC_ALPHA, o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SCREEN] = [o.ONE, o.ONE_MINUS_SRC_COLOR, o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.OVERLAY] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.DARKEN] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.LIGHTEN] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.COLOR_DODGE] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.COLOR_BURN] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.HARD_LIGHT] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SOFT_LIGHT] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.DIFFERENCE] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.EXCLUSION] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.HUE] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SATURATION] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.COLOR] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.LUMINOSITY] = [o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.NONE] = [0, 0], t[BLEND_MODES.NORMAL_NPM] = [o.SRC_ALPHA, o.ONE_MINUS_SRC_ALPHA, o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.ADD_NPM] = [o.SRC_ALPHA, o.ONE, o.ONE, o.ONE], t[BLEND_MODES.SCREEN_NPM] = [o.SRC_ALPHA, o.ONE_MINUS_SRC_COLOR, o.ONE, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SRC_IN] = [o.DST_ALPHA, o.ZERO], t[BLEND_MODES.SRC_OUT] = [o.ONE_MINUS_DST_ALPHA, o.ZERO], t[BLEND_MODES.SRC_ATOP] = [o.DST_ALPHA, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.DST_OVER] = [o.ONE_MINUS_DST_ALPHA, o.ONE], t[BLEND_MODES.DST_IN] = [o.ZERO, o.SRC_ALPHA], t[BLEND_MODES.DST_OUT] = [o.ZERO, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.DST_ATOP] = [o.ONE_MINUS_DST_ALPHA, o.SRC_ALPHA], t[BLEND_MODES.XOR] = [o.ONE_MINUS_DST_ALPHA, o.ONE_MINUS_SRC_ALPHA], t[BLEND_MODES.SUBTRACT] = [o.ONE, o.ONE, o.ONE, o.ONE, o.FUNC_REVERSE_SUBTRACT, o.FUNC_ADD], t;
 }
 var BLEND = 0, OFFSET = 1, CULLING = 2, DEPTH_TEST = 3, WINDING = 4, DEPTH_MASK = 5, StateSystem = (
   /** @class */
@@ -10985,7 +10985,7 @@ function __awaiter(o, t, e, r) {
     function U(H) {
       H.done ? k(H.value) : N(H.value).then(B, $);
     }
-    U((r = r.apply(o, t || [])).next());
+    U((r = r.apply(o, [])).next());
   });
 }
 function __generator(o, t) {
@@ -17492,44 +17492,55 @@ class ConfigBase {
   userFnTail = "";
   // 4tst public
   hPathFn2Exts = {};
+  #t;
+  get jsFn2Ext() {
+    return this.#t;
+  }
   async load(t) {
-    if (this.oCfg.save_ns = t?.save_ns ?? this.oCfg.save_ns, this.oCfg.window.width = Number(t?.window?.width ?? this.oCfg.window.width), this.oCfg.window.height = Number(t?.window?.height ?? this.oCfg.window.height), this.oCfg.book = { ...this.oCfg.book, ...t.book }, this.oCfg.log.max_len = t.log?.max_len?.max_len ?? this.oCfg.log.max_len, this.oCfg.init = { ...this.oCfg.init, ...t.init }, this.oCfg.debug = { ...this.oCfg.debug, ...t.debug }, this.oCfg.debuger_token = t.debuger_token, await this.sys.loadPath(this.hPathFn2Exts, this), this.#t = this.matchPath(
+    if (this.oCfg.save_ns = t?.save_ns ?? this.oCfg.save_ns, this.oCfg.window.width = Number(t?.window?.width ?? this.oCfg.window.width), this.oCfg.window.height = Number(t?.window?.height ?? this.oCfg.window.height), this.oCfg.book = { ...this.oCfg.book, ...t.book }, this.oCfg.log.max_len = t.log?.max_len?.max_len ?? this.oCfg.log.max_len, this.oCfg.init = { ...this.oCfg.init, ...t.init }, this.oCfg.debug = { ...this.oCfg.debug, ...t.debug }, this.oCfg.debuger_token = t.debuger_token, await this.sys.loadPath(this.hPathFn2Exts, this), this.#e = this.matchPath(
       "^breakline$",
       "png|jpg|jpeg|json|svg|webp|mp4|webm"
       /* SP_GSM */
-    ).length > 0, this.#e = this.matchPath(
+    ).length > 0, this.#r = this.matchPath(
       "^breakpage$",
       "png|jpg|jpeg|json|svg|webp|mp4|webm"
       /* SP_GSM */
-    ).length > 0, !!this.sys.crypto)
-      for (const e of Object.values(this.hPathFn2Exts))
-        for (const [r, N] of Object.entries(e)) {
-          if (r.slice(-3) !== ":id")
-            continue;
-          const k = N.slice(N.lastIndexOf("/") + 1), D = e[r.slice(0, -10)], $ = await (await this.sys.fetch(D)).text(), U = this.sys.hash($);
-          if (k !== U)
-            throw `ファイル改竄エラーです fn:${D}`;
+    ).length > 0, !this.sys.crypto)
+      return;
+    const e = {};
+    for (const [r, N] of Object.entries(this.hPathFn2Exts))
+      for (const [k, D] of Object.entries(N)) {
+        if (k.charAt(0) !== ":") {
+          e[r] = k;
+          continue;
         }
-  }
-  #t = !1;
-  get existsBreakline() {
-    return this.#t;
+        if (k.slice(-3) !== ":id")
+          continue;
+        const B = D.slice(D.lastIndexOf("/") + 1), $ = N[k.slice(0, -10)], H = await (await this.sys.fetch($)).text(), z = this.sys.hash(H);
+        if (B !== z)
+          throw `ファイル改竄エラーです fn:${$}`;
+      }
+    this.#t = JSON.stringify(e);
   }
   #e = !1;
-  get existsBreakpage() {
+  get existsBreakline() {
     return this.#e;
+  }
+  #r = !1;
+  get existsBreakpage() {
+    return this.#r;
   }
   getNs() {
     return `skynovel.${this.oCfg.save_ns} - `;
   }
-  #r = /([^\/\s]+)\.([^\d]\w+)/;
+  #i = /([^\/\s]+)\.([^\d]\w+)/;
   // 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
   searchPath(t, e = "") {
     if (!t)
       throw "[searchPath] fnが空です";
     if (t.slice(0, 7) === "http://")
       return t;
-    const r = t.match(this.#r);
+    const r = t.match(this.#i);
     let N = r ? r[1] : t;
     const k = r ? r[2] : "";
     if (this.userFnTail) {
@@ -18871,7 +18882,7 @@ class Variable {
         B.place = D, k.push(B);
       }
       return JSON.stringify(k);
-    }), this.#r["const.sn.isFirstBoot"] = !0, this.#r["const.sn.last_page_text"] = "", this.#r["const.sn.last_page_plain_text"] = "", this.#r["const.sn.displayState"] = !1, this.#r["const.Date.getTime"] = () => (/* @__PURE__ */ new Date()).getTime(), this.#r["const.Date.getDateStr"] = () => getDateStr(), this.#r["const.sn.platform"] = JSON.stringify(platform), this.#A(), this.#T(), this.#r["const.sn.config.window.width"] = t.oCfg.window.width, this.#r["const.sn.config.window.height"] = t.oCfg.window.height, this.#r["const.sn.config.book.title"] = t.oCfg.book.title, this.#r["const.sn.config.book.version"] = t.oCfg.book.version, this.#r["const.sn.Math.PI"] = Math.PI, typeof window > "u")
+    }), this.#r["const.sn.isFirstBoot"] = !0, this.#r["const.sn.last_page_text"] = "", this.#r["const.sn.last_page_plain_text"] = "", this.#r["const.sn.displayState"] = !1, this.#r["const.Date.getTime"] = () => (/* @__PURE__ */ new Date()).getTime(), this.#r["const.Date.getDateStr"] = () => getDateStr(), this.#r["const.sn.platform"] = JSON.stringify(platform), this.#A(), this.#T(), this.#r["const.sn.config.window.width"] = t.oCfg.window.width, this.#r["const.sn.config.window.height"] = t.oCfg.window.height, this.#r["const.sn.config.book.title"] = t.oCfg.book.title, this.#r["const.sn.config.book.version"] = t.oCfg.book.version, this.#r["const.sn.fn2ext.json"] = t.jsFn2Ext, this.#r["const.sn.Math.PI"] = Math.PI, typeof window > "u")
       return;
     const r = window, N = r.AudioContext ?? r.webkitAudioContext;
     this.#r["const.sn.needClick2Play"] = () => new N().state === "suspended";
@@ -25193,7 +25204,7 @@ function getScrollParent(o) {
 }
 function listScrollParents(o, t) {
   var e;
-  t === void 0 && (t = []);
+  t = [];
   var r = getScrollParent(o), N = r === ((e = o.ownerDocument) == null ? void 0 : e.body), k = getWindow(r), D = N ? [k].concat(k.visualViewport || [], isScrollParent(r) ? r : []) : r, B = t.concat(D);
   return N ? B : (
     // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here

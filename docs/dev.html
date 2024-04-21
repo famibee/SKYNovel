@@ -657,13 +657,14 @@
 	例えば「&sn.auto.enabled=true」は自動読みすすみモードを有効にします。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>save:const.sn.autowc.enabled</td><td>false</td><td>Boolean</td><td>[<a href="tag.htm#current" target="_blank" rel="noopener">autowc</a>]（文字ごとのウェイト）enabled属性で指定した値。</td></tr>
-<tr><td>save:const.sn.autowc.text</td><td rowspan="2">''</td><td rowspan="2">String</td><td rowspan="2">[<a href="tag.htm#current" target="_blank" rel="noopener">autowc</a>]（文字ごとのウェイト）同名属性で指定した値。<br/>
+<tr><td>save:const.sn.autowc.enabled</td><td>false</td><td>true、false</td><td>[<a href="tag.htm#current" target="_blank" rel="noopener">autowc</a>]（文字ごとのウェイト）enabled属性で指定した値。</td></tr>
+<tr><td>save:const.sn.autowc.text</td><td rowspan="2">''</td><td rowspan="2">文字列</td><td rowspan="2">[<a href="tag.htm#current" target="_blank" rel="noopener">autowc</a>]（文字ごとのウェイト）同名属性で指定した値。<br/>
 カンマ区切りで複数文字設定可能。ただしtextとtimeは常に同数にすること。設定は常にリセット＆上書き<br/>
 [autowc enabled=true text="二六八" time="500,1000,1500"]
 </td></tr>
 <tr><td>save:const.sn.autowc.time</td></tr>
-<tr><td>save:const.sn.mesLayer</td><td>''</td><td>String</td><td>デフォルト文字レイヤ。レイヤ指定を省略した時はこの値が使われる。[<a href="tag.htm#current" target="_blank" rel="noopener">current</a>]で変更できる</td></tr>
+<tr><td>save:const.sn.fn2ext.json</td><td></td><td>json</td><td>ファイル名から拡張子がわかる json文字列。frame の HTML ファイルなどで必要なため</td></tr>
+<tr><td>save:const.sn.mesLayer</td><td>''</td><td>文字列</td><td>デフォルト文字レイヤ。レイヤ指定を省略した時はこの値が使われる。[<a href="tag.htm#current" target="_blank" rel="noopener">current</a>]で変更できる</td></tr>
 <tr><td>save:const.sn.sound.【buf】.fn</td><td>''</td><td>ファイル名</td><td>
 	サウンドバッファの再生ファイル名<br/>
 	任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数
@@ -674,16 +675,16 @@
 	<br/>
 	[volume]での volume属性や、「sys:const.sn.sound.【buf】.volume」は基準音量であり、別物である点に注意
 </td></tr>
-<tr><td>save:sn.doRecLog</td><td>false</td><td>Boolean</td><td>テキストを履歴に記録するか</td></tr>
-<tr><td>save:const.sn.sLog</td><td>'[]'</td><td>String</td><td>
+<tr><td>save:sn.doRecLog</td><td>false</td><td>true、false</td><td>テキストを履歴に記録するか</td></tr>
+<tr><td>save:const.sn.sLog</td><td>'[]'</td><td>文字列</td><td>
 	履歴テキスト<br/>
 	【2019/12/18】内容が const.sn.log.json と同様に。<br/>
 	→以前は、'\f'区切りの妙なフォーマットだった。
 </td></tr>
 <tr><td>save:const.sn.loopPlaying</td><td>'{}'</td><td>json</td><td>ループ中のサウンドバッファ</td></tr>
 <tr><td>save:const.sn.scriptFn</td><td>''</td><td>スクリプト名</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプト名</td></tr>
-<tr><td>save:const.sn.scriptIdx</td><td>0</td><td>Integer</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプトインデックス（行番号ではなく内部トークン単位）</td></tr>
-<tr><td>save:const.sn.layer.（文字レイヤ名）.enabled</td><td>true</td><td>Boolean</td><td>文字レイヤのenabled値</td></tr>
+<tr><td>save:const.sn.scriptIdx</td><td>0</td><td>整数</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプトインデックス（行番号ではなく内部トークン単位）</td></tr>
+<tr><td>save:const.sn.layer.（文字レイヤ名）.enabled</td><td>true</td><td>true、false</td><td>文字レイヤのenabled値</td></tr>
 </table>
 
 <br/>
@@ -721,9 +722,9 @@
 	例えば「&sys:TextLayer.Back.Alpha」はテキストウインドウの背景の濃度を変更できます。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>sys:TextLayer.Back.Alpha</td><td>1</td><td>0.0〜1.0</td><td>バック不透明度。テキストウインドウの背景の濃度。0.0で透明、1.0で不透明。</td></tr>
-<tr><td>sys:const.sn.nativeWindow.x</td><td>0</td><td rowspan="2">画面左上を(0, 0)とする座標</td><td rowspan="2">アプリウインドウの座標。[<a href="tag.htm#window" target="_blank" rel="noopener">window</a>]で変更できる</td></tr>
-<tr><td>sys:const.sn.nativeWindow.y</td><td>0</td></tr>
+<tr><td>sys:TextLayer.Back.Alpha</td><td>1</td><td>0.0〜1.0；透過度</td><td>バック不透明度。テキストウインドウの背景の濃度。0.0で透明、1.0で不透明。</td></tr>
+<tr><td>sys:const.sn.nativeWindow.x</td><td>0</td><td>実数；横座標</td><td rowspan="2">アプリウインドウの座標。画面左上を(0, 0)とする座標。[<a href="tag.htm#window" target="_blank" rel="noopener">window</a>]で変更できる</td></tr>
+<tr><td>sys:const.sn.nativeWindow.y</td><td>0</td><td>実数；縦座標</td></tr>
 <tr><td>sys:const.sn.save.place</td><td>1</td><td>1〜</td><td>次のセーブplaceを示す</td></tr>
 <tr><td>sys:const.sn.sound.BGM.volume</td><td rowspan="4">1</td><td rowspan="4">0.0〜1.0</td><td>BGMの基準音量（buf="BGM"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
 <tr><td>sys:const.sn.sound.SE.volume</td><td>効果音の基準音量（buf="SE"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
@@ -734,11 +735,11 @@
 	<br/>
 	[playse][fadese]系での volume属性や、「save:const.sn.sound.【buf】.volume」は目標音量であり、別物である点に注意
 </td></tr>
-<tr><td>sys:sn.auto.msecLineWait</td><td>500</td><td>Integer</td><td>未読テキストの改行待ち時間（ミリ秒）<br/>※ここでの改行とは[l]の事</td></tr>
-<tr><td>sys:sn.auto.msecLineWait_Kidoku</td><td>500</td><td>Integer</td><td>既読テキストの改行待ち時間（ミリ秒）<br/>※ここでの改行とは[l]の事</td></tr>
-<tr><td>sys:sn.auto.msecPageWait</td><td>3500</td><td>Integer</td><td>未読テキストの改ページ待ち時間（ミリ秒）<br/>※ここでの改ページとは[p]の事</td></tr>
-<tr><td>sys:sn.auto.msecPageWait_Kidoku</td><td>3500</td><td>Integer</td><td>既読テキストの改ページ待ち時間（ミリ秒）<br/>※ここでの改ページとは[p]の事</td></tr>
-<tr><td>sys:sn.skip.mode</td><td>'s'</td><td>String</td><td>スキップモード。<br/>
+<tr><td>sys:sn.auto.msecLineWait</td><td>500</td><td>0〜；ミリ秒</td><td>未読テキストの改行待ち時間（ミリ秒）<br/>※ここでの改行とは[l]の事</td></tr>
+<tr><td>sys:sn.auto.msecLineWait_Kidoku</td><td>500</td><td>0〜；ミリ秒</td><td>既読テキストの改行待ち時間（ミリ秒）<br/>※ここでの改行とは[l]の事</td></tr>
+<tr><td>sys:sn.auto.msecPageWait</td><td>3500</td><td>0〜；ミリ秒</td><td>未読テキストの改ページ待ち時間（ミリ秒）<br/>※ここでの改ページとは[p]の事</td></tr>
+<tr><td>sys:sn.auto.msecPageWait_Kidoku</td><td>3500</td><td>0〜；ミリ秒</td><td>既読テキストの改ページ待ち時間（ミリ秒）<br/>※ここでの改ページとは[p]の事</td></tr>
+<tr><td>sys:sn.skip.mode</td><td>'s'</td><td>文字列</td><td>スキップモード。<br/>
 	sn.skip.enabled = trueの際、改行待ちや改ページ待ちをスキップするかどうかの動作を指定する。<br/>
 	'l' …… 改行待ち=する、改ページ待ち=する<br/>
 	'p' …… 改行待ち=しない、改ページ待ち=する<br/>
@@ -746,11 +747,11 @@
 	（初期値="s"）</td></tr>
 <tr><td>sys:sn.sound.global_volume</td><td>1</td><td>0.0〜1.0</td><td>全体的な音量を設定する。バッファの実際の音量は「sys:const.sn.sound.【buf】.volume」x「save:const.sn.sound.【buf】.volume」x「全体的な音量」の値となる</td></tr>
 <tr><td>sys:sn.sound.movie_volume</td><td>1</td><td>0.0〜1.0</td><td>ムービー音量を設定する。バッファの実際の音量はこの「ムービー音量」x「全体的な音量」の値となる</td></tr>
-<tr><td>sys:sn.tagCh.canskip</td><td>true</td><td>Boolean</td><td>テキストをクリックなどでスキップ可能か</td></tr>
-<tr><td>sys:sn.tagCh.doWait</td><td>true</td><td>Boolean</td><td>未読テキストにウェイトを掛けるか</td></tr>
-<tr><td>sys:sn.tagCh.doWait_Kidoku</td><td>true</td><td>Boolean</td><td>既読テキストにウェイトを掛けるか</td></tr>
-<tr><td>sys:sn.tagCh.msecWait</td><td>10</td><td>Integer</td><td>未読テキスト待ち時間（ミリ秒）</td></tr>
-<tr><td>sys:sn.tagCh.msecWait_Kidoku</td><td>10</td><td>Integer</td><td>既読テキスト待ち時間（ミリ秒）</td></tr>
+<tr><td>sys:sn.tagCh.canskip</td><td>true</td><td>true、false</td><td>テキストをクリックなどでスキップ可能か</td></tr>
+<tr><td>sys:sn.tagCh.doWait</td><td>true</td><td>true、false</td><td>未読テキストにウェイトを掛けるか</td></tr>
+<tr><td>sys:sn.tagCh.doWait_Kidoku</td><td>true</td><td>true、false</td><td>既読テキストにウェイトを掛けるか</td></tr>
+<tr><td>sys:sn.tagCh.msecWait</td><td>10</td><td>0〜；ミリ秒</td><td>未読テキスト待ち時間（ミリ秒）</td></tr>
+<tr><td>sys:sn.tagCh.msecWait_Kidoku</td><td>10</td><td>0〜；ミリ秒</td><td>既読テキスト待ち時間（ミリ秒）</td></tr>
 </table>
 
 </p>
@@ -771,78 +772,78 @@
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>const.Date.getDateStr</td><td>取得の瞬間の日時</td><td>"2019/02/10 15:47"形式</td><td>変数参照時の日時を返す</td></tr>
-<tr><td>const.Date.getTime</td><td>ミリ秒</td><td>Integer</td><td>JavaScriptの(new Date).getTime()</td></tr>
-<tr><td>const.sn.bookmark.json</td><td>'[]'</td><td>Array</td><td>SKYNovel内部によるsave:の管理用</td></tr>
+<tr><td>const.Date.getTime</td><td></td><td>0〜；ミリ秒</td><td>JavaScriptの(new Date).getTime()</td></tr>
+<tr><td>const.sn.bookmark.json</td><td>'[]'</td><td>json</td><td>SKYNovel内部によるsave:の管理用</td></tr>
 <tr><td>const.sn.config.（略）</td><td></td><td></td><td>
 	prj.jsonの内容を返す。<br/>
 	例えば「const.sn.config.window.width」だと画面の横幅を返す。
 </td></tr>
-<tr><td>const.sn.displayState</td><td>false</td><td>Boolean</td><td>ウインドウ・フルスクリーン状態。trueならフルスクリーン</td></tr>
-<tr><td>const.sn.frm.（フレーム名）</td><td>true</td><td>Boolean</td><td>[add_frame]でロードされた id属性が存在するか</td></tr>
-<tr><td>const.sn.frm.（フレーム名）.alpha</td><td>1</td><td>Number</td><td>フレームの不透明度</td></tr>
-<tr><td>const.sn.frm.（フレーム名）.x</td><td>0</td><td rowspan="2">画面左上を(0, 0)とする座標</td><td rowspan="2">フレームの座標。leftやtopでないことに注意</td></tr>
-<tr><td>const.sn.frm.（フレーム名）.y</td><td>0</td></tr>
-<tr><td>const.sn.frm.（フレーム名）.scale_x</td><td>1</td><td>Boolean</td><td>cssでのtransform: scaleの値</td></tr>
-<tr><td>const.sn.frm.（フレーム名）.scale_y</td><td>1</td><td>Boolean</td><td>cssでのtransform: scaleの値</td></tr>
-<tr><td>const.sn.frm.（フレーム名）.rotate</td><td>0</td><td>Boolean</td><td>cssでのrotate、回転角度（単位：deg 度）、正の値は時計回り</td></tr>
-<tr><td>const.sn.frm.（フレーム名）.width</td><td>prjのアプリ横幅画面サイズ</td><td>Integer</td><td>フレームの横幅</td></tr>
-<tr><td>const.sn.frm.（フレーム名）.height</td><td>prjのアプリ縦幅画面サイズ</td><td>Integer</td><td>フレームの縦幅</td></tr>
-<tr><td>const.sn.frm.（フレーム名）.visible</td><td>true</td><td>Boolean</td><td>フレームが表示されているか。visible属性の値を返す</td></tr>
-<tr><td>const.sn.isApp</td><td>false</td><td>Boolean</td><td>アプリ版か</td></tr>
-<tr><td>const.sn.isDbg</td><td>false</td><td>Boolean</td><td>デバッグモードか</td></tr>
-<tr><td>const.sn.isPackaged</td><td></td><td>Boolean</td><td>パッケージされたアプリか(Electron API - app.isPackaged)</td></tr>
-<tr><td>const.sn.isDarkMode</td><td>環境による</td><td>Boolean</td><td>ダークモードか</td></tr>
-<tr><td>const.sn.isDebugger</td><td>true</td><td>Boolean</td><td>ブラウザ実行、それもVSCode・npmによる「npm: webタスク」上での実行か</td></tr>
-<tr><td>const.sn.isFirstBoot</td><td>false</td><td>Boolean</td><td>ゲームがインストールされてから、初めての起動か（起動されるまでデータが空だったか）</td></tr>
-<tr><td>const.sn.isKidoku</td><td>true</td><td>Boolean</td><td>この変数を参照した位置は既読か。参照「後」必ず既読になる点に注意</td></tr>
-<tr><td>const.sn.key.alternate</td><td>false</td><td>Boolean</td><td>ALTキー（MacならOptionキー）が押されているか</td></tr>
-<tr><td>const.sn.key.back</td><td>false</td><td>Boolean</td><td>back 〃</td></tr>
-<tr><td>const.sn.key.command</td><td>false</td><td>Boolean</td><td>command 〃</td></tr>
-<tr><td>const.sn.key.control</td><td>false</td><td>Boolean</td><td>control 〃</td></tr>
-<tr><td>const.sn.key.end</td><td>false</td><td>Boolean</td><td>end 〃</td></tr>
-<tr><td>const.sn.key.escape</td><td>false</td><td>Boolean</td><td>escape 〃</td></tr>
-<tr><td>const.sn.last_page_plain_text</td><td>''</td><td>String</td><td>そのページの履歴テキスト（《》文法とルビを含まない）</td></tr>
-<tr><td>const.sn.last_page_text</td><td>''</td><td>String</td><td>そのページの履歴テキスト（《》文法もそのまま）</td></tr>
-<tr><td>const.sn.lay.（レイヤ名）</td><td>true</td><td>Boolean</td><td>レイヤが[add_lay]され存在するか</td></tr>
-<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.alpha</td><td>0.0〜1.0</td><td>Number</td><td>レイヤの不透明度</td></tr>
-<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.width</td><td>1</td><td>Integer</td><td>レイヤの横幅。ただし文字レイヤの場合は1、画像レイヤの場合、画像読込後でないと0</td></tr>
-<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.height</td><td>1</td><td>Integer</td><td>レイヤの縦幅。ただし文字レイヤの場合は1、画像レイヤの場合、画像読込後でないと0</td></tr>
-<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.visible</td><td>true</td><td>Boolean</td><td>レイヤが表示されているか。visible属性の値を返す</td></tr>
-<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.x</td><td>0</td><td rowspan="2">画面左上を(0, 0)とする座標</td><td rowspan="2">レイヤの座標。leftやtopでないことに注意</td></tr>
-<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.y</td><td>0</td></tr>
-<tr><td>const.sn.Math.PI</td><td>3.141592653589793</td><td>Number</td><td>円周率</td></tr>
-<tr><td>const.sn.navigator.language</td><td>（ユーザーの言語）</td><td>String</td><td>
+<tr><td>const.sn.displayState</td><td>false</td><td>true、false</td><td>ウインドウ・フルスクリーン状態。trueならフルスクリーン</td></tr>
+<tr><td>const.sn.frm.（フレーム名）</td><td>true</td><td>true、false</td><td>[add_frame]でロードされた id属性が存在するか</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.alpha</td><td>1</td><td>0.0〜1.0；透過度</td><td>フレームの不透明度</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.x</td><td>0</td><td>実数；横座標</td><td rowspan="2">フレームの座標。画面左上を(0, 0)とする座標。leftやtopでないことに注意</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.y</td><td>0</td><td>実数；縦座標</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.scale_x</td><td>1</td><td>true、false</td><td>cssでのtransform: scaleの値</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.scale_y</td><td>1</td><td>true、false</td><td>cssでのtransform: scaleの値</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.rotate</td><td>0</td><td>true、false</td><td>cssでのrotate、回転角度（単位：deg 度）、正の値は時計回り</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.width</td><td>prjのアプリ横幅画面サイズ</td><td>1〜</td><td>フレームの横幅</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.height</td><td>prjのアプリ縦幅画面サイズ</td><td>1〜</td><td>フレームの縦幅</td></tr>
+<tr><td>const.sn.frm.（フレーム名）.visible</td><td>true</td><td>true、false</td><td>フレームが表示されているか。visible属性の値を返す</td></tr>
+<tr><td>const.sn.isApp</td><td>false</td><td>true、false</td><td>アプリ版か</td></tr>
+<tr><td>const.sn.isDbg</td><td>false</td><td>true、false</td><td>デバッグモードか</td></tr>
+<tr><td>const.sn.isPackaged</td><td></td><td>true、false</td><td>パッケージされたアプリか(Electron API - app.isPackaged)</td></tr>
+<tr><td>const.sn.isDarkMode</td><td>環境による</td><td>true、false</td><td>ダークモードか</td></tr>
+<tr><td>const.sn.isDebugger</td><td>true</td><td>true、false</td><td>ブラウザ実行、それもVSCode・npmによる「npm: webタスク」上での実行か</td></tr>
+<tr><td>const.sn.isFirstBoot</td><td>false</td><td>true、false</td><td>ゲームがインストールされてから、初めての起動か（起動されるまでデータが空だったか）</td></tr>
+<tr><td>const.sn.isKidoku</td><td>true</td><td>true、false</td><td>この変数を参照した位置は既読か。参照「後」必ず既読になる点に注意</td></tr>
+<tr><td>const.sn.key.alternate</td><td>false</td><td>true、false</td><td>ALTキー（MacならOptionキー）が押されているか</td></tr>
+<tr><td>const.sn.key.back</td><td>false</td><td>true、false</td><td>back 〃</td></tr>
+<tr><td>const.sn.key.command</td><td>false</td><td>true、false</td><td>command 〃</td></tr>
+<tr><td>const.sn.key.control</td><td>false</td><td>true、false</td><td>control 〃</td></tr>
+<tr><td>const.sn.key.end</td><td>false</td><td>true、false</td><td>end 〃</td></tr>
+<tr><td>const.sn.key.escape</td><td>false</td><td>true、false</td><td>escape 〃</td></tr>
+<tr><td>const.sn.last_page_plain_text</td><td>''</td><td>文字列</td><td>そのページの履歴テキスト（《》文法とルビを含まない）</td></tr>
+<tr><td>const.sn.last_page_text</td><td>''</td><td>文字列</td><td>そのページの履歴テキスト（《》文法もそのまま）</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）</td><td>true</td><td>true、false</td><td>レイヤが[add_lay]され存在するか</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.alpha</td><td>0.0〜1.0</td><td>0.0〜1.0；透過度</td><td>レイヤの不透明度</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.width</td><td>1</td><td>1〜</td><td>レイヤの横幅。ただし文字レイヤの場合は1、画像レイヤの場合、画像読込後でないと0</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.height</td><td>1</td><td>1〜</td><td>レイヤの縦幅。ただし文字レイヤの場合は1、画像レイヤの場合、画像読込後でないと0</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.visible</td><td>true</td><td>true、false</td><td>レイヤが表示されているか。visible属性の値を返す</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.x</td><td>0</td><td>実数；横座標</td><td rowspan="2">レイヤの座標。画面左上を(0, 0)とする座標。leftやtopでないことに注意</td></tr>
+<tr><td>const.sn.lay.（レイヤ名）.（foreかback）.y</td><td>0</td><td>実数；縦座標</td></tr>
+<tr><td>const.sn.Math.PI</td><td>3.141592653589793</td><td>実数</td><td>円周率</td></tr>
+<tr><td>const.sn.navigator.language</td><td>（ユーザーの言語）</td><td>文字列</td><td>
 	ユーザーが最優先に設定している言語設定（<a href="https://ja.wikipedia.org/wiki/IETF%E8%A8%80%E8%AA%9E%E3%82%BF%E3%82%B0">IETF言語タグ - Wikipedia</a>）を返す。<br/>
 	BCP47 で定義された言語バージョン、"jp"、"en"、"en-US"、"fr"、"fr-FR"、"es-ES" など（→<a href="https://developer.mozilla.org/ja/docs/Web/API/Navigator/language">Navigator.language - Web API | MDN</a>）<br/>
 	<br/>
 	※AIRNovelにおける「<a href="https://famibee.web.fc2.com/tag_dev/dev.htm#reserve_value" target="_blank">const.flash.system.Capabilities.language</a>」にあたる
 </td></tr>
-<tr><td>const.sn.needClick2Play</td><td>環境による</td><td>Boolean</td><td>ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる</td></tr>
-<tr><td>const.sn.platform</td><td>環境による</td><td>JSON文字列</td><td>
+<tr><td>const.sn.needClick2Play</td><td>環境による</td><td>true、false</td><td>ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる</td></tr>
+<tr><td>const.sn.platform</td><td>環境による</td><td>json</td><td>
 	プラットフォーム情報。詳細は<a href="https://github.com/bestiejs/platform.js/blob/master/doc/README.md#platformosfamily" target="_blank" rel="noopener">Platform.js </a>を参照のこと。<br/>
 	例えば <a href="https://github.com/bestiejs/platform.js/blob/master/doc/README.md#platformosfamily" target="_blank" rel="noopener">const.sn.platform.os.family</a> だと、「OS X」「Android」などを返す
 </td></tr>
 <tr><td> <span style="text-decoration: line-through">const.sn.sLog</span>【2019/07/28変名】<br/>
 const.sn.log.json
-</td><td>"[{'txt':''}]"</td><td>左記JSON文字列</td><td>_log.snが_log.htmに渡す用、１ページずつ{}に分割してjson化して返す</td></tr>
-<tr><td>const.sn.sound.codecs</td><td>環境による</td><td>JSON文字列</td><td>
+</td><td>"[{'txt':''}]"</td><td>json</td><td>_log.snが_log.htmに渡す用、１ページずつ{}に分割してjson化して返す</td></tr>
+<tr><td>const.sn.sound.codecs</td><td>環境による</td><td>json</td><td>
 	ゲーム実行環境がこのコーデックをサポートしているか。<br/>
 	mp3、m4a、ogg、aac、webm、flac、wavなど
 </td></tr>
-<tr><td>const.sn.sound.【buf】.playing</td><td>再生状態による</td><td>Boolean</td><td>
+<tr><td>const.sn.sound.【buf】.playing</td><td>再生状態による</td><td>true、false</td><td>
 	サウンドバッファが再生中か<br/>
 	任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数
 </td></tr>
-<tr><td>const.sn.aIfStk.length</td><td>1</td><td>Integer</td><td>IFスタックの深さ（[if]するたびに増）</td></tr>
-<tr><td>const.sn.vctCallStk.length</td><td>0</td><td>Integer</td><td>コールスタックの深さ（[call]するたびに増）</td></tr>
-<tr><td>sn.auto.enabled</td><td>false</td><td>Boolean</td><td>自動読みすすみモードかどうか</td></tr>
-<tr><td>sn.button.fontFamily</td><td>"'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif"</td><td>String</td><td>文字ボタンフォントを指定</td></tr>
+<tr><td>const.sn.aIfStk.length</td><td>1</td><td>1〜</td><td>IFスタックの深さ（[if]するたびに増）</td></tr>
+<tr><td>const.sn.vctCallStk.length</td><td>0</td><td>0〜</td><td>コールスタックの深さ（[call]するたびに増）</td></tr>
+<tr><td>sn.auto.enabled</td><td>false</td><td>true、false</td><td>自動読みすすみモードかどうか</td></tr>
+<tr><td>sn.button.fontFamily</td><td>"'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif"</td><td>文字列</td><td>文字ボタンフォントを指定</td></tr>
 <tr><td>sn.event.domdata.（任意）</td><td>''</td><td>場合による</td><td>[<a href="tag.htm#event" target="_blank" rel="noopener">event</a>]でフレーム内のHTML要素に登録したイベントで、そのイベント発生時、HTML要素のdata-（任意）属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
 <tr><td>sn.eventArg</td><td>''</td><td>場合による</td><td>[<a href="tag.htm#button" target="_blank" rel="noopener">button</a>]等のイベント発生時、そのボタンタグのarg属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
 <tr><td>sn.eventLabel</td><td>''</td><td>場合による</td><td>[<a href="tag.htm#button" target="_blank" rel="noopener">button</a>]等のイベント発生時、そのボタンタグのlabel属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
-<tr><td>sn.skip.all</td><td>false</td><td>Boolean</td><td>false（初期値）なら既読のみをスキップ</td></tr>
-<tr><td>sn.skip.enabled</td><td>false</td><td>Boolean</td><td>次の選択肢(/未読)まで進む　が有効か</td></tr>
-<tr><td>sn.tagL.enabled</td><td>true</td><td>Boolean</td><td>頁末まで一気に読み進むか(l無視)</td></tr>
+<tr><td>sn.skip.all</td><td>false</td><td>true、false</td><td>false（初期値）なら既読のみをスキップ</td></tr>
+<tr><td>sn.skip.enabled</td><td>false</td><td>true、false</td><td>次の選択肢(/未読)まで進む　が有効か</td></tr>
+<tr><td>sn.tagL.enabled</td><td>true</td><td>true、false</td><td>頁末まで一気に読み進むか(l無視)</td></tr>
 </table>
 
 
