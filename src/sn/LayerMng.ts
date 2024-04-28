@@ -69,7 +69,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		}
 		sys.cvsResize();
 
-		TxtLayer.init(cfg, hTag, val, this, (me: TxtLayer)=> this.#hPages[me.layname].fore === me, appPixi);
+		TxtLayer.init(cfg, hTag, val, this, me=> this.#hPages[me.layname].fore === me, appPixi);
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng, val);
 		FrameMng.init(cfg, sys, main);
 		Button.init(cfg);
@@ -100,6 +100,10 @@ export class LayerMng implements IGetFrm, IRecorder {
 		hTag.stop_tsy		= o=> CmnTween.stop_tsy(o);	// トゥイーン中断
 		hTag.tsy			= o=> this.#tsy(o);			// トゥイーン開始
 		hTag.wait_tsy		= o=> CmnTween.wait_tsy(o);	// トゥイーン終了待ち
+
+		hTag.add_filter		= o=> this.#add_filter(o);	// フィルター追加
+		hTag.clear_filter	= o=> this.#clear_filter(o);// フィルター全削除
+		hTag.enable_filter	= o=> this.#enable_filter(o);// フィルター個別切替
 
 		//	文字・文字レイヤ
 	//	hTag.auto_pager		= o=> this.auto_pager(o);	// 自動改ページの設定
@@ -349,11 +353,12 @@ export class LayerMng implements IGetFrm, IRecorder {
 			this.#back.visible = false;
 			this.#spTransBack.visible = true;
 
-			this.#fore.filters = this.#spTransFore.filters;
+			const a = [...this.#fore.filters!];
+			this.#fore.filters = [...a!, ...this.#spTransFore.filters!];
 			this.#fore.visible = true;
 			rnd.render(this.#fore, {clear: false});
 			this.#fore.visible = false;
-			this.#fore.filters = [];
+			this.#fore.filters = a;
 			re();
 		}));
 		else for (const v of this.#getLayers(hArg.layer)) a.push(
@@ -502,10 +507,9 @@ export class LayerMng implements IGetFrm, IRecorder {
 			if (hArg.page === 'both') {	// page=both で両面削除
 				pg.fore.clearLay(hArg);
 				pg.back.clearLay(hArg);
+				return;
 			}
-			else {
-				pg.getPage(hArg).clearLay(hArg);
-			}
+			pg.getPage(hArg).clearLay(hArg);
 		});
 
 		return false;
@@ -786,6 +790,80 @@ void main(void) {
 
 		return false;
 	}
+
+
+	// フィルター追加
+	#add_filter(hArg: HArg) {
+		CmnTween.finish_trans();
+
+		this.#foreachLayers(hArg, name=> {
+			const pg = this.#hPages[this.#argChk_layer({layer: name})];
+			if (hArg.page === 'both') {	// page=both で両面に
+				this.#add_filter2(pg.fore, hArg);
+				this.#add_filter2(pg.back, hArg);
+				return;
+			}
+			const l = pg.getPage(hArg);
+			this.#add_filter2(l, hArg);
+		});
+
+		return false;
+	}
+	#add_filter2(l: Layer, hArg: HArg) {
+		const s = l.spLay;
+		s.filters ??= [];
+		s.filters = [...s.filters, Layer.bldFilters(hArg)];
+		l.aFltHArg.push(hArg);
+	}
+
+	// フィルター全削除
+	#clear_filter(hArg: HArg) {
+		this.#foreachLayers(hArg, name=> {
+			const pg = this.#hPages[this.#argChk_layer({layer: name})];
+			if (hArg.page === 'both') {	// page=both で両面に
+				const f = pg.fore;
+				const b = pg.back;
+				f.spLay.filters = null;
+				b.spLay.filters = null;
+				f.aFltHArg = [];
+				b.aFltHArg = [];
+				return;
+			}
+			const l = pg.getPage(hArg);
+			l.spLay.filters = null;
+			l.aFltHArg = [];
+		});
+
+		return false;
+	}
+
+	// フィルター個別切替
+	#enable_filter(hArg: HArg) {
+		this.#foreachLayers(hArg, name=> {
+			const pg = this.#hPages[this.#argChk_layer({layer: name})];
+			if (hArg.page === 'both') {	// page=both で両面に
+				this.#enable_filter2(pg.fore, hArg);
+				this.#enable_filter2(pg.back, hArg);
+				return;
+			}
+			const l = pg.getPage(hArg);
+			this.#enable_filter2(l, hArg);
+		});
+
+		return false;
+	}
+	#enable_filter2(l: Layer, hArg: HArg) {
+		const s = l.spLay;
+		if (! s.filters) throw 'フィルターがありません';
+
+		const i = uint(argChk_Num(hArg, 'index', 0));
+		const len = s.filters.length;
+		if (len <= i) throw `フィルターの個数（${len}）を越えています`;
+
+		l.aFltHArg[i].enabled =
+		s.filters[i].enabled = argChk_Boolean(hArg, 'enabled', true);
+	}
+
 
 //	// 文字・文字レイヤ
 	static		#msecChWait		= 10;

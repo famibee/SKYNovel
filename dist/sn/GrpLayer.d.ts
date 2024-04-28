@@ -36,6 +36,7 @@ export declare class GrpLayer extends Layer {
         x: number;
         y: number;
         visible: boolean;
+        aFltHArg: HArg[];
     };
     playback(hLay: any, aPrm: Promise<void>[]): void;
     makeDesignCast(gdc: IMakeDesignCast): void;

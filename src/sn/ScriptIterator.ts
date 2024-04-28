@@ -394,9 +394,10 @@ export class ScriptIterator {
 
 		let hArg: any = {};
 		const len = this.#aCallStk.length;
+		const csa: any = len === 0 ?{} :this.#aCallStk[len -1].csArg;
 		if (this.alzTagArg.isKomeParam) {
 			if (len === 0) throw '属性「*」はマクロのみ有効です';
-			hArg = {...this.#aCallStk[this.#aCallStk.length -1].csArg};
+			hArg = {...csa[':hMp'], ...csa};
 		}
 		hArg[':タグ名'] = tag_name;
 /*
@@ -429,7 +430,7 @@ export class ScriptIterator {
 			let v = val;
 			if (v?.at(0) === '%') {
 				if (len === 0) throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
-				const mac = (<any>this.#aCallStk[this.#aCallStk.length -1].csArg)[v.slice(1)];
+				const mac = csa[v.slice(1)];
 				if (mac) {hArg[arg_nm] = mac; continue}
 
 				if (def === undefined || def === 'null') continue;

@@ -119,6 +119,9 @@ export type HArg = {
 	fnc?	: (e: Event)=> void;
 
 	filter?	: string;
+	matrix?	: string;
+	clear_filter?	: boolean;
+	enable_filter?	: boolean;
 
 	ease?	: string;
 	canskip?	:boolean;

@@ -21,7 +21,7 @@
 		"@popperjs/core": "^2.11.8",
 		"@tweenjs/tween.js": "^23.1.1",
 		"adm-zip": "^0.5.12",
-		"devtools-detect": "^4.0.1",
+		"devtools-detect": "^4.0.2",
 		"electron-store": "^8.2.0",
 		"fs-extra": "^11.2.0",
 		"gamepad.js": "^2.1.0",
@@ -54,7 +54,7 @@
 		"semantic-release": "^23.0.8",
 		"typescript": "^5.4.5",
 		"vite": "^5.2.10",
-		"vite-plugin-dts": "^3.8.3"
+		"vite-plugin-dts": "^3.9.0"
 	},
 	"scripts": {
 		"build": "node -r esbuild-register src/build.ts",

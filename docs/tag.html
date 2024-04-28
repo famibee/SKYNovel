@@ -151,6 +151,9 @@
 		<li class="mb1"><a href="#grplay">　レイヤ設定(画像レイヤ)</a></li>
 		<li class="mb1"><a href="#trans">[trans] ページ裏表を交換</a></li>
 		<li class="mb1"><a href="#wt">[wt] トランス終了待ち</a></li>
+		<li class="mb1"><a href="#add_filter">[add_filter] フィルター追加</a></li>
+		<li class="mb1"><a href="#clear_filter">[clear_filter] フィルター全削除</a></li>
+		<li class="mb1"><a href="#enable_filter">[enable_filter] フィルター個別切替</a></li>
 	</ul>
 	<p>トゥイーンアニメ</p>
 	<ul class="anchors list-reset m0 p0 px1">
@@ -478,7 +481,8 @@
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（カンマ区切りで複数可）</td><td></td></tr>
 <tr><td>page</td><td></td><td>fore</td><td>fore、back、both</td><td>ページの裏表（both指定で両面）</td></tr>
-<tr><td>filter</td><td></td><td>false</td><td>true、false</td><td>true：フィルタもクリア</td></tr>
+<tr><td><s>filter</s></td><td></td><td>false</td><td>true、false</td><td><s>true：フィルタもクリア</s>（ver 1.50.1 まで）</td></tr>
+<tr><td>clear_filter</td><td></td><td>false</td><td>true、false</td><td>true：フィルタもクリア</td></tr>
 </table>
 
 </p>
@@ -519,6 +523,8 @@
 <tr><td>float</td><td></td><td>何もしない</td><td>true、false</td><td>true：レイヤを最前面に移動する</td></tr>
 <tr><td>index</td><td></td><td>何もしない</td><td>0〜</td><td>レイヤをindexで指定したインデックスに移動する。<br/>0がもっとも背後。レイヤを重ねるたびに1加算したindexになる</td></tr>
 <tr><td>dive</td><td></td><td>何もしない</td><td>レイヤ名</td><td>レイヤをdiveで指定したレイヤのすぐ後ろに潜り込ませる</td></tr>
+<tr><td>filter</td><td></td><td>なにもしない</td><td>フィルター名</td><td>レイヤに指定するフィルター名。その他必要な属性は適宜指定する。詳細は<a href="tag.htm#add_filter" target="_blank" rel="noopener">[add_filter]</a>参照。ただし[add_filter]のような追加ではなく上書き</td></tr>
+<tr><td>enable_filter</td><td></td><td>true</td><td>true、false</td><td>フィルターを有効にするか</td></tr>
 </table>
 
 </p>
@@ -738,6 +744,183 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>trueでクリックキャンセル可能にする</td></tr>
 <tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
+</table>
+
+</p>
+<h2 id="add_filter" class="w-heading">[add_filter]フィルター追加</h2>
+<h4>レイヤにフィルターを追加する。</h4>
+<p class="mb2 px1">
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（カンマ区切りで複数可）</td><td></td></tr>
+<tr><td>page</td><td></td><td>fore</td><td>fore、back、both</td><td>ページの裏表（both指定で両面）</td></tr>
+<tr class="y"><td>filter</td><td>y</td><td></td><td>フィルター名</td><td>
+	レイヤに指定するフィルタ。その他必要な属性は適宜指定する<br/>
+	指定できる値は以下の通り。<br/>
+	blur		…… ガウスぼかし<br/>
+	noise		…… ノイズエフェクト<br/>
+	color_matrix	…… カラーマトリックス<br/>
+	black_and_white	…… 白黒<br/>
+	brightness	…… 明るさを調整<br/>
+	browni	…… おいしいブラウニー<br/>
+	color_tone	…… カラートーン<br/>
+	contrast	…… コントラスト<br/>
+	greyscale	…… グレースケール<br/>
+	hue	…… 色相<br/>
+	kodachrome	…… コダクローム<br/>
+	lsd	…… LSD効果<br/>
+	negative	…… ネガティブ画像 (古典的なRGBマトリックスの逆)<br/>
+	night	…… ナイトエフェクト<br/>
+	polaroid	…… ポラロイド<br/>
+	predator	…… 捕食者効果、新しい独立したマトリックスを設定<br/>
+	saturate	…… 彩度。色の間の分離を増やします。<br/>
+	sepia		…… セピア<br/>
+	technicolor	…… テクニカラー。1916 年に発明されたカラ<br/>
+	tint	…… 色合い。カラーマトリクスの対角線上に各チャネルを<br/>
+	to_bgr	…… 赤→青、青→赤<br/>
+	vintage	…… ビンテージ<br/>
+</td></tr>
+<tr><td>enabled</td><td></td><td>true</td><td>true、false</td><td>フィルターを有効にするか</td></tr>
+</table>
+
+　以下はフィルターごとに指定できる属性説明です。<br/>
+　項目ごとの説明は煩雑なので、<a href="https://github.com/pixijs/filters?tab=readme-ov-file" target="_blank" rel="noopener">pixijs の動くサンプル</a>をお試しください。<br/>
+
+<h4>フィルター「blur」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>strength</td><td></td><td>8</td><td>整数</td><td>強さ</td></tr>
+<tr><td>quality</td><td></td><td>4</td><td>整数</td><td>品質</td></tr>
+<tr><td>resolution</td><td></td><td>0</td><td>整数</td><td>解像度</td></tr>
+<tr><td>kernel_size</td><td></td><td>5</td><td>5、7、9、11、13、15</td><td>カーネルサイズ</td></tr>
+<tr><td>blur_x</td><td></td><td>2</td><td>整数</td><td>X強度</td></tr>
+<tr><td>blur_y</td><td></td><td>2</td><td>整数</td><td>Y強度</td></tr>
+<tr><td>uality</td><td></td><td>1</td><td>整数</td><td>ブラーのパス数。パス数が多いほど、ブラーの品質が高くなります</td></tr>
+<tr><td>epeat_edge_pixels</td><td></td><td>false</td><td>整数</td><td>true に設定すると、ターゲットのエッジがクランプされます</td></tr>
+</table>
+
+<h4>フィルター「noise」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>noise</td><td></td><td>0.5</td><td>0.0〜1.0</td><td>適用するノイズの量</td></tr>
+<tr><td>seed</td><td></td><td>Math.random()</td><td>整数</td><td>ノイズの生成に適用するシード値</td></tr>
+</table>
+
+<h4>フィルター「color_matrix」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>matrix</td><td></td><td>
+	'1,0,0,0,0, 0,1,0,0,0, 0,0,1,0,0, 0,0,0,1,0'
+</td><td>カンマ区切りの20個の整数値</td><td>
+	ピクセルの RGBA カラーとアルファ値に 5x4 マトリックス変換を適用して、新しい RGBA カラーとアルファ値のセットを含む結果を生成する
+</td></tr>
+</table>
+
+<h4>フィルター「black_and_white」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「brightness」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>b</td><td></td><td>0.5</td><td>0.0〜1.0</td><td>明るさの値 (0 は黒)</td></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「browni」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>multiply</td><td></td><td style="color: red;">true</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「color_tone」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>desaturation</td><td></td><td>0.5</td><td>0.0〜1.0</td><td></td></tr>
+<tr><td>toned</td><td></td><td>0.5</td><td>0.0〜1.0</td><td></td></tr>
+<tr><td>light_color</td><td></td><td>0xFFE580</td><td>16進数値</td><td>色指定。'#FF0000'など</td></tr>
+<tr><td>dark_color</td><td></td><td>0xFFE580</td><td>16進数値</td><td>色指定。'#FF0000'など</td></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「contrast」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>amount</td><td></td><td>0.5</td><td>0.0〜1.0</td><td>コントラストの値</td></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「greyscale」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>scale</td><td></td><td>0.5</td><td>0.0〜1.0</td><td>グレーの値</td></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「hue」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>f_rotation</td><td></td><td>0</td><td>0〜360；回転角度</td><td>度単位</td></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「kodachrome」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>multiply</td><td></td><td style="color: red;">true</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「night」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>intensity</td><td></td><td>0.5</td><td>0.0〜1.0</td><td>夜の効果の強さ</td></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「predator」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>amount</td><td></td><td>0.5</td><td>0.0〜1.0</td><td>捕食者は自分の将来の犠牲者をどれほど感じているか</td></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「saturate」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>amount</td><td></td><td>0.5</td><td>0.0〜1.0</td><td>飽和量</td></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「technicolor」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>multiply</td><td></td><td style="color: red;">true</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「tint」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>color</td><td></td><td>0x888888</td><td>16進数値</td><td>色合いの色</td></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>フィルター「vintage」に指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>multiply</td><td></td><td style="color: red;">true</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+<h4>その他のフィルターに指定できる属性</h4>
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
+</table>
+
+
+</p>
+<h2 id="clear_filter" class="w-heading">[clear_filter]フィルター全削除</h2>
+<h4>レイヤのフィルターを全削除する。</h4>
+<p class="mb2 px1">
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（カンマ区切りで複数可）</td><td></td></tr>
+<tr><td>page</td><td></td><td>fore</td><td>fore、back、both</td><td>ページの裏表（both指定で両面）</td></tr>
+</table>
+
+</p>
+<h2 id="enable_filter" class="w-heading">[enable_filter]フィルター個別切替</h2>
+<h4>個別にフィルター有効・無効を変更する。</h4>
+<p class="mb2 px1">
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>layer</td><td></td><td>全てのレイヤ</td><td>レイヤ名（カンマ区切りで複数可）</td><td></td></tr>
+<tr><td>page</td><td></td><td>fore</td><td>fore、back、both</td><td>ページの裏表（both指定で両面）</td></tr>
+<tr><td>index</td><td></td><td>0</td><td>0〜</td><td>追加したフィルターの中で、有効・無効を変更するフィルターの番号。<br/>0が最初のフィルター。フィルターを重ねるたびに1加算したindexになる</td></tr>
+<tr><td>enabled</td><td></td><td>true</td><td>true、false</td><td>フィルターを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1044,6 +1227,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>rec_page_break</td><td></td><td>true</td><td>true、false</td><td>履歴を改ページするか</td></tr>
+<tr><td>clear_filter</td><td></td><td>false</td><td>true、false</td><td>true：フィルタもクリア</td></tr>
 </table>
 
 </p>

@@ -1,3 +1,121 @@
+- feat: [add_filter]追加、レイヤにフィルターを追加する。
+	- layer 属性は省略時全てのレイヤが対称、レイヤ名はカンマ区切りで複数可。
+	- page=both でページ裏表両面に
+	- 複数追加でき、フィルター処理は追加した順に適用される。
+	- 次の組み込み済みフィルタを利用できる。
+		- blur		…… ガウスぼかし
+		- noise		…… ノイズエフェクト
+		- color_matrix	…… カラーマトリックス
+		- black_and_white	…… 白黒
+		- brightness	…… 明るさを調整
+		- browni	…… おいしいブラウニー
+		- color_tone	…… カラートーン
+		- contrast	…… コントラスト
+		- greyscale	…… グレースケール
+		- hue	…… 色相
+		- kodachrome	…… コダクローム
+		- lsd	…… LSD効果
+		- negative	…… ネガティブ画像 (古典的なRGBマトリックスの逆)
+		- night	…… ナイトエフェクト
+		- polaroid	…… ポラロイド
+		- predator	…… 捕食者効果、新しい独立したマトリックスを設定
+		- saturate	…… 彩度。色の間の分離を増やします。
+		- sepia		…… セピア
+		- technicolor	…… テクニカラー
+		- tint	…… 色合い。カラーマトリクスの対角線上に各チャネルを
+		- to_bgr	…… 赤→青、青→赤
+		- vintage	…… ビンテージ
+- feat: [clear_filter]追加、レイヤのフィルターを全削除する。
+	- layer 属性は省略時全てのレイヤが対称、レイヤ名はカンマ区切りで複数可。
+	- page=both でページ裏表両面に
+- feat: [enable_filter]追加、フィルター個別切替。個別にフィルター有効・無効を変更する。
+	- layer 属性は省略時全てのレイヤが対称、レイヤ名はカンマ区切りで複数可。
+	- page=both でページ裏表両面に
+- feat: [lay] に filter・enable_filter 属性追加、レイヤ指定しつつフィルタも指定できるように
+	- [add_filter]のような追加ではなく上書き
+	- [fg]でも有効
+- feat: [clear_lay] の filter 属性を clear_filter に変名
+	- feat: [lay] に clear_filter 属性追加
+	- feat: [er] に clear_filter 属性追加
+- fix: マクロ内で[jump][call]した場合、中のタグやマクロで * を使用しても、最初のマクロに渡された引数を反映してなかった件
+
+　具体的には、以下のような定義をした場合に、
+```scheme
+[macro name=tst]
+	[trace text="&'yyy:'+ mp:yyy +' fn:'+ mp:fn"]
+;	[trace text=%yyy]
+;	[trace text=%fn]
+[endmacro]
+
+[macro name=target]
+	[tst yyy='A']
+	[tst yyy='B*' *]
+	[tst yyy='C*' fn='UPD c']
+	[tst yyy='D*' * fn='UPD d']
+	[jump label=*jjj]
+
+*jjj
+	[tst yyy='G']
+	[tst yyy='H*' *]
+	[tst yyy='I*' fn='UPD i']
+	[tst yyy='J*' * fn='UPD j']
+
+	[call label=*ccc]
+[endmacro]
+```
+
+```scheme
+*ccc
+	[tst yyy='O']
+	[tst yyy='P*' *]
+	[tst yyy='Q*' fn='UPD q']
+	[tst yyy='R*' * fn='UPD r']
+[return]
+```
+
+　以下を実行した場合、
+```scheme
+[target fn=鑑定官_眼鏡]
+```
+
+　修正前は以下の動作だった。
+```
+yyy:A fn:undefined
+yyy:B* fn:鑑定官_眼鏡
+yyy:C* fn:UPD c
+yyy:D* fn:UPD d
+
+yyy:G fn:undefined
+yyy:H* fn:鑑定官_眼鏡
+yyy:I* fn:UPD i
+yyy:J* fn:UPD j
+
+yyy:O fn:undefined
+yyy:P* fn:undefined
+yyy:Q* fn:UPD q
+yyy:R* fn:UPD r
+```
+
+　修正後は次のような結果になる。「yyy:P*」部分が異なる。
+```
+ yyy:A fn:undefined
+ yyy:B* fn:鑑定官_眼鏡
+ yyy:C* fn:UPD c
+ yyy:D* fn:UPD d
+
+ yyy:G fn:undefined
+ yyy:H* fn:鑑定官_眼鏡
+ yyy:I* fn:UPD i
+ yyy:J* fn:UPD j
+
+ yyy:O fn:undefined
+ yyy:P* fn:鑑定官_眼鏡
+ yyy:Q* fn:UPD q
+ yyy:R* fn:UPD r
+```
+
+
+
 ## [1.50.1](https://github.com/famibee/SKYNovel/compare/v1.50.0...v1.50.1) (2024-04-21)
 
 

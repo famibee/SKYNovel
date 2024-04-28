@@ -7,7 +7,7 @@
 
 import {Layer} from './Layer';
 
-import {CmnLib, argChk_Num} from './CmnLib';
+import {CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
 import {HArg} from './Grammar';
 import {IMain, IVariable} from './CmnInterface';
 import {Config} from './Config';
@@ -67,10 +67,10 @@ export class GrpLayer extends Layer {
 		const inFn = 'fn' in hArg;
 		const inFace = 'face' in hArg;
 
-		this.clearLay({filter: 'true'});
+		this.clearLay({clear_filter: argChk_Boolean(hArg, 'clear_filter', true)});
 		if (inFn) this.#sBkFn = fn;	// clearLay()後に置く事
 		if (inFace) this.#sBkFace = face;
-		super.lay(hArg);
+		super.lay(hArg);	// filter設定してる場合も
 
 		hArg.dx = 0;
 		hArg.dy = 0;

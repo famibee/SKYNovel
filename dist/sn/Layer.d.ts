@@ -1,6 +1,6 @@
+import { BLEND_MODES, DisplayObject, Container, Sprite, AbstractRenderer, Filter } from 'pixi.js';
 import { IMakeDesignCast } from './LayerMng';
 import { HArg } from './Grammar';
-import { BLEND_MODES, DisplayObject, Container, Sprite, AbstractRenderer } from 'pixi.js';
 
 export declare class Layer {
     #private;
@@ -27,6 +27,11 @@ export declare class Layer {
     protected procSetY(_y: number): void;
     destroy(): void;
     lay(hArg: HArg): boolean;
+    aFltHArg: HArg[];
+    static bldFilters(hArg: HArg): Filter;
+    static readonly hBldFilter: {
+        [nm: string]: (hArg: HArg) => Filter;
+    };
     static setBlendmodeParentOnly(cnt: Container, hArg: HArg): void;
     static setBlendmode(cnt: Container, hArg: HArg): void;
     static getBlendmodeNum(bm_name: string): number;
@@ -49,6 +54,7 @@ export declare class Layer {
         x: number;
         y: number;
         visible: boolean;
+        aFltHArg: HArg[];
     };
     playback(hLay: any, _aPrm: Promise<void>[]): void;
     snapshot(rnd: AbstractRenderer, re: () => void): void;
