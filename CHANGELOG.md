@@ -1,3 +1,10 @@
+# [1.51.0](https://github.com/famibee/SKYNovel/compare/v1.50.1...v1.51.0) (2024-04-28)
+
+
+### Features
+
+* [add_filter][clear_filter][enable_filter]追加など ([c243842](https://github.com/famibee/SKYNovel/commit/c24384240b91e8fdeafe3ff4487f5d165119c181))
+
 - feat: [add_filter]追加、レイヤにフィルターを追加する。
 	- layer 属性は省略時全てのレイヤが対称、レイヤ名はカンマ区切りで複数可。
 	- page=both でページ裏表両面に
