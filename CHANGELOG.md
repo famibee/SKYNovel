@@ -1,3 +1,10 @@
+# [1.52.0](https://github.com/famibee/SKYNovel/compare/v1.51.0...v1.52.0) (2024-04-30)
+
+
+### Features
+
+* [tsy]にも filter などフィルター関連属性追加 ([a7aa58f](https://github.com/famibee/SKYNovel/commit/a7aa58f2ffe682182cb8176bb52b7df76d0320ad))
+
 - feat: [tsy]にも filter などフィルター関連属性追加
 	- [fg2]ではまだ上手く使えない
 - feat: [wait_tsy]に true でトゥイーン存在チェックする chk_exist_tw 属性追加
