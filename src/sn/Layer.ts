@@ -102,7 +102,7 @@ export class Layer {
 			);
 			f.blurX = uint(argChk_Num(hArg, 'blur_x', 2));	// X強度
 			f.blurY = uint(argChk_Num(hArg, 'blur_y', 2));	// Y強度
-			f.quality = uint(argChk_Num(hArg, 'quality', 1));
+	//略	f.quality = uint(argChk_Num(hArg, 'quality', 1));
 				// ブラーのパス数。パス数が多いほど、ブラーの品質が高くなります。
 			f.repeatEdgePixels = argChk_Boolean(hArg, 'repeat_edge_pixels', false);	// true に設定すると、ターゲットのエッジがクランプされます。
 			return f;
@@ -302,7 +302,7 @@ export class Layer {
 		tint: hArg=> {	// 色合い。カラー マトリクスの対角線上に各チャネルを設定します。 これを使用すると、スプライト、テキスト、グラフィックス、メッシュなどの一部の表示オブジェクトの色合いフィールドと同様の色合い効果をコンテナ上で実現できます。
 			const f = new ColorMatrixFilter;
 			f.tint(
-				argChk_Num(hArg, 'color', 0x888888),
+				argChk_Num(hArg, 'f_color', 0x888888),
 					// 色合いの色。 これは 16 進数値です。
 				argChk_Boolean(hArg, 'multiply', false),
 					// true の場合、現在の行列と行列を乗算

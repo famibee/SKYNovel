@@ -794,7 +794,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>kernel_size</td><td></td><td>5</td><td>5、7、9、11、13、15</td><td>カーネルサイズ</td></tr>
 <tr><td>blur_x</td><td></td><td>2</td><td>整数</td><td>X強度</td></tr>
 <tr><td>blur_y</td><td></td><td>2</td><td>整数</td><td>Y強度</td></tr>
-<tr><td>uality</td><td></td><td>1</td><td>整数</td><td>ブラーのパス数。パス数が多いほど、ブラーの品質が高くなります</td></tr>
 <tr><td>epeat_edge_pixels</td><td></td><td>false</td><td>整数</td><td>true に設定すると、ターゲットのエッジがクランプされます</td></tr>
 </table>
 
@@ -886,7 +885,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 <h4>フィルター「tint」に指定できる属性</h4>
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>color</td><td></td><td>0x888888</td><td>16進数値</td><td>色合いの色</td></tr>
+<tr><td>f_color</td><td></td><td>0x888888</td><td>16進数値</td><td>色合いの色</td></tr>
 <tr><td>multiply</td><td></td><td>false</td><td>true、false</td><td>true の場合、現在の行列と行列を乗算</td></tr>
 </table>
 
@@ -982,7 +981,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	注：フレームのトゥイーンアニメは<a href="tag.htm#tsy_frame" target="_blank" rel="noopener">[tsy_frame]</a>で行なう。<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr class="y"><td>layer</td><td rowspan="2">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
+<tr class="y"><td>layer</td><td rowspan="3">y</td><td></td><td>レイヤ名</td><td>処理対象のレイヤ</td></tr>
+<tr class="y"><td>name</td><td>layerの値</td><td>文字列</td><td>トゥイーン名</td></tr>
 <tr class="y"><td>page</td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
 <tr class="y"><td>time</td><td>y</td><td></td><td>0〜；ミリ秒</td><td>トゥイーンにかける時間</td></tr>
 <tr><td>delay</td><td></td><td>0</td><td>0〜；ミリ秒</td><td>トゥイーンを始める前の、何もしない待ち時間</td></tr>
@@ -1045,6 +1045,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr><td>render</td><td></td><td>false</td><td>true、false</td><td>
 	trueを指定すると[trans]のように絵を合成してから不透明度を適用するように（半透明時に差分境界が見えなくなる）
 </td></tr>
+<tr><td>filter</td><td></td><td>なにもしない</td><td>フィルター名</td><td>レイヤに指定するフィルター名。その他必要な属性は適宜指定する。詳細は<a href="tag.htm#add_filter" target="_blank" rel="noopener">[add_filter]</a>参照。ただし[add_filter]のような追加ではなく上書き</td></tr>
+<tr><td>enable_filter</td><td></td><td>true</td><td>true、false</td><td>フィルターを有効にするか</td></tr>
 </table>
 
 </p>
@@ -1063,6 +1065,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <tr class="y"><td>id</td><td>y</td><td></td><td>フレーム名</td><td>処理対象のフレーム</td></tr>
 <tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>クリックなど（→詳細は<a href="#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr>
 <tr><td>global</td><td></td><td>true</td><td>true、false</td><td>グローバルイベント待ちを有効にするか</td></tr>
+<tr><td>chk_exist_tw</td><td></td><td>false</td><td>true、false</td><td>トゥイーン存在チェックするか</td></tr>
 </table>
 
 </p>

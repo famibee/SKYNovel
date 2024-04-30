@@ -223,7 +223,13 @@ export class CmnTween {
 		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 		const ti = CmnTween.#hTwInf[tw_nm];
-		if (! ti?.tw) return false;
+		if (! ti?.tw) {
+			if (argChk_Boolean(hArg, 'chk_exist_tw', false)) throw id
+			?`フレームトゥイーン ${id} が見つかりません。`
+			:`トゥイーン ${tw_nm} が見つかりません。(layer:${layer} name:${name})`;
+
+			return false;
+		}
 
 		return CmnTween.#evtMng.waitEvent(hArg, ()=> ti.tw?.end());	// stop()とend()は別
 	}

@@ -1,3 +1,12 @@
+- feat: [tsy]にも filter などフィルター関連属性追加
+	- [fg2]ではまだ上手く使えない
+- feat: [wait_tsy]に true でトゥイーン存在チェックする chk_exist_tw 属性追加
+	- name 属性のミスなどで [tsy]の終了を待ってない場合に気づきやすい
+- fix: フィルター「blur」に指定できる属性 quality が重複しているのを削除
+- fix: フィルター「tint」に指定できる属性 color を f_color に変名
+- docs(タグリファレンス): [tsy] に name 属性説明抜けにつき追加
+
+
 # [1.51.0](https://github.com/famibee/SKYNovel/compare/v1.50.1...v1.51.0) (2024-04-28)
 
 

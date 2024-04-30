@@ -597,7 +597,7 @@ void main(void) {
 			this.#back.visible = false;
 		};
 		if (! aBack.some(lay=> lay.containMovement)) {
-			let oldFnc = fncRenderBack;	// 動きがないなら最初に一度
+			const oldFnc = fncRenderBack;	// 動きがないなら最初に一度
 			fncRenderBack = ()=> {fncRenderBack = ()=> {}; oldFnc()};
 		}
 
@@ -609,7 +609,7 @@ void main(void) {
 			this.#fore.visible = false;
 		};
 		if (! aFore.some(lay=> lay.containMovement)) {
-			let oldFnc = fncRenderFore;	// 動きがないなら最初に一度
+			const oldFnc = fncRenderFore;	// 動きがないなら最初に一度
 			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc()};
 		}
 		const fncRender = ()=> {
@@ -769,24 +769,29 @@ void main(void) {
 		if (! layer) throw 'layerは必須です';
 
 		const pg = this.#hPages[this.#argChk_layer(hArg)];
-		const hNow = pg.fore;
+		const lay = pg.fore;
 
 		let finishBlendLayer = ()=> {};
 		if (render && ! this.#evtMng.isSkipping) {
-			hNow.renderStart();
-			finishBlendLayer = ()=> hNow.renderEnd();
+			lay.renderStart();
+			finishBlendLayer = ()=> lay.renderEnd();
 		}
 
-		const hTo = CmnTween.cnvTweenArg(hArg, hNow);
+		const hTo = CmnTween.cnvTweenArg(hArg, lay);
 		const arrive = argChk_Boolean(hArg, 'arrive', false);
 		const backlay = argChk_Boolean(hArg, 'backlay', false);
-		const backCnt: any = pg.back.spLay;	// fore, back が変わる恐れで外へ
-		CmnTween.tween(name ?? layer, hArg, hNow, CmnTween.cnvTweenArg(hArg, hNow), ()=> {}, finishBlendLayer, ()=> {
-			if (arrive) Object.assign(hNow, hTo);
-			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) backCnt[nm] = (<any>hNow)[nm];
+		const spBack: any = pg.back.spLay;	// fore, back が変わる恐れで外へ
+		CmnTween.tween(name ?? layer, hArg, lay, CmnTween.cnvTweenArg(hArg, lay), ()=> {}, finishBlendLayer, ()=> {
+			if (arrive) Object.assign(lay, hTo);
+			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) spBack[nm] = (<any>lay)[nm];
 		});
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
+
+		if ('filter' in hArg) {
+			lay.spLay.filters = [Layer.bldFilters(hArg)];
+			lay.aFltHArg = [hArg];
+		}
 
 		return false;
 	}
