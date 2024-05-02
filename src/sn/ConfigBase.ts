@@ -130,8 +130,6 @@ export class ConfigBase implements IConfig {
 
 	userFnTail		= '';	// 4tst public
 	protected	hPathFn2Exts	: IFn2Path	= {};
-				#jsFn2Ext		: string;
-	get	jsFn2Ext(): string {return this.#jsFn2Ext}
 
 	constructor(readonly sys: ISysRoots) {}
 	async load(oCfg: any) {
@@ -184,7 +182,6 @@ export class ConfigBase implements IConfig {
 				if (hp !== hf) throw `ファイル改竄エラーです fn:${fn}`;
 			}
 		}
-		this.#jsFn2Ext = JSON.stringify(hFn2Ext);
 	}
 	#existsBreakline = false;
 	get existsBreakline(): boolean {return this.#existsBreakline}

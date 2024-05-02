@@ -385,9 +385,8 @@ export class SysApp extends SysNode {
 		return false;
 	}
 
-	override canCapturePage(fn: string, fnc: ()=> void) {
-		to_app.capturePage(fn).then(()=> fnc());
-		return true;
+	override capturePage(fn: string, w: number, h: number, fnc: ()=> void) {
+		to_app.capturePage(fn, w, h).then(()=> fnc());
 	}
 
 }

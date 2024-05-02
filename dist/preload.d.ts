@@ -16,7 +16,7 @@ export type HPROC = {
     win_close: () => void;
     win_setTitle: (title: string) => void;
     showMessageBox: (o: Electron.MessageBoxOptions) => Promise<Electron.MessageBoxReturnValue>;
-    capturePage: (fn: string) => Promise<void>;
+    capturePage: (fn: string, w: number, h: number) => Promise<void>;
     navigate_to: (url: string) => void;
     openDevTools: () => void;
     win_ev_devtools_opened: (fnc: () => void) => void;

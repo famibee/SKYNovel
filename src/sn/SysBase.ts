@@ -475,14 +475,14 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	protected stk = ()=> '';
 	hash = (_str: string)=> '';
 
-	protected readonly	isApp: boolean = false;
+	readonly	isApp: boolean = false;
 	protected $path_downloads	= '';
 	get path_downloads() {return this.$path_downloads}
 	protected $path_userdata	= '';
 	get path_userdata() {return this.$path_userdata}
 
-	canCapturePage(_fn: string, _fnc: ()=> void): boolean {return false}
-	async savePic(_fn: string, _data_url: string) {};
+	capturePage(_fn: string, _w: number, _h: number, _fnc: ()=> void) {}
+	async savePic(_fn: string, _data_url: string) {}
 	async appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException)=> void) {}
 	async ensureFileSync(_path: string) {}
 

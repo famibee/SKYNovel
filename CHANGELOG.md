@@ -1,3 +1,10 @@
+- feat([add_frame]): htmファイルに含まれる 'data-src="./' をhtmファイルがあるディレクトリを示すパス表記に置き換えるように
+	- (ex) 'data-src="prj/frames/'
+	- Web版でパスエラーになるため
+- fix: 1.50.0 で追加した const.sn.fn2ext.json 削除、改修がややこしいため
+- fix(アプリ版 [snapshot]): で layer 属性に対応してなかった件
+
+
 # [1.52.0](https://github.com/famibee/SKYNovel/compare/v1.51.0...v1.52.0) (2024-04-30)
 
 

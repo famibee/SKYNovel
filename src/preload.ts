@@ -27,7 +27,7 @@ export	type	HPROC	= {
 
 	showMessageBox	: (o: Electron.MessageBoxOptions)=> Promise<Electron.MessageBoxReturnValue>;
 
-	capturePage	: (fn: string)=> Promise<void>;
+	capturePage	: (fn: string, w: number, h: number)=> Promise<void>;
 	navigate_to	: (url: string)=> void;
 
 	openDevTools	: ()=> void;
@@ -83,7 +83,7 @@ export const	hProc	: HPROC	= {
 
 	showMessageBox	: o=> ipcRenderer.invoke('showMessageBox', o).catch(fncE),
 
-	capturePage	: fn=>	ipcRenderer.invoke('capturePage', fn).catch(fncE),
+	capturePage	: (fn, w, h)=>	ipcRenderer.invoke('capturePage', fn, w, h).catch(fncE),
 	navigate_to	: url=> ipcRenderer.invoke('navigate_to', url).catch(fncE),
 
 	openDevTools	: ()=> ipcRenderer.invoke('openDevTools').catch(fncE),

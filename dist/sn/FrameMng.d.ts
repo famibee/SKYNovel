@@ -16,6 +16,8 @@ export declare class FrameMng implements IGetFrm {
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, sys: SysBase);
     setEvtMng(evtMng: IEvtMng): void;
     destroy(): void;
+    hideAllFrame(): void;
+    restoreAllFrame(): void;
     getFrmDisabled(id: string): boolean;
     cvsResize(): void;
 }

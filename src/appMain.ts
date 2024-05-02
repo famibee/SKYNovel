@@ -51,10 +51,13 @@ export class appMain {
 
 		ipcMain.handle('showMessageBox', (_, o)=> dialog.showMessageBox(o));
 
-		ipcMain.handle('capturePage', (_, fn)=> bw.webContents.capturePage()
+		ipcMain.handle('capturePage', (_, fn, width, height)=> bw.webContents.capturePage()
 		.then(ni=> {
 			ensureFileSync(fn);	// 【必須】ディレクトリ、なければ作る
-			writeFileSync(fn, (fn.slice(-4) === '.png') ?ni.toPNG() :ni.toJPEG(80));
+
+			const c = ni.resize({width, height, quality: 'best'});
+			const d = (fn.slice(-4) === '.png') ?c.toPNG() :c.toJPEG(80);
+			writeFileSync(fn, d);
 		}));
 		ipcMain.handle('navigate_to', (_, url)=> shell.openExternal(url));
 

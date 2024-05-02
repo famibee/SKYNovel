@@ -45,6 +45,20 @@ export class FrameMng implements IGetFrm {
 		this.#hIfrm = Object.create(null);
 	}
 
+	hideAllFrame() {	// （表示・非表示を保存しつつ）すべて非表示に
+		for (const [id, {style}] of Object.entries(this.#hIfrm)) {
+			this.#hIfrmVisibleBk[id] = style.display !== 'none';
+			style.display = 'none';
+		}
+	}
+	#hIfrmVisibleBk: {[id: string]: boolean} = Object.create(null);
+	restoreAllFrame() {	// 保存していた表示・非表示を回復
+		for (const [id, v] of Object.entries(this.#hIfrmVisibleBk)) {
+			this.#hIfrm[id].style.display = v ?'inline' :'none';
+		}
+		this.#hIfrmVisibleBk = Object.create(null);
+	}
+
 	//	HTMLフレーム
 	// フレーム追加
 	#add_frame(hArg: HArg) {
@@ -76,19 +90,20 @@ export class FrameMng implements IGetFrm {
 			next();
 		});
 		ld.load((_ldr, hRes)=> {
-			const ifrm = document.getElementById(id) as HTMLIFrameElement;
-			this.#hIfrm[id] = ifrm;
+			const f = document.getElementById(id) as HTMLIFrameElement;
+			this.#hIfrm[id] = f;
 			this.#hDisabled[id] = false;
-			ifrm.srcdoc = String(hRes[src]?.data)	// .src はふりーむで問題発生
+			f.srcdoc = String(hRes[src]?.data)	// .src はふりーむで問題発生
 			.replace('sn_repRes();', '')	// これはいずれやめる
 			.replaceAll(
 				/\s(?:src|href)=(["'])(\S+)\1/g,
 				(v, p1, p2)=> (p2.slice(0, 3) === '../')
 					? this.sys.cur + p2.slice(4)
 					: v.replace(p1, p1 + url.slice(0, url.lastIndexOf('/') +1))
-			);
+			)
+			.replaceAll('data-src="./', `data-src="${url.slice(0, url.lastIndexOf('/'))}/`);
 			// 一度変数に入れてここで設定するのはFirefox対応。ifrm.onloadが二度呼ばれる！
-			ifrm.onload = ()=> {
+			f.onload = ()=> {
 				// 組み込み変数
 				this.val.setVal_Nochk('tmp', vn, true);
 				this.val.setVal_Nochk('tmp', vn +'.alpha', a);
@@ -101,10 +116,10 @@ export class FrameMng implements IGetFrm {
 				this.val.setVal_Nochk('tmp', vn +'.height', rct.height);
 				this.val.setVal_Nochk('tmp', vn +'.visible', v);
 
-				const win = ifrm.contentWindow!;
+				const win = f.contentWindow!;
 				this.#evtMng.resvFlameEvent(win);
 				// sn_repRes()をコール。引数は画像ロード処理差し替えメソッド
-				((win as any).sn_repRes)?.((i: HTMLImageElement)=> FrameMng.#loadPic2Img((i.dataset.src ?? ''), i));
+				((win as any).sn_repRes)?.((i: HTMLImageElement)=> FrameMng.#loadPic2Img(i.dataset.src ?? '', i));
 
 				this.main.resume();
 			};

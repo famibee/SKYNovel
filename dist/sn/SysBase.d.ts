@@ -69,12 +69,12 @@ export declare class SysBase implements ISysRoots, ISysBase {
     protected enc: (tx: string) => Promise<string>;
     protected stk: () => string;
     hash: (_str: string) => string;
-    protected readonly isApp: boolean;
+    readonly isApp: boolean;
     protected $path_downloads: string;
     get path_downloads(): string;
     protected $path_userdata: string;
     get path_userdata(): string;
-    canCapturePage(_fn: string, _fnc: () => void): boolean;
+    capturePage(_fn: string, _w: number, _h: number, _fnc: () => void): void;
     savePic(_fn: string, _data_url: string): Promise<void>;
     appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException) => void): Promise<void>;
     ensureFileSync(_path: string): Promise<void>;

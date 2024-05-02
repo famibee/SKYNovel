@@ -30,7 +30,7 @@ import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite
 
 export interface IMakeDesignCast { (idc	: DesignCast): void; };
 
-export interface HPage {[name: string]: Pages};
+export interface HPage {[ln: string]: Pages};
 
 export class LayerMng implements IGetFrm, IRecorder {
 	readonly	#stage	: Container;
@@ -47,11 +47,11 @@ export class LayerMng implements IGetFrm, IRecorder {
 		const fncResizeLay = ()=> {
 			sys.cvsResize();
 			this.cvsResizeDesign();
-			if (this.#modeLnSub) for (const layer of this.#aLayName) {
-				this.#hPages[layer].fore.cvsResizeChildren();
+			if (this.#modeLnSub) for (const ln of this.#aLayName) {
+				this.#hPages[ln].fore.cvsResizeChildren();
 			}
-			else for (const layer of this.#aLayName) {
-				this.#hPages[layer].fore.cvsResize();
+			else for (const ln of this.#aLayName) {
+				this.#hPages[ln].fore.cvsResize();
 			}
 
 			this.#frmMng.cvsResize();
@@ -222,8 +222,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 		disconnect	: _=> {DesignCast.leaveMode();	return false},
 		_enterDesign: _=> {
 			DesignCast.enterMode();
-			for (const layer of this.#aLayName) {
-				const lay = this.#hPages[layer].fore;
+			for (const ln of this.#aLayName) {
+				const lay = this.#hPages[ln].fore;
 				lay.makeDesignCastChildren(gdc=> gdc.make());
 				lay.makeDesignCast(gdc=> gdc.make());
 			}
@@ -329,14 +329,48 @@ export class LayerMng implements IGetFrm, IRecorder {
 			? hArg.fn
 			: `downloads:/${hArg.fn + getDateStr('-', '_', '', '_')}.png`
 		: `downloads:/snapshot${getDateStr('-', '_', '', '_')}.png`;
-		const fn = this.cfg.searchPath(fn0);
-		if (! ('layer' in hArg) && this.sys.canCapturePage(fn, ()=> this.main.resume())) return true;
+		const url = this.cfg.searchPath(fn0);
+		const width = argChk_Num(hArg, 'width', CmnLib.stageW);
+		const height= argChk_Num(hArg, 'height', CmnLib.stageH);
+		if (this.sys.isApp) {
+			return this.#snapshot4app(hArg, url, width, height);
+		}
+		return this.#snapshot4web(hArg, url, width, height);
+	}
+	#snapshot4app(hArg: HArg, url: string, width: number, height: number): boolean {
+		this.#frmMng.hideAllFrame();
+		if (! ('layer' in hArg)) {
+			this.sys.capturePage(url, width, height, ()=> {
+				this.#frmMng.restoreAllFrame();
+				this.main.resume();
+			});
+			return true;
+		}
 
-		const ext = getExt(fn);
+		// 一時的に非表示にしてスナップショット
+		const hBk: {[ln: string]: boolean} = {};
+		for (const ln of this.#getLayers()) {
+			const sp = this.#hPages[ln].fore.spLay;
+			hBk[ln] = sp.visible;
+			sp.visible = false;
+		}
+		for (const ln of this.#getLayers(hArg.layer)) this.#hPages[ln].fore.spLay.visible = true;
+
+		this.sys.capturePage(url, width, height, ()=> {
+			for (const [ln, v] of Object.entries(hBk)) {
+				this.#hPages[ln].fore.spLay.visible = v;
+			}
+			this.#frmMng.restoreAllFrame();
+			this.main.resume();
+		});
+		return true;
+	}
+	#snapshot4web(hArg: HArg, url: string, width: number, height: number): boolean {
+		const ext = getExt(url);
 		const b_color = argChk_Color(hArg, 'b_color', this.#bg_color);
 		const rnd = autoDetectRenderer({
-			width: argChk_Num(hArg, 'width', CmnLib.stageW),
-			height: argChk_Num(hArg, 'height', CmnLib.stageH),
+			width,
+			height,
 			backgroundAlpha: (b_color > 0x1000000) && (ext === 'png') ?0 :1,
 			antialias: argChk_Boolean(hArg, 'smoothing', false),
 			preserveDrawingBuffer: true,
@@ -367,10 +401,26 @@ export class LayerMng implements IGetFrm, IRecorder {
 		Promise.allSettled(a).then(async ()=> {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height});	// はみ出し対策
 			rnd.render(this.#stage, {renderTexture: renTx});
+/*
 			await this.sys.savePic(
-				fn,
+				url,
 				rnd.plugins.extract.base64(Sprite.from(renTx)),
 			);
+*/
+
+			const imgUrl = rnd.view.toDataURL('image/jpeg')
+			await this.sys.savePic(
+				url,
+				imgUrl
+			);
+
+/*
+			await this.sys.savePic(
+				fn,
+				rnd.plugins.extract.base64(Sprite.from(renTx), 'image/jpeg'),
+//				rnd.plugins.extract.base64(Sprite.from(renTx)),
+			);
+*/
 			if (! CmnTween.isTrans) for (const v of this.#getLayers(hArg.layer)) this.#hPages[v][pg].snapshot_end();
 			rnd.destroy(true);
 			this.main.resume();
@@ -456,8 +506,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 	#lay(hArg: HArg): boolean {
 		// Trans
-		const layer = this.#argChk_layer(hArg);
-		const pg = this.#hPages[layer];
+		const ln = this.#argChk_layer(hArg);
+		const pg = this.#hPages[ln];
 		const back = pg.back.spLay;
 		const fore = pg.fore.spLay;
 		if (argChk_Boolean(hArg, 'float', false)) {
@@ -475,7 +525,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		else if (hArg.dive) {
 			const {dive} = hArg;
 			let idx_dive = 0;
-			if (layer === dive) throw '[lay] 属性 layerとdiveが同じ【'+ dive +'】です';
+			if (ln === dive) throw '[lay] 属性 layerとdiveが同じ【'+ dive +'】です';
 
 			const pg_dive = this.#hPages[dive];
 			if (! pg_dive) throw '[lay] 属性 dive【'+ dive +'】が不正です。レイヤーがありません';
@@ -500,10 +550,10 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 	// レイヤ設定の消去
 	#clear_lay(hArg: HArg) {
-		this.#foreachLayers(hArg, name=> {
+		this.#foreachLayers(hArg, layer=> {
 			//if (name === this.strTxtlay && hArg.page !== 'back') this.recText('', true);
 				// 改ページ
-			const pg = this.#hPages[this.#argChk_layer({layer: name})];
+			const pg = this.#hPages[this.#argChk_layer({layer})];
 			if (hArg.page === 'both') {	// page=both で両面削除
 				pg.fore.clearLay(hArg);
 				pg.back.clearLay(hArg);
@@ -574,15 +624,15 @@ void main(void) {
 
 		const {layer} = hArg;
 		this.#aBackTransAfter = [];
-		const hTarget: {[ley_nm: string]: boolean} = {};
+		const hTarget: {[ln: string]: boolean} = {};
 		const aFore: Layer[] = [];
-		for (const lay_nm of this.#getLayers(layer)) {
-			hTarget[lay_nm] = true;
-			aFore.push(this.#hPages[lay_nm].fore);
+		for (const ln of this.#getLayers(layer)) {
+			hTarget[ln] = true;
+			aFore.push(this.#hPages[ln].fore);
 		}
 		const aBack: Layer[] = [];
-		for (const lay_nm of this.#getLayers()) {
-			const lay = this.#hPages[lay_nm][hTarget[lay_nm] ?'back' :'fore'];
+		for (const ln of this.#getLayers()) {
+			const lay = this.#hPages[ln][hTarget[ln] ?'back' :'fore'];
 			this.#aBackTransAfter.push(lay.spLay);
 			aBack.push(lay);
 		}
@@ -630,8 +680,8 @@ void main(void) {
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			[this.#fore, this.#back] = [this.#back, this.#fore];
 			const aPrm: Promise<void>[] = [];
-			for (const [layer, pg] of Object.entries(this.#hPages)) {
-				if (hTarget[layer]) {pg.transPage(aPrm); continue}
+			for (const [ln, pg] of Object.entries(this.#hPages)) {
+				if (hTarget[ln]) {pg.transPage(aPrm); continue}
 
 				// transしないために交換する
 				const {fore: {spLay: f}, back: {spLay: b}} = pg;
@@ -724,8 +774,8 @@ void main(void) {
 
 		const {layer} = hArg;
 		const aDo: DisplayObject[] = [];
-		for (const lay_nm of this.#getLayers(layer)) {
-			aDo.push(this.#hPages[lay_nm].fore.spLay);
+		for (const ln of this.#getLayers(layer)) {
+			aDo.push(this.#hPages[ln].fore.spLay);
 		}
 		this.#rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
 			// NOTE: スマホ回転対応が要るかも？
@@ -823,8 +873,8 @@ void main(void) {
 
 	// フィルター全削除
 	#clear_filter(hArg: HArg) {
-		this.#foreachLayers(hArg, name=> {
-			const pg = this.#hPages[this.#argChk_layer({layer: name})];
+		this.#foreachLayers(hArg, layer=> {
+			const pg = this.#hPages[this.#argChk_layer({layer})];
 			if (hArg.page === 'both') {	// page=both で両面に
 				const f = pg.fore;
 				const b = pg.back;
@@ -844,8 +894,8 @@ void main(void) {
 
 	// フィルター個別切替
 	#enable_filter(hArg: HArg) {
-		this.#foreachLayers(hArg, name=> {
-			const pg = this.#hPages[this.#argChk_layer({layer: name})];
+		this.#foreachLayers(hArg, layer=> {
+			const pg = this.#hPages[this.#argChk_layer({layer})];
 			if (hArg.page === 'both') {	// page=both で両面に
 				this.#enable_filter2(pg.fore, hArg);
 				this.#enable_filter2(pg.back, hArg);
@@ -900,10 +950,10 @@ void main(void) {
 
 	#getTxtLayer = (_hArg: HArg): TxtLayer=> {this.#chkTxtLay(); throw 0};
 	#$getTxtLayer(hArg: HArg): TxtLayer {
-		const layer = this.#argChk_layer(hArg, this.#curTxtlay);
-		const pg = this.#hPages[layer];
+		const ln = this.#argChk_layer(hArg, this.#curTxtlay);
+		const pg = this.#hPages[ln];
 		const lay = pg.getPage(hArg);
-		if (! (lay instanceof TxtLayer)) throw layer +'はTxtLayerではありません';
+		if (! (lay instanceof TxtLayer)) throw ln +'はTxtLayerではありません';
 
 		return lay;
 	}
@@ -922,11 +972,11 @@ void main(void) {
 		this.recPagebreak();	// カレント変更前に現在の履歴を保存
 		this.#curTxtlay = layer;
 		this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
-		for (const name of this.#getLayers()) {
-			const pg = this.#hPages[name];
+		for (const ln of this.#getLayers()) {
+			const pg = this.#hPages[ln];
 			if (! (pg.fore instanceof TxtLayer)) continue;
 			(pg.fore as TxtLayer).isCur =
-			(pg.back as TxtLayer).isCur = (name === layer);
+			(pg.back as TxtLayer).isCur = (ln === layer);
 		}
 
 		return false;
@@ -944,11 +994,11 @@ void main(void) {
 	#chkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'};
 
 	#argChk_layer(hash: any, def = ''): string {
-		const v = hash.layer ?? def;
-		if (v.includes(',')) throw 'layer名に「,」は使えません';
-		if (! (v in this.#hPages)) throw '属性 layer【'+ v +'】が不正です。レイヤーがありません';
+		const ln = hash.layer ?? def;
+		if (ln.includes(',')) throw 'layer名に「,」は使えません';
+		if (! (ln in this.#hPages)) throw '属性 layer【'+ ln +'】が不正です。レイヤーがありません';
 
-		return hash.layer = v;
+		return hash.layer = ln;
 	}
 
 
@@ -1076,8 +1126,8 @@ void main(void) {
 	// レイヤのダンプ
 	#dump_lay(hArg: HArg) {
 		console.group('🥟 [dump_lay]');
-		for (const name of this.#getLayers(hArg.layer)) {
-			const pg = this.#hPages[name];
+		for (const ln of this.#getLayers(hArg.layer)) {
+			const pg = this.#hPages[ln];
 			try {
 				console.info(`%c${pg.fore.name.slice(0, -7)} %o`, `color:#${CmnLib.isDarkMode ?'49F' :'05A'};`,
 				JSON.parse(`{"back":{${pg.back.dump()}}, "fore":{${pg.fore.dump()}}}`));
@@ -1120,9 +1170,9 @@ void main(void) {
 
 	record(): any {
 		const o: any = {};
-		for (const layer of this.#aLayName) {
-			const pg = this.#hPages[layer];
-			o[layer] = {
+		for (const ln of this.#aLayName) {
+			const pg = this.#hPages[ln];
+			o[ln] = {
 				cls: pg.cls,
 				fore: pg.fore.record(),
 				back: pg.back.record(),

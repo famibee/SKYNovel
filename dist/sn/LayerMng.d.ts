@@ -15,7 +15,7 @@ export interface IMakeDesignCast {
     (idc: DesignCast): void;
 }
 export interface HPage {
-    [name: string]: Pages;
+    [ln: string]: Pages;
 }
 export declare class LayerMng implements IGetFrm, IRecorder {
     #private;

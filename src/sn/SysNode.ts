@@ -35,7 +35,7 @@ export class SysNode extends SysBase {
 		return ret;
 	}
 
-	protected override readonly	isApp = true;
+	override readonly	isApp = true;
 
 	override async savePic(fn: string, data_url: string) {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
