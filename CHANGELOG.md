@@ -1,3 +1,10 @@
+# [1.53.0](https://github.com/famibee/SKYNovel/compare/v1.52.0...v1.53.0) (2024-05-02)
+
+
+### Features
+
+* **[add_frame]:** htmファイルに含まれる 'data-src="./' をhtmファイルがあるディレクトリを示すパス表記に置き換えるように ([5345d1d](https://github.com/famibee/SKYNovel/commit/5345d1de33c005c3eeb2d3361cc1d02bfd2cb83c))
+
 - feat([add_frame]): htmファイルに含まれる 'data-src="./' をhtmファイルがあるディレクトリを示すパス表記に置き換えるように
 	- (ex) 'data-src="prj/frames/'
 	- Web版でパスエラーになるため
