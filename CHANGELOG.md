@@ -1,3 +1,10 @@
+## [1.53.1](https://github.com/famibee/SKYNovel/compare/v1.53.0...v1.53.1) (2024-05-03)
+
+
+### Bug Fixes
+
+* **フレーム画面:** 画像最適化（WebP化）対応 ([3e630f9](https://github.com/famibee/SKYNovel/commit/3e630f9ce62ed467937272abe0cbbaf03a01fff5))
+
 - fix(フレーム画面): 画像最適化（WebP化）対応
 
 
