@@ -23690,13 +23690,18 @@ class FrameMng {
       W();
     }), X.load((q, W) => {
       const Y = document.getElementById(e);
-      this.#s[e] = Y, this.#h[e] = !1, Y.srcdoc = String(W[r]?.data).replace("sn_repRes();", "").replaceAll(
-        /\s(?:src|href)=(["'])(\S+)\1/g,
-        (K, Z, J) => J.slice(0, 3) === "../" ? this.sys.cur + J.slice(4) : K.replace(Z, Z + V.slice(0, V.lastIndexOf("/") + 1))
-      ).replaceAll('data-src="./', `data-src="${V.slice(0, V.lastIndexOf("/"))}/`), Y.onload = () => {
+      this.#s[e] = Y, this.#h[e] = !1;
+      const K = V.slice(0, V.lastIndexOf("/") + 1), Z = K.slice(0, V.lastIndexOf("/") + 1);
+      Y.srcdoc = String(W[r]?.data).replace("sn_repRes();", "").replaceAll(
+        /(?:src|href)=(["'])(\S+?)\1/g,
+        (J, tt, et) => et.slice(0, 3) === "../" ? J.replace("../", Z) : J.replace("./", "").replace(tt, tt + K)
+      ), Y.srcdoc.indexOf("true/*WEBP*/;") >= 0 && (Y.srcdoc = Y.srcdoc.replaceAll(
+        /data-src="(.+?\.)(?:jpe?g|png)/g,
+        (J, tt) => `data-src="${tt}webp`
+      )), Y.onload = () => {
         this.val.setVal_Nochk("tmp", $, !0), this.val.setVal_Nochk("tmp", $ + ".alpha", N), this.val.setVal_Nochk("tmp", $ + ".x", z.x), this.val.setVal_Nochk("tmp", $ + ".y", z.y), this.val.setVal_Nochk("tmp", $ + ".scale_x", k), this.val.setVal_Nochk("tmp", $ + ".scale_y", D), this.val.setVal_Nochk("tmp", $ + ".rotate", B), this.val.setVal_Nochk("tmp", $ + ".width", z.width), this.val.setVal_Nochk("tmp", $ + ".height", z.height), this.val.setVal_Nochk("tmp", $ + ".visible", U);
-        const K = Y.contentWindow;
-        this.#i.resvFlameEvent(K), K.sn_repRes?.((Z) => FrameMng.#p(Z.dataset.src ?? "", Z)), this.main.resume();
+        const J = Y.contentWindow;
+        this.#i.resvFlameEvent(J), J.sn_repRes?.((tt) => FrameMng.#p(tt.dataset.src ?? "", tt)), this.main.resume();
       };
     }), !0;
   }

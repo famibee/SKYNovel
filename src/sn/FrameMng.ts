@@ -93,17 +93,25 @@ export class FrameMng implements IGetFrm {
 			const f = document.getElementById(id) as HTMLIFrameElement;
 			this.#hIfrm[id] = f;
 			this.#hDisabled[id] = false;
+
+			const path_parent = url.slice(0, url.lastIndexOf('/') +1);
+			const path_pa_pa = path_parent.slice(0, url.lastIndexOf('/') +1);
 			f.srcdoc = String(hRes[src]?.data)	// .src はふりーむで問題発生
 			.replace('sn_repRes();', '')	// これはいずれやめる
 			.replaceAll(
-				/\s(?:src|href)=(["'])(\S+)\1/g,
-				(v, p1, p2)=> (p2.slice(0, 3) === '../')
-					? this.sys.cur + p2.slice(4)
-					: v.replace(p1, p1 + url.slice(0, url.lastIndexOf('/') +1))
-			)
-			.replaceAll('data-src="./', `data-src="${url.slice(0, url.lastIndexOf('/'))}/`);
-			// 一度変数に入れてここで設定するのはFirefox対応。ifrm.onloadが二度呼ばれる！
-			f.onload = ()=> {
+				/(?:src|href)=(["'])(\S+?)\1/g,
+				(m, br, v)=> v.slice(0, 3) === '../'
+				? m.replace('../', path_pa_pa)
+				: m.replace('./', '')	// 「./」は無視
+					.replace(br, br + path_parent)
+			);
+			
+			if (f.srcdoc.indexOf('true/*WEBP*/;') >= 0) f.srcdoc = f.srcdoc.replaceAll(
+				/data-src="(.+?\.)(?:jpe?g|png)/g,
+				(_, p1)=> `data-src="${p1}webp`
+			);
+
+			f.onload = ()=> {	// 一度変数に入れてここで設定するのはFirefox対応。ifrm.onloadが二度呼ばれる！
 				// 組み込み変数
 				this.val.setVal_Nochk('tmp', vn, true);
 				this.val.setVal_Nochk('tmp', vn +'.alpha', a);

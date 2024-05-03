@@ -22093,13 +22093,18 @@ class Ne {
       p();
     }), d.load((m, p) => {
       const v = document.getElementById(e);
-      this.#s[e] = v, this.#l[e] = !1, v.srcdoc = String(p[i]?.data).replace("sn_repRes();", "").replaceAll(
-        /\s(?:src|href)=(["'])(\S+)\1/g,
-        (y, _, g) => g.slice(0, 3) === "../" ? this.sys.cur + g.slice(4) : y.replace(_, _ + f.slice(0, f.lastIndexOf("/") + 1))
-      ).replaceAll('data-src="./', `data-src="${f.slice(0, f.lastIndexOf("/"))}/`), v.onload = () => {
+      this.#s[e] = v, this.#l[e] = !1;
+      const y = f.slice(0, f.lastIndexOf("/") + 1), _ = y.slice(0, f.lastIndexOf("/") + 1);
+      v.srcdoc = String(p[i]?.data).replace("sn_repRes();", "").replaceAll(
+        /(?:src|href)=(["'])(\S+?)\1/g,
+        (g, x, w) => w.slice(0, 3) === "../" ? g.replace("../", _) : g.replace("./", "").replace(x, x + y)
+      ), v.srcdoc.indexOf("true/*WEBP*/;") >= 0 && (v.srcdoc = v.srcdoc.replaceAll(
+        /data-src="(.+?\.)(?:jpe?g|png)/g,
+        (g, x) => `data-src="${x}webp`
+      )), v.onload = () => {
         this.val.setVal_Nochk("tmp", h, !0), this.val.setVal_Nochk("tmp", h + ".alpha", n), this.val.setVal_Nochk("tmp", h + ".x", c.x), this.val.setVal_Nochk("tmp", h + ".y", c.y), this.val.setVal_Nochk("tmp", h + ".scale_x", s), this.val.setVal_Nochk("tmp", h + ".scale_y", o), this.val.setVal_Nochk("tmp", h + ".rotate", a), this.val.setVal_Nochk("tmp", h + ".width", c.width), this.val.setVal_Nochk("tmp", h + ".height", c.height), this.val.setVal_Nochk("tmp", h + ".visible", l);
-        const y = v.contentWindow;
-        this.#r.resvFlameEvent(y), y.sn_repRes?.((_) => Ne.#p(_.dataset.src ?? "", _)), this.main.resume();
+        const g = v.contentWindow;
+        this.#r.resvFlameEvent(g), g.sn_repRes?.((x) => Ne.#p(x.dataset.src ?? "", x)), this.main.resume();
       };
     }), !0;
   }

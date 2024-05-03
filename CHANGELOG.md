@@ -1,3 +1,6 @@
+- fix(フレーム画面): 画像最適化（WebP化）対応
+
+
 # [1.53.0](https://github.com/famibee/SKYNovel/compare/v1.52.0...v1.53.0) (2024-05-02)
 
 
