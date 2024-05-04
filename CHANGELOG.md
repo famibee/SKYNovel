@@ -1,3 +1,6 @@
+- fix(フレーム画面): v1.53.0 のデグレード修正
+
+
 ## [1.53.1](https://github.com/famibee/SKYNovel/compare/v1.53.0...v1.53.1) (2024-05-03)
 
 

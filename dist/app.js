@@ -22096,7 +22096,8 @@ class Ne {
       this.#s[e] = v, this.#l[e] = !1;
       const y = f.slice(0, f.lastIndexOf("/") + 1), _ = y.slice(0, f.lastIndexOf("/") + 1);
       v.srcdoc = String(p[i]?.data).replace("sn_repRes();", "").replaceAll(
-        /(?:src|href)=(["'])(\S+?)\1/g,
+        /\s(?:src|href)=(["'])(\S+?)\1/g,
+        // 【\s】が大事、data-src弾く
         (g, x, w) => w.slice(0, 3) === "../" ? g.replace("../", _) : g.replace("./", "").replace(x, x + y)
       ), v.srcdoc.indexOf("true/*WEBP*/;") >= 0 && (v.srcdoc = v.srcdoc.replaceAll(
         /data-src="(.+?\.)(?:jpe?g|png)/g,
@@ -22124,18 +22125,18 @@ class Ne {
   static #o = /\?([^?]+)$/;
   // https://regex101.com/r/ZUnoFq/1
   static #p(t, e, i) {
-    const n = t.replace(Ne.#o, ""), s = t === n ? "" : t.slice(n.length), o = this.#v[t];
-    if (o) {
-      e.src = o;
+    const n = this.#v[t];
+    if (n) {
+      e.src = n;
       return;
     }
-    const a = this.#y[t];
-    if (a) {
-      a.push(e);
+    const s = this.#y[t];
+    if (s) {
+      s.push(e);
       return;
     }
     this.#y[t] = [e];
-    const h = Ne.#t.searchPath(n, de.SP_GSM), l = new Pe().add({ name: t, url: h, xhrType: ct.XHR_RESPONSE_TYPE.BUFFER });
+    const o = t.replace(Ne.#o, ""), a = t === o ? "" : t.slice(o.length), h = Ne.#t.searchPath(o, de.SP_GSM), l = new Pe().add({ name: t, url: h, xhrType: ct.XHR_RESPONSE_TYPE.BUFFER });
     Ne.#e.crypto && To(h) === "bin" && l.use(async (u, c) => {
       try {
         const f = await Ne.#e.decAB(u.data);
@@ -22150,7 +22151,7 @@ class Ne {
       c();
     }), l.load((u, c) => {
       for (const [f, { data: { src: d } }] of Object.entries(c)) {
-        const m = this.#v[f] = d + (d.slice(0, 5) === "blob:" ? "" : s);
+        const m = this.#v[f] = d + (d.slice(0, 5) === "blob:" ? "" : a);
         for (const p of this.#y[f])
           p.src = m, i && (p.onload = () => i(p));
         delete this.#y[f];

@@ -23693,7 +23693,8 @@ class FrameMng {
       this.#s[e] = Y, this.#h[e] = !1;
       const K = V.slice(0, V.lastIndexOf("/") + 1), Z = K.slice(0, V.lastIndexOf("/") + 1);
       Y.srcdoc = String(W[r]?.data).replace("sn_repRes();", "").replaceAll(
-        /(?:src|href)=(["'])(\S+?)\1/g,
+        /\s(?:src|href)=(["'])(\S+?)\1/g,
+        // 【\s】が大事、data-src弾く
         (J, tt, et) => et.slice(0, 3) === "../" ? J.replace("../", Z) : J.replace("./", "").replace(tt, tt + K)
       ), Y.srcdoc.indexOf("true/*WEBP*/;") >= 0 && (Y.srcdoc = Y.srcdoc.replaceAll(
         /data-src="(.+?\.)(?:jpe?g|png)/g,
@@ -23721,18 +23722,18 @@ class FrameMng {
   static #a = /\?([^?]+)$/;
   // https://regex101.com/r/ZUnoFq/1
   static #p(t, e, r) {
-    const N = t.replace(FrameMng.#a, ""), k = t === N ? "" : t.slice(N.length), D = this.#v[t];
-    if (D) {
-      e.src = D;
+    const N = this.#v[t];
+    if (N) {
+      e.src = N;
       return;
     }
-    const B = this.#g[t];
-    if (B) {
-      B.push(e);
+    const k = this.#g[t];
+    if (k) {
+      k.push(e);
       return;
     }
     this.#g[t] = [e];
-    const $ = FrameMng.#t.searchPath(N, SEARCH_PATH_ARG_EXT.SP_GSM), U = new Loader().add({ name: t, url: $, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER });
+    const D = t.replace(FrameMng.#a, ""), B = t === D ? "" : t.slice(D.length), $ = FrameMng.#t.searchPath(D, SEARCH_PATH_ARG_EXT.SP_GSM), U = new Loader().add({ name: t, url: $, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER });
     FrameMng.#e.crypto && getExt($) === "bin" && U.use(async (H, z) => {
       try {
         const V = await FrameMng.#e.decAB(H.data);
@@ -23747,7 +23748,7 @@ class FrameMng {
       z();
     }), U.load((H, z) => {
       for (const [V, { data: { src: X } }] of Object.entries(z)) {
-        const q = this.#v[V] = X + (X.slice(0, 5) === "blob:" ? "" : k);
+        const q = this.#v[V] = X + (X.slice(0, 5) === "blob:" ? "" : B);
         for (const W of this.#g[V])
           W.src = q, r && (W.onload = () => r(W));
         delete this.#g[V];

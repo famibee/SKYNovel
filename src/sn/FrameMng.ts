@@ -99,7 +99,7 @@ export class FrameMng implements IGetFrm {
 			f.srcdoc = String(hRes[src]?.data)	// .src はふりーむで問題発生
 			.replace('sn_repRes();', '')	// これはいずれやめる
 			.replaceAll(
-				/(?:src|href)=(["'])(\S+?)\1/g,
+				/\s(?:src|href)=(["'])(\S+?)\1/g,	// 【\s】が大事、data-src弾く
 				(m, br, v)=> v.slice(0, 3) === '../'
 				? m.replace('../', path_pa_pa)
 				: m.replace('./', '')	// 「./」は無視
@@ -150,8 +150,6 @@ export class FrameMng implements IGetFrm {
 
 	static	#REG_REP_PRM = /\?([^?]+)$/;	// https://regex101.com/r/ZUnoFq/1
 	static	#loadPic2Img(src: string, img: HTMLImageElement, onload?: (img2: HTMLImageElement)=> void) {
-		const srcNoPrm = src.replace(FrameMng.#REG_REP_PRM, '');
-		const prmSrc = (src === srcNoPrm) ?'' :src.slice(srcNoPrm.length);
 		const oUrl = this.#hEncImgOUrl[src];
 		if (oUrl) {img.src = oUrl; return}
 
@@ -159,6 +157,8 @@ export class FrameMng implements IGetFrm {
 		if (aImg) {aImg.push(img); return}
 		this.#hAEncImg[src] = [img];
 
+		const srcNoPrm = src.replace(FrameMng.#REG_REP_PRM, '');
+		const prmSrc = (src === srcNoPrm) ?'' :src.slice(srcNoPrm.length);
 		const url2 = FrameMng.#cfg.searchPath(srcNoPrm, SEARCH_PATH_ARG_EXT.SP_GSM);
 		const ld2 = (new Loader)
 		.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
