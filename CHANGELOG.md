@@ -1,3 +1,10 @@
+## [1.53.2](https://github.com/famibee/SKYNovel/compare/v1.53.1...v1.53.2) (2024-05-04)
+
+
+### Bug Fixes
+
+* **フレーム画面:** v1.53.0 のデグレード修正 ([32171ad](https://github.com/famibee/SKYNovel/commit/32171ad33993e086e8640a586ab4dfe214741253))
+
 - fix(フレーム画面): v1.53.0 のデグレード修正
 
 
