@@ -19555,7 +19555,12 @@ class zg {
 }
 class Xi {
   constructor(t, e = !0) {
-    e && (t.snd.stop(), t.loop && t.snd.destroy());
+    if (e) {
+      if (t.snd.stop(), !t.loop)
+        return;
+      t.snd.destroy(), t.snd.destroy = () => {
+      };
+    }
   }
   // destroy がないと再生が残るケースが。効果音だと破棄が激しいのでループモノ(BGM)だけにする
   onLoad() {
