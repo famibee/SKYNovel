@@ -1,3 +1,10 @@
+## [1.53.3](https://github.com/famibee/SKYNovel/compare/v1.53.2...v1.53.3) (2024-05-04)
+
+
+### Bug Fixes
+
+* **サウンド関係:** リソースを破棄したあと再度リソースを破棄する場合にエラーになっていた件 ([743d13c](https://github.com/famibee/SKYNovel/commit/743d13c636ac1ccbff4da9eb4379758851dc7d7f))
+
 - fix(サウンド関係): リソースを破棄したあと再度リソースを破棄する場合にエラーになっていた件
 
 
