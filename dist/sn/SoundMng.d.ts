@@ -1,8 +1,8 @@
-import { SysBase } from './SysBase';
-import { Config } from './Config';
-import { IVariable, IMain, INoticeChgVolume } from './CmnInterface';
-import { IHTag } from './Grammar';
 import { IEvtMng } from './CmnLib';
+import { IHTag } from './Grammar';
+import { IVariable, IMain, INoticeChgVolume } from './CmnInterface';
+import { Config } from './Config';
+import { SysBase } from './SysBase';
 
 export declare class SoundMng {
     #private;

@@ -19,7 +19,7 @@
 	"dependencies": {
 		"@pixi/sound": "^4.4.1",
 		"@popperjs/core": "^2.11.8",
-		"@tweenjs/tween.js": "^23.1.1",
+		"@tweenjs/tween.js": "^23.1.2",
 		"adm-zip": "^0.5.12",
 		"devtools-detect": "^4.0.2",
 		"electron-store": "^8.2.0",
@@ -54,7 +54,7 @@
 		"semantic-release": "^23.0.8",
 		"typescript": "^5.4.5",
 		"vite": "^5.2.11",
-		"vite-plugin-dts": "^3.9.0"
+		"vite-plugin-dts": "^3.9.1"
 	},
 	"scripts": {
 		"build": "node -r esbuild-register src/build.ts",

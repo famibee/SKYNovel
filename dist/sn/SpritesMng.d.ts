@@ -1,10 +1,10 @@
-import { HArg } from './Grammar';
-import { SoundMng } from './SoundMng';
-import { SysBase } from './SysBase';
-import { IMain, IVariable } from './CmnInterface';
-import { IEvtMng } from './CmnLib';
-import { Config } from './Config';
 import { Sprite, Container } from 'pixi.js';
+import { Config } from './Config';
+import { IEvtMng } from './CmnLib';
+import { IMain, IVariable } from './CmnInterface';
+import { SysBase } from './SysBase';
+import { SoundMng } from './SoundMng';
+import { HArg } from './Grammar';
 
 type IFncCompSpr = (sp: Sprite) => void;
 export declare class SpritesMng {

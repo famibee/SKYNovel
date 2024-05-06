@@ -1,8 +1,8 @@
-import { HArg } from './Grammar';
-import { SysBase } from './SysBase';
-import { Config } from './Config';
-import { IVariable, IMain } from './CmnInterface';
 import { IEvtMng } from './CmnLib';
+import { IVariable, IMain } from './CmnInterface';
+import { Config } from './Config';
+import { SysBase } from './SysBase';
+import { HArg } from './Grammar';
 
 export declare class SndBuf {
     #private;

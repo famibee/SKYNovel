@@ -1,7 +1,7 @@
-import { Application } from 'pixi.js';
-import { IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
-import { IHTag, ITag } from './Grammar';
 import { SysNode } from './SysNode';
+import { IHTag, ITag } from './Grammar';
+import { IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
+import { Application } from 'pixi.js';
 
 export declare class SysApp extends SysNode {
     #private;

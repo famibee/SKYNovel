@@ -1,6 +1,6 @@
-import { ScriptIterator } from './ScriptIterator';
-import { SysBase } from './SysBase';
 import { IHTag } from './Grammar';
+import { SysBase } from './SysBase';
+import { ScriptIterator } from './ScriptIterator';
 
 export declare class DebugMng {
     #private;

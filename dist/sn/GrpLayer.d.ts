@@ -1,11 +1,11 @@
-import { Application } from 'pixi.js';
-import { IMakeDesignCast } from './LayerMng';
-import { SoundMng } from './SoundMng';
-import { SysBase } from './SysBase';
-import { Config } from './Config';
-import { IMain, IVariable } from './CmnInterface';
-import { HArg } from './Grammar';
 import { Layer } from './Layer';
+import { HArg } from './Grammar';
+import { IMain, IVariable } from './CmnInterface';
+import { Config } from './Config';
+import { SysBase } from './SysBase';
+import { SoundMng } from './SoundMng';
+import { IMakeDesignCast } from './LayerMng';
+import { Application } from 'pixi.js';
 
 export declare class GrpLayer extends Layer {
     #private;

@@ -201,9 +201,9 @@ export class Layer {
 			);
 			return f;
 		},
-		greyscale: hArg=> {	// グレースケール
+		grayscale: hArg=> {	// グレースケール
 			const f = new ColorMatrixFilter;
-			f.greyscale(
+			f.grayscale(
 				argChk_Num(hArg, 'scale', 0.5),
 					// グレーの値 (0 ～ 1、0 は黒)
 				argChk_Boolean(hArg, 'multiply', false),

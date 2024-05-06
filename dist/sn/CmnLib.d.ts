@@ -1,6 +1,6 @@
-import { Container } from 'pixi.js';
-import { IHEvt2Fnc } from './CmnInterface';
 import { HArg } from './Grammar';
+import { IHEvt2Fnc } from './CmnInterface';
+import { Container } from 'pixi.js';
 
 export declare function int(o: any): number;
 export declare function uint(o: any): number;

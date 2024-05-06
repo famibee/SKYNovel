@@ -1,6 +1,6 @@
-import { Layer } from './Layer';
-import { DisplayObject, RenderTexture } from 'pixi.js';
 import { HArg, ITag } from './Grammar';
+import { DisplayObject, RenderTexture } from 'pixi.js';
+import { Layer } from './Layer';
 
 export interface IMyTrace {
     (txt: string, lvl?: string, fnline?: boolean, adjust_line?: number): void;

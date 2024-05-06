@@ -1,15 +1,15 @@
-import { Application } from 'pixi.js';
-import { DesignCast } from './DesignCast';
-import { AnalyzeTagArg } from './AnalyzeTagArg';
-import { SoundMng } from './SoundMng';
-import { SysBase } from './SysBase';
-import { ScriptIterator } from './ScriptIterator';
-import { Config } from './Config';
-import { TxtLayer } from './TxtLayer';
-import { Pages } from './Pages';
-import { IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder } from './CmnInterface';
-import { IHTag, HArg } from './Grammar';
 import { IEvtMng } from './CmnLib';
+import { IHTag, HArg } from './Grammar';
+import { IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder } from './CmnInterface';
+import { Pages } from './Pages';
+import { TxtLayer } from './TxtLayer';
+import { Config } from './Config';
+import { ScriptIterator } from './ScriptIterator';
+import { SysBase } from './SysBase';
+import { SoundMng } from './SoundMng';
+import { AnalyzeTagArg } from './AnalyzeTagArg';
+import { DesignCast } from './DesignCast';
+import { Application } from 'pixi.js';
 
 export interface IMakeDesignCast {
     (idc: DesignCast): void;

@@ -1,8 +1,8 @@
-import { Application } from 'pixi.js';
-import { IHTag } from './Grammar';
-import { IVariable, IMain } from './CmnInterface';
-import { IFn2Path, IConfig } from './ConfigBase';
 import { SysBase } from './SysBase';
+import { IFn2Path, IConfig } from './ConfigBase';
+import { IVariable, IMain } from './CmnInterface';
+import { IHTag } from './Grammar';
+import { Application } from 'pixi.js';
 
 export declare class SysNode extends SysBase {
     loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;

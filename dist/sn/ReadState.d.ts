@@ -1,11 +1,11 @@
-import { Config } from './Config';
-import { FocusMng } from './FocusMng';
-import { SoundMng } from './SoundMng';
-import { EventListenerCtn } from './EventListenerCtn';
-import { ScriptIterator } from './ScriptIterator';
-import { LayerMng } from './LayerMng';
-import { HArg, IHTag, ITag } from './Grammar';
 import { IVariable, IMain, IHEvt2Fnc, IEvt2Fnc, IMark } from './CmnInterface';
+import { HArg, IHTag, ITag } from './Grammar';
+import { LayerMng } from './LayerMng';
+import { ScriptIterator } from './ScriptIterator';
+import { EventListenerCtn } from './EventListenerCtn';
+import { SoundMng } from './SoundMng';
+import { FocusMng } from './FocusMng';
+import { Config } from './Config';
 
 interface IPageLog {
     key: string;

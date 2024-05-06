@@ -1,7 +1,7 @@
-import { Application } from 'pixi.js';
-import { Tween } from '@tweenjs/tween.js';
-import { HArg } from './Grammar';
 import { IEvtMng } from './CmnLib';
+import { HArg } from './Grammar';
+import { Tween } from '@tweenjs/tween.js';
+import { Application } from 'pixi.js';
 
 export declare class CmnTween {
     #private;
