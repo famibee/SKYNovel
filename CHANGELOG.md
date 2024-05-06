@@ -1,3 +1,10 @@
+## [1.53.4](https://github.com/famibee/SKYNovel/compare/v1.53.3...v1.53.4) (2024-05-06)
+
+
+### Bug Fixes
+
+* グレースケールの綴りミス修正（greyscale -> grayscale） ([f68e0cf](https://github.com/famibee/SKYNovel/commit/f68e0cf6ef6cbd9d9ca59b4e8a503fec6a8e4d6f))
+
 - fix: グレースケールの綴りミス修正（greyscale -> grayscale）
 
 
