@@ -21627,13 +21627,6 @@ class Layer {
       ), e;
     }
   };
-  static setBlendmodeParentOnly(t, e) {
-    const { blendmode: r } = e;
-    if (!r)
-      return;
-    const N = Layer.getBlendmodeNum(r);
-    t instanceof Sprite && (t.blendMode = N);
-  }
   static setBlendmode(t, e) {
     const { blendmode: r } = e;
     if (!r)
@@ -22096,11 +22089,9 @@ class GrpLayer extends Layer {
       this.#n = r + (N ? "," + N : ""),
       this.spLay,
       (B) => {
-        ("width" in t || "height" in t) && (B.width = argChk_Num(t, "width", 0), B.height = argChk_Num(t, "height", 0)), this.#p = B.width, this.#g = B.height, Layer.setXY(B, t, this.spLay, !0), this.#s(B);
+        ("width" in t || "height" in t) && (B.width = argChk_Num(t, "width", 0), B.height = argChk_Num(t, "height", 0)), this.#p = B.width, this.#g = B.height, Layer.setXY(B, t, this.spLay, !0), Layer.setBlendmode(this.spLay, t), this.#s(B);
       },
-      (B) => {
-        Layer.setBlendmodeParentOnly(this.spLay, t), e(B);
-      }
+      (B) => e(B)
     ), this.#a.ret;
   }
   #a = new SpritesMng();

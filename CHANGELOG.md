@@ -1,3 +1,6 @@
+- fix(GrpLayer.ts): blendmode が効いてなかった件
+
+
 ## [1.53.5](https://github.com/famibee/SKYNovel/compare/v1.53.4...v1.53.5) (2024-05-09)
 
 

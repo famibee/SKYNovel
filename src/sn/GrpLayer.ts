@@ -87,14 +87,12 @@ export class GrpLayer extends Layer {
 				this.#width = sp.width;
 				this.#height = sp.height;
 				Layer.setXY(sp, hArg, this.spLay, true);
+				Layer.setBlendmode(this.spLay, hArg);
 			//	if (hArg.page === 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
 				this.#setIdcSp(sp);
 			},
-			isStop=> {
-				Layer.setBlendmodeParentOnly(this.spLay, hArg);
-				resolve(isStop);
-			}
+			isStop=> resolve(isStop),
 		);
 		return this.#sps.ret;
 	}
