@@ -42,6 +42,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 	readonly	#elc		= new EventListenerCtn;
 
+	//MARK: コンストラクタ
 	constructor(readonly cfg: Config, readonly hTag: IHTag, readonly appPixi: Application, readonly val: IVariable, readonly main: IMain, readonly scrItr: ScriptIterator, readonly sys: SysBase, readonly sndMng: SoundMng, readonly alzTagArg: AnalyzeTagArg, readonly prpPrs: IPropParser) {
 		// レスポンシブや回転・全画面切り替え・DevTools 表示切り替えの対応
 		const fncResizeLay = ()=> {
@@ -322,7 +323,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 
 //	//	システム
-	// スナップショット
+	//MARK: スナップショット
 	#snapshot(hArg: HArg) {
 		const fn0 = hArg.fn
 		? hArg.fn.slice(0, 10) === 'userdata:/'
@@ -429,7 +430,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		return true;
 	}
 
-	// プラグインの読み込み
+	//MARK: プラグインの読み込み
 	#loadplugin(hArg: HArg) {
 		const {fn} = hArg;
 		if (! fn) throw 'fnは必須です';
@@ -454,7 +455,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 
 //	//	レイヤ共通
-	// レイヤを追加する
+	//MARK: レイヤを追加する
 	#add_lay(hArg: HArg) {
 		const {layer, class: cls} = hArg;
 		if (! layer) throw 'layerは必須です';
@@ -548,7 +549,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 	}
 	#rebuildLayerRankInfo() {this.#aLayName = this.#sortLayers()}
 
-	// レイヤ設定の消去
+	//MARK: レイヤ設定の消去
 	#clear_lay(hArg: HArg) {
 		this.#foreachLayers(hArg, layer=> {
 			//if (name === this.strTxtlay && hArg.page !== 'back') this.recText('', true);
@@ -617,7 +618,7 @@ void main(void) {
 
 	#aBackTransAfter	: DisplayObject[] = [];
 
-	// ページ裏表を交換
+	//MARK: ページ裏表を交換
 	#trans(hArg: HArg) {
 		CmnTween.finish_trans();
 		this.#evtMng.hideHint();
@@ -765,7 +766,7 @@ void main(void) {
 	}
 
 
-	// 画面を揺らす
+	//MARK: 画面を揺らす
 	#quake(hArg: HArg) {
 		CmnTween.finish_trans();
 		const time = argChk_Num(hArg, 'time', NaN);
@@ -813,7 +814,7 @@ void main(void) {
 	}
 
 
-	// トゥイーン開始
+	//MARK: トゥイーン開始
 	#tsy(hArg: HArg) {
 		const {layer, render, name} = hArg;
 		if (! layer) throw 'layerは必須です';
@@ -847,7 +848,7 @@ void main(void) {
 	}
 
 
-	// フィルター追加
+	//MARK: フィルター追加
 	#add_filter(hArg: HArg) {
 		CmnTween.finish_trans();
 
@@ -871,7 +872,7 @@ void main(void) {
 		l.aFltHArg.push(hArg);
 	}
 
-	// フィルター全削除
+	//MARK: フィルター全削除
 	#clear_filter(hArg: HArg) {
 		this.#foreachLayers(hArg, layer=> {
 			const pg = this.#hPages[this.#argChk_layer({layer})];
@@ -892,7 +893,7 @@ void main(void) {
 		return false;
 	}
 
-	// フィルター個別切替
+	//MARK: フィルター個別切替
 	#enable_filter(hArg: HArg) {
 		this.#foreachLayers(hArg, layer=> {
 			const pg = this.#hPages[this.#argChk_layer({layer})];
@@ -924,7 +925,7 @@ void main(void) {
 	static		#msecChWait		= 10;
 	static get	msecChWait() {return LayerMng.#msecChWait}
 	static set	msecChWait(v) {LayerMng.#msecChWait = v}
-	// 文字を追加する
+	//MARK: 文字を追加する
 	#ch(hArg: HArg) {
 		const {text} = hArg;
 		if (! text) throw 'textは必須です';
@@ -960,7 +961,7 @@ void main(void) {
 	setNormalChWait(): void {LayerMng.#msecChWait = this.scrItr.normalWait}
 
 
-	// 操作対象のメッセージレイヤの指定
+	//MARK: 操作対象のメッセージレイヤの指定
 	#current = (_hArg: HArg): boolean=> {this.#chkTxtLay(); throw 0};
 	#$current(hArg: HArg) {
 		const {layer} = hArg;
@@ -1019,6 +1020,7 @@ void main(void) {
 	}
 
 
+	//MARK: 文字消去
 	#clear_text(hArg: HArg) {
 		const tf = this.#getTxtLayer(hArg);
 		if (hArg.layer === this.#curTxtlay && hArg.page === 'fore') this.recPagebreak();	// 改ページ、クリア前に
@@ -1027,10 +1029,10 @@ void main(void) {
 	}
 
 
-	// ハイパーリンクの終了
+	//MARK: ハイパーリンクの終了
 	#endlink(hArg: HArg) {this.#cmdTxt('endlink｜', this.#getTxtLayer(hArg)); return false}
 
-	// ページ両面の文字消去
+	//MARK: ページ両面の文字消去
 	#er(hArg: HArg) {
 		if (argChk_Boolean(hArg, 'rec_page_break', true)) this.recPagebreak();	// 改ページ、クリア前に
 
@@ -1042,7 +1044,7 @@ void main(void) {
 		return false;
 	}
 
-	// インライン画像表示
+	//MARK: インライン画像表示
 	#graph(hArg: HArg) {
 		if (! hArg.pic) throw '[graph] picは必須です';
 
@@ -1051,7 +1053,7 @@ void main(void) {
 		return false;
 	}
 
-	// ハイパーリンク
+	//MARK: ハイパーリンク
 	#link(hArg: HArg) {
 		if (! hArg.fn && ! hArg.label && ! hArg.url) throw 'fnまたはlabelまたはurlは必須です';
 		hArg.fn ??= this.scrItr.scriptFn;	// ここで指定する必要がある
@@ -1064,13 +1066,13 @@ void main(void) {
 		return false;
 	}
 
-	// 改行
+	//MARK: 改行
 	#r(hArg: HArg) {hArg.text = '\n'; return this.#ch(hArg)}
 
-	// 履歴改行
+	//MARK: 履歴改行
 	#rec_r(hArg: HArg) {return this.#rec_ch({...hArg, text: '[r]'})};
 
-	// 履歴書き込み
+	//MARK: 履歴書き込み
 	#rec_ch(hArg: HArg) {
 		this.#oLastPage = {...hArg, text: this.#oLastPage.text};	// text 以外を先に更新
 		if (! hArg.text) return false;
@@ -1082,7 +1084,7 @@ void main(void) {
 		return this.#ch(hArg);	// この先は text, style, r_style 以外破棄されてしまうので注意
 	};
 
-	// 履歴リセット
+	//MARK: 履歴リセット
 	#reset_rec(hArg: HArg) {
 		this.#aTxtLog = [];
 		this.#oLastPage = {text: hArg.text ?? ''};
@@ -1093,7 +1095,7 @@ void main(void) {
 		return false;
 	}
 
-	// 文字列と複数ルビの追加
+	//MARK: 文字列と複数ルビの追加
 	#ruby2(hArg: HArg) {
 		const {t, r} = hArg;
 		if (! t) throw '[ruby2] tは必須です';
@@ -1106,14 +1108,14 @@ void main(void) {
 	}
 
 
-	// インラインスタイル設定
+	//MARK: インラインスタイル設定
 	#span(hArg: HArg) {
 		const sArg = encodeURIComponent(JSON.stringify(hArg));
 		this.#cmdTxt('span｜'+ sArg, this.#getTxtLayer(hArg));
 		return false;
 	}
 
-	// tcy縦中横を表示する
+	//MARK: tcy縦中横を表示する
 	#tcy(hArg: HArg) {
 		if (! hArg.t) throw '[tcy] tは必須です';
 
@@ -1123,7 +1125,7 @@ void main(void) {
 	}
 
 
-	// レイヤのダンプ
+	//MARK: レイヤのダンプ
 	#dump_lay(hArg: HArg) {
 		console.group('🥟 [dump_lay]');
 		for (const ln of this.#getLayers(hArg.layer)) {
@@ -1143,7 +1145,7 @@ void main(void) {
 	}
 
 
-	// イベント有無の切替
+	//MARK: イベント有無の切替
 	#enable_event(hArg: HArg) {
 		const layer = this.#argChk_layer(hArg, this.#curTxtlay);
 		const v = argChk_Boolean(hArg, 'enabled', true);
@@ -1154,7 +1156,7 @@ void main(void) {
 	}
 
 
-	// ボタンを表示
+	//MARK: ボタンを表示
 	#button(hArg: HArg) {
 		Pages.argChk_page(hArg, 'back');	// チェックしたいというよりデフォルトをbackに
 		hArg.fn ??= this.scrItr.scriptFn;	// ここで指定する必要がある

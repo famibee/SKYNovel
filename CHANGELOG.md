@@ -1,3 +1,130 @@
+- fix(マクロ): マクロ内でタグやマクロを * なしで記述した場合、* ありのように値が渡される不具合
+	- 以下の例では [tst2] に * を渡したり渡さなかったりした場合の現象（n:tst2 の行）
+	- 「*」を書けば mp: 変数がバケツリレーされ、 * を書かないと渡されない・クリアされる感じ
+- fix([call]): [call] の引数渡し処理を [macro] で定義したマクロに動作を合わせるように
+	- 以下の例では [call] に * を渡したり渡さなかったりした場合の現象
+	- v1.51.0（タグ解析()内修正）のデグレード、そちらの修正はとりやめ
+		- 【（v1.51.0）マクロ内で[call]した場合、中のタグやマクロで * を使用しても、最初のマクロに渡された引数を反映してなかった件】
+	- 定義したマクロと [call] の引数渡し処理を合わせたが、引き続き定義したマクロに入った際にもローカルイベントをスタックしない。（マクロ脱出時にマクロ内で追加したローカルイベントが消えない）
+
+
+　具体的には、（なにかの拡張機能末尾に）以下のような定義をした場合に、
+```scheme
+[macro name=tst]
+	[trace text="&'n:'+ mp:n +' '+ (mp:a == mp:f ?'⭕️' :'❌️') +' f:'+ mp:f"]
+[endmacro]
+
+[macro name=tst2]
+	[tst * n='tst2']
+[endmacro]
+
+[macro name=target]
+	[tst n='A' a='undefined']
+	[tst n='B*' * a='鑑定官_眼鏡']
+	[tst n='C*' f='UPD c' a='UPD c']
+	[tst n='D*' * f='UPD d' a='UPD d']
+	[jump label=*jjj]
+
+*jjj
+	[tst n='G' a='undefined']
+	[tst n='H*' * a='鑑定官_眼鏡']
+	[tst n='I*' f='UPD i' a='UPD i']
+	[tst n='J*' * f='UPD j' a='UPD j']
+
+	[call label=*ccc]
+	[call label=*ddd *]
+
+	[tst2 a='undefined']
+	[tst2 * a='鑑定官_眼鏡']
+[endmacro]
+
+	[target f=鑑定官_眼鏡]
+[return]
+
+
+*ccc
+	[tst n='o' a='undefined']
+	[tst n='p*' * a='undefined']
+	[tst n='q*' f='UPD q' a='UPD q']
+	[tst n='r*' * f='UPD r' a='UPD r']
+[return]
+
+*ddd
+	[tst n='O' a='undefined']
+	[tst n='P*' * a='鑑定官_眼鏡']
+	[tst n='Q*' f='UPD Q' a='UPD Q']
+	[tst n='R*' * f='UPD R' a='UPD R']
+[return]
+```
+
+
+　v1.51.0 修正前は以下の動作だった。
+```
+n:A ⭕️ f:undefined
+n:B* ⭕️ f:鑑定官_眼鏡
+n:C* ⭕️ f:UPD c
+n:D* ⭕️ f:UPD d
+n:G ⭕️ f:undefined
+n:H* ⭕️ f:鑑定官_眼鏡
+n:I* ⭕️ f:UPD i
+n:J* ⭕️ f:UPD j
+n:o ⭕️ f:undefined
+n:p* ⭕️ f:undefined -- ここも問題なかった
+n:q* ⭕️ f:UPD q
+n:r* ⭕️ f:UPD r
+n:O ⭕️ f:undefined
+n:P* ❌️ f:undefined	-- マクロ内で[call *]->[tst n='P*' *]-> f が渡されてない
+n:Q* ⭕️ f:UPD Q
+n:R* ⭕️ f:UPD R
+n:tst2 ⭕️ f:undefined -- ここも問題なかった
+n:tst2 ⭕️ f:鑑定官_眼鏡
+```
+
+　今回 v1.53.5 修正前は以下の動作だった。「P*」が直ったが「tst2 一つめ」に不具合。
+```
+n:A ⭕️ f:undefined
+n:B* ⭕️ f:鑑定官_眼鏡
+n:C* ⭕️ f:UPD c
+n:D* ⭕️ f:UPD d
+n:G ⭕️ f:undefined
+n:H* ⭕️ f:鑑定官_眼鏡
+n:I* ⭕️ f:UPD i
+n:J* ⭕️ f:UPD j
+n:o ⭕️ f:undefined
+n:p* ❌️ f:鑑定官_眼鏡 -- デグレード
+n:q* ⭕️ f:UPD q
+n:r* ⭕️ f:UPD r
+n:O ⭕️ f:undefined
+n:P* ⭕️ f:鑑定官_眼鏡 -- ここは修正された
+n:Q* ⭕️ f:UPD Q
+n:R* ⭕️ f:UPD R
+n:tst2 ❌️ f:鑑定官_眼鏡 -- デグレード
+n:tst2 ⭕️ f:鑑定官_眼鏡
+```
+
+　今回 v1.53.5 修正後は次のような結果になる。
+```
+n:A ⭕️ f:undefined
+n:B* ⭕️ f:鑑定官_眼鏡
+n:C* ⭕️ f:UPD c
+n:D* ⭕️ f:UPD d
+n:G ⭕️ f:undefined
+n:H* ⭕️ f:鑑定官_眼鏡
+n:I* ⭕️ f:UPD i
+n:J* ⭕️ f:UPD j
+n:o ⭕️ f:undefined
+n:p* ⭕️ f:undefined -- 今回修正された
+n:q* ⭕️ f:UPD q
+n:r* ⭕️ f:UPD r
+n:O ⭕️ f:undefined
+n:P* ⭕️ f:鑑定官_眼鏡
+n:Q* ⭕️ f:UPD Q
+n:R* ⭕️ f:UPD R
+n:tst2 ⭕️ f:undefined -- 今回修正された
+n:tst2 ⭕️ f:鑑定官_眼鏡
+```
+
+
 ## [1.53.4](https://github.com/famibee/SKYNovel/compare/v1.53.3...v1.53.4) (2024-05-06)
 
 

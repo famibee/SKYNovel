@@ -56,6 +56,7 @@ export class ScriptIterator {
 	readonly	#grm	= new Grammar;
 
 
+	//MARK: コンストラクタ
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly main: IMain, private readonly val: IVariable, private readonly alzTagArg: AnalyzeTagArg, private readonly runAnalyze: ()=> void, private readonly prpPrs: IPropParser, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
 		// 変数操作
 		hTag.let_ml		= o=> this.#let_ml(o);	// インラインテキスト代入
@@ -374,6 +375,7 @@ export class ScriptIterator {
 
 	// result = true : waitする  resume()で再開
 	#procDebugtag	= (_tag_name: string)=> {};
+	//MARK: タグ解析
 	タグ解析(tagToken: string): boolean {
 		const [tag_name, args] = tagToken2Name_Args(tagToken);
 		const tag_fnc = this.hTag[tag_name];
@@ -397,11 +399,11 @@ export class ScriptIterator {
 		const csa: any = len === 0 ?{} :this.#aCallStk[len -1].csArg;
 		if (this.alzTagArg.isKomeParam) {
 			if (len === 0) throw '属性「*」はマクロのみ有効です';
-			hArg = {...csa[':hMp'], ...csa};
+			hArg = {...csa};
 		}
 		hArg[':タグ名'] = tag_name;
-/*
-		{	// タグ位置のコールスタック情報を埋め込むコード（デバッグ用）
+	// #region タグ位置のコールスタック情報を埋め込むコード（デバッグ用）
+	/*	{
 			const lc0 = this.#cnvIdx2lineCol(this.#script, this.#idxToken);
 			let now = `存在位置 fn:${this.#scriptFn} line:${lc0.ln} col:${lc0.col_s +1}`;
 			hArg[':path'] = now;
@@ -419,11 +421,12 @@ export class ScriptIterator {
 						`で [${call_nm} ...]をコール`;
 				}
 			}
-		}
-*/
-		// タグ位置情報を埋め込むコード（デバッグ用）
+		}*/
+	// #endregion
+	// #region タグ位置情報を埋め込むコード（デバッグ用）
 //		hArg[':path'] = this.#scriptFn;
 //		hArg[':ln'] = this.#lineNum;
+	// #endregion
 		// valやdefの値について。null はありえない。'null'や'undefined' はありえる。
 		// 省略時以外で undefined はない。a=undefined と書いても 'undefined' になる
 		for (const [arg_nm, {val, def}] of Object.entries(hPrm)) {
@@ -460,7 +463,7 @@ export class ScriptIterator {
 
 
 //	//	変数操作
-	// インラインテキスト代入
+	//MARK: インラインテキスト代入
 	#let_ml(hArg: HArg) {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
@@ -482,7 +485,7 @@ export class ScriptIterator {
 
 
 //	// デバッグ・その他
-	// スタックのダンプ
+	//MARK: スタックのダンプ
 	#dump_stack() {
 		if (this.#idxToken === 0) {
 			console.group(`🥟 [dump_stack] スクリプト現在地 fn:${this.#scriptFn} line:${1} col:${0}`);
@@ -534,7 +537,7 @@ export class ScriptIterator {
 	}
 
 
-	// 外部へスクリプトを表示
+	//MARK: 外部へスクリプトを表示
 	#dump_script(hArg: HArg) {
 		const {set_fnc, break_fnc} = hArg;
 		if (! set_fnc) throw 'set_fncは必須です';	// スクリプトを返すコールバック
@@ -610,6 +613,7 @@ export class ScriptIterator {
 
 //	// 条件分岐
 	#aIfStk	: number[]	= [-1];	// 先頭に積む FIFOバッファ（unshift / shift）
+	//MARK: ifブロックの終端
 	#endif() {
 		if (this.#aIfStk[0] === -1) throw 'ifブロック内ではありません';
 
@@ -618,6 +622,7 @@ export class ScriptIterator {
 
 		return false;
 	}
+	//MARK: ifブロックの開始
 	#if(hArg: HArg) {
 		//console.log('if idxToken:'+ this.#idxToken);
 		const {exp} = hArg;
@@ -682,27 +687,29 @@ export class ScriptIterator {
 
 
 //	// ラベル・ジャンプ
-	// サブルーチンコール
+	//MARK: サブルーチンコール
 	#call(hArg: HArg) {
 		if (! argChk_Boolean(hArg, 'count', false)) this.#eraseKidoku();
 
 		const {fn} = hArg;
 		if (fn) this.#cnvSnPath(fn);	// chk only
-		this.#callSub({':hEvt1Time': this.#evtMng.popLocalEvts(), ':hMp': this.val.cloneMp(), ':lenIfStk': this.#aIfStk.length});
+		this.#callSub({...hArg, ':hEvt1Time': this.#evtMng.popLocalEvts()});
+			// ':hEvt1Time'の扱いだけは定義したマクロと異なる事とする
 
 		if (argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
 		this.#jumpWork(fn, hArg.label);
 
 		return true;
 	}
-	#callSub(csa: ICallStackArg) {
+	#callSub(h: any) {
+		const csa: ICallStackArg = {...h, ':hMp': this.val.cloneMp(), ':lenIfStk': this.#aIfStk.length};
 		this.#script.aLNum[this.#idxToken] = this.#lineNum;	// 戻ったときの行番号
 		if (! this.#resvToken) {csa[':resvToken'] = ''; this.#clearResvToken()}
 		this.#aCallStk.push(new CallStack(this.#scriptFn, this.#idxToken, csa));
 		this.#aIfStk.unshift(-1);	// 最初に要素を追加
 	}
 
-	// シナリオジャンプ
+	//MARK: シナリオジャンプ
 	#jump(hArg: HArg) {
 		if (! argChk_Boolean(hArg, 'count', true)) this.#eraseKidoku();
 
@@ -712,7 +719,7 @@ export class ScriptIterator {
 		return true;
 	}
 
-	// コールスタック破棄
+	//MARK: コールスタック破棄
 	#pop_stack(hArg: HArg) {
 		if (argChk_Boolean(hArg, 'clear', false)) this.#aCallStk = [];
 		else if (! this.#aCallStk.pop()) throw '[pop_stack] スタックが空です';
@@ -723,7 +730,7 @@ export class ScriptIterator {
 		return false;
 	}
 
-	// サブルーチンから戻る
+	//MARK: サブルーチンから戻る
 	#return(hArg: HArg) {
 		const cs = this.#aCallStk.pop();
 		if (! cs) throw '[return] スタックが空です';
@@ -1069,21 +1076,21 @@ export class ScriptIterator {
 
 
 //	// マクロ
-	// 括弧マクロの定義
+	//MARK: 括弧マクロの定義
 	#bracket2macro(hArg: HArg) {
 		this.#grm.bracket2macro(hArg, this.hTag, this.#script, this.#idxToken);
 
 		return false;
 	}
 
-	// 一文字マクロの定義
+	//MARK: 一文字マクロの定義
 	#char2macro(hArg: HArg) {
 		this.#grm.char2macro(hArg, this.hTag, this.#script, this.#idxToken);
 
 		return false;
 	}
 
-	// マクロ定義の開始
+	//MARK: マクロ定義の開始
 	readonly	#REG_NG4MAC_NM = new RegExp(`["'#;\\]　]+`);
 	#macro(hArg: HArg) {
 		const {name} = hArg;
@@ -1097,7 +1104,7 @@ export class ScriptIterator {
 		this.#REGSTEPIN = new RegExp(`\\[(${this.#strStepin})\\b`);
 		this.hTag[name] = hArgM=> {
 			hArgM.design_unit = hArg.design_unit;
-			this.#callSub({...(<ICallStackArg>hArgM), ':hMp': this.val.cloneMp(), ':lenIfStk': this.#aIfStk.length});
+			this.#callSub(hArgM);
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
 			//for (const k of Object.keys(hArg)) this.val.setVal_Nochk('mp', k, hArg[k]);
@@ -1134,7 +1141,7 @@ export class ScriptIterator {
 
 
 //	// しおり
-	// しおりの読込
+	//MARK: しおりの読込
 	#load(hArg: HArg) {
 		if (! ('place' in hArg)) throw 'placeは必須です';
 		const place = Number(hArg.place);
@@ -1202,7 +1209,7 @@ export class ScriptIterator {
 		return true;
 	}
 
-	// スクリプト再読込
+	//MARK: スクリプト再読込
 	#reload_script(hArg: HArg) {	// 最後の[record_place]から再開
 		const mark = this.val.getMark(0);
 		// 起動から再読込までの間に追加・変更・削除されたファイルがあるかも、に対応
@@ -1261,7 +1268,7 @@ export class ScriptIterator {
 	}
 	nowMark(): IMark {return {...this.#mark}}
 
-	// しおりの保存
+	//MARK: しおりの保存
 	#save(hArg: HArg) {
 		if (! ('place' in hArg)) throw 'placeは必須です';
 		const place = Number(hArg.place);

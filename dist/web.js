@@ -23886,6 +23886,7 @@ ${e}`, t, X, CmnTween.cnvTweenArg(t, X), () => {
   }
 }
 class LayerMng {
+  //MARK: コンストラクタ
   constructor(t, e, r, N, k, D, B, $, U, H) {
     this.cfg = t, this.hTag = e, this.appPixi = r, this.val = N, this.main = k, this.scrItr = D, this.sys = B, this.sndMng = $, this.alzTagArg = U, this.prpPrs = H;
     const z = () => {
@@ -24000,7 +24001,7 @@ class LayerMng {
     }) : !1;
   }
   //	//	システム
-  // スナップショット
+  //MARK: スナップショット
   #m(t) {
     const e = t.fn ? t.fn.slice(0, 10) === "userdata:/" ? t.fn : `downloads:/${t.fn + getDateStr("-", "_", "", "_")}.png` : `downloads:/snapshot${getDateStr("-", "_", "", "_")}.png`, r = this.cfg.searchPath(e), N = argChk_Num(t, "width", CmnLib.stageW), k = argChk_Num(t, "height", CmnLib.stageH);
     return this.sys.isApp ? this.#d(t, r, N, k) : this.#x(t, r, N, k);
@@ -24060,7 +24061,7 @@ class LayerMng {
       B.destroy(!0), this.main.resume();
     }), !0;
   }
-  // プラグインの読み込み
+  //MARK: プラグインの読み込み
   #u(t) {
     const { fn: e } = t;
     if (!e)
@@ -24081,7 +24082,7 @@ class LayerMng {
     return r;
   }
   //	//	レイヤ共通
-  // レイヤを追加する
+  //MARK: レイヤを追加する
   #y(t) {
     const { layer: e, class: r } = t;
     if (!e)
@@ -24144,7 +24145,7 @@ class LayerMng {
   #T() {
     this.#_ = this.#N();
   }
-  // レイヤ設定の消去
+  //MARK: レイヤ設定の消去
   #G(t) {
     return this.#H(t, (e) => {
       const r = this.#o[this.#K({ layer: e })];
@@ -24203,7 +24204,7 @@ void main(void) {
   });
   #S = new Sprite(this.#P);
   #D = [];
-  // ページ裏表を交換
+  //MARK: ページ裏表を交換
   #w(t) {
     CmnTween.finish_trans(), this.#g.hideHint();
     const { layer: e } = t;
@@ -24301,7 +24302,7 @@ void main(void) {
       return N < k ? -1 : N > k ? 1 : 0;
     });
   }
-  // 画面を揺らす
+  //MARK: 画面を揺らす
   #k(t) {
     if (CmnTween.finish_trans(), argChk_Num(t, "time", NaN) === 0 || this.#g.isSkipping)
       return !1;
@@ -24329,7 +24330,7 @@ void main(void) {
     }, () => {
     }), this.appPixi.ticker.add(k), !1;
   }
-  // トゥイーン開始
+  //MARK: トゥイーン開始
   #it(t) {
     const { layer: e, render: r, name: N } = t;
     if (!e)
@@ -24346,7 +24347,7 @@ void main(void) {
           z[V] = D[V];
     }), "filter" in t && (D.spLay.filters = [Layer.bldFilters(t)], D.aFltHArg = [t]), !1;
   }
-  // フィルター追加
+  //MARK: フィルター追加
   #W(t) {
     return CmnTween.finish_trans(), this.#H(t, (e) => {
       const r = this.#o[this.#K({ layer: e })];
@@ -24362,7 +24363,7 @@ void main(void) {
     const r = t.spLay;
     r.filters ??= [], r.filters = [...r.filters, Layer.bldFilters(e)], t.aFltHArg.push(e);
   }
-  // フィルター全削除
+  //MARK: フィルター全削除
   #z(t) {
     return this.#H(t, (e) => {
       const r = this.#o[this.#K({ layer: e })];
@@ -24375,7 +24376,7 @@ void main(void) {
       N.spLay.filters = null, N.aFltHArg = [];
     }), !1;
   }
-  // フィルター個別切替
+  //MARK: フィルター個別切替
   #B(t) {
     return this.#H(t, (e) => {
       const r = this.#o[this.#K({ layer: e })];
@@ -24404,7 +24405,7 @@ void main(void) {
   static set msecChWait(t) {
     LayerMng.#Y = t;
   }
-  // 文字を追加する
+  //MARK: 文字を追加する
   #q(t) {
     const { text: e } = t;
     if (!e)
@@ -24429,7 +24430,7 @@ void main(void) {
   setNormalChWait() {
     LayerMng.#Y = this.scrItr.normalWait;
   }
-  // 操作対象のメッセージレイヤの指定
+  //MARK: 操作対象のメッセージレイヤの指定
   #J = (t) => {
     throw this.#A(), 0;
   };
@@ -24478,26 +24479,27 @@ void main(void) {
   recPagebreak() {
     this.#U.text && (this.#U.text = this.#U.text.replaceAll("</span><span class='sn_ch'>", ""), this.#tt.push(this.#U) > this.cfg.oCfg.log.max_len && (this.#tt = this.#tt.slice(-this.cfg.oCfg.log.max_len)), this.#U = { text: "" });
   }
+  //MARK: 文字消去
   #ht(t) {
     const e = this.#$(t);
     return t.layer === this.#E && t.page === "fore" && this.recPagebreak(), e.clearText(), !1;
   }
-  // ハイパーリンクの終了
+  //MARK: ハイパーリンクの終了
   #ut(t) {
     return this.#f("endlink｜", this.#$(t)), !1;
   }
-  // ページ両面の文字消去
+  //MARK: ページ両面の文字消去
   #ct(t) {
     return argChk_Boolean(t, "rec_page_break", !0) && this.recPagebreak(), this.#Q && (this.#Q.fore.clearLay(t), this.#Q.back.clearLay(t)), !1;
   }
-  // インライン画像表示
+  //MARK: インライン画像表示
   #rt(t) {
     if (!t.pic)
       throw "[graph] picは必須です";
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#f("grp｜" + e, this.#$(t)), !1;
   }
-  // ハイパーリンク
+  //MARK: ハイパーリンク
   #at(t) {
     if (!t.fn && !t.label && !t.url)
       throw "fnまたはlabelまたはurlは必須です";
@@ -24505,20 +24507,20 @@ void main(void) {
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#f("link｜" + e, this.#$(t)), !1;
   }
-  // 改行
+  //MARK: 改行
   #ft(t) {
     return t.text = `
 `, this.#q(t);
   }
-  // 履歴改行
+  //MARK: 履歴改行
   #dt(t) {
     return this.#ot({ ...t, text: "[r]" });
   }
-  // 履歴書き込み
+  //MARK: 履歴書き込み
   #ot(t) {
     return this.#U = { ...t, text: this.#U.text }, t.text ? (t.record = !0, t.style ??= "", t.style += "display: none;", t.wait = 0, this.#q(t)) : !1;
   }
-  // 履歴リセット
+  //MARK: 履歴リセット
   #pt(t) {
     return this.#tt = [], this.#U = { text: t.text ?? "" }, this.val.setVal_Nochk(
       "save",
@@ -24526,7 +24528,7 @@ void main(void) {
       t.text ? `[{text:"${t.text}"}]` : "[]"
     ), !1;
   }
-  // 文字列と複数ルビの追加
+  //MARK: 文字列と複数ルビの追加
   #lt(t) {
     const { t: e, r } = t;
     if (!e)
@@ -24535,19 +24537,19 @@ void main(void) {
       throw "[ruby2] rは必須です";
     return t.text = "｜" + encodeURIComponent(e) + "《" + encodeURIComponent(r) + "》", delete t.t, delete t.r, this.#q(t);
   }
-  // インラインスタイル設定
+  //MARK: インラインスタイル設定
   #nt(t) {
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#f("span｜" + e, this.#$(t)), !1;
   }
-  // tcy縦中横を表示する
+  //MARK: tcy縦中横を表示する
   #vt(t) {
     if (!t.t)
       throw "[tcy] tは必須です";
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#f("tcy｜" + e, this.#$(t)), !1;
   }
-  // レイヤのダンプ
+  //MARK: レイヤのダンプ
   #mt(t) {
     console.group("🥟 [dump_lay]");
     for (const e of this.#b(t.layer)) {
@@ -24564,12 +24566,12 @@ void main(void) {
     }
     return console.groupEnd(), !1;
   }
-  // イベント有無の切替
+  //MARK: イベント有無の切替
   #Z(t) {
     const e = this.#K(t, this.#E), r = argChk_Boolean(t, "enabled", !0);
     return this.#$(t).enabled = r, this.val.setVal_Nochk("save", "const.sn.layer." + e + ".enabled", r), !1;
   }
-  // ボタンを表示
+  //MARK: ボタンを表示
   #gt(t) {
     return Pages.argChk_page(t, "back"), t.fn ??= this.scrItr.scriptFn, this.#$(t).addButton(t), this.scrItr.recodeDesign(t), !1;
   }
@@ -26430,6 +26432,7 @@ class CallStack {
   toString = () => `[fn:${this.fn}, idx:${this.idx}, csArg:${this.csArg}]`;
 }
 class ScriptIterator {
+  //MARK: コンストラクタ
   constructor(t, e, r, N, k, D, B, $, U) {
     this.cfg = t, this.hTag = e, this.main = r, this.val = N, this.alzTagArg = k, this.runAnalyze = D, this.prpPrs = B, this.sndMng = $, this.sys = U, e.let_ml = (z) => this.#G(z), e.endlet_ml = () => !1, e.dump_stack = () => this.#j(), e.dump_script = (z) => this.#X(z), e.else = // その他ifブロック開始
     e.elsif = // 別条件のifブロック開始
@@ -26637,6 +26640,7 @@ class ScriptIterator {
   // result = true : waitする  resume()で再開
   #L = (t) => {
   };
+  //MARK: タグ解析
   タグ解析(t) {
     const [e, r] = tagToken2Name_Args(t), N = this.hTag[e];
     if (!N)
@@ -26656,7 +26660,7 @@ class ScriptIterator {
     if (this.alzTagArg.isKomeParam) {
       if (B === 0)
         throw "属性「*」はマクロのみ有効です";
-      D = { ...$[":hMp"], ...$ };
+      D = { ...$ };
     }
     D[":タグ名"] = e;
     for (const [U, { val: H, def: z }] of Object.entries(k)) {
@@ -26687,7 +26691,7 @@ class ScriptIterator {
     this.#I = t, this.#T = e;
   }
   //	//	変数操作
-  // インラインテキスト代入
+  //MARK: インラインテキスト代入
   #G(t) {
     const { name: e } = t;
     if (!e)
@@ -26699,7 +26703,7 @@ class ScriptIterator {
     return t.text = r, t.cast = "str", this.hTag.let(t), this.#r += 2, this.#i += (r.match(/\n/g) ?? []).length, !1;
   }
   //	// デバッグ・その他
-  // スタックのダンプ
+  //MARK: スタックのダンプ
   #j() {
     if (this.#r === 0)
       return console.group(`🥟 [dump_stack] スクリプト現在地 fn:${this.#e} line:1 col:0`), console.groupEnd(), !1;
@@ -26734,7 +26738,7 @@ class ScriptIterator {
     }
     return r;
   }
-  // 外部へスクリプトを表示
+  //MARK: 外部へスクリプトを表示
   #X(t) {
     const { set_fnc: e, break_fnc: r } = t;
     if (!e)
@@ -26793,11 +26797,13 @@ class ScriptIterator {
   //	// 条件分岐
   #w = [-1];
   // 先頭に積む FIFOバッファ（unshift / shift）
+  //MARK: ifブロックの終端
   #F() {
     if (this.#w[0] === -1)
       throw "ifブロック内ではありません";
     return this.#r = this.#w[0], this.#w.shift(), !1;
   }
+  //MARK: ifブロックの開始
   #b(t) {
     const { exp: e } = t;
     if (!e)
@@ -26852,20 +26858,21 @@ class ScriptIterator {
     throw "[endif]がないままスクリプト終端です";
   }
   //	// ラベル・ジャンプ
-  // サブルーチンコール
+  //MARK: サブルーチンコール
   #H(t) {
     argChk_Boolean(t, "count", !1) || this.#at();
     const { fn: e } = t;
-    return e && this.#c(e), this.#N({ ":hEvt1Time": this.#I.popLocalEvts(), ":hMp": this.val.cloneMp(), ":lenIfStk": this.#w.length }), argChk_Boolean(t, "clear_local_event", !1) && this.hTag.clear_event({}), this.#M(e, t.label), !0;
+    return e && this.#c(e), this.#N({ ...t, ":hEvt1Time": this.#I.popLocalEvts() }), argChk_Boolean(t, "clear_local_event", !1) && this.hTag.clear_event({}), this.#M(e, t.label), !0;
   }
   #N(t) {
-    this.#t.aLNum[this.#r] = this.#i, this.#V || (t[":resvToken"] = "", this.#z()), this.#s.push(new CallStack(this.#e, this.#r, t)), this.#w.unshift(-1);
+    const e = { ...t, ":hMp": this.val.cloneMp(), ":lenIfStk": this.#w.length };
+    this.#t.aLNum[this.#r] = this.#i, this.#V || (e[":resvToken"] = "", this.#z()), this.#s.push(new CallStack(this.#e, this.#r, e)), this.#w.unshift(-1);
   }
-  // シナリオジャンプ
+  //MARK: シナリオジャンプ
   #k(t) {
     return argChk_Boolean(t, "count", !0) || this.#at(), this.#w[0] = -1, this.#M(t.fn, t.label), !0;
   }
-  // コールスタック破棄
+  //MARK: コールスタック破棄
   #it(t) {
     if (argChk_Boolean(t, "clear", !1))
       this.#s = [];
@@ -26873,7 +26880,7 @@ class ScriptIterator {
       throw "[pop_stack] スタックが空です";
     return this.#z(), this.#w = [-1], this.val.setMp({}), !1;
   }
-  // サブルーチンから戻る
+  //MARK: サブルーチンから戻る
   #W(t) {
     const e = this.#s.pop();
     if (!e)
@@ -27096,15 +27103,15 @@ class ScriptIterator {
     return this.#rt ? this.val.getVal("sys:sn.tagCh.doWait_Kidoku") ? uint(this.val.getVal("sys:sn.tagCh.msecWait_Kidoku")) : 0 : this.val.getVal("sys:sn.tagCh.doWait") ? uint(this.val.getVal("sys:sn.tagCh.msecWait")) : 0;
   }
   //	// マクロ
-  // 括弧マクロの定義
+  //MARK: 括弧マクロの定義
   #ft(t) {
     return this.#n.bracket2macro(t, this.hTag, this.#t, this.#r), !1;
   }
-  // 一文字マクロの定義
+  //MARK: 一文字マクロの定義
   #dt(t) {
     return this.#n.char2macro(t, this.hTag, this.#t, this.#r), !1;
   }
-  // マクロ定義の開始
+  //MARK: マクロ定義の開始
   #ot = new RegExp(`["'#;\\]　]+`);
   #pt(t) {
     const { name: e } = t;
@@ -27115,7 +27122,7 @@ class ScriptIterator {
     if (this.#ot.test(e))
       throw `[${e}]はマクロ名として異常です`;
     const r = this.#i, N = new CallStack(this.#e, this.#r);
-    for (this.#lt += "|" + e, this.#nt = new RegExp(`\\[(${this.#lt})\\b`), this.hTag[e] = (k) => (k.design_unit = t.design_unit, this.#N({ ...k, ":hMp": this.val.cloneMp(), ":lenIfStk": this.#w.length }), this.val.setMp(k), this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify({
+    for (this.#lt += "|" + e, this.#nt = new RegExp(`\\[(${this.#lt})\\b`), this.hTag[e] = (k) => (k.design_unit = t.design_unit, this.#N(k), this.val.setMp(k), this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify({
       name: t.name
     })), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", this.#e), this.#i = r, this.#U(N), !1); this.#r < this.#t.len; ++this.#r) {
       this.#t.aLNum[this.#r] ||= this.#i;
@@ -27131,7 +27138,7 @@ class ScriptIterator {
   #nt = /\[(call)\b/;
   // https://regex101.com/r/Lk9ASK/1
   //	// しおり
-  // しおりの読込
+  //MARK: しおりの読込
   #vt(t) {
     if (!("place" in t))
       throw "placeは必須です";
@@ -27168,7 +27175,7 @@ class ScriptIterator {
       }
     ), !0);
   }
-  // スクリプト再読込
+  //MARK: スクリプト再読込
   #mt(t) {
     const e = this.val.getMark(0);
     delete this.#A[getFn(e.hSave["const.sn.scriptFn"])];
@@ -27212,7 +27219,7 @@ class ScriptIterator {
   nowMark() {
     return { ...this.#Z };
   }
-  // しおりの保存
+  //MARK: しおりの保存
   #yt(t) {
     if (!("place" in t))
       throw "placeは必須です";

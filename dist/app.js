@@ -22289,6 +22289,7 @@ ${e}`, t, d, W.cnvTweenArg(t, d), () => {
   }
 }
 class Ii {
+  //MARK: コンストラクタ
   constructor(t, e, i, n, s, o, a, h, l, u) {
     this.cfg = t, this.hTag = e, this.appPixi = i, this.val = n, this.main = s, this.scrItr = o, this.sys = a, this.sndMng = h, this.alzTagArg = l, this.prpPrs = u;
     const c = () => {
@@ -22403,7 +22404,7 @@ class Ii {
     }) : !1;
   }
   //	//	システム
-  // スナップショット
+  //MARK: スナップショット
   #m(t) {
     const e = t.fn ? t.fn.slice(0, 10) === "userdata:/" ? t.fn : `downloads:/${t.fn + en("-", "_", "", "_")}.png` : `downloads:/snapshot${en("-", "_", "", "_")}.png`, i = this.cfg.searchPath(e), n = R(t, "width", k.stageW), s = R(t, "height", k.stageH);
     return this.sys.isApp ? this.#d(t, i, n, s) : this.#x(t, i, n, s);
@@ -22463,7 +22464,7 @@ class Ii {
       a.destroy(!0), this.main.resume();
     }), !0;
   }
-  // プラグインの読み込み
+  //MARK: プラグインの読み込み
   #u(t) {
     const { fn: e } = t;
     if (!e)
@@ -22484,7 +22485,7 @@ class Ii {
     return i;
   }
   //	//	レイヤ共通
-  // レイヤを追加する
+  //MARK: レイヤを追加する
   #_(t) {
     const { layer: e, class: i } = t;
     if (!e)
@@ -22547,7 +22548,7 @@ class Ii {
   #T() {
     this.#g = this.#N();
   }
-  // レイヤ設定の消去
+  //MARK: レイヤ設定の消去
   #j(t) {
     return this.#$(t, (e) => {
       const i = this.#a[this.#Z({ layer: e })];
@@ -22606,7 +22607,7 @@ void main(void) {
   });
   #w = new qt(this.#P);
   #D = [];
-  // ページ裏表を交換
+  //MARK: ページ裏表を交換
   #S(t) {
     W.finish_trans(), this.#y.hideHint();
     const { layer: e } = t;
@@ -22704,7 +22705,7 @@ void main(void) {
       return n < s ? -1 : n > s ? 1 : 0;
     });
   }
-  // 画面を揺らす
+  //MARK: 画面を揺らす
   #A(t) {
     if (W.finish_trans(), R(t, "time", NaN) === 0 || this.#y.isSkipping)
       return !1;
@@ -22732,7 +22733,7 @@ void main(void) {
     }, () => {
     }), this.appPixi.ticker.add(s), !1;
   }
-  // トゥイーン開始
+  //MARK: トゥイーン開始
   #rt(t) {
     const { layer: e, render: i, name: n } = t;
     if (!e)
@@ -22749,7 +22750,7 @@ void main(void) {
           c[f] = o[f];
     }), "filter" in t && (o.spLay.filters = [Dt.bldFilters(t)], o.aFltHArg = [t]), !1;
   }
-  // フィルター追加
+  //MARK: フィルター追加
   #W(t) {
     return W.finish_trans(), this.#$(t, (e) => {
       const i = this.#a[this.#Z({ layer: e })];
@@ -22765,7 +22766,7 @@ void main(void) {
     const i = t.spLay;
     i.filters ??= [], i.filters = [...i.filters, Dt.bldFilters(e)], t.aFltHArg.push(e);
   }
-  // フィルター全削除
+  //MARK: フィルター全削除
   #z(t) {
     return this.#$(t, (e) => {
       const i = this.#a[this.#Z({ layer: e })];
@@ -22778,7 +22779,7 @@ void main(void) {
       n.spLay.filters = null, n.aFltHArg = [];
     }), !1;
   }
-  // フィルター個別切替
+  //MARK: フィルター個別切替
   #B(t) {
     return this.#$(t, (e) => {
       const i = this.#a[this.#Z({ layer: e })];
@@ -22807,7 +22808,7 @@ void main(void) {
   static set msecChWait(t) {
     Ii.#Y = t;
   }
-  // 文字を追加する
+  //MARK: 文字を追加する
   #q(t) {
     const { text: e } = t;
     if (!e)
@@ -22832,7 +22833,7 @@ void main(void) {
   setNormalChWait() {
     Ii.#Y = this.scrItr.normalWait;
   }
-  // 操作対象のメッセージレイヤの指定
+  //MARK: 操作対象のメッセージレイヤの指定
   #J = (t) => {
     throw this.#k(), 0;
   };
@@ -22881,26 +22882,27 @@ void main(void) {
   recPagebreak() {
     this.#G.text && (this.#G.text = this.#G.text.replaceAll("</span><span class='sn_ch'>", ""), this.#tt.push(this.#G) > this.cfg.oCfg.log.max_len && (this.#tt = this.#tt.slice(-this.cfg.oCfg.log.max_len)), this.#G = { text: "" });
   }
+  //MARK: 文字消去
   #lt(t) {
     const e = this.#U(t);
     return t.layer === this.#E && t.page === "fore" && this.recPagebreak(), e.clearText(), !1;
   }
-  // ハイパーリンクの終了
+  //MARK: ハイパーリンクの終了
   #ut(t) {
     return this.#f("endlink｜", this.#U(t)), !1;
   }
-  // ページ両面の文字消去
+  //MARK: ページ両面の文字消去
   #ct(t) {
     return F(t, "rec_page_break", !0) && this.recPagebreak(), this.#Q && (this.#Q.fore.clearLay(t), this.#Q.back.clearLay(t)), !1;
   }
-  // インライン画像表示
+  //MARK: インライン画像表示
   #it(t) {
     if (!t.pic)
       throw "[graph] picは必須です";
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#f("grp｜" + e, this.#U(t)), !1;
   }
-  // ハイパーリンク
+  //MARK: ハイパーリンク
   #ot(t) {
     if (!t.fn && !t.label && !t.url)
       throw "fnまたはlabelまたはurlは必須です";
@@ -22908,20 +22910,20 @@ void main(void) {
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#f("link｜" + e, this.#U(t)), !1;
   }
-  // 改行
+  //MARK: 改行
   #ft(t) {
     return t.text = `
 `, this.#q(t);
   }
-  // 履歴改行
+  //MARK: 履歴改行
   #dt(t) {
     return this.#at({ ...t, text: "[r]" });
   }
-  // 履歴書き込み
+  //MARK: 履歴書き込み
   #at(t) {
     return this.#G = { ...t, text: this.#G.text }, t.text ? (t.record = !0, t.style ??= "", t.style += "display: none;", t.wait = 0, this.#q(t)) : !1;
   }
-  // 履歴リセット
+  //MARK: 履歴リセット
   #pt(t) {
     return this.#tt = [], this.#G = { text: t.text ?? "" }, this.val.setVal_Nochk(
       "save",
@@ -22929,7 +22931,7 @@ void main(void) {
       t.text ? `[{text:"${t.text}"}]` : "[]"
     ), !1;
   }
-  // 文字列と複数ルビの追加
+  //MARK: 文字列と複数ルビの追加
   #ht(t) {
     const { t: e, r: i } = t;
     if (!e)
@@ -22938,19 +22940,19 @@ void main(void) {
       throw "[ruby2] rは必須です";
     return t.text = "｜" + encodeURIComponent(e) + "《" + encodeURIComponent(i) + "》", delete t.t, delete t.r, this.#q(t);
   }
-  // インラインスタイル設定
+  //MARK: インラインスタイル設定
   #nt(t) {
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#f("span｜" + e, this.#U(t)), !1;
   }
-  // tcy縦中横を表示する
+  //MARK: tcy縦中横を表示する
   #vt(t) {
     if (!t.t)
       throw "[tcy] tは必須です";
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#f("tcy｜" + e, this.#U(t)), !1;
   }
-  // レイヤのダンプ
+  //MARK: レイヤのダンプ
   #mt(t) {
     console.group("🥟 [dump_lay]");
     for (const e of this.#b(t.layer)) {
@@ -22967,12 +22969,12 @@ void main(void) {
     }
     return console.groupEnd(), !1;
   }
-  // イベント有無の切替
+  //MARK: イベント有無の切替
   #K(t) {
     const e = this.#Z(t, this.#E), i = F(t, "enabled", !0);
     return this.#U(t).enabled = i, this.val.setVal_Nochk("save", "const.sn.layer." + e + ".enabled", i), !1;
   }
-  // ボタンを表示
+  //MARK: ボタンを表示
   #yt(t) {
     return Kr.argChk_page(t, "back"), t.fn ??= this.scrItr.scriptFn, this.#U(t).addButton(t), this.scrItr.recodeDesign(t), !1;
   }
@@ -24833,6 +24835,7 @@ class Yl {
   toString = () => `[fn:${this.fn}, idx:${this.idx}, csArg:${this.csArg}]`;
 }
 class Ee {
+  //MARK: コンストラクタ
   constructor(t, e, i, n, s, o, a, h, l) {
     this.cfg = t, this.hTag = e, this.main = i, this.val = n, this.alzTagArg = s, this.runAnalyze = o, this.prpPrs = a, this.sndMng = h, this.sys = l, e.let_ml = (c) => this.#j(c), e.endlet_ml = () => !1, e.dump_stack = () => this.#H(), e.dump_script = (c) => this.#X(c), e.else = // その他ifブロック開始
     e.elsif = // 別条件のifブロック開始
@@ -25040,6 +25043,7 @@ class Ee {
   // result = true : waitする  resume()で再開
   #L = (t) => {
   };
+  //MARK: タグ解析
   タグ解析(t) {
     const [e, i] = go(t), n = this.hTag[e];
     if (!n)
@@ -25059,7 +25063,7 @@ class Ee {
     if (this.alzTagArg.isKomeParam) {
       if (a === 0)
         throw "属性「*」はマクロのみ有効です";
-      o = { ...h[":hMp"], ...h };
+      o = { ...h };
     }
     o[":タグ名"] = e;
     for (const [l, { val: u, def: c }] of Object.entries(s)) {
@@ -25090,7 +25094,7 @@ class Ee {
     this.#R = t, this.#T = e;
   }
   //	//	変数操作
-  // インラインテキスト代入
+  //MARK: インラインテキスト代入
   #j(t) {
     const { name: e } = t;
     if (!e)
@@ -25102,7 +25106,7 @@ class Ee {
     return t.text = i, t.cast = "str", this.hTag.let(t), this.#i += 2, this.#r += (i.match(/\n/g) ?? []).length, !1;
   }
   //	// デバッグ・その他
-  // スタックのダンプ
+  //MARK: スタックのダンプ
   #H() {
     if (this.#i === 0)
       return console.group(`🥟 [dump_stack] スクリプト現在地 fn:${this.#e} line:1 col:0`), console.groupEnd(), !1;
@@ -25137,7 +25141,7 @@ class Ee {
     }
     return i;
   }
-  // 外部へスクリプトを表示
+  //MARK: 外部へスクリプトを表示
   #X(t) {
     const { set_fnc: e, break_fnc: i } = t;
     if (!e)
@@ -25196,11 +25200,13 @@ class Ee {
   //	// 条件分岐
   #S = [-1];
   // 先頭に積む FIFOバッファ（unshift / shift）
+  //MARK: ifブロックの終端
   #F() {
     if (this.#S[0] === -1)
       throw "ifブロック内ではありません";
     return this.#i = this.#S[0], this.#S.shift(), !1;
   }
+  //MARK: ifブロックの開始
   #b(t) {
     const { exp: e } = t;
     if (!e)
@@ -25255,20 +25261,21 @@ class Ee {
     throw "[endif]がないままスクリプト終端です";
   }
   //	// ラベル・ジャンプ
-  // サブルーチンコール
+  //MARK: サブルーチンコール
   #$(t) {
     F(t, "count", !1) || this.#ot();
     const { fn: e } = t;
-    return e && this.#c(e), this.#N({ ":hEvt1Time": this.#R.popLocalEvts(), ":hMp": this.val.cloneMp(), ":lenIfStk": this.#S.length }), F(t, "clear_local_event", !1) && this.hTag.clear_event({}), this.#M(e, t.label), !0;
+    return e && this.#c(e), this.#N({ ...t, ":hEvt1Time": this.#R.popLocalEvts() }), F(t, "clear_local_event", !1) && this.hTag.clear_event({}), this.#M(e, t.label), !0;
   }
   #N(t) {
-    this.#t.aLNum[this.#i] = this.#r, this.#V || (t[":resvToken"] = "", this.#z()), this.#s.push(new Yl(this.#e, this.#i, t)), this.#S.unshift(-1);
+    const e = { ...t, ":hMp": this.val.cloneMp(), ":lenIfStk": this.#S.length };
+    this.#t.aLNum[this.#i] = this.#r, this.#V || (e[":resvToken"] = "", this.#z()), this.#s.push(new Yl(this.#e, this.#i, e)), this.#S.unshift(-1);
   }
-  // シナリオジャンプ
+  //MARK: シナリオジャンプ
   #A(t) {
     return F(t, "count", !0) || this.#ot(), this.#S[0] = -1, this.#M(t.fn, t.label), !0;
   }
-  // コールスタック破棄
+  //MARK: コールスタック破棄
   #rt(t) {
     if (F(t, "clear", !1))
       this.#s = [];
@@ -25276,7 +25283,7 @@ class Ee {
       throw "[pop_stack] スタックが空です";
     return this.#z(), this.#S = [-1], this.val.setMp({}), !1;
   }
-  // サブルーチンから戻る
+  //MARK: サブルーチンから戻る
   #W(t) {
     const e = this.#s.pop();
     if (!e)
@@ -25499,15 +25506,15 @@ class Ee {
     return this.#it ? this.val.getVal("sys:sn.tagCh.doWait_Kidoku") ? _t(this.val.getVal("sys:sn.tagCh.msecWait_Kidoku")) : 0 : this.val.getVal("sys:sn.tagCh.doWait") ? _t(this.val.getVal("sys:sn.tagCh.msecWait")) : 0;
   }
   //	// マクロ
-  // 括弧マクロの定義
+  //MARK: 括弧マクロの定義
   #ft(t) {
     return this.#n.bracket2macro(t, this.hTag, this.#t, this.#i), !1;
   }
-  // 一文字マクロの定義
+  //MARK: 一文字マクロの定義
   #dt(t) {
     return this.#n.char2macro(t, this.hTag, this.#t, this.#i), !1;
   }
-  // マクロ定義の開始
+  //MARK: マクロ定義の開始
   #at = new RegExp(`["'#;\\]　]+`);
   #pt(t) {
     const { name: e } = t;
@@ -25518,7 +25525,7 @@ class Ee {
     if (this.#at.test(e))
       throw `[${e}]はマクロ名として異常です`;
     const i = this.#r, n = new Yl(this.#e, this.#i);
-    for (this.#ht += "|" + e, this.#nt = new RegExp(`\\[(${this.#ht})\\b`), this.hTag[e] = (s) => (s.design_unit = t.design_unit, this.#N({ ...s, ":hMp": this.val.cloneMp(), ":lenIfStk": this.#S.length }), this.val.setMp(s), this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify({
+    for (this.#ht += "|" + e, this.#nt = new RegExp(`\\[(${this.#ht})\\b`), this.hTag[e] = (s) => (s.design_unit = t.design_unit, this.#N(s), this.val.setMp(s), this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify({
       name: t.name
     })), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", this.#e), this.#r = i, this.#G(n), !1); this.#i < this.#t.len; ++this.#i) {
       this.#t.aLNum[this.#i] ||= this.#r;
@@ -25534,7 +25541,7 @@ class Ee {
   #nt = /\[(call)\b/;
   // https://regex101.com/r/Lk9ASK/1
   //	// しおり
-  // しおりの読込
+  //MARK: しおりの読込
   #vt(t) {
     if (!("place" in t))
       throw "placeは必須です";
@@ -25571,7 +25578,7 @@ class Ee {
       }
     ), !0);
   }
-  // スクリプト再読込
+  //MARK: スクリプト再読込
   #mt(t) {
     const e = this.val.getMark(0);
     delete this.#k[is(e.hSave["const.sn.scriptFn"])];
@@ -25615,7 +25622,7 @@ class Ee {
   nowMark() {
     return { ...this.#K };
   }
-  // しおりの保存
+  //MARK: しおりの保存
   #_t(t) {
     if (!("place" in t))
       throw "placeは必須です";
