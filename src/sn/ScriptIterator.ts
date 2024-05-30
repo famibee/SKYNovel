@@ -19,7 +19,7 @@ import {DebugMng} from './DebugMng';
 import {SoundMng} from './SoundMng';
 import {SysBase} from './SysBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
-import {RsEvtRsv} from './ReadState';
+import {readOn} from './ReadState';
 import {CmnTween} from './CmnTween';
 
 import {Loader} from 'pixi.js';
@@ -462,7 +462,6 @@ export class ScriptIterator {
 	}
 
 
-//	//	変数操作
 	//MARK: インラインテキスト代入
 	#let_ml(hArg: HArg) {
 		const {name} = hArg;
@@ -484,7 +483,6 @@ export class ScriptIterator {
 	}
 
 
-//	// デバッグ・その他
 	//MARK: スタックのダンプ
 	#dump_stack() {
 		if (this.#idxToken === 0) {
@@ -611,7 +609,6 @@ export class ScriptIterator {
 	}
 
 
-//	// 条件分岐
 	#aIfStk	: number[]	= [-1];	// 先頭に積む FIFOバッファ（unshift / shift）
 	//MARK: ifブロックの終端
 	#endif() {
@@ -686,7 +683,6 @@ export class ScriptIterator {
 	}
 
 
-//	// ラベル・ジャンプ
 	//MARK: サブルーチンコール
 	#call(hArg: HArg) {
 		if (! argChk_Boolean(hArg, 'count', false)) this.#eraseKidoku();
@@ -1075,7 +1071,6 @@ export class ScriptIterator {
 	}
 
 
-//	// マクロ
 	//MARK: 括弧マクロの定義
 	#bracket2macro(hArg: HArg) {
 		this.#grm.bracket2macro(hArg, this.hTag, this.#script, this.#idxToken);
@@ -1140,7 +1135,6 @@ export class ScriptIterator {
 	#REGSTEPIN	= /\[(call)\b/;	// https://regex101.com/r/Lk9ASK/1
 
 
-//	// しおり
 	//MARK: しおりの読込
 	#load(hArg: HArg) {
 		if (! ('place' in hArg)) throw 'placeは必須です';
@@ -1150,7 +1144,7 @@ export class ScriptIterator {
 		const mark = this.val.getMark(place);
 		if (! mark) throw `place【${place}】は存在しません`;
 
-		new RsEvtRsv;
+		readOn();
 		return this.loadFromMark(hArg, mark);
 	}
 	loadFromMark(hArg: HArg, mark: IMark, reload_sound = true) {
@@ -1228,7 +1222,7 @@ export class ScriptIterator {
 		this.#hScript = h;
 
 		hArg.do_rec = false;
-		new RsEvtRsv;
+		readOn();
 		return this.loadFromMark(hArg, mark, false);
 	}
 

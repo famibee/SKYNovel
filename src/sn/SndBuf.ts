@@ -137,6 +137,7 @@ export class SndBuf {
 			speed,
 			volume,
 			loaded	: (e, s2)=> {
+				if (this.#sb.stt.isDestroy) return;
 				if (e) {main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false); return}
 				if (! s2) return;
 
@@ -158,6 +159,8 @@ export class SndBuf {
 			o.preload = true;		// loaded発生用、トラブルの元なので使用を控えたい
 			const old = o.loaded!;
 			o.loaded = (e, s0)=> {
+				if (this.#sb.stt.isDestroy) return;
+
 				old(e, s0);
 				const s2 = s0!;
 				const d = s2.duration;
@@ -229,7 +232,11 @@ export class SndBuf {
 		const join = argChk_Boolean(hArg, 'join', true);
 		if (join) {
 			const old = o.loaded!;
-			o.loaded = (e, s2)=> {old(e, s2); main.resume()};
+			o.loaded = (e, s2)=> {
+				if (this.#sb.stt.isDestroy) return;
+				old(e, s2);
+				main.resume();
+			};
 		}
 		this.#playseSub(fn, o);
 
@@ -303,6 +310,7 @@ interface ISndState {
 	wf(sb: ISndBuf, hArg: HArg): boolean;
 	compFade()			: void;
 	stopfadese(sb: ISndBuf, hArg: HArg): void;
+	isDestroy	: boolean;
 }
 
 class SsLoading implements ISndState {
@@ -314,6 +322,7 @@ class SsLoading implements ISndState {
 	wf =()=> false;		// ok
 	compFade() {}		// ok
 	stopfadese() {}		// ok
+	readonly	isDestroy	= false;
 }
 
 class SsPlaying implements ISndState {
@@ -375,17 +384,19 @@ class SsPlaying implements ISndState {
 	wf =()=> false;		// ok
 	compFade() {}		// ok
 	stopfadese() {}		// ok
+	readonly	isDestroy	= false;
 }
 
 class SsWaitingStop implements ISndState {
 	onLoad() {}			// ok
 	stopse(sb: ISndBuf)	{sb.stt = new SsStop(sb)}
 	ws =()=> false;		// ok
-	onPlayEnd()			{evtMng.breakLimitedEvent()}
+	onPlayEnd()			{evtMng.breakEvent()}
 	fade() {}			// ok
 	wf =()=> false;		// ok
 	compFade() {}		// ok
 	stopfadese() {}		// ok
+	readonly	isDestroy	= false;
 }
 
 class SsFade implements ISndState {
@@ -406,6 +417,7 @@ class SsFade implements ISndState {
 	}
 	compFade() {}		// ok
 	stopfadese =()=> stopfadese(this.tw);
+	readonly	isDestroy	= false;
 }
 
 class SsWaitingFade implements ISndState {
@@ -416,8 +428,9 @@ class SsWaitingFade implements ISndState {
 	onPlayEnd() {}		// ok
 	fade() {}			// ok
 	wf =()=> false;		// ok
-	compFade() {evtMng.breakLimitedEvent()}
+	compFade() {evtMng.breakEvent()}
 	stopfadese =()=> stopfadese(this.tw);
+	readonly	isDestroy	= false;
 }
 
 class SsStop implements ISndState {
@@ -438,4 +451,5 @@ class SsStop implements ISndState {
 	wf =()=> false;		// ok
 	compFade() {}		// ok
 	stopfadese() {}		// ok
+	readonly	isDestroy	= true;
 }

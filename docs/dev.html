@@ -468,7 +468,7 @@
 	　試しに [r] について知りましょう。<br/>
 	　タグの機能については「タグリファレンス」というWeb上の資料で確認できます。<br/>
 	　このページの左上の【タグ】からでもいいですが、リンクを張っておきます。<br/>
-	　　→<a href="tag.htm#r" target="_blank" rel="noopener">SKYNovel タグリファレンス Tag Reference [r]</a><br/>
+	　　→<a href="tag.html#r" target="_blank" rel="noopener">SKYNovel タグリファレンス Tag Reference [r]</a><br/>
 	「文字レイヤ」とか「ページ」とか色々不明の言葉がありますが──<br/>
 	　とにかく、【改行を出力する】機能を持っています。<br/>
 
@@ -488,7 +488,7 @@
 
 	<br/>
 	<br/>
-	　例えばさっき「ロード」という文字を「つづきから」に変えたのは、<a href="tag.htm#button" target="_blank" rel="noopener">[button]</a> タグの text属性 を変更したのだった、というわけです。<br/>
+	　例えばさっき「ロード」という文字を「つづきから」に変えたのは、<a href="tag.html#button" target="_blank" rel="noopener">[button]</a> タグの text属性 を変更したのだった、というわけです。<br/>
 	<amp-img src="pic/remodel_title1.jpg" width="1024" height="768" layout="responsive"></amp-img>
 
 
@@ -657,21 +657,21 @@
 	例えば「&sn.auto.enabled=true」は自動読みすすみモードを有効にします。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>save:const.sn.autowc.enabled</td><td>false</td><td>true、false</td><td>[<a href="tag.htm#current" target="_blank" rel="noopener">autowc</a>]（文字ごとのウェイト）enabled属性で指定した値。</td></tr>
-<tr><td>save:const.sn.autowc.text</td><td rowspan="2">''</td><td rowspan="2">文字列</td><td rowspan="2">[<a href="tag.htm#current" target="_blank" rel="noopener">autowc</a>]（文字ごとのウェイト）同名属性で指定した値。<br/>
+<tr><td>save:const.sn.autowc.enabled</td><td>false</td><td>true、false</td><td>[<a href="tag.html#current" target="_blank" rel="noopener">autowc</a>]（文字ごとのウェイト）enabled属性で指定した値。</td></tr>
+<tr><td>save:const.sn.autowc.text</td><td rowspan="2">''</td><td rowspan="2">文字列</td><td rowspan="2">[<a href="tag.html#current" target="_blank" rel="noopener">autowc</a>]（文字ごとのウェイト）同名属性で指定した値。<br/>
 カンマ区切りで複数文字設定可能。ただしtextとtimeは常に同数にすること。設定は常にリセット＆上書き<br/>
 [autowc enabled=true text="二六八" time="500,1000,1500"]
 </td></tr>
 <tr><td>save:const.sn.autowc.time</td></tr>
 </td></tr>
-<tr><td>save:const.sn.mesLayer</td><td>''</td><td>文字列</td><td>デフォルト文字レイヤ。レイヤ指定を省略した時はこの値が使われる。[<a href="tag.htm#current" target="_blank" rel="noopener">current</a>]で変更できる</td></tr>
+<tr><td>save:const.sn.mesLayer</td><td>''</td><td>文字列</td><td>デフォルト文字レイヤ。レイヤ指定を省略した時はこの値が使われる。[<a href="tag.html#current" target="_blank" rel="noopener">current</a>]で変更できる</td></tr>
 <tr><td>save:const.sn.sound.【buf】.fn</td><td>''</td><td>ファイル名</td><td>
 	サウンドバッファの再生ファイル名<br/>
-	任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数
+	任意のbuf属性を指定した[<a href="tag.html#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数
 </td></tr>
 <tr><td>save:const.sn.sound.【buf】.volume</td><td>1</td><td>0.0〜1.0</td><td>
 	サウンドバッファの目標音量<br/>
-	任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数<br/>
+	任意のbuf属性を指定した[<a href="tag.html#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数<br/>
 	<br/>
 	[volume]での volume属性や、「sys:const.sn.sound.【buf】.volume」は基準音量であり、別物である点に注意
 </td></tr>
@@ -682,8 +682,8 @@
 	→以前は、'\f'区切りの妙なフォーマットだった。
 </td></tr>
 <tr><td>save:const.sn.loopPlaying</td><td>'{}'</td><td>json</td><td>ループ中のサウンドバッファ</td></tr>
-<tr><td>save:const.sn.scriptFn</td><td>''</td><td>スクリプト名</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプト名</td></tr>
-<tr><td>save:const.sn.scriptIdx</td><td>0</td><td>整数</td><td>最後に[<a href="tag.htm#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプトインデックス（行番号ではなく内部トークン単位）</td></tr>
+<tr><td>save:const.sn.scriptFn</td><td>''</td><td>スクリプト名</td><td>最後に[<a href="tag.html#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプト名</td></tr>
+<tr><td>save:const.sn.scriptIdx</td><td>0</td><td>整数</td><td>最後に[<a href="tag.html#record_place" target="_blank" rel="noopener">record_place</a>]したスクリプトインデックス（行番号ではなく内部トークン単位）</td></tr>
 <tr><td>save:const.sn.layer.（文字レイヤ名）.enabled</td><td>true</td><td>true、false</td><td>文字レイヤのenabled値</td></tr>
 </table>
 
@@ -723,15 +723,15 @@
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>sys:TextLayer.Back.Alpha</td><td>1</td><td>0.0〜1.0；透過度</td><td>バック不透明度。テキストウインドウの背景の濃度。0.0で透明、1.0で不透明。</td></tr>
-<tr><td>sys:const.sn.nativeWindow.x</td><td>0</td><td>実数；横座標</td><td rowspan="2">アプリウインドウの座標。画面左上を(0, 0)とする座標。[<a href="tag.htm#window" target="_blank" rel="noopener">window</a>]で変更できる</td></tr>
+<tr><td>sys:const.sn.nativeWindow.x</td><td>0</td><td>実数；横座標</td><td rowspan="2">アプリウインドウの座標。画面左上を(0, 0)とする座標。[<a href="tag.html#window" target="_blank" rel="noopener">window</a>]で変更できる</td></tr>
 <tr><td>sys:const.sn.nativeWindow.y</td><td>0</td><td>実数；縦座標</td></tr>
 <tr><td>sys:const.sn.save.place</td><td>1</td><td>1〜</td><td>次のセーブplaceを示す</td></tr>
-<tr><td>sys:const.sn.sound.BGM.volume</td><td rowspan="4">1</td><td rowspan="4">0.0〜1.0</td><td>BGMの基準音量（buf="BGM"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
-<tr><td>sys:const.sn.sound.SE.volume</td><td>効果音の基準音量（buf="SE"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
-<tr><td>sys:const.sn.sound.SYS.volume</td><td>システムの基準音量（buf="SYS"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
+<tr><td>sys:const.sn.sound.BGM.volume</td><td rowspan="4">1</td><td rowspan="4">0.0〜1.0</td><td>BGMの基準音量（buf="BGM"の効果音）<br/>[<a href="tag.html#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
+<tr><td>sys:const.sn.sound.SE.volume</td><td>効果音の基準音量（buf="SE"の効果音）<br/>[<a href="tag.html#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
+<tr><td>sys:const.sn.sound.SYS.volume</td><td>システムの基準音量（buf="SYS"の効果音）<br/>[<a href="tag.html#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
 <tr><td>sys:const.sn.sound.【buf】.volume</td><td>
-	システムの基準音量（buf="【buf】"の効果音）<br/>[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる<br/>任意のbufの基準音量<br/>
-	[<a href="tag.htm#volume" target="_blank" rel="noopener">volume</a>]で変更できる<br/>
+	システムの基準音量（buf="【buf】"の効果音）<br/>[<a href="tag.html#volume" target="_blank" rel="noopener">volume</a>]で変更できる<br/>任意のbufの基準音量<br/>
+	[<a href="tag.html#volume" target="_blank" rel="noopener">volume</a>]で変更できる<br/>
 	<br/>
 	[playse][fadese]系での volume属性や、「save:const.sn.sound.【buf】.volume」は目標音量であり、別物である点に注意
 </td></tr>
@@ -832,15 +832,15 @@ const.sn.log.json
 </td></tr>
 <tr><td>const.sn.sound.【buf】.playing</td><td>再生状態による</td><td>true、false</td><td>
 	サウンドバッファが再生中か<br/>
-	任意のbuf属性を指定した[<a href="tag.htm#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数
+	任意のbuf属性を指定した[<a href="tag.html#playse" target="_blank" rel="noopener">playse</a> buf=【buf】] 実行で自動で生まれる変数
 </td></tr>
 <tr><td>const.sn.aIfStk.length</td><td>1</td><td>1〜</td><td>IFスタックの深さ（[if]するたびに増）</td></tr>
 <tr><td>const.sn.vctCallStk.length</td><td>0</td><td>0〜</td><td>コールスタックの深さ（[call]するたびに増）</td></tr>
 <tr><td>sn.auto.enabled</td><td>false</td><td>true、false</td><td>自動読みすすみモードかどうか</td></tr>
 <tr><td>sn.button.fontFamily</td><td>"'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif"</td><td>文字列</td><td>文字ボタンフォントを指定</td></tr>
-<tr><td>sn.event.domdata.（任意）</td><td>''</td><td>場合による</td><td>[<a href="tag.htm#event" target="_blank" rel="noopener">event</a>]でフレーム内のHTML要素に登録したイベントで、そのイベント発生時、HTML要素のdata-（任意）属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
-<tr><td>sn.eventArg</td><td>''</td><td>場合による</td><td>[<a href="tag.htm#button" target="_blank" rel="noopener">button</a>]等のイベント発生時、そのボタンタグのarg属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
-<tr><td>sn.eventLabel</td><td>''</td><td>場合による</td><td>[<a href="tag.htm#button" target="_blank" rel="noopener">button</a>]等のイベント発生時、そのボタンタグのlabel属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
+<tr><td>sn.event.domdata.（任意）</td><td>''</td><td>場合による</td><td>[<a href="tag.html#event" target="_blank" rel="noopener">event</a>]でフレーム内のHTML要素に登録したイベントで、そのイベント発生時、HTML要素のdata-（任意）属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
+<tr><td>sn.eventArg</td><td>''</td><td>場合による</td><td>[<a href="tag.html#button" target="_blank" rel="noopener">button</a>]等のイベント発生時、そのボタンタグのarg属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
+<tr><td>sn.eventLabel</td><td>''</td><td>場合による</td><td>[<a href="tag.html#button" target="_blank" rel="noopener">button</a>]等のイベント発生時、そのボタンタグのlabel属性で指定された値。使い道は開発者が自由に決めていい</td></tr>
 <tr><td>sn.skip.all</td><td>false</td><td>true、false</td><td>false（初期値）なら既読のみをスキップ</td></tr>
 <tr><td>sn.skip.enabled</td><td>false</td><td>true、false</td><td>次の選択肢(/未読)まで進む　が有効か</td></tr>
 <tr><td>sn.tagL.enabled</td><td>true</td><td>true、false</td><td>頁末まで一気に読み進むか(l無視)</td></tr>
@@ -868,7 +868,7 @@ const.sn.log.json
 	・a != b は「aとbは違う値」（違っていれば、大きくても小さくても構わない）<br/>
 	<br/>
 	<span style="color:red;">cond属性はあらゆるタグやマクロに必ずある属性</span>で、「式の評価が真の場合のみ、そのタグ（マクロ）を実行する」という働きがあります。<br/>
-	　よって<a href="tag.htm#title">[title]</a>によりアプリウインドウのタイトル文字列が設定されます。<br/>
+	　よって<a href="tag.html#title">[title]</a>によりアプリウインドウのタイトル文字列が設定されます。<br/>
 	<br/>
 	<br/>
 	　別の場合、例えば「tmp:好感度」が49の時には[title]は処理されません。式が成立しないからです。<br/>
@@ -879,13 +879,13 @@ const.sn.log.json
 
 	<hr/>
 	　よりダイナミックに処理の流れを変える、条件分岐方法があります。<br/>
-	<a href="tag.htm#jump">[jump]</a>、<a href="tag.htm#call">[call]</a>に対しcond属性で式の評価を行なうのです。<br/>
-	　条件が成立したときだけ<a href="tag.htm#jump">[jump]</a>、<a href="tag.htm#call">[call]</a>するわけです。<br/>
+	<a href="tag.html#jump">[jump]</a>、<a href="tag.html#call">[call]</a>に対しcond属性で式の評価を行なうのです。<br/>
+	　条件が成立したときだけ<a href="tag.html#jump">[jump]</a>、<a href="tag.html#call">[call]</a>するわけです。<br/>
 	<br/>
 
 	<hr/>
 	　さらに高級言語によくある、if文もあります。<br/>
-	　<a href="tag.htm#if">[if]</a>、<a href="tag.htm#elsif">[elsif]</a>、<a href="tag.htm#else">[else]</a>、<a href="tag.htm#endif">[endif]</a>をサポートしています。<br/>
+	　<a href="tag.html#if">[if]</a>、<a href="tag.html#elsif">[elsif]</a>、<a href="tag.html#else">[else]</a>、<a href="tag.html#endif">[endif]</a>をサポートしています。<br/>
 	<br/>
 	　例えば以下のように記述すると、<br/>
 	<div class="alert alert-def">
@@ -898,11 +898,11 @@ const.sn.log.json
 		[endif]
 	</div>
 	　文字レイヤに「ろ」と表示されます。<br/>
-	　それぞれのタグの並びはこの通りで無ければなりませんが、<a href="tag.htm#elsif">[elsif]</a>は必要ならいくつあってもいいし、なくてもいいし、<a href="tag.htm#else">[else]</a>も不要ならなくてもいいです。<br/>
+	　それぞれのタグの並びはこの通りで無ければなりませんが、<a href="tag.html#elsif">[elsif]</a>は必要ならいくつあってもいいし、なくてもいいし、<a href="tag.html#else">[else]</a>も不要ならなくてもいいです。<br/>
 	<br/>
-	　<a href="tag.htm#if">[if]</a>と<a href="tag.htm#elsif">[elsif]</a>などの区間を、「ifブロック」と呼びます。<br/>
+	　<a href="tag.html#if">[if]</a>と<a href="tag.html#elsif">[elsif]</a>などの区間を、「ifブロック」と呼びます。<br/>
 	　ifブロックでは<span style="color:red;">ラベルの記述「*xxxx」以外なら</span>全ての記述が出来ます。<br/>
-	　タグやマクロ、<a href="tag.htm#jump">[jump]</a>、<a href="tag.htm#call">[call]</a>によるジャンプやコールも可能です。<br/>
+	　タグやマクロ、<a href="tag.html#jump">[jump]</a>、<a href="tag.html#call">[call]</a>によるジャンプやコールも可能です。<br/>
 	<br/>
 	<div class="alert alert-success">IF文サンプル（<a href="https://famibee.github.io/SKYNovel_gallery/?cur=tag_if" style="color: black;" target="_blank" rel="noopener">別ページで開く</a>）</div>
 

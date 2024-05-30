@@ -7,6 +7,7 @@ import { SoundMng } from './SoundMng';
 import { FocusMng } from './FocusMng';
 import { Config } from './Config';
 
+export declare function readOn(): void;
 interface IPageLog {
     key: string;
     fn: string;
@@ -38,7 +39,7 @@ export declare class ReadState {
     static pushLocalEvts(h: IHEvt2Fnc): void;
     protected waitRsvEvent(canUserAct: boolean, glb: boolean): void;
     waitLimitedEvent(hArg: HArg, onIntr: () => void): boolean;
-    breakLimitedEvent(): void;
+    breakEvent(): void;
     l(hArg: HArg): boolean;
     p(hArg: HArg): boolean;
     waitEvent(hArg: HArg, onFire: () => void): boolean;
@@ -49,9 +50,6 @@ export declare class ReadState {
     protected static aPage: IPageLog[];
     protected static stylePage: string;
     page(hArg: HArg): boolean;
-}
-export declare class RsEvtRsv extends ReadState {
-    constructor();
 }
 declare class Rs_S_fire extends ReadState {
     readonly isWait = true;

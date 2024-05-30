@@ -56,6 +56,8 @@ function	cancelAutoSkip() {
 	}
 }
 
+export	function	readOn() {new RsEvtRsv}
+
 interface IPageLog {
 	key		: string;
 	fn		: string;
@@ -274,7 +276,7 @@ export class ReadState {
 
 		return true;
 	}
-	breakLimitedEvent() {this.#wle.destroy(); main.resume()}
+	breakEvent() {this.#wle.destroy()}
 	#wle	= new WaitLimitedEventer({}, ()=> {});	// ':タグ名' は未定義、デバッグ時に無視を
 
 
@@ -315,6 +317,7 @@ export class ReadState {
 	}
 
 	waitEvent(hArg: HArg, onFire: ()=> void) {
+		// waitEvent 使用者は、通常 break 時義務として、breakEvent()を呼ぶこと
 	//	if (auto_enabled)	// いまのとこ高速化せず
 		if (skip_enabled) {		// Fスキップ時
 			if (! skip_all && ! scrItr.isNextKidoku) return Rs_Any_Wait.go(hArg, onFire);	// 未読で停止
@@ -367,7 +370,7 @@ export class ReadState {
 
 
 // === イベント予約受付中 ===
-export class RsEvtRsv extends ReadState {
+class RsEvtRsv extends ReadState {
 	constructor() {super({}); main.resume(); elmHint.hidden = true}
 }
 
@@ -376,7 +379,7 @@ export class RsEvtRsv extends ReadState {
 class Rs_S_fire extends ReadState {
 	override	readonly	isWait		= true;	// 予約イベントの発生待ち中か
 	override	fire(KEY: string, e: Event) {
-//		if (this.#isDbgBreak) return;
+		//if (this.#isDbgBreak) return;
 
 		// 予約実行
 		const key = KEY.toLowerCase();
@@ -424,7 +427,7 @@ class Rs_Wait extends ReadState {	// 文字表示終了待ち→[wait]
 		const time = argChk_Num(hArg, 'time', NaN);	// skip時でもエラーは出したげたい
 		return new Rs_Wait(hArg).waitTxtAndTimer(time, hArg);
 	}
-	protected	override	onFinish() {new RsEvtRsv}
+	protected	override	onFinish() {readOn()}
 	protected	override	onUserAct() {this.onFinish()}
 }
 
@@ -438,7 +441,7 @@ class Rs_L extends ReadState {		// 文字表示終了待ち（そして[l]）
 
 class Rs_L_AutoSkip extends ReadState {	// 文字表示終了待ち（そして[l]auto/skipウェイト待ち）
 	static	readonly	go = (time: number, hArg: HArg)=> new Rs_L_AutoSkip(hArg).waitTxtAndTimer(time, hArg);
-	protected	override	onFinish() {new RsEvtRsv}
+	protected	override	onFinish() {readOn()}
 	protected	override	onUserAct() {Rs_L_Wait.go(this.hArg)}
 }
 
@@ -450,8 +453,8 @@ class Rs_L_Wait extends Rs_S_fire {		// [l] クリック待ち
 		new Rs_L_Wait(hArg).waitRsvEvent(true, glb);
 		return true;
 	}
-	protected	override	onFinish() {new RsEvtRsv}
-	protected	override	onUserAct() {new RsEvtRsv}
+	protected	override	onFinish() {readOn()}
+	protected	override	onUserAct() {readOn()}
 }
 
 
@@ -464,7 +467,7 @@ class Rs_P extends ReadState {		// 文字表示終了待ち（そして[p]）
 
 class Rs_P_AutoSkip extends ReadState {	// 文字表示終了待ち（そして[p]auto/skipウェイト待ち）
 	static	readonly	go = (time: number, hArg: HArg)=> new Rs_P_AutoSkip(hArg).waitTxtAndTimer(time, hArg);
-	protected	override	onFinish() {new RsEvtRsv}
+	protected	override	onFinish() {readOn()}
 	protected	override	onUserAct() {Rs_P_Wait.go(this.hArg)}
 }
 
@@ -481,8 +484,8 @@ class Rs_P_Wait extends Rs_S_fire {		// [p] クリック待ち
 		if (argChk_Boolean(this.hArg, 'er', false)) hTag.er(this.hArg);
 
 		sndMng.clearCache();
-//		scrItr.turnPage();
-		new RsEvtRsv;
+		//scrItr.turnPage();
+		readOn();
 	}
 	protected	override	onUserAct() {this.onFinish()}
 }
@@ -496,14 +499,14 @@ class Rs_WaitClick extends Rs_S_fire {
 		const glb = argChk_Boolean(this.hArg, 'global', true);
 		this.waitRsvEvent(true, glb);
 	}
-	protected	override	onUserAct() {new RsEvtRsv}
+	protected	override	onUserAct() {readOn()}
 }
 
 
 // === [wt][wait_tsy][wv][ws][wl][wf][wb] ===
 class Rs_Any extends ReadState {		// 文字表示終了待ち（そして[*]）
-	private	constructor(hArg: HArg, private readonly onIntr: ()=> void) {super(hArg)}
 	static	readonly	go = (hArg: HArg, onIntr: ()=> void)=> new Rs_Any(hArg, onIntr).waitTxtAndTimer(0, hArg);
+	private	constructor(hArg: HArg, private readonly onIntr: ()=> void) {super(hArg)}
 	protected	override	onFinish() {Rs_Any_Wait.go(this.hArg, this.onIntr)}
 	protected	override	onUserAct() {this.onFinish()}
 }
@@ -512,10 +515,12 @@ class Rs_Any extends ReadState {		// 文字表示終了待ち（そして[*]）
 
 class Rs_Any_Wait extends Rs_S_fire {	// fireがある → イベント受付する
 //class Rs_Any_Wait extends ReadState {	// fireがない → イベント受付しない
-	private	constructor(hArg: HArg, private readonly onIntr: ()=> void) {super(hArg)}
 	static	readonly	go = (hArg: HArg, onFire: ()=> void)=> new Rs_Any_Wait(hArg, onFire).waitLimitedEvent(hArg, onFire);
-	protected	override	onFinish() {new RsEvtRsv}
+	private	constructor(hArg: HArg, private readonly onIntr: ()=> void) {super(hArg)}
+	protected	override	onFinish() {readOn()}
 	protected	override	onUserAct() {this.onIntr(); this.onFinish()}
+
+	override	breakEvent() {super.breakEvent(); readOn()}
 }
 
 

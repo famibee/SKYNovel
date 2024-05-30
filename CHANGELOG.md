@@ -1,3 +1,14 @@
+- fix([playse]系): join=true 時に押しっぱなしスキップなどの高速スキップ表示にイベント待ち停止が動いてしまう場合がある件（非同期処理修正）
+- fix([playse]系): ロード完了時に内部状態が SsStop だった場合、リソースごと破棄されるとして再生しないように
+- fix([ws][fade系][wv]): 予約イベントの発生待ちしないタイプのイベント待ち終了時、内部状態をイベント予約受付中に戻していなかった件
+- fix(ReadState): イベント予約受付中状態から同状態に遷移しても resume が発生しないように
+- fix(ReadState): [s]状態から内部状態遷移のみでイベント予約受付中状態へ移行しないように
+- fix(ReadState): リファクタリング、コメント追加
+	- メソッド変名 interface IEvtMng.breakLimitedEvent() -> breakEvent()
+- fix: 画像/動画ロード失敗はスキップ時などであり得るので、trace表示のみに
+- docs(タグリファレンス・開発者情報): リンクミス修正
+
+
 ## [1.53.6](https://github.com/famibee/SKYNovel/compare/v1.53.5...v1.53.6) (2024-05-09)
 
 

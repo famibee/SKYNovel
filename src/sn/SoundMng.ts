@@ -55,7 +55,7 @@ export class SoundMng {
 		this.val.setVal_Nochk('sys', 'sn.sound.movie_volume', this.val.getVal('sys:sn.sound.movie_volume', 1));
 	}
 
-	// 音量設定（独自拡張）
+	//MARK: 音量設定（独自拡張）
 	#volume(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
 		const vnV = 'const.sn.sound.'+ buf +'.volume';
@@ -77,13 +77,13 @@ export class SoundMng {
 		return vol;
 	}
 
-	// BGM/効果音のフェードアウト（loadから使うのでマクロ化禁止）
+	//MARK: BGM/効果音のフェードアウト（loadから使うのでマクロ化禁止）
 	#fadeoutbgm(hArg: HArg) {hArg.volume = 0; return this.#fadebgm(hArg)}
-	// 効果音のフェードアウト（loadから使うのでマクロ化禁止）
+	//MARK: 効果音のフェードアウト（loadから使うのでマクロ化禁止）
 	#fadeoutse(hArg: HArg) {hArg.volume = 0; return this.#fadese(hArg)}
-	// BGMのフェード（loadから使うのでマクロ化禁止）
+	//MARK: BGMのフェード（loadから使うのでマクロ化禁止）
 	#fadebgm(hArg: HArg) {hArg.buf = 'BGM'; return this.#fadese(hArg)}
-	// 効果音のフェード
+	//MARK: 効果音のフェード
 	#fadese(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
 		this.#stopfadese(hArg);
@@ -92,7 +92,7 @@ export class SoundMng {
 		return false;
 	}
 
-	// BGM の演奏
+	//MARK: BGM の演奏
 	#playbgm(hArg: HArg) {
 		hArg.buf = 'BGM';
 		hArg.canskip = false;
@@ -100,7 +100,7 @@ export class SoundMng {
 		return this.#playse(hArg);
 	}
 
-	// 効果音の再生
+	//MARK: 効果音の再生
 	#playse(hArg: HArg) {
 		const {buf = 'SE', fn} = hArg;
 		this.#stopse({buf});
@@ -115,7 +115,7 @@ export class SoundMng {
 
 	clearCache() {sound.removeAll()}
 
-	// 全効果音再生の停止
+	//MARK: 全効果音再生の停止
 	#stop_allse() {
 		for (const buf of Object.keys(this.#hSndBuf)) this.#stopse({buf});
 		this.#hSndBuf = {};
@@ -124,9 +124,9 @@ export class SoundMng {
 
 		return false;
 	}
-	// BGM 演奏の停止（loadから使うのでマクロ化禁止）
+	//MARK: BGM 演奏の停止（loadから使うのでマクロ化禁止）
 	#stopbgm(hArg: HArg) {hArg.buf = 'BGM'; return this.#stopse(hArg)}
-	// 効果音再生の停止
+	//MARK: 効果音再生の停止
 	#stopse(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
 		this.#hSndBuf[buf]?.stopse(hArg);
@@ -134,16 +134,16 @@ export class SoundMng {
 		return false;
 	}
 
-	// BGM フェードの終了待ち
+	//MARK: BGM フェードの終了待ち
 	#wb(hArg: HArg) {hArg.buf = 'BGM'; return this.#wf(hArg)}
 
-	// 効果音フェードの終了待ち
+	//MARK: 効果音フェードの終了待ち
 	#wf(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
 		return this.#hSndBuf[buf]?.wf(hArg);
 	}
 
-	// 音声フェードの停止
+	//MARK: 音声フェードの停止
 	#stopfadese(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
 		this.#hSndBuf[buf]?.stopfadese(hArg);
@@ -151,15 +151,15 @@ export class SoundMng {
 		return false;
 	}
 
-	// BGM 再生の終了待ち
+	//MARK: BGM 再生の終了待ち
 	#wl(hArg: HArg) {hArg.buf = 'BGM'; return this.#ws(hArg)}
-	// 効果音再生の終了待ち
+	//MARK: 効果音再生の終了待ち
 	#ws(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
 		return this.#hSndBuf[buf]?.ws(hArg);
 	}
 
-	// 再生トラックの交換
+	//MARK: 再生トラックの交換
 	#xchgbuf(hArg: HArg) {
 		const {buf: buf1 = 'SE', buf2 = 'SE'} = hArg;
 		if (buf1 === buf2) return false;
@@ -171,7 +171,7 @@ export class SoundMng {
 		return false;
 	}
 
-	// しおりの読込（BGM状態復元）
+	//MARK: しおりの読込（BGM状態復元）
 	playLoopFromSaveObj(): void {
 		this.#stop_allse();
 		const lp = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));

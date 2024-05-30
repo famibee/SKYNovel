@@ -181,7 +181,8 @@ export class SpritesMng {
 					SpritesMng.#cachePicMov(aiv, res, next);
 				} catch (e) {
 					const mes = `画像/動画ロード失敗です fn:${res.name} ${e}`;
-					if (SpritesMng.#evtMng.isSkipping) console.warn(mes); else this.#main.errScript(mes, false);
+					if (SpritesMng.#evtMng.isSkipping) console.warn(mes); else console.error('%c'+ mes, 'color:#FF3300;');
+				//	if (SpritesMng.#evtMng.isSkipping) console.warn(mes); else this.#main.errScript(mes, false);
 				}
 			})
 			.load(fncLoaded);
@@ -323,7 +324,7 @@ export class SpritesMng {
 
 		if (SpritesMng.#evtMng.isSkipping || hve.ended) {SpritesMng.stopVideo(fn); return false}
 
-		const fncBreak = ()=> SpritesMng.#evtMng.breakLimitedEvent();	// waitEvent 使用者の通常 break 時義務
+		const fncBreak = ()=> SpritesMng.#evtMng.breakEvent();	// waitEvent 使用者の通常 break 時義務
 		hve.addEventListener('ended', fncBreak, {once: true, passive: true});
 
 		const stop = argChk_Boolean(hArg, 'stop', true);
