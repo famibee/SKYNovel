@@ -1,3 +1,10 @@
+## [1.53.7](https://github.com/famibee/SKYNovel/compare/v1.53.6...v1.53.7) (2024-05-30)
+
+
+### Bug Fixes
+
+* イベント関係不具合修正 ([53778f0](https://github.com/famibee/SKYNovel/commit/53778f0fbc5f6b50ae89e86546692aa5378e8fd2))
+
 - fix([playse]系): join=true 時に押しっぱなしスキップなどの高速スキップ表示にイベント待ち停止が動いてしまう場合がある件（非同期処理修正）
 - fix([playse]系): ロード完了時に内部状態が SsStop だった場合、リソースごと破棄されるとして再生しないように
 - fix([ws][fade系][wv]): 予約イベントの発生待ちしないタイプのイベント待ち終了時、内部状態をイベント予約受付中に戻していなかった件
