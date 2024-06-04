@@ -1,3 +1,7 @@
+- fix(文字レイヤ): ギャラリー用の試作機能として、CSS の text-shadow 設定するためだけの filter 属性があったので削除（v1.50.1 までの仕様）
+	- 指定したい場合は記述を style='text-shadow: 〜'に
+
+
 ## [1.53.8](https://github.com/famibee/SKYNovel/compare/v1.53.7...v1.53.8) (2024-06-04)
 
 

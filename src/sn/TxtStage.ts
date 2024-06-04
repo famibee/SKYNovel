@@ -151,7 +151,6 @@ export class TxtStage extends Container {
 		s.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`;
 		this.cvsResize();
 		s.display = this.spLay.visible ?'inline' :'none';
-		s.textShadow = hArg.filter ?? s.textShadow ?? '';
 
 		this.#break_fixed = argChk_Boolean(hArg, 'break_fixed', this.#break_fixed);
 		this.#break_fixed_left= argChk_Num(hArg, 'break_fixed_left', this.#break_fixed_left);
