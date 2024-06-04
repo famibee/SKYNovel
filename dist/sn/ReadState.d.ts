@@ -7,7 +7,8 @@ import { SoundMng } from './SoundMng';
 import { FocusMng } from './FocusMng';
 import { Config } from './Config';
 
-export declare function readOn(): void;
+export declare function enableEvent(): void;
+export declare function disableEvent(): void;
 interface IPageLog {
     key: string;
     fn: string;
@@ -57,6 +58,7 @@ declare class Rs_S_fire extends ReadState {
 }
 declare class Rs_S extends Rs_S_fire {
     static readonly go: ITag;
+    breakEvent(): void;
     protected onFinish(): void;
     protected onUserAct(): void;
 }

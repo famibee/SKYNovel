@@ -1,3 +1,15 @@
+- fix: 本文開始時にクリック連打すると [call fn=_*] でいくつか飛ばされるなどの現象
+	- イベント禁止状態 Rs_BanEvent 追加
+	- 同様のイベント一時無効化を以下にも適用
+		- [add_frame][snapshot][playse join=true]
+		- スクリプトロード
+		- 画像ロード（画像レイヤ・文字レイヤ背景）
+- fix: ギャラリーでクリックして進まなくなっている物があった件
+	- 一個前 ver 1.53.7 でデグレード
+- fix: [stop_tsy][finish_trans]でトゥイーンをstopしていなかった件
+- fix(文字レイヤ): レイヤダンプ表示で undefined 値対応
+
+
 ## [1.53.7](https://github.com/famibee/SKYNovel/compare/v1.53.6...v1.53.7) (2024-05-30)
 
 

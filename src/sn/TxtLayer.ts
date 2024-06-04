@@ -8,7 +8,7 @@
 import {Layer} from './Layer';
 import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
 import {IHTag, HArg} from './Grammar';
-import {IVariable, IPutCh, IMain, IRecorder} from './CmnInterface';
+import {IVariable, IPutCh, IRecorder} from './CmnInterface';
 import {TxtStage} from './TxtStage';
 import {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
@@ -17,9 +17,10 @@ import {Button} from './Button';
 import {LayerMng, IMakeDesignCast} from './LayerMng';
 import {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
+import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import {enableEvent, disableEvent} from './ReadState';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer, Application} from 'pixi.js';
-import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 
 export class TxtLayer extends Layer {
@@ -143,11 +144,9 @@ export class TxtLayer extends Layer {
 	}
 
 
-	static	#main	: IMain;
 	static	#evtMng	: IEvtMng;
 	static	#sys	: SysBase;
-	static setEvtMng(main: IMain, evtMng: IEvtMng, sys: SysBase) {
-		TxtLayer.#main = main;
+	static setEvtMng(evtMng: IEvtMng, sys: SysBase) {
 		TxtLayer.#evtMng = evtMng;
 		TxtLayer.#sys = sys;
 		TxtStage.setEvtMng(evtMng);
@@ -204,7 +203,7 @@ export class TxtLayer extends Layer {
 		'padding-bottom'	: 0,
 	};
 
-	readonly	#cntBtn	= new Container;
+	readonly	#cntBtn: Container<Button>	= new Container;
 
 	constructor() {
 		super();
@@ -237,7 +236,7 @@ export class TxtLayer extends Layer {
 
 	override cvsResize() {this.#txs.cvsResize()}
 	override cvsResizeChildren() {
-		for (const b of this.#cntBtn.children) (b as Button).cvsResize();
+		for (const b of this.#cntBtn.children) b.cvsResize();
 	}
 
 	protected	override	procSetX(x: number) {this.#txs.lay({x})}
@@ -281,14 +280,14 @@ export class TxtLayer extends Layer {
 			else this.#htmRb.style.cssText = '';
 		}
 
-		if ('alpha' in hArg) for (const e of this.#cntBtn.children) {
-			e.alpha = this.spLay.alpha;
-		}
+		if ('alpha' in hArg) for (const b of this.#cntBtn.children) b.alpha = this.spLay.alpha;
 
 		this.#set_ch_in(hArg);
 		this.#set_ch_out(hArg);
 
-		return this.#drawBack(hArg, isStop=> {if (isStop) TxtLayer.#main.resume()});
+		const ret = this.#drawBack(hArg, isStop=> {if (isStop) enableEvent()});
+		if (ret) disableEvent();
+		return ret;
 	}
 	#set_ch_in(hArg: HArg) {
 		const {in_style} = hArg;
@@ -796,7 +795,7 @@ text-combine-upright: all;
 
 		this.clearText();
 		// 上で呼ばれる this.#evtMng.escapeHint();	// Hintごとdestroyされるのを回避
-		for (const c of this.#cntBtn.removeChildren()) c.destroy();
+		for (const b of this.#cntBtn.removeChildren()) b.destroy();
 	}
 	override readonly record = ()=> {return <any>{...super.record(),
 		enabled	: this.enabled,
@@ -817,7 +816,7 @@ text-combine-upright: all;
 		txs		: this.#txs.record(),
 		strNoFFS: this.#strNoFFS,
 
-		btns	: this.#cntBtn.children.map(btn=> btn.name),
+		btns	: this.#cntBtn.children.map(b=> b.name),
 	}};
 	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
@@ -845,7 +844,7 @@ text-combine-upright: all;
 		}));
 
 		const aBtn: string[] = hLay.btns;
-		aPrm = aPrm.concat(aBtn.map(v=> this.addButton(JSON.parse(v.replaceAll(`'`, '"')))));
+		aPrm = aPrm.concat(aBtn.map(b=> this.addButton(JSON.parse(b.replaceAll(`'`, '"')))));
 	}
 
 	override snapshot(rnd: Renderer, re: ()=> void) {
@@ -860,16 +859,12 @@ text-combine-upright: all;
 	}
 	override makeDesignCastChildren(gdc: IMakeDesignCast) {
 		if (! this.spLay.visible) return;
-		for (const btn of this.#cntBtn.children) {
-			(btn as Button).makeDesignCast(gdc);
-		}
+		for (const b of this.#cntBtn.children) b.makeDesignCast(gdc);
 	}
 
 	override showDesignCast() {this.#txs.showDesignCast()}
 	override showDesignCastChildren() {
-		for (const btn of this.#cntBtn.children) {
-			(btn as Button).showDesignCast();
-		}
+		for (const b of this.#cntBtn.children) b.showDesignCast();
 	}
 
 	override dump(): string {
@@ -888,7 +883,7 @@ text-combine-upright: all;
 				)
 			}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')
 		}], "button":[${
-			this.#cntBtn.children.map(d=> (d as Container).children[0].name ?? '{}').join(',')
+			this.#cntBtn.children.map(b=> b.children[0]?.name ?? '{}').join(',')
 		}]`;
 	}
 

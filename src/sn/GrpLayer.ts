@@ -17,6 +17,7 @@ import {SoundMng} from './SoundMng';
 import {IMakeDesignCast} from './LayerMng';
 import {GrpLayDesignCast} from './DesignCast';
 import {SpritesMng} from './SpritesMng';
+import {enableEvent, disableEvent} from './ReadState';
 
 import {Sprite, AnimatedSprite, RenderTexture, Application} from 'pixi.js';
 
@@ -24,10 +25,8 @@ import {Sprite, AnimatedSprite, RenderTexture, Application} from 'pixi.js';
 export class GrpLayer extends Layer {
 	static	readonly	#elc	= new EventListenerCtn;
 
-	static	#main	: IMain;
 	static	#appPixi: Application;
 	static	init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: IVariable): void {
-		GrpLayer.#main = main;
 		GrpLayer.#appPixi = appPixi;
 		SpritesMng.init(cfg, val, sys, main, sndMng);
 	}
@@ -46,9 +45,13 @@ export class GrpLayer extends Layer {
 	#csvFn		= '';
 	#sBkFn		= '';
 	#sBkFace	= '';
-	override readonly	lay = (hArg: HArg)=> this.#laySub(hArg, isStop=> {
-		if (isStop) GrpLayer.#main.resume();
-	});
+	override readonly	lay = (hArg: HArg)=> {
+		const ret = this.#laySub(hArg, isStop=> {
+			if (isStop) enableEvent();
+		});
+		if (ret) disableEvent();
+		return ret;
+	}
 	#laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
 		SpritesMng.stopVideo(this.#sBkFn);
 

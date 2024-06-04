@@ -12,6 +12,7 @@ import {Config} from './Config';
 import {SysBase} from './SysBase';
 import {HArg} from './Grammar';
 import {CmnTween} from './CmnTween';
+import {disableEvent, enableEvent} from './ReadState';
 
 import {Loader, LoaderResource} from 'pixi.js';
 import {sound, Sound, Options, filters} from '@pixi/sound';
@@ -231,11 +232,11 @@ export class SndBuf {
 
 		const join = argChk_Boolean(hArg, 'join', true);
 		if (join) {
+			disableEvent();
 			const old = o.loaded!;
 			o.loaded = (e, s2)=> {
-				if (this.#sb.stt.isDestroy) return;
-				old(e, s2);
-				main.resume();
+				if (! this.#sb.stt.isDestroy) old(e, s2);
+				enableEvent();
 			};
 		}
 		this.#playseSub(fn, o);
@@ -255,7 +256,7 @@ export class SndBuf {
 			return;
 		}
 
-		(new Loader()).add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
+		(new Loader).add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
 		.use(async (res, next)=> {
 			try {
 				res.data = await sys.decAB(res.data);
@@ -264,7 +265,7 @@ export class SndBuf {
 			}
 			next();
 		})
-		.load((_ldr, hRes)=> {
+		.load((_ldr, hRes)=> {	// このあと o.loaded() もコールされる
 			o.source = hRes[fn]?.data;
 			Sound.from(o);
 		});
@@ -278,7 +279,7 @@ export class SndBuf {
 		this.#sb.stt.stopse(this.#sb);
 	}
 
-	fade(hArg: HArg) {this.#sb.stt.fade(this.#sb, hArg)}
+	fade =(hArg: HArg)=> this.#sb.stt.fade(this.#sb, hArg);
 	wf =(hArg: HArg)=> this.#sb.stt.wf(this.#sb, hArg);
 	stopfadese =(hArg: HArg)=> this.#sb.stt.stopfadese(this.#sb, hArg);
 

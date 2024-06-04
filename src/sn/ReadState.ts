@@ -56,7 +56,8 @@ function	cancelAutoSkip() {
 	}
 }
 
-export	function	readOn() {new RsEvtRsv}
+export	function	enableEvent() {new RsEvtRsv}
+export	function	disableEvent() {new Rs_BanEvent}
 
 interface IPageLog {
 	key		: string;
@@ -276,7 +277,7 @@ export class ReadState {
 
 		return true;
 	}
-	breakEvent() {this.#wle.destroy()}
+	breakEvent() {this.#wle.destroy(); enableEvent()}
 	#wle	= new WaitLimitedEventer({}, ()=> {});	// ':タグ名' は未定義、デバッグ時に無視を
 
 
@@ -372,6 +373,7 @@ export class ReadState {
 // === イベント予約受付中 ===
 class RsEvtRsv extends ReadState {
 	constructor() {super({}); main.resume(); elmHint.hidden = true}
+	override	breakEvent() {}
 }
 
 
@@ -412,6 +414,7 @@ class Rs_S_fire extends ReadState {
 }
 class Rs_S extends Rs_S_fire {
 	static	readonly	go: ITag = hArg=> new Rs_S(hArg).waitTxtAndTimer(0, {});
+	override	breakEvent() {}
 	protected	override	onFinish() {
 		cancelAutoSkip();
 		const glb = argChk_Boolean(this.hArg, 'global', true);
@@ -427,7 +430,7 @@ class Rs_Wait extends ReadState {	// 文字表示終了待ち→[wait]
 		const time = argChk_Num(hArg, 'time', NaN);	// skip時でもエラーは出したげたい
 		return new Rs_Wait(hArg).waitTxtAndTimer(time, hArg);
 	}
-	protected	override	onFinish() {readOn()}
+	protected	override	onFinish() {enableEvent()}
 	protected	override	onUserAct() {this.onFinish()}
 }
 
@@ -435,13 +438,15 @@ class Rs_Wait extends ReadState {	// 文字表示終了待ち→[wait]
 // === [l] ===
 class Rs_L extends ReadState {		// 文字表示終了待ち（そして[l]）
 	static	readonly	go: ITag = hArg=> new Rs_L(hArg).waitTxtAndTimer(0, hArg);
+	override	breakEvent() {}
 	protected	override	onFinish() {Rs_L_Wait.go(this.hArg)}
 	protected	override	onUserAct() {this.onFinish()}
 }
 
 class Rs_L_AutoSkip extends ReadState {	// 文字表示終了待ち（そして[l]auto/skipウェイト待ち）
 	static	readonly	go = (time: number, hArg: HArg)=> new Rs_L_AutoSkip(hArg).waitTxtAndTimer(time, hArg);
-	protected	override	onFinish() {readOn()}
+	override	breakEvent() {}
+	protected	override	onFinish() {enableEvent()}
 	protected	override	onUserAct() {Rs_L_Wait.go(this.hArg)}
 }
 
@@ -453,21 +458,23 @@ class Rs_L_Wait extends Rs_S_fire {		// [l] クリック待ち
 		new Rs_L_Wait(hArg).waitRsvEvent(true, glb);
 		return true;
 	}
-	protected	override	onFinish() {readOn()}
-	protected	override	onUserAct() {readOn()}
+	protected	override	onFinish() {enableEvent()}
+	protected	override	onUserAct() {enableEvent()}
 }
 
 
 // === [p] ===
 class Rs_P extends ReadState {		// 文字表示終了待ち（そして[p]）
 	static	readonly	go: ITag = hArg=> new Rs_P(hArg).waitTxtAndTimer(0, hArg);
+	override	breakEvent() {}
 	protected	override	onFinish() {Rs_P_Wait.go(this.hArg)}
 	protected	override	onUserAct() {this.onFinish()}
 }
 
 class Rs_P_AutoSkip extends ReadState {	// 文字表示終了待ち（そして[p]auto/skipウェイト待ち）
 	static	readonly	go = (time: number, hArg: HArg)=> new Rs_P_AutoSkip(hArg).waitTxtAndTimer(time, hArg);
-	protected	override	onFinish() {readOn()}
+	override	breakEvent() {}
+	protected	override	onFinish() {enableEvent()}
 	protected	override	onUserAct() {Rs_P_Wait.go(this.hArg)}
 }
 
@@ -485,7 +492,7 @@ class Rs_P_Wait extends Rs_S_fire {		// [p] クリック待ち
 
 		sndMng.clearCache();
 		//scrItr.turnPage();
-		readOn();
+		enableEvent();
 	}
 	protected	override	onUserAct() {this.onFinish()}
 }
@@ -499,7 +506,7 @@ class Rs_WaitClick extends Rs_S_fire {
 		const glb = argChk_Boolean(this.hArg, 'global', true);
 		this.waitRsvEvent(true, glb);
 	}
-	protected	override	onUserAct() {readOn()}
+	protected	override	onUserAct() {enableEvent()}
 }
 
 
@@ -517,10 +524,15 @@ class Rs_Any_Wait extends Rs_S_fire {	// fireがある → イベント受付す
 //class Rs_Any_Wait extends ReadState {	// fireがない → イベント受付しない
 	static	readonly	go = (hArg: HArg, onFire: ()=> void)=> new Rs_Any_Wait(hArg, onFire).waitLimitedEvent(hArg, onFire);
 	private	constructor(hArg: HArg, private readonly onIntr: ()=> void) {super(hArg)}
-	protected	override	onFinish() {readOn()}
+	protected	override	onFinish() {enableEvent()}
 	protected	override	onUserAct() {this.onIntr(); this.onFinish()}
+}
 
-	override	breakEvent() {super.breakEvent(); readOn()}
+
+// === イベント禁止（内部処理用） ===
+class Rs_BanEvent extends ReadState {	// fireがない → イベント受付しない
+	constructor() {super({})}
+	override	breakEvent() {}
 }
 
 

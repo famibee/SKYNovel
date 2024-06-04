@@ -210,11 +210,11 @@ export class CmnTween {
 
 		return CmnTween.#evtMng.waitEvent(hArg, ()=> CmnTween.finish_trans());
 	}
-	static	readonly	TW_INT_TRANS = 'trans\n';
+	static	readonly	TW_INT_TRANS = 'trans\n';	// 改行でスクリプトから絶対指定できない値に
 	static	get	isTrans(): boolean {return CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw !== undefined}
 
 	// レイヤのトランジションの停止
-	static	finish_trans(): boolean {CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw?.end(); return false}
+	static	finish_trans(): boolean {CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw?.stop().end(); return false}	// stop()とend()は別
 
 
 	// トゥイーン終了待ち
@@ -240,7 +240,7 @@ export class CmnTween {
 		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
 		if (! tw_nm) throw 'トゥイーンが指定されていません';
 
-		CmnTween.#hTwInf[tw_nm]?.tw?.end();	// stop()とend()は別
+		CmnTween.#hTwInf[tw_nm]?.tw?.stop().end();	// stop()とend()は別
 
 		return false;
 	}

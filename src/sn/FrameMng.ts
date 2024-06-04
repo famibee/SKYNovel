@@ -13,6 +13,7 @@ import {SysBase} from './SysBase';
 import {Config} from './Config';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {Main} from './Main';
+import {disableEvent, enableEvent} from './ReadState';
 
 import {Application, Loader, LoaderResource} from 'pixi.js';
 
@@ -27,7 +28,7 @@ export class FrameMng implements IGetFrm {
 		FrameMng.#main = main;
 	}
 
-	constructor(private readonly cfg: Config, hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly sys: SysBase) {
+	constructor(hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable) {
 		//	HTMLフレーム
 		hTag.add_frame		= o=> this.#add_frame(o);	// フレーム追加
 		hTag.let_frame		= o=> this.#let_frame(o);	// フレーム変数を取得
@@ -73,19 +74,20 @@ export class FrameMng implements IGetFrm {
 		const rct = this.#rect(hArg);
 		// 【sandbox="allow-scripts allow-same-origin"】は必要なのに警告が出るので削除
 		Main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id}" style="opacity: ${a
-		}; position: absolute; left:${this.sys.ofsLeft4elm +rct.x *this.sys.cvsScale
-		}px; top: ${this.sys.ofsTop4elm +rct.y *this.sys.cvsScale}px; z-index: 1; ${b_color
+		}; position: absolute; left:${FrameMng.#sys.ofsLeft4elm +rct.x *FrameMng.#sys.cvsScale
+		}px; top: ${FrameMng.#sys.ofsTop4elm +rct.y *FrameMng.#sys.cvsScale}px; z-index: 1; ${b_color
 		} border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
-		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width *this.sys.cvsScale}" height="${rct.height *this.sys.cvsScale}"></iframe>`);
+		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width *FrameMng.#sys.cvsScale}" height="${rct.height *FrameMng.#sys.cvsScale}"></iframe>`);
 
-		const url = this.cfg.searchPath(src, SEARCH_PATH_ARG_EXT.HTML);
-		const ld = (new Loader())
+		disableEvent();
+		const url = FrameMng.#cfg.searchPath(src, SEARCH_PATH_ARG_EXT.HTML);
+		const ld = (new Loader)
 		.add({name: src, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
-		if (this.sys.crypto) ld.use(async (res, next)=> {
+		if (FrameMng.#sys.crypto) ld.use(async (res, next)=> {
 			try {
-				res.data = await this.sys.dec(res.extension, res.data);
+				res.data = await FrameMng.#sys.dec(res.extension, res.data);
 			} catch (e) {
-				this.main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false);
+				FrameMng.#main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false);
 			}
 			next();
 		});
@@ -129,7 +131,7 @@ export class FrameMng implements IGetFrm {
 				// sn_repRes()をコール。引数は画像ロード処理差し替えメソッド
 				((win as any).sn_repRes)?.((i: HTMLImageElement)=> FrameMng.#loadPic2Img(i.dataset.src ?? '', i));
 
-				this.main.resume();
+				enableEvent();
 			};
 		});
 
@@ -139,7 +141,7 @@ export class FrameMng implements IGetFrm {
 	getFrmDisabled(id: string): boolean {return this.#hDisabled[id]}
 	#rect(hArg: HArg): DOMRect {
 		const a = {...hArg};
-		const re = this.sys.resolution;
+		const re = FrameMng.#sys.resolution;
 		return new DOMRect(
 			argChk_Num(a, 'x', 0) *re,
 			argChk_Num(a, 'y', 0) *re,
@@ -198,10 +200,10 @@ export class FrameMng implements IGetFrm {
 			const y = Number(this.val.getVal(vn +'.y'));
 			const w = Number(this.val.getVal(vn +'.width'));
 			const h = Number(this.val.getVal(vn +'.height'));
-			f.style.left = `${this.sys.ofsLeft4elm +x *this.sys.cvsScale}px`;
-			f.style.top  = `${this.sys.ofsTop4elm  +y *this.sys.cvsScale}px`;
-			f.width = String(w *this.sys.cvsScale);
-			f.height = String(h *this.sys.cvsScale);
+			f.style.left = `${FrameMng.#sys.ofsLeft4elm +x *FrameMng.#sys.cvsScale}px`;
+			f.style.top  = `${FrameMng.#sys.ofsTop4elm  +y *FrameMng.#sys.cvsScale}px`;
+			f.width = String(w *FrameMng.#sys.cvsScale);
+			f.height = String(h *FrameMng.#sys.cvsScale);
 		}
 	}
 
@@ -271,8 +273,8 @@ export class FrameMng implements IGetFrm {
 		}
 		const rct = this.#rect(hArg);
 		if ('x' in hArg || 'y' in hArg) {
-			s.left = `${this.sys.ofsLeft4elm +rct.x *this.sys.cvsScale}px`;
-			s.top  = `${this.sys.ofsTop4elm  +rct.y *this.sys.cvsScale}px`;
+			s.left = `${FrameMng.#sys.ofsLeft4elm +rct.x *FrameMng.#sys.cvsScale}px`;
+			s.top  = `${FrameMng.#sys.ofsTop4elm  +rct.y *FrameMng.#sys.cvsScale}px`;
 			this.val.setVal_Nochk('tmp', vn +'.x', rct.x);
 			this.val.setVal_Nochk('tmp', vn +'.y', rct.y);
 		}
@@ -286,11 +288,11 @@ export class FrameMng implements IGetFrm {
 			this.val.setVal_Nochk('tmp', vn +'.rotate', r);
 		}
 		if ('width' in hArg) {
-			f.width = String(rct.width *this.sys.cvsScale);
+			f.width = String(rct.width *FrameMng.#sys.cvsScale);
 			this.val.setVal_Nochk('tmp', vn +'.width', rct.width);
 		}
 		if ('height' in hArg) {
-			f.height = String(rct.height *this.sys.cvsScale);
+			f.height = String(rct.height *FrameMng.#sys.cvsScale);
 			this.val.setVal_Nochk('tmp', vn +'.height', rct.height);
 		}
 		if ('visible' in hArg) {
@@ -348,8 +350,8 @@ export class FrameMng implements IGetFrm {
 			hTo.sy = argChk_Num(hArg2, 'scale_y', 1);
 			hTo.r = argChk_Num(hArg2, 'rotate', 0);
 			fncXYSR = ()=> {
-				f.style.left = this.sys.ofsLeft4elm +hNow.x *this.sys.cvsScale +'px';
-				f.style.top  = this.sys.ofsTop4elm  +hNow.y *this.sys.cvsScale +'px';
+				f.style.left = FrameMng.#sys.ofsLeft4elm +hNow.x *FrameMng.#sys.cvsScale +'px';
+				f.style.top  = FrameMng.#sys.ofsTop4elm  +hNow.y *FrameMng.#sys.cvsScale +'px';
 				f.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
 				this.val.setVal_Nochk('tmp', vn +'.x', hNow.x);
 				this.val.setVal_Nochk('tmp', vn +'.y', hNow.y);
@@ -362,7 +364,7 @@ export class FrameMng implements IGetFrm {
 		if (width) {
 			hTo.w = rct.width;
 			fncW = ()=> {
-				f.width = hNow.w *this.sys.cvsScale +'px';
+				f.width = hNow.w *FrameMng.#sys.cvsScale +'px';
 				this.val.setVal_Nochk('tmp', vn +'.width', hNow.w);
 			};
 		}
@@ -370,7 +372,7 @@ export class FrameMng implements IGetFrm {
 		if (height) {
 			hTo.h = rct.height;
 			fncH = ()=> {
-				f.height = hNow.h *this.sys.cvsScale +'px';
+				f.height = hNow.h *FrameMng.#sys.cvsScale +'px';
 				this.val.setVal_Nochk('tmp', vn +'.height', hNow.h);
 			};
 		}

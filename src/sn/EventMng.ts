@@ -55,7 +55,7 @@ export class EventMng implements IEvtMng {
 
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
-		TxtLayer.setEvtMng(main, this, sys);
+		TxtLayer.setEvtMng(this, sys);
 		layMng.setEvtMng(this);
 		sys.setFire((KEY, e)=> this.fire(KEY, e));
 

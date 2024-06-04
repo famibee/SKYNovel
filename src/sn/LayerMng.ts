@@ -25,6 +25,7 @@ import {SoundMng} from './SoundMng';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {DesignCast} from './DesignCast';
 import {EventListenerCtn} from './EventListenerCtn';
+import {disableEvent, enableEvent} from './ReadState';
 
 import {Container, Application, Graphics, Texture, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
 
@@ -75,7 +76,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		FrameMng.init(cfg, sys, main);
 		Button.init(cfg);
 
-		this.#frmMng = new FrameMng(cfg, hTag, appPixi, val, main, sys);
+		this.#frmMng = new FrameMng(hTag, appPixi, val);
 		sys.hFactoryCls.grp = ()=> new GrpLayer;
 		sys.hFactoryCls.txt = ()=> new TxtLayer;
 
@@ -340,10 +341,11 @@ export class LayerMng implements IGetFrm, IRecorder {
 	}
 	#snapshot4app(hArg: HArg, url: string, width: number, height: number): boolean {
 		this.#frmMng.hideAllFrame();
+		disableEvent();
 		if (! ('layer' in hArg)) {
 			this.sys.capturePage(url, width, height, ()=> {
 				this.#frmMng.restoreAllFrame();
-				this.main.resume();
+				enableEvent();
 			});
 			return true;
 		}
@@ -362,11 +364,12 @@ export class LayerMng implements IGetFrm, IRecorder {
 				this.#hPages[ln].fore.spLay.visible = v;
 			}
 			this.#frmMng.restoreAllFrame();
-			this.main.resume();
+			enableEvent();
 		});
 		return true;
 	}
 	#snapshot4web(hArg: HArg, url: string, width: number, height: number): boolean {
+		disableEvent();
 		const ext = getExt(url);
 		const b_color = argChk_Color(hArg, 'b_color', this.#bg_color);
 		const rnd = autoDetectRenderer({
@@ -424,7 +427,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 */
 			if (! CmnTween.isTrans) for (const v of this.#getLayers(hArg.layer)) this.#hPages[v][pg].snapshot_end();
 			rnd.destroy(true);
-			this.main.resume();
+			enableEvent();
 		});
 
 		return true;
@@ -436,6 +439,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		if (! fn) throw 'fnは必須です';
 		const join = argChk_Boolean(hArg, 'join', true);
 
+		if (join) disableEvent();
 		switch (getExt(fn)) {
 			case 'css':		// 読み込んで<style>に追加
 				(async ()=> {
@@ -443,7 +447,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 					if (! res.ok) throw new Error('Network response was not ok.');
 
 					addStyle(await res.text());
-					if (join) this.main.resume();
+					if (join) enableEvent();
 				})();
 				break;
 

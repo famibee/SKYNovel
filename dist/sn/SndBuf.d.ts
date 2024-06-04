@@ -14,7 +14,7 @@ export declare class SndBuf {
     init(hArg: HArg): boolean;
     ws: (hArg: HArg) => boolean;
     stopse(hArg: HArg): void;
-    fade(hArg: HArg): void;
+    fade: (hArg: HArg) => void;
     wf: (hArg: HArg) => boolean;
     stopfadese: (hArg: HArg) => void;
 }

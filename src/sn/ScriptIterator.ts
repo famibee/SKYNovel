@@ -19,7 +19,7 @@ import {DebugMng} from './DebugMng';
 import {SoundMng} from './SoundMng';
 import {SysBase} from './SysBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
-import {readOn} from './ReadState';
+import {disableEvent, enableEvent} from './ReadState';
 import {CmnTween} from './CmnTween';
 
 import {Loader} from 'pixi.js';
@@ -772,6 +772,7 @@ export class ScriptIterator {
 			this.#idxToken = idx;
 		}
 
+		disableEvent();
 		if (! fn) {this.analyzeInit(); return}
 		if (fn.includes('@')) throw `[jump系] fn には文字「@」は禁止です`;
 
@@ -830,6 +831,7 @@ export class ScriptIterator {
 		const o = this.#seekScript(this.#script, Boolean(this.val.getVal('mp:const.sn.macro.name')), this.#lineNum, this.#skipLabel, this.#idxToken);
 		this.#idxToken	= o.idx;
 		this.#lineNum	= o.ln;
+		enableEvent();
 		this.runAnalyze();
 	}
 
@@ -1144,7 +1146,7 @@ export class ScriptIterator {
 		const mark = this.val.getMark(place);
 		if (! mark) throw `place【${place}】は存在しません`;
 
-		readOn();
+		enableEvent();
 		return this.loadFromMark(hArg, mark);
 	}
 	loadFromMark(hArg: HArg, mark: IMark, reload_sound = true) {
@@ -1222,7 +1224,7 @@ export class ScriptIterator {
 		this.#hScript = h;
 
 		hArg.do_rec = false;
-		readOn();
+		enableEvent();
 		return this.loadFromMark(hArg, mark, false);
 	}
 
