@@ -1,3 +1,10 @@
+## [1.53.8](https://github.com/famibee/SKYNovel/compare/v1.53.7...v1.53.8) (2024-06-04)
+
+
+### Bug Fixes
+
+* 本文開始時にクリック連打すると [call fn=_*] でいくつか飛ばされるなどの現象 ([8bd384e](https://github.com/famibee/SKYNovel/commit/8bd384e3d88a34097c5f93766cffc65d994663db))
+
 - fix: 本文開始時にクリック連打すると [call fn=_*] でいくつか飛ばされるなどの現象
 	- イベント禁止状態 Rs_BanEvent 追加
 	- 同様のイベント一時無効化を以下にも適用
