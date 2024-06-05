@@ -631,6 +631,10 @@ export class TxtStage extends Container {
 		}
 			// 後の禁則処理判定で誤判定するので、innerHTML 時にムダな改行やタブは削除
 			// [r]は後述コメントのHTMLタグになってるので問題なし
+
+		// ルビ付き文字に背景指定（style='background:'）がある場合、「文字」と「ルビ」と「その二つを含んだ領域」の三つが個別に塗られるが、三つめは背景指定を削除する
+		this.#htmTxt.querySelectorAll('.sn_ch:has(> ruby)').forEach((v: HTMLSpanElement)=> v.style.background = '');	// :has直前に空白厳禁
+
 		this.#lenHtmTxt = aSpan.length;
 //console.log(`fn:TxtStage.ts === ==${this.#htmTxt.innerHTML.slice(360)}==`);
 
@@ -816,7 +820,7 @@ export class TxtStage extends Container {
 				const st_r_hover = st_r_normal +(aLnk.r_style_hover ?? '');
 				const st_r_clicked = st_r_normal +(aLnk.r_style_clicked ?? '');
 
-				const nlRt = eCh.querySelectorAll('rt');
+				const nlRt = [...eCh.getElementsByTagName('rt')];
 				nlRt.forEach(e=> e.dataset.st_r_bk = e.style.cssText);
 				const st_bk = eCh.style.cssText;
 				const fncStyle = (st: string, st_r: string)=> {
@@ -843,7 +847,7 @@ export class TxtStage extends Container {
 		}
 
 		// 文字出現演出・開始〜終了
-		const chs = this.#htmTxt.querySelectorAll('span.sn_ch');
+		const chs = [...this.#htmTxt.getElementsByClassName('sn_ch')];
 		this.#fncEndChIn = ()=> {
 			this.#fncEndChIn = ()=> false;
 			chs.forEach(v=> v.className = v.className.replaceAll(/ go_ch_in_[^\s"]+/g, ''));

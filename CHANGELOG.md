@@ -1,3 +1,10 @@
+- fix(文字レイヤ): ルビ付き文字に背景指定（style='background:'）がある場合、「文字」と「ルビ」と「その二つを含んだ領域」の三つが個別に塗られるが、三つめは背景指定を削除するように
+- fix(文字レイヤ): [graph r=ルビ]指定時、ChromeとEdgeでルビが文字から少し離れる件
+	- Safari や Firefox では問題ない
+	- 内部的に【全角空白にルビ】としていたが、【\&emsp;にルビ】とするように
+- perf（パフォーマンス）: querySelectorAll をなるべく使わないように
+
+
 ## [1.53.9](https://github.com/famibee/SKYNovel/compare/v1.53.8...v1.53.9) (2024-06-04)
 
 

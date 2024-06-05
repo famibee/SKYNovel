@@ -303,8 +303,11 @@ export class FrameMng implements IGetFrm {
 		if ('b_color' in hArg) s.backgroundColor = hArg.b_color!;
 		if ('disabled' in hArg) {
 			const d = this.#hDisabled[id] = argChk_Boolean(hArg, 'disabled', true);
-			const il: NodeListOf<HTMLInputElement | HTMLSelectElement> = f.contentDocument!.body.querySelectorAll('input,select');
-			il.forEach(v=> v.disabled = d);
+			const b = f.contentDocument!.body;
+			[
+				...b.getElementsByTagName('input'),
+				...b.getElementsByTagName('select'),
+			].forEach(e=> e.disabled = d);
 		}
 
 		return false;

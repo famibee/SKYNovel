@@ -20,7 +20,7 @@
 		"@pixi/sound": "^4.4.1",
 		"@popperjs/core": "^2.11.8",
 		"@tweenjs/tween.js": "^23.1.2",
-		"adm-zip": "^0.5.13",
+		"adm-zip": "^0.5.14",
 		"devtools-detect": "^4.0.2",
 		"electron-store": "^9.0.0",
 		"fs-extra": "^11.2.0",

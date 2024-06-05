@@ -335,7 +335,10 @@ export class SysBase implements ISysRoots, ISysBase {
 	};
 	protected toast(nm: string) {
 		const p = document.body;
-		p.querySelectorAll('.sn_BounceIn, .sn_HopIn').forEach(v=> p.removeChild(v));
+		[
+			...p.getElementsByClassName('sn_BounceIn'),
+			...p.getElementsByClassName('sn_HopIn'),
+		].forEach(e=> e.remove());
 
 		const img = document.createElement('img');
 		const td = SysBase.#hToastDat[nm];

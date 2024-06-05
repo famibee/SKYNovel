@@ -26,7 +26,6 @@ export declare class TxtLayer extends Layer {
     chgBackAlpha(g_alpha: number): void;
     static chgDoRec(doRec: boolean): void;
     isCur: boolean;
-    private mkStyle_r_align;
     tagCh(text: string): void;
     readonly click: () => boolean;
     clearText(): void;

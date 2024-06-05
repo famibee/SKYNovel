@@ -259,7 +259,7 @@ export class TxtLayer extends Layer {
 		: this.#txs.tategaki
 			? v=> `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
 			: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
-		if (CmnLib.isFirefox) this.mkStyle_r_align = this.#mkStyle_r_align4ff;
+		if (CmnLib.isFirefox) this.#mkStyle_r_align = this.#mkStyle_r_align4ff;
 
 		if ('r_style' in hArg) {
 			if (hArg.r_style) {
@@ -438,7 +438,7 @@ export class TxtLayer extends Layer {
 
 	isCur	= false;
 	#ruby_pd: (v: string, l: number)=> string = ()=> '';
-	private	mkStyle_r_align(ch: string, rb: string, r_align: string, add_sty=''): string {
+	#mkStyle_r_align: (ch: string, rb: string, r_align: string, add_sty?: string)=> string = (ch, rb, r_align, add_sty='')=> {
 		if (! r_align) return ` style='${add_sty}'`;
 
 		const len = ch.length *2;
@@ -506,7 +506,7 @@ export class TxtLayer extends Layer {
 			if (ch === '\n') {
 				if (this.#firstCh) {// １文字目にルビが無い場合、不可視ルビで行揃え
 					this.#firstCh = false;
-					add_htm = '<ruby>　<rt>　</rt></ruby><br/>';
+					add_htm = '<ruby>&emsp;<rt>&emsp;</rt></ruby><br/>';
 				}
 				else add_htm = '<br/>';
 				break;
@@ -538,7 +538,7 @@ export class TxtLayer extends Layer {
 				if (this.#needGoTxt) {
 					if (this.isCur) TxtLayer.#recorder.recText(
 						this.#aSpan.join('')
-						.replace(/^<ruby>　<rt>　<\/rt><\/ruby>(<br\/>)+/, '')
+						.replace(/^<ruby>&emsp;<rt>&emsp;<\/rt><\/ruby>(<br\/>)+/, '')
 							// 前方の空行をtrim
 						.replaceAll(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
 						.replaceAll(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
@@ -585,8 +585,8 @@ export class TxtLayer extends Layer {
 				const {cl, sty, lnk} = this.#o2domArg(true, o.wait);
 				add_htm = `<span${cl} style='${sty} ${o.style
 				}'><ruby><span data-cmd='grp' data-arg='${JSON.stringify(o)
-				}'${lnk} style='${sty} display: inline;'>　</span><rt${lnk}${
-					this.mkStyle_r_align('　', o.r, this.#r_align,
+				}'${lnk} style='${sty} display: inline;'>&emsp;</span><rt${lnk}${
+					this.#mkStyle_r_align('　', o.r, this.#r_align,
 					this.#htmRb.style.cssText	// この並びで上書きされていく
 					+ (this.#stkASpan.at(-1)?.o.r_style ?? '')
 					+ o.r_style)
@@ -619,7 +619,7 @@ export class TxtLayer extends Layer {
 				} ${style}'><ruby><span${lnk} style='${sty} display: inline;
 text-combine-upright: all;
 -webkit-text-combine: horizontal;'>${t}</span><rt${lnk}${
-					this.mkStyle_r_align(t, rb, this.#r_align,
+					this.#mkStyle_r_align(t, rb, this.#r_align,
 					this.#htmRb.style.cssText	// この並びで上書きされていく
 					+ (this.#stkASpan.at(-1)?.o.r_style ?? '')
 					+ r_style)
@@ -678,7 +678,7 @@ text-combine-upright: all;
 				i > 0 ?this.#o2domArg(true, null, ch).sty :sty
 			} display: inline;'>${c===' ' ?'&nbsp;' :c}</span>`).join('')
 				// display: inline; がないと[span]区間外のルビが浮く
-		}<rt${lnk}${this.mkStyle_r_align(ch, rb, r_align,
+		}<rt${lnk}${this.#mkStyle_r_align(ch, rb, r_align,
 			this.#htmRb.style.cssText	// この並びで上書きされていく
 			+ (this.#stkASpan.at(-1)?.o.r_style ?? ''))
 		}>${rb}</rt></ruby></span>`;	// <span>に入れないと崩れ一文字ずつ出ない
