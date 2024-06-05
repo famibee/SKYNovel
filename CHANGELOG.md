@@ -1,3 +1,10 @@
+## [1.53.10](https://github.com/famibee/SKYNovel/compare/v1.53.9...v1.53.10) (2024-06-05)
+
+
+### Bug Fixes
+
+* **文字レイヤ:** ルビ付き文字に背景指定（style='background:'）がある場合、「文字」と「ルビ」と「その二つを含んだ領域」の三つが個別に塗られるが、三つめは背景指定を削除するように ([3f7f200](https://github.com/famibee/SKYNovel/commit/3f7f2001f735b9842bf1768c4fdc841b329290f8))
+
 - fix(文字レイヤ): ルビ付き文字に背景指定（style='background:'）がある場合、「文字」と「ルビ」と「その二つを含んだ領域」の三つが個別に塗られるが、三つめは背景指定を削除するように
 - fix(文字レイヤ): [graph r=ルビ]指定時、ChromeとEdgeでルビが文字から少し離れる件
 	- Safari や Firefox では問題ない
