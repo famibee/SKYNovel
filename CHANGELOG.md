@@ -1,3 +1,10 @@
+## [1.53.11](https://github.com/famibee/SKYNovel/compare/v1.53.10...v1.53.11) (2024-06-09)
+
+
+### Bug Fixes
+
+* **イベント待ち処理:** 異なるイベント待ち同士が影響する件 ([9218ff8](https://github.com/famibee/SKYNovel/commit/9218ff8048f2da6bb04c14cf86d44d5b8446f148))
+
 - fix(イベント待ち処理): 異なるイベント待ち同士が影響する件
 	- このように[p]待ち中に[quake]終了で[p]待ちが解除されるなどの不具合
 		```scheme
