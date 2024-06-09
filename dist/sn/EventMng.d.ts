@@ -28,8 +28,8 @@ export declare class EventMng implements IEvtMng {
     button(hArg: HArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     hideHint(): void;
     cvsResize(): void;
-    readonly waitEvent: (hArg: HArg, onIntr: () => void) => boolean;
-    breakEvent(): void;
+    readonly waitEvent: (evnm: string, hArg: HArg, onIntr: () => void) => boolean;
+    breakEvent(evnm: string): void;
     noticeCompTxt(): void;
     get isSkipping(): boolean;
 }

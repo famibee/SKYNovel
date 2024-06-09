@@ -258,113 +258,115 @@ it('test_let_expansion_0_cr', ()=> {
 	expect(grm.testNoTxt(ch)).toBe(false);
 });
 it('test_let_expansion_0_cr_spc', ()=> {
-	const sScr = '&text = 1 + 2 = int\t[tcy t="!!"]';
+	const sScr = '&text = 1 + 2 = int\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe('&text = 1 + 2 = int');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text = 1 + 2 = int\t');
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe(';');
 	ch = aToken[1].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_0_cr_spc_var', ()=> {
-	const sScr = '&text = hA[#ar$BB#]\t[tcy t="!!"]';
+	const sScr = '&text = hA[#ar$BB#]\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe('&text = hA[#ar$BB#]');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text = hA[#ar$BB#]\t');
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe(';');
 	ch = aToken[1].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_1_tab', ()=> {
-	const sScr = '&text=1+2=int\t[tcy t="!!"]';
+	const sScr = '&text=1+2=int\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe('&text=1+2=int');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text=1+2=int\t');
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe(';');
 	ch = aToken[1].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_1_tab_spc', ()=> {
-	const sScr = '&text = 1 + 2 = int\t[tcy t="!!"]';
+	const sScr = '&text = 1 + 2 = int\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe('&text = 1 + 2 = int');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text = 1 + 2 = int\t');
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe(';');
 	ch = aToken[1].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_1_tab_spc_var', ()=> {
-	const sScr = '&text = hA[#ar$BB#]\t[tcy t="!!"]';
+	const sScr = '&text = hA[#ar$BB#]\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe('&text = hA[#ar$BB#]');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text = hA[#ar$BB#]\t');
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe(';');
 	ch = aToken[1].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
 });
+	it('test_let_expansion_1_tab_spc_var2', ()=> {
+		const sScr = '&text = hA[#a;r$BB#]\t;';
+		const {aToken, len} = grm.resolveScript(sScr);
+		let ch: string = '';
+
+		expect(len).toBe(2);
+		expect(aToken[0]).toBe('&text = hA[#a;r$BB#]\t');
+		ch = aToken[0].charAt(0);
+		expect(grm.testNoTxt(ch)).toBe(true);
+
+		expect(aToken[1]).toBe(';');
+		ch = aToken[1].charAt(0);
+		expect(grm.testNoTxt(ch)).toBe(true);
+	});
 it('test_let_expansion_2_spc', ()=> {
-	const sScr = '&text=1+2=int [tcy t="!!"]';
+	const sScr = '&text=1+2=int ;';
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(1);
-	expect(aToken[0]).toBe('&text=1+2=int [tcy t="!!"]');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text=1+2=int ');
 	ch = aToken[0].charAt(0);
+	expect(grm.testNoTxt(ch)).toBe(true);
+
+	expect(aToken[1]).toBe(';');
+	ch = aToken[1].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_2_spc2', ()=> {
-	const sScr = '&text=1+2=int  [tcy t="!!"]';
+	const sScr = '&text=1+2=int  ;';
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(1);
-	expect(aToken[0]).toBe('&text=1+2=int  [tcy t="!!"]');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text=1+2=int  ');
 	ch = aToken[0].charAt(0);
+	expect(grm.testNoTxt(ch)).toBe(true);
+
+	expect(aToken[1]).toBe(';');
+	ch = aToken[1].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_3_comment', ()=> {
@@ -372,17 +374,13 @@ it('test_let_expansion_3_comment', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe('&text=1+2=int');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text=1+2=int\t');
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe('; [tcy t="!!"]');
 	ch = aToken[1].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe('; [tcy t="!!"]');
-	ch = aToken[2].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_3_comment2', ()=> {
@@ -390,17 +388,13 @@ it('test_let_expansion_3_comment2', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe('&text=1+2=int');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text=1+2=int\t\t');
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t\t");
+	expect(aToken[1]).toBe('; [tcy t="!!"]');
 	ch = aToken[1].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe('; [tcy t="!!"]');
-	ch = aToken[2].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_4_OperatorEq', ()=> {
@@ -408,17 +402,13 @@ it('test_let_expansion_4_OperatorEq', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe('&text=1+2 == null');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text=1+2 == null\t\t');
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t\t");
+	expect(aToken[1]).toBe('; [tcy t="!!"]');
 	ch = aToken[1].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe('; [tcy t="!!"]');
-	ch = aToken[2].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_4_OperatorNotEq', ()=> {
@@ -426,35 +416,27 @@ it('test_let_expansion_4_OperatorNotEq', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe('&text=1+2 != null');
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe('&text=1+2 != null\t\t');
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t\t");
+	expect(aToken[1]).toBe('; [tcy t="!!"]');
 	ch = aToken[1].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe('; [tcy t="!!"]');
-	ch = aToken[2].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_bug_20120321s_aira', ()=> {
-	const sScr = "&&'tex'+0 = 1+2\t[tcy t='!!']";
+	const sScr = "&&'tex'+0 = 1+2\t;[tcy t='!!']";
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch: string = '';
 
-	expect(len).toBe(3);
-	expect(aToken[0]).toBe("&&'tex'+0 = 1+2");
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe("&&'tex'+0 = 1+2\t");
 	ch = aToken[0].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe(";[tcy t='!!']");
 	ch = aToken[1].charAt(0);
-	expect(grm.testNoTxt(ch)).toBe(true);
-
-	expect(aToken[2]).toBe("[tcy t='!!']");
-	ch = aToken[2].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 
@@ -674,6 +656,21 @@ it('test_ch_expansion_miss_1', ()=> {
 
 	expect(aToken[5]).toBe('[tcy t="!!"]');
 	ch = aToken[5].charAt(0);
+	expect(grm.testNoTxt(ch)).toBe(true);
+});
+
+it('test_let_bug_20140606_comment_in_str', ()=> {
+	const sScr = `&st_hv='back;'\t\t; [tcy t="!!"]`;
+	const {aToken, len} = grm.resolveScript(sScr);
+	let ch: string = '';
+
+	expect(len).toBe(2);
+	expect(aToken[0]).toBe(`&st_hv='back;'\t\t`);
+	ch = aToken[0].charAt(0);
+	expect(grm.testNoTxt(ch)).toBe(true);
+
+	expect(aToken[1]).toBe('; [tcy t="!!"]');
+	ch = aToken[1].charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 

@@ -107,6 +107,10 @@ export interface IVariable {
     updateData(data: IData4Vari): void;
     defValTrg(name: string, fnc: ISetVal): void;
     doRecLog(): boolean;
+    get tagCh_doWait(): boolean;
+    get tagCh_doWait_Kidoku(): boolean;
+    get tagCh_msecWait(): number;
+    get tagCh_msecWait_Kidoku(): number;
 }
 export interface IValMp {
     [name: string]: string;

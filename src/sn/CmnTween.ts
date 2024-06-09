@@ -167,7 +167,7 @@ export class CmnTween {
 
 			ti.tw = undefined;
 			tw.stop();
-			CmnTween.#evtMng.breakEvent();	// waitEvent 使用者の通常 break 時義務
+			CmnTween.#evtMng.breakEvent('tsy nm:'+ tw_nm);	// waitEvent 使用者の通常 break 時義務
 			ti.onEnd?.();
 
 			onComplete();
@@ -208,7 +208,7 @@ export class CmnTween {
 		const ti = CmnTween.#hTwInf[CmnTween.TW_INT_TRANS];
 		if (! ti?.tw) return false;
 
-		return CmnTween.#evtMng.waitEvent(hArg, ()=> CmnTween.finish_trans());
+		return CmnTween.#evtMng.waitEvent('tsy nm:'+ CmnTween.TW_INT_TRANS, hArg, ()=> CmnTween.finish_trans());
 	}
 	static	readonly	TW_INT_TRANS = 'trans\n';	// 改行でスクリプトから絶対指定できない値に
 	static	get	isTrans(): boolean {return CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw !== undefined}
@@ -231,7 +231,7 @@ export class CmnTween {
 			return false;
 		}
 
-		return CmnTween.#evtMng.waitEvent(hArg, ()=> ti.tw?.end());	// stop()とend()は別
+		return CmnTween.#evtMng.waitEvent('tsy nm:'+ tw_nm, hArg, ()=> ti.tw?.end());	// stop()とend()は別
 	}
 
 	// トゥイーン中断

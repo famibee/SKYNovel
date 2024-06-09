@@ -177,7 +177,12 @@ export class Variable implements IVariable {
 			// 初回の初期化と、v1.11.0 まで未初期化変数があった件の対策
 			const tm = this.getVal('sys:sn.tagCh.msecWait', -1);
 			if (this.#hTmp['const.sn.isFirstBoot'] || tm === -1) this.#clearsysvar();
-		});
+
+			this.#tagCh_doWait = this.getVal('sys:sn.tagCh.doWait');
+			this.#tagCh_doWait_Kidoku = this.getVal('sys:sn.tagCh.doWait_Kidoku');
+			this.#tagCh_msecWait = this.getVal('sys:sn.tagCh.msecWait');
+			this.#tagCh_msecWait_Kidoku = this.getVal('sys:sn.tagCh.msecWait_Kidoku');
+	});
 	}
 	readonly	#hProcDbgRes
 	: {[type: string]: (type: string, o: any)=> void}	= {
@@ -597,18 +602,34 @@ export class Variable implements IVariable {
 	doRecLog() {return this.#doRecLog}
 
 
+	#tagCh_doWait = false;
+	get tagCh_doWait() {return this.#tagCh_doWait;}
+	#tagCh_doWait_Kidoku = false;
+	get tagCh_doWait_Kidoku() {return this.#tagCh_doWait_Kidoku;}
+	#tagCh_msecWait		= 0;
+	get tagCh_msecWait() {return this.#tagCh_msecWait;}
+	#tagCh_msecWait_Kidoku= 0;
+	get tagCh_msecWait_Kidoku() {return this.#tagCh_msecWait_Kidoku;}
+
 	#hValTrg	: {[name: string]: ISetVal}	= {
 		// sys
-		'sys:sn.tagCh.doWait'			: name=>
-			this.#runFirst_Bool_hSysVal_true(name),
-		'sys:sn.tagCh.doWait_Kidoku'	: name=>
-			this.#runFirst_Bool_hSysVal_true(name),
-		'sys:sn.tagCh.msecWait'			: name=>
-			this.#runFirst_sys_an_tagCh_msecWait(name),
-		'sys:sn.tagCh.msecWait_Kidoku'	: name=>
-			this.#runFirst_sys_an_tagCh_msecWait_Kidoku(name),
-		'sys:sn.tagCh.canskip'			: name=>
-			this.#runFirst_Bool_hSysVal_true(name),
+		'sys:sn.tagCh.doWait'			: name=> {
+			this.#tagCh_doWait =
+			this.#runFirst_Bool_hSysVal_true(name);
+		},
+		'sys:sn.tagCh.doWait_Kidoku'	: name=> {
+			this.#tagCh_doWait_Kidoku =
+			this.#runFirst_Bool_hSysVal_true(name);
+		},
+		'sys:sn.tagCh.msecWait'			: name=> {
+			this.#tagCh_msecWait =
+			this.#runFirst_sys_an_tagCh_msecWait(name);
+		},
+		'sys:sn.tagCh.msecWait_Kidoku'	: name=> {
+			this.#tagCh_msecWait_Kidoku =
+			this.#runFirst_sys_an_tagCh_msecWait_Kidoku(name);
+		},
+		'sys:sn.tagCh.canskip'			: name=> this.#runFirst_Bool_hSysVal_true(name),
 
 		'sys:sn.auto.msecPageWait'			: name=>
 			this.#runFirst_sys_an_auto_msecPageWait(name),
@@ -638,35 +659,21 @@ export class Variable implements IVariable {
 		),
 	};
 	defValTrg(name: string, fnc: ISetVal) {this.#hValTrg[name] = fnc}
-	#runFirst_Bool_hSysVal_true(name: string): void {
-			argChk_Boolean(this.#hSys, name, true);
-		}
-	#runFirst_sys_an_tagCh_msecWait(name: string): void {
-			argChk_Num(this.#hSys, name, 10);
-			if (this.#hSys['sn.tagCh.doWait']) {
-//				LayerMng.msecChWait = this.hSysVal[name];
-			}
-		}
-	#runFirst_sys_an_tagCh_msecWait_Kidoku(name: string): void {
-		argChk_Num(this.#hSys, name,
-			(this.cfg.oCfg.init.tagch_msecwait === undefined)
-				? 10
-				: this.cfg.oCfg.init.tagch_msecwait
-		);
-		if (this.#hSys['sn.tagCh.doWait_Kidoku']) {
-//			LayerMng.msecChWait = this.hSysVal[name];
-		}
-	}
-	#runFirst_sys_an_auto_msecPageWait(name: string): void {
-		argChk_Num(this.#hSys, name,
-			(this.cfg.oCfg.init.auto_msecpagewait === undefined)
-				? 3500
-				: this.cfg.oCfg.init.auto_msecpagewait
-		);
-	}
-	#runFirst_sys_an_auto_msecLineWait(name: string): void {
-		argChk_Num(this.#hSys, name, 500);
-	}
+	readonly	#runFirst_Bool_hSysVal_true = (name: string)=> argChk_Boolean(this.#hSys, name, true);
+	readonly	#runFirst_sys_an_tagCh_msecWait = (name: string)=> argChk_Num(this.#hSys, name, 10);
+	readonly	#runFirst_sys_an_tagCh_msecWait_Kidoku = (name: string)=> argChk_Num(
+		this.#hSys, name,
+		(this.cfg.oCfg.init.tagch_msecwait === undefined)
+			? 10
+			: this.cfg.oCfg.init.tagch_msecwait
+	);
+	readonly	#runFirst_sys_an_auto_msecPageWait = (name: string)=> argChk_Num(
+		this.#hSys, name,
+		(this.cfg.oCfg.init.auto_msecpagewait === undefined)
+			? 3500
+			: this.cfg.oCfg.init.auto_msecpagewait
+	);
+	readonly	#runFirst_sys_an_auto_msecLineWait = (name: string)=> argChk_Num(this.#hSys, name, 500);
 
 	#runFirst_Bool_hSaveVal_true(name: string) {
 		return argChk_Boolean(this.#hSave, name, true);

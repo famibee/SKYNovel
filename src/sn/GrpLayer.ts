@@ -53,8 +53,6 @@ export class GrpLayer extends Layer {
 		return ret;
 	}
 	#laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
-		SpritesMng.stopVideo(this.#sBkFn);
-
 		const {fn, face = ''} = hArg;
 		this.#idc.sethArg(hArg);
 		if (! fn) {

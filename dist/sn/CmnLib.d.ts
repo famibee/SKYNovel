@@ -13,8 +13,8 @@ export interface IEvtMng {
     get isSkipping(): boolean;
     popLocalEvts(): IHEvt2Fnc;
     pushLocalEvts(a: IHEvt2Fnc): void;
-    waitEvent(hArg: HArg, onFire: () => void): boolean;
-    breakEvent(): void;
+    waitEvent(evnm: string, hArg: HArg, onFire: () => void): boolean;
+    breakEvent(evnm: string): void;
     hideHint(): void;
     cvsResize(): void;
     noticeCompTxt(): void;

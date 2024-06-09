@@ -615,19 +615,19 @@ export class TxtStage extends Container {
 		}
 		else {
 			bkHtm = this.#htmTxt.innerHTML;
-			this.#htmTxt.querySelectorAll(':scope > br').forEach(v=> this.#htmTxt.removeChild(v));	// 前回の禁則処理を一度削除
+			// 末尾改行削除挙動対策
+			--begin;
+//console.log(`fn:TxtStage.ts begin:${begin} bkHtm=${bkHtm}=`);
+			this.#htmTxt.querySelector('.sn_ch_last')?.remove();
+				// 前回の末尾を削除
+
+			this.#htmTxt.querySelectorAll(':scope > br').forEach(e=> e.remove());	// 前回の禁則処理を一度削除
 				// :scope - CSS: カスケーディングスタイルシート | MDN https://developer.mozilla.org/ja/docs/Web/CSS/:scope
 			this.#htmTxt.insertAdjacentHTML(
 				'beforeend',
 				aSpan.slice(this.#lenHtmTxt).join('').replaceAll(/[\n\t]/g, '')
 				+TxtStage.#SPAN_LAST	// 末尾改行削除挙動対策
 			);
-
-			// 末尾改行削除挙動対策
-			--begin;
-//console.log(`fn:TxtStage.ts begin:${begin} bkHtm=${bkHtm}=`);
-			this.#htmTxt.querySelector('.sn_ch_last')?.remove();
-				// 前回の末尾を削除
 		}
 			// 後の禁則処理判定で誤判定するので、innerHTML 時にムダな改行やタブは削除
 			// [r]は後述コメントのHTMLタグになってるので問題なし
@@ -682,20 +682,20 @@ export class TxtStage extends Container {
 			let sl_xy = -Infinity;
 //console.log(`🎴禁則処理判定ループ begin:${begin} len:${len}`);
 			for (; j<len; ++j) {
-				const c = a[j];
-				if (c.elm.tagName === 'RT') continue;	// ルビはスキップ
+				const {elm, rect, ch} = a[j];
+				if (elm.tagName === 'RT') continue;	// ルビはスキップ
 
-				const xy = this.tategaki ?c.rect.y :c.rect.x;
+				const xy = this.tategaki ?rect.y :rect.x;
 //if (sl_xy > 790)
-//console.log(`🎴 sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${c.ch}: he:${JSON.stringify(c)}`);
+//console.log(`🎴 sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${ch}: he:${JSON.stringify(c)}`);
 				if (sl_xy <= xy		// 【sl_xy < xy】では[tcy]二文字目を誤判定する
-				|| c.elm.previousElementSibling?.children[0]?.tagName
+				|| elm.previousElementSibling?.children[0]?.tagName
 					=== 'BR'		// [r]による改行後は追い出し処理をしないように
 					) {
 						sl_xy = xy;
 						if (! this.#break_fixed) {
-							this.#break_fixed_left = c.rect.x;
-							this.#break_fixed_top = c.rect.y;
+							this.#break_fixed_left = rect.x;
+							this.#break_fixed_top = rect.y;
 						}
 						continue;
 					}
@@ -713,7 +713,7 @@ export class TxtStage extends Container {
 				while (a[idxPrevCh].elm.tagName === 'RT') --idxPrevCh;
 				const crPrev = a[idxPrevCh];
 				const chPrev = crPrev.ch;
-//console.log(`🎴 === 自動改行発生！　前文字:${chPrev}: 今文字:${c.ch}:`);
+//console.log(`🎴 === 自動改行発生！　前文字:${chPrev}: 今文字:${ch}:`);
 
 				if (! this.#break_fixed) {
 					this.#break_fixed_left = crPrev.rect.x;
@@ -727,8 +727,8 @@ export class TxtStage extends Container {
 				const oldJ = j;
 				// 追い出し
 				if (TxtStage.#reg分割禁止.test(chPrev)
-				&& (chPrev === c.ch)) {
-//console.log(`🎴追い出し（分割禁止）ch:${c.ch}`);
+				&& (chPrev === ch)) {
+//console.log(`🎴追い出し（分割禁止）ch:${ch}`);
 					j = idxPrevCh;
 				}
 				else {
@@ -736,8 +736,8 @@ export class TxtStage extends Container {
 //console.log(`🎴追い出し（行末禁則）前ch:${chPrev}`);
 						j = idxPrevCh;
 					}
-					else if (TxtStage.#reg行頭禁則.test(c.ch)) {
-//console.log(`🎴追い出し（行頭禁則 A）前ch:${c.ch}`);
+					else if (TxtStage.#reg行頭禁則.test(ch)) {
+//console.log(`🎴追い出し（行頭禁則 A）前ch:${ch}`);
 						j = idxPrevCh +1;
 						while (j > 0 && TxtStage.#reg行頭禁則.test(a[--j].ch)) {
 //console.log(`🎴＿＿＿＿（行頭禁則 A）前ch:${a[j].ch}`);

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {uint, argChk_Boolean, getFn, CmnLib} from './CmnLib';
+import {argChk_Boolean, getFn, CmnLib} from './CmnLib';
 import {IHTag, HArg, Script} from './Grammar';
 import {IMain, IVariable, IMark, IPropParser} from './CmnInterface';
 import {Config} from './Config';
@@ -1061,13 +1061,13 @@ export class ScriptIterator {
 	get normalWait(): number {
 		return this.#isKidoku
 		? (
-			this.val.getVal('sys:sn.tagCh.doWait_Kidoku')
-			?	uint(this.val.getVal('sys:sn.tagCh.msecWait_Kidoku'))
+			this.val.tagCh_doWait_Kidoku
+			?	this.val.tagCh_msecWait_Kidoku
 			:	0
 		)
 		: (
-			this.val.getVal('sys:sn.tagCh.doWait')
-			?	uint(this.val.getVal('sys:sn.tagCh.msecWait'))
+			this.val.tagCh_doWait
+			?	this.val.tagCh_msecWait
 			:	0
 		);
 	}

@@ -24,6 +24,10 @@ export declare class Variable implements IVariable {
     setVal_Nochk(scope: Scope, nm: string, val: any, autocast?: boolean): void;
     readonly getVal: (arg_name: string, def?: number | string) => any;
     doRecLog(): boolean;
+    get tagCh_doWait(): boolean;
+    get tagCh_doWait_Kidoku(): boolean;
+    get tagCh_msecWait(): number;
+    get tagCh_msecWait_Kidoku(): number;
     defValTrg(name: string, fnc: ISetVal): void;
 }
 //# sourceMappingURL=Variable.d.ts.map

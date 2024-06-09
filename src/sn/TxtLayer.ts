@@ -513,7 +513,7 @@ export class TxtLayer extends Layer {
 			}
 			if (this.#firstCh) {	// １文字目にルビが無い場合、不可視ルビで行揃え
 				this.#firstCh = false;
-				if (ruby === '') ruby = '　';
+				if (ruby === '') ruby = '&emsp;';
 			}
 			add_htm = this.#tagCh_sub(ch, ruby, this.#r_align);
 			break;
@@ -664,7 +664,7 @@ text-combine-upright: all;
 		this.#aSpan.push(TxtLayer.#rec(add_htm));
 	}
 	#tagCh_sub(ch: string, rb: string, r_align: string): string {
-		const ht = ch === ' ' ?'&nbsp;' :ch;
+		const ht = ch===' ' ?'&nbsp;' :ch==='　' ?'&emsp;' :ch;
 		if (TxtLayer.#val.doRecLog()) {
 			this.#page_text += ht +(rb ?`《${rb}》` :'');
 			if (ch !== ' ') this.#page_plain_text += ch;
@@ -676,7 +676,9 @@ text-combine-upright: all;
 		}'><ruby>${	// 文字個別に出現させるため以下にも ${cl} が必要
 			Array.from(ch).map((c, i)=> `<span${cl}${lnk} style='${
 				i > 0 ?this.#o2domArg(true, null, ch).sty :sty
-			} display: inline;'>${c===' ' ?'&nbsp;' :c}</span>`).join('')
+			} display: inline;'>${
+				c===' ' ?'&nbsp;' :c==='　' ?'&emsp;' :c
+			}</span>`).join('')
 				// display: inline; がないと[span]区間外のルビが浮く
 		}<rt${lnk}${this.#mkStyle_r_align(ch, rb, r_align,
 			this.#htmRb.style.cssText	// この並びで上書きされていく
@@ -697,9 +699,7 @@ text-combine-upright: all;
 		const curpos = `data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
 
 		return {
-			cl	: ` class='sn_ch${
-				wait > 0 ?` sn_ch_in_${this.#$ch_in_style}` :''
-			}'`,	// TxtStage.goTxt()はこれ単位で文字出現させる
+			cl	: ` class='sn_ch sn_ch_in_${this.#$ch_in_style}'`,	// TxtStage.goTxt()はこれ単位で文字出現させる
 			sty	: `animation-delay: ${this.#cumDelay}ms;${
 				this.#stkASpan.at(-1)?.o.style ?? ''
 			}`,		// TxtStage.goTxt()はこれ単位で文字出現させる

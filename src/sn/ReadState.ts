@@ -269,18 +269,6 @@ export class ReadState {
 	}
 
 
-	// 予約イベントの発生待ちしない waitRsvEvent()
-	// 使う場合、外部要因でキャンセルした際は breakLimitedEvent() で後始末を忘れないこと
-	waitLimitedEvent(hArg: HArg, onIntr: ()=> void): boolean {
-		this.#wle.destroy();
-		this.#wle = new WaitLimitedEventer(hArg, onIntr);
-
-		return true;
-	}
-	breakEvent() {this.#wle.destroy(); enableEvent()}
-	#wle	= new WaitLimitedEventer({}, ()=> {});	// ':タグ名' は未定義、デバッグ時に無視を
-
-
 	l(hArg: HArg): boolean {
 		if (! tagL_enabled) return false;
 		this.#recodePage(true);
@@ -317,8 +305,29 @@ export class ReadState {
 		return Rs_P.go(hArg);
 	}
 
-	waitEvent(hArg: HArg, onFire: ()=> void) {
+
+	// 予約イベントの発生待ちしない waitRsvEvent()
+	// 使う場合、外部要因でキャンセルした際は breakLimitedEvent() で後始末を忘れないこと
+	waitLimitedEvent(hArg: HArg, onIntr: ()=> void): boolean {
+		this.#wle.destroy();
+		this.#wle = new WaitLimitedEventer(hArg, onIntr);
+
+		return true;
+	}
+	breakEvent(evnm: string) {
+		if (ReadState.evnm !== evnm) return;
+		ReadState.evnm = '';
+
+		this.#wle.destroy();
+		enableEvent();
+	}
+	#wle	= new WaitLimitedEventer({}, ()=> {});	// ':タグ名' は未定義、デバッグ時に無視を
+	protected	static	evnm	= '';	// 状態保存する変数はすべて static に
+
+	waitEvent(evnm: string, hArg: HArg, onFire: ()=> void) {
 		// waitEvent 使用者は、通常 break 時義務として、breakEvent()を呼ぶこと
+		ReadState.evnm = evnm;
+
 	//	if (auto_enabled)	// いまのとこ高速化せず
 		if (skip_enabled) {		// Fスキップ時
 			if (! skip_all && ! scrItr.isNextKidoku) return Rs_Any_Wait.go(hArg, onFire);	// 未読で停止

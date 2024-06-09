@@ -177,14 +177,14 @@ export class SndBuf {
 
 				s2.play(sp_nm, snd=> {
 					o.complete?.(snd);	// 流れ的にはすぐ下の「ループなし/あり」を呼ぶ
-					if (! loop) this.#sb.stt.onPlayEnd();
+					if (! loop) this.#sb.stt.onPlayEnd(buf);
 				});
 			};
 		}
 		else o.autoPlay = true;
 
 		// ループなし ... 再生完了イベント
-		if (! loop) o.complete = ()=> {stop2var(this.#sb, buf); this.#sb.stt.onPlayEnd()};
+		if (! loop) o.complete = ()=> {stop2var(this.#sb, buf); this.#sb.stt.onPlayEnd(buf)};
 		// ループあり ... ret_ms処理
 		else if (ret_ms !== 0) {
 			o.loop = false;	// 一周目はループなしとする
@@ -306,10 +306,10 @@ interface ISndState {
 	onLoad(sb: ISndBuf)	: void;
 	stopse(sb: ISndBuf)	: void;
 	ws(sb: ISndBuf, hArg: HArg): boolean;
-	onPlayEnd()			: void;
+	onPlayEnd(buf: string)	: void;
 	fade(sb: ISndBuf, hArg: HArg): void;
 	wf(sb: ISndBuf, hArg: HArg): boolean;
-	compFade()			: void;
+	compFade(buf: string)	: void;
 	stopfadese(sb: ISndBuf, hArg: HArg): void;
 	isDestroy	: boolean;
 }
@@ -335,9 +335,9 @@ class SsPlaying implements ISndState {
 		const {buf = 'SE'} = hArg;
 		const stop = argChk_Boolean(hArg, 'stop', true);
 		argChk_Boolean(hArg, 'canskip', false);	// waitEvent() のデフォルトと違うので先行上書き
-		if (evtMng.waitEvent(hArg, ()=> {	// 順番固定
+		if (evtMng.waitEvent('buf:'+ buf, hArg, ()=> {	// 順番固定
 			stop2var(sb, buf);
-			sb.stt.onPlayEnd();	// まず一回やる
+			sb.stt.onPlayEnd(buf);	// まず一回やる
 			if (stop) sb.stt.stopse(sb); else sb.stt.onPlayEnd = ()=> {};
 				// else後は SsWaitingStop か SsStop の想定
 		})) {
@@ -375,7 +375,7 @@ class SsPlaying implements ISndState {
 		.to({volume: vol}, time)
 		.onComplete(()=> {
 			remove(tw);
-			sb.stt.compFade();
+			sb.stt.compFade(buf);
 			sb.stt = stop ? new SsStop(sb) : new SsPlaying;
 		})
 		.start();
@@ -392,7 +392,7 @@ class SsWaitingStop implements ISndState {
 	onLoad() {}			// ok
 	stopse(sb: ISndBuf)	{sb.stt = new SsStop(sb)}
 	ws =()=> false;		// ok
-	onPlayEnd()			{evtMng.breakEvent()}
+	onPlayEnd(buf: string)	{evtMng.breakEvent('buf:'+ buf)}
 	fade() {}			// ok
 	wf =()=> false;		// ok
 	compFade() {}		// ok
@@ -408,8 +408,9 @@ class SsFade implements ISndState {
 	onPlayEnd() {}		// ok
 	fade() {}			// ok
 	wf(sb: ISndBuf, hArg: HArg) {
+		const {buf = 'SE'} = hArg;
 		argChk_Boolean(hArg, 'canskip', false);	// waitEvent() のデフォルトと違うので先行上書き
-		if (evtMng.waitEvent(hArg, ()=> stopfadese(this.tw))) {
+		if (evtMng.waitEvent('buf:'+ buf, hArg, ()=> stopfadese(this.tw))) {
 			sb.stt = new SsWaitingFade(this.tw);
 			return true;
 		}
@@ -429,13 +430,13 @@ class SsWaitingFade implements ISndState {
 	onPlayEnd() {}		// ok
 	fade() {}			// ok
 	wf =()=> false;		// ok
-	compFade() {evtMng.breakEvent()}
+	compFade(buf: string) {evtMng.breakEvent('buf:'+ buf)}
 	stopfadese =()=> stopfadese(this.tw);
 	readonly	isDestroy	= false;
 }
 
 class SsStop implements ISndState {
-	constructor(sb: ISndBuf, stop = true) {
+	constructor(readonly sb: ISndBuf, readonly stop = true) {
 		if (stop) {
 			sb.snd.stop();
 			if (! sb.loop) return;

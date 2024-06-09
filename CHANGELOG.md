@@ -1,3 +1,39 @@
+- fix（イベント待ち処理）: 異なるイベント待ち同士が影響する件
+	- このように[p]待ち中に[quake]終了で[p]待ちが解除されるなどの不具合
+		```scheme
+		*A01	[ch text='A01=' wait=0]	; quake / p
+		[quake time=1000 hmax=8 vmax=8]
+			[ch text='p.' wait=0]
+			[p]勝手に進んだ？[r]	; 勝手に進んでしまう
+		wq[wq]
+		[r]END.[s]
+		```
+
+	- 以下のようなマトリックステストで動作確認
+		- https://famibee.github.io/SKYNovel_gallery/index.html?cur=mul_ev
+
+		| 発生＼待ち	| p | s | ws | wf | wq | wait_tsy | wt | wv | wait |
+		| --			| -- | -- | -- | -- | -- | -- | -- | -- | -- |
+		| A quake		| ❌️ | ok | ❌️ | ❌️ | ok | ❌️ | ok | ❌️ | ❌️ |
+		| B fadese		| ok | ok | ok | ok | ok | ok | ok | ok | ok |
+		| C playse		| ok | ok | ok | ok | ok | ok | ok | ok | ok |
+		| D tsy			| ❌️ | ok | ❌️ | ❌️ | ❌️ | ❌️ | ❌️ | ❌️ | ❌️ |
+		| E tsy_frame	| ❌️ | ok | ❌️ | ❌️ | ❌️ | ❌️ | ❌️ | ❌️ | ❌️ |
+		| F trans		| ❌️ | ok | ❌️ | ❌️ | ok | ❌️ | ok | ❌️ | ❌️ |
+		| G lay mov		| ok | ok | ok | ok | ok | ok | ok | ok | ok |
+
+- fix(文法解析・&代入): &st_hv = 'back;' がエラーになっていた件
+- fix(文法解析・&代入): タブ文字を&代入の末尾区切りとする仕様を変更
+	- タブ文字に文法的な意味が生まれているのでよろしくない
+	- = 以降をタブ文字で揃えたいときなどに妙な挙動になるので
+- fix(文字レイヤ): 先頭の空白文字に内部的に付けるルビも【\&emsp;文字に\&emsp;ルビ】とするように
+- fix(文字レイヤ): 組み込み変数 sys:sn.tagCh.doWait、sys:sn.tagCh.doWait_Kidoku を一時的に変更しても、直後の文字表示や[ch]に影響を与えなかった件
+- fix(文字レイヤ): 表示文字の末尾が [ch wait=0] だと、ボタンやリンククリックを一度目受け付けない件
+- fix(ムービーリソース破棄): stopVideo を SpritesMng で行うように
+- perf(文法解析): 正規表現のタグ解析部で無駄な処理があったのを修正
+- perf(文字表示関連、Variable): リファクタリング
+
+
 ## [1.53.10](https://github.com/famibee/SKYNovel/compare/v1.53.9...v1.53.10) (2024-06-05)
 
 

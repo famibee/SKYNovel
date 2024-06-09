@@ -42,7 +42,6 @@ export declare class LayerMng implements IGetFrm, IRecorder {
     clearBreak(): void;
     clickTxtLay(): boolean;
     static get msecChWait(): number;
-    static set msecChWait(v: number);
     setNormalChWait(): void;
     get currentTxtlayForeNeedErr(): TxtLayer;
     get currentTxtlayFore(): TxtLayer | null;

@@ -928,7 +928,6 @@ void main(void) {
 //	// 文字・文字レイヤ
 	static		#msecChWait		= 10;
 	static get	msecChWait() {return LayerMng.#msecChWait}
-	static set	msecChWait(v) {LayerMng.#msecChWait = v}
 	//MARK: 文字を追加する
 	#ch(hArg: HArg) {
 		const {text} = hArg;
@@ -936,6 +935,7 @@ void main(void) {
 
 		const tl = this.#getTxtLayer(hArg);
 		delete hArg.text;	// [graph]時、次行がルビ文法でトラブったので
+		this.setNormalChWait();
 		if (this.#evtMng.isSkipping) hArg.wait = 0;
 		else if ('wait' in hArg) argChk_Num(hArg, 'wait', NaN);
 

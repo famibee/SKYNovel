@@ -220,6 +220,7 @@ export class Main implements IMain {
 
 			// 文字表示
 			try {
+				this.#layMng.setNormalChWait();
 				const tl = this.#layMng.currentTxtlayForeNeedErr;
 				tl.tagCh(token);
 			}

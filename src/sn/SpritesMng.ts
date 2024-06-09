@@ -85,7 +85,11 @@ export class SpritesMng {
 		this.fncAllComp		= ()=> {};
 		this.#addChild		= sp=> sp.destroy();
 
-		this.#aSp.forEach(sp=> {sp.parent?.removeChild(sp); sp.destroy()});
+		this.#aSp.forEach(sp=> {
+			SpritesMng.stopVideo(sp.name);
+			sp.parent?.removeChild(sp);
+			sp.destroy();
+		});
 		this.#aSp = [];
 	}
 
@@ -324,11 +328,11 @@ export class SpritesMng {
 
 		if (SpritesMng.#evtMng.isSkipping || hve.ended) {SpritesMng.stopVideo(fn); return false}
 
-		const fncBreak = ()=> SpritesMng.#evtMng.breakEvent();	// waitEvent 使用者の通常 break 時義務
+		const fncBreak = ()=> SpritesMng.#evtMng.breakEvent('wv fn:'+ fn);	// waitEvent 使用者の通常 break 時義務
 		hve.addEventListener('ended', fncBreak, {once: true, passive: true});
 
 		const stop = argChk_Boolean(hArg, 'stop', true);
-		return SpritesMng.#evtMng.waitEvent(hArg, ()=> {
+		return SpritesMng.#evtMng.waitEvent('wv fn:'+ fn, hArg, ()=> {
 			hve.removeEventListener('ended', fncBreak);
 			if (stop) SpritesMng.stopVideo(fn);
 			fncBreak()
