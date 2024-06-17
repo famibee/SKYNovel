@@ -1,3 +1,10 @@
+## [1.53.13](https://github.com/famibee/SKYNovel/compare/v1.53.12...v1.53.13) (2024-06-17)
+
+
+### Bug Fixes
+
+* アプリ版がエラーで起動できないので非ESMライブラリに戻す ([5a225a9](https://github.com/famibee/SKYNovel/commit/5a225a980eee403a6c68d5993b6133131679b67a))
+
 - fix: アプリ版がエラーで起動できないので非ESMライブラリに戻す
 	- electron-store 10.0.0 → 8.2.0
 	- ReferenceError: window is not defined
