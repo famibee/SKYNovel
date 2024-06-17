@@ -1,3 +1,9 @@
+- fix: アプリ版がエラーで起動できないので非ESMライブラリに戻す
+	- electron-store 10.0.0 → 8.2.0
+	- ReferenceError: window is not defined
+	- SKYNovel 1.53.7 (2024-05-30) から発生
+
+
 ## [1.53.12](https://github.com/famibee/SKYNovel/compare/v1.53.11...v1.53.12) (2024-06-17)
 
 
