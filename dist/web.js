@@ -3,16 +3,14 @@ function getDefaultExportFromCjs(o) {
   return o && o.__esModule && Object.prototype.hasOwnProperty.call(o, "default") ? o.default : o;
 }
 function getAugmentedNamespace(o) {
-  if (o.__esModule)
-    return o;
+  if (o.__esModule) return o;
   var t = o.default;
   if (typeof t == "function") {
     var e = function r() {
       return this instanceof r ? Reflect.construct(t, arguments, this.constructor) : t.apply(this, arguments);
     };
     e.prototype = t.prototype;
-  } else
-    e = {};
+  } else e = {};
   return Object.defineProperty(e, "__esModule", { value: !0 }), Object.keys(o).forEach(function(r) {
     var N = Object.getOwnPropertyDescriptor(o, r);
     Object.defineProperty(e, r, N.get ? N : {
@@ -297,10 +295,8 @@ platform$1.exports;
               (ot = nt.system) && ot.global.system == nt.system && (ut = "Narwhal", ft || (ft = ot[0].os || null));
             }
             ut || (ut = "Rhino");
-          } else
-            typeof nt.process == "object" && !nt.process.browser && (ot = nt.process) && (typeof ot.versions == "object" && (typeof ot.versions.electron == "string" ? (Pt.push("Node " + ot.versions.node), ut = "Electron", gt = ot.versions.electron) : typeof ot.versions.nw == "string" && (Pt.push("Chromium " + gt, "Node " + ot.versions.node), ut = "NW.js", gt = ot.versions.nw)), ut || (ut = "Node.js", Ft = ot.arch, ft = ot.platform, gt = /[\d.]+/.exec(ot.version), gt = gt ? gt[0] : null));
-        else
-          K(ot = nt.runtime) == vt ? (ut = "Adobe AIR", ft = ot.flash.system.Capabilities.os) : K(ot = nt.phantom) == Ut ? (ut = "PhantomJS", gt = (ot = ot.version || null) && ot.major + "." + ot.minor + "." + ot.patch) : typeof At.documentMode == "number" && (ot = /\bTrident\/(\d+)/i.exec(rt)) ? (gt = [gt, At.documentMode], (ot = +ot[1] + 4) != gt[1] && (Pt.push("IE " + gt[1] + " mode"), Ot && (Ot[1] = ""), gt[1] = ot), gt = ut == "IE" ? String(gt[1].toFixed(1)) : gt[0]) : typeof At.documentMode == "number" && /^(?:Chrome|Firefox)\b/.test(ut) && (Pt.push("masking as " + ut + " " + gt), ut = "IE", gt = "11.0", Ot = ["Trident"], ft = "Windows");
+          } else typeof nt.process == "object" && !nt.process.browser && (ot = nt.process) && (typeof ot.versions == "object" && (typeof ot.versions.electron == "string" ? (Pt.push("Node " + ot.versions.node), ut = "Electron", gt = ot.versions.electron) : typeof ot.versions.nw == "string" && (Pt.push("Chromium " + gt, "Node " + ot.versions.node), ut = "NW.js", gt = ot.versions.nw)), ut || (ut = "Node.js", Ft = ot.arch, ft = ot.platform, gt = /[\d.]+/.exec(ot.version), gt = gt ? gt[0] : null));
+        else K(ot = nt.runtime) == vt ? (ut = "Adobe AIR", ft = ot.flash.system.Capabilities.os) : K(ot = nt.phantom) == Ut ? (ut = "PhantomJS", gt = (ot = ot.version || null) && ot.major + "." + ot.minor + "." + ot.patch) : typeof At.documentMode == "number" && (ot = /\bTrident\/(\d+)/i.exec(rt)) ? (gt = [gt, At.documentMode], (ot = +ot[1] + 4) != gt[1] && (Pt.push("IE " + gt[1] + " mode"), Ot && (Ot[1] = ""), gt[1] = ot), gt = ut == "IE" ? String(gt[1].toFixed(1)) : gt[0]) : typeof At.documentMode == "number" && /^(?:Chrome|Firefox)\b/.test(ut) && (Pt.push("masking as " + ut + " " + gt), ut = "IE", gt = "11.0", Ot = ["Trident"], ft = "Windows");
         ft = ft && W(ft);
       }
       if (gt && (ot = /(?:[ab]|dp|pre|[ab]\d+pre)(?:\d+\+?)?$/i.exec(gt) || /(?:alpha|beta)(?: ?\d)?/i.exec(rt + ";" + (Lt && ct.appMinorVersion)) || /\bMinefield\b/i.test(rt) && "a") && (Gt = /b/i.test(ot) ? "beta" : "alpha", gt = gt.replace(RegExp(ot + "\\+?$"), "") + (Gt == "beta" ? It : pt) + (/\d+\+?/.exec(ot) || "")), ut == "Fennec" || ut == "Firefox" && /\b(?:Android|Firefox OS|KaiOS)\b/.test(ft))
@@ -317,8 +313,7 @@ platform$1.exports;
         } catch {
           Pt.unshift("embedded");
         }
-      else
-        (/\bBlackBerry\b/.test(wt) || /\bBB10\b/.test(rt)) && (ot = (RegExp(wt.replace(/ +/g, " *") + "/([.\\d]+)", "i").exec(rt) || 0)[1] || gt) ? (ot = [ot, /BB10/.test(rt)], ft = (ot[1] ? (wt = null, kt = "BlackBerry") : "Device Software") + " " + ot[0], gt = null) : this != Y && wt != "Wii" && (Lt && Mt || /Opera/.test(ut) && /\b(?:MSIE|Firefox)\b/i.test(rt) || ut == "Firefox" && /\bOS X (?:\d+\.){2,}/.test(ft) || ut == "IE" && (ft && !/^Win/.test(ft) && gt > 5.5 || /\bWindows XP\b/.test(ft) && gt > 8 || gt == 8 && !/\bTrident\b/.test(rt))) && !$.test(ot = it.call(Y, rt.replace($, "") + ";")) && ot.name && (ot = "ing as " + ot.name + ((ot = ot.version) ? " " + ot : ""), $.test(ut) ? (/\bIE\b/.test(ot) && ft == "Mac OS" && (ft = null), ot = "identify" + ot) : (ot = "mask" + ot, Dt ? ut = W(Dt.replace(/([a-z])([A-Z])/g, "$1 $2")) : ut = "Opera", /\bIE\b/.test(ot) && (ft = null), Lt || (gt = null)), Ot = ["Presto"], Pt.push(ot));
+      else (/\bBlackBerry\b/.test(wt) || /\bBB10\b/.test(rt)) && (ot = (RegExp(wt.replace(/ +/g, " *") + "/([.\\d]+)", "i").exec(rt) || 0)[1] || gt) ? (ot = [ot, /BB10/.test(rt)], ft = (ot[1] ? (wt = null, kt = "BlackBerry") : "Device Software") + " " + ot[0], gt = null) : this != Y && wt != "Wii" && (Lt && Mt || /Opera/.test(ut) && /\b(?:MSIE|Firefox)\b/i.test(rt) || ut == "Firefox" && /\bOS X (?:\d+\.){2,}/.test(ft) || ut == "IE" && (ft && !/^Win/.test(ft) && gt > 5.5 || /\bWindows XP\b/.test(ft) && gt > 8 || gt == 8 && !/\bTrident\b/.test(rt))) && !$.test(ot = it.call(Y, rt.replace($, "") + ";")) && ot.name && (ot = "ing as " + ot.name + ((ot = ot.version) ? " " + ot : ""), $.test(ut) ? (/\bIE\b/.test(ot) && ft == "Mac OS" && (ft = null), ot = "identify" + ot) : (ot = "mask" + ot, Dt ? ut = W(Dt.replace(/([a-z])([A-Z])/g, "$1 $2")) : ut = "Opera", /\bIE\b/.test(ot) && (ft = null), Lt || (gt = null)), Ot = ["Presto"], Pt.push(ot));
       (ot = (/\bAppleWebKit\/([\d.]+\+?)/i.exec(rt) || 0)[1]) && (ot = [parseFloat(ot.replace(/\.(\d)$/, ".0$1")), ot], ut == "Safari" && ot[1].slice(-1) == "+" ? (ut = "WebKit Nightly", Gt = "alpha", gt = ot[1].slice(0, -1)) : (gt == ot[1] || gt == (ot[2] = (/\bSafari\/([\d.]+\+?)/i.exec(rt) || 0)[1])) && (gt = null), ot[1] = (/\b(?:Headless)?Chrome\/([\d.]+)/i.exec(rt) || 0)[1], ot[0] == 537.36 && ot[2] == 537.36 && parseFloat(ot[1]) >= 28 && Ot == "WebKit" && (Ot = ["Blink"]), !Lt || !St && !ot[1] ? (Ot && (Ot[1] = "like Safari"), ot = (ot = ot[0], ot < 400 ? 1 : ot < 500 ? 2 : ot < 526 ? 3 : ot < 533 ? 4 : ot < 534 ? "4+" : ot < 535 ? 5 : ot < 537 ? 6 : ot < 538 ? 7 : ot < 601 ? 8 : ot < 602 ? 9 : ot < 604 ? 10 : ot < 606 ? 11 : ot < 608 ? 12 : "12")) : (Ot && (Ot[1] = "like Chrome"), ot = ot[1] || (ot = ot[0], ot < 530 ? 1 : ot < 532 ? 2 : ot < 532.05 ? 3 : ot < 533 ? 4 : ot < 534.03 ? 5 : ot < 534.07 ? 6 : ot < 534.1 ? 7 : ot < 534.13 ? 8 : ot < 534.16 ? 9 : ot < 534.24 ? 10 : ot < 534.3 ? 11 : ot < 535.01 ? 12 : ot < 535.02 ? "13+" : ot < 535.07 ? 15 : ot < 535.11 ? 16 : ot < 535.19 ? 17 : ot < 536.05 ? 18 : ot < 536.1 ? 19 : ot < 537.01 ? 20 : ot < 537.11 ? "21+" : ot < 537.13 ? 23 : ot < 537.18 ? 24 : ot < 537.24 ? 25 : ot < 537.36 ? 26 : Ot != "Blink" ? "27" : "28")), Ot && (Ot[1] += " " + (ot += typeof ot == "number" ? ".x" : /[.+]/.test(ot) ? "" : "+")), ut == "Safari" && (!gt || parseInt(gt) > 45) ? gt = ot : ut == "Chrome" && /\bHeadlessChrome/i.test(rt) && Pt.unshift("headless")), ut == "Opera" && (ot = /\bzbov|zvav$/.exec(ft)) ? (ut += " ", Pt.unshift("desktop mode"), ot == "zvav" ? (ut += "Mini", gt = null) : ut += "Mobile", ft = ft.replace(RegExp(" *" + ot + "$"), "")) : ut == "Safari" && /\bChrome\b/.exec(Ot && Ot[1]) ? (Pt.unshift("desktop mode"), ut = "Chrome Mobile", gt = null, /\bOS X\b/.test(ft) ? (kt = "Apple", ft = "iOS 4.3+") : ft = null) : /\bSRWare Iron\b/.test(ut) && !gt && (gt = Zt("Chrome")), gt && gt.indexOf(ot = /[\d.]+$/.exec(ft)) == 0 && rt.indexOf("/" + ot + "-") > -1 && (ft = et(ft.replace(ot, ""))), ft && ft.indexOf(ut) != -1 && !RegExp(ut + " OS").test(ft) && (ft = ft.replace(RegExp(" *" + J(ut) + " *"), "")), Ot && !/\b(?:Avant|Nook)\b/.test(ut) && (/Browser|Lunascape|Maxthon/.test(ut) || ut != "Safari" && /^iOS/.test(ft) && /\bSafari\b/.test(Ot[1]) || /^(?:Adobe|Arora|Breach|Midori|Opera|Phantom|Rekonq|Rock|Samsung Internet|Sleipnir|SRWare Iron|Vivaldi|Web)/.test(ut) && Ot[1]) && (ot = Ot[Ot.length - 1]) && Pt.push(ot), Pt.length && (Pt = ["(" + Pt.join("; ") + ")"]), kt && wt && wt.indexOf(kt) < 0 && Pt.push("on " + kt), wt && Pt.push((/^on /.test(Pt[Pt.length - 1]) ? "" : "on ") + wt), ft && (ot = / ([\d.+]+)$/.exec(ft), $t = ot && ft.charAt(ft.length - ot[0].length - 1) == "/", ft = {
         architecture: 32,
         family: ot && !$t ? ft.replace(ot[0], "") : ft,
@@ -408,36 +403,28 @@ function addStyle(o) {
 function argChk_Num(o, t, e) {
   const r = o[t];
   if (!(t in o)) {
-    if (isNaN(e))
-      throw `[${o[":タグ名"]}]属性 ${t} は必須です`;
+    if (isNaN(e)) throw `[${o[":タグ名"]}]属性 ${t} は必須です`;
     return o[t] = e, e;
   }
   const N = String(r).slice(0, 2) === "0x" ? parseInt(r) : parseFloat(r);
-  if (isNaN(N))
-    throw `[${o[":タグ名"]}]属性 ${t} の値【${r}】が数値ではありません`;
+  if (isNaN(N)) throw `[${o[":タグ名"]}]属性 ${t} の値【${r}】が数値ではありません`;
   return o[t] = N;
 }
 function argChk_Boolean(o, t, e) {
-  if (!(t in o))
-    return o[t] = e;
+  if (!(t in o)) return o[t] = e;
   const r = o[t];
-  if (r === null)
-    return !1;
+  if (r === null) return !1;
   const N = String(r);
   return o[t] = N === "false" ? !1 : !!N;
 }
 function parseColor(o) {
-  if (o.at(0) === "#")
-    return parseInt(o.slice(1), 16);
+  if (o.at(0) === "#") return parseInt(o.slice(1), 16);
   const t = Number(o);
-  if (!isNaN(t))
-    return t;
-  if (o === "black")
-    return 0;
+  if (!isNaN(t)) return t;
+  if (o === "black") return 0;
   CmnLib.cc4ColorName.fillStyle = o;
   const e = CmnLib.cc4ColorName.fillStyle;
-  if (e === "#000000")
-    throw `色名前 ${o} が異常です`;
+  if (e === "#000000") throw `色名前 ${o} が異常です`;
   return parseInt(e.slice(1), 16);
 }
 function argChk_Color(o, t, e) {
@@ -498,8 +485,7 @@ function allSettled(o) {
         )
       );
     var N = Array.prototype.slice.call(o);
-    if (N.length === 0)
-      return e([]);
+    if (N.length === 0) return e([]);
     var k = N.length;
     function D($, U) {
       if (U && (typeof U == "object" || typeof U == "function")) {
@@ -533,8 +519,7 @@ function any(o) {
     if (!(o && typeof o.length < "u"))
       return r(new TypeError("Promise.any accepts an array"));
     var N = Array.prototype.slice.call(o);
-    if (N.length === 0)
-      return r();
+    if (N.length === 0) return r();
     for (var k = [], D = 0; D < N.length; D++)
       try {
         t.resolve(N[D]).then(e).catch(function(B) {
@@ -564,8 +549,7 @@ function bind$4(o, t) {
 function Promise$1(o) {
   if (!(this instanceof Promise$1))
     throw new TypeError("Promises must be constructed via new");
-  if (typeof o != "function")
-    throw new TypeError("not a function");
+  if (typeof o != "function") throw new TypeError("not a function");
   this._state = 0, this._handled = !1, this._value = void 0, this._deferreds = [], doResolve(o, this);
 }
 function handle(o, t) {
@@ -636,8 +620,7 @@ function doResolve(o, t) {
       }
     );
   } catch (r) {
-    if (e)
-      return;
+    if (e) return;
     e = !0, reject(t, r);
   }
 }
@@ -654,8 +637,7 @@ Promise$1.all = function(o) {
     if (!isArray$4(o))
       return e(new TypeError("Promise.all accepts an array"));
     var r = Array.prototype.slice.call(o);
-    if (r.length === 0)
-      return t([]);
+    if (r.length === 0) return t([]);
     var N = r.length;
     function k(B, $) {
       try {
@@ -1237,17 +1219,14 @@ var settings = {
   }
   B.prototype.eventNames = function() {
     var U = [], H, z;
-    if (this._eventsCount === 0)
-      return U;
+    if (this._eventsCount === 0) return U;
     for (z in H = this._events)
       t.call(H, z) && U.push(e ? z.slice(1) : z);
     return Object.getOwnPropertySymbols ? U.concat(Object.getOwnPropertySymbols(H)) : U;
   }, B.prototype.listeners = function(U) {
     var H = e ? e + U : U, z = this._events[H];
-    if (!z)
-      return [];
-    if (z.fn)
-      return [z.fn];
+    if (!z) return [];
+    if (z.fn) return [z.fn];
     for (var V = 0, X = z.length, q = new Array(X); V < X; V++)
       q[V] = z[V].fn;
     return q;
@@ -1256,8 +1235,7 @@ var settings = {
     return z ? z.fn ? 1 : z.length : 0;
   }, B.prototype.emit = function(U, H, z, V, X, q) {
     var W = e ? e + U : U;
-    if (!this._events[W])
-      return !1;
+    if (!this._events[W]) return !1;
     var Y = this._events[W], K = arguments.length, Z, J;
     if (Y.fn) {
       switch (Y.once && this.removeListener(U, Y.fn, void 0, !0), K) {
@@ -1294,9 +1272,8 @@ var settings = {
             Y[J].fn.call(Y[J].context, H, z, V);
             break;
           default:
-            if (!Z)
-              for (et = 1, Z = new Array(K - 1); et < K; et++)
-                Z[et - 1] = arguments[et];
+            if (!Z) for (et = 1, Z = new Array(K - 1); et < K; et++)
+              Z[et - 1] = arguments[et];
             Y[J].fn.apply(Y[J].context, Z);
         }
     }
@@ -1307,8 +1284,7 @@ var settings = {
     return k(this, U, H, z, !0);
   }, B.prototype.removeListener = function(U, H, z, V) {
     var X = e ? e + U : U;
-    if (!this._events[X])
-      return this;
+    if (!this._events[X]) return this;
     if (!H)
       return D(this, X), this;
     var q = this._events[X];
@@ -1333,8 +1309,7 @@ earcut$2.exports.default = earcut;
 function earcut(o, t, e) {
   e = e || 2;
   var r = t && t.length, N = r ? t[0] * e : o.length, k = linkedList(o, 0, N, e, !0), D = [];
-  if (!k || k.next === k.prev)
-    return D;
+  if (!k || k.next === k.prev) return D;
   var B, $, U, H, z, V, X;
   if (r && (k = eliminateHoles(o, t, k, e)), o.length > 80 * e) {
     B = U = o[0], $ = H = o[1];
@@ -1347,22 +1322,18 @@ function earcut(o, t, e) {
 function linkedList(o, t, e, r, N) {
   var k, D;
   if (N === signedArea(o, t, e, r) > 0)
-    for (k = t; k < e; k += r)
-      D = insertNode(k, o[k], o[k + 1], D);
+    for (k = t; k < e; k += r) D = insertNode(k, o[k], o[k + 1], D);
   else
-    for (k = e - r; k >= t; k -= r)
-      D = insertNode(k, o[k], o[k + 1], D);
+    for (k = e - r; k >= t; k -= r) D = insertNode(k, o[k], o[k + 1], D);
   return D && equals(D, D.next) && (removeNode(D), D = D.next), D;
 }
 function filterPoints(o, t) {
-  if (!o)
-    return o;
+  if (!o) return o;
   t || (t = o);
   var e = o, r;
   do
     if (r = !1, !e.steiner && (equals(e, e.next) || area(e.prev, e, e.next) === 0)) {
-      if (removeNode(e), e = t = e.prev, e === e.next)
-        break;
+      if (removeNode(e), e = t = e.prev, e === e.next) break;
       r = !0;
     } else
       e = e.next;
@@ -1386,32 +1357,26 @@ function earcutLinked(o, t, e, r, N, k, D) {
 }
 function isEar(o) {
   var t = o.prev, e = o, r = o.next;
-  if (area(t, e, r) >= 0)
-    return !1;
+  if (area(t, e, r) >= 0) return !1;
   for (var N = t.x, k = e.x, D = r.x, B = t.y, $ = e.y, U = r.y, H = N < k ? N < D ? N : D : k < D ? k : D, z = B < $ ? B < U ? B : U : $ < U ? $ : U, V = N > k ? N > D ? N : D : k > D ? k : D, X = B > $ ? B > U ? B : U : $ > U ? $ : U, q = r.next; q !== t; ) {
-    if (q.x >= H && q.x <= V && q.y >= z && q.y <= X && pointInTriangle(N, B, k, $, D, U, q.x, q.y) && area(q.prev, q, q.next) >= 0)
-      return !1;
+    if (q.x >= H && q.x <= V && q.y >= z && q.y <= X && pointInTriangle(N, B, k, $, D, U, q.x, q.y) && area(q.prev, q, q.next) >= 0) return !1;
     q = q.next;
   }
   return !0;
 }
 function isEarHashed(o, t, e, r) {
   var N = o.prev, k = o, D = o.next;
-  if (area(N, k, D) >= 0)
-    return !1;
+  if (area(N, k, D) >= 0) return !1;
   for (var B = N.x, $ = k.x, U = D.x, H = N.y, z = k.y, V = D.y, X = B < $ ? B < U ? B : U : $ < U ? $ : U, q = H < z ? H < V ? H : V : z < V ? z : V, W = B > $ ? B > U ? B : U : $ > U ? $ : U, Y = H > z ? H > V ? H : V : z > V ? z : V, K = zOrder(X, q, t, e, r), Z = zOrder(W, Y, t, e, r), J = o.prevZ, tt = o.nextZ; J && J.z >= K && tt && tt.z <= Z; ) {
-    if (J.x >= X && J.x <= W && J.y >= q && J.y <= Y && J !== N && J !== D && pointInTriangle(B, H, $, z, U, V, J.x, J.y) && area(J.prev, J, J.next) >= 0 || (J = J.prevZ, tt.x >= X && tt.x <= W && tt.y >= q && tt.y <= Y && tt !== N && tt !== D && pointInTriangle(B, H, $, z, U, V, tt.x, tt.y) && area(tt.prev, tt, tt.next) >= 0))
-      return !1;
+    if (J.x >= X && J.x <= W && J.y >= q && J.y <= Y && J !== N && J !== D && pointInTriangle(B, H, $, z, U, V, J.x, J.y) && area(J.prev, J, J.next) >= 0 || (J = J.prevZ, tt.x >= X && tt.x <= W && tt.y >= q && tt.y <= Y && tt !== N && tt !== D && pointInTriangle(B, H, $, z, U, V, tt.x, tt.y) && area(tt.prev, tt, tt.next) >= 0)) return !1;
     tt = tt.nextZ;
   }
   for (; J && J.z >= K; ) {
-    if (J.x >= X && J.x <= W && J.y >= q && J.y <= Y && J !== N && J !== D && pointInTriangle(B, H, $, z, U, V, J.x, J.y) && area(J.prev, J, J.next) >= 0)
-      return !1;
+    if (J.x >= X && J.x <= W && J.y >= q && J.y <= Y && J !== N && J !== D && pointInTriangle(B, H, $, z, U, V, J.x, J.y) && area(J.prev, J, J.next) >= 0) return !1;
     J = J.prevZ;
   }
   for (; tt && tt.z <= Z; ) {
-    if (tt.x >= X && tt.x <= W && tt.y >= q && tt.y <= Y && tt !== N && tt !== D && pointInTriangle(B, H, $, z, U, V, tt.x, tt.y) && area(tt.prev, tt, tt.next) >= 0)
-      return !1;
+    if (tt.x >= X && tt.x <= W && tt.y >= q && tt.y <= Y && tt !== N && tt !== D && pointInTriangle(B, H, $, z, U, V, tt.x, tt.y) && area(tt.prev, tt, tt.next) >= 0) return !1;
     tt = tt.nextZ;
   }
   return !0;
@@ -1466,8 +1431,7 @@ function findHoleBridge(o, t) {
     }
     e = e.next;
   } while (e !== t);
-  if (!D)
-    return null;
+  if (!D) return null;
   var $ = D, U = D.x, H = D.y, z = 1 / 0, V;
   e = D;
   do
@@ -1537,8 +1501,7 @@ function sign$1(o) {
 function intersectsPolygon(o, t) {
   var e = o;
   do {
-    if (e.i !== o.i && e.next.i !== o.i && e.i !== t.i && e.next.i !== t.i && intersects(e, e.next, o, t))
-      return !0;
+    if (e.i !== o.i && e.next.i !== o.i && e.i !== t.i && e.next.i !== t.i && intersects(e, e.next, o, t)) return !0;
     e = e.next;
   } while (e !== o);
   return !1;
@@ -1591,8 +1554,7 @@ function signedArea(o, t, e, r) {
 earcut.flatten = function(o) {
   for (var t = o[0][0].length, e = { vertices: [], holes: [], dimensions: t }, r = 0, N = 0; N < o.length; N++) {
     for (var k = 0; k < o[N].length; k++)
-      for (var D = 0; D < t; D++)
-        e.vertices.push(o[N][k][D]);
+      for (var D = 0; D < t; D++) e.vertices.push(o[N][k][D]);
     N > 0 && (r += o[N - 1].length, e.holes.push(r));
   }
   return e;
@@ -2015,8 +1977,7 @@ var doEval = function o(t) {
   return B;
 }, callBind$1 = { exports: {} }, esDefineProperty, hasRequiredEsDefineProperty;
 function requireEsDefineProperty() {
-  if (hasRequiredEsDefineProperty)
-    return esDefineProperty;
+  if (hasRequiredEsDefineProperty) return esDefineProperty;
   hasRequiredEsDefineProperty = 1;
   var o = getIntrinsic, t = o("%Object.defineProperty%", !0) || !1;
   if (t)
@@ -3214,8 +3175,7 @@ function sayHello(o) {
         "color: #ff2424; background: #fff; padding:5px 0;"
       ];
       (t = globalThis.console).log.apply(t, e);
-    } else
-      globalThis.console && globalThis.console.log("PixiJS " + VERSION$1 + " - " + o + " - http://www.pixijs.com/");
+    } else globalThis.console && globalThis.console.log("PixiJS " + VERSION$1 + " - " + o + " - http://www.pixijs.com/");
     saidHello = !0;
   }
 }
@@ -4652,8 +4612,7 @@ var Container = (
           if (r.calculateBounds(), r._mask) {
             var N = r._mask.isMaskData ? r._mask.maskObject : r._mask;
             N ? (N.calculateBounds(), this._bounds.addBoundsMask(r._bounds, N._bounds)) : this._bounds.addBounds(r._bounds);
-          } else
-            r.filterArea ? this._bounds.addBoundsArea(r._bounds, r.filterArea) : this._bounds.addBounds(r._bounds);
+          } else r.filterArea ? this._bounds.addBoundsArea(r._bounds, r.filterArea) : this._bounds.addBounds(r._bounds);
       }
       this._bounds.updateID = this._boundsID;
     }, t.prototype.getLocalBounds = function(e, r) {
@@ -6579,8 +6538,7 @@ var byteSizeMap$1 = { 5126: 4, 5123: 2, 5121: 1 }, UID$3 = 0, map$2 = {
       if (t === this.defaultFilterStack[this.defaultFilterStack.length - 1].renderTexture ? this.renderer.projection.transform = this.activeState.transform : this.renderer.projection.transform = null, t && t.filterFrame) {
         var D = this.tempRect;
         D.x = 0, D.y = 0, D.width = t.filterFrame.width, D.height = t.filterFrame.height, N.bind(t, t.filterFrame, D);
-      } else
-        t !== this.defaultFilterStack[this.defaultFilterStack.length - 1].renderTexture ? N.bind(t) : this.renderer.renderTexture.bind(t, this.activeState.bindingSourceFrame, this.activeState.bindingDestinationFrame);
+      } else t !== this.defaultFilterStack[this.defaultFilterStack.length - 1].renderTexture ? N.bind(t) : this.renderer.renderTexture.bind(t, this.activeState.bindingSourceFrame, this.activeState.bindingDestinationFrame);
       var B = k.stateId & 1 || this.forceClear;
       (e === CLEAR_MODES.CLEAR || e === CLEAR_MODES.BLIT && B) && this.renderer.framebuffer.clear(0, 0, 0, 0);
     }, o.prototype.applyFilter = function(t, e, r, N) {
@@ -7025,8 +6983,7 @@ var byteSizeMap$1 = { 5126: 4, 5123: 2, 5121: 1 }, UID$3 = 0, map$2 = {
       if (D.indexBuffer) {
         var B = D.indexBuffer.data.BYTES_PER_ELEMENT, $ = B === 2 ? k.UNSIGNED_SHORT : k.UNSIGNED_INT;
         B === 2 || B === 4 && this.canUseUInt32ElementIndex ? D.instanced ? k.drawElementsInstanced(t, e || D.indexBuffer.data.length, $, (r || 0) * B, N || 1) : k.drawElements(t, e || D.indexBuffer.data.length, $, (r || 0) * B) : console.warn("unsupported index buffer type: uint32");
-      } else
-        D.instanced ? k.drawArraysInstanced(t, r, e || D.getSize(), N || 1) : k.drawArrays(t, r, e || D.getSize());
+      } else D.instanced ? k.drawArraysInstanced(t, r, e || D.getSize(), N || 1) : k.drawArrays(t, r, e || D.getSize());
       return this;
     }, o.prototype.unbind = function() {
       this.gl.bindVertexArray(null), this._activeVao = null, this._activeGeometry = null;
@@ -9999,8 +9956,7 @@ var MOUSE_POINTER_ID = 1, hitTestEvent = {
               r && Object.assign(this.interactionDOMElement.style, N);
               break;
           }
-        else
-          r && typeof e == "string" && !Object.prototype.hasOwnProperty.call(this.cursorStyles, e) && (this.interactionDOMElement.style.cursor = e);
+        else r && typeof e == "string" && !Object.prototype.hasOwnProperty.call(this.cursorStyles, e) && (this.interactionDOMElement.style.cursor = e);
       }
     }, t.prototype.dispatchEvent = function(e, r, N) {
       (!N.stopPropagationHint || e === N.stopsPropagatingAt) && (N.currentTarget = e, N.type = r, e.emit(r, N), e[r] && e[r](N));
@@ -10065,8 +10021,7 @@ var MOUSE_POINTER_ID = 1, hitTestEvent = {
         if (V.data.originalEvent = e, this.processInteractive(V, this.lastObjectRendered, N, r || !$), this.emit(r ? "pointercancel" : "pointerup" + $, V), H.pointerType === "mouse" || H.pointerType === "pen") {
           var X = H.button === 2;
           this.emit(X ? "rightup" + $ : "mouseup" + $, V);
-        } else
-          H.pointerType === "touch" && (this.emit(r ? "touchcancel" : "touchend" + $, V), this.releaseInteractionDataForPointerId(H.pointerId));
+        } else H.pointerType === "touch" && (this.emit(r ? "touchcancel" : "touchend" + $, V), this.releaseInteractionDataForPointerId(H.pointerId));
       }
     }, t.prototype.onPointerCancel = function(e) {
       this.supportsTouchEvents && e.pointerType === "touch" || this.onPointerComplete(e, !0, this.processPointerCancel);
@@ -10403,8 +10358,7 @@ var LoaderResource = (
             return t(e);
           }, 1);
           return;
-        } else
-          t && this.onComplete.once(t);
+        } else t && this.onComplete.once(t);
         switch (this._setFlag(o.STATUS_FLAGS.LOADING, !0), this.onStart.dispatch(this), (this.crossOrigin === !1 || typeof this.crossOrigin != "string") && (this.crossOrigin = this._determineCrossOrigin(this.url)), this.loadType) {
           case o.LOAD_TYPE.IMAGE:
             this.type = o.TYPE.IMAGE, this._loadElement("image");
@@ -13529,8 +13483,7 @@ var defaultDestroyOptions = {
       if (Array.isArray(k)) {
         if (k.length === 1)
           return k[0];
-      } else
-        return k;
+      } else return k;
       var D, B = e.dropShadow ? e.dropShadowDistance : 0, $ = e.padding || 0, U = this.canvas.width / this._resolution - B - $ * 2, H = this.canvas.height / this._resolution - B - $ * 2, z = k.slice(), V = e.fillGradientStops.slice();
       if (!V.length)
         for (var X = z.length + 1, q = 1; q < X; ++q)
@@ -14691,8 +14644,7 @@ function generateFillStyle(o, t, e, r, N, k) {
   if (Array.isArray(D)) {
     if (D.length === 1)
       return D[0];
-  } else
-    return D;
+  } else return D;
   var B, $ = e.dropShadow ? e.dropShadowDistance : 0, U = e.padding || 0, H = o.width / r - $ - U * 2, z = o.height / r - $ - U * 2, V = D.slice(), X = e.fillGradientStops.slice();
   if (!X.length)
     for (var q = V.length + 1, W = 1; W < q; ++W)
@@ -15518,8 +15470,7 @@ var BlurFilterPass = (
       if (D && B) {
         var $ = e.getFilterTexture();
         this.blurXFilter.apply(e, r, $, CLEAR_MODES.CLEAR), this.blurYFilter.apply(e, $, N, k), e.returnFilterTexture($);
-      } else
-        B ? this.blurYFilter.apply(e, r, N, k) : this.blurXFilter.apply(e, r, N, k);
+      } else B ? this.blurYFilter.apply(e, r, N, k) : this.blurXFilter.apply(e, r, N, k);
     }, t.prototype.updatePadding = function() {
       this._repeatEdgePixels ? this.padding = 0 : this.padding = Math.max(Math.abs(this.blurXFilter.strength), Math.abs(this.blurYFilter.strength)) * 2;
     }, Object.defineProperty(t.prototype, "blur", {
@@ -17443,8 +17394,7 @@ class EventListenerCtn {
     t.addEventListener(e, r, N), this.#e.push(() => t.removeEventListener(e, r, { capture: N.capture ?? !1 }));
   }
   clear() {
-    for (const t of this.#e)
-      t();
+    for (const t of this.#e) t();
     this.#e = [];
   }
   get isEmpty() {
@@ -17523,11 +17473,9 @@ class ConfigBase {
     ).length > 0, this.sys.crypto)
       for (const [e, r] of Object.entries(this.hPathFn2Exts))
         for (const [N, k] of Object.entries(r)) {
-          if (N.charAt(0) !== ":" || N.slice(-3) !== ":id")
-            continue;
+          if (N.charAt(0) !== ":" || N.slice(-3) !== ":id") continue;
           const D = k.slice(k.lastIndexOf("/") + 1), B = r[N.slice(0, -10)], U = await (await this.sys.fetch(B)).text(), H = this.sys.hash(U);
-          if (D !== H)
-            throw `ファイル改竄エラーです fn:${B}`;
+          if (D !== H) throw `ファイル改竄エラーです fn:${B}`;
         }
     else
       for (const [e, r] of Object.entries(this.hPathFn2Exts))
@@ -17548,35 +17496,29 @@ class ConfigBase {
   #r = /([^\/\s]+)\.([^\d]\w+)/;
   // 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
   searchPath(t, e = "") {
-    if (!t)
-      throw "[searchPath] fnが空です";
-    if (t.slice(0, 7) === "http://")
-      return t;
+    if (!t) throw "[searchPath] fnが空です";
+    if (t.slice(0, 7) === "http://") return t;
     const r = t.match(this.#r);
     let N = r ? r[1] : t;
     const k = r ? r[2] : "";
     if (this.userFnTail) {
       const $ = N + "@@" + this.userFnTail;
       if ($ in this.hPathFn2Exts) {
-        if (e === "")
-          N = $;
-        else
-          for (const U of Object.keys(this.hPathFn2Exts[$]))
-            if (`|${e}|`.indexOf(`|${U}|`) !== -1) {
-              N = $;
-              break;
-            }
+        if (e === "") N = $;
+        else for (const U of Object.keys(this.hPathFn2Exts[$]))
+          if (`|${e}|`.indexOf(`|${U}|`) !== -1) {
+            N = $;
+            break;
+          }
       }
     }
     const D = this.hPathFn2Exts[N];
-    if (!D)
-      throw `サーチパスに存在しないファイル【${t}】です`;
+    if (!D) throw `サーチパスに存在しないファイル【${t}】です`;
     let B = "";
     if (!k) {
       const $ = int(D[":cnt"]);
       if (e === "") {
-        if ($ > 1)
-          throw `指定ファイル【${t}】が複数マッチします。サーチ対象拡張子群【${e}】で絞り込むか、ファイル名を個別にして下さい。`;
+        if ($ > 1) throw `指定ファイル【${t}】が複数マッチします。サーチ対象拡張子群【${e}】で絞り込むか、ファイル名を個別にして下さい。`;
         return t;
       }
       const U = `|${e}|`;
@@ -17587,21 +17529,18 @@ class ConfigBase {
             throw `指定ファイル【${t}】が複数マッチします。サーチ対象拡張子群【${e}】で絞り込むか、ファイル名を個別にして下さい。`;
       }
       for (let H of Object.keys(D))
-        if (U.indexOf(`|${H}|`) > -1)
-          return D[H];
+        if (U.indexOf(`|${H}|`) > -1) return D[H];
       throw `サーチ対象拡張子群【${e}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${t}】`;
     }
     if (e !== "" && `|${e}|`.indexOf(`|${k}|`) === -1)
       throw `指定ファイルの拡張子【${k}】は、サーチ対象拡張子群【${e}】にマッチしません。探索ファイル名=【${t}】`;
-    if (B = D[k], !B)
-      throw `サーチパスに存在しない拡張子【${k}】です。探索ファイル名=【${t}】、サーチ対象拡張子群【${e}】`;
+    if (B = D[k], !B) throw `サーチパスに存在しない拡張子【${k}】です。探索ファイル名=【${t}】、サーチ対象拡張子群【${e}】`;
     return B;
   }
   matchPath(t, e = "") {
     const r = [], N = new RegExp(t), k = new RegExp(e);
     for (const [D, B] of Object.entries(this.hPathFn2Exts)) {
-      if (D.search(N) === -1)
-        continue;
+      if (D.search(N) === -1) continue;
       if (e === "") {
         r.push(B);
         continue;
@@ -17639,23 +17578,19 @@ class Config extends ConfigBase {
 const REG_TAG = /(?<name>[^\s;\]]+)/;
 function tagToken2Name_Args(o) {
   const e = REG_TAG.exec(o.slice(1, -1))?.groups;
-  if (!e)
-    throw `タグ記述【${o}】異常です(タグ解析)`;
+  if (!e) throw `タグ記述【${o}】異常です(タグ解析)`;
   const r = e.name;
   return [r, o.slice(1 + r.length, -1)];
 }
 function tagToken2Name(o) {
   const e = REG_TAG.exec(o.slice(1))?.groups;
-  if (!e)
-    throw `タグ記述【${o}】異常です(タグ解析)`;
+  if (!e) throw `タグ記述【${o}】異常です(タグ解析)`;
   return e.name;
 }
 function splitAmpersand(o) {
   const t = o.replaceAll("==", "＝").replaceAll("!=", "≠").split("="), e = t.length;
-  if (e < 2 || e > 3)
-    throw "「&計算」書式では「=」指定が一つか二つ必要です";
-  if (t[1].at(0) === "&")
-    throw "「&計算」書式では「&」指定が不要です";
+  if (e < 2 || e > 3) throw "「&計算」書式では「=」指定が一つか二つ必要です";
+  if (t[1].at(0) === "&") throw "「&計算」書式では「&」指定が不要です";
   return {
     name: t[0].replaceAll("＝", "==").replaceAll("≠", "!="),
     text: t[1].replaceAll("＝", "==").replaceAll("≠", "!="),
@@ -17668,8 +17603,7 @@ class Grammar {
   }
   #e;
   setEscape(t) {
-    if (this.#n && t in this.#n)
-      throw "[エスケープ文字] char【" + t + "】が登録済みの括弧マクロまたは一文字マクロです";
+    if (this.#n && t in this.#n) throw "[エスケープ文字] char【" + t + "】が登録済みの括弧マクロまたは一文字マクロです";
     this.#e = new RegExp(
       (t ? `\\${t}\\S|` : "") + // エスケープシーケンス
       `\\n+|\\t+|\\[let_ml\\s+[^\\]]+\\].+?(?=\\[endlet_ml[\\]\\s])|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]|;[^\\n]*|&[^&\\n]+&|&&?(?:[^"'#;\\n&]+|(["'#]).*?\\2)+|^\\*[^\\s\\[&;\\\\]+|[^\\n\\t\\[;${t ? `\\${t}` : ""}]+`,
@@ -17680,42 +17614,28 @@ class Grammar {
   // 括弧マクロの定義
   bracket2macro(t, e, r, N) {
     const { name: k, text: D } = t;
-    if (!k)
-      throw "[bracket2macro] nameは必須です";
-    if (!D)
-      throw "[bracket2macro] textは必須です";
+    if (!k) throw "[bracket2macro] nameは必須です";
+    if (!D) throw "[bracket2macro] textは必須です";
     const B = D.at(0);
-    if (!B)
-      throw "[bracket2macro] textは必須です";
-    if (D.length !== 2)
-      throw "[bracket2macro] textは括弧の前後を示す二文字を指定してください";
-    if (!(k in e))
-      throw `[bracket2macro] 未定義のタグ又はマクロ[${k}]です`;
+    if (!B) throw "[bracket2macro] textは必須です";
+    if (D.length !== 2) throw "[bracket2macro] textは括弧の前後を示す二文字を指定してください";
+    if (!(k in e)) throw `[bracket2macro] 未定義のタグ又はマクロ[${k}]です`;
     this.#n ??= {};
     const $ = D.charAt(1);
-    if (B in this.#n)
-      throw "[bracket2macro] text【" + B + "】が登録済みの括弧マクロまたは一文字マクロです";
-    if ($ in this.#n)
-      throw "[bracket2macro] text【" + $ + "】が登録済みの括弧マクロまたは一文字マクロです";
-    if (this.#t.test(B))
-      throw "[bracket2macro] text【" + B + "】は括弧マクロに使用できない文字です";
-    if (this.#t.test($))
-      throw "[bracket2macro] text【" + $ + "】は括弧マクロに使用できない文字です";
+    if (B in this.#n) throw "[bracket2macro] text【" + B + "】が登録済みの括弧マクロまたは一文字マクロです";
+    if ($ in this.#n) throw "[bracket2macro] text【" + $ + "】が登録済みの括弧マクロまたは一文字マクロです";
+    if (this.#t.test(B)) throw "[bracket2macro] text【" + B + "】は括弧マクロに使用できない文字です";
+    if (this.#t.test($)) throw "[bracket2macro] text【" + $ + "】は括弧マクロに使用できない文字です";
     this.#n[$] = "0", this.#n[B] = `[${k} text=`, this.addC2M(`\\${B}[^\\${$}]*\\${$}`, `\\${B}\\${$}`), this.#f(r, N);
   }
   // 一文字マクロの定義
   char2macro(t, e, r, N) {
     const { char: k, name: D } = t;
-    if (!k)
-      throw "[char2macro] charは必須です";
-    if (this.#n ??= {}, k in this.#n)
-      throw "[char2macro] char【" + k + "】が登録済みの括弧マクロまたは一文字マクロです";
-    if (this.#t.test(k))
-      throw "[char2macro] char【" + k + "】は一文字マクロに使用できない文字です";
-    if (!D)
-      throw "[char2macro] nameは必須です";
-    if (!(D in e))
-      throw `[char2macro] 未定義のタグ又はマクロ[${D}]です`;
+    if (!k) throw "[char2macro] charは必須です";
+    if (this.#n ??= {}, k in this.#n) throw "[char2macro] char【" + k + "】が登録済みの括弧マクロまたは一文字マクロです";
+    if (this.#t.test(k)) throw "[char2macro] char【" + k + "】は一文字マクロに使用できない文字です";
+    if (!D) throw "[char2macro] nameは必須です";
+    if (!(D in e)) throw `[char2macro] 未定義のタグ又はマクロ[${D}]です`;
     this.#n[k] = `[${D}]`, this.addC2M(`\\${k}`, `\\${k}`), this.#f(r, N);
   }
   #t;
@@ -17731,11 +17651,9 @@ class Grammar {
   resolveScript(t) {
     const e = t.replaceAll(/(\r\n|\r)/g, `
 `).match(this.#e)?.flatMap((N) => {
-      if (!this.testTagLetml(N))
-        return N;
+      if (!this.testTagLetml(N)) return N;
       const k = /^([^\]]+?])(.*)$/s.exec(N);
-      if (!k)
-        return N;
+      if (!k) return N;
       const [, D, B] = k;
       return [D, B];
     }) ?? [], r = { aToken: e, len: e.length, aLNum: [] };
@@ -17757,11 +17675,9 @@ class Grammar {
       for (let r = t.len - 1; r >= e; --r) {
         const N = t.aToken[r];
         if (this.testNoTxt(N.at(0) ?? `
-`))
-          continue;
+`)) continue;
         const k = t.aLNum[r], D = N.match(this.#r);
-        if (!D)
-          continue;
+        if (!D) continue;
         let B = 1;
         for (let $ = D.length - 1; $ >= 0; --$) {
           let U = D[$];
@@ -17808,8 +17724,7 @@ class AnalyzeTagArg {
   parseinDetail(t, e, r, N) {
     const k = {}, D = t.slice(1 + e, -1);
     for (const { groups: B, index: $, 0: U } of D.matchAll(this.#e)) {
-      if ($ === void 0)
-        continue;
+      if ($ === void 0) continue;
       const { key: H, val: z, val2: V, literal: X } = B;
       if (X) {
         if (X.at(-1) === "=") {
@@ -17825,8 +17740,7 @@ class AnalyzeTagArg {
         }
         continue;
       }
-      if (!H)
-        continue;
+      if (!H) continue;
       const { ln: q, ch: W } = this.#t(e, r, N, D, $), { ln: Y, ch: K } = this.#t(e, r, N, D, $ + U.lastIndexOf(z ?? V) - (z ? 0 : 1));
       k[H] = { k_ln: q, k_ch: W, v_ln: Y, v_ch: K, v_len: z ? z.length : V.length + 2 };
     }
@@ -17857,8 +17771,7 @@ var parsimmon_umd_min = { exports: {} };
     return function(e) {
       var r = {};
       function N(k) {
-        if (r[k])
-          return r[k].exports;
+        if (r[k]) return r[k].exports;
         var D = r[k] = { i: k, l: !1, exports: {} };
         return e[k].call(D.exports, D, D.exports, N), D.l = !0, D.exports;
       }
@@ -17878,14 +17791,12 @@ var parsimmon_umd_min = { exports: {} };
       }, N.p = "", N(N.s = 0);
     }([function(e, r, N) {
       function k(Q) {
-        if (!(this instanceof k))
-          return new k(Q);
+        if (!(this instanceof k)) return new k(Q);
         this._ = Q;
       }
       var D = k.prototype;
       function B(Q, at) {
-        for (var ht = 0; ht < Q; ht++)
-          at(ht);
+        for (var ht = 0; ht < Q; ht++) at(ht);
       }
       function $(Q, at, ht) {
         return function(dt, yt) {
@@ -17919,23 +17830,20 @@ var parsimmon_umd_min = { exports: {} };
         return typeof Buffer < "u";
       }
       function V() {
-        if (!z())
-          throw new Error("Buffer global does not exist; please use webpack if you need to parse Buffers in the browser.");
+        if (!z()) throw new Error("Buffer global does not exist; please use webpack if you need to parse Buffers in the browser.");
       }
       function X(Q) {
         V();
         var at = $(function(xt, Et) {
           return xt + Et;
         }, 0, Q);
-        if (at % 8 != 0)
-          throw new Error("The bits [" + Q.join(", ") + "] add up to " + at + " which is not an even number of bytes; the total should be divisible by 8");
+        if (at % 8 != 0) throw new Error("The bits [" + Q.join(", ") + "] add up to " + at + " which is not an even number of bytes; the total should be divisible by 8");
         var ht, dt = at / 8, yt = (ht = function(xt) {
           return xt > 48;
         }, $(function(xt, Et) {
           return xt || (ht(Et) ? Et : xt);
         }, null, Q));
-        if (yt)
-          throw new Error(yt + " bit range requested exceeds 48 bit (6 byte) Number max.");
+        if (yt) throw new Error(yt + " bit range requested exceeds 48 bit (6 byte) Number max.");
         return new k(function(xt, Et) {
           var Nt = dt + Et;
           return Nt > xt.length ? rt(Et, dt.toString() + " bytes") : st(Nt, $(function(Ht, Kt) {
@@ -17950,8 +17858,7 @@ var parsimmon_umd_min = { exports: {} };
         });
       }
       function W(Q, at) {
-        if (typeof (ht = at) != "number" || Math.floor(ht) !== ht || at < 0 || at > 6)
-          throw new Error(Q + " requires integer length in range [0, 6].");
+        if (typeof (ht = at) != "number" || Math.floor(ht) !== ht || at < 0 || at > 6) throw new Error(Q + " requires integer length in range [0, 6].");
         var ht;
       }
       function Y(Q) {
@@ -17990,35 +17897,28 @@ var parsimmon_umd_min = { exports: {} };
         return et(at) || (at = [at]), { status: !1, index: -1, value: null, furthest: Q, expected: at };
       }
       function nt(Q, at) {
-        if (!at || Q.furthest > at.furthest)
-          return Q;
+        if (!at || Q.furthest > at.furthest) return Q;
         var ht = Q.furthest === at.furthest ? function(dt, yt) {
           if (function() {
-            if (k._supportsSet !== void 0)
-              return k._supportsSet;
+            if (k._supportsSet !== void 0) return k._supportsSet;
             var ae = typeof Set < "u";
             return k._supportsSet = ae, ae;
           }() && Array.from) {
-            for (var xt = new Set(dt), Et = 0; Et < yt.length; Et++)
-              xt.add(yt[Et]);
+            for (var xt = new Set(dt), Et = 0; Et < yt.length; Et++) xt.add(yt[Et]);
             var Nt = Array.from(xt);
             return Nt.sort(), Nt;
           }
-          for (var Ht = {}, Kt = 0; Kt < dt.length; Kt++)
-            Ht[dt[Kt]] = !0;
-          for (var qt = 0; qt < yt.length; qt++)
-            Ht[yt[qt]] = !0;
+          for (var Ht = {}, Kt = 0; Kt < dt.length; Kt++) Ht[dt[Kt]] = !0;
+          for (var qt = 0; qt < yt.length; qt++) Ht[yt[qt]] = !0;
           var se = [];
-          for (var te in Ht)
-            ({}).hasOwnProperty.call(Ht, te) && se.push(te);
+          for (var te in Ht) ({}).hasOwnProperty.call(Ht, te) && se.push(te);
           return se.sort(), se;
         }(Q.expected, at.expected) : at.expected;
         return { status: Q.status, index: Q.index, value: Q.value, furthest: at.furthest, expected: ht };
       }
       var lt = {};
       function ct(Q, at) {
-        if (it(Q))
-          return { offset: at, line: -1, column: -1 };
+        if (it(Q)) return { offset: at, line: -1, column: -1 };
         Q in lt || (lt[Q] = {});
         for (var ht = lt[Q], dt = 0, yt = 0, xt = 0, Et = at; Et >= 0; ) {
           if (Et in ht) {
@@ -18033,23 +17933,19 @@ var parsimmon_umd_min = { exports: {} };
         return ht[at] = { line: Nt, lineStart: xt }, { offset: at, line: Nt + 1, column: Ht + 1 };
       }
       function bt(Q) {
-        if (!tt(Q))
-          throw new Error("not a parser: " + Q);
+        if (!tt(Q)) throw new Error("not a parser: " + Q);
       }
       function St(Q, at) {
         return typeof Q == "string" ? Q.charAt(at) : Q[at];
       }
       function Tt(Q) {
-        if (typeof Q != "number")
-          throw new Error("not a number: " + Q);
+        if (typeof Q != "number") throw new Error("not a number: " + Q);
       }
       function vt(Q) {
-        if (typeof Q != "function")
-          throw new Error("not a function: " + Q);
+        if (typeof Q != "function") throw new Error("not a function: " + Q);
       }
       function mt(Q) {
-        if (typeof Q != "string")
-          throw new Error("not a string: " + Q);
+        if (typeof Q != "string") throw new Error("not a string: " + Q);
       }
       var Rt = 2, Ut = 3, Ct = 8, _t = 5 * Ct, pt = 4 * Ct, It = "  ";
       function At(Q, at) {
@@ -18064,8 +17960,7 @@ var parsimmon_umd_min = { exports: {} };
       }
       function ot(Q, at) {
         var ht, dt, yt, xt, Et, Nt = at.index, Ht = Nt.offset, Kt = 1;
-        if (Ht === Q.length)
-          return "Got the end of the input";
+        if (Ht === Q.length) return "Got the end of the input";
         if (it(Q)) {
           var qt = Ht - Ht % Ct, se = Ht - qt, te = Dt(qt, _t, pt + Ct, Q.length), ae = U(function(Yt) {
             return U(function(he) {
@@ -18073,10 +17968,8 @@ var parsimmon_umd_min = { exports: {} };
             }, Yt);
           }, function(Yt, he) {
             var ue = Yt.length, oe = [], ce = 0;
-            if (ue <= he)
-              return [Yt.slice()];
-            for (var fe = 0; fe < ue; fe++)
-              oe[ce] || oe.push([]), oe[ce].push(Yt[fe]), (fe + 1) % he == 0 && ce++;
+            if (ue <= he) return [Yt.slice()];
+            for (var fe = 0; fe < ue; fe++) oe[ce] || oe.push([]), oe[ce].push(Yt[fe]), (fe + 1) % he == 0 && ce++;
             return oe;
           }(Q.slice(te.from, te.to).toJSON().data, Ct));
           xt = function(Yt) {
@@ -18113,12 +18006,10 @@ var parsimmon_umd_min = { exports: {} };
         return Q.flags !== void 0 ? Q.flags : [Q.global ? "g" : "", Q.ignoreCase ? "i" : "", Q.multiline ? "m" : "", Q.unicode ? "u" : "", Q.sticky ? "y" : ""].join("");
       }
       function Gt() {
-        for (var Q = [].slice.call(arguments), at = Q.length, ht = 0; ht < at; ht += 1)
-          bt(Q[ht]);
+        for (var Q = [].slice.call(arguments), at = Q.length, ht = 0; ht < at; ht += 1) bt(Q[ht]);
         return k(function(dt, yt) {
           for (var xt, Et = new Array(at), Nt = 0; Nt < at; Nt += 1) {
-            if (!(xt = nt(Q[Nt]._(dt, yt), xt)).status)
-              return xt;
+            if (!(xt = nt(Q[Nt]._(dt, yt), xt)).status) return xt;
             Et[Nt] = xt.value, yt = xt.index;
           }
           return nt(st(yt, Et), xt);
@@ -18126,8 +18017,7 @@ var parsimmon_umd_min = { exports: {} };
       }
       function Lt() {
         var Q = [].slice.call(arguments);
-        if (Q.length === 0)
-          throw new Error("seqMap needs at least one argument");
+        if (Q.length === 0) throw new Error("seqMap needs at least one argument");
         var at = Q.pop();
         return vt(at), Gt.apply(null, Q).map(function(ht) {
           return at.apply(null, ht);
@@ -18135,14 +18025,10 @@ var parsimmon_umd_min = { exports: {} };
       }
       function gt() {
         var Q = [].slice.call(arguments), at = Q.length;
-        if (at === 0)
-          return ft("zero alternates");
-        for (var ht = 0; ht < at; ht += 1)
-          bt(Q[ht]);
+        if (at === 0) return ft("zero alternates");
+        for (var ht = 0; ht < at; ht += 1) bt(Q[ht]);
         return k(function(dt, yt) {
-          for (var xt, Et = 0; Et < Q.length; Et += 1)
-            if ((xt = nt(Q[Et]._(dt, yt), xt)).status)
-              return xt;
+          for (var xt, Et = 0; Et < Q.length; Et += 1) if ((xt = nt(Q[Et]._(dt, yt), xt)).status) return xt;
           return xt;
         });
       }
@@ -18164,12 +18050,10 @@ var parsimmon_umd_min = { exports: {} };
       }
       function wt(Q, at) {
         (function(yt) {
-          if (!(yt instanceof RegExp))
-            throw new Error("not a regexp: " + yt);
+          if (!(yt instanceof RegExp)) throw new Error("not a regexp: " + yt);
           for (var xt = Pt(yt), Et = 0; Et < xt.length; Et++) {
             var Nt = xt.charAt(Et);
-            if (Nt !== "i" && Nt !== "m" && Nt !== "u" && Nt !== "s")
-              throw new Error('unsupported regexp flag "' + Nt + '": ' + yt);
+            if (Nt !== "i" && Nt !== "m" && Nt !== "u" && Nt !== "s") throw new Error('unsupported regexp flag "' + Nt + '": ' + yt);
           }
         })(Q), arguments.length >= 2 ? Tt(at) : at = 0;
         var ht = function(yt) {
@@ -18198,15 +18082,12 @@ var parsimmon_umd_min = { exports: {} };
         });
       }
       function Xt(Q) {
-        if (tt(Q))
-          return k(function(at, ht) {
-            var dt = Q._(at, ht);
-            return dt.index = ht, dt.value = "", dt;
-          });
-        if (typeof Q == "string")
-          return Xt(ut(Q));
-        if (Q instanceof RegExp)
-          return Xt(wt(Q));
+        if (tt(Q)) return k(function(at, ht) {
+          var dt = Q._(at, ht);
+          return dt.index = ht, dt.value = "", dt;
+        });
+        if (typeof Q == "string") return Xt(ut(Q));
+        if (Q instanceof RegExp) return Xt(wt(Q));
         throw new Error("not a string, regexp, or parser: " + Q);
       }
       function Jt(Q) {
@@ -18232,14 +18113,12 @@ var parsimmon_umd_min = { exports: {} };
         return ft("fantasy-land/empty");
       }
       D.parse = function(Q) {
-        if (typeof Q != "string" && !it(Q))
-          throw new Error(".parse must be called with a string or Buffer as its argument");
+        if (typeof Q != "string" && !it(Q)) throw new Error(".parse must be called with a string or Buffer as its argument");
         var at, ht = this.skip(zt)._(Q, 0);
         return at = ht.status ? { status: !0, value: ht.value } : { status: !1, index: ct(Q, ht.furthest), expected: ht.expected }, delete lt[Q], at;
       }, D.tryParse = function(Q) {
         var at = this.parse(Q);
-        if (at.status)
-          return at.value;
+        if (at.status) return at.value;
         var ht = Ft(Q, at), dt = new Error(ht);
         throw dt.type = "ParsimmonError", dt.result = at, dt;
       }, D.assert = function(Q, at) {
@@ -18264,22 +18143,18 @@ var parsimmon_umd_min = { exports: {} };
         var Q = this;
         return k(function(at, ht) {
           for (var dt = [], yt = void 0; ; ) {
-            if (!(yt = nt(Q._(at, ht), yt)).status)
-              return nt(st(ht, dt), yt);
-            if (ht === yt.index)
-              throw new Error("infinite loop detected in .many() parser --- calling .many() on a parser which can accept zero characters is usually the cause");
+            if (!(yt = nt(Q._(at, ht), yt)).status) return nt(st(ht, dt), yt);
+            if (ht === yt.index) throw new Error("infinite loop detected in .many() parser --- calling .many() on a parser which can accept zero characters is usually the cause");
             ht = yt.index, dt.push(yt.value);
           }
         });
       }, D.tieWith = function(Q) {
         return mt(Q), this.map(function(at) {
           if (function(yt) {
-            if (!et(yt))
-              throw new Error("not an array: " + yt);
+            if (!et(yt)) throw new Error("not an array: " + yt);
           }(at), at.length) {
             mt(at[0]);
-            for (var ht = at[0], dt = 1; dt < at.length; dt++)
-              mt(at[dt]), ht += Q + at[dt];
+            for (var ht = at[0], dt = 1; dt < at.length; dt++) mt(at[dt]), ht += Q + at[dt];
             return ht;
           }
           return "";
@@ -18290,12 +18165,10 @@ var parsimmon_umd_min = { exports: {} };
         var ht = this;
         return arguments.length < 2 && (at = Q), Tt(Q), Tt(at), k(function(dt, yt) {
           for (var xt = [], Et = void 0, Nt = void 0, Ht = 0; Ht < Q; Ht += 1) {
-            if (Nt = nt(Et = ht._(dt, yt), Nt), !Et.status)
-              return Nt;
+            if (Nt = nt(Et = ht._(dt, yt), Nt), !Et.status) return Nt;
             yt = Et.index, xt.push(Et.value);
           }
-          for (; Ht < at && (Nt = nt(Et = ht._(dt, yt), Nt), Et.status); Ht += 1)
-            yt = Et.index, xt.push(Et.value);
+          for (; Ht < at && (Nt = nt(Et = ht._(dt, yt), Nt), Et.status); Ht += 1) yt = Et.index, xt.push(Et.value);
           return nt(st(yt, xt), Nt);
         });
       }, D.result = function(Q) {
@@ -18377,12 +18250,11 @@ var parsimmon_umd_min = { exports: {} };
 `), ge = gt(me, ve, pe).desc("newline"), xe = gt(ge, zt);
       k.all = Vt, k.alt = gt, k.any = ne, k.cr = pe, k.createLanguage = function(Q) {
         var at = {};
-        for (var ht in Q)
-          ({}).hasOwnProperty.call(Q, ht) && function(dt) {
-            at[dt] = ee(function() {
-              return Q[dt](at);
-            });
-          }(ht);
+        for (var ht in Q) ({}).hasOwnProperty.call(Q, ht) && function(dt) {
+          at[dt] = ee(function() {
+            return Q[dt](at);
+          });
+        }(ht);
         return at;
       }, k.crlf = me, k.custom = function(Q) {
         return k(Q(st, rt));
@@ -18391,8 +18263,7 @@ var parsimmon_umd_min = { exports: {} };
           return Q.indexOf(at) < 0;
         }).desc("none of '" + Q + "'");
       }, k.notFollowedBy = Jt, k.of = kt, k.oneOf = function(Q) {
-        for (var at = Q.split(""), ht = 0; ht < at.length; ht++)
-          at[ht] = "'" + at[ht] + "'";
+        for (var at = Q.split(""), ht = 0; ht < at.length; ht++) at[ht] = "'" + at[ht] + "'";
         return Wt(function(dt) {
           return Q.indexOf(dt) >= 0;
         }).desc(at);
@@ -18406,29 +18277,25 @@ var parsimmon_umd_min = { exports: {} };
           if (!tt(Et)) {
             if (et(Et) && Et.length === 2 && typeof Et[0] == "string" && tt(Et[1])) {
               var Nt = Et[0];
-              if (Object.prototype.hasOwnProperty.call(at, Nt))
-                throw new Error("seqObj: duplicate key " + Nt);
+              if (Object.prototype.hasOwnProperty.call(at, Nt)) throw new Error("seqObj: duplicate key " + Nt);
               at[Nt] = !0, ht++;
               continue;
             }
             throw new Error("seqObj arguments must be parsers or [string, parser] array pairs.");
           }
         }
-        if (ht === 0)
-          throw new Error("seqObj expects at least one named parser, found zero");
+        if (ht === 0) throw new Error("seqObj expects at least one named parser, found zero");
         return k(function(Ht, Kt) {
           for (var qt, se = {}, te = 0; te < yt; te += 1) {
             var ae, le;
-            if (et(dt[te]) ? (ae = dt[te][0], le = dt[te][1]) : (ae = null, le = dt[te]), !(qt = nt(le._(Ht, Kt), qt)).status)
-              return qt;
+            if (et(dt[te]) ? (ae = dt[te][0], le = dt[te][1]) : (ae = null, le = dt[te]), !(qt = nt(le._(Ht, Kt), qt)).status) return qt;
             ae && (se[ae] = qt.value), Kt = qt.index;
           }
           return nt(st(Kt, se), qt);
         });
       }, k.string = ut, k.succeed = kt, k.takeWhile = function(Q) {
         return vt(Q), k(function(at, ht) {
-          for (var dt = ht; dt < at.length && Q(St(at, dt)); )
-            dt++;
+          for (var dt = ht; dt < at.length && Q(St(at, dt)); ) dt++;
           return st(dt, at.slice(ht, dt));
         });
       }, k.test = Wt, k.whitespace = be, k["fantasy-land/empty"] = ie, k["fantasy-land/of"] = kt, k.Binary = { bitSeq: X, bitSeqObj: function(Q) {
@@ -18436,16 +18303,13 @@ var parsimmon_umd_min = { exports: {} };
         var at = {}, ht = 0, dt = U(function(xt) {
           if (et(xt)) {
             var Et = xt;
-            if (Et.length !== 2)
-              throw new Error("[" + Et.join(", ") + "] should be length 2, got length " + Et.length);
-            if (mt(Et[0]), Tt(Et[1]), Object.prototype.hasOwnProperty.call(at, Et[0]))
-              throw new Error("duplicate key in bitSeqObj: " + Et[0]);
+            if (Et.length !== 2) throw new Error("[" + Et.join(", ") + "] should be length 2, got length " + Et.length);
+            if (mt(Et[0]), Tt(Et[1]), Object.prototype.hasOwnProperty.call(at, Et[0])) throw new Error("duplicate key in bitSeqObj: " + Et[0]);
             return at[Et[0]] = !0, ht++, Et;
           }
           return Tt(xt), [null, xt];
         }, Q);
-        if (ht < 1)
-          throw new Error("bitSeqObj expects at least one named pair, got [" + Q.join(", ") + "]");
+        if (ht < 1) throw new Error("bitSeqObj expects at least one named pair, got [" + Q.join(", ") + "]");
         var yt = U(function(xt) {
           return xt[0];
         }, dt);
@@ -18459,8 +18323,7 @@ var parsimmon_umd_min = { exports: {} };
           }, yt));
         });
       }, byte: function(Q) {
-        if (V(), Tt(Q), Q > 255)
-          throw new Error("Value specified to byte constructor (" + Q + "=0x" + Q.toString(16) + ") is larger in value than a single byte.");
+        if (V(), Tt(Q), Q > 255) throw new Error("Value specified to byte constructor (" + Q + "=0x" + Q.toString(16) + ") is larger in value than a single byte.");
         var at = (Q > 15 ? "0x" : "0x0") + Q.toString(16);
         return k(function(ht, dt) {
           var yt = St(ht, dt);
@@ -18492,10 +18355,9 @@ class PropParser {
     this.val = t;
     function r(Z) {
       const J = [];
-      for (const tt of Z)
-        J.push(
-          (typeof tt == "string" ? parsimmon_umd_minExports.string(tt) : parsimmon_umd_minExports.regex(tt)).trim(parsimmon_umd_minExports.optWhitespace)
-        );
+      for (const tt of Z) J.push(
+        (typeof tt == "string" ? parsimmon_umd_minExports.string(tt) : parsimmon_umd_minExports.regex(tt)).trim(parsimmon_umd_minExports.optWhitespace)
+      );
       return parsimmon_umd_minExports.alt.apply(null, J);
     }
     function N(Z) {
@@ -18587,15 +18449,13 @@ class PropParser {
   #e = null;
   parse(t) {
     const e = this.#e.parse(t);
-    if (!e.status)
-      throw Error("(PropParser)文法エラー【" + t + "】");
+    if (!e.status) throw Error("(PropParser)文法エラー【" + t + "】");
     const r = e.value;
     return r[0] === "!str!" ? this.#n(r[1]) : this.#t(r);
   }
   #t(t) {
     const e = t.shift();
-    if (e instanceof Array)
-      return this.#t(e);
+    if (e instanceof Array) return this.#t(e);
     const r = this.#r[e];
     return r ? r(t) : Object(null);
   }
@@ -18679,8 +18539,7 @@ class PropParser {
     // 条件
     "?": (t) => {
       const e = this.#r.Boolean(t), r = t.shift();
-      if (r[0] !== ":")
-        throw Error("(PropParser)三項演算子の文法エラーです。: が見つかりません");
+      if (r[0] !== ":") throw Error("(PropParser)三項演算子の文法エラーです。: が見つかりません");
       return this.#t(r[e ? 1 : 2]);
     },
     ":": () => {
@@ -18689,8 +18548,7 @@ class PropParser {
   };
   #i(t) {
     const e = this.#t(t);
-    if (Object.prototype.toString.call(e) !== "[object Number]")
-      throw Error("(PropParser)引数【" + e + "】が数値ではありません");
+    if (Object.prototype.toString.call(e) !== "[object Number]") throw Error("(PropParser)引数【" + e + "】が数値ではありません");
     return Number(e);
   }
   #s = /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g;
@@ -18706,8 +18564,7 @@ class PropParser {
   // →これは改良しようがない。いい意味で改善の余地なし
   static getValName(t) {
     const r = this.#h.exec(t.trim())?.groups;
-    if (!r)
-      return null;
+    if (!r) return null;
     const { scope: N = "tmp", name: k, at: D = "" } = r;
     return {
       scope: N,
@@ -18719,13 +18576,11 @@ class PropParser {
     let e = 0, r = 0;
     for (; ; ) {
       if (e = t.indexOf('["'), e < 0) {
-        if (e = t.indexOf("['"), e < 0)
-          break;
+        if (e = t.indexOf("['"), e < 0) break;
         r = t.indexOf("']", e + 2);
       } else
         r = t.indexOf('"]', e + 2);
-      if (r < 0)
-        break;
+      if (r < 0) break;
       t = t.slice(0, e) + "." + t.slice(e + 2, r) + t.slice(r + 2), e = r - 2;
     }
     return t;
@@ -18804,8 +18659,7 @@ ${t.text || `(text is ${t.text})`}
         break;
       case "ET":
       case "E":
-        if (DebugMng.#r({ text: t }), this.#t.dump_lay({}), this.#t.dump_val({}), DebugMng.#e.dumpErrForeLine(), this.#t.dump_stack({}), e === "ET")
-          throw r;
+        if (DebugMng.#r({ text: t }), this.#t.dump_lay({}), this.#t.dump_val({}), DebugMng.#e.dumpErrForeLine(), this.#t.dump_stack({}), e === "ET") throw r;
         console.error("%c" + r, "color:#F30;");
         return;
       default:
@@ -18894,8 +18748,7 @@ class Variable {
         B.place = D, k.push(B);
       }
       return JSON.stringify(k);
-    }), this.#r["const.sn.isFirstBoot"] = !0, this.#r["const.sn.last_page_text"] = "", this.#r["const.sn.last_page_plain_text"] = "", this.#r["const.sn.displayState"] = !1, this.#r["const.Date.getTime"] = () => (/* @__PURE__ */ new Date()).getTime(), this.#r["const.Date.getDateStr"] = () => getDateStr(), this.#r["const.sn.platform"] = JSON.stringify(platform), this.#L(), this.#T(), this.#r["const.sn.config.window.width"] = t.oCfg.window.width, this.#r["const.sn.config.window.height"] = t.oCfg.window.height, this.#r["const.sn.config.book.title"] = t.oCfg.book.title, this.#r["const.sn.config.book.version"] = t.oCfg.book.version, this.#r["const.sn.Math.PI"] = Math.PI, typeof window > "u")
-      return;
+    }), this.#r["const.sn.isFirstBoot"] = !0, this.#r["const.sn.last_page_text"] = "", this.#r["const.sn.last_page_plain_text"] = "", this.#r["const.sn.displayState"] = !1, this.#r["const.Date.getTime"] = () => (/* @__PURE__ */ new Date()).getTime(), this.#r["const.Date.getDateStr"] = () => getDateStr(), this.#r["const.sn.platform"] = JSON.stringify(platform), this.#L(), this.#T(), this.#r["const.sn.config.window.width"] = t.oCfg.window.width, this.#r["const.sn.config.window.height"] = t.oCfg.window.height, this.#r["const.sn.config.book.title"] = t.oCfg.book.title, this.#r["const.sn.config.book.version"] = t.oCfg.book.version, this.#r["const.sn.Math.PI"] = Math.PI, typeof window > "u") return;
     const r = window, N = r.AudioContext ?? r.webkitAudioContext;
     this.#r["const.sn.needClick2Play"] = () => new N().state === "suspended";
   }
@@ -18957,8 +18810,7 @@ class Variable {
   };
   #a(t) {
     Variable.#z = {};
-    for (const e of t)
-      Variable.#z[e.dataId] = 1;
+    for (const e of t) Variable.#z[e.dataId] = 1;
   }
   updateData(t) {
     this.#s = t, this.#n = this.#e.sys = this.#s.sys, this.#h = {};
@@ -19010,29 +18862,23 @@ class Variable {
   //	// しおり
   // しおりの複写
   #c(t) {
-    if (!("from" in t))
-      throw "fromは必須です";
-    if (!("to" in t))
-      throw "toは必須です";
+    if (!("from" in t)) throw "fromは必須です";
+    if (!("to" in t)) throw "toは必須です";
     const e = Number(t.from), r = Number(t.to);
-    if (e === r)
-      return !1;
-    if (!(e in this.#s.mark))
-      throw `from:${e} のセーブデータは存在しません`;
+    if (e === r) return !1;
+    if (!(e in this.#s.mark)) throw `from:${e} のセーブデータは存在しません`;
     return this.setMark(r, { ...this.#s.mark[e] }), this.#i.copyBMFolder(e, r), !1;
   }
   // しおりの消去
   #m(t) {
     const { place: e } = t;
-    if (!e)
-      throw "placeは必須です";
+    if (!e) throw "placeは必須です";
     return delete this.#s.mark[e], this.flush(), this.#i.eraseBMFolder(e), !1;
   }
   //	//	変数操作
   // 変数代入・演算
   #l(t) {
-    if (!t.name)
-      throw "nameは必須です";
+    if (!t.name) throw "nameは必須です";
     let e = !0;
     if (t.cast)
       switch (t.cast) {
@@ -19068,8 +18914,7 @@ class Variable {
   // 文字列で検索
   #x(t) {
     const { val: e } = t;
-    if (!e)
-      throw "valは必須です";
+    if (!e) throw "valは必須です";
     const r = argChk_Num(t, "start", 0);
     return t.text = String((t.text ?? "").indexOf(e, r)), this.#l(t), !1;
   }
@@ -19079,8 +18924,7 @@ class Variable {
   }
   // 正規表現で置換
   #o(t) {
-    if (!t.reg)
-      throw "regは必須です";
+    if (!t.reg) throw "regは必須です";
     const { flags: e } = t, r = e ? new RegExp(t.reg, e) : new RegExp(t.reg);
     return t.text = String(t.text ?? "").replace(r, String(t.val)), this.#l(t), !1;
   }
@@ -19091,8 +18935,7 @@ class Variable {
   }
   // 正規表現で検索
   #C(t) {
-    if (!t.reg)
-      throw "regは必須です";
+    if (!t.reg) throw "regは必須です";
     const { flags: e } = t, r = e ? new RegExp(t.reg, e) : new RegExp(t.reg);
     return t.text = String((t.text ?? "").search(r)), this.#l(t), !1;
   }
@@ -19116,16 +18959,12 @@ class Variable {
     return this.#t = this.#e.save = {}, this.setVal_Nochk("save", "const.sn.mesLayer", t), this.setVal_Nochk("save", "sn.doRecLog", e), this.setVal_Nochk("save", "const.sn.sLog", r), !1;
   }
   #H = (t, e, r = !0) => {
-    if (!t)
-      throw "[変数に値セット] nameは必須です";
-    if (e == null)
-      throw "[変数に値セット] textは必須です（空文字はOK）";
+    if (!t) throw "[変数に値セット] nameは必須です";
+    if (e == null) throw "[変数に値セット] textは必須です（空文字はOK）";
     const N = PropParser.getValName(t);
-    if (N === null)
-      throw "[変数参照] name(" + t + ")が変数名として異常です";
+    if (N === null) throw "[変数参照] name(" + t + ")が変数名として異常です";
     const k = this.#e[N.scope];
-    if (!k)
-      throw "[変数に値セット] scopeが異常【" + N.scope + "】です";
+    if (!k) throw "[変数に値セット] scopeが異常【" + N.scope + "】です";
     const D = N.name;
     if (D.slice(0, 6) === "const." && D in k)
       throw "[変数に値セット] 変数【" + D + "】は書き換え不可です";
@@ -19148,14 +18987,11 @@ class Variable {
   // reload 再生成 Main に受け渡すため static
   static #z = {};
   getVal = (t, e) => {
-    if (!t)
-      throw "[変数参照] nameは必須です";
+    if (!t) throw "[変数参照] nameは必須です";
     const r = PropParser.getValName(t);
-    if (r === null)
-      throw "[変数参照] name(" + t + ")が変数名として異常です";
+    if (r === null) throw "[変数参照] name(" + t + ")が変数名として異常です";
     const N = this.#e[r.scope];
-    if (!N)
-      throw "[変数参照] scopeが異常【" + r.scope + "】です";
+    if (!N) throw "[変数参照] scopeが異常【" + r.scope + "】です";
     const k = r.name;
     let D = N[k];
     if (!(k in N)) {
@@ -19163,8 +18999,7 @@ class Variable {
       let B = "";
       const $ = k.split("."), U = $.length;
       for (let H = 0; H < U; ++H, B += ".") {
-        if (B += $[H], !(B in N))
-          continue;
+        if (B += $[H], !(B in N)) continue;
         let z = JSON.parse(N[B]);
         if (Object.prototype.toString.call(z) !== "[object Object]") {
           if (H + 1 === U) {
@@ -19192,12 +19027,9 @@ class Variable {
   };
   #O(t) {
     const e = t;
-    if (e === "true")
-      return !0;
-    if (e === "false")
-      return !1;
-    if (e === "null")
-      return null;
+    if (e === "true") return !0;
+    if (e === "false") return !1;
+    if (e === "null") return null;
     if (e !== "undefined")
       return this.#W.test(e) ? parseFloat(e) : t;
   }
@@ -19258,8 +19090,7 @@ class Variable {
       );
     },
     "save:sn.userFnTail": (t, e) => {
-      if (e.includes("@"))
-        throw "この変数では文字「@」は禁止です";
+      if (e.includes("@")) throw "この変数では文字「@」は禁止です";
       this.cfg.userFnTail = e;
     },
     // tmp
@@ -19733,10 +19564,8 @@ class CmnTween {
     "Sinusoidal.Out": (t) => Easing.Sinusoidal.Out(t)
   };
   static ease(t) {
-    if (!t)
-      return (e) => Easing.Linear.None(e);
-    if (!(t in CmnTween.#s))
-      throw "異常なease指定です";
+    if (!t) return (e) => Easing.Linear.None(e);
+    if (!(t in CmnTween.#s)) throw "異常なease指定です";
     return CmnTween.#s[t];
   }
   static hMemberCnt = {
@@ -19757,8 +19586,7 @@ class CmnTween {
   static cnvTweenArg(t, e) {
     const r = {};
     for (const N of Object.keys(CmnTween.hMemberCnt)) {
-      if (!(N in t))
-        continue;
+      if (!(N in t)) continue;
       const k = String(t[N]), D = (k.at(0) === "=" ? k.slice(1) : k).split(","), B = r[N] = parseFloat(D[0]);
       D.length > 1 && (r[N] += Math.round(Math.random() * (parseFloat(D[1]) - B + 1))), k.at(0) === "=" && (r[N] += parseFloat(e[N]));
     }
@@ -19782,13 +19610,12 @@ class CmnTween {
       for (const { groups: V } of H.matchAll(CmnTween.#n)) {
         const { x: X, x2: q, y: W, y2: Y, o: K, o2: Z, json: J } = V;
         let tt = {};
-        if (J)
-          try {
-            tt = JSON.parse(J);
-          } catch (st) {
-            console.error(`🍝 json=${J} ` + st);
-            continue;
-          }
+        if (J) try {
+          tt = JSON.parse(J);
+        } catch (st) {
+          console.error(`🍝 json=${J} ` + st);
+          continue;
+        }
         else
           (X ?? q) && (tt.x = X ?? q), (W ?? Y) && (tt.y = W ?? Y), (K ?? Z) && (tt.alpha = K ?? Z);
         const et = CmnTween.cnvTweenArg(tt, r);
@@ -19806,11 +19633,9 @@ class CmnTween {
   static tweenB(t, e) {
     if (t) {
       const r = CmnTween.#e[t];
-      if (!r?.tw)
-        throw `${t}は存在しない・または終了したトゥイーンです`;
+      if (!r?.tw) throw `${t}は存在しない・または終了したトゥイーンです`;
       delete r.onEnd, r.tw.chain(e);
-    } else
-      e.start();
+    } else e.start();
   }
   // 11 match 301 step (0.1ms) PCRE2 https://regex101.com/r/reinpq/1
   // List ${x}${x2}/${y}${y2}/${o}${o2}=${json}\n
@@ -19849,12 +19674,10 @@ class CmnTween {
   static wait_tsy(t) {
     const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
-    if (!k)
-      throw "トゥイーンが指定されていません";
+    if (!k) throw "トゥイーンが指定されていません";
     const D = CmnTween.#e[k];
     if (!D?.tw) {
-      if (argChk_Boolean(t, "chk_exist_tw", !1))
-        throw r ? `フレームトゥイーン ${r} が見つかりません。` : `トゥイーン ${k} が見つかりません。(layer:${e} name:${N})`;
+      if (argChk_Boolean(t, "chk_exist_tw", !1)) throw r ? `フレームトゥイーン ${r} が見つかりません。` : `トゥイーン ${k} が見つかりません。(layer:${e} name:${N})`;
       return !1;
     }
     return CmnTween.#t.waitEvent("tsy nm:" + k, t, () => D.tw?.end());
@@ -19863,24 +19686,21 @@ ${r}` : N ?? e;
   static stop_tsy(t) {
     const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
-    if (!k)
-      throw "トゥイーンが指定されていません";
+    if (!k) throw "トゥイーンが指定されていません";
     return CmnTween.#e[k]?.tw?.stop().end(), !1;
   }
   // 一時停止
   static pause_tsy(t) {
     const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
-    if (!k)
-      throw "トゥイーンが指定されていません";
+    if (!k) throw "トゥイーンが指定されていません";
     return CmnTween.#e[k]?.tw?.pause(), !1;
   }
   // 一時停止再開
   static resume_tsy(t) {
     const { layer: e = "", id: r, name: N } = t, k = r ? `frm
 ${r}` : N ?? e;
-    if (!k)
-      throw "トゥイーンが指定されていません";
+    if (!k) throw "トゥイーンが指定されていません";
     return CmnTween.#e[k]?.tw?.resume(), !1;
   }
 }
@@ -19928,8 +19748,7 @@ class ReadState {
     let r = "";
     if (e >= 0) {
       const N = t.slice(4, e), k = `const.sn.frm.${N}`;
-      if (!val$1.getVal(`tmp:${k}`, 0))
-        throw `HTML【${N}】が読み込まれていません`;
+      if (!val$1.getVal(`tmp:${k}`, 0)) throw `HTML【${N}】が読み込まれていません`;
       const B = document.getElementById(N).contentWindow;
       return r = t.slice(e + 1), { el: B.document.querySelectorAll(r), id: N, sel: r };
     }
@@ -19940,8 +19759,7 @@ class ReadState {
   }
   static getEvt2Fnc = (t) => hLocalEvt2Fnc[t] ?? hGlobalEvt2Fnc[t];
   static clear_eventer(t, e, r) {
-    if (t.slice(0, 4) !== "dom=")
-      return;
+    if (t.slice(0, 4) !== "dom=") return;
     const N = e ? hGlobalEvt2Fnc[r] : hLocalEvt2Fnc[r];
     ReadState.getHtmlElmList(t).el.forEach((k) => k.removeEventListener("click", N)), e ? delete hGlobalEvt2Fnc[r] : delete hLocalEvt2Fnc[r];
   }
@@ -19998,17 +19816,14 @@ class ReadState {
     }
   }
   l(t) {
-    if (!tagL_enabled)
-      return !1;
+    if (!tagL_enabled) return !1;
     if (this.#i(!0), auto_enabled) {
       const e = Number(val$1.getVal(`sys:sn.auto.msecLineWait${scrItr.isKidoku ? "_Kidoku" : ""}`));
       return Rs_L_AutoSkip.go(e, t);
     }
     if (skip_enabled) {
-      if (!skip_all && !scrItr.isNextKidoku)
-        return Rs_L_Wait.go(t);
-      if ("ps".includes(val$1.getVal("sys:sn.skip.mode")))
-        return Rs_L_AutoSkip.go(50, t);
+      if (!skip_all && !scrItr.isNextKidoku) return Rs_L_Wait.go(t);
+      if ("ps".includes(val$1.getVal("sys:sn.skip.mode"))) return Rs_L_AutoSkip.go(50, t);
     }
     return Rs_L.go(t);
   }
@@ -20018,8 +19833,7 @@ class ReadState {
       return Rs_P_AutoSkip.go(e, t);
     }
     if (skip_enabled) {
-      if (!skip_all && !scrItr.isNextKidoku)
-        return Rs_P_Wait.go(t);
+      if (!skip_all && !scrItr.isNextKidoku) return Rs_P_Wait.go(t);
       if (val$1.getVal("sys:sn.skip.mode") == "s")
         return Rs_P_AutoSkip.go(50, t);
     }
@@ -20052,14 +19866,12 @@ class ReadState {
   static aPage = [];
   static stylePage = "color: yellow;";
   page(t) {
-    if (!("clear" in t || "style" in t || "to" in t))
-      throw "clear か style か to は必須です";
+    if (!("clear" in t || "style" in t || "to" in t)) throw "clear か style か to は必須です";
     argChk_Boolean(t, "clear", !1) && (ReadState.aPage = []);
     const { to: e, style: r } = t;
     switch (r && (ReadState.stylePage = r), e) {
       case "prev":
-        if (ReadState.aPage.length < 2)
-          return !1;
+        if (ReadState.aPage.length < 2) return !1;
         break;
       default:
         return !1;
@@ -20067,11 +19879,9 @@ class ReadState {
     return RsPagination.go(t);
   }
   #i(t = !1) {
-    if (!val$1.getVal("save:sn.doRecLog"))
-      return;
+    if (!val$1.getVal("save:sn.doRecLog")) return;
     const { fn: e, idx: r } = scrItr.nowScrIdx(), N = r - 1 + ":" + e;
-    if (ReadState.aPage.findIndex((D) => D.key === N) > -1)
-      return;
+    if (ReadState.aPage.findIndex((D) => D.key === N) > -1) return;
     ReadState.aPage.at(-1)?.week && ReadState.aPage.pop();
     const k = cfg$1.oCfg.log.max_len;
     ReadState.aPage.push({
@@ -20272,8 +20082,7 @@ class RsPagination extends Rs_S {
   waitclick = () => !1;
   waitTxtAndTimer = () => !1;
   l(t) {
-    if (!ReadState.aPage[this.#e].week)
-      return !1;
+    if (!ReadState.aPage[this.#e].week) return !1;
     const e = ReadState.aPage.length;
     return this.#e === e - 1 ? Rs_L_Wait.go(t) : (argChk_Boolean(t, "visible", !0) && (layMng.breakLine(t), goTxt()), this.waitRsvEvent(!1, !0), !0);
   }
@@ -20285,18 +20094,15 @@ class RsPagination extends Rs_S {
   #e = ReadState.aPage.length - 1;
   page(t) {
     const { to: e } = t;
-    if (!e)
-      return !1;
+    if (!e) return !1;
     const r = ReadState.aPage.length;
     switch (e) {
       case "prev":
-        if (this.#e === 0)
-          return !1;
+        if (this.#e === 0) return !1;
         --this.#e;
         break;
       case "next":
-        if (this.#e === r - 1)
-          return !1;
+        if (this.#e === r - 1) return !1;
         ++this.#e;
         break;
       default:
@@ -20331,13 +20137,11 @@ var a = function(o, t) {
   return (a = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(e, r) {
     e.__proto__ = r;
   } || function(e, r) {
-    for (var N in r)
-      Object.prototype.hasOwnProperty.call(r, N) && (e[N] = r[N]);
+    for (var N in r) Object.prototype.hasOwnProperty.call(r, N) && (e[N] = r[N]);
   })(o, t);
 };
 function c(o, t) {
-  if (typeof t != "function" && t !== null)
-    throw new TypeError("Class extends value " + String(t) + " is not a constructor or null");
+  if (typeof t != "function" && t !== null) throw new TypeError("Class extends value " + String(t) + " is not a constructor or null");
   function e() {
     this.constructor = o;
   }
@@ -20345,9 +20149,7 @@ function c(o, t) {
 }
 var l = function() {
   return (l = Object.assign || function(o) {
-    for (var t, e = 1, r = arguments.length; e < r; e++)
-      for (var N in t = arguments[e])
-        Object.prototype.hasOwnProperty.call(t, N) && (o[N] = t[N]);
+    for (var t, e = 1, r = arguments.length; e < r; e++) for (var N in t = arguments[e]) Object.prototype.hasOwnProperty.call(t, N) && (o[N] = t[N]);
     return o;
   }).apply(this, arguments);
 }, p = ["mp3", "ogg", "oga", "opus", "mpeg", "wav", "m4a", "aiff", "wma", "mid", "caf"], h = {};
@@ -20362,8 +20164,7 @@ f();
 var d = /\.(\{([^\}]+)\})(\?.*)?$/;
 function _(o) {
   var t = d, e = typeof o == "string" ? o : o.url;
-  if (!t.test(e))
-    return e;
+  if (!t.test(e)) return e;
   for (var r = t.exec(e), N = r[2].split(","), k = N[N.length - 1], D = 0, B = N.length; D < B; D++) {
     var $ = N[D];
     if (h[$]) {
@@ -20402,8 +20203,7 @@ var y = p.filter(function(o) {
     return r.id = b++, r.init(e), r;
   }
   return c(t, o), t.prototype.set = function(e, r) {
-    if (this[e] === void 0)
-      throw new Error("Property with name ".concat(e, " does not exist."));
+    if (this[e] === void 0) throw new Error("Property with name ".concat(e, " does not exist."));
     switch (e) {
       case "speed":
         this.speed = r;
@@ -20505,25 +20305,23 @@ var y = p.filter(function(o) {
     return this._source;
   }, enumerable: !1, configurable: !0 }), t.prototype.load = function(e) {
     var r = this._source, N = this.parent;
-    if (r.readyState !== 4)
-      if (N.url) {
-        r.src = N.url;
-        var k = function() {
-          $(), N.isLoaded = !0;
-          var H = N.autoPlayStart();
-          e && e(null, N, H);
-        }, D = function() {
-          $(), e && e(new Error("Sound loading has been aborted"));
-        }, B = function() {
-          $();
-          var H = "Failed to load audio element (code: ".concat(r.error.code, ")");
-          e && e(new Error(H));
-        }, $ = function() {
-          r.removeEventListener("canplaythrough", k), r.removeEventListener("load", k), r.removeEventListener("abort", D), r.removeEventListener("error", B);
-        };
-        r.addEventListener("canplaythrough", k, !1), r.addEventListener("load", k, !1), r.addEventListener("abort", D, !1), r.addEventListener("error", B, !1), r.load();
-      } else
-        e(new Error("sound.url or sound.source must be set"));
+    if (r.readyState !== 4) if (N.url) {
+      r.src = N.url;
+      var k = function() {
+        $(), N.isLoaded = !0;
+        var H = N.autoPlayStart();
+        e && e(null, N, H);
+      }, D = function() {
+        $(), e && e(new Error("Sound loading has been aborted"));
+      }, B = function() {
+        $();
+        var H = "Failed to load audio element (code: ".concat(r.error.code, ")");
+        e && e(new Error(H));
+      }, $ = function() {
+        r.removeEventListener("canplaythrough", k), r.removeEventListener("load", k), r.removeEventListener("abort", D), r.removeEventListener("error", B);
+      };
+      r.addEventListener("canplaythrough", k, !1), r.addEventListener("load", k, !1), r.addEventListener("abort", D, !1), r.addEventListener("error", B, !1), r.load();
+    } else e(new Error("sound.url or sound.source must be set"));
     else {
       N.isLoaded = !0;
       var U = N.autoPlayStart();
@@ -20548,8 +20346,7 @@ var y = p.filter(function(o) {
     if (t.setValueAtTime) {
       var r = u().context;
       t.setValueAtTime(e, r.audioContext.currentTime);
-    } else
-      t.value = e;
+    } else t.value = e;
     return e;
   }, o;
 }(), O = 0, j = function(o) {
@@ -20558,8 +20355,7 @@ var y = p.filter(function(o) {
     return r.id = O++, r._media = null, r._paused = !1, r._muted = !1, r._elapsed = 0, r.init(e), r;
   }
   return c(t, o), t.prototype.set = function(e, r) {
-    if (this[e] === void 0)
-      throw new Error("Property with name ".concat(e, " does not exist."));
+    if (this[e] === void 0) throw new Error("Property with name ".concat(e, " does not exist."));
     switch (e) {
       case "speed":
         this.speed = r;
@@ -20659,8 +20455,7 @@ var y = p.filter(function(o) {
         if (this._source.loopStart) {
           var $ = this._source.loopEnd - this._source.loopStart;
           B = (this._source.loopStart + this._elapsed % $) / D;
-        } else
-          B = this._elapsed % D / D;
+        } else B = this._elapsed % D / D;
         this._progress = B, this.emit("progress", this._progress, D);
       }
     }
@@ -20763,8 +20558,7 @@ var y = p.filter(function(o) {
     }, r.send();
   }, o.prototype._decode = function(t, e) {
     var r = this, N = function(k, D) {
-      if (k)
-        e && e(k);
+      if (k) e && e(k);
       else {
         r.parent.isLoaded = !0, r.buffer = D;
         var B = r.parent.autoPlayStart();
@@ -20803,8 +20597,7 @@ var y = p.filter(function(o) {
   }, enumerable: !1, configurable: !0 }), o.prototype.addSprites = function(t, e) {
     if (typeof t == "object") {
       var r = {};
-      for (var N in t)
-        r[N] = this.addSprites(N, t[N]);
+      for (var N in t) r[N] = this.addSprites(N, t[N]);
       return r;
     }
     var k = new P(this, e);
@@ -20815,18 +20608,14 @@ var y = p.filter(function(o) {
     if (t) {
       var e = this._sprites[t];
       e !== void 0 && (e.destroy(), delete this._sprites[t]);
-    } else
-      for (var r in this._sprites)
-        this.removeSprites(r);
+    } else for (var r in this._sprites) this.removeSprites(r);
     return this;
   }, Object.defineProperty(o.prototype, "isPlayable", { get: function() {
     return this.isLoaded && this.media && this.media.isPlayable;
   }, enumerable: !1, configurable: !0 }), o.prototype.stop = function() {
-    if (!this.isPlayable)
-      return this.autoPlay = !1, this._autoPlayOptions = null, this;
+    if (!this.isPlayable) return this.autoPlay = !1, this._autoPlayOptions = null, this;
     this.isPlaying = !1;
-    for (var t = this._instances.length - 1; t >= 0; t--)
-      this._instances[t].stop();
+    for (var t = this._instances.length - 1; t >= 0; t--) this._instances[t].stop();
     return this;
   }, o.prototype.play = function(t, e) {
     var r, N = this;
@@ -20834,12 +20623,11 @@ var y = p.filter(function(o) {
       var k = r.sprite, D = this._sprites[k];
       r.start = D.start + (r.start || 0), r.end = D.end, r.speed = D.speed || 1, r.loop = D.loop || r.loop, delete r.sprite;
     }
-    if (r.offset && (r.start = r.offset), !this.isLoaded)
-      return new Promise(function($, U) {
-        N.autoPlay = !0, N._autoPlayOptions = r, N._preload(function(H, z, V) {
-          H ? U(H) : (r.loaded && r.loaded(H, z, V), $(V));
-        });
+    if (r.offset && (r.start = r.offset), !this.isLoaded) return new Promise(function($, U) {
+      N.autoPlay = !0, N._autoPlayOptions = r, N._preload(function(H, z, V) {
+        H ? U(H) : (r.loaded && r.loaded(H, z, V), $(V));
       });
+    });
     (this.singleInstance || r.singleInstance) && this._removeInstances();
     var B = this._createInstance();
     return this._instances.push(B), this.isPlaying = !0, B.once("end", function() {
@@ -20848,11 +20636,9 @@ var y = p.filter(function(o) {
       N._onComplete(B);
     }), B.play(r), B;
   }, o.prototype.refresh = function() {
-    for (var t = this._instances.length, e = 0; e < t; e++)
-      this._instances[e].refresh();
+    for (var t = this._instances.length, e = 0; e < t; e++) this._instances[e].refresh();
   }, o.prototype.refreshPaused = function() {
-    for (var t = this._instances.length, e = 0; e < t; e++)
-      this._instances[e].refreshPaused();
+    for (var t = this._instances.length, e = 0; e < t; e++) this._instances[e].refreshPaused();
   }, Object.defineProperty(o.prototype, "volume", { get: function() {
     return this._volume;
   }, set: function(t) {
@@ -20877,8 +20663,7 @@ var y = p.filter(function(o) {
     var t;
     return this.autoPlay && (t = this.play(this._autoPlayOptions)), t;
   }, o.prototype._removeInstances = function() {
-    for (var t = this._instances.length - 1; t >= 0; t--)
-      this._poolInstance(this._instances[t]);
+    for (var t = this._instances.length - 1; t >= 0; t--) this._poolInstance(this._instances[t]);
     this._instances.length = 0;
   }, o.prototype._onComplete = function(t) {
     if (this._instances) {
@@ -20992,8 +20777,7 @@ var y = p.filter(function(o) {
       }
       return r;
     }
-    if (e instanceof E)
-      return this._sounds[t] = e, e;
+    if (e instanceof E) return this._sounds[t] = e, e;
     var D = this._getOptions(e), B = E.from(D);
     return this._sounds[t] = B, B;
   }, o.prototype._getOptions = function(t, e) {
@@ -21030,12 +20814,10 @@ var y = p.filter(function(o) {
   }, o.prototype.unmuteAll = function() {
     return this._context.muted = !1, this._context.refresh(), this;
   }, o.prototype.removeAll = function() {
-    for (var t in this._sounds)
-      this._sounds[t].destroy(), delete this._sounds[t];
+    for (var t in this._sounds) this._sounds[t].destroy(), delete this._sounds[t];
     return this;
   }, o.prototype.stopAll = function() {
-    for (var t in this._sounds)
-      this._sounds[t].stop();
+    for (var t in this._sounds) this._sounds[t].stop();
     return this;
   }, o.prototype.exists = function(t, e) {
     return !!this._sounds[t];
@@ -21092,12 +20874,10 @@ var y = p.filter(function(o) {
     V = o.call(this, null) || this;
   }
   return c(t, o), t.prototype.setGain = function(e, r) {
-    if (r === void 0 && (r = 0), !this.bandsMap[e])
-      throw new Error("No band found for frequency ".concat(e));
+    if (r === void 0 && (r = 0), !this.bandsMap[e]) throw new Error("No band found for frequency ".concat(e));
     x.setParamValue(this.bandsMap[e].gain, r);
   }, t.prototype.getGain = function(e) {
-    if (!this.bandsMap[e])
-      throw new Error("No band found for frequency ".concat(e));
+    if (!this.bandsMap[e]) throw new Error("No band found for frequency ".concat(e));
     return this.bandsMap[e].gain.value;
   }, Object.defineProperty(t.prototype, "f32", { get: function() {
     return this.getGain(t.F32);
@@ -21162,8 +20942,7 @@ var y = p.filter(function(o) {
     return this._amount;
   }, set: function(e) {
     this._amount = e;
-    for (var r, N = 1e3 * e, k = 44100, D = new Float32Array(k), B = Math.PI / 180, $ = 0; $ < k; ++$)
-      r = 2 * $ / k - 1, D[$] = (3 + N) * r * 20 * B / (Math.PI + N * Math.abs(r));
+    for (var r, N = 1e3 * e, k = 44100, D = new Float32Array(k), B = Math.PI / 180, $ = 0; $ < k; ++$) r = 2 * $ / k - 1, D[$] = (3 + N) * r * 20 * B / (Math.PI + N * Math.abs(r));
     this._distortion.curve = D, this._distortion.oversample = "4x";
   }, enumerable: !1, configurable: !0 }), t.prototype.destroy = function() {
     this._distortion = null, o.prototype.destroy.call(this);
@@ -21189,8 +20968,7 @@ var y = p.filter(function(o) {
   function t(e, r, N) {
     e === void 0 && (e = 3), r === void 0 && (r = 2), N === void 0 && (N = !1);
     var k = this;
-    if (!u().useLegacy)
-      return (k = o.call(this, null) || this)._seconds = k._clamp(e, 1, 50), k._decay = k._clamp(r, 0, 100), k._reverse = N, k._rebuild(), k;
+    if (!u().useLegacy) return (k = o.call(this, null) || this)._seconds = k._clamp(e, 1, 50), k._decay = k._clamp(r, 0, 100), k._reverse = N, k._rebuild(), k;
     k = o.call(this, null) || this;
   }
   return c(t, o), t.prototype._clamp = function(e, r, N) {
@@ -21208,8 +20986,7 @@ var y = p.filter(function(o) {
   }, set: function(e) {
     this._reverse = e, this._rebuild();
   }, enumerable: !1, configurable: !0 }), t.prototype._rebuild = function() {
-    for (var e, r = u().context.audioContext, N = r.sampleRate, k = N * this._seconds, D = r.createBuffer(2, k, N), B = D.getChannelData(0), $ = D.getChannelData(1), U = 0; U < k; U++)
-      e = this._reverse ? k - U : U, B[U] = (2 * Math.random() - 1) * Math.pow(1 - e / k, this._decay), $[U] = (2 * Math.random() - 1) * Math.pow(1 - e / k, this._decay);
+    for (var e, r = u().context.audioContext, N = r.sampleRate, k = N * this._seconds, D = r.createBuffer(2, k, N), B = D.getChannelData(0), $ = D.getChannelData(1), U = 0; U < k; U++) e = this._reverse ? k - U : U, B[U] = (2 * Math.random() - 1) * Math.pow(1 - e / k, this._decay), $[U] = (2 * Math.random() - 1) * Math.pow(1 - e / k, this._decay);
     var H = u().context.audioContext.createConvolver();
     H.buffer = D, this.init(H);
   }, t;
@@ -21261,8 +21038,7 @@ var y = p.filter(function(o) {
   var e = document.createElement("canvas");
   t = l({ width: 512, height: 128, fill: "black" }, t || {}), e.width = t.width, e.height = t.height;
   var r = BaseTexture.from(e);
-  if (!(o.media instanceof F))
-    return r;
+  if (!(o.media instanceof F)) return r;
   var N = o.media, k = e.getContext("2d");
   k.fillStyle = t.fill;
   for (var D = N.buffer.getChannelData(0), B = Math.ceil(D.length / t.width), $ = t.height / 2, U = 0; U < t.width; U++) {
@@ -21276,8 +21052,7 @@ var y = p.filter(function(o) {
 }, resolveUrl: _, sineTone: function(o, t) {
   o === void 0 && (o = 200), t === void 0 && (t = 1);
   var e = E.from({ singleInstance: !0 });
-  if (!(e.media instanceof F))
-    return e;
+  if (!(e.media instanceof F)) return e;
   for (var r = e.media, N = e.context.audioContext.createBuffer(1, 48e3 * t, 48e3), k = N.getChannelData(0), D = 0; D < k.length; D++) {
     var B = o * (D / N.sampleRate) * Math.PI;
     k[D] = 2 * Math.sin(B);
@@ -21307,8 +21082,7 @@ class SndBuf {
   }
   static xchgbuf(t) {
     const { buf: e = "SE", buf2: r = "SE" } = t;
-    if (e === r)
-      return;
+    if (e === r) return;
     const N = "const.sn.sound." + e + ".", k = Number(val.getVal("save:" + N + "volume")), D = String(val.getVal("save:" + N + "fn")), B = "const.sn.sound." + r + ".", $ = Number(val.getVal("save:" + B + "volume")), U = String(val.getVal("save:" + B + "fn"));
     val.setVal_Nochk("save", N + "volume", $), val.setVal_Nochk("save", B + "volume", k), val.setVal_Nochk("save", N + "fn", U), val.setVal_Nochk("save", B + "fn", D), e in SndBuf.#e != r in SndBuf.#e && (e in SndBuf.#e ? (delete SndBuf.#e[e], SndBuf.#e[r] = 0) : (delete SndBuf.#e[r], SndBuf.#e[e] = 0), val.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(SndBuf.#e))), val.flush();
   }
@@ -21316,15 +21090,11 @@ class SndBuf {
   static #r = 999e3;
   init(t) {
     const { buf: e = "SE", fn: r = "" } = t, N = argChk_Num(t, "start_ms", 0), k = argChk_Num(t, "end_ms", SndBuf.#r), D = argChk_Num(t, "ret_ms", 0), B = argChk_Num(t, "pan", 0), $ = argChk_Num(t, "speed", 1);
-    if (N < 0)
-      throw `[playse] start_ms:${N} が負の値です`;
-    if (D < 0)
-      throw `[playse] ret_ms:${D} が負の値です`;
+    if (N < 0) throw `[playse] start_ms:${N} が負の値です`;
+    if (D < 0) throw `[playse] ret_ms:${D} が負の値です`;
     if (0 < k) {
-      if (k <= N)
-        throw `[playse] start_ms:${N} >= end_ms:${k} は異常値です`;
-      if (k <= D)
-        throw `[playse] ret_ms:${D} >= end_ms:${k} は異常値です`;
+      if (k <= N) throw `[playse] start_ms:${N} >= end_ms:${k} は異常値です`;
+      if (k <= D) throw `[playse] ret_ms:${D} >= end_ms:${k} は異常値です`;
     }
     const U = "const.sn.sound." + e + ".";
     val.setVal_Nochk("save", U + "fn", r);
@@ -21367,16 +21137,14 @@ class SndBuf {
       q.preload = !0;
       const Z = q.loaded;
       q.loaded = (J, tt) => {
-        if (this.#t.stt.isDestroy)
-          return;
+        if (this.#t.stt.isDestroy) return;
         Z(J, tt);
         const et = tt, it = et.duration;
         K.end < 0 && (K.end += it, et.removeSprites(W), et.addSprites(W, K)), K.end <= K.start && main$2.errScript(`[playse] end_ms:${k}(${K.end * 1e3}) >= start_ms:${N} は異常値です`), K.end * 1e3 <= D && main$2.errScript(`[playse] end_ms:${k}(${K.end * 1e3}) <= ret_ms:${D} は異常値です`), it <= K.start && main$2.errScript(`[playse] 音声ファイル再生時間:${it * 1e3} <= start_ms:${N} は異常値です`), k !== SndBuf.#r && it <= K.end && main$2.errScript(`[playse] 音声ファイル再生時間:${it * 1e3} <= end_ms:${k} は異常値です`), et.play(W, (st) => {
           q.complete?.(st), V || this.#t.stt.onPlayEnd(e);
         });
       };
-    } else
-      q.autoPlay = !0;
+    } else q.autoPlay = !0;
     if (V ? D !== 0 && (q.loop = !1, q.complete = async (K) => {
       const Z = K.duration, J = D / 1e3, tt = k / 1e3;
       Z <= J && main$2.errScript(`[playse] 音声ファイル再生時間:${Z * 1e3} <=  ret_ms:${D} は異常値です`), await K.play({
@@ -21397,8 +21165,7 @@ class SndBuf {
     }) : q.complete = () => {
       stop2var(this.#t, e), this.#t.stt.onPlayEnd(e);
     }, this.#i(), X) {
-      if (X.volume = z, W)
-        this.#s(r, q);
+      if (X.volume = z, W) this.#s(r, q);
       else if (X.isPlayable) {
         const K = X.options.source;
         !(K instanceof ArrayBuffer) || K.byteLength === 0 ? X.play(q) : this.#t.snd = E.from({
@@ -21450,8 +21217,7 @@ class SndBuf {
   stopfadese = (t) => this.#t.stt.stopfadese(this.#t, t);
 }
 function stop2var(o, t) {
-  if (o.loop)
-    SndBuf.delLoopPlay(t);
+  if (o.loop) SndBuf.delLoopPlay(t);
   else {
     const e = "const.sn.sound." + t + ".";
     val.setVal_Nochk("tmp", e + "playing", !1), val.flush();
@@ -21492,8 +21258,7 @@ class SsPlaying {
     t.stt = new SsStop(t);
   }
   ws(t, e) {
-    if (t.loop)
-      return !1;
+    if (t.loop) return !1;
     const { buf: r = "SE" } = e, N = argChk_Boolean(e, "stop", !0);
     return argChk_Boolean(e, "canskip", !1), evtMng.waitEvent("buf:" + r, e, () => {
       stop2var(t, r), t.stt.onPlayEnd(r), N ? t.stt.stopse(t) : t.stt.onPlayEnd = () => {
@@ -21611,8 +21376,7 @@ class SsWaitingFade {
 class SsStop {
   constructor(t, e = !0) {
     if (this.sb = t, this.stop = e, e) {
-      if (t.snd.stop(), !t.loop)
-        return;
+      if (t.snd.stop(), !t.loop) return;
       t.snd.destroy(), t.snd.destroy = () => {
       };
     }
@@ -21688,8 +21452,7 @@ class SoundMng {
   //MARK: 効果音の再生
   #v(t) {
     const { buf: e = "SE", fn: r } = t;
-    if (this.#m({ buf: e }), !r)
-      throw `[playse] fnは必須です buf:${e}`;
+    if (this.#m({ buf: e }), !r) throw `[playse] fnは必須です buf:${e}`;
     return argChk_Boolean(t, "canskip", !0) && this.#r.isSkipping ? !1 : (this.#e[e] = new SndBuf()).init(t);
   }
   clearCache() {
@@ -21697,8 +21460,7 @@ class SoundMng {
   }
   //MARK: 全効果音再生の停止
   #p() {
-    for (const t of Object.keys(this.#e))
-      this.#m({ buf: t });
+    for (const t of Object.keys(this.#e)) this.#m({ buf: t });
     return this.#e = {}, R.stopAll(), !1;
   }
   //MARK: BGM 演奏の停止（loadから使うのでマクロ化禁止）
@@ -21742,13 +21504,11 @@ class SoundMng {
   playLoopFromSaveObj() {
     this.#p();
     const t = String(this.val.getVal("save:const.sn.loopPlaying", "{}"));
-    if (t === "{}")
-      return;
+    if (t === "{}") return;
     this.#t = JSON.parse(t);
     const e = Object.keys(this.#t).map((r) => () => {
       const N = "save:const.sn.sound." + r + ".";
-      if (this.val.getVal(N + "start_ms") === void 0)
-        return;
+      if (this.val.getVal(N + "start_ms") === void 0) return;
       const k = {
         fn: String(this.val.getVal(N + "fn")),
         buf: r,
@@ -21761,16 +21521,14 @@ class SoundMng {
       };
       k.buf === "BGM" ? this.#a(k) : this.#v(k);
     });
-    for (const r of e)
-      r();
+    for (const r of e) r();
   }
 }
 class Pages {
   constructor(t, e, r, N, k, D, B, $) {
     this.cls = e, this.hArg = k, this.sys = D, this.val = B, this.ret = $;
     const U = D.hFactoryCls[e];
-    if (!U)
-      throw `属性 class【${e}】が不正です`;
+    if (!U) throw `属性 class【${e}】が不正です`;
     const H = U(), z = U();
     H.layname = z.layname = t;
     const V = k[":id_tag"] = `layer:${t} cls:${e} page:`;
@@ -21786,8 +21544,7 @@ class Pages {
   getPage = (t) => Pages.argChk_page(t, "fore") !== "back" ? this.#e.fore : this.#e.back;
   static argChk_page(t, e) {
     const r = t.page ?? e;
-    if (r === "fore" || r === "back")
-      return t.page = r;
+    if (r === "fore" || r === "back") return t.page = r;
     throw Error("属性 page【" + r + "】が不正です");
   }
   get fore() {
@@ -21884,8 +21641,7 @@ class Layer {
   // フィルター生成
   static bldFilters(t) {
     const { filter: e = "" } = t, r = Layer.hBldFilter[e];
-    if (!r)
-      throw "filter が異常です";
+    if (!r) throw "filter が異常です";
     const N = r(t);
     N.enabled = argChk_Boolean(t, "enable_filter", !0);
     const { blendmode: k } = t;
@@ -21922,8 +21678,7 @@ class Layer {
       const { matrix: r = "" } = t;
       if (r) {
         const N = r.split(","), k = N.length;
-        if (k !== 20)
-          throw `matrix の個数（${k}）が 20 ではありません`;
+        if (k !== 20) throw `matrix の個数（${k}）が 20 ではありません`;
         N.forEach((D, B) => e.matrix[B] = uint(D));
       } else
         e.matrix[0] = uint(argChk_Num(t, "rtor", 1)), e.matrix[1] = uint(argChk_Num(t, "gtor", 0)), e.matrix[2] = uint(argChk_Num(t, "btor", 0)), e.matrix[3] = uint(argChk_Num(t, "ator", 0)), e.matrix[4] = uint(argChk_Num(t, "pr", 0)), e.matrix[5] = uint(argChk_Num(t, "rtog", 0)), e.matrix[6] = uint(argChk_Num(t, "gtog", 1)), e.matrix[7] = uint(argChk_Num(t, "btog", 0)), e.matrix[8] = uint(argChk_Num(t, "atog", 0)), e.matrix[9] = uint(argChk_Num(t, "pg", 0)), e.matrix[10] = uint(argChk_Num(t, "rtob", 0)), e.matrix[11] = uint(argChk_Num(t, "gtob", 0)), e.matrix[12] = uint(argChk_Num(t, "btob", 1)), e.matrix[13] = uint(argChk_Num(t, "atob", 0)), e.matrix[14] = uint(argChk_Num(t, "pb", 0)), e.matrix[15] = uint(argChk_Num(t, "rtoa", 0)), e.matrix[16] = uint(argChk_Num(t, "gtoa", 0)), e.matrix[17] = uint(argChk_Num(t, "btoa", 0)), e.matrix[18] = uint(argChk_Num(t, "atoa", 1)), e.matrix[19] = uint(argChk_Num(t, "pa", 0));
@@ -22086,19 +21841,16 @@ class Layer {
   };
   static setBlendmode(t, e) {
     const { blendmode: r } = e;
-    if (!r)
-      return;
+    if (!r) return;
     const N = Layer.getBlendmodeNum(r);
     t instanceof Sprite && (t.blendMode = N);
     for (const k of t.children)
       k instanceof Sprite && (k.blendMode = N);
   }
   static getBlendmodeNum(t) {
-    if (!t)
-      return BLEND_MODES.NORMAL;
+    if (!t) return BLEND_MODES.NORMAL;
     const e = Layer.#e[t];
-    if (e !== void 0)
-      return e;
+    if (e !== void 0) return e;
     throw `${t} はサポートされない blendmode です`;
   }
   static #e = {
@@ -22214,12 +21966,9 @@ class Layer {
     "top" in e ? (V = argChk_Num(e, "top", 0), V > -1 && V < 1 && (V *= CmnLib.stageH)) : "middle" in e ? (V = argChk_Num(e, "middle", 0), V > -1 && V < 1 && (V *= CmnLib.stageH), V = V - H / 2) : "bottom" in e ? (V = argChk_Num(e, "bottom", 0), V > -1 && V < 1 && (V *= CmnLib.stageH), V = V - H) : "s_bottom" in e && (V = argChk_Num(e, "s_bottom", 0), V > -1 && V < 1 && (V *= CmnLib.stageH), V = CmnLib.stageH - V - H), r.y = int(r.scale.y < 0 ? V + H : V), N && !("left" in e) && !("center" in e) && !("right" in e) && !("s_right" in e) && !("top" in e) && !("middle" in e) && !("bottom" in e) && !("s_bottom" in e) && Layer.setXYByPos(t, "c", r);
   }
   static setXYByPos(t, e, r) {
-    if (e === "stay")
-      return;
-    if (t === void 0)
-      throw "setXYByPos base === undefined";
-    if (r === void 0)
-      throw "setXYByPos result === undefined";
+    if (e === "stay") return;
+    if (t === void 0) throw "setXYByPos base === undefined";
+    if (r === void 0) throw "setXYByPos result === undefined";
     const N = t.getBounds(), k = r.scale.x < 0 ? -r.scale.x : r.scale.x, D = k === 1 ? N.width : N.width * k, B = r.scale.y < 0 ? -r.scale.y : r.scale.y, $ = B === 1 ? N.height : N.height * B;
     let U = 0;
     !e || e === "c" ? U = CmnLib.stageW * 0.5 : e === "r" ? U = CmnLib.stageW - D * 0.5 : e === "l" ? U = D * 0.5 : U = int(e), r.x = int(U - D * 0.5), r.y = CmnLib.stageH - $, r.scale.x < 0 && (r.x += D), r.scale.y < 0 && (r.y += $);
@@ -22324,8 +22073,7 @@ class SpritesMng {
     SpritesMng.#e = t, SpritesMng.#t = e, SpritesMng.#r = r, SpritesMng.#i = N, r.crypto && (SpritesMng.#c = SpritesMng.#l, SpritesMng.#d = SpritesMng.#x);
     const D = () => {
       const B = SpritesMng.#n * SpritesMng.#s;
-      for (const $ of Object.values(SpritesMng.#o))
-        $.volume = B;
+      for (const $ of Object.values(SpritesMng.#o)) $.volume = B;
     };
     k.setNoticeChgVolume(
       (B) => {
@@ -22367,8 +22115,7 @@ class SpritesMng {
     }
     const D = [], B = new Loader();
     t.split(",").forEach((U, H) => {
-      if (!U)
-        throw "face属性に空要素が含まれます";
+      if (!U) throw "face属性に空要素が含まれます";
       const { dx: z, dy: V, blendmode: X, fn: q } = SpritesMng.#v[U] || {
         fn: U,
         dx: 0,
@@ -22377,8 +22124,7 @@ class SpritesMng {
       }, W = H === 0 ? e : (Z) => {
         Z.x = z, Z.y = V, Z.blendMode = X;
       };
-      if (D.push({ fn: q, fnc: W }), q in SpritesMng.#p || q in TextureCache || q in Loader.shared.resources)
-        return;
+      if (D.push({ fn: q, fnc: W }), q in SpritesMng.#p || q in TextureCache || q in Loader.shared.resources) return;
       k = !0;
       const Y = SpritesMng.#e.searchPath(q, SEARCH_PATH_ARG_EXT.SP_GSM), K = this.#r.crypto ? { xhrType: Y.slice(-5) === ".json" ? LoaderResource.XHR_RESPONSE_TYPE.TEXT : LoaderResource.XHR_RESPONSE_TYPE.BUFFER } : {};
       B.add({ ...K, name: q, url: Y });
@@ -22417,8 +22163,7 @@ class SpritesMng {
   };
   static #m(t) {
     const e = /([^\d]+)\d+\.(\w+)/.exec(t[0]);
-    if (!e)
-      return [];
+    if (!e) return [];
     const r = e[1].length, N = -e[2].length - 1;
     return t.sort((k, D) => int(k.slice(r, N)) > int(D.slice(r, N)) ? 1 : -1);
   }
@@ -22478,11 +22223,9 @@ class SpritesMng {
   }
   static wv(t) {
     const { fn: e } = t;
-    if (!e)
-      throw "fnは必須です";
+    if (!e) throw "fnは必須です";
     const r = SpritesMng.#o[e];
-    if (!r || r.loop)
-      return !1;
+    if (!r || r.loop) return !1;
     if (SpritesMng.#h.isSkipping || r.ended)
       return SpritesMng.stopVideo(e), !1;
     const N = () => SpritesMng.#h.breakEvent("wv fn:" + e);
@@ -22498,10 +22241,8 @@ class SpritesMng {
   }
   static add_face(t) {
     const { name: e } = t;
-    if (!e)
-      throw "nameは必須です";
-    if (e in SpritesMng.#v)
-      throw "一つのname（" + e + "）に対して同じ画像を複数割り当てられません";
+    if (!e) throw "nameは必須です";
+    if (e in SpritesMng.#v) throw "一つのname（" + e + "）に対して同じ画像を複数割り当てられません";
     const { fn: r = e } = t;
     return SpritesMng.#v[e] = {
       fn: r,
@@ -22569,11 +22310,9 @@ class GrpLayer extends Layer {
     let t = () => {
       const e = this.spLay.alpha;
       this.spLay.alpha = 1;
-      for (const r of this.spLay.children)
-        r.visible = !0;
+      for (const r of this.spLay.children) r.visible = !0;
       this.#c.visible = !1, GrpLayer.#t.renderer.render(this.spLay, { renderTexture: this.#p }), this.spLay.alpha = e;
-      for (const r of this.spLay.children)
-        r.visible = !1;
+      for (const r of this.spLay.children) r.visible = !1;
     };
     if (!this.containMovement) {
       let e = t;
@@ -22592,8 +22331,7 @@ class GrpLayer extends Layer {
   };
   renderEnd() {
     GrpLayer.#t.ticker.remove(this.#m), this.spLay.removeChild(this.#c);
-    for (const t of this.spLay.children)
-      t.visible = !0;
+    for (const t of this.spLay.children) t.visible = !0;
     this.#c.destroy(!0);
   }
   setPos(t) {
@@ -22606,8 +22344,7 @@ class GrpLayer extends Layer {
   }
   // アニメ・動画を含むか
   get containMovement() {
-    if (this.#s === "")
-      return !1;
+    if (this.#s === "") return !1;
     const t = this.spLay.children;
     return this.#s.split(",").some(
       (e, r) => t[r] instanceof AnimatedSprite || SpritesMng.getHFn2VElm(e)
@@ -22712,10 +22449,8 @@ class TxtStage extends Container {
           e[D] = r.style[D];
         }
         !r.style.opacity && "alpha" in t && (e.opacity = String(this.spLay.alpha));
-      } else
-        this.#i.style.cssText = "";
-    else
-      "alpha" in t && (e.opacity = String(this.spLay.alpha));
+      } else this.#i.style.cssText = "";
+    else "alpha" in t && (e.opacity = String(this.spLay.alpha));
     if ("width" in t && (e.width = (t.width ?? "0") + "px"), "height" in t && (e.height = (t.height ?? "0") + "px"), "pl" in t && (e.paddingLeft = (t.pl ?? "0") + "px"), "pr" in t && (e.paddingRight = (t.pr ?? "0") + "px"), "pt" in t && (e.paddingTop = (t.pt ?? "0") + "px"), "pb" in t && (e.paddingBottom = (t.pb ?? "0") + "px"), "kinsoku_sol" in t && (TxtStage.#L = new RegExp(`[${t.kinsoku_sol}]`)), "kinsoku_eol" in t && (TxtStage.#T = new RegExp(`[${t.kinsoku_eol}]`)), "kinsoku_dns" in t && (TxtStage.#H = new RegExp(`[${t.kinsoku_dns}]`)), this.#m(), this.#f.sethArg(t), this.#l = this.spLay.position.x, e.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`, this.cvsResize(), e.display = this.spLay.visible ? "inline" : "none", this.#v = argChk_Boolean(t, "break_fixed", this.#v), this.#p = argChk_Num(t, "break_fixed_left", this.#p), this.#c = argChk_Num(t, "break_fixed_top", this.#c), ":redraw" in t && this.#D > 0) {
       const r = [
         this.#i.innerHTML.replaceAll(/(animation-delay: )\d+ms/g, "$10ms"),
@@ -22769,8 +22504,7 @@ class TxtStage extends Container {
       getAndEncode: z,
       asArray: (W) => {
         const Y = [], K = W.length;
-        for (let Z = 0; Z < K; ++Z)
-          Y.push(W[Z]);
+        for (let Z = 0; Z < K; ++Z) Y.push(W[Z]);
         return Y;
       }
     };
@@ -22814,8 +22548,7 @@ class TxtStage extends Container {
         const Z = new XMLHttpRequest();
         Z.onreadystatechange = J, Z.ontimeout = tt, Z.responseType = "blob", Z.timeout = Y, Z.open("GET", W, !0), Z.send();
         function J() {
-          if (Z.readyState !== 4)
-            return;
+          if (Z.readyState !== 4) return;
           if (Z.status !== 200) {
             et("cannot fetch resource: " + W + ", status: " + Z.status);
             return;
@@ -22862,12 +22595,10 @@ class TxtStage extends Container {
         }
       }
       function J(tt, et, it) {
-        if (st())
-          return Promise.resolve(tt);
+        if (st()) return Promise.resolve(tt);
         return Promise.resolve(tt).then(K).then((rt) => {
           let nt = Promise.resolve(tt);
-          for (const lt of rt)
-            nt = nt.then((ct) => Z(ct, lt, et, it));
+          for (const lt of rt) nt = nt.then((ct) => Z(ct, lt, et, it));
           return nt;
         });
         function st() {
@@ -22895,8 +22626,7 @@ class TxtStage extends Container {
           const et = [];
           for (const it of tt)
             try {
-              if (it.href)
-                continue;
+              if (it.href) continue;
               r.asArray(it.cssRules || []).forEach(et.push.bind(et));
             } catch (st) {
               console.error("Error while reading CSS rules from " + it.href, st.toString());
@@ -22927,8 +22657,7 @@ class TxtStage extends Container {
     }).then((W) => new Promise((Y) => setTimeout(() => Y(W), 100))).then((W) => {
       const Y = document.createElement("canvas");
       Y.width = this.#a.$width, Y.height = this.#a.$height, Y.getContext("2d").drawImage(W, 0, 0), Y.toBlob((K) => {
-        if (!K)
-          return;
+        if (!K) return;
         const Z = URL.createObjectURL(K);
         Texture.from(Z).once("update", (J) => {
           t(J), URL.revokeObjectURL(Z);
@@ -22967,13 +22696,12 @@ class TxtStage extends Container {
     this.#i.querySelectorAll(".sn_ch:has(> ruby)").forEach((Z) => Z.style.background = ""), this.#D = t.length;
     const k = this.sys.cvsScale, D = this.#i.getBoundingClientRect(), B = D.left + this.#a.pad_left, $ = D.top + this.#a.pad_top;
     let U;
-    if (k === 1)
-      U = (Z, J) => new Rectangle(
-        Z.left - B,
-        Z.top - $,
-        Z.width,
-        Z.height + ("gjqy".includes(J) ? this.#S : 0)
-      );
+    if (k === 1) U = (Z, J) => new Rectangle(
+      Z.left - B,
+      Z.top - $,
+      Z.width,
+      Z.height + ("gjqy".includes(J) ? this.#S : 0)
+    );
     else {
       const Z = this.sys.ofsPadLeft_Dom2PIXI + D.left * (1 - k), J = this.sys.ofsPadTop_Dom2PIXI + D.top * (1 - k);
       U = (tt, et) => new Rectangle(
@@ -22994,16 +22722,14 @@ class TxtStage extends Container {
       let J = -1 / 0;
       for (; z < H; ++z) {
         const { elm: tt, rect: et, ch: it } = Z[z];
-        if (tt.tagName === "RT")
-          continue;
+        if (tt.tagName === "RT") continue;
         const st = this.tategaki ? et.y : et.x;
         if (J <= st || tt.previousElementSibling?.children[0]?.tagName === "BR") {
           J = st, this.#v || (this.#p = et.x, this.#c = et.y);
           continue;
         }
         let rt = z - 1;
-        for (; Z[rt].elm.tagName === "RT"; )
-          --rt;
+        for (; Z[rt].elm.tagName === "RT"; ) --rt;
         const nt = Z[rt], lt = nt.ch;
         if (!this.#v) {
           this.#p = nt.rect.x, this.#c = nt.rect.y;
@@ -23028,8 +22754,7 @@ class TxtStage extends Container {
             ;
         }
         const bt = Z[z].elm.parentElement, St = document.createElement("br");
-        if (bt.classList.contains("sn_tx"))
-          bt.insertBefore(St, Z[z].elm);
+        if (bt.classList.contains("sn_tx")) bt.insertBefore(St, Z[z].elm);
         else {
           const Tt = bt.parentElement;
           Tt.classList.contains("sn_ch") ? Tt.parentElement.insertBefore(St, Tt) : Tt.insertBefore(St, bt);
@@ -23122,12 +22847,9 @@ class TxtStage extends Container {
   }
   static ch_in_style(t) {
     const { name: e } = t;
-    if (!e)
-      throw "nameは必須です";
-    if (TxtStage.#R.test(e))
-      throw `name【${e}】に使えない文字が含まれます`;
-    if (e in TxtStage.#P)
-      throw `name【${e}】はすでにあります`;
+    if (!e) throw "nameは必須です";
+    if (TxtStage.#R.test(e)) throw `name【${e}】に使えない文字が含まれます`;
+    if (e in TxtStage.#P) throw `name【${e}】はすでにあります`;
     const r = String(t.x ?? "=0"), N = String(t.y ?? "=0");
     return TxtStage.#P[e] = {
       wait: argChk_Num(t, "wait", 500),
@@ -23158,12 +22880,9 @@ class TxtStage extends Container {
   }
   static ch_out_style(t) {
     const { name: e } = t;
-    if (!e)
-      throw "nameは必須です";
-    if (TxtStage.#R.test(e))
-      throw `name【${e}】に使えない文字が含まれます`;
-    if (e in TxtStage.#w)
-      throw `name【${e}】はすでにあります`;
+    if (!e) throw "nameは必須です";
+    if (TxtStage.#R.test(e)) throw `name【${e}】に使えない文字が含まれます`;
+    if (e in TxtStage.#w) throw `name【${e}】はすでにあります`;
     const r = String(t.x ?? "=0"), N = String(t.y ?? "=0");
     return TxtStage.#w[e] = {
       wait: argChk_Num(t, "wait", 500),
@@ -23205,8 +22924,7 @@ class TxtStage extends Container {
   // 「g」などで下が欠ける問題対策
   #U(t, e) {
     const r = [];
-    if (t.nodeType !== t.TEXT_NODE)
-      return Array.from(t.childNodes).map((B) => this.#U(B, e)).flat();
+    if (t.nodeType !== t.TEXT_NODE) return Array.from(t.childNodes).map((B) => this.#U(B, e)).flat();
     const N = t.ownerDocument.createRange();
     N.selectNodeContents(t);
     let k = 0;
@@ -23238,8 +22956,7 @@ class TxtStage extends Container {
         k?.children[0]?.children[0]?.getAttribute("data-add") ?? "{}"
         // 縦中横
       );
-      if (!D.ch_out_style)
-        return;
+      if (!D.ch_out_style) return;
       const B = TxtStage.#w[D.ch_out_style];
       if (B) {
         if (B.wait === 0) {
@@ -23373,8 +23090,7 @@ class RubySpliter {
         this.#t(D.slice(1), "");
         continue;
       }
-      for (const U of Array.from(B))
-        this.#t(U, "");
+      for (const U of Array.from(B)) this.#t(U, "");
     }
   }
   putTxtRb(t, e) {
@@ -23385,8 +23101,7 @@ class RubySpliter {
     const r = Array.from(t), N = r.length;
     if (/^\*.?$/.test(e)) {
       const $ = "center｜" + (e === "*" ? RubySpliter.#e : e.charAt(1));
-      for (let U = 0; U < N; ++U)
-        this.#t(r[U], $);
+      for (let U = 0; U < N; ++U) this.#t(r[U], $);
       return;
     }
     if (N === 1 || e.indexOf(" ") === -1) {
@@ -23394,11 +23109,10 @@ class RubySpliter {
       return;
     }
     const k = e.split(" "), D = k.length, B = D > N ? D : N;
-    for (let $ = 0; $ < B; ++$)
-      this.#t(
-        $ < N ? r[$] : "",
-        $ < D ? decodeURIComponent(k[$]) : ""
-      );
+    for (let $ = 0; $ < B; ++$) this.#t(
+      $ < N ? r[$] : "",
+      $ < D ? decodeURIComponent(k[$]) : ""
+    );
   }
 }
 class Button extends Container {
@@ -23431,8 +23145,7 @@ class Button extends Container {
       );
       return;
     }
-    if (!t.text)
-      throw "textまたはpic属性は必須です";
+    if (!t.text) throw "textまたはpic属性は必須です";
     const k = argChk_Num(t, "height", 30), D = new TextStyle({
       align: "center",
       dropShadow: !0,
@@ -23445,14 +23158,12 @@ class Button extends Container {
       fontSize: k,
       padding: 5
     });
-    if (t.style)
-      try {
-        const z = JSON.parse(t.style);
-        for (const [V, X] of Object.entries(z))
-          D[V] = X;
-      } catch (z) {
-        throw new Error(mesErrJSON(t, "style", z.message));
-      }
+    if (t.style) try {
+      const z = JSON.parse(t.style);
+      for (const [V, X] of Object.entries(z)) D[V] = X;
+    } catch (z) {
+      throw new Error(mesErrJSON(t, "style", z.message));
+    }
     const B = new Text(t.text ?? "", D);
     B.alpha = argChk_Num(t, "alpha", B.alpha), B.width = argChk_Num(t, "width", 100), B.height = t.height = k, this.setText = (z) => B.text = z, this.#n.type = "text", this.#n = { ...this.#n, ...D }, this.#n.alpha = B.alpha, this.#n.text = B.text, this.#n.width = B.width, this.#n.height = B.height, this.#s = new TxtBtnDesignCast(this, t, B);
     let $ = !1;
@@ -23470,27 +23181,21 @@ class Button extends Container {
       return;
     }
     const U = D.clone();
-    if (t.style_hover)
-      try {
-        const z = JSON.parse(t.style_hover);
-        for (const [V, X] of Object.entries(z))
-          U[V] = X;
-      } catch (z) {
-        throw new Error(mesErrJSON(t, "style_hover", z.message));
-      }
-    else
-      U.fill = "white";
+    if (t.style_hover) try {
+      const z = JSON.parse(t.style_hover);
+      for (const [V, X] of Object.entries(z)) U[V] = X;
+    } catch (z) {
+      throw new Error(mesErrJSON(t, "style_hover", z.message));
+    }
+    else U.fill = "white";
     const H = U.clone();
-    if (t.style_clicked)
-      try {
-        const z = JSON.parse(t.style_clicked);
-        for (const [V, X] of Object.entries(z))
-          H[V] = X;
-      } catch (z) {
-        throw new Error(mesErrJSON(t, "style_clicked", z.message));
-      }
-    else
-      H.dropShadow = !1;
+    if (t.style_clicked) try {
+      const z = JSON.parse(t.style_clicked);
+      for (const [V, X] of Object.entries(z)) H[V] = X;
+    } catch (z) {
+      throw new Error(mesErrJSON(t, "style_clicked", z.message));
+    }
+    else H.dropShadow = !1;
     this.normal = () => B.style = D, this.#f = () => N() ? (B.style = U, !0) : !1, this.#u = () => B.style = H, $ || r();
   }
   static fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
@@ -23643,16 +23348,13 @@ class TxtLayer extends Layer {
   static #v(t) {
     TxtLayer.#u = argChk_Boolean(t, "enabled", TxtLayer.#u), TxtLayer.#t.setVal_Nochk("save", "const.sn.autowc.enabled", TxtLayer.#u);
     const { text: e } = t;
-    if ("text" in t != "time" in t)
-      throw "[autowc] textとtimeは同時指定必須です";
+    if ("text" in t != "time" in t) throw "[autowc] textとtimeは同時指定必須です";
     if (TxtLayer.#t.setVal_Nochk("save", "const.sn.autowc.text", e), !e)
       return TxtLayer.#t.setVal_Nochk("save", "const.sn.autowc.time", ""), !1;
     const r = e.length;
-    if (TxtLayer.#u && r === 0)
-      throw '[autowc] enabled === false かつ text === "" は許されません';
+    if (TxtLayer.#u && r === 0) throw '[autowc] enabled === false かつ text === "" は許されません';
     const N = String(t.time).split(",");
-    if (N.length !== r)
-      throw "[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい";
+    if (N.length !== r) throw "[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい";
     return TxtLayer.#a = {}, N.forEach((k, D) => TxtLayer.#a[e[D]] = uint(k)), TxtLayer.#t.setVal_Nochk("save", "const.sn.autowc.time", t.time), !1;
   }
   // バック
@@ -23698,8 +23400,7 @@ class TxtLayer extends Layer {
     this.#d.cvsResize();
   }
   cvsResizeChildren() {
-    for (const t of this.#g.children)
-      t.cvsResize();
+    for (const t of this.#g.children) t.cvsResize();
   }
   procSetX(t) {
     this.#d.lay({ x: t });
@@ -23721,11 +23422,8 @@ class TxtLayer extends Layer {
           }
           k[B] = r.style[B];
         }
-      } else
-        this.#y.style.cssText = "";
-    if ("alpha" in t)
-      for (const r of this.#g.children)
-        r.alpha = this.spLay.alpha;
+      } else this.#y.style.cssText = "";
+    if ("alpha" in t) for (const r of this.#g.children) r.alpha = this.spLay.alpha;
     this.#C(t), this.#T(t);
     const e = this.#O(t, (r) => {
       r && enableEvent();
@@ -23734,11 +23432,9 @@ class TxtLayer extends Layer {
   }
   #C(t) {
     const { in_style: e } = t;
-    if (!e)
-      return;
+    if (!e) return;
     const r = TxtStage.getChInStyle(e);
-    if (!r)
-      throw `存在しないin_style【${e}】です`;
+    if (!r) throw `存在しないin_style【${e}】です`;
     this.#D = e, this.#L = r.join;
   }
   #D = "";
@@ -23751,10 +23447,8 @@ class TxtLayer extends Layer {
   }
   #T(t) {
     const { out_style: e } = t;
-    if (!e)
-      return;
-    if (!TxtStage.getChOutStyle(e))
-      throw `存在しないout_style【${e}】です`;
+    if (!e) return;
+    if (!TxtStage.getChOutStyle(e)) throw `存在しないout_style【${e}】です`;
     this.#H = e;
   }
   #H = "";
@@ -23769,11 +23463,10 @@ class TxtLayer extends Layer {
         return this.#_ = t.b_pic, this.#l && (this.spLay.removeChild(this.#l), this.#l.destroy()), this.#z = new SpritesMng(this.#_, this.spLay, (N) => {
           this.#l = N, N.name = "back(pic)", N.visible = r > 0, N.alpha = r, this.#d.setSize(N.width, N.height), this.spLay.setChildIndex(N, 0), e(!0);
         }), this.#z.ret;
-    } else
-      "b_color" in t && (this.#p = argChk_Color(t, "b_color", 0), this.#l && (this.spLay.removeChild(this.#l), this.#l.destroy()), this.#_ = "", this.spLay.addChildAt(
-        (this.#l = new Graphics()).beginFill(this.#p).lineStyle(void 0).drawRect(0, 0, this.#d.getWidth, this.#d.getHeight).endFill(),
-        0
-      ), this.#l.name = "back(color)");
+    } else "b_color" in t && (this.#p = argChk_Color(t, "b_color", 0), this.#l && (this.spLay.removeChild(this.#l), this.#l.destroy()), this.#_ = "", this.spLay.addChildAt(
+      (this.#l = new Graphics()).beginFill(this.#p).lineStyle(void 0).drawRect(0, 0, this.#d.getWidth, this.#d.getHeight).endFill(),
+      0
+    ), this.#l.name = "back(color)");
     return this.#l && (this.#l.visible = r > 0, this.#l.alpha = r), e(!1), !1;
   }
   chgBackAlpha(t) {
@@ -23798,11 +23491,9 @@ class TxtLayer extends Layer {
   isCur = !1;
   #S = () => "";
   #U = (t, e, r, N = "") => {
-    if (!r)
-      return ` style='${N}'`;
+    if (!r) return ` style='${N}'`;
     const k = t.length * 2;
-    if (k - e.length < 0)
-      return ` style='text-align: ${r}; ${N}'`;
+    if (k - e.length < 0) return ` style='text-align: ${r}; ${N}'`;
     let D = "";
     switch (r) {
       case "justify":
@@ -23824,11 +23515,9 @@ class TxtLayer extends Layer {
   };
   #b = "";
   #G(t, e, r, N = "") {
-    if (!r)
-      return ` style='${N}'`;
+    if (!r) return ` style='${N}'`;
     const k = t.length * 2;
-    if (k - e.length < 0)
-      return ` style='text-align: ${r}; ${N}'`;
+    if (k - e.length < 0) return ` style='text-align: ${r}; ${N}'`;
     let D = "";
     switch (r) {
       case "left":
@@ -24040,8 +23729,7 @@ text-combine-upright: all;
   }
   clearLay(t) {
     super.clearLay(t), this.clearText();
-    for (const e of this.#g.removeChildren())
-      e.destroy();
+    for (const e of this.#g.removeChildren()) e.destroy();
   }
   record = () => ({
     ...super.record(),
@@ -24080,15 +23768,13 @@ text-combine-upright: all;
   }
   makeDesignCastChildren(t) {
     if (this.spLay.visible)
-      for (const e of this.#g.children)
-        e.makeDesignCast(t);
+      for (const e of this.#g.children) e.makeDesignCast(t);
   }
   showDesignCast() {
     this.#d.showDesignCast();
   }
   showDesignCastChildren() {
-    for (const t of this.#g.children)
-      t.showDesignCast();
+    for (const t of this.#g.children) t.showDesignCast();
   }
   dump() {
     return this.#M("", "gotxt｜"), super.dump() + `, "enabled":"${this.enabled}", ${this.#d.dump()}, "b_pic":"${this.#_}", "b_color":"${this.#p}", "b_alpha":${this.#c}, "b_alpha_isfixed":"${this.#m}", "width":${this.#d.getWidth}, "height":${this.#d.getHeight}, "pixi_obj":[${this.spLay.children.map((t) => `{"class":"${t instanceof Sprite ? "Sprite" : t instanceof Graphics ? "Graphics" : t instanceof Container ? "Container" : "?"}", "name":"${t.name}", "alpha":${t.alpha}, "x":${t.x}, "y":${t.y}, "visible":"${t.visible}"}`).join(",")}], "button":[${this.#g.children.map((t) => t.children[0]?.name ?? "{}").join(",")}]`;
@@ -24110,8 +23796,7 @@ class FrameMng {
   }
   #s = /* @__PURE__ */ Object.create(null);
   destroy() {
-    for (const t of Object.values(this.#s))
-      t.parentElement.removeChild(t);
+    for (const t of Object.values(this.#s)) t.parentElement.removeChild(t);
     this.#s = /* @__PURE__ */ Object.create(null);
   }
   hideAllFrame() {
@@ -24128,13 +23813,10 @@ class FrameMng {
   // フレーム追加
   #h(t) {
     const { id: e, src: r, alpha: N = 1, scale_x: k = 1, scale_y: D = 1, rotate: B = 0 } = t;
-    if (!e)
-      throw "idは必須です";
-    if (!r)
-      throw "srcは必須です";
+    if (!e) throw "idは必須です";
+    if (!r) throw "srcは必須です";
     const $ = "const.sn.frm." + e;
-    if (this.val.getVal(`tmp:${$}`))
-      throw `frame【${e}】はすでにあります`;
+    if (this.val.getVal(`tmp:${$}`)) throw `frame【${e}】はすでにあります`;
     const U = argChk_Boolean(t, "visible", !0), H = t.b_color ? ` background-color: ${t.b_color};` : "", z = this.#u(t);
     Main.cvs.insertAdjacentHTML("beforebegin", `<iframe id="${e}" style="opacity: ${N}; position: absolute; left:${FrameMng.#t.ofsLeft4elm + z.x * FrameMng.#t.cvsScale}px; top: ${FrameMng.#t.ofsTop4elm + z.y * FrameMng.#t.cvsScale}px; z-index: 1; ${H} border: 0px; overflow: hidden; display: ${U ? "inline" : "none"}; transform: scale(${k}, ${D}) rotate(${B}deg);" width="${z.width * FrameMng.#t.cvsScale}" height="${z.height * FrameMng.#t.cvsScale}"></iframe>`), disableEvent();
     const V = FrameMng.#e.searchPath(r, SEARCH_PATH_ARG_EXT.HTML), X = new Loader().add({ name: r, url: V, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT });
@@ -24223,19 +23905,14 @@ class FrameMng {
   // フレーム変数を取得
   #m(t) {
     const { id: e, var_name: r } = t;
-    if (!e)
-      throw "idは必須です";
+    if (!e) throw "idは必須です";
     const N = document.getElementById(e);
-    if (!N)
-      throw `id【${e}】はフレームではありません`;
+    if (!N) throw `id【${e}】はフレームではありません`;
     const k = "const.sn.frm." + e;
-    if (!this.val.getVal(`tmp:${k}`))
-      throw `frame【${e}】が読み込まれていません`;
-    if (!r)
-      throw "var_nameは必須です";
+    if (!this.val.getVal(`tmp:${k}`)) throw `frame【${e}】が読み込まれていません`;
+    if (!r) throw "var_nameは必須です";
     const D = N.contentWindow;
-    if (!D.hasOwnProperty(r))
-      throw `frame【${e}】に変数/関数【${r}】がありません。変数は var付きにして下さい`;
+    if (!D.hasOwnProperty(r)) throw `frame【${e}】に変数/関数【${r}】がありません。変数は var付きにして下さい`;
     const B = D[r];
     return this.val.setVal_Nochk(
       "tmp",
@@ -24246,18 +23923,13 @@ class FrameMng {
   // フレーム変数に設定
   #l(t) {
     const { id: e, var_name: r, text: N } = t;
-    if (!e)
-      throw "idは必須です";
+    if (!e) throw "idは必須です";
     const k = document.getElementById(e);
-    if (!k)
-      throw `id【${e}】はフレームではありません`;
+    if (!k) throw `id【${e}】はフレームではありません`;
     const D = "const.sn.frm." + e;
-    if (!this.val.getVal(`tmp:${D}`))
-      throw `frame【${e}】が読み込まれていません`;
-    if (!r)
-      throw "var_nameは必須です";
-    if (!N)
-      throw "textは必須です";
+    if (!this.val.getVal(`tmp:${D}`)) throw `frame【${e}】が読み込まれていません`;
+    if (!r) throw "var_nameは必須です";
+    if (!N) throw "textは必須です";
     this.val.setVal_Nochk("tmp", D + "." + r, N);
     const B = k.contentWindow;
     return B[r] = N, !1;
@@ -24266,14 +23938,11 @@ class FrameMng {
   #_ = 1;
   #d(t) {
     const { id: e } = t;
-    if (!e)
-      throw "idは必須です";
+    if (!e) throw "idは必須です";
     const r = document.getElementById(e);
-    if (!r)
-      throw `id【${e}】はフレームではありません`;
+    if (!r) throw `id【${e}】はフレームではありません`;
     const N = "const.sn.frm." + e;
-    if (!this.val.getVal("tmp:" + N))
-      throw `frame【${e}】が読み込まれていません`;
+    if (!this.val.getVal("tmp:" + N)) throw `frame【${e}】が読み込まれていません`;
     const k = r.style;
     if (argChk_Boolean(t, "float", !1) ? k.zIndex = `${++this.#_}` : "index" in t ? k.zIndex = `${argChk_Num(t, "index", 0)}` : t.dive && (k.zIndex = `-${++this.#_}`), "alpha" in t) {
       const B = k.opacity = String(t.alpha);
@@ -24300,14 +23969,11 @@ class FrameMng {
   // フレームをトゥイーン開始
   #x(t) {
     const { id: e, alpha: r, x: N, y: k, scale_x: D, scale_y: B, rotate: $, width: U, height: H } = t;
-    if (!e)
-      throw "idは必須です";
+    if (!e) throw "idは必須です";
     const z = document.getElementById(e);
-    if (!z)
-      throw `id【${e}】はフレームではありません`;
+    if (!z) throw `id【${e}】はフレームではありません`;
     const V = "const.sn.frm." + e;
-    if (!this.val.getVal(`tmp:${V}`, 0))
-      throw `frame【${e}】が読み込まれていません`;
+    if (!this.val.getVal(`tmp:${V}`, 0)) throw `frame【${e}】が読み込まれていません`;
     const X = {};
     r && (X.a = z.style.opacity), (N || k || D || B || $) && (X.x = Number(this.val.getVal(`tmp:${V}.x`)), X.y = Number(this.val.getVal(`tmp:${V}.y`)), X.sx = Number(this.val.getVal(`tmp:${V}.scale_x`)), X.sy = Number(this.val.getVal(`tmp:${V}.scale_y`)), X.r = Number(this.val.getVal(`tmp:${V}.rotate`))), U && (X.w = this.val.getVal(`tmp:${V}.width`)), H && (X.h = this.val.getVal(`tmp:${V}.height`));
     const q = CmnTween.cnvTweenArg(t, X);
@@ -24343,12 +24009,10 @@ class LayerMng {
   constructor(t, e, r, N, k, D, B, $, U, H) {
     this.cfg = t, this.hTag = e, this.appPixi = r, this.val = N, this.main = k, this.scrItr = D, this.sys = B, this.sndMng = $, this.alzTagArg = U, this.prpPrs = H;
     const z = () => {
-      if (B.cvsResize(), this.cvsResizeDesign(), this.#u)
-        for (const W of this.#g)
-          this.#o[W].fore.cvsResizeChildren();
-      else
-        for (const W of this.#g)
-          this.#o[W].fore.cvsResize();
+      if (B.cvsResize(), this.cvsResizeDesign(), this.#u) for (const W of this.#g)
+        this.#o[W].fore.cvsResizeChildren();
+      else for (const W of this.#g)
+        this.#o[W].fore.cvsResize();
       this.#i.cvsResize(), this.#p.cvsResize();
     };
     if (CmnLib.isMobile)
@@ -24424,8 +24088,7 @@ class LayerMng {
     this.#p = t, this.#i.setEvtMng(t), SpritesMng.setEvtMng(t), CmnTween.init(t, this.appPixi);
   }
   before_destroy() {
-    for (const t of Object.values(this.#o))
-      t.destroy();
+    for (const t of Object.values(this.#o)) t.destroy();
   }
   destroy() {
     this.#n.clear(), GrpLayer.destroy(), RubySpliter.destroy(), TxtStage.destroy(), TxtLayer.destroy(), this.#i.destroy(), CmnTween.destroy(), LayerMng.#K = 10;
@@ -24469,8 +24132,7 @@ class LayerMng {
       const B = this.#o[D].fore.spLay;
       k[D] = B.visible, B.visible = !1;
     }
-    for (const D of this.#b(t.layer))
-      this.#o[D].fore.spLay.visible = !0;
+    for (const D of this.#b(t.layer)) this.#o[D].fore.spLay.visible = !0;
     return this.sys.capturePage(e, r, N, () => {
       for (const [D, B] of Object.entries(k))
         this.#o[D].fore.spLay.visible = B;
@@ -24488,20 +24150,17 @@ class LayerMng {
       backgroundColor: D & 16777215,
       autoDensity: !0
     }), $ = [], U = t.page !== "back" ? "fore" : "back";
-    if (CmnTween.isTrans)
-      $.push(new Promise((H) => {
-        this.#r.visible = !0;
-        for (const V of this.#N)
-          B.render(V, { clear: !1 });
-        this.#r.visible = !1, this.#R.visible = !0;
-        const z = [...this.#t.filters];
-        this.#t.filters = [...z, ...this.#E.filters], this.#t.visible = !0, B.render(this.#t, { clear: !1 }), this.#t.visible = !1, this.#t.filters = z, H();
-      }));
-    else
-      for (const H of this.#b(t.layer))
-        $.push(
-          new Promise((z) => this.#o[H][U].snapshot(B, () => z()))
-        );
+    if (CmnTween.isTrans) $.push(new Promise((H) => {
+      this.#r.visible = !0;
+      for (const V of this.#N)
+        B.render(V, { clear: !1 });
+      this.#r.visible = !1, this.#R.visible = !0;
+      const z = [...this.#t.filters];
+      this.#t.filters = [...z, ...this.#E.filters], this.#t.visible = !0, B.render(this.#t, { clear: !1 }), this.#t.visible = !1, this.#t.filters = z, H();
+    }));
+    else for (const H of this.#b(t.layer)) $.push(
+      new Promise((z) => this.#o[H][U].snapshot(B, () => z()))
+    );
     return Promise.allSettled($).then(async () => {
       const H = RenderTexture.create({ width: B.width, height: B.height });
       B.render(this.#e, { renderTexture: H });
@@ -24509,24 +24168,20 @@ class LayerMng {
       if (await this.sys.savePic(
         e,
         z
-      ), !CmnTween.isTrans)
-        for (const V of this.#b(t.layer))
-          this.#o[V][U].snapshot_end();
+      ), !CmnTween.isTrans) for (const V of this.#b(t.layer)) this.#o[V][U].snapshot_end();
       B.destroy(!0), enableEvent();
     }), !0;
   }
   //MARK: プラグインの読み込み
   #x(t) {
     const { fn: e } = t;
-    if (!e)
-      throw "fnは必須です";
+    if (!e) throw "fnは必須です";
     const r = argChk_Boolean(t, "join", !0);
     switch (r && disableEvent(), getExt(e)) {
       case "css":
         (async () => {
           const N = await fetch(e);
-          if (!N.ok)
-            throw new Error("Network response was not ok.");
+          if (!N.ok) throw new Error("Network response was not ok.");
           addStyle(await N.text()), r && enableEvent();
         })();
         break;
@@ -24539,14 +24194,10 @@ class LayerMng {
   //MARK: レイヤを追加する
   #y(t) {
     const { layer: e, class: r } = t;
-    if (!e)
-      throw "layerは必須です";
-    if (e.includes(","))
-      throw "layer名に「,」は使えません";
-    if (e in this.#o)
-      throw `layer【${e}】はすでにあります`;
-    if (!r)
-      throw "clsは必須です";
+    if (!e) throw "layerは必須です";
+    if (e.includes(",")) throw "layer名に「,」は使えません";
+    if (e in this.#o) throw `layer【${e}】はすでにあります`;
+    if (!r) throw "clsは必須です";
     const N = { isWait: !1 };
     switch (this.#o[e] = new Pages(e, r, this.#t, this.#r, t, this.sys, this.val, N), this.#g.push(e), r) {
       case "txt":
@@ -24564,8 +24215,7 @@ class LayerMng {
         );
         break;
       case "grp":
-        if (this.#D)
-          break;
+        if (this.#D) break;
         this.#D = e;
         break;
     }
@@ -24586,11 +24236,9 @@ class LayerMng {
     else if (t.dive) {
       const { dive: D } = t;
       let B = 0;
-      if (e === D)
-        throw "[lay] 属性 layerとdiveが同じ【" + D + "】です";
+      if (e === D) throw "[lay] 属性 layerとdiveが同じ【" + D + "】です";
       const $ = this.#o[D];
-      if (!$)
-        throw "[lay] 属性 dive【" + D + "】が不正です。レイヤーがありません";
+      if (!$) throw "[lay] 属性 dive【" + D + "】が不正です。レイヤーがありません";
       const U = $.back, H = $.fore, z = this.#r.getChildIndex(U.spLay), V = this.#t.getChildIndex(H.spLay);
       B = z < V ? z : V, B > this.#r.getChildIndex(N) && --B, this.#t.setChildIndex(k, B), this.#r.setChildIndex(N, B), this.#T();
     }
@@ -24725,8 +24373,7 @@ void main(void) {
       return CmnTween.tween(CmnTween.TW_INT_TRANS, t, q.uniforms, { tick: 1 }, () => {
       }, U, () => {
       }), this.appPixi.ticker.add($), !1;
-    if (!V)
-      throw "ruleが指定されていません";
+    if (!V) throw "ruleが指定されていません";
     const W = CmnTween.tweenA(CmnTween.TW_INT_TRANS, t, q.uniforms, { tick: 1 }, () => {
     }, U, () => {
     });
@@ -24741,11 +24388,9 @@ void main(void) {
   #G(t, e) {
     const r = this.#b(t.layer);
     for (const N of r) {
-      if (!N)
-        continue;
+      if (!N) continue;
       const k = this.#o[N];
-      if (!k)
-        throw "存在しないlayer【" + N + "】です";
+      if (!k) throw "存在しないlayer【" + N + "】です";
       e(N, k);
     }
     return r;
@@ -24758,19 +24403,17 @@ void main(void) {
   }
   //MARK: 画面を揺らす
   #M(t) {
-    if (CmnTween.finish_trans(), argChk_Num(t, "time", NaN) === 0 || this.#p.isSkipping)
-      return !1;
+    if (CmnTween.finish_trans(), argChk_Num(t, "time", NaN) === 0 || this.#p.isSkipping) return !1;
     const { layer: r } = t, N = [];
     for (const H of this.#b(r))
       N.push(this.#o[H].fore.spLay);
     this.#w.resize(CmnLib.stageW, CmnLib.stageH);
     const k = () => {
       this.#t.visible = !0;
-      for (const H of N)
-        this.appPixi.renderer.render(
-          H,
-          { renderTexture: this.#w, clear: !1 }
-        );
+      for (const H of N) this.appPixi.renderer.render(
+        H,
+        { renderTexture: this.#w, clear: !1 }
+      );
       this.#t.visible = !1;
     };
     this.#E.visible = !0, this.#E.alpha = 1;
@@ -24787,8 +24430,7 @@ void main(void) {
   //MARK: トゥイーン開始
   #q(t) {
     const { layer: e, render: r, name: N } = t;
-    if (!e)
-      throw "layerは必須です";
+    if (!e) throw "layerは必須です";
     const k = this.#o[this.#Z(t)], D = k.fore;
     let B = () => {
     };
@@ -24796,9 +24438,7 @@ void main(void) {
     const $ = CmnTween.cnvTweenArg(t, D), U = argChk_Boolean(t, "arrive", !1), H = argChk_Boolean(t, "backlay", !1), z = k.back.spLay;
     return CmnTween.tween(N ?? e, t, D, CmnTween.cnvTweenArg(t, D), () => {
     }, B, () => {
-      if (U && Object.assign(D, $), H)
-        for (const V of Object.keys(CmnTween.hMemberCnt))
-          z[V] = D[V];
+      if (U && Object.assign(D, $), H) for (const V of Object.keys(CmnTween.hMemberCnt)) z[V] = D[V];
     }), "filter" in t && (D.spLay.filters = [Layer.bldFilters(t)], D.aFltHArg = [t]), !1;
   }
   //MARK: フィルター追加
@@ -24844,11 +24484,9 @@ void main(void) {
   }
   #I(t, e) {
     const r = t.spLay;
-    if (!r.filters)
-      throw "フィルターがありません";
+    if (!r.filters) throw "フィルターがありません";
     const N = uint(argChk_Num(e, "index", 0)), k = r.filters.length;
-    if (k <= N)
-      throw `フィルターの個数（${k}）を越えています`;
+    if (k <= N) throw `フィルターの個数（${k}）を越えています`;
     t.aFltHArg[N].enabled = r.filters[N].enabled = argChk_Boolean(e, "enabled", !0);
   }
   //	// 文字・文字レイヤ
@@ -24859,8 +24497,7 @@ void main(void) {
   //MARK: 文字を追加する
   #Y(t) {
     const { text: e } = t;
-    if (!e)
-      throw "textは必須です";
+    if (!e) throw "textは必須です";
     const r = this.#B(t);
     delete t.text, this.setNormalChWait(), this.#p.isSkipping ? t.wait = 0 : "wait" in t && argChk_Num(t, "wait", NaN);
     const N = encodeURIComponent(JSON.stringify(t));
@@ -24874,8 +24511,7 @@ void main(void) {
   };
   #rt(t) {
     const e = this.#Z(t, this.#C), N = this.#o[e].getPage(t);
-    if (!(N instanceof TxtLayer))
-      throw e + "はTxtLayerではありません";
+    if (!(N instanceof TxtLayer)) throw e + "はTxtLayerではありません";
     return N;
   }
   setNormalChWait() {
@@ -24887,10 +24523,8 @@ void main(void) {
   };
   #st(t) {
     const { layer: e } = t;
-    if (!e)
-      throw "[current] layerは必須です";
-    if (this.#tt = this.#o[e], !(this.#tt.getPage(t) instanceof TxtLayer))
-      throw `${e}はTxtLayerではありません`;
+    if (!e) throw "[current] layerは必須です";
+    if (this.#tt = this.#o[e], !(this.#tt.getPage(t) instanceof TxtLayer)) throw `${e}はTxtLayerではありません`;
     this.recPagebreak(), this.#C = e, this.val.setVal_Nochk("save", "const.sn.mesLayer", e);
     for (const r of this.#b()) {
       const N = this.#o[r];
@@ -24911,10 +24545,8 @@ void main(void) {
   };
   #Z(t, e = "") {
     const r = t.layer ?? e;
-    if (r.includes(","))
-      throw "layer名に「,」は使えません";
-    if (!(r in this.#o))
-      throw "属性 layer【" + r + "】が不正です。レイヤーがありません";
+    if (r.includes(",")) throw "layer名に「,」は使えません";
+    if (!(r in this.#o)) throw "属性 layer【" + r + "】が不正です。レイヤーがありません";
     return t.layer = r;
   }
   #$ = { text: "" };
@@ -24945,15 +24577,13 @@ void main(void) {
   }
   //MARK: インライン画像表示
   #it(t) {
-    if (!t.pic)
-      throw "[graph] picは必須です";
+    if (!t.pic) throw "[graph] picは必須です";
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#m("grp｜" + e, this.#B(t)), !1;
   }
   //MARK: ハイパーリンク
   #at(t) {
-    if (!t.fn && !t.label && !t.url)
-      throw "fnまたはlabelまたはurlは必須です";
+    if (!t.fn && !t.label && !t.url) throw "fnまたはlabelまたはurlは必須です";
     t.fn ??= this.scrItr.scriptFn, t.style ??= "background-color: rgba(255,0,0,0.5);", t.style_hover ??= "background-color: rgba(255,0,0,0.9);", t.style_clicked ??= t.style;
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#m("link｜" + e, this.#B(t)), !1;
@@ -24982,10 +24612,8 @@ void main(void) {
   //MARK: 文字列と複数ルビの追加
   #lt(t) {
     const { t: e, r } = t;
-    if (!e)
-      throw "[ruby2] tは必須です";
-    if (!r)
-      throw "[ruby2] rは必須です";
+    if (!e) throw "[ruby2] tは必須です";
+    if (!r) throw "[ruby2] rは必須です";
     return t.text = "｜" + encodeURIComponent(e) + "《" + encodeURIComponent(r) + "》", delete t.t, delete t.r, this.#Y(t);
   }
   //MARK: インラインスタイル設定
@@ -24995,8 +24623,7 @@ void main(void) {
   }
   //MARK: tcy縦中横を表示する
   #vt(t) {
-    if (!t.t)
-      throw "[tcy] tは必須です";
+    if (!t.t) throw "[tcy] tは必須です";
     const e = encodeURIComponent(JSON.stringify(t));
     return this.#m("tcy｜" + e, this.#B(t)), !1;
   }
@@ -25050,8 +24677,7 @@ void main(void) {
     Promise.allSettled(r).then(() => {
       for (const { layer: D, idx: B } of N.sort(({ idx: $ }, { idx: U }) => $ === U ? 0 : $ < U ? -1 : 1)) {
         const { fore: $, back: U } = this.#o[D];
-        if (!$)
-          return;
+        if (!$) return;
         const H = k > B ? B : k - 1;
         this.#t.setChildIndex($.spLay, H), this.#r.setChildIndex(U.spLay, H);
       }
@@ -25067,8 +24693,7 @@ class FocusMng {
     this.#e = [], this.#t = -1, this.#r.clear();
   }
   add(t, e, r) {
-    if (this.#e.findIndex((B) => B.btn === t) >= 0)
-      return;
+    if (this.#e.findIndex((B) => B.btn === t) >= 0) return;
     if (t instanceof Container) {
       t.on("pointerdown", () => {
         for (let B = this.#e.length - 1; B >= 0; --B)
@@ -25106,8 +24731,7 @@ class FocusMng {
       case "text":
       case "textarea":
         N = (B) => {
-          if (B.isTrusted)
-            return;
+          if (B.isTrusted) return;
           let $ = (D.selectionStart ?? 0) + (B.key === "ArrowUp" ? -1 : 1);
           $ < 0 && ($ = 0), D.setSelectionRange($, $);
         };
@@ -25171,8 +24795,7 @@ class FocusMng {
   #s = CmnLib.debugLog ? (t) => console.log(`👾 <FocusMng idx:${t} btn:%o`, this.#e[t].btn) : () => {
   };
   getFocus() {
-    if (this.#t < 0)
-      return null;
+    if (this.#t < 0) return null;
     this.#n(), this.#t >= this.#e.length && (this.#t = 0);
     const t = this.#e[this.#t];
     return t.on() ? t.btn : null;
@@ -25759,8 +25382,7 @@ function flip(o) {
           return nt = ot, "break";
       }, It = _t; It > 0; It--) {
         var At = pt(It);
-        if (At === "break")
-          break;
+        if (At === "break") break;
       }
     t.placement !== nt && (t.modifiersData[r]._skip = !0, t.placement = nt, t.reset = !0);
   }
@@ -26097,8 +25719,7 @@ class EventMng {
     if (this.cfg = t, this.hTag = e, this.appPixi = r, this.main = N, this.layMng = k, this.val = D, this.scrItr = $, this.sys = U, e.clear_event = (Y) => ReadState.clear_event(Y), e.event = (Y) => this.#x(Y), e.l = (Y) => this.#i.l(Y), e.p = (Y) => this.#i.p(Y), e.s = (Y) => this.#i.s(Y), e.set_cancel_skip = () => !1, e.set_focus = (Y) => this.#o(Y), e.wait = (Y) => this.#i.wait(Y), e.waitclick = (Y) => this.#i.waitclick(Y), e.page = (Y) => this.#i.page(Y), B.setEvtMng(this), $.setOtherObj(this, k), TxtLayer.setEvtMng(this, U), k.setEvtMng(this), U.setFire((Y, K) => this.fire(Y, K)), CmnLib.isDbg) {
       const Y = {
         pause: () => {
-          if (!this.#i.isWait)
-            return;
+          if (!this.#i.isWait) return;
           const K = {};
           $.recodeDesign(K), U.callHook("_enterDesign", K), U.send2Dbg("_enterDesign", K);
         }
@@ -26142,8 +25763,7 @@ class EventMng {
 .sn_hint[data-popper-placement^='left']		> .sn_hint_ar {right: -4px;}
 .sn_hint[data-popper-placement^='right']	> .sn_hint_ar {left: -4px;}
 `);
-    for (const Y of Array.from(document.getElementsByClassName("sn_hint")))
-      Y.parentElement?.removeChild(Y);
+    for (const Y of Array.from(document.getElementsByClassName("sn_hint"))) Y.parentElement?.removeChild(Y);
     Main.cvs.parentElement?.insertAdjacentHTML("beforeend", `
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
@@ -26188,12 +25808,10 @@ class EventMng {
       // '1', '2', '3',
     ], W = [0, 0];
     this.#t.on("gamepad:axis", (Y) => {
-      if (!document.hasFocus() || Y.detail.stick !== 0)
-        return;
+      if (!document.hasFocus() || Y.detail.stick !== 0) return;
       W[Y.detail.axis] = Y.detail.value;
       const K = (W[1] + 1) * 3 + (W[0] + 1), Z = q[K];
-      if (!Z)
-        return;
+      if (!Z) return;
       const J = this.#r.getFocus();
       (!J || J instanceof Container ? globalThis : J).dispatchEvent(new KeyboardEvent("keydown", { key: Z, bubbles: !0 })), !(!J || J instanceof Container) && J.getAttribute("type") === "range" && J.dispatchEvent(new InputEvent("input", { bubbles: !0 }));
     }), this.#t.on("gamepad:button", (Y) => {
@@ -26201,8 +25819,7 @@ class EventMng {
         if (Y.detail.button % 2 === 0) {
           const K = this.#r.getFocus();
           (!K || K instanceof Container ? globalThis : K).dispatchEvent(new KeyboardEvent("keydown", { key: "Enter", bubbles: !0 }));
-        } else
-          Main.cvs.dispatchEvent(new Event("contextmenu"));
+        } else Main.cvs.dispatchEvent(new Event("contextmenu"));
     }), this.#t.start(), this.#e.add(window, "keyup", (Y) => {
       Y.isComposing || Y.key in this.#g && (this.#g[Y.key] = 0);
     }), D.defTmp("const.sn.key.alternate", () => this.#g.Alt > 0), D.defTmp("const.sn.key.command", () => this.#g.Meta > 0), D.defTmp("const.sn.key.control", () => this.#g.Control > 0), D.defTmp("const.sn.key.end", () => this.#g.End > 0), D.defTmp("const.sn.key.escape", () => this.#g.Escape > 0), D.defTmp("const.sn.key.back", () => this.#g.GoBack > 0);
@@ -26220,8 +25837,7 @@ class EventMng {
   #s = (t) => {
   };
   #n(t) {
-    if (t.isComposing)
-      return;
+    if (t.isComposing) return;
     t.key in this.#g && (this.#g[t.key] = t.repeat ? 2 : 1);
     const e = (t.altKey ? t.key === "Alt" ? "" : "alt+" : "") + (t.ctrlKey ? t.key === "Control" ? "" : "ctrl+" : "") + (t.shiftKey ? t.key === "Shift" ? "" : "shift+" : "") + t.key;
     this.fire(e, t);
@@ -26231,8 +25847,7 @@ class EventMng {
     this.fire(e, t), t.preventDefault();
   }
   #f(t) {
-    if (t.isComposing)
-      return;
+    if (t.isComposing) return;
     if (this.#u) {
       this.#a = !0;
       return;
@@ -26351,21 +25966,17 @@ class EventMng {
   }
   #x(t) {
     const e = t.key;
-    if (!e)
-      throw "keyは必須です";
+    if (!e) throw "keyは必須です";
     const r = e.toLowerCase(), N = argChk_Boolean(t, "call", !1), k = argChk_Boolean(t, "global", !1);
     if (argChk_Boolean(t, "del", !1)) {
-      if (t.fn || t.label || N || t.url)
-        throw "fn/label/callとdelは同時指定できません";
+      if (t.fn || t.label || N || t.url) throw "fn/label/callとdelは同時指定できません";
       return ReadState.clear_eventer(e, k, r), !1;
     }
-    if (!t.fn && !t.label && !t.url)
-      throw "fnまたはlabelまたはurlは必須です";
+    if (!t.fn && !t.label && !t.url) throw "fnまたはlabelまたはurlは必須です";
     if (t.fn ??= this.scrItr.scriptFn, e.slice(0, 4) === "dom=") {
       const D = ReadState.getHtmlElmList(e);
       if (D.el.length === 0) {
-        if (argChk_Boolean(t, "need_err", !0))
-          throw `HTML内にセレクタ（${D.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+        if (argChk_Boolean(t, "need_err", !0)) throw `HTML内にセレクタ（${D.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
         return !1;
       }
       let B = ["click", "keydown"];
@@ -26383,11 +25994,9 @@ class EventMng {
       }
       B.forEach((U, H) => D.el.forEach((z) => {
         this.#e.add(z, U, (V) => {
-          if (!this.#i.isWait || this.layMng.getFrmDisabled(D.id) || U === "keydown" && V.key !== "Enter")
-            return;
+          if (!this.#i.isWait || this.layMng.getFrmDisabled(D.id) || U === "keydown" && V.key !== "Enter") return;
           const X = z.dataset;
-          for (const [q, W] of Object.entries(X))
-            this.val.setVal_Nochk("tmp", `sn.event.domdata.${q}`, W);
+          for (const [q, W] of Object.entries(X)) this.val.setVal_Nochk("tmp", `sn.event.domdata.${q}`, W);
           this.fire(e, V);
         }), H === 0 && this.#r.add(
           z,
@@ -26400,12 +26009,10 @@ class EventMng {
     return ReadState.setEvt2Fnc(k, r, () => this.main.resumeByJumpOrCall(t)), !1;
   }
   #y(t) {
-    if (t.offsetParent === null)
-      return !1;
+    if (t.offsetParent === null) return !1;
     let e = t;
     do {
-      if (getComputedStyle(e).display === "none" || e.dataset.focus === "false" || e?.disabled)
-        return !1;
+      if (getComputedStyle(e).display === "none" || e.dataset.focus === "false" || e?.disabled) return !1;
       e = e.parentElement;
     } while (e !== null);
     return !0;
@@ -26415,8 +26022,7 @@ class EventMng {
     const { add: e, del: r, to: N } = t;
     if (e?.slice(0, 4) === "dom=") {
       const k = ReadState.getHtmlElmList(e);
-      if (k.el.length === 0 && argChk_Boolean(t, "need_err", !0))
-        throw `HTML内にセレクタ（${k.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+      if (k.el.length === 0 && argChk_Boolean(t, "need_err", !0)) throw `HTML内にセレクタ（${k.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
       return k.el.forEach((D) => this.#r.add(
         D,
         () => this.#y(D) ? (D.focus(), !0) : !1,
@@ -26426,12 +26032,10 @@ class EventMng {
     }
     if (r?.slice(0, 4) === "dom=") {
       const k = ReadState.getHtmlElmList(r);
-      if (k.el.length === 0 && argChk_Boolean(t, "need_err", !0))
-        throw `HTML内にセレクタ（${k.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
+      if (k.el.length === 0 && argChk_Boolean(t, "need_err", !0)) throw `HTML内にセレクタ（${k.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
       return k.el.forEach((D) => this.#r.remove(D)), !1;
     }
-    if (!N)
-      throw "[set_focus] add か to は必須です";
+    if (!N) throw "[set_focus] add か to は必須です";
     switch (N) {
       case "null":
         this.#r.blur();
@@ -26494,19 +26098,16 @@ class ScriptIterator {
         }, this.sys.send2Dbg("hi", {});
       }, this.#f.auth = (V) => {
         const X = V.hBreakpoint.hFn2hLineBP;
-        for (const [q, W] of Object.entries(X))
-          this.#h(q, W);
+        for (const [q, W] of Object.entries(X)) this.#h(q, W);
         ScriptIterator.#x = {};
         for (const q of V.hBreakpoint.aFunc)
           ScriptIterator.#x[q.name] = 1;
         if (V.stopOnEntry) {
           for (; ; ) {
             let q = this.nextToken();
-            if (!q)
-              break;
+            if (!q) break;
             const W = q.charCodeAt(0);
-            if (W === 91 || W === 38 || W === 42 && q.length === 1)
-              break;
+            if (W === 91 || W === 38 || W === 42 && q.length === 1) break;
             W === 10 && (this.#i += q.length);
           }
           this.sys.callHook("stopOnEntry", {}), this.analyzeInit = z, this.analyzeInit();
@@ -26516,9 +26117,8 @@ class ScriptIterator {
             }, this.sys.callHook("stopOnEntry", {});
           }, this.analyzeInit = z, this.analyzeInit();
       };
-    } else
-      this.recodeDesign = () => {
-      };
+    } else this.recodeDesign = () => {
+    };
     t.oCfg.debug.tag && (this.#D = (z) => console.log(`🌲 タグ解析 fn:${this.#t} idx:${this.#r} ln:${this.#i} [${z} %o]`, this.alzTagArg.hPrm));
   }
   #e = { aToken: [""], len: 1, aLNum: [1] };
@@ -26564,8 +26164,7 @@ class ScriptIterator {
     },
     set_func_break: (t) => {
       ScriptIterator.#x = {};
-      for (const e of t.a)
-        ScriptIterator.#x[e.name] = 1;
+      for (const e of t.a) ScriptIterator.#x[e.name] = 1;
       this.sys.send2Dbg(t.ri, {});
     },
     // 情報問い合わせ系
@@ -26579,8 +26178,7 @@ class ScriptIterator {
     },
     stepover: (t) => this.#p(t),
     stepin: () => {
-      if (this.#_())
-        return;
+      if (this.#_()) return;
       const t = this.#e.aToken[this.#r - this.#l];
       this.sys.callHook(`stopOnStep${this.#nt.test(t) ? "In" : ""}`, {}), this.#r -= this.#l, this.#y = this.#y === 1 ? 4 : 5, this.main.setLoop(!0), this.main.resume();
     },
@@ -26600,8 +26198,7 @@ class ScriptIterator {
   #v = (t) => (this.sys.pathBaseCnvSnPath4Dbg + this.#u(t)).replace(ScriptIterator.#a, `$1/prj/$2/${this.#t}$3`);
   cnvPath4Dbg = (t) => this.sys.pathBaseCnvSnPath4Dbg + t.replace("/crypto_prj/", "/prj/");
   #p(t) {
-    if (this.#_())
-      return;
+    if (this.#_()) return;
     const e = this.#e.aToken[this.#r - this.#l];
     this.#nt.test(e) ? this.#c(!1) : (this.sys.callHook("stopOnStep", {}), this.#f.stepin(t));
   }
@@ -26627,8 +26224,7 @@ class ScriptIterator {
         this.#g(), this.#y = 7;
         break;
       case 7:
-        if (this.#s.length !== this.#m)
-          break;
+        if (this.#s.length !== this.#m) break;
         return this.#y = 4, this.main.setLoop(!1, "ステップ実行"), this.sys.send2Dbg("stopOnStep", {}), !0;
       case 5:
         this.#g(), this.#y = 4;
@@ -26643,16 +26239,12 @@ class ScriptIterator {
           return this.#y = 2, this.main.setLoop(!1, `関数 ${t} ブレーク`), this.sys.callHook("stopOnBreakpoint", {}), this.sys.send2Dbg("stopOnBreakpoint", {}), !0;
         {
           const e = ScriptIterator.#d[this.#v(this.#t)];
-          if (!e)
-            break;
+          if (!e) break;
           const r = e[this.#i];
-          if (!r)
-            break;
+          if (!r) break;
           if (r.condition) {
-            if (!this.prpPrs.parse(r.condition))
-              break;
-          } else if ("hitCondition" in r && --r.hitCondition > 0)
-            break;
+            if (!this.prpPrs.parse(r.condition)) break;
+          } else if ("hitCondition" in r && --r.hitCondition > 0) break;
           const N = this.#y === 0;
           this.#y = 2, this.main.setLoop(!1, N ? (r.condition ? "条件" : "ヒットカウント") + "ブレーク" : "ステップ実行");
           const k = N ? "stopOnBreakpoint" : "stopOnStep";
@@ -26668,11 +26260,9 @@ class ScriptIterator {
   }
   #C() {
     const t = this.#y === 3 ? 1 : 0, e = this.#e.aToken[this.#r - 1 + t], r = this.#v(this.#t), N = tagToken2Name(e), k = N ? `[${N}]` : e, D = this.val.getVal("mp:const.sn.macro") ?? "{}";
-    if (this.#r === 0)
-      return [{ fn: r, ln: 1, col: 1, nm: k, ma: D }];
+    if (this.#r === 0) return [{ fn: r, ln: 1, col: 1, nm: k, ma: D }];
     const B = this.#O(this.#e, this.#r), $ = [{ fn: r, ln: B.ln, col: B.col_s + 1, nm: k, ma: D }], U = this.#s.length;
-    if (U === 0)
-      return $;
+    if (U === 0) return $;
     for (let H = U - 1; H >= 0; --H) {
       const z = this.#s[H], V = this.#k[z.fn], X = V.aToken[z.idx - 1], q = this.#O(V, z.idx), W = tagToken2Name(X);
       $.push({
@@ -26691,38 +26281,32 @@ class ScriptIterator {
   //MARK: タグ解析
   タグ解析(t) {
     const [e, r] = tagToken2Name_Args(t), N = this.hTag[e];
-    if (!N)
-      throw `未定義のタグ【${e}】です`;
+    if (!N) throw `未定義のタグ【${e}】です`;
     this.alzTagArg.parse(r), this.#D(e);
     const k = this.alzTagArg.hPrm;
     if (k.cond) {
       const U = k.cond.val;
-      if (!U || U.at(0) === "&")
-        throw "属性condは「&」が不要です";
+      if (!U || U.at(0) === "&") throw "属性condは「&」が不要です";
       const H = this.prpPrs.parse(U), z = String(H);
-      if (z === "null" || z === "undefined" || !H)
-        return !1;
+      if (z === "null" || z === "undefined" || !H) return !1;
     }
     let D = {};
     const B = this.#s.length, $ = B === 0 ? {} : this.#s[B - 1].csArg;
     if (this.alzTagArg.isKomeParam) {
-      if (B === 0)
-        throw "属性「*」はマクロのみ有効です";
+      if (B === 0) throw "属性「*」はマクロのみ有効です";
       D = { ...$ };
     }
     D[":タグ名"] = e;
     for (const [U, { val: H, def: z }] of Object.entries(k)) {
       let V = H;
       if (V?.at(0) === "%") {
-        if (B === 0)
-          throw "属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）";
+        if (B === 0) throw "属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）";
         const X = $[V.slice(1)];
         if (X) {
           D[U] = X;
           continue;
         }
-        if (z === void 0 || z === "null")
-          continue;
+        if (z === void 0 || z === "null") continue;
         V = z;
       }
       if (V = this.prpPrs.getValAmpersand(V ?? ""), V !== "undefined") {
@@ -26741,8 +26325,7 @@ class ScriptIterator {
   //MARK: インラインテキスト代入
   #H(t) {
     const { name: e } = t;
-    if (!e)
-      throw "nameは必須です";
+    if (!e) throw "nameは必須です";
     let r = "";
     const N = this.#e.len;
     for (; this.#r < N && (r = this.#e.aToken[this.#r], r === ""); ++this.#r)
@@ -26769,8 +26352,7 @@ class ScriptIterator {
   }
   #O(t, e) {
     const r = { ln: 1, col_s: 0, col_e: 0 };
-    if (!t)
-      return r;
+    if (!t) return r;
     let N = e - 1;
     const k = r.ln = t.aLNum[N];
     for (; t.aLNum[N] === k; ) {
@@ -26779,19 +26361,16 @@ class ScriptIterator {
         const D = t.aToken[N].length;
         r.col_e > 0 && (r.col_s += D), r.col_e += D;
       }
-      if (--N < 0)
-        break;
+      if (--N < 0) break;
     }
     return r;
   }
   //MARK: 外部へスクリプトを表示
   #W(t) {
     const { set_fnc: e, break_fnc: r } = t;
-    if (!e)
-      throw "set_fncは必須です";
+    if (!e) throw "set_fncは必須です";
     if (this.#P = globalThis[e], !this.#P) {
-      if (argChk_Boolean(t, "need_err", !0))
-        throw `HTML内に関数${e}が見つかりません`;
+      if (argChk_Boolean(t, "need_err", !0)) throw `HTML内に関数${e}が見つかりません`;
       return this.#P = () => {
       }, !1;
     }
@@ -26799,11 +26378,9 @@ class ScriptIterator {
       this.#w !== this.#t && (this.#w = this.#t, this.#P(
         this.#E[this.#t] ??= this.#e.aToken.join("")
       )), this.#R(this.#i, N);
-    }, this.noticeBreak(!0), !r)
-      return !1;
+    }, this.noticeBreak(!0), !r) return !1;
     if (this.#R = globalThis[r], !this.#R) {
-      if (argChk_Boolean(t, "need_err", !0))
-        throw `HTML内に関数${r}が見つかりません`;
+      if (argChk_Boolean(t, "need_err", !0)) throw `HTML内に関数${r}が見つかりません`;
       this.#R = () => {
       };
     }
@@ -26844,17 +26421,14 @@ class ScriptIterator {
   // 先頭に積む FIFOバッファ（unshift / shift）
   //MARK: ifブロックの終端
   #U() {
-    if (this.#S[0] === -1)
-      throw "ifブロック内ではありません";
+    if (this.#S[0] === -1) throw "ifブロック内ではありません";
     return this.#r = this.#S[0], this.#S.shift(), !1;
   }
   //MARK: ifブロックの開始
   #b(t) {
     const { exp: e } = t;
-    if (!e)
-      throw "expは必須です";
-    if (e.at(0) === "&")
-      throw "属性expは「&」が不要です";
+    if (!e) throw "expは必須です";
+    if (e.at(0) === "&") throw "属性expは「&」が不要です";
     let r = 0, N = this.prpPrs.parse(e) ? this.#r : -1;
     const k = this.#e.aLNum[this.#r];
     let D = this.#i - (k || 0);
@@ -26863,33 +26437,27 @@ class ScriptIterator {
       const $ = this.#e.aLNum[this.#r];
       this.#e.aLNum[this.#r] = ($ || 0) + D;
       const U = this.#e.aToken[this.#r];
-      if (!U)
-        continue;
+      if (!U) continue;
       const H = U.charCodeAt(0);
       if (H === 10) {
         this.#i += U.length;
         continue;
       }
-      if (H !== 91)
-        continue;
+      if (H !== 91) continue;
       const [z, V] = tagToken2Name_Args(U);
-      if (!(z in this.hTag))
-        throw `未定義のタグ[${z}]です`;
+      if (!(z in this.hTag)) throw `未定義のタグ[${z}]です`;
       switch (this.alzTagArg.parse(V), z) {
         case "if":
           ++r;
           break;
         case "elsif":
-          if (r > 0 || N > -1)
-            break;
+          if (r > 0 || N > -1) break;
           const X = this.alzTagArg.hPrm.exp.val;
-          if (X.at(0) === "&")
-            throw "属性expは「&」が不要です";
+          if (X.at(0) === "&") throw "属性expは「&」が不要です";
           this.prpPrs.parse(X) && (N = this.#r + 1);
           break;
         case "else":
-          if (r > 0)
-            break;
+          if (r > 0) break;
           N === -1 && (N = this.#r + 1);
           break;
         case "endif":
@@ -26918,17 +26486,14 @@ class ScriptIterator {
   }
   //MARK: コールスタック破棄
   #q(t) {
-    if (argChk_Boolean(t, "clear", !1))
-      this.#s = [];
-    else if (!this.#s.pop())
-      throw "[pop_stack] スタックが空です";
+    if (argChk_Boolean(t, "clear", !1)) this.#s = [];
+    else if (!this.#s.pop()) throw "[pop_stack] スタックが空です";
     return this.#j(), this.#S = [-1], this.val.setMp({}), !1;
   }
   //MARK: サブルーチンから戻る
   #X(t) {
     const e = this.#s.pop();
-    if (!e)
-      throw "[return] スタックが空です";
+    if (!e) throw "[return] スタックが空です";
     const r = e.csArg;
     this.#S = this.#S.slice(-r[":lenIfStk"]);
     const N = r[":hMp"];
@@ -26948,8 +26513,7 @@ class ScriptIterator {
       this.analyzeInit();
       return;
     }
-    if (t.includes("@"))
-      throw "[jump系] fn には文字「@」は禁止です";
+    if (t.includes("@")) throw "[jump系] fn には文字「@」は禁止です";
     const N = this.#u(t);
     if (t === this.#t) {
       this.analyzeInit();
@@ -26980,8 +26544,7 @@ class ScriptIterator {
         const H = U[t + ":base"].data, z = U[t].data, V = H.split(`
 `), X = z.split(`
 `), q = V.length, W = X.length;
-        for (let Y = 0; Y < W && Y < q; ++Y)
-          X[Y] ||= V[Y];
+        for (let Y = 0; Y < W && Y < q; ++Y) X[Y] ||= V[Y];
         U[t].data = X.join(`
 `), delete U[t + ":base"];
       }
@@ -26996,8 +26559,7 @@ class ScriptIterator {
   nextToken = () => "";
   // 初期化前に終了した場合向け
   #K() {
-    if (this.#B())
-      return "";
+    if (this.#B()) return "";
     this.#ct(), this.#e.aLNum[this.#r] ||= this.#i;
     const t = this.#e.aToken[this.#r];
     return this.#Y(t), ++this.#r, t;
@@ -27013,8 +26575,7 @@ class ScriptIterator {
   #tt(t, e, r, N, k) {
     const D = t.aToken.length;
     if (!N) {
-      if (this.#B())
-        return { idx: k, ln: r };
+      if (this.#B()) return { idx: k, ln: r };
       if (t.aLNum[k])
         r = t.aLNum[k];
       else {
@@ -27064,8 +26625,7 @@ class ScriptIterator {
         continue;
       }
       if (V === 42) {
-        if (z.search($) > -1)
-          return { idx: H + 1, ln: r };
+        if (z.search($) > -1) return { idx: H + 1, ln: r };
         continue;
       }
       V === 91 && (r += (z.match(/\n/g) ?? []).length, this.#n.testTagLetml(z) && (U = !0));
@@ -27095,16 +26655,13 @@ class ScriptIterator {
   #ut(t) {
     for (let e = t.len - 1; e >= 0; --e) {
       const r = t.aToken[e];
-      if (!this.#et.test(r))
-        continue;
+      if (!this.#et.test(r)) continue;
       const [N, k] = tagToken2Name_Args(r);
       this.alzTagArg.parse(k);
       const D = this.alzTagArg.hPrm.fn;
-      if (!D)
-        continue;
+      if (!D) continue;
       const { val: B } = D;
-      if (!B || B.at(-1) !== "*")
-        continue;
+      if (!B || B.at(-1) !== "*") continue;
       t.aToken.splice(e, 1, "	", "; " + r), t.aLNum.splice(e, 1, NaN, NaN);
       const $ = N === "loadplugin" ? SEARCH_PATH_ARG_EXT.CSS : SEARCH_PATH_ARG_EXT.SN, U = this.cfg.matchPath("^" + B.slice(0, -1) + ".*", $);
       for (const H of U) {
@@ -27158,12 +26715,9 @@ class ScriptIterator {
   #ot = new RegExp(`["'#;\\]　]+`);
   #pt(t) {
     const { name: e } = t;
-    if (!e)
-      throw "nameは必須です";
-    if (e in this.hTag)
-      throw `[${e}]はタグかすでに定義済みのマクロです`;
-    if (this.#ot.test(e))
-      throw `[${e}]はマクロ名として異常です`;
+    if (!e) throw "nameは必須です";
+    if (e in this.hTag) throw `[${e}]はタグかすでに定義済みのマクロです`;
+    if (this.#ot.test(e)) throw `[${e}]はマクロ名として異常です`;
     const r = this.#i, N = new CallStack(this.#t, this.#r);
     for (this.#lt += "|" + e, this.#nt = new RegExp(`\\[(${this.#lt})\\b`), this.hTag[e] = (k) => (k.design_unit = t.design_unit, this.#A(k), this.val.setMp(k), this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify({
       name: t.name
@@ -27182,14 +26736,11 @@ class ScriptIterator {
   // https://regex101.com/r/Lk9ASK/1
   //MARK: しおりの読込
   #vt(t) {
-    if (!("place" in t))
-      throw "placeは必須です";
+    if (!("place" in t)) throw "placeは必須です";
     const e = Number(t.place);
-    if ("fn" in t != "label" in t)
-      throw "fnとlabelはセットで指定して下さい";
+    if ("fn" in t != "label" in t) throw "fnとlabelはセットで指定して下さい";
     const r = this.val.getMark(e);
-    if (!r)
-      throw `place【${e}】は存在しません`;
+    if (!r) throw `place【${e}】は存在しません`;
     return enableEvent(), this.loadFromMark(t, r);
   }
   loadFromMark(t, e, r = !0) {
@@ -27237,8 +26788,7 @@ class ScriptIterator {
     aIfStk: [-1]
   };
   #gt() {
-    if (this.main.isDestroyed())
-      return !1;
+    if (this.main.isDestroyed()) return !1;
     const { fn: t, idx: e } = this.nowScrIdx();
     return this.val.setVal_Nochk("save", "const.sn.scriptFn", t), this.val.setVal_Nochk("save", "const.sn.scriptIdx", e), this.#J = {
       hSave: this.val.cloneSave(),
@@ -27247,11 +26797,10 @@ class ScriptIterator {
     }, !1;
   }
   nowScrIdx() {
-    if (this.#s.length === 0)
-      return {
-        fn: this.#t,
-        idx: this.#r
-      };
+    if (this.#s.length === 0) return {
+      fn: this.#t,
+      idx: this.#r
+    };
     const e = this.#s[0];
     return {
       fn: e.fn,
@@ -27263,8 +26812,7 @@ class ScriptIterator {
   }
   //MARK: しおりの保存
   #yt(t) {
-    if (!("place" in t))
-      throw "placeは必須です";
+    if (!("place" in t)) throw "placeは必須です";
     const e = Number(t.place);
     delete t[":タグ名"], delete t.place, t.text = t.text ?? "", this.#J.json = t, this.val.setMark(e, this.#J);
     const r = Number(this.val.getVal("sys:const.sn.save.place"));
@@ -27311,8 +26859,7 @@ class Main {
   #m = "skynovel";
   async #l() {
     const t = document.createElement("canvas")?.getContext("2d");
-    if (!t)
-      throw "argChk_Color err";
+    if (!t) throw "argChk_Color err";
     CmnLib.cc4ColorName = t;
     const e = {
       width: this.#e.oCfg.window.width,
@@ -27328,8 +26875,7 @@ class Main {
   #_ = () => this.#v();
   // thisの扱いによりメソッド代入はダメ
   errScript(t, e = !0) {
-    if (this.stop(), DebugMng.myTrace(t), CmnLib.debugLog && console.log("🍜 SKYNovel err!"), e)
-      throw t;
+    if (this.stop(), DebugMng.myTrace(t), CmnLib.debugLog && console.log("🍜 SKYNovel err!"), e) throw t;
   }
   // メイン処理（シナリオ解析）
   #d = (t = this.#y) => {
@@ -27356,8 +26902,7 @@ class Main {
   #y() {
     for (; this.#x; ) {
       let t = this.#h.nextToken();
-      if (!t)
-        break;
+      if (!t) break;
       const e = t.charCodeAt(0);
       if (e !== 9) {
         if (e === 10) {
@@ -27365,8 +26910,7 @@ class Main {
           continue;
         }
         if (e === 91) {
-          if (this.#h.isBreak(t))
-            return;
+          if (this.#h.isBreak(t)) return;
           try {
             const r = (t.match(/\n/g) ?? []).length;
             if (r > 0 && this.#h.addLineNum(r), this.#h.タグ解析(t)) {
@@ -27382,14 +26926,12 @@ class Main {
         if (e === 38)
           try {
             if (t.at(-1) !== "&") {
-              if (this.#h.isBreak(t))
-                return;
+              if (this.#h.isBreak(t)) return;
               const r = splitAmpersand(t.slice(1));
               r.name = this.#s.getValAmpersand(r.name), r.text = String(this.#s.parse(r.text)), this.#r.let(r);
               continue;
             }
-            if (t.charAt(1) === "&")
-              throw new Error("「&表示&」書式では「&」指定が不要です");
+            if (t.charAt(1) === "&") throw new Error("「&表示&」書式では「&」指定が不要です");
             t = String(this.#s.parse(t.slice(1, -1)));
           } catch (r) {
             this.errScript(
@@ -27399,10 +26941,8 @@ class Main {
             return;
           }
         else {
-          if (e === 59)
-            continue;
-          if (e === 42 && t.length > 1)
-            continue;
+          if (e === 59) continue;
+          if (e === 42 && t.length > 1) continue;
         }
         try {
           this.#u.setNormalChWait(), this.#u.currentTxtlayForeNeedErr.tagCh(t);
@@ -27592,8 +27132,7 @@ function createPacketDecoderStream(o, t) {
 }
 const protocol$1 = 4;
 function Emitter(o) {
-  if (o)
-    return mixin(o);
+  if (o) return mixin(o);
 }
 function mixin(o) {
   for (var t in Emitter.prototype)
@@ -27613,8 +27152,7 @@ Emitter.prototype.off = Emitter.prototype.removeListener = Emitter.prototype.rem
   if (this._callbacks = this._callbacks || {}, arguments.length == 0)
     return this._callbacks = {}, this;
   var e = this._callbacks["$" + o];
-  if (!e)
-    return this;
+  if (!e) return this;
   if (arguments.length == 1)
     return delete this._callbacks["$" + o], this;
   for (var r, N = 0; N < e.length; N++)
@@ -29743,13 +29281,11 @@ class SysBase {
     return t.close = (D) => this.close(D), t.export = (D) => this._export(D), t.import = (D) => this._import(D), t.navigate_to = (D) => this.navigate_to(D), t.title = (D) => this.title(D), t.toggle_full_screen = (D) => this.#_(D), t.update_check = (D) => this.update_check(D), t.window = (D) => this.window(D), r.setVal_Nochk("tmp", "const.sn.isApp", () => this.isApp), r.setVal_Nochk("tmp", "const.sn.isDbg", () => CmnLib.isDbg), r.setVal_Nochk("tmp", "const.sn.isPackaged", () => CmnLib.isPackaged), r.defTmp("const.sn.displayState", () => this.isFullScr), r.setVal_Nochk("sys", SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns), r.flush(), CmnLib.isDbg && this.attach_debug(N), this.hFactoryCls = {}, Object.values(this.hPlg).map((D) => D.init({
       getInfo: this.#r,
       addTag: (B, $) => {
-        if (t[B])
-          throw `すでに定義済みのタグ[${B}]です`;
+        if (t[B]) throw `すでに定義済みのタグ[${B}]です`;
         t[B] = $;
       },
       addLayCls: (B, $) => {
-        if (this.hFactoryCls[B])
-          throw `すでに定義済みのレイヤcls【${B}】です`;
+        if (this.hFactoryCls[B]) throw `すでに定義済みのレイヤcls【${B}】です`;
         this.hFactoryCls[B] = $;
       },
       searchPath: (B, $ = "") => this.cfg.searchPath(B, $),
@@ -29863,8 +29399,7 @@ class SysBase {
 }`, document.getElementsByTagName("head")[0].appendChild(e), this.addHook((r, N) => this.#p[r]?.(N)), this.#v = lookup(`http://localhost:${this.extPort}`), this.#v.on("data", (r, N) => {
       this.callHook(r, N);
     }).on("disconnect", () => t.setLoop(!0)), this.callHook = (r, N) => {
-      for (const k of this.#m)
-        k(r, N);
+      for (const k of this.#m) k(r, N);
     };
   }
   extPort = 3776;
@@ -29944,8 +29479,7 @@ top: ${(CmnLib.stageH - k) / 2 * this.#n + k * (N.dy ?? 0)}px;`, r.classList.add
   navigate_to = () => !1;
   title = (t) => {
     const { text: e } = t;
-    if (!e)
-      throw "[title] textは必須です";
+    if (!e) throw "[title] textは必須です";
     return this.#l = e, this.titleSub(this.#l + this.#d), !1;
   };
   #l = "";
@@ -30533,8 +30067,7 @@ function requireJson2() {
       if (gap = "", indent = "", typeof e == "number")
         for (r = 0; r < e; r += 1)
           indent += " ";
-      else
-        typeof e == "string" && (indent = e);
+      else typeof e == "string" && (indent = e);
       if (rep = t, t && typeof t != "function" && (typeof t != "object" || typeof t.length != "number"))
         throw new Error("JSON.stringify");
       return str("", { "": o });
@@ -30602,8 +30135,7 @@ class SysWeb extends SysBase {
       // ギャラリーであっても、ここには一度しか来ないので
     ), e.dip && (CmnLib.hDip = JSON.parse(e.dip));
     const r = new URLSearchParams(location.search), N = r.get("dip");
-    if (N && (CmnLib.hDip = { ...CmnLib.hDip, ...JSON.parse(N.replaceAll("%2C", ",")) }), !argChk_Boolean(CmnLib.hDip, "oninit_run", !0))
-      return;
+    if (N && (CmnLib.hDip = { ...CmnLib.hDip, ...JSON.parse(N.replaceAll("%2C", ",")) }), !argChk_Boolean(CmnLib.hDip, "oninit_run", !0)) return;
     argChk_Boolean(CmnLib.hDip, "dbg", !1) && (CmnLib.isDbg = !0, this.fetch = (D) => fetch(D, { mode: "cors" })), this.extPort = argChk_Num(CmnLib.hDip, "port", this.extPort);
     const k = r.get("cur");
     k && (e.cur = this.#e + k + "/"), this.run();
@@ -30622,8 +30154,7 @@ class SysWeb extends SysBase {
   async loadPath(t, e) {
     await super.loadPath(t, e);
     const r = this.arg.cur + "path.json", N = await fetch(r);
-    if (!N.ok)
-      throw Error(N.statusText);
+    if (!N.ok) throw Error(N.statusText);
     const k = await N.text(), D = JSON.parse(await this.dec(r, k));
     for (const [B, $] of Object.entries(D)) {
       const U = t[B] = $;
@@ -30697,8 +30228,7 @@ class SysWeb extends SysBase {
     r.readAsText(t), r.onload = () => e(r.result);
   })).then(async (t) => {
     const e = JSON.parse(this.crypto ? await this.dec("json", t) : t);
-    if (!e.sys || !e.mark || !e.kidoku)
-      throw new Error("異常なプレイデータです");
+    if (!e.sys || !e.mark || !e.kidoku) throw new Error("異常なプレイデータです");
     if (e.sys[SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {
       console.error(`別のゲーム【プロジェクト名=${e.sys[SysBase.VALNM_CFG_NS]}】のプレイデータです`);
       return;
@@ -30708,8 +30238,7 @@ class SysWeb extends SysBase {
   // ＵＲＬを開く
   navigate_to = (t) => {
     const { url: e } = t;
-    if (!e)
-      throw "[navigate_to] urlは必須です";
+    if (!e) throw "[navigate_to] urlは必須です";
     return globalThis.open(e, "_blank"), !1;
   };
   // タイトル指定
