@@ -1,3 +1,10 @@
+# [1.54.0](https://github.com/famibee/SKYNovel/compare/v1.53.13...v1.54.0) (2024-06-23)
+
+
+### Features
+
+* **文字レイヤ:** [lay]に bura・kinsoku_bura 属性追加。ぶら下げをサポート ([81f9472](https://github.com/famibee/SKYNovel/commit/81f94723c546a8cafe944b45e34e66686ba2b9dd))
+
 - feat(文字レイヤ): [lay]に bura・kinsoku_bura 属性追加。ぶら下げをサポート
 	- trueでぶら下げ有効。行末尾に二文字分のぶら下げ専用領域を確保する
 	- 後方互換性のため、デフォルトは false、ぶら下げ無効（既存の動作）
