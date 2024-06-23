@@ -12,7 +12,7 @@ let	rbSpl	: RubySpliter;
 let	retText	= '';
 let	retRuby	= '';
 beforeEach(()=> {
-	rbSpl = new RubySpliter();
+	rbSpl = new RubySpliter;
 	rbSpl.init(putCh);
 	RubySpliter.setEscape('');
 	retText	= '';

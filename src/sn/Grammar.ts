@@ -39,6 +39,11 @@ export type HArg = {
 	kinsoku_sol?	: string;
 	kinsoku_eol?	: string;
 	kinsoku_dns?	: string;
+	kinsoku_bura?	: string;
+	bura?	: boolean;
+	break_fixed?		: boolean;
+	break_fixed_left?	: number;
+	break_fixed_top?	: number;
 
 	time?	: number;
 	rule?	: string;

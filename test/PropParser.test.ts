@@ -65,6 +65,11 @@ class MyVal implements IVariable {
 	defValTrg(_name: string, _fnc: ISetVal): void {};
 
 	doRecLog = ()=> false;
+
+	get tagCh_doWait() {return false}
+	get tagCh_doWait_Kidoku() {return false}
+	get tagCh_msecWait() {return 0}
+	get tagCh_msecWait_Kidoku() {return 0}
 };
 //===== Test Class =====
 

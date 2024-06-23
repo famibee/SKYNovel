@@ -12,7 +12,7 @@ export declare class SysApp extends SysNode {
     });
     protected loaded(hPlg: HPlugin, arg: HSysBaseArg): Promise<void>;
     protected readFileSync: (path: string) => Promise<string>;
-    protected writeFileSync: (path: string, data: string | NodeJS.ArrayBufferView, o?: object | undefined) => Promise<void>;
+    protected writeFileSync: (path: string, data: string | NodeJS.ArrayBufferView, o?: object) => Promise<void>;
     appendFile: (path: string, data: string, callback: (err: Error) => void) => Promise<void>;
     ensureFileSync: (path: string) => Promise<void>;
     protected $path_userdata: string;

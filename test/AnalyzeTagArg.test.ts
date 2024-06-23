@@ -9,7 +9,7 @@ import {AnalyzeTagArg} from '../src/sn/AnalyzeTagArg';
 
 let alz: AnalyzeTagArg;
 beforeEach(()=> {
-	alz = new AnalyzeTagArg();
+	alz = new AnalyzeTagArg;
 });
 	function isHashEmpty(h: object): boolean {
 		return Object.keys(h).length === 0;

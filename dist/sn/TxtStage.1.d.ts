@@ -4,16 +4,8 @@ import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';
 import { Container, Sprite, Renderer, Application } from 'pixi.js';
+import { IInfTxLay } from './TxtStage';
 
-interface IInfTxLay {
-    fontsize: number;
-    $width: number;
-    $height: number;
-    pad_left: number;
-    pad_right: number;
-    pad_top: number;
-    pad_bottom: number;
-}
 export declare class TxtStage extends Container {
     #private;
     private readonly spLay;
@@ -60,16 +52,9 @@ export declare class TxtStage extends Container {
         ch_filter: any[] | undefined;
         fi_easing: string;
         fo_easing: string;
-        hyph: {
-            行頭禁則: string;
-            行末禁則: string;
-            分割禁止: string;
-            ぶら下げ: string;
-            break_fixed: boolean;
-            break_fixed_left: number;
-            break_fixed_top: number;
-            bura: boolean;
-        };
+        break_fixed: boolean;
+        break_fixed_left: number;
+        break_fixed_top: number;
     };
     playback(hLay: any): void;
     snapshot(rnd: Renderer, re: () => void): void;
@@ -79,5 +64,4 @@ export declare class TxtStage extends Container {
     dump(): string;
     destroy(): void;
 }
-export {};
-//# sourceMappingURL=TxtStage.d.ts.map
+//# sourceMappingURL=TxtStage.1.d.ts.map

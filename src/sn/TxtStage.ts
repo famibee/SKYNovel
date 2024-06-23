@@ -14,6 +14,7 @@ import {DebugMng} from './DebugMng';
 import {IMakeDesignCast} from './LayerMng';
 import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 import {SysBase} from './SysBase';
+import {Hyphenation, IChRect} from './Hyphenation';
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, Application} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
@@ -28,15 +29,11 @@ interface IInfTxLay {
 	pad_bottom	: number;	// paddingBottom
 };
 
-interface IChRect {
-	ch		: string;
-	rect	: Rectangle;
-	elm		: HTMLElement;
-}
 interface ISpTw {
 	sp	: Container;
 	tw	: Tween<Container> | undefined;
 };
+
 
 export class TxtStage extends Container {
 	static	#cfg	: Config;
@@ -44,13 +41,9 @@ export class TxtStage extends Container {
 	static	init(cfg: Config, appPixi: Application): void {
 		TxtStage.#cfg = cfg;
 		TxtStage.#appPixi = appPixi;
-
-		TxtStage.#reg行頭禁則	= /[、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々]/;
-		TxtStage.#reg行末禁則	= /[［（｛〈「『【〔“〝]/;
-		TxtStage.#reg分割禁止	= /[─‥…]/;
 	}
 	static	#evtMng	: IEvtMng;
-	static setEvtMng(evtMng: IEvtMng) {TxtStage.#evtMng = evtMng}
+	static	setEvtMng(evtMng: IEvtMng) {TxtStage.#evtMng = evtMng}
 
 	static	destroy() {
 		TxtStage.#hChInStyle	= Object.create(null);
@@ -76,6 +69,7 @@ export class TxtStage extends Container {
 	};
 
 
+	#hyph	= new Hyphenation;
 	constructor(private readonly spLay: Sprite, private readonly canFocus: ()=> boolean, private readonly sys: SysBase) {
 		super();
 
@@ -119,7 +113,7 @@ export class TxtStage extends Container {
 					}
 					s[key] = cln.style[key];
 				}
-				if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(this.spLay.alpha);
+				if (! cln.style.opacity && 'alpha' in hArg) s.opacity = String(this.spLay.alpha);
 			}
 			else this.#htmTxt.style.cssText = '';
 		}
@@ -131,15 +125,7 @@ export class TxtStage extends Container {
 		if ('pr' in hArg) s.paddingRight = (hArg.pr ?? '0') +'px';
 		if ('pt' in hArg) s.paddingTop = (hArg.pt ?? '0') +'px';
 		if ('pb' in hArg) s.paddingBottom = (hArg.pb ?? '0') +'px';
-		if ('kinsoku_sol' in hArg) TxtStage.#reg行頭禁則 = new RegExp(`[${
-			hArg.kinsoku_sol
-		}]`);
-		if ('kinsoku_eol' in hArg) TxtStage.#reg行末禁則 = new RegExp(`[${
-			hArg.kinsoku_eol
-		}]`);
-		if ('kinsoku_dns' in hArg) TxtStage.#reg分割禁止 = new RegExp(`[${
-			hArg.kinsoku_dns
-		}]`);
+		this.#hyph.lay(hArg);
 		this.#lay_sub();
 		this.#idc.sethArg(hArg);
 
@@ -152,10 +138,6 @@ export class TxtStage extends Container {
 		this.cvsResize();
 		s.display = this.spLay.visible ?'inline' :'none';
 
-		this.#break_fixed = argChk_Boolean(hArg, 'break_fixed', this.#break_fixed);
-		this.#break_fixed_left= argChk_Num(hArg, 'break_fixed_left', this.#break_fixed_left);
-		this.#break_fixed_top	= argChk_Num(hArg, 'break_fixed_top', this.#break_fixed_top);
-
 		// パディングキャスト変更時・クリック待ち表示を追従させる（高速再描写）
 		if (':redraw' in hArg && this.#lenHtmTxt > 0) {
 			const aSpan = [
@@ -166,9 +148,7 @@ export class TxtStage extends Container {
 			this.goTxt(aSpan, true);	// 高速 goTxt()
 		}
 	}
-	#break_fixed		= false;
-	#break_fixed_left	= 0;
-	#break_fixed_top	= 0;
+	#lh_half	= 0;	// 「g」などで下が欠ける問題対策
 	#lay_sub() {
 		const s = this.#htmTxt.style;
 		const fs = parseFloat(s.fontSize || '0');
@@ -562,11 +542,8 @@ export class TxtStage extends Container {
 	#aSpTw		: ISpTw[]	= [];
 
 
-	#aRect   : IChRect[]	= [];
+	#aRect		: IChRect[]	= [];
 	#lenHtmTxt = 0;
-	static	#reg行頭禁則: RegExp;
-	static	#reg行末禁則: RegExp;
-	static	#reg分割禁止: RegExp;
 	static	readonly	#SPAN_LAST = `<span class='sn_ch sn_ch_last'>　</span>`;
 	goTxt(aSpan: string[], instant: boolean) {
 //console.log(`fn:TxtStage.ts goTxt`);
@@ -600,16 +577,16 @@ export class TxtStage extends Container {
 
 			this.#htmTxt.innerHTML = [...aSpan].join('').replaceAll(/[\n\t]/g, '') +TxtStage.#SPAN_LAST;	// 末尾改行削除挙動対策
 
-			if (! this.#break_fixed) {
+			if (! this.#hyph.break_fixed) {
 				const sty = globalThis.getComputedStyle(this.#htmTxt);
 				const rs = parseFloat(sty.fontSize);
 				if (this.#isTategaki) {
-					this.#break_fixed_left = (this.#infTL.$width -this.#infTL.pad_left -this.#infTL.pad_right -rs *1.5) *this.sys.cvsScale;
-					this.#break_fixed_top = 0;
+					this.#hyph.break_fixed_left = (this.#infTL.$width -this.#infTL.pad_left -this.#infTL.pad_right -rs *1.5) *this.sys.cvsScale;
+					this.#hyph.break_fixed_top = 0;
 				}
 				else {
-					this.#break_fixed_left = 0;
-					this.#break_fixed_top = rs /2 *this.sys.cvsScale;
+					this.#hyph.break_fixed_left = 0;
+					this.#hyph.break_fixed_top = rs /2 *this.sys.cvsScale;
 				}
 			}
 		}
@@ -643,135 +620,34 @@ export class TxtStage extends Container {
 		const bcr = this.#htmTxt.getBoundingClientRect();
 		const sx = bcr.left +this.#infTL.pad_left;
 		const sy = bcr.top +this.#infTL.pad_top;
-		let cnvRect :(dr: DOMRect, ch: string)=> Rectangle;
-		if (cvsScale === 1) cnvRect = (r, ch)=> new Rectangle(
-			r.left -sx,
-			r.top  -sy,
-			r.width,
-			r.height +('gjqy'.includes(ch) ?this.#lh_half :0)
-		);
+		let cnvRect :(rng: Range, ch: string)=> Rectangle;
+		if (cvsScale === 1) cnvRect = (rng, ch)=> {
+			const r = rng.getBoundingClientRect();
+			return new Rectangle(
+				r.left -sx,
+				r.top  -sy,
+				r.width,
+				r.height +('gjqy'.includes(ch) ?this.#lh_half :0)
+			)
+		};
 		else {
 			// Resizeを意識してDOM位置をPIXIに変換
 			// transform scale を一時的に変更する手もあるが、ややずれるしDOM影響大
 			const ox = this.sys.ofsPadLeft_Dom2PIXI +bcr.left *(1- cvsScale);
 			const oy = this.sys.ofsPadTop_Dom2PIXI +bcr.top *(1- cvsScale);
-			cnvRect = (r, ch)=> new Rectangle(
-				(r.left -ox) /cvsScale -sx,
-				(r.top  -oy) /cvsScale -sy,
-				r.width /cvsScale,
-				(r.height +('gjqy'.includes(ch) ?this.#lh_half :0)) /cvsScale,
-			);
+			cnvRect = (rng, ch)=> {
+				const r = rng.getBoundingClientRect();
+				return new Rectangle(
+					(r.left -ox) /cvsScale -sx,
+					(r.top  -oy) /cvsScale -sy,
+					r.width /cvsScale,
+					(r.height +('gjqy'.includes(ch) ?this.#lh_half :0)) /cvsScale,
+				);
+			};
 		}
 
-		let len = 0;
-		let j = 2;	// 本来 1 だがひと文字目の行頭禁則文字を無視したいので
-		let needLoop = false;
-		do {
-			const a = this.#aRect = this.#getChRects(this.#htmTxt, cnvRect);
-			len = a.length;
-			if (! needLoop && (len < 2 || begin === len)) {
-				// === 右クリック戻りなどで文字表示が崩れる件の対応
-				if (begin > 0 && begin === len) {
-					this.#htmTxt.innerHTML = bkHtm.replaceAll('class="sn_ch"', 'class="sn_ch sn_ch_in_default"');
-				}
-				break;
-			}
-			needLoop = true;
-
-			// 禁則処理判定ループ
-			let sl_xy = -Infinity;
-//console.log(`🎴禁則処理判定ループ begin:${begin} len:${len}`);
-			for (; j<len; ++j) {
-				const {elm, rect, ch} = a[j];
-				if (elm.tagName === 'RT') continue;	// ルビはスキップ
-
-				const xy = this.tategaki ?rect.y :rect.x;
-//if (sl_xy > 790)
-//console.log(`🎴 sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${ch}: he:${JSON.stringify(c)}`);
-				if (sl_xy <= xy		// 【sl_xy < xy】では[tcy]二文字目を誤判定する
-				|| elm.previousElementSibling?.children[0]?.tagName
-					=== 'BR'		// [r]による改行後は追い出し処理をしないように
-					) {
-						sl_xy = xy;
-						if (! this.#break_fixed) {
-							this.#break_fixed_left = rect.x;
-							this.#break_fixed_top = rect.y;
-						}
-						continue;
-					}
-/*
-	// [r]などの改行はこう。TxtLayer.#tagCh_sub()により <span> に入れられる
-	<span class=​"sn_ch" style=​"display:​ inline;​animation-delay:​ 10ms;​">​
-		<br>
-	​</span>​
-
-	// 禁則処理による自動改行はこう
-	<br>
-*/
-
-				let idxPrevCh = j -1;
-				while (a[idxPrevCh].elm.tagName === 'RT') --idxPrevCh;
-				const crPrev = a[idxPrevCh];
-				const chPrev = crPrev.ch;
-//console.log(`🎴 === 自動改行発生！　前文字:${chPrev}: 今文字:${ch}:`);
-
-				if (! this.#break_fixed) {
-					this.#break_fixed_left = crPrev.rect.x;
-					this.#break_fixed_top = crPrev.rect.y;
-					const sty = globalThis.getComputedStyle(crPrev.elm);
-					const rs = parseFloat(sty.fontSize);
-					if (this.#isTategaki) this.#break_fixed_top += rs; else this.#break_fixed_left += rs;
-				}
-
-				sl_xy = -Infinity;	// 自動改行発生！
-				const oldJ = j;
-				// 追い出し
-				if (TxtStage.#reg分割禁止.test(chPrev)
-				&& (chPrev === ch)) {
-//console.log(`🎴追い出し（分割禁止）ch:${ch}`);
-					j = idxPrevCh;
-				}
-				else {
-					if (TxtStage.#reg行末禁則.test(chPrev)) {
-//console.log(`🎴追い出し（行末禁則）前ch:${chPrev}`);
-						j = idxPrevCh;
-					}
-					else if (TxtStage.#reg行頭禁則.test(ch)) {
-//console.log(`🎴追い出し（行頭禁則 A）前ch:${ch}`);
-						j = idxPrevCh +1;
-						while (j > 0 && TxtStage.#reg行頭禁則.test(a[--j].ch)) {
-//console.log(`🎴＿＿＿＿（行頭禁則 A）前ch:${a[j].ch}`);
-						}
-					}
-					else {
-//console.log(`🎴追い出しなし`);
-						++j;
-						continue;	// 追い出しなし
-//	len = -1;	// doループ先頭に戻る
-//	break;
-					}
-
-					j = idxPrevCh +1;
-					while (j > 0 && TxtStage.#reg行末禁則.test(a[--j].ch)) {
-//console.log(`🎴追い出し（行末禁則 B）前ch:${a[j].ch}`);
-					}
-				}
-				const pal = a[j].elm.parentElement!;
-				const br = document.createElement('br');
-				if (pal.classList.contains('sn_tx')) pal.insertBefore(br, a[j].elm); else {
-					const ppal = pal.parentElement!;
-					if (ppal.classList.contains('sn_ch')) {
-						ppal.parentElement!.insertBefore(br, ppal);
-					}
-					else ppal.insertBefore(br, pal);
-				}
-
-				j += 2;	// 次へ行く +1 と、いま追加した<br>のぶん
-				if (j < oldJ) j = oldJ;	// 永久ループ防御
-				len = -1;	// doループ先頭に戻る
-				break;
-			}
-		} while (len < 0);
+		const [a, len] = this.#hyph.hyph(this.#htmTxt, cnvRect, this.#isTategaki, begin, bkHtm);
+		this.#aRect = a;
 
 
 		const fncMasumeLog = CmnLib.debugLog
@@ -852,8 +728,8 @@ export class TxtStage extends Container {
 			this.#fncEndChIn = ()=> false;
 			chs.forEach(v=> v.className = v.className.replaceAll(/ go_ch_in_[^\s"]+/g, ''));
 			TxtStage.#cntBreak.position.set(
-				this.#break_fixed_left,
-				this.#break_fixed_top,
+				this.#hyph.break_fixed_left,
+				this.#hyph.break_fixed_top,
 			);
 			TxtStage.#cntBreak.visible = true;
 //console.log(`fn:TxtStage.ts // #fncEndChIn`);
@@ -1038,33 +914,6 @@ export class TxtStage extends Container {
 		TxtStage.#spsBreak.destroy();
 	}
 
-	#lh_half	= 0;	// 「g」などで下が欠ける問題対策
-	#getChRects(elm: Node, cnvRect :(dr: DOMRect, ch: string)=> Rectangle): IChRect[] {	// 注意）再帰関数
-		const ret: IChRect[] = [];
-		if (elm.nodeType !== elm.TEXT_NODE) return Array.from(elm.childNodes).map(v=> this.#getChRects(v, cnvRect)).flat();
-
-		const range = elm.ownerDocument!.createRange();
-		range.selectNodeContents(elm);
-		let pos = 0;
-		const end = range.endOffset;
-		// できれば一文字ずつ「after-edge - baseline」を調べたいが、暫定手段を取る
-		//const styles = globalThis.getComputedStyle(this.htmTxt);
-		//console.log('lh:'+ styles.lineHeight +' fs:'+ styles.fontSize);
-		while (pos < end) {
-			range.setStart(elm, pos);
-			range.setEnd(elm, ++pos);
-			const ch = range.toString();
-			ret.push({
-				ch,
-				rect: cnvRect(range.getBoundingClientRect(), ch),
-				elm	: range.startContainer.parentElement!,
-			});
-		}
-		range.detach();
-
-		return ret;
-	}
-
 	#fi_easing	= 'Quadratic.Out';
 	#fo_easing	= 'Quadratic.Out';
 	#clearText() {
@@ -1110,6 +959,8 @@ export class TxtStage extends Container {
 		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});
 
 		this.#htmTxt = n;
+
+		//this.#hyph.clear();	// クリアはしない
 	}
 	reNew(): TxtStage {
 		this.#clearText();
@@ -1126,9 +977,7 @@ export class TxtStage extends Container {
 		to.#fi_easing = this.#fi_easing;
 		to.#fo_easing = this.#fo_easing;
 
-		to.#break_fixed		= this.#break_fixed;
-		to.#break_fixed_left= this.#break_fixed_left;
-		to.#break_fixed_top	= this.#break_fixed_top;
+		this.#hyph.reNew(to.#hyph);
 
 		this.destroy();
 
@@ -1147,9 +996,7 @@ export class TxtStage extends Container {
 		fi_easing	: this.#fi_easing,
 		fo_easing	: this.#fo_easing,
 
-		break_fixed		: this.#break_fixed,
-		break_fixed_left: this.#break_fixed_left,
-		break_fixed_top	: this.#break_fixed_top,
+		hyph		: this.#hyph.record(),
 	}};
 	playback(hLay: any) {
 		this.#infTL = hLay.infTL;
@@ -1164,9 +1011,7 @@ export class TxtStage extends Container {
 		this.#fi_easing	= hLay.fi_easing;
 		this.#fo_easing	= hLay.fo_easing;
 
-		this.#break_fixed		= hLay.break_fixed ?? false;
-		this.#break_fixed_left	= hLay.break_fixed_left?? 0;
-		this.#break_fixed_top	= hLay.break_fixed_top ?? 0;
+		this.#hyph.playback(hLay.hyph);
 	}
 
 	#sss :Sprite | undefined = undefined;

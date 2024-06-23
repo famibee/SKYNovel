@@ -10,12 +10,12 @@ type IFncCompSpr = (sp: Sprite) => void;
 export declare class SpritesMng {
     #private;
     readonly csvFn: string;
-    readonly spLay?: Container<import('pixi.js').DisplayObject> | undefined;
+    readonly spLay?: Container | undefined;
     private fncFirstComp;
     private fncAllComp;
     static init(cfg: Config, val: IVariable, sys: SysBase, main: IMain, sndMng: SoundMng): void;
     static setEvtMng(evtMng: IEvtMng): void;
-    constructor(csvFn?: string, spLay?: Container<import('pixi.js').DisplayObject> | undefined, fncFirstComp?: IFncCompSpr, fncAllComp?: (isStop: boolean) => void);
+    constructor(csvFn?: string, spLay?: Container | undefined, fncFirstComp?: IFncCompSpr, fncAllComp?: (isStop: boolean) => void);
     readonly ret: boolean;
     destroy(): void;
     static destroy(): void;

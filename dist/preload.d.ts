@@ -1,5 +1,3 @@
-/// <reference types="node" />
-/// <reference types="node" />
 export type HPROC = {
     getInfo: () => Promise<HINFO>;
     existsSync: (path: string) => Promise<boolean>;
