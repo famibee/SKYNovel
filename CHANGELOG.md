@@ -1,3 +1,10 @@
+## [1.54.1](https://github.com/famibee/SKYNovel/compare/v1.54.0...v1.54.1) (2024-06-25)
+
+
+### Bug Fixes
+
+* **禁則処理:** ぶら下げ修正、テスト修正 ([7c1d73f](https://github.com/famibee/SKYNovel/commit/7c1d73fa18f600fdca02305e6c1300dd22d79c1b))
+
 - fix(禁則処理): ぶら下げ修正、テスト修正
 - fix(禁則処理): [r]などの改行判定ミス修正
 	- [r]などの改行は、禁則処理を無効にしてスクリプターの意図に従う
