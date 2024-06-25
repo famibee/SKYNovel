@@ -494,7 +494,7 @@ export class TxtLayer extends Layer {
 	tagCh(text: string): void {this.#rbSpl.putTxt(text)}
 	#needGoTxt = false;
 	readonly	#putCh	: IPutCh = (ch, ruby)=> {
-		if (TxtLayer.#cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\` ruby:\`${ruby}\` name:\`${this.name_}\``);
+		if (TxtLayer.#cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\`(${ch.charCodeAt(0).toString(16)}) ruby:\`${ruby}\` name:\`${this.name_}\``);
 
 		const a_ruby = ruby.split('｜');
 		let add_htm = '';
@@ -770,7 +770,7 @@ text-combine-upright: all;
 	}
 	#page_text			= '';
 	#page_plain_text	= '';
-	get pageText() {return this.#page_text.replace('《　》', '')}
+	get pageText() {return this.#page_text.replace('《&emsp;》', '')}
 	get pagePlainText() {return this.#page_plain_text}
 
 	get enabled() {return this.spLay.interactiveChildren}

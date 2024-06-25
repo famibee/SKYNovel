@@ -142,7 +142,7 @@ export class TxtStage extends Container {
 		if (':redraw' in hArg && this.#lenHtmTxt > 0) {
 			const aSpan = [
 				this.#htmTxt.innerHTML.replaceAll(/(animation-delay: )\d+ms/g, '$10ms'),
-				`<span class='sn_ch' data-add='{"ch_in_style":"default"}'>　</span>`,
+				`<span class='sn_ch' data-add='{"ch_in_style":"default"}'>&emsp;</span>`,
 			];
 			this.#clearText();	// 消去
 			this.goTxt(aSpan, true);	// 高速 goTxt()
@@ -544,7 +544,7 @@ export class TxtStage extends Container {
 
 	#aRect		: IChRect[]	= [];
 	#lenHtmTxt = 0;
-	static	readonly	#SPAN_LAST = `<span class='sn_ch sn_ch_last'>　</span>`;
+	static	readonly	#SPAN_LAST = `<span class='sn_ch sn_ch_last'>&emsp;</span>`;
 	goTxt(aSpan: string[], instant: boolean) {
 //console.log(`fn:TxtStage.ts goTxt`);
 		TxtStage.#cntBreak.visible = false;
@@ -628,7 +628,7 @@ export class TxtStage extends Container {
 				r.top  -sy,
 				r.width,
 				r.height +('gjqy'.includes(ch) ?this.#lh_half :0)
-			)
+			);
 		};
 		else {
 			// Resizeを意識してDOM位置をPIXIに変換
@@ -651,9 +651,9 @@ export class TxtStage extends Container {
 
 
 		const fncMasumeLog = CmnLib.debugLog
-			? (v: IChRect, rct: Rectangle)=> console.log(`🍌 masume ch:${v.ch} x:${rct.x} y:${rct.y} w:${rct.width} h:${rct.height}`)
+			? ({ch}: IChRect, {x, y, width, height}: Rectangle)=> console.log(`🍌 masume ch:${ch} x:${x} y:${y} w:${width} h:${height}`)
 			: ()=> {};
-		const fncMasume = (TxtStage.#cfg.oCfg.debug.masume)
+		const fncMasume = TxtStage.#cfg.oCfg.debug.masume
 			? (v: IChRect, rct: Rectangle)=> {
 				fncMasumeLog(v, rct);
 				this.#grpDbgMasume
@@ -794,7 +794,7 @@ export class TxtStage extends Container {
 					st.tw = undefined;
 					//(略)	if (rct.width === 0 || rct.height === 0) return;
 					//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
-					//　これを有効にすると[snapshot]で文字が出ない
+					// これを有効にすると[snapshot]で文字が出ない
 				})
 				.start(),
 		};

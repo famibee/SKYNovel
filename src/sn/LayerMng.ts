@@ -302,7 +302,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 	}
 
 
-	#cmdTxt = (cmd: string, tl = this.currentTxtlayForeNeedErr, _record = true)=> tl.tagCh('｜　《'+ cmd +'》');
+	#cmdTxt = (cmd: string, tl = this.currentTxtlayForeNeedErr, _record = true)=> tl.tagCh('｜&emsp;《'+ cmd +'》');
 	goTxt = ()=> {};
 	breakLine = (_hArg: HArg)=> {};
 	breakPage = (_hArg: HArg)=> {};

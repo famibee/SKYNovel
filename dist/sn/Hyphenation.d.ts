@@ -34,7 +34,7 @@ export declare class Hyphenation {
         cont: boolean;
         ins: number;
     };
-    hyph_alg_bura(a: IChRect[], len: number, p_i: number, p_ch: string, i: number, ch: string): {
+    hyph_alg_bura(a: IChRect[], p_i: number, p_ch: string, i: number): {
         cont: boolean;
         ins: number;
     };

@@ -178,7 +178,7 @@ export class Hyphenation {
 			if (fncFirstChk(len)) break;
 
 			// 禁則処理判定ループ
-			let sl_xy = -Infinity;
+			let sl_xy = -Infinity;	// 前回のxy
 //console.log(` len:${len}`);
 			for (; i<len; ++i) {
 				const {elm, rect, ch} = a[i];
@@ -186,23 +186,30 @@ export class Hyphenation {
 
 				const xy = tategaki ?rect.y :rect.x;
 //if (sl_xy > 790)
-//console.log(`🎴 sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} he.ch:${ch}: he:${JSON.stringify(a[j])}`);
-				if (sl_xy <= xy		// 【sl_xy < xy】では[tcy]二文字目を誤判定する
-				|| elm.previousElementSibling?.children[0]?.tagName
-					=== 'BR'		// [r]による改行後は追い出し処理をしないように
-					) {
-						sl_xy = xy;
-						if (! this.break_fixed) {
-							this.break_fixed_left = rect.x;
-							this.break_fixed_top = rect.y;
-						}
-						continue;
+//console.log(`🎴 sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} i:${i} ch:${ch}: rect:(${rect.left.toFixed(2)}, ${rect.top.toFixed(2)}, ${rect.width.toFixed(2)}, ${rect.height.toFixed(2)})`);
+				if (sl_xy <= xy	// 【 < 】では[tcy]二文字目を誤判定する
+				// [r]による改行後は追い出し処理をしないように
+				|| (elm.previousElementSibling?.tagName === 'SPAN'
+				&&	elm.previousElementSibling?.innerHTML.includes('<br>'))
+				// <span class="offrec"> 〜 </span> 外し
+				|| (elm.parentElement?.previousElementSibling?.tagName === 'SPAN'
+				&&	elm.parentElement?.previousElementSibling?.innerHTML.includes('<br>'))) {
+					sl_xy = xy;
+					if (! this.break_fixed) {
+						this.break_fixed_left = rect.x;
+						this.break_fixed_top = rect.y;
 					}
+					continue;
+				}
 /*
 	// [r]などの改行はこう。TxtLayer.#tagCh_sub()により <span> に入れられる
 	<span class=​"sn_ch" style=​"display:​ inline;​animation-delay:​ 10ms;​">​
 		<br>
 	​</span>​
+
+	// 上記が下記に囲まれている場合もある。previousElementSibling 使用時は注意
+	<span class="offrec"> 〜 </span>
+
 
 	// 禁則処理による自動改行はこう
 	<br>
@@ -211,7 +218,7 @@ export class Hyphenation {
 				let p_i = i -1;
 				while (a[p_i].elm.tagName === 'RT') --p_i;	// ルビはスキップ
 				const {elm: p_elm, rect: p_rect, ch: p_ch} = a[p_i];
-//console.log(`🎴 === 自動改行発生！　前文字:${chPrev}: 今文字:${ch}:`);
+//console.log(`🎴 === 自動改行発生！ 前文字:${p_i}:${p_ch}: 今文字:${i}:${ch}:(${ch.charCodeAt(0).toString(16)})`);
 				if (! this.break_fixed) {
 					this.break_fixed_left = p_rect.x;
 					this.break_fixed_top = p_rect.y;
@@ -223,10 +230,10 @@ export class Hyphenation {
 				sl_xy = -Infinity;	// 自動改行発生！
 				const oldI = i;
 				const {cont, ins} = this.bura
-					? this.hyph_alg_bura(a, len, p_i, p_ch, i, ch)
+					? this.hyph_alg_bura(a, p_i, p_ch, i)
 					: this.hyph_alg(a, p_i, p_ch, i, ch);
 				i = ins;
-//console.log(`fn:Hyphenation.ts line:204 ins:${ins} cont:${cont} elm2.ch:${a[i].ch}`);
+//console.log(`🎴 -- cont:${cont} ins:${ins} :${a[i].ch}:の前に改行を挿入`);
 				if (cont) continue;
 
 				// 改行挿入
@@ -293,7 +300,7 @@ export class Hyphenation {
 		a	: IChRect[],
 		p_i	: number,
 		p_ch: string,
-		i	: number,
+		i	: number,	// i >= 2
 		ch	: string,
 	): {cont: boolean, ins: number} {
 		// 追い出し走査
@@ -325,59 +332,66 @@ export class Hyphenation {
 	 * @param {number} p_i - 処理要素の一つ前の添字
 	 * @param {string} p_ch - 処理要素の一つ前の文字
 	 * @param {number} i - 処理要素の添字
-	 * @param {string} ch - 処理要素の文字
 	 * @return {Object} result 戻り値
 	 * @return {boolean} result.cont - true: 呼び元で改行挿入せず continue
 	 * @return {number} result.ins - 手前に改行を挿入すべき要素の添字
 	 */
 	hyph_alg_bura(	// テスト用にpublic
 		a	: IChRect[],
-		len	: number,
 		p_i	: number,
 		p_ch: string,
-		i	: number,
-		ch	: string,
+		i	: number,	// i >= 2
 	): {cont: boolean, ins: number} {
-		// ぶら下げ走査（二つ前 -> 一つ前）
-		if (p_i -1 > 1 && this.#regぶら下げ.test(a[p_i -1].ch)) return {
-			cont: false,	// >1 はさすがに冒頭はぶら下げ不要だろうという判断
-			ins	: p_i > 0 && this.#regぶら下げ.test(p_ch) ?i :p_i,
-		};	// ぶら下げ文字への「ルビはスキップ」、オーバースペックかなと
+//console.log(`🎴 hyph_alg_bura p_ch:${p_ch}`);
+		const pp_i = i -2;	// 分割禁止への「ルビスキップ」、オーバースペックかなと
+		const {ch: pp_ch} = a[pp_i];
+		// 改行前二個目に「ぶら下げ」があるパターン
+		if (this.#regぶら下げ.test(pp_ch) ||
+			this.#reg行頭禁則.test(pp_ch)
+		) {
+			let ins = pp_i +1;
+			// 改行前にも「ぶら下げ」があるパターン
+			if (this.#regぶら下げ.test(p_ch)
+			||	this.#reg行頭禁則.test(p_ch)) ins = p_i +1;
 
-		// ぶら下げ＆行頭禁則走査（現在地 -> 一つ次）
-		if (this.#regぶら下げ.test(ch)
-		|| this.#reg行頭禁則.test(ch)) return {	// 後方走査
-			cont: false,
-			ins: i +1 < len
-				&& (this.#regぶら下げ.test(a[i +1].ch)
-				|| this.#reg行頭禁則.test(a[i +1].ch))
-				?i +2 :i +1,
-		};	// ぶら下げ文字への「ルビはスキップ」、オーバースペックかなと
+			// ぶら下げ後……追い出し走査
+			const {ch: last_ch} = a[ins -1];	// 行末
+			const {ch: head_ch} = a[ins];		// 行頭
+			// 分割禁止
+			if (last_ch === head_ch && this.#reg分割禁止.test(head_ch)) return {cont: false, ins: ins -1};
 
-		if (i > 2) {
-			const ppp_i = i -3;
-			const pp_i = i -2;
-				// 分割禁止文字への「ルビはスキップ」、オーバースペックかなと
+			if (! this.#reg行末禁則.test(last_ch)) return {cont: false, ins};
+			// 行末禁則
+			i = ins -1;
+			while (i > 0) {
+				const {elm, ch} = a[--i];	// 前方走査
+				if (elm.tagName === 'RT') continue;	// ルビはスキップ
+				if (! this.#reg行末禁則.test(ch)) break;	// 行禁はスキップ
+			}
+			return {cont: false, ins: i +1};	// 行末禁則
+		}
+
+		// 改行前二個目に「ぶら下げ」がないパターン
+		const ppp_i = i -3;
+		if (i >= 3) {
 			const {ch: ppp_ch} = a[ppp_i];
-			const {ch: pp_ch} = a[pp_i];
-			// 追い出し走査
-			if (ppp_ch === pp_ch && this.#reg分割禁止.test(pp_ch)) return {
-				cont: false, ins: ppp_i	// 分割禁止
-			};
-			if (this.#reg行末禁則.test(ppp_ch)) {
+			// 改行前二個目に「分割禁止」パターン
+			if (this.#reg分割禁止.test(pp_ch)) {	// 分割禁止
+				if (ppp_ch === pp_ch) return {cont: false, ins: ppp_i};
+			}
+			// 改行前三個目に「行末禁則」パターン
+			if (this.#reg行末禁則.test(ppp_ch)) {	// 行末禁則
 				i = ppp_i;
-				while (i > 0) {
-					const {elm, ch} = a[--i];	// 前方走査
+				while (--i > 0) {
+					const {elm, ch} = a[i];	// 前方走査
 					if (elm.tagName === 'RT') continue;	// ルビはスキップ
-					if (! this.#reg行末禁則.test(ch)) break;	// 行末禁則はスキップ
+					if (! this.#reg行末禁則.test(ch)) break;	// 行禁はスキップ
 				}
 				return {cont: false, ins: i +1};	// 行末禁則
 			}
-
-			return {cont: false, ins: pp_i};
 		}
 
-		return {cont: false, ins: i +1};
+		return {cont: false, ins: i -2};
 	}
 
 }
