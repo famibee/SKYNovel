@@ -15,9 +15,9 @@ export	type	HPROC	= {
 	removeSync	: (path: string)=> Promise<void>;
 	ensureFileSync	: (path: string)=> Promise<void>;
 	readFileSync: (path: string)=> Promise<string>;
-	readFile	: (path: string, callback: (err: NodeJS.ErrnoException, data: Buffer)=> void)=> void;
 	writeFileSync	: (path: string, data: string | NodeJS.ArrayBufferView, o?: object)=> Promise<void>;
-	appendFile		: (path: string, data: string, callback: (err: Error)=> void)=> Promise<void>;
+	appendFile		: (path: string, data: string)=> Promise<void>;
+	outputFile		: (path: string, data: string)=> Promise<void>;
 
 	window	: (centering: boolean, x: number, y: number, w: number, h: number)=> void;
 	isSimpleFullScreen	: ()=> Promise<boolean>;
@@ -70,12 +70,12 @@ export const	hProc	: HPROC	= {
 		ipcRenderer.invoke('ensureFileSync', path).catch(fncE),
 	readFileSync	: path=>
 		ipcRenderer.invoke('readFileSync', path).catch(fncE),
-	readFile	: (path, callback)=>
-		ipcRenderer.invoke('readFile', path, callback).catch(fncE),
 	writeFileSync	: (path, data, o?)=>
 		ipcRenderer.invoke('writeFileSync', path, data, o).catch(fncE),
-	appendFile		: (path, data, callback)=>
-		ipcRenderer.invoke('appendFile', path, data, callback).catch(fncE),
+	appendFile		: (path, data)=>
+		ipcRenderer.invoke('appendFile', path, data).catch(fncE),
+	outputFile		: (path, data)=>
+		ipcRenderer.invoke('outputFile', path, data).catch(fncE),
 
 	win_close	: ()=> ipcRenderer.invoke('win_close').catch(fncE),
 	win_setTitle	: title=>

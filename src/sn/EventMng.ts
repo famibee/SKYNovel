@@ -55,7 +55,7 @@ export class EventMng implements IEvtMng {
 
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
-		TxtLayer.setEvtMng(this, sys);
+		TxtLayer.setEvtMng(this, sys, scrItr);
 		layMng.setEvtMng(this);
 		sys.setFire((KEY, e)=> this.fire(KEY, e));
 
@@ -552,8 +552,6 @@ export class EventMng implements IEvtMng {
 	readonly	waitEvent = (evnm: string, hArg: HArg, onIntr: ()=> void)=> this.#rs.waitEvent(evnm, hArg, onIntr);
 	breakEvent(evnm: string) {this.#rs.breakEvent(evnm)}
 
-
-	noticeCompTxt() {ReadState.noticeCompTxt()}
 
 	// キー押下によるスキップ中か
 	get	isSkipping(): boolean {

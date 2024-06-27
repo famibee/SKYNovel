@@ -284,10 +284,13 @@ export class SysWeb extends SysBase {
 	}
 
 	readonly	#hAppendFile: {[path: string]: string} = {};
-	override async appendFile(path: string, data: any, _callback: (err: NodeJS.ErrnoException)=> void) {
+	override async appendFile(path: string, data: any) {
 		const txt = (this.#hAppendFile[path] ?? '') + data;
 		this.#hAppendFile[path] = txt;
 
+		await this.outputFile(path, txt);
+	}
+	override async outputFile(path: string, txt: string) {
 		const blob = new Blob([txt], {'type':'text/json'});
 		const a = document.createElement('a');
 		a.href = URL.createObjectURL(blob);

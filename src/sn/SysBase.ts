@@ -486,7 +486,8 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 
 	capturePage(_fn: string, _w: number, _h: number, _fnc: ()=> void) {}
 	async savePic(_fn: string, _data_url: string) {}
-	async appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException)=> void) {}
 	async ensureFileSync(_path: string) {}
+	async appendFile(_path: string, _data: string) {}
+	async outputFile(_path: string, _data: string) {}
 
 }

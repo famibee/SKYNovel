@@ -76,7 +76,8 @@ export declare class SysBase implements ISysRoots, ISysBase {
     get path_userdata(): string;
     capturePage(_fn: string, _w: number, _h: number, _fnc: () => void): void;
     savePic(_fn: string, _data_url: string): Promise<void>;
-    appendFile(_path: string, _data: string, _callback: (err: NodeJS.ErrnoException) => void): Promise<void>;
     ensureFileSync(_path: string): Promise<void>;
+    appendFile(_path: string, _data: string): Promise<void>;
+    outputFile(_path: string, _data: string): Promise<void>;
 }
 //# sourceMappingURL=SysBase.d.ts.map

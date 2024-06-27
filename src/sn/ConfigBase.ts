@@ -58,6 +58,7 @@ export type T_CFG = {
 		baseTx		: boolean,
 		masume		: boolean,	// テキストレイヤ：ガイドマス目を表示するか
 		variable	: boolean,
+		dumpHtm	: boolean,	// テキストレイヤ：HTML部分をファイル出力するか
 	},
 	code	: {[fold_nm: string]: boolean,},	// 暗号化しないフォルダ
 	debuger_token	: string,	// デバッガとの接続トークン
@@ -123,6 +124,7 @@ export class ConfigBase implements IConfig {
 			baseTx		: false,
 			masume		: false,	// テキストレイヤ：ガイドマス目を表示するか
 			variable	: false,
+			dumpHtm	: false,
 		},
 		code	: {},	// 暗号化しないフォルダ
 		debuger_token	: '',		// デバッガとの接続トークン

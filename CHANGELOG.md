@@ -1,3 +1,16 @@
+- feat(文字レイヤ): prj.json に debug.debugHtm スイッチ追加。文字レイヤの改行などの様子が分かるHTMLファイルを出力する
+	- ブラウザ版では保存ダイアログが出てウザイので、アプリ版でのみ有効とする
+	- [l][p]などで停止するたび、ダウンロードフォルダに上書き出力する
+	- ファイル名は【dumpHtm layer=（レイヤ名） cls=txt(fn=（スクリプト名） line=（行番号）)】
+- fix(アプリ版[log]): ipcRenderer.invoke() でエラーになっていたのを修正
+	- 構造化複製アルゴリズムを使って引数をコピーできすエラー
+	- Error: An object could not be cloned.
+- fix(TxtStage.ts): animationend 時イベントで差し替え前提の #fncEndChIn を差し替えられない記述をしていた件
+- fix(Pages.ts): 内部 nameプロパティ設定でのミス修正
+- fix(TxtLayer.ts): destroy()時に無駄な new が発生していた件
+- fix: リファクタリングなど
+
+
 ## [1.54.1](https://github.com/famibee/SKYNovel/compare/v1.54.0...v1.54.1) (2024-06-25)
 
 

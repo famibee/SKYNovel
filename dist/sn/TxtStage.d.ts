@@ -3,6 +3,7 @@ import { HArg } from './Grammar';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';
+import { ScriptIterator } from './ScriptIterator';
 import { Container, Sprite, Renderer, Application } from 'pixi.js';
 
 interface IInfTxLay {
@@ -20,8 +21,9 @@ export declare class TxtStage extends Container {
     private readonly canFocus;
     private readonly sys;
     static init(cfg: Config, appPixi: Application): void;
-    static setEvtMng(evtMng: IEvtMng): void;
+    static setEvtMng(evtMng: IEvtMng, scrItr: ScriptIterator): void;
     static destroy(): void;
+    noticeCompTxt: () => void;
     constructor(spLay: Sprite, canFocus: () => boolean, sys: SysBase);
     lay(hArg: HArg): void;
     cvsResize(): void;

@@ -65,7 +65,6 @@ export class DebugMng {
 			} [fn:${DebugMng.#scrItr.scriptFn} line:${DebugMng.#scrItr.lineNum
 			}] prj:${this.sys.cur
 			}\n${hArg.text || `(text is ${hArg.text})`}\n`,
-			err=> {if (err) console.log(err)}
 		);
 
 		return false;
@@ -92,11 +91,11 @@ export class DebugMng {
 		console.info('%c'+ mes, sty);
 	}
 	static myTrace = DebugMng.trace_beforeNew;
-	static strPos = ()=> (DebugMng.#scrItr && DebugMng.#scrItr.lineNum > 0)
+	static strPos = ()=> DebugMng.#scrItr.lineNum > 0
 		? `(fn:${DebugMng.#scrItr.scriptFn} line:${DebugMng.#scrItr.lineNum}) `
 		: '';
 	static #st_trace(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
-		let mes = `{${lvl}} `+ DebugMng.strPos()+ txt;
+		let mes = `{${lvl}} `+ DebugMng.strPos() + txt;
 		DebugMng.#dspDbg(mes, lvl);
 
 		let sty = '';

@@ -11,10 +11,10 @@ import {SysNode} from '../src/sn/SysNode';
 //===== Test Class =====
 import {readFileSync, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 export class SysTest extends SysNode {
+	override ensureFileSync = async (path: string)=> ensureFileSync(path);
 	protected	override readFileSync = async (path: string)=> readFileSync(path, {encoding: 'utf8'});
 	protected	override writeFileSync = async (path: string, data: Buffer, o?: object)=> writeFileSync(path, data, o);
-	override appendFile = async (path: string, data: string, callback: (err: NodeJS.ErrnoException)=> void)=> appendFile(path, data).catch(err=> callback(err));
-	override ensureFileSync = async (path: string)=> ensureFileSync(path);
+	override appendFile = async (path: string, data: string)=> appendFile(path, data).catch(err=> {throw err});
 }
 //===== Test Class =====
 

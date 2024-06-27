@@ -66,7 +66,6 @@ export interface IEvtMng {
 	breakEvent(evnm: string): void;
 	hideHint(): void;
 	cvsResize(): void;
-	noticeCompTxt(): void;
 
 	resvFlameEvent(win: Window): void;
 }

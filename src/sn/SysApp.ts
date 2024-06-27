@@ -53,10 +53,11 @@ export class SysApp extends SysNode {
 		arch		: '',
 	};
 
+	override	ensureFileSync	= to_app.ensureFileSync;
 	protected override	readFileSync	= to_app.readFileSync;
 	protected override	writeFileSync	= to_app.writeFileSync;
 	override	appendFile		= to_app.appendFile;
-	override	ensureFileSync	= to_app.ensureFileSync;
+	override	outputFile		= to_app.outputFile;
 
 	protected 	override $path_userdata		= '';
 	protected	override $path_downloads	= '';

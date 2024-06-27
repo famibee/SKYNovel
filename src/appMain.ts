@@ -7,7 +7,7 @@
 
 import {screen, app, BrowserWindow, ipcMain, shell, dialog} from 'electron';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
-import {existsSync, copySync, removeSync, ensureDirSync, readFileSync, readFile, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
+import {existsSync, copySync, removeSync, ensureDirSync, readFileSync, writeFileSync, appendFile, ensureFileSync, outputFile} from 'fs-extra';
 import Store from 'electron-store';
 import AdmZip from 'adm-zip';
 import {HINFO} from './preload';
@@ -41,9 +41,9 @@ export class appMain {
 		ipcMain.handle('removeSync', (_, fn)=> removeSync(fn));
 		ipcMain.handle('ensureFileSync', (_, fn)=> ensureFileSync(fn));
 		ipcMain.handle('readFileSync', (_, path)=> readFileSync(path, {encoding: 'utf8'}));
-		ipcMain.handle('readFile', (_, path, callback)=>readFile(path, callback));
 		ipcMain.handle('writeFileSync', (_, path, data, o)=> writeFileSync(path, data, o));
-		ipcMain.handle('appendFile', (_, path, data, callback)=> appendFile(path, data).catch(err=> callback(err)));
+		ipcMain.handle('appendFile', (_, path, data)=> appendFile(path, data).catch(err=> console.log(err)));
+		ipcMain.handle('outputFile', (_, path, data)=> outputFile(path, data).catch(err=> console.log(err)));
 
 		ipcMain.handle('win_close', ()=> bw.close());
 		ipcMain.handle('win_setTitle', (_, title)=> bw.setTitle(title));

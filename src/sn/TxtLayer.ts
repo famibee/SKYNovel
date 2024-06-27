@@ -19,6 +19,7 @@ import {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {enableEvent, disableEvent} from './ReadState';
+import {ScriptIterator} from './ScriptIterator';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer, Application} from 'pixi.js';
 
@@ -146,10 +147,10 @@ export class TxtLayer extends Layer {
 
 	static	#evtMng	: IEvtMng;
 	static	#sys	: SysBase;
-	static setEvtMng(evtMng: IEvtMng, sys: SysBase) {
+	static setEvtMng(evtMng: IEvtMng, sys: SysBase, scrItr: ScriptIterator) {
 		TxtLayer.#evtMng = evtMng;
 		TxtLayer.#sys = sys;
-		TxtStage.setEvtMng(evtMng);
+		TxtStage.setEvtMng(evtMng, scrItr);
 	}
 
 	// 文字ごとのウェイト
@@ -221,7 +222,7 @@ export class TxtLayer extends Layer {
 	override destroy() {
 		if (this.#b_do) {this.spLay.removeChild(this.#b_do).destroy(); this.#b_do = undefined}
 
-		this.clearText();
+		TxtLayer.#recorder.recPagebreak();
 		this.#txs.destroy();
 	}
 	static	destroy() {
@@ -553,7 +554,7 @@ export class TxtLayer extends Layer {
 					this.#needGoTxt = false;
 					this.#cumDelay = 0;
 				}
-				else if (this.isCur) TxtLayer.#evtMng.noticeCompTxt();
+				else if (this.isCur) this.#txs.noticeCompTxt();
 			}	return;	// breakではない
 
 			case 'add':{	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）

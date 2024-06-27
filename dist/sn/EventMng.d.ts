@@ -30,7 +30,6 @@ export declare class EventMng implements IEvtMng {
     cvsResize(): void;
     readonly waitEvent: (evnm: string, hArg: HArg, onIntr: () => void) => boolean;
     breakEvent(evnm: string): void;
-    noticeCompTxt(): void;
     get isSkipping(): boolean;
 }
 //# sourceMappingURL=EventMng.d.ts.map

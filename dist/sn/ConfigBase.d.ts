@@ -47,6 +47,7 @@ export type T_CFG = {
         baseTx: boolean;
         masume: boolean;
         variable: boolean;
+        dumpHtm: boolean;
     };
     code: {
         [fold_nm: string]: boolean;

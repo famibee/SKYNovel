@@ -5,12 +5,13 @@ import { IVariable, IRecorder } from './CmnInterface';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';
+import { ScriptIterator } from './ScriptIterator';
 import { Renderer, Application } from 'pixi.js';
 
 export declare class TxtLayer extends Layer {
     #private;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recorder: IRecorder, isPageFore: (me: TxtLayer) => boolean, appPixi: Application): void;
-    static setEvtMng(evtMng: IEvtMng, sys: SysBase): void;
+    static setEvtMng(evtMng: IEvtMng, sys: SysBase, scrItr: ScriptIterator): void;
     constructor();
     destroy(): void;
     static destroy(): void;

@@ -5,9 +5,9 @@ export type HPROC = {
     removeSync: (path: string) => Promise<void>;
     ensureFileSync: (path: string) => Promise<void>;
     readFileSync: (path: string) => Promise<string>;
-    readFile: (path: string, callback: (err: NodeJS.ErrnoException, data: Buffer) => void) => void;
     writeFileSync: (path: string, data: string | NodeJS.ArrayBufferView, o?: object) => Promise<void>;
-    appendFile: (path: string, data: string, callback: (err: Error) => void) => Promise<void>;
+    appendFile: (path: string, data: string) => Promise<void>;
+    outputFile: (path: string, data: string) => Promise<void>;
     window: (centering: boolean, x: number, y: number, w: number, h: number) => void;
     isSimpleFullScreen: () => Promise<boolean>;
     setSimpleFullScreen: (b: boolean) => Promise<void>;

@@ -43,6 +43,12 @@ export declare class ScriptIterator {
         idx: number;
     };
     nowMark(): IMark;
+    nowScrFnLn(): {
+        fn: string;
+        ln: number;
+        col_s: number;
+        col_e: number;
+    };
     recodeDesign(hArg: HArg): void;
     replace(idx: number, val: string): void;
 }

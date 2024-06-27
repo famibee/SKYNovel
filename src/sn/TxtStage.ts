@@ -15,6 +15,8 @@ import {IMakeDesignCast} from './LayerMng';
 import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 import {SysBase} from './SysBase';
 import {Hyphenation, IChRect} from './Hyphenation';
+import {ScriptIterator} from './ScriptIterator';
+import {ReadState} from './ReadState';
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, Application} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
@@ -43,7 +45,11 @@ export class TxtStage extends Container {
 		TxtStage.#appPixi = appPixi;
 	}
 	static	#evtMng	: IEvtMng;
-	static	setEvtMng(evtMng: IEvtMng) {TxtStage.#evtMng = evtMng}
+	static	#scrItr	: ScriptIterator;
+	static	setEvtMng(evtMng: IEvtMng, scrItr: ScriptIterator) {
+		TxtStage.#evtMng = evtMng;
+		TxtStage.#scrItr = scrItr;
+	}
 
 	static	destroy() {
 		TxtStage.#hChInStyle	= Object.create(null);
@@ -70,6 +76,7 @@ export class TxtStage extends Container {
 
 
 	#hyph	= new Hyphenation;
+	noticeCompTxt	= ()=> {};
 	constructor(private readonly spLay: Sprite, private readonly canFocus: ()=> boolean, private readonly sys: SysBase) {
 		super();
 
@@ -84,6 +91,29 @@ export class TxtStage extends Container {
 
 		this.#idc = new TxtLayDesignCast(this.spLay, this);
 		this.#idc.adopt(this.#idcCh);
+
+		this.noticeCompTxt = sys.isApp && TxtStage.#cfg.oCfg.debug.dumpHtm
+		? ()=> {
+			ReadState.noticeCompTxt();
+
+			const htm = this.#htmTxt.innerHTML;
+			if (htm === '') return;
+			const {fn, ln} = TxtStage.#scrItr.nowScrFnLn();
+			const id = `dumpHtm ${
+				this.spLay.name.slice(0, -7)	// 末尾「 page=B」削り
+				.replaceAll(':', '=')			// ファイル名で困る文字
+			}(fn=${fn} line=${ln})`;
+			sys.outputFile(
+				sys.path_downloads + id +'.htm',
+`<!doctype html><html><head><meta charset=utf-8><title>${id}</title>
+<h1>${id}</h1>${
+	htm	// outerHTML からのレイヤ再現などしたいとこだがオーバースペック
+	.replaceAll(/(<\/?ruby>)/g, '\n$1\n')
+	.replaceAll(/<(br|\/span)>/g, '<$1>\n')
+}`,
+			);
+		}
+		: ()=> ReadState.noticeCompTxt();
 	}
 
 	readonly	#idc	:TxtLayDesignCast;
@@ -740,7 +770,7 @@ export class TxtStage extends Container {
 					- 冒頭クリック待ち＋改行での表示確認
 			*/
 
-			TxtStage.#evtMng.noticeCompTxt();
+			this.noticeCompTxt();
 			return true;
 		};
 
@@ -763,7 +793,8 @@ export class TxtStage extends Container {
 			// 「animation-duration: 0ms;」だと animationend が発生しないので
 			// === は右クリック戻りで起こる
 
-		lastElm.addEventListener('animationend', this.#fncEndChIn, {once: true, passive: true});	// クリックキャンセル時は発生しない
+		lastElm.addEventListener('animationend', ()=> this.#fncEndChIn(), {once: true, passive: true});	// クリックキャンセル時は発生しない
+			// 差し替えるので「()=> 」形式のままにすること
 	}
 	#fncEndChIn: ()=> boolean	= ()=> false;
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {

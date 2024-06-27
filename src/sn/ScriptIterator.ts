@@ -1229,7 +1229,7 @@ export class ScriptIterator {
 	}
 
 
-	// セーブポイント指定
+	//MARK: セーブポイント指定
 	#mark: IMark = {
 		hSave	: {},
 		hPages	: {},
@@ -1263,6 +1263,14 @@ export class ScriptIterator {
 		}
 	}
 	nowMark(): IMark {return {...this.#mark}}
+
+	//MARK: スクリプト停止位置（マクロなどなら最上位の呼び元）
+	nowScrFnLn(): {fn: string, ln: number, col_s: number, col_e: number} {
+		const {fn, idx} = this.nowScrIdx();
+		const st = this.#hScript[fn];
+		const o = this.#cnvIdx2lineCol(st, idx);	// -1不要
+		return {fn, ...o};
+	}
 
 	//MARK: しおりの保存
 	#save(hArg: HArg) {
