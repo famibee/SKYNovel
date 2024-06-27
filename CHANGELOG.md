@@ -1,3 +1,10 @@
+# [1.55.0](https://github.com/famibee/SKYNovel/compare/v1.54.1...v1.55.0) (2024-06-27)
+
+
+### Features
+
+* **文字レイヤ:** prj.json に debug.debugHtm スイッチ追加。文字レイヤの改行などの様子が分かるHTMLファイルを出力する ([7d06a9e](https://github.com/famibee/SKYNovel/commit/7d06a9e0e2775033173d91d26f0cb83deea7f1f9))
+
 - feat(文字レイヤ): prj.json に debug.debugHtm スイッチ追加。文字レイヤの改行などの様子が分かるHTMLファイルを出力する
 	- ブラウザ版では保存ダイアログが出てウザイので、アプリ版でのみ有効とする
 	- [l][p]などで停止するたび、ダウンロードフォルダに上書き出力する
