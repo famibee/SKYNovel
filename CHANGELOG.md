@@ -1,3 +1,10 @@
+## [1.55.1](https://github.com/famibee/SKYNovel/compare/v1.55.0...v1.55.1) (2024-06-30)
+
+
+### Bug Fixes
+
+* **禁則処理:** ルビ・縦中横・傍点関連への禁則処理を修正 ([5727009](https://github.com/famibee/SKYNovel/commit/5727009d7b7e179912d659d96a427acf6eb1047a))
+
 - fix(禁則処理): ルビ・縦中横・傍点関連への禁則処理を修正
 	- ぶら下げ領域にはみ出す場合
 	- 追い出しになる場合
