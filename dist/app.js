@@ -20881,7 +20881,7 @@ class u0 {
           continue;
         }
         let p = h - 1;
-        for (; o[p].elm.tagName === "RT"; ) --p;
+        o[p].elm.parentElement?.tagName === "RUBY" && --p;
         const { elm: v, rect: y, ch: _ } = o[p];
         if (!this.break_fixed) {
           this.break_fixed_left = y.x, this.break_fixed_top = y.y;
@@ -20936,15 +20936,15 @@ class u0 {
   hyph_alg(t, e, i, n, s) {
     if (!this.#s.test(i)) {
       if (this.#r.test(s))
-        for (; n > 0; ) {
-          const { elm: o, ch: a } = t[--n];
+        for (; --n >= 0; ) {
+          const { elm: o, ch: a } = t[n];
           if (o.tagName !== "RT" && !this.#r.test(a))
             break;
         }
       else if (!(i === s && this.#a.test(i))) return { cont: !0, ins: n + 1 };
     }
-    for (n = e; n > 0; ) {
-      const { elm: o, ch: a } = t[--n];
+    for (n = e; --n >= 0; ) {
+      const { elm: o, ch: a } = t[n];
       if (o.tagName !== "RT" && !this.#s.test(a))
         break;
     }
@@ -20962,35 +20962,36 @@ class u0 {
    * @return {number} result.ins - 手前に改行を挿入すべき要素の添字
    */
   hyph_alg_bura(t, e, i, n) {
-    const s = n - 2, { ch: o } = t[s];
+    const s = t[e - 1].elm.tagName === "RT" ? e - 2 : e - 1, { ch: o } = t[s];
     if (this.#f.test(o) || this.#r.test(o)) {
-      let h = s + 1;
-      (this.#f.test(i) || this.#r.test(i)) && (h = e + 1);
+      let h = e;
+      (this.#f.test(i) || this.#r.test(i)) && ++h;
       const { ch: l } = t[h - 1], { ch: u } = t[h];
       if (l === u && this.#a.test(u)) return { cont: !1, ins: h - 1 };
       if (!this.#s.test(l)) return { cont: !1, ins: h };
-      for (n = h - 1; n > 0; ) {
-        const { elm: c, ch: f } = t[--n];
+      for (; --h >= 0; ) {
+        const { elm: c, ch: f } = t[h];
         if (c.tagName !== "RT" && !this.#s.test(f))
           break;
       }
-      return { cont: !1, ins: n + 1 };
+      return { cont: !1, ins: h + 1 };
     }
-    const a = n - 3;
+    const a = s - 1;
     if (n >= 3) {
       const { ch: h } = t[a];
       if (this.#a.test(o) && h === o)
         return { cont: !1, ins: a };
       if (this.#s.test(h)) {
-        for (n = a; --n > 0; ) {
-          const { elm: l, ch: u } = t[n];
-          if (l.tagName !== "RT" && !this.#s.test(u))
+        let l = a;
+        for (; --l >= 0; ) {
+          const { elm: u, ch: c } = t[l];
+          if (u.tagName !== "RT" && !this.#s.test(c))
             break;
         }
-        return { cont: !1, ins: n + 1 };
+        return ++l, { cont: !1, ins: l };
       }
     }
-    return { cont: !1, ins: n - 2 };
+    return { cont: !1, ins: s };
   }
 }
 class ht extends Nt {
@@ -22171,9 +22172,7 @@ class ot extends jt {
               const { t: h, r: l = "", wait: u = null, style: c = "", r_style: f = "" } = JSON.parse(a);
               ot.#t.doRecLog() && (this.#it += t + (e ? `《${e}》` : ""), this.#Q += h);
               const d = k.isSafari ? l.replaceAll(/[A-Za-z0-9]/g, (y) => String.fromCharCode(y.charCodeAt(0) + 65248)) : l, { cl: m, sty: p, lnk: v } = this.#z(!0, u);
-              n = `<span${m} style='${p}${this.#C(h)} ${c}'><ruby><span${v} style='${p} display: inline;
-text-combine-upright: all;
--webkit-text-combine: horizontal;'>${h}</span><rt${v}${this.#V(
+              n = `<span${m} style='${p}${this.#C(h)} ${c}'><ruby><span${v} style='${p} display: inline; text-combine-upright: all;'>${h}</span><rt${v}${this.#V(
                 h,
                 d,
                 this.#w,

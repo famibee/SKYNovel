@@ -22475,7 +22475,7 @@ class Hyphenation {
           continue;
         }
         let W = $ - 1;
-        for (; D[W].elm.tagName === "RT"; ) --W;
+        D[W].elm.parentElement?.tagName === "RUBY" && --W;
         const { elm: Y, rect: K, ch: Z } = D[W];
         if (!this.break_fixed) {
           this.break_fixed_left = K.x, this.break_fixed_top = K.y;
@@ -22530,15 +22530,15 @@ class Hyphenation {
   hyph_alg(t, e, r, k, N) {
     if (!this.#s.test(r)) {
       if (this.#i.test(N))
-        for (; k > 0; ) {
-          const { elm: D, ch: B } = t[--k];
+        for (; --k >= 0; ) {
+          const { elm: D, ch: B } = t[k];
           if (D.tagName !== "RT" && !this.#i.test(B))
             break;
         }
       else if (!(r === N && this.#o.test(r))) return { cont: !0, ins: k + 1 };
     }
-    for (k = e; k > 0; ) {
-      const { elm: D, ch: B } = t[--k];
+    for (k = e; --k >= 0; ) {
+      const { elm: D, ch: B } = t[k];
       if (D.tagName !== "RT" && !this.#s.test(B))
         break;
     }
@@ -22556,35 +22556,36 @@ class Hyphenation {
    * @return {number} result.ins - 手前に改行を挿入すべき要素の添字
    */
   hyph_alg_bura(t, e, r, k) {
-    const N = k - 2, { ch: D } = t[N];
+    const N = t[e - 1].elm.tagName === "RT" ? e - 2 : e - 1, { ch: D } = t[N];
     if (this.#f.test(D) || this.#i.test(D)) {
-      let $ = N + 1;
-      (this.#f.test(r) || this.#i.test(r)) && ($ = e + 1);
+      let $ = e;
+      (this.#f.test(r) || this.#i.test(r)) && ++$;
       const { ch: U } = t[$ - 1], { ch: H } = t[$];
       if (U === H && this.#o.test(H)) return { cont: !1, ins: $ - 1 };
       if (!this.#s.test(U)) return { cont: !1, ins: $ };
-      for (k = $ - 1; k > 0; ) {
-        const { elm: z, ch: V } = t[--k];
+      for (; --$ >= 0; ) {
+        const { elm: z, ch: V } = t[$];
         if (z.tagName !== "RT" && !this.#s.test(V))
           break;
       }
-      return { cont: !1, ins: k + 1 };
+      return { cont: !1, ins: $ + 1 };
     }
-    const B = k - 3;
+    const B = N - 1;
     if (k >= 3) {
       const { ch: $ } = t[B];
       if (this.#o.test(D) && $ === D)
         return { cont: !1, ins: B };
       if (this.#s.test($)) {
-        for (k = B; --k > 0; ) {
-          const { elm: U, ch: H } = t[k];
-          if (U.tagName !== "RT" && !this.#s.test(H))
+        let U = B;
+        for (; --U >= 0; ) {
+          const { elm: H, ch: z } = t[U];
+          if (H.tagName !== "RT" && !this.#s.test(z))
             break;
         }
-        return { cont: !1, ins: k + 1 };
+        return ++U, { cont: !1, ins: U };
       }
     }
-    return { cont: !1, ins: k - 2 };
+    return { cont: !1, ins: N };
   }
 }
 class TxtStage extends Container {
@@ -23765,9 +23766,7 @@ class TxtLayer extends Layer {
               const { t: $, r: U = "", wait: H = null, style: z = "", r_style: V = "" } = JSON.parse(B);
               TxtLayer.#t.doRecLog() && (this.#rt += t + (e ? `《${e}》` : ""), this.#Q += $);
               const X = CmnLib.isSafari ? U.replaceAll(/[A-Za-z0-9]/g, (K) => String.fromCharCode(K.charCodeAt(0) + 65248)) : U, { cl: q, sty: W, lnk: Y } = this.#z(!0, H);
-              k = `<span${q} style='${W}${this.#O($)} ${z}'><ruby><span${Y} style='${W} display: inline;
-text-combine-upright: all;
--webkit-text-combine: horizontal;'>${$}</span><rt${Y}${this.#V(
+              k = `<span${q} style='${W}${this.#O($)} ${z}'><ruby><span${Y} style='${W} display: inline; text-combine-upright: all;'>${$}</span><rt${Y}${this.#V(
                 $,
                 X,
                 this.#E,

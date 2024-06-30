@@ -614,12 +614,7 @@ export class TxtLayer extends Layer {
 						// 選択矩形が横倒しになる不具合対策)
 					: r;
 				const {cl, sty, lnk} = this.#o2domArg(true, wait);
-					// text-combine-upright: all;			縦中横
-					// -webkit-text-combine: horizontal;	縦中横(Safari)
-				add_htm = `<span${cl} style='${sty}${this.#fncFFSStyle(t)
-				} ${style}'><ruby><span${lnk} style='${sty} display: inline;
-text-combine-upright: all;
--webkit-text-combine: horizontal;'>${t}</span><rt${lnk}${
+				add_htm = `<span${cl} style='${sty}${this.#fncFFSStyle(t)} ${style}'><ruby><span${lnk} style='${sty} display: inline; text-combine-upright: all;'>${t}</span><rt${lnk}${
 					this.#mkStyle_r_align(t, rb, this.#r_align,
 					this.#htmRb.style.cssText	// この並びで上書きされていく
 					+ (this.#stkASpan.at(-1)?.o.r_style ?? '')

@@ -179,7 +179,7 @@ export class Hyphenation {
 
 			// 禁則処理判定ループ
 			let sl_xy = -Infinity;	// 前回のxy
-//console.log(` len:${len}`);
+//console.log(`- len:${len} a_ch:${a.map((v, i)=> v.elm.tagName === 'RT' ?[] :[i, v.ch])}:`);
 			for (; i<len; ++i) {
 				const {elm, rect, ch} = a[i];
 				if (elm.tagName === 'RT') continue;	// ルビはスキップ
@@ -216,9 +216,11 @@ export class Hyphenation {
 */
 
 				let p_i = i -1;
-				while (a[p_i].elm.tagName === 'RT') --p_i;	// ルビはスキップ
+				if (a[p_i].elm.parentElement?.tagName === 'RUBY') --p_i;
+					// ルビならその最上位<span>へ
+					// クリック待ちが[tcy]の二文字目直下に行ってしまう対策（safari以外）
 				const {elm: p_elm, rect: p_rect, ch: p_ch} = a[p_i];
-//console.log(`🎴 === 自動改行発生！ 前文字:${p_i}:${p_ch}: 今文字:${i}:${ch}:(${ch.charCodeAt(0).toString(16)})`);
+//console.log(`🎴 === 自動改行発生！ 前文字:${p_i}:${p_ch}:%o 今文字:${i}:${ch}:(${ch.charCodeAt(0).toString(16)})%o`, a[p_i].elm, a[i].elm);
 				if (! this.break_fixed) {
 					this.break_fixed_left = p_rect.x;
 					this.break_fixed_top = p_rect.y;
@@ -233,7 +235,7 @@ export class Hyphenation {
 					? this.hyph_alg_bura(a, p_i, p_ch, i)
 					: this.hyph_alg(a, p_i, p_ch, i, ch);
 				i = ins;
-//console.log(`🎴 -- cont:${cont} ins:${ins} :${a[i].ch}:の前に改行を挿入`);
+//console.log(`🎴 -- cont:${cont} ins:${i} :${a[i].ch}:%o の前に改行を挿入`, a[i].elm);
 				if (cont) continue;
 
 				// 改行挿入
@@ -248,7 +250,7 @@ export class Hyphenation {
 					else ppal.insertBefore(br, pal);
 				}
 
-				i += 2;	// 次へ行く +1 と、いま追加した<br>のぶん
+				i += 2;	// いま追加した<br>のぶんと、次へ行く +1
 				if (i < oldI) i = oldI;	// 永久ループ防御
 				len = -1;	// doループ先頭に戻る
 				break;
@@ -306,8 +308,8 @@ export class Hyphenation {
 		// 追い出し走査
 		if (this.#reg行末禁則.test(p_ch)) {}	// 一つ前
 		else if (this.#reg行頭禁則.test(ch)) {	//（現在地 -> 前方走査）
-			while (i > 0) {
-				const {elm, ch} = a[--i];	// 前方走査
+			while (--i >= 0) {
+				const {elm, ch} = a[i];	// 前方走査
 				if (elm.tagName === 'RT') continue;	// ルビはスキップ
 				if (! this.#reg行頭禁則.test(ch)) break;	// 行頭禁則はスキップ
 			}
@@ -317,8 +319,8 @@ export class Hyphenation {
 
 		// 追い出しによる新行末二次判定（一つ前 -> 前方走査）
 		i = p_i;
-		while (i > 0) {
-			const {elm, ch} = a[--i];	// 前方走査
+		while (--i >= 0) {
+			const {elm, ch} = a[i];	// 前方走査
 			if (elm.tagName === 'RT') continue;	// ルビはスキップ
 			if (! this.#reg行末禁則.test(ch)) break;	// 行末禁則はスキップ
 		}
@@ -343,55 +345,58 @@ export class Hyphenation {
 		i	: number,	// i >= 2
 	): {cont: boolean, ins: number} {
 //console.log(`🎴 hyph_alg_bura p_ch:${p_ch}`);
-		const pp_i = i -2;	// 分割禁止への「ルビスキップ」、オーバースペックかなと
+		const pp_i = a[p_i -1].elm.tagName === 'RT' ?p_i -2 :p_i -1;
 		const {ch: pp_ch} = a[pp_i];
-		// 改行前二個目に「ぶら下げ」があるパターン
-		if (this.#regぶら下げ.test(pp_ch) ||
-			this.#reg行頭禁則.test(pp_ch)
-		) {
-			let ins = pp_i +1;
-			// 改行前にも「ぶら下げ」があるパターン
-			if (this.#regぶら下げ.test(p_ch)
-			||	this.#reg行頭禁則.test(p_ch)) ins = p_i +1;
+		// 改行前二個目に「ぶら下げ」がある
+		if (this.#regぶら下げ.test(pp_ch) || this.#reg行頭禁則.test(pp_ch)) {
+			let j = p_i;
+			// 改行前にも「ぶら下げ」がある
+			if (this.#regぶら下げ.test(p_ch) || this.#reg行頭禁則.test(p_ch)) ++j;
 
 			// ぶら下げ後……追い出し走査
-			const {ch: last_ch} = a[ins -1];	// 行末
-			const {ch: head_ch} = a[ins];		// 行頭
+			const {ch: last_ch} = a[j -1];	// 行末
+			const {ch: head_ch} = a[j];		// 行頭
 			// 分割禁止
-			if (last_ch === head_ch && this.#reg分割禁止.test(head_ch)) return {cont: false, ins: ins -1};
+			if (last_ch === head_ch && this.#reg分割禁止.test(head_ch)) return {cont: false, ins: j -1};
 
-			if (! this.#reg行末禁則.test(last_ch)) return {cont: false, ins};
+			if (! this.#reg行末禁則.test(last_ch)) return {cont: false, ins: j};
 			// 行末禁則
-			i = ins -1;
-			while (i > 0) {
-				const {elm, ch} = a[--i];	// 前方走査
+			while (--j >= 0) {
+				const {elm, ch} = a[j];	// 前方走査
 				if (elm.tagName === 'RT') continue;	// ルビはスキップ
 				if (! this.#reg行末禁則.test(ch)) break;	// 行禁はスキップ
 			}
-			return {cont: false, ins: i +1};	// 行末禁則
+			return {cont: false, ins: j +1};	// 行末禁則
 		}
 
-		// 改行前二個目に「ぶら下げ」がないパターン
-		const ppp_i = i -3;
+		// 改行前二個目に「ぶら下げ」がない
+		const ppp_i = pp_i -1;
 		if (i >= 3) {
 			const {ch: ppp_ch} = a[ppp_i];
-			// 改行前二個目に「分割禁止」パターン
+//console.log(`fn:Hyphenation.ts line:380 i:${i} ppp_i:${ppp_i} ppp_ch:${ppp_ch}`);
+			// 改行前二個目に「分割禁止」
 			if (this.#reg分割禁止.test(pp_ch)) {	// 分割禁止
+//console.log(`fn:Hyphenation.ts line:383 == ${ppp_ch === pp_ch}`);
 				if (ppp_ch === pp_ch) return {cont: false, ins: ppp_i};
 			}
-			// 改行前三個目に「行末禁則」パターン
+			// 改行前三個目に「行末禁則」
 			if (this.#reg行末禁則.test(ppp_ch)) {	// 行末禁則
-				i = ppp_i;
-				while (--i > 0) {
-					const {elm, ch} = a[i];	// 前方走査
+				let j = ppp_i;
+//console.log(`fn:Hyphenation.ts line:389 -- j:${j} ch:${a[j]}.ch`);
+				while (--j >= 0) {
+					const {elm, ch} = a[j];	// 前方走査
+//console.log(`fn:Hyphenation.ts line:400 --- ch:${ch}`);
 					if (elm.tagName === 'RT') continue;	// ルビはスキップ
 					if (! this.#reg行末禁則.test(ch)) break;	// 行禁はスキップ
 				}
-				return {cont: false, ins: i +1};	// 行末禁則
+				++j;
+//				const tn = a[j].elm.parentElement?.tagName;
+//console.log(`fn:Hyphenation.ts line:396 == j:${j} ch:${a[j].ch} tn:${tn}`);
+				return {cont: false, ins: j};	// 行末禁則
 			}
 		}
 
-		return {cont: false, ins: i -2};
+		return {cont: false, ins: pp_i};
 	}
 
 }

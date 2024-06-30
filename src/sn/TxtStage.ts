@@ -576,7 +576,6 @@ export class TxtStage extends Container {
 	#lenHtmTxt = 0;
 	static	readonly	#SPAN_LAST = `<span class='sn_ch sn_ch_last'>&emsp;</span>`;
 	goTxt(aSpan: string[], instant: boolean) {
-//console.log(`fn:TxtStage.ts goTxt`);
 		TxtStage.#cntBreak.visible = false;
 
 		let begin = this.#aRect.length;

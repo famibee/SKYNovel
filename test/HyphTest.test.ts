@@ -14,12 +14,17 @@ let	hyph	: Hyphenation;
 	const sy = 13;
 	const w = 5;
 	const h = 7;
-	const elm = document.createElement('span')
-	const eRt = document.createElement('rt')
+	const elm = document.createElement('span');
+	const eRp = document.createElement('span');	// 親文字
+	const eRt = document.createElement('rt');	// ルビ
+	const eRuby = document.createElement('ruby');
+	eRuby.appendChild(eRp);
+	eRuby.appendChild(eRt);
 beforeEach(()=> {
 	hyph = new Hyphenation;
 });
 
+//MARK: ぶら下げなし
 it.each(<{
 	a	: IChRect[];
 	p_i	: number,
@@ -34,26 +39,26 @@ it.each(<{
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
-	], p_i: 2, p_ch: 'の', i: 3, ch: '春', ret: {cont: true, ins: 4,},},
+	], p_i: 2, p_ch: 'の', i: 3, ch: '春', ret: {cont: true, ins: 3 +1,},},
 	// testFnc行末禁則_warning_0_7_8n
 	{a: [
 		{ch: '【',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '【',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
-	], p_i: 2, p_ch: 'の', i: 3, ch: '【', ret: {cont: true, ins: 4,},},
+	], p_i: 2, p_ch: 'の', i: 3, ch: '【', ret: {cont: true, ins: 3 +1,},},
 	{a: [
 		{ch: '【',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '【',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
-	], p_i: 1, p_ch: 'こ', i: 2, ch: 'の', ret: {cont: true, ins: 3,},},
+	], p_i: 1, p_ch: 'こ', i: 2, ch: 'の', ret: {cont: true, ins: 2 +1,},},
 	{a: [
 		{ch: '【',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '【',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
-	], p_i: 1, p_ch: 'こ', i: 2, ch: '【', ret: {cont: true, ins: 3,},},
+	], p_i: 1, p_ch: 'こ', i: 2, ch: '【', ret: {cont: true, ins: 2 +1,},},
 
 	// 文字領域限界折り返し・自動改行
 	{a: [
@@ -61,7 +66,7 @@ it.each(<{
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: 'の', i: 3, ch: '春', ret: {cont: true, ins: 4,},},
+	], p_i: 2, p_ch: 'の', i: 3, ch: '春', ret: {cont: true, ins: 3 +1,},},
 
 	// 追い出し（分割禁止）
 	{a: [
@@ -69,21 +74,22 @@ it.each(<{
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: '…', i: 3, ch: '…', ret: {cont: false, ins: 2,},},
+	], p_i: 2, p_ch: '…', i: 3, ch: '…', ret: {cont: false, ins: 1 +1,},},
 	// 追い出し（分割禁止）＋末尾行末禁則
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: '…', i: 3, ch: '…', ret: {cont: false, ins: 1,},},
+	], p_i: 2, p_ch: '…', i: 3, ch: '…', ret: {cont: false, ins: 0 +1,},},
 	// 追い出し（分割禁止）＋ルビ
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +1 *h, w, h)},
 		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: '…', i: 3, ch: '…', ret: {cont: false, ins: 1,},},
+	], p_i: 3, p_ch: '…', i: 4, ch: '…', ret: {cont: false, ins: 1 +1,},},
 
 	// 追い出し（行末禁則）
 	{a: [
@@ -91,27 +97,28 @@ it.each(<{
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: '〈', i: 3, ch: '春', ret: {cont: false, ins: 2,},},
+	], p_i: 2, p_ch: '〈', i: 3, ch: '春', ret: {cont: false, ins: 1 +1,},},
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '〉',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: '〈', i: 3, ch: '〉', ret: {cont: false, ins: 2,},},
+	], p_i: 2, p_ch: '〈', i: 3, ch: '〉', ret: {cont: false, ins: 1 +1,},},
 	// 追い出し（行末禁則）＋末尾行末禁則
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: '〈', i: 3, ch: '春', ret: {cont: false, ins: 1,},},
+	], p_i: 2, p_ch: '〈', i: 3, ch: '春', ret: {cont: false, ins: 0 +1,},},
 	// 追い出し（行末禁則）＋ルビ
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +1 *h, w, h)},
 		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
-		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: '〈', i: 3, ch: '春', ret: {cont: false, ins: 1,},},
+		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +3 *h, w, h)},
+	], p_i: 3, p_ch: '〈', i: 4, ch: '春', ret: {cont: false, ins: 1 +1,},},
 
 	// 追い出し（行頭禁則）
 	{a: [
@@ -119,34 +126,35 @@ it.each(<{
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '〉',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: 'の', i: 3, ch: '〉', ret: {cont: false, ins: 2,},},
+	], p_i: 2, p_ch: 'の', i: 3, ch: '〉', ret: {cont: false, ins: 1 +1,},},
 	// 追い出し（行頭禁則）x2
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '〉',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '〉',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: '〉', i: 3, ch: '〉', ret: {cont: false, ins: 2,},},
+	], p_i: 2, p_ch: '〉', i: 3, ch: '〉', ret: {cont: false, ins: 1 +1,},},
 	// 追い出し（行頭禁則）＋末尾行末禁則
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
 		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '〉',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: 'こ', i: 3, ch: '〉', ret: {cont: false, ins: 2,},},
+	], p_i: 2, p_ch: 'こ', i: 3, ch: '〉', ret: {cont: false, ins: 1 +1,},},
 	// 追い出し（行頭禁則）＋ルビ
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
 		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '〉',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
-	], p_i: 2, p_ch: 'こ', i: 3, ch: '〉', ret: {cont: false, ins: 2,},},
+	], p_i: 2, p_ch: 'ル', i: 4, ch: '〉', ret: {cont: false, ins: 1 +1,},},
 
 ])(`$ret`, ({a, i, ch, p_i, p_ch, ret})=> {
 	expect(hyph.hyph_alg(a, p_i, p_ch, i, ch)).toStrictEqual(ret);
 });
 
-
+//MARK: ぶら下げあり
 it.each(<{
 	a	: IChRect[];
 	p_i	: number,
@@ -365,7 +373,7 @@ it.each(<{
 		{ch: '☂',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 		{ch: 'か',	elm, rect: new Rectangle(sx -1 *w, sy +1 *h, w, h)},
-	], p_i: 3, p_ch: '☂', i: 4, ch: '春', ret: {cont: false, ins: 2,},},
+	], p_i: 3, p_ch: '☂', i: 4, ch: '春', ret: {cont: false, ins: 1 +1,},},
 	{a: [	// 分割禁止
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
@@ -373,7 +381,7 @@ it.each(<{
 		{ch: '☂',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 		{ch: 'か',	elm, rect: new Rectangle(sx -1 *w, sy +1 *h, w, h)},
-	], p_i: 3, p_ch: '☂', i: 4, ch: '春', ret: {cont: false, ins: 1,},},
+	], p_i: 3, p_ch: '☂', i: 4, ch: '春', ret: {cont: false, ins: 0 +1,},},
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: '☀',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
@@ -381,7 +389,7 @@ it.each(<{
 		{ch: '…',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 		{ch: 'か',	elm, rect: new Rectangle(sx -1 *w, sy +1 *h, w, h)},
-	], p_i: 3, p_ch: '…', i: 4, ch: '春', ret: {cont: false, ins: 2,},},
+	], p_i: 3, p_ch: '…', i: 4, ch: '春', ret: {cont: false, ins: 1 +1,},},
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: '☀',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
@@ -389,7 +397,7 @@ it.each(<{
 		{ch: '…',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 		{ch: 'か',	elm, rect: new Rectangle(sx -1 *w, sy +1 *h, w, h)},
-	], p_i: 3, p_ch: '…', i: 4, ch: '…', ret: {cont: false, ins: 2,},},
+	], p_i: 3, p_ch: '…', i: 4, ch: '…', ret: {cont: false, ins: 1 +1,},},
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: '☀',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
@@ -397,7 +405,7 @@ it.each(<{
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 		{ch: 'か',	elm, rect: new Rectangle(sx -1 *w, sy +1 *h, w, h)},
-	], p_i: 3, p_ch: 'の', i: 4, ch: '…', ret: {cont: false, ins: 2,},},
+	], p_i: 3, p_ch: 'の', i: 4, ch: '…', ret: {cont: false, ins: 1 +1,},},
 	{a: [
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: '☀',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
@@ -405,7 +413,7 @@ it.each(<{
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 		{ch: '…',	elm, rect: new Rectangle(sx -1 *w, sy +1 *h, w, h)},
-	], p_i: 3, p_ch: 'の', i: 4, ch: '…', ret: {cont: false, ins: 2,},},
+	], p_i: 3, p_ch: 'の', i: 4, ch: '…', ret: {cont: false, ins: 1 +1,},},
 
 	// ぶら下げ＋末尾行末禁則は、行末禁則文字 != ぶら下げ文字、なので問題なし
 
@@ -418,7 +426,7 @@ it.each(<{
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +4 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 		{ch: 'か',	elm, rect: new Rectangle(sx -1 *w, sy +1 *h, w, h)},
-	], p_i: 4, p_ch: 'の', i: 5, ch: '春', ret: {cont: false, ins: 2,},},
+	], p_i: 4, p_ch: 'の', i: 5, ch: '春', ret: {cont: false, ins: 1 +1,},},
 	{a: [	// 末尾行末禁則が続く場合
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: '『',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
@@ -427,22 +435,167 @@ it.each(<{
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +4 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 		{ch: 'か',	elm, rect: new Rectangle(sx -1 *w, sy +1 *h, w, h)},
-	], p_i: 4, p_ch: 'の', i: 5, ch: '春', ret: {cont: false, ins: 1,},},
+	], p_i: 4, p_ch: 'の', i: 5, ch: '春', ret: {cont: false, ins: 0 +1,},},
 	{a: [	// 末尾行末禁則が続く場合＋ルビ
 		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
 		{ch: '『',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
 		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
 		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
 		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +4 *h, w, h)},
 		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +5 *h, w, h)},
 		{ch: '春',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 		{ch: 'か',	elm, rect: new Rectangle(sx -1 *w, sy +1 *h, w, h)},
-	], p_i: 5, p_ch: 'の', i: 6, ch: '春', ret: {cont: false, ins: 1,},},
+	], p_i: 6, p_ch: 'の', i: 7, ch: '春', ret: {cont: false, ins: 2 +1,},},
+
 
 ])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch, p_i, p_ch, ret})=> {
 	expect(hyph.hyph_alg_bura(a, p_i, p_ch, i)).toStrictEqual(ret);
 });
 
+//MARK: ルビ文字と改行
+it.each(<{
+	a	: IChRect[];
+	p_i	: number,
+	p_ch: string,
+	i	: number;	// i >= 2
+	ch	: string,
+	ret	: {cont: boolean, ins: number,};}[]>[
+	//	字字（仮改行）ル（ル がルビ）
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: '春',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx-0.5*w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 3, p_ch: '春', i: 4, ch: 'ル', ret: {cont: false, ins: 1 +1,},},
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},//末禁
+		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: '春',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx-0.5*w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 3, p_ch: '春', i: 4, ch: 'ル', ret: {cont: false, ins: 0 +1,},},
+	//	字ル（仮改行）字（ル がルビ）
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: 'ビ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +3 *h, w, h)},
+		{ch: 'ビ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: '〉',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 3, p_ch: 'ビ', i: 5, ch: '〉', ret: {cont: false, ins: 1 +1,},},
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},//末禁
+		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: 'ビ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +3 *h, w, h)},
+		{ch: 'ビ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: '〉',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 3, p_ch: 'ビ', i: 5, ch: '〉', ret: {cont: false, ins: 0 +1,},},
+	//	字ル（仮改行）ル（ル がルビ）
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: 'ビ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +3 *h, w, h)},
+		{ch: 'ビ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx-0.5*w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 3, p_ch: 'ビ', i: 5, ch: 'ル', ret: {cont: false, ins: 1 +1,},},
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},//末禁
+		{ch: 'の',	elm, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: 'ビ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +3 *h, w, h)},
+		{ch: 'ビ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx-0.5*w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 3, p_ch: 'ビ', i: 5, ch: 'ル', ret: {cont: false, ins: 0 +1,},},
+	//	ル字（仮改行）字（ル がルビ）
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'コ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
+		{ch: 'コ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: '末',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: '頭',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 4, p_ch: '末', i: 5, ch: '頭', ret: {cont: false, ins: 1 +1,},},
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},//末禁
+		{ch: 'コ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
+		{ch: 'コ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: '末',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: '頭',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 4, p_ch: '末', i: 5, ch: '頭', ret: {cont: false, ins: 0 +1,},},
+	//	ル字（仮改行）ル（ル がルビ）
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'コ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
+		{ch: 'コ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: '末',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx-0.5*w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 4, p_ch: '末', i: 5, ch: 'ル', ret: {cont: false, ins: 1 +1,},},
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},//末禁
+		{ch: 'コ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
+		{ch: 'コ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: '末',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx-0.5*w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 4, p_ch: '末', i: 5, ch: 'ル', ret: {cont: false, ins: 0 +1,},},
+	//	ルル（仮改行）字（ル がルビ）
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'コ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
+		{ch: 'コ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: 'ビ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +3 *h, w, h)},
+		{ch: 'ビ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: '頭',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 4, p_ch: 'ビ', i: 6, ch: '頭', ret: {cont: false, ins: 1 +1,},},
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},//末禁
+		{ch: 'コ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
+		{ch: 'コ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: 'ビ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +3 *h, w, h)},
+		{ch: 'ビ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: '頭',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 4, p_ch: 'ビ', i: 6, ch: '頭', ret: {cont: false, ins: 0 +1,},},
+	//	ルル（仮改行）ル（ル がルビ）
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'コ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
+		{ch: 'コ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: 'ビ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +3 *h, w, h)},
+		{ch: 'ビ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx-0.5*w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 4, p_ch: 'ビ', i: 6, ch: 'ル', ret: {cont: false, ins: 1 +1,},},
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: '〈',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},//末禁
+		{ch: 'コ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
+		{ch: 'コ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: 'ビ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +3 *h, w, h)},
+		{ch: 'ビ',	elm: eRt, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx-0.5*w, sy +0 *h, w, h)},
+		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 4, p_ch: 'ビ', i: 6, ch: 'ル', ret: {cont: false, ins: 0 +1,},},
+
+])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch, p_i, p_ch, ret})=> {
+	expect(hyph.hyph_alg_bura(a, p_i, p_ch, i)).toStrictEqual(ret);
+});
+
+//MARK: ぶら下げ&設定変更
 // def行頭禁則 == defぶら下げ なので、初期値ではテストにならない。少し変えてテスト
 it.each(<{
 	a	: IChRect[];
