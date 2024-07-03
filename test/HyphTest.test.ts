@@ -17,6 +17,9 @@ let	hyph	: Hyphenation;
 	const elm = document.createElement('span');
 	const eRp = document.createElement('span');	// 親文字
 	const eRt = document.createElement('rt');	// ルビ
+		eRt.textContent = '☀';
+	const eRt3 = document.createElement('rt');	// ルビ
+		eRt3.textContent = '☀☁☂';
 	const eRuby = document.createElement('ruby');
 	eRuby.appendChild(eRp);
 	eRuby.appendChild(eRt);
@@ -590,6 +593,20 @@ it.each(<{
 		{ch: 'ル',	elm: eRp, rect: new Rectangle(sx-0.5*w, sy +0 *h, w, h)},
 		{ch: 'ル',	elm: eRt, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 	], p_i: 4, p_ch: 'ビ', i: 6, ch: 'ル', ret: {cont: false, ins: 0 +1,},},
+
+/*
+	// 2024/06/30 複数文字ルビ
+	{a: [
+		{ch: '㍿',	elm, rect: new Rectangle(sx -0 *w, sy +0 *h, w, h)},
+		{ch: 'こ',	elm, rect: new Rectangle(sx -0 *w, sy +1 *h, w, h)},
+		{ch: 'コ',	elm: eRp, rect: new Rectangle(sx+0.5*w, sy +2 *h, w, h)},
+		{ch: '☀',  elm: eRt3, rect: new Rectangle(sx -0 *w, sy +2 *h, w, h)},
+		{ch: '☁',  elm: eRt3, rect: new Rectangle(sx -0 *w, sy +2.1*h, w, h)},
+		{ch: '☂',	elm: eRt3, rect: new Rectangle(sx -0 *w, sy +2.2*h, w, h)},
+		{ch: '末',	elm, rect: new Rectangle(sx -0 *w, sy +3 *h, w, h)},
+		{ch: '頭',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
+	], p_i: 6, p_ch: '末', i: 7, ch: '頭', ret: {cont: false, ins: 1 +1,},},
+*/
 
 ])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch, p_i, p_ch, ret})=> {
 	expect(hyph.hyph_alg_bura(a, p_i, p_ch, i)).toStrictEqual(ret);

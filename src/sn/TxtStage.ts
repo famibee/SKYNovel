@@ -108,6 +108,8 @@ export class TxtStage extends Container {
 `<!doctype html><html><head><meta charset=utf-8><title>${id}</title>
 <h1>${id}</h1>${
 	htm	// outerHTML からのレイヤ再現などしたいとこだがオーバースペック
+	.replaceAll(/ class="sn_ch"|animation-delay: \d+ms; | data-add="{&quot;ch_in_style&quot;:&quot;default&quot;, &quot;ch_out_style&quot;:&quot;default&quot;}"/g, '')
+	.replaceAll(' style=""', '')	// chromeで警告が出るので
 	.replaceAll(/(<\/?ruby>)/g, '\n$1\n')
 	.replaceAll(/<(br|\/span)>/g, '<$1>\n')
 }`,

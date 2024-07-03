@@ -52,8 +52,8 @@
 		"jest-environment-jsdom": "^29.7.0",
 		"rimraf": "^5.0.7",
 		"semantic-release": "^24.0.0",
-		"typescript": "^5.5.2",
-		"vite": "^5.3.2",
+		"typescript": "^5.5.3",
+		"vite": "^5.3.3",
 		"vite-plugin-dts": "^3.9.1"
 	},
 	"scripts": {
