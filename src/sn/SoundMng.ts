@@ -197,4 +197,6 @@ export class SoundMng {
 		for (const f of a) f();
 	}
 
+	destroy() {sound.stopAll(); this.clearCache()}
+
 }

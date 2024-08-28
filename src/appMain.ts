@@ -5,10 +5,10 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HINFO, RECT_WINDOW} from './preload';
+import {HINFO, TAG_WINDOW} from './preload';
 import {T_CFG} from './sn/ConfigBase';
 
-import {screen, app, BrowserWindow, ipcMain, shell, dialog, MessageBoxOptions} from 'electron';
+import {screen, app, BrowserWindow, ipcMain, shell, dialog, MessageBoxOptions, Size} from 'electron';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
 import {existsSync, copySync, removeSync, ensureDirSync, readFileSync, writeFileSync, appendFile, ensureFileSync, outputFile, WriteFileOptions} from 'fs-extra';
 import Store from 'electron-store';
@@ -56,7 +56,7 @@ export class appMain {
 
 
 	openDevTools	= ()=> {};
-	#inited(oCfg: T_CFG, rctW: RECT_WINDOW) {
+	#inited(oCfg: T_CFG, rctW: TAG_WINDOW) {
 		const {c, x, y, w, h} = rctW;
 		this.#window(c, x, y, w, h);
 		this.bw.setAspectRatio(w / h);
@@ -81,9 +81,13 @@ export class appMain {
 	}
 	#evDevtoolsOpened = ()=> this.bw.webContents.closeDevTools();	// 開こうとしたら閉じる
 
-	readonly	#dspSize= screen.getPrimaryDisplay().size;
-	readonly	#scrRX	= this.#dspSize.width;
-	readonly	#scrRY	= this.#dspSize.height;
+	#scrSize: Size;
+	#chgDsp() {
+		const csp = screen.getCursorScreenPoint();
+		const dsp = screen.getDisplayNearestPoint(csp);
+		this.#scrSize = dsp.workAreaSize;
+	}
+
 	readonly	#hInfo	: HINFO = {
 		getAppPath	: app.getAppPath(),
 		isPackaged	: app.isPackaged,
@@ -96,18 +100,21 @@ export class appMain {
 	};
 	#winX	= 0;
 	#winY	= 0;
-	#stageW = 0;
-	#stageH = 0;
+	#cvsW	= 0;
+	#cvsH	= 0;
 	readonly	#isWin	= process.platform === 'win32';
 	readonly	#menu_height;
 
 	private	constructor(private readonly bw: BrowserWindow, readonly version: string, readonly path_htm: string) {
-		bw.webContents.on('devtools-opened', ()=> this.#evDevtoolsOpened());
+		// 以下コメントアウトなら【プロジェクト】のターミナルに出る
+		console.log = (arg: any)=> this.bw.webContents.send('log', arg);
 
+		bw.webContents.on('devtools-opened', ()=> this.#evDevtoolsOpened());
+		ipcMain.handle('openDevTools', ()=> bw.webContents.openDevTools());
 
 		this.#hInfo.getVersion = version;
 		ipcMain.handle('getInfo', ()=> this.#hInfo);
-		ipcMain.handle('inited', (_, c: T_CFG, rctW: RECT_WINDOW)=> this.#inited(c, rctW));
+		ipcMain.handle('inited', (_, c: T_CFG, tagW: TAG_WINDOW)=> this.#inited(c, tagW));
 
 		ipcMain.handle('existsSync', (_, fn: string)=> existsSync(fn));
 		ipcMain.handle('copySync', (_, path_from: string, path_to: string)=> copySync(path_from, path_to));
@@ -120,7 +127,6 @@ export class appMain {
 
 		ipcMain.handle('win_close', ()=> bw.close());
 		ipcMain.handle('win_setTitle', (_, title: string)=> bw.setTitle(title));
-		// console.log は【プロジェクト】のターミナルに出る
 
 		ipcMain.handle('showMessageBox', (_, o: MessageBoxOptions)=> dialog.showMessageBox(o));
 
@@ -133,8 +139,6 @@ export class appMain {
 			writeFileSync(fn, d);
 		}));
 		ipcMain.handle('navigate_to', (_, url: string)=> shell.openExternal(url));
-
-		ipcMain.handle('openDevTools', ()=> bw.webContents.openDevTools());
 
 		let	st: any;
 		ipcMain.handle('Store', (_, o)=> {st = new Store(o); return});	// return必要、Storeをcloneしてしまうので
@@ -161,7 +165,6 @@ export class appMain {
 		const cs_menu_h = bw.getContentSize()[1];
 		const menu_height = this.#menu_height = cs_no_menu_h -cs_menu_h;
 			// win10 で 20 ぐらいに。macOSでは 0
-			//dialog.showMessageBox({message: `fn:appMain.ts A:${cs_no_menu_h} B:${cs_menu_h}`});
 		ipcMain.handle('isSimpleFullScreen', ()=> bw.simpleFullScreen);
 		if (this.#isWin) {
 			ipcMain.handle('setSimpleFullScreen', (_, b: boolean)=> {
@@ -169,7 +172,7 @@ export class appMain {
 				bw.setSimpleFullScreen(b);	// これだけで #onMove 発生
 				if (! b) {
 					bw.setPosition(this.#winX, this.#winY);
-					bw.setContentSize(this.#stageW, this.#stageH +menu_height);	// メニュー高さぶん足す
+					bw.setContentSize(this.#cvsW, this.#cvsH +menu_height);	// メニュー高さぶん足す
 				}
 				this.#isMovingWin = false;
 			});
@@ -177,21 +180,25 @@ export class appMain {
 			// 以下のイベントは winで必ず、macでは「Command + Control + F」でのみ発生
 			bw.on('enter-full-screen', ()=> {
 				//this.#isMovingWin = true;	// 効かない
-				bw.setContentSize(this.#scrRX, this.#scrRY -menu_height);	// メニュー高さぶん引く
+				bw.setContentSize(this.#scrSize.width, this.#scrSize.height -menu_height);	// メニュー高さぶん引く
 				//this.#isMovingWin = false;
 			});
 			bw.on('leave-full-screen', ()=> {
-				this.#window(false, this.#winX, this.#winY, this.#stageW, this.#stageH +menu_height);	// メニュー高さぶん足す
+				this.#window(false, this.#winX, this.#winY, this.#cvsW, this.#cvsH +menu_height);	// メニュー高さぶん足す
 			});
 		}
 		else ipcMain.handle('setSimpleFullScreen', (_, b: boolean)=> {
 			bw.setSimpleFullScreen(b);
-			if (! b) bw.setContentSize(this.#stageW, this.#stageH +menu_height);	// メニュー高さぶん足す
+			if (b) return;
+
+			bw.setContentSize(this.#cvsW, this.#cvsH +menu_height);	// メニュー高さぶん足す
 		});
 		ipcMain.handle('window', (_, c: boolean, x: number, y: number, w: number, h: number)=> this.#window(c, x, y, w, h));
 
 		bw.on('move', ()=> this.#onMove());
 		bw.on('resize', ()=> this.#onMove());
+
+		this.#chgDsp();
 
 		bw.loadFile(path_htm);
 	}
@@ -228,21 +235,20 @@ export class appMain {
 			// winでのみ全画面移行時に【setContentSize】から発生
 
 		if (centering) {
-			x = (this.#scrRX - w) *0.5;
-			y = (this.#scrRY - h) *0.5;
+			this.#chgDsp();
+			x = (this.#scrSize.width - w) *0.5;
+			y = (this.#scrSize.height- h) *0.5;
 		}
-		if (this.#winX !== x || this.#winY !== y) {
-			this.#winX = x;
-			this.#winY = y;
-			this.bw.setPosition(x, y);
-		}
+		this.#winX = x;
+		this.#winY = y;
+		this.bw.setPosition(x, y);
 
-		this.#stageW = w;
-		this.#stageH = h;
+		this.#cvsW = w;
+		this.#cvsH = h;
 		this.bw.setContentSize(w, h +this.#menu_height);// メニュー高さぶん足す
 			// Sizeは変更時のみの送信、をするとどんどん小さくなるので注意
 
-		this.bw.webContents.send('save_win_inf', {c: centering, x, y, w, h});
+		this.bw.webContents.send('save_win_inf', {c: centering, x, y, w, h, scrw: this.#scrSize.width, scrh: this.#scrSize.height});
 		this.#isMovingWin = false;
 	}
 

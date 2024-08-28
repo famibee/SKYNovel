@@ -7,9 +7,9 @@
 
 import {T_CFG} from './sn/ConfigBase';
 
-import {contextBridge, ipcRenderer, IpcRendererEvent} from 'electron';
+import {contextBridge, ipcRenderer, IpcRendererEvent, MessageBoxOptions, MessageBoxReturnValue} from 'electron';
 
-export	type	RECT_WINDOW	= {
+export	type	TAG_WINDOW	= {
 	c	: boolean;
 	x	: number;
 	y	: number;
@@ -17,9 +17,18 @@ export	type	RECT_WINDOW	= {
 	h	: number;
 };
 
+export	type	SAVE_WIN_INF	= {
+	x	: number;
+	y	: number;
+	w	: number;
+	h	: number;
+	scrw: number;
+	scrh: number;
+};
+
 export	type	HPROC	= {
 	getInfo		: ()=> Promise<HINFO>;
-	inited		: (oCfg: T_CFG, rctW: RECT_WINDOW)=> Promise<void>;
+	inited		: (oCfg: T_CFG, tagW: TAG_WINDOW)=> Promise<void>;
 
 	existsSync	: (path: string)=> Promise<boolean>;
 	copySync	: (path_from: string, path_to: string)=> void;
@@ -36,7 +45,7 @@ export	type	HPROC	= {
 	win_close		: ()=> void;
 	win_setTitle	: (title: string)=> void;
 
-	showMessageBox	: (o: Electron.MessageBoxOptions)=> Promise<Electron.MessageBoxReturnValue>;
+	showMessageBox	: (o: MessageBoxOptions)=> Promise<MessageBoxReturnValue>;
 
 	capturePage	: (fn: string, w: number, h: number)=> Promise<void>;
 	navigate_to	: (url: string)=> void;
@@ -71,7 +80,7 @@ const fncE = console.error;
 export const	hProc	: HPROC	= {
 	// console.log は【アプリ】のターミナルに出る
 	getInfo		: ()=> ipcRenderer.invoke('getInfo').catch(fncE),
-	inited		: (oCfg: T_CFG, rctW: RECT_WINDOW)=> ipcRenderer.invoke('inited', oCfg, rctW).catch(fncE),
+	inited		: (oCfg: T_CFG, tagW: TAG_WINDOW)=> ipcRenderer.invoke('inited', oCfg, tagW).catch(fncE),
 
 	existsSync	: path=> ipcRenderer.invoke('existsSync', path).catch(fncE),
 	copySync	: (path_from, path_to)=>
@@ -117,10 +126,12 @@ export const	hProc	: HPROC	= {
 
 	// メイン → レンダラー
 	on	: (ch, cb)=> {switch (ch) {
-		case 'save_win_inf':
-			ipcRenderer.on(ch, (e: IpcRendererEvent, rctW: RECT_WINDOW)=> cb(e, rctW));	break;
+		case 'log':
+			ipcRenderer.on(ch, (e: IpcRendererEvent, arg: string)=> cb(e, arg));	break;
 		case 'shutdown':
 			ipcRenderer.on(ch, (e: IpcRendererEvent)=> cb(e));	break;
+		case 'save_win_inf':
+			ipcRenderer.on(ch, (e: IpcRendererEvent, swi: SAVE_WIN_INF)=> cb(e, swi));	break;
 		case 'fire':
 			ipcRenderer.on(ch, (e: IpcRendererEvent, KEY: string)=> cb(e, KEY));	break;
 		//case 'call':	// 実験・保留コード。セキュリティ懸念

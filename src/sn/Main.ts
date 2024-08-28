@@ -259,6 +259,7 @@ export class Main implements IMain {
 		this.#scrItr.destroy();
 		this.#layMng.destroy();
 		this.#dbgMng.destroy();
+		this.#sndMng.destroy();
 		this.#appPixi.ticker.remove(this.#fncTicker);
 
 		if (this.#clone_cvs && this.#appPixi) {

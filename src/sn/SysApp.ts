@@ -14,8 +14,8 @@ import {DebugMng} from './DebugMng';
 
 import {Application} from 'pixi.js';
 
-import {HINFO, HPROC, RECT_WINDOW} from '../preload';
-import {IpcRendererEvent} from 'electron/renderer';
+import {HINFO, HPROC, SAVE_WIN_INF} from '../preload';
+import {IpcRendererEvent, MessageBoxOptions} from 'electron/renderer';
 const to_app: HPROC = (<any>window).to_app;
 //const {to_app} = window;
 
@@ -35,7 +35,7 @@ export class SysApp extends SysNode {
 
 		this.$path_downloads = this.#hInfo.downloads.replaceAll('\\', '/') +'/';
 
-//		ipcRenderer.on('log', (e: any, arg: any)=> console.log(`[main log] e:%o arg:%o`, e, arg));
+		to_app.on('log', (e: IpcRendererEvent, arg: any)=> console.info(`[main log] e:%o arg:%o`, e, arg));
 
 		CmnLib.isDbg = Boolean(this.#hInfo.env['SKYNOVEL_DBG']) && ! CmnLib.isPackaged;	// 配布版では無効
 		if (CmnLib.isDbg) this.extPort = uint(this.#hInfo.env['SKYNOVEL_PORT'] ?? '3776');
@@ -67,12 +67,6 @@ export class SysApp extends SysNode {
 		hTmp['const.sn.isDebugger'] = false;
 			// システムがデバッグ用の特別なバージョンか
 			// AIRNovel の const.flash.system.Capabilities.isDebugger
-		hTmp['const.sn.screenResolutionX'] = screen.width;
-			// 画面の最大水平解像度
-		hTmp['const.sn.screenResolutionY'] = screen.height;
-			// 画面の最大垂直解像度
-			// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
-			// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
 
 		this.$path_userdata	= CmnLib.isDbg
 			? this.#hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
@@ -110,12 +104,19 @@ export class SysApp extends SysNode {
 			const h = (<any>this.data.sys)['const.sn.nativeWindow.h'] ?? CmnLib.stageH;
 			to_app.inited(this.cfg.oCfg, {c: first, x, y, w, h});
 
-			to_app.on('save_win_inf', (_e: IpcRendererEvent, {x, y, w, h}: RECT_WINDOW)=> {
+			to_app.on('save_win_inf', (_e: IpcRendererEvent, {x, y, w, h, scrw, scrh}: SAVE_WIN_INF)=> {
 				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', x);
 				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', y);
 				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.w', w);
 				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.h', h);
 				this.flush();
+
+				hTmp['const.sn.screenResolutionX'] = scrw;
+					// 画面の最大水平解像度
+				hTmp['const.sn.screenResolutionY'] = scrh;
+					// 画面の最大垂直解像度
+					// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
+					// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
 			});
 
 			comp(this.data);
@@ -295,7 +296,7 @@ export class SysApp extends SysNode {
 				return;
 			}
 
-			const mbo: Electron.MessageBoxOptions = {
+			const mbo: MessageBoxOptions = {
 				title	: 'アプリ更新',
 				icon	: <any>(this.#hInfo.getAppPath +'/app/icon.png'),
 				buttons	: ['OK', 'Cancel'],
@@ -381,9 +382,13 @@ export class SysApp extends SysNode {
 	protected override readonly	window: ITag = hArg=> {
 		const x = argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));
 		const y = argChk_Num(hArg, 'y', Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));
+		const w = argChk_Num(hArg, 'w', Number(this.val.getVal('sys:const.sn.nativeWindow.w', CmnLib.stageW)));
+		const h = argChk_Num(hArg, 'h', Number(this.val.getVal('sys:const.sn.nativeWindow.h', CmnLib.stageH)));
 		to_app.window(argChk_Boolean(hArg, 'centering', false), x, y, CmnLib.stageW, CmnLib.stageH);
 		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', x);
 		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', y);
+		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.w', w);
+		this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.h', h);
 		this.flush();
 
 		return false;

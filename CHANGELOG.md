@@ -1,3 +1,9 @@
+- fix(SysApp.ts): 組み込み変数 const.sn.screenResolutionX, Y（画面の最大水平・垂直解像度）をマルチウインドウ対応
+	- アプリウインドウ移動で表示されるディスプレイが変わった際にも、そのディスプレイの解像度が反映されるように
+- fix(SysApp.ts): [window]によるサイズ変更が出来ない・保存していなかった件
+- doc（開発者情報）: 組み込み変数 const.sn.screenResolutionX, Y（画面の最大水平・垂直解像度）の説明を追加
+
+
 # [1.56.0](https://github.com/famibee/SKYNovel/compare/v1.55.2...v1.56.0) (2024-08-28)
 
 

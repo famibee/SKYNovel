@@ -1,14 +1,23 @@
 import { T_CFG } from './sn/ConfigBase';
-export type RECT_WINDOW = {
+import { MessageBoxOptions, MessageBoxReturnValue } from 'electron';
+export type TAG_WINDOW = {
     c: boolean;
     x: number;
     y: number;
     w: number;
     h: number;
 };
+export type SAVE_WIN_INF = {
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+    scrw: number;
+    scrh: number;
+};
 export type HPROC = {
     getInfo: () => Promise<HINFO>;
-    inited: (oCfg: T_CFG, rctW: RECT_WINDOW) => Promise<void>;
+    inited: (oCfg: T_CFG, tagW: TAG_WINDOW) => Promise<void>;
     existsSync: (path: string) => Promise<boolean>;
     copySync: (path_from: string, path_to: string) => void;
     removeSync: (path: string) => Promise<void>;
@@ -22,7 +31,7 @@ export type HPROC = {
     setSimpleFullScreen: (b: boolean) => Promise<void>;
     win_close: () => void;
     win_setTitle: (title: string) => void;
-    showMessageBox: (o: Electron.MessageBoxOptions) => Promise<Electron.MessageBoxReturnValue>;
+    showMessageBox: (o: MessageBoxOptions) => Promise<MessageBoxReturnValue>;
     capturePage: (fn: string, w: number, h: number) => Promise<void>;
     navigate_to: (url: string) => void;
     openDevTools: () => void;

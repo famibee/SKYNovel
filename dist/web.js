@@ -21528,6 +21528,9 @@ class SoundMng {
     });
     for (const r of e) r();
   }
+  destroy() {
+    R.stopAll(), this.clearCache();
+  }
 }
 class Pages {
   constructor(t, e, r, k, N, D, B, $) {
@@ -27109,7 +27112,7 @@ class Main {
     this.#v.fire(t, e);
   }
   async destroy(t = 0) {
-    this.#b || (this.#b = !0, this.#m && (this.stop(), this.#E = !1, this.#l.before_destroy(), t > 0 && await new Promise((e) => setTimeout(e, t)), this.#r = {}, this.#v.destroy(), this.#o.destroy(), this.#l.destroy(), this.#d.destroy(), this.#t.ticker.remove(this.#y), this.#h && this.#t && Main.cvs.parentNode.appendChild(this.#h), clearTextureCache(), this.#t.destroy(!0), this.sys.destroy()));
+    this.#b || (this.#b = !0, this.#m && (this.stop(), this.#E = !1, this.#l.before_destroy(), t > 0 && await new Promise((e) => setTimeout(e, t)), this.#r = {}, this.#v.destroy(), this.#o.destroy(), this.#l.destroy(), this.#d.destroy(), this.#s.destroy(), this.#t.ticker.remove(this.#y), this.#h && this.#t && Main.cvs.parentNode.appendChild(this.#h), clearTextureCache(), this.#t.destroy(!0), this.sys.destroy()));
   }
   #b = !1;
   isDestroyed = () => this.#b;
