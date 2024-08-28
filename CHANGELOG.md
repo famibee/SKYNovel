@@ -1,3 +1,10 @@
+## [1.56.1](https://github.com/famibee/SKYNovel/compare/v1.56.0...v1.56.1) (2024-08-28)
+
+
+### Bug Fixes
+
+* **SysApp.ts:** 組み込み変数　画面の最大水平・垂直解像度をマルチウインドウ対応 ([3e414c1](https://github.com/famibee/SKYNovel/commit/3e414c1e5f770d7bc9438c58ff809d4b37cd2729))
+
 - fix(SysApp.ts): 組み込み変数 const.sn.screenResolutionX, Y（画面の最大水平・垂直解像度）をマルチウインドウ対応
 	- アプリウインドウ移動で表示されるディスプレイが変わった際にも、そのディスプレイの解像度が反映されるように
 - fix(SysApp.ts): [window]によるサイズ変更が出来ない・保存していなかった件
