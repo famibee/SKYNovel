@@ -1,3 +1,10 @@
+# [1.56.0](https://github.com/famibee/SKYNovel/compare/v1.55.2...v1.56.0) (2024-08-28)
+
+
+### Features
+
+* **アプリ版ウインドウ:** ウインドウサイズを変更できるように ([89ca00c](https://github.com/famibee/SKYNovel/commit/89ca00cbda23d42383a866bbefe51eaba043e511))
+
 - feat(アプリ版ウインドウ): ウインドウサイズを変更できるように
 	- リサイズ時はアスペクト比を固定し余白を作らない
 - feat(アプリ版ウインドウ): ウインドウサイズを保存・復元するように
