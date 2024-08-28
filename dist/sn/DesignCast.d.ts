@@ -9,7 +9,6 @@ import { Button } from './Button';
 import { GrpLayer } from './GrpLayer';
 import { Config } from './Config';
 import { Application, Text, Sprite } from 'pixi.js';
-
 export declare class DesignCast {
     readonly bg_col: string;
     readonly isLay: boolean;

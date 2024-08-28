@@ -1,5 +1,14 @@
+import { T_CFG } from './sn/ConfigBase';
+export type RECT_WINDOW = {
+    c: boolean;
+    x: number;
+    y: number;
+    w: number;
+    h: number;
+};
 export type HPROC = {
     getInfo: () => Promise<HINFO>;
+    inited: (oCfg: T_CFG, rctW: RECT_WINDOW) => Promise<void>;
     existsSync: (path: string) => Promise<boolean>;
     copySync: (path_from: string, path_to: string) => void;
     removeSync: (path: string) => Promise<void>;
@@ -17,7 +26,6 @@ export type HPROC = {
     capturePage: (fn: string, w: number, h: number) => Promise<void>;
     navigate_to: (url: string) => void;
     openDevTools: () => void;
-    win_ev_devtools_opened: (fnc: () => void) => void;
     Store: (o: object) => Promise<void>;
     flush: (o: object) => Promise<void>;
     Store_isEmpty: () => Promise<boolean>;

@@ -239,41 +239,36 @@ export class EventMng implements IEvtMng {
 		this.#resvFlameEvent4Wheel(win);
 	}
 	#resvFlameEvent4Wheel = (_win: Window)=> {};
-	#ev_keydown(e: any) {
+	#ev_keydown(e: KeyboardEvent) {
 		//if (! e.isTrusted) return;
 		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
 
 		if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = e.repeat ?2 :1;
 
-		const key = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-		+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-		+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
-		+	e.key;
-		this.fire(key, e);
+		this.fire(SysBase.modKey(e) + e.key, e);
 	}
-	#ev_contextmenu(e: any) {
+	#ev_contextmenu(e: MouseEvent) {
 		//if (! e.isTrusted) return;
 
-		const key = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-		+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-		+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
-		+	'rightclick';
-		this.fire(key, e);
+		this.fire(this.#modKey4MouseEvent(e) +'rightclick', e);
 		e.preventDefault();		// イベント未登録時、メニューが出てしまうので
 	}
+		#modKey4MouseEvent(e: MouseEvent) {
+			return (e.altKey ?'alt+' :'')
+			+	(e.ctrlKey ?'ctrl+' :'')
+			+	(e.metaKey ?'meta+' :'')
+			+	(e.shiftKey ?'shift+' :'');
+		}
 
-	#ev_wheel(e: any) {
+	#ev_wheel(e: WheelEvent) {
 		//if (! e.isTrusted) return;
-		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
 
 		if (this.#wheeling) {this.#extend_wheel = true; return}
 		this.#wheeling = true;
 		this.#ev_wheel_waitstop();
 
 		// 今のところ縦回転ホイールのみ想定
-		const key = (e.altKey ?'alt+' :'')
-		+	(e.ctrlKey ?'ctrl+' :'')
-		+	(e.shiftKey ?'shift+' :'')
+		const key = this.#modKey4MouseEvent(e)
 		+	(e.deltaY > 0 ?'downwheel' :'upwheel');
 		this.fire(key, e);
 	}

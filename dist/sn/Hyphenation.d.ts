@@ -1,6 +1,5 @@
 import { HArg } from './Grammar';
 import { Rectangle } from 'pixi.js';
-
 export interface IChRect {
     ch: string;
     rect: Rectangle;

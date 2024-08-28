@@ -1,5 +1,4 @@
 import { IAreas } from './CmnInterface';
-
 export declare class Areas implements IAreas {
     hAreas: {
         [name: string]: number;

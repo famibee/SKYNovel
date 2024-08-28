@@ -113,7 +113,7 @@ export class Variable implements IVariable {
 		if (typeof window === 'undefined') return;
 		const win: any = window;
 		const ac = win['AudioContext'] ?? win['webkitAudioContext'];
-		this.#hTmp['const.sn.needClick2Play'] = ()=> new ac().state === 'suspended';
+		this.#hTmp['const.sn.needClick2Play'] = ()=> (new ac).state === 'suspended';
 	}
 
 

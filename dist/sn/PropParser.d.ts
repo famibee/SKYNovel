@@ -1,5 +1,4 @@
 import { IPropParser, IVariable } from './CmnInterface';
-
 export declare class PropParser implements IPropParser {
     #private;
     private readonly val;

@@ -5,7 +5,6 @@ import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';
 import { ScriptIterator } from './ScriptIterator';
 import { Container, Sprite, Renderer, Application } from 'pixi.js';
-
 interface IInfTxLay {
     fontsize: number;
     $width: number;

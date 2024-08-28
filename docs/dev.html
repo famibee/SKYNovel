@@ -725,6 +725,8 @@
 <tr><td>sys:TextLayer.Back.Alpha</td><td>1</td><td>0.0〜1.0；透過度</td><td>バック不透明度。テキストウインドウの背景の濃度。0.0で透明、1.0で不透明。</td></tr>
 <tr><td>sys:const.sn.nativeWindow.x</td><td>0</td><td>実数；横座標</td><td rowspan="2">アプリウインドウの座標。画面左上を(0, 0)とする座標。[<a href="tag.html#window" target="_blank" rel="noopener">window</a>]で変更できる</td></tr>
 <tr><td>sys:const.sn.nativeWindow.y</td><td>0</td><td>実数；縦座標</td></tr>
+<tr><td>sys:const.sn.nativeWindow.w</td><td>設定での横幅</td><td>実数；横幅</td><td rowspan="2">アプリウインドウの縦横幅。[<a href="tag.html#window" target="_blank" rel="noopener">window</a>]で変更できる</td></tr>
+<tr><td>sys:const.sn.nativeWindow.h</td><td>設定での縦幅</td><td>実数；縦幅</td></tr>
 <tr><td>sys:const.sn.save.place</td><td>1</td><td>1〜</td><td>次のセーブplaceを示す</td></tr>
 <tr><td>sys:const.sn.sound.BGM.volume</td><td rowspan="4">1</td><td rowspan="4">0.0〜1.0</td><td>BGMの基準音量（buf="BGM"の効果音）<br/>[<a href="tag.html#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
 <tr><td>sys:const.sn.sound.SE.volume</td><td>効果音の基準音量（buf="SE"の効果音）<br/>[<a href="tag.html#volume" target="_blank" rel="noopener">volume</a>]で変更できる</td></tr>
@@ -793,7 +795,7 @@
 <tr><td>const.sn.isDbg</td><td>false</td><td>true、false</td><td>デバッグモードか</td></tr>
 <tr><td>const.sn.isPackaged</td><td></td><td>true、false</td><td>パッケージされたアプリか(Electron API - app.isPackaged)</td></tr>
 <tr><td>const.sn.isDarkMode</td><td>環境による</td><td>true、false</td><td>ダークモードか</td></tr>
-<tr><td>const.sn.isDebugger</td><td>true</td><td>true、false</td><td>ブラウザ実行、それもVSCode・npmによる「npm: webタスク」上での実行か</td></tr>
+<tr><td>const.sn.isDebugger</td><td>true</td><td>true、false</td><td>ブラウザ実行、それもVSCode・npmによる「起動：ブラウザ版」上での実行か</td></tr>
 <tr><td>const.sn.isFirstBoot</td><td>false</td><td>true、false</td><td>ゲームがインストールされてから、初めての起動か（起動されるまでデータが空だったか）</td></tr>
 <tr><td>const.sn.isKidoku</td><td>true</td><td>true、false</td><td>この変数を参照した位置は既読か。参照「後」必ず既読になる点に注意</td></tr>
 <tr><td>const.sn.key.alternate</td><td>false</td><td>true、false</td><td>ALTキー（MacならOptionキー）が押されているか</td></tr>

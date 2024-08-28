@@ -84,6 +84,9 @@ export class LayerMng implements IGetFrm, IRecorder {
 		hTag.loadplugin		= o=> this.#loadplugin(o);	// プラグインの読み込み
 		//hTag.set_focus	// EventMng.tsで定義	 	// フォーカス移動
 		hTag.snapshot		= o=> this.#snapshot(o);	// スナップショット
+		this.#snapshot4proc = this.sys.isApp
+			? this.#snapshot4app
+			: this.#snapshot4web;
 
 		//	レイヤ共通
 		hTag.add_lay		= o=> this.#add_lay(o);		// レイヤを追加する
@@ -334,11 +337,9 @@ export class LayerMng implements IGetFrm, IRecorder {
 		const url = this.cfg.searchPath(fn0);
 		const width = argChk_Num(hArg, 'width', CmnLib.stageW);
 		const height= argChk_Num(hArg, 'height', CmnLib.stageH);
-		if (this.sys.isApp) {
-			return this.#snapshot4app(hArg, url, width, height);
-		}
-		return this.#snapshot4web(hArg, url, width, height);
+		return this.#snapshot4proc(hArg, url, width, height);
 	}
+	#snapshot4proc :(hArg: HArg, url: string, width: number, height: number)=> boolean = ()=> false;
 	#snapshot4app(hArg: HArg, url: string, width: number, height: number): boolean {
 		this.#frmMng.hideAllFrame();
 		disableEvent();
@@ -382,7 +383,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 			autoDensity: true,
 		});
 		const a = [];
-		const pg = (hArg.page !== 'back') ?'fore' :'back';
+		const pg = hArg.page !== 'back' ?'fore' :'back';
 		if (CmnTween.isTrans) a.push(new Promise<void>(re=> {	// [trans]中
 			this.#back.visible = true;
 			for (const lay of this.#aBackTransAfter) {

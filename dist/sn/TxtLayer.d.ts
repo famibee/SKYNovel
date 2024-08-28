@@ -7,7 +7,6 @@ import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';
 import { ScriptIterator } from './ScriptIterator';
 import { Renderer, Application } from 'pixi.js';
-
 export declare class TxtLayer extends Layer {
     #private;
     static init(cfg: Config, hTag: IHTag, val: IVariable, recorder: IRecorder, isPageFore: (me: TxtLayer) => boolean, appPixi: Application): void;

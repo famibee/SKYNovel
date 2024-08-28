@@ -4,7 +4,6 @@ import { IVariable, IMain, IGetFrm } from './CmnInterface';
 import { SysBase } from './SysBase';
 import { Config } from './Config';
 import { Application } from 'pixi.js';
-
 export declare class FrameMng implements IGetFrm {
     #private;
     private readonly appPixi;

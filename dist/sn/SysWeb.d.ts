@@ -3,7 +3,6 @@ import { IHTag, ITag } from './Grammar';
 import { IVariable, IMain, IData4Vari, HPlugin, HSysBaseArg } from './CmnInterface';
 import { Application } from 'pixi.js';
 import { IFn2Path, IConfig } from './ConfigBase';
-
 export declare class SysWeb extends SysBase {
     #private;
     constructor(hPlg?: {}, arg?: {

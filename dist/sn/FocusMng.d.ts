@@ -1,5 +1,4 @@
 import { Container } from 'pixi.js';
-
 export declare class FocusMng {
     #private;
     destroy(): void;

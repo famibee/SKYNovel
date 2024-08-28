@@ -3,7 +3,6 @@ import { IVariable } from './CmnInterface';
 import { Layer } from './Layer';
 import { SysBase } from './SysBase';
 import { Container } from 'pixi.js';
-
 export declare class Pages {
     #private;
     readonly cls: string;

@@ -3,7 +3,6 @@ import { IHTag } from './Grammar';
 import { IVariable, IMain, INoticeChgVolume } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
-
 export declare class SoundMng {
     #private;
     readonly val: IVariable;

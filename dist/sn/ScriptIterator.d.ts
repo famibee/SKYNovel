@@ -6,7 +6,6 @@ import { EventMng } from './EventMng';
 import { LayerMng } from './LayerMng';
 import { SoundMng } from './SoundMng';
 import { SysBase } from './SysBase';
-
 export declare class ScriptIterator {
     #private;
     private readonly cfg;

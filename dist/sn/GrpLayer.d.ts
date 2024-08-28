@@ -6,7 +6,6 @@ import { SysBase } from './SysBase';
 import { SoundMng } from './SoundMng';
 import { IMakeDesignCast } from './LayerMng';
 import { Application } from 'pixi.js';
-
 export declare class GrpLayer extends Layer {
     #private;
     static init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: IVariable): void;

@@ -1,10 +1,11 @@
 import { BrowserWindow } from 'electron';
-
 export declare class appMain {
     #private;
     private readonly bw;
+    readonly version: string;
+    readonly path_htm: string;
+    static initRenderer(path_htm: string, version: string, _o: object): BrowserWindow;
+    openDevTools: () => void;
     private constructor();
-    openDevTools(): void;
-    static initRenderer(path_htm: string, version: string, o: object): BrowserWindow;
 }
 //# sourceMappingURL=appMain.d.ts.map

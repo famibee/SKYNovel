@@ -6,7 +6,6 @@ import { EventListenerCtn } from './EventListenerCtn';
 import { SoundMng } from './SoundMng';
 import { FocusMng } from './FocusMng';
 import { Config } from './Config';
-
 export declare function enableEvent(): void;
 export declare function disableEvent(): void;
 interface IPageLog {

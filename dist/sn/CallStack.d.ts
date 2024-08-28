@@ -1,5 +1,4 @@
 import { IHEvt2Fnc, IValMp } from './CmnInterface';
-
 export interface ICallStackArg {
     ':resvToken'?: string;
     ':hEvt1Time': IHEvt2Fnc;

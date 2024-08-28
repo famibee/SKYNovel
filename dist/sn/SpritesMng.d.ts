@@ -5,7 +5,6 @@ import { IMain, IVariable } from './CmnInterface';
 import { SysBase } from './SysBase';
 import { SoundMng } from './SoundMng';
 import { HArg } from './Grammar';
-
 type IFncCompSpr = (sp: Sprite) => void;
 export declare class SpritesMng {
     #private;

@@ -2,7 +2,6 @@ import { IHTag } from './Grammar';
 import { IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IValMp, Scope } from './CmnInterface';
 import { Config } from './Config';
 import { Areas } from './Areas';
-
 export declare class Variable implements IVariable {
     #private;
     private readonly cfg;

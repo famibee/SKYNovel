@@ -108,7 +108,7 @@ export class TxtStage extends Container {
 `<!doctype html><html><head><meta charset=utf-8><title>${id}</title>
 <h1>${id}</h1>${
 	htm	// outerHTML からのレイヤ再現などしたいとこだがオーバースペック
-	.replaceAll(/ class="sn_ch"|animation-delay: \d+ms; | data-add="{&quot;ch_in_style&quot;:&quot;default&quot;, &quot;ch_out_style&quot;:&quot;default&quot;}"/g, '')
+	.replaceAll(/ class="sn_ch"|animation-delay: \d+ms; ?| data-add="{&quot;ch_in_style&quot;:&quot;default&quot;, &quot;ch_out_style&quot;:&quot;default&quot;}"/g, '')
 	.replaceAll(' style=""', '')	// chromeで警告が出るので
 	.replaceAll(/(<\/?ruby>)/g, '\n$1\n')
 	.replaceAll(/<(br|\/span)>/g, '<$1>\n')
@@ -320,11 +320,11 @@ export class TxtStage extends Container {
 				//if(domtoimage.impl.options.cacheBust) {
 					// Cache bypass so we dont have CORS issues with cached images
 					// Source: https://developer.mozilla.org/en/docs/Web/API/XMLHttpRequest/Using_XMLHttpRequest#Bypassing_the_cache
-				//	url += ((/\?/).test(url) ? "&" : "?") + (new Date()).getTime();
+				//	url += ((/\?/).test(url) ? "&" : "?") + (new Date).getTime();
 				//}
 
 				return new Promise(function (resolve) {
-					const request = new XMLHttpRequest();
+					const request = new XMLHttpRequest;
 
 					request.onreadystatechange = done;
 					request.ontimeout = timeout;
@@ -354,7 +354,7 @@ export class TxtStage extends Container {
 							return;
 						}
 
-						const encoder = new FileReader();
+						const encoder = new FileReader;
 						encoder.onloadend = function () {
 							const content = encoder.result!.toString().split(/,/)[1];
 							resolve(content);
@@ -500,7 +500,7 @@ export class TxtStage extends Container {
 			throw new Error('Network response was not ok.');
 		})
 		.then(blob=> new Promise((resolve, reject)=> {
-			const reader = new FileReader();
+			const reader = new FileReader;
 			reader.onloadend = ()=> resolve(reader.result);
 			reader.onerror = reject;
 			reader.readAsDataURL(blob);
@@ -545,9 +545,9 @@ export class TxtStage extends Container {
 			img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${this.#infTL.$width
 			}px" height="${this.#infTL.$height
 			}px"><foreignObject x="0" y="0" width="100%" height="100%">${
-				new XMLSerializer().serializeToString(node)
+				(new XMLSerializer).serializeToString(node)
 				.replaceAll('#', '%23').replaceAll('\n', '%0A')
-			}</foreignObject></svg>` // ? + new Date().getTime();
+			}</foreignObject></svg>` // ? + (new Date).getTime();
 			return new Promise(resolve=> img.onload = ()=> resolve(img));
 		})
 		.then(img=> new Promise(resolve=> setTimeout(()=> resolve(img) , 100)))

@@ -231,7 +231,7 @@ export class SysWeb extends SysBase {
 			inp.click();
 		})
 		.then(file=> new Promise(rs=> {
-			const rd = new FileReader();
+			const rd = new FileReader;
 			rd.readAsText(file);
 			rd.onload = ()=> rs(rd.result);
 		}))

@@ -7,7 +7,6 @@ import { SoundMng } from './SoundMng';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
 import { Container, Application } from 'pixi.js';
-
 export declare class EventMng implements IEvtMng {
     #private;
     private readonly cfg;

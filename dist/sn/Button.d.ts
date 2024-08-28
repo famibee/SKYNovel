@@ -3,7 +3,6 @@ import { IEvtMng } from './CmnLib';
 import { HArg } from './Grammar';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
-
 export declare class Button extends Container {
     #private;
     private readonly hArg;

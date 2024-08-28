@@ -14,7 +14,7 @@ import {DebugMng} from './DebugMng';
 
 import {Application} from 'pixi.js';
 
-import {HINFO, HPROC} from '../preload';
+import {HINFO, HPROC, RECT_WINDOW} from '../preload';
 import {IpcRendererEvent} from 'electron/renderer';
 const to_app: HPROC = (<any>window).to_app;
 //const {to_app} = window;
@@ -78,7 +78,10 @@ export class SysApp extends SysNode {
 			? this.#hInfo.getAppPath.slice(0, -3) +'.vscode/'	// /doc → /
 			: this.#hInfo.userData.replaceAll('\\', '/') +'/';
 
-		this.flushSub = ()=> to_app.flush(this.data);
+		this.flushSub = ()=> {
+			to_app.flush(JSON.parse(JSON.stringify(this.data)));
+			// 関数や undefined を無視してくれるので、structuredClone() よりいい動作
+		}
 		this.#setStore()
 		.then(async ()=> {
 			const first = hTmp['const.sn.isFirstBoot']
@@ -100,15 +103,18 @@ export class SysApp extends SysNode {
 
 			// ウインドウ位置
 			const x = (<any>this.data.sys)['const.sn.nativeWindow.x'] ?? 0;
-			const y = (<any>this.data.sys)['const.sn.nativeWindow.y'] ?? 0;
 			//x	const x = Number(this.val.getVal('sys:const.sn.nativeWindow.x'
-			//x	const y = Number(this.val.getVal('sys:const.sn.nativeWindow.y'
 				// ここではまだ使えない
-			to_app.window(first, x, y, CmnLib.stageW, CmnLib.stageH);
-			
-			to_app.on('save_win_pos', (_e: IpcRendererEvent, x: number, y: number)=> {
+			const y = (<any>this.data.sys)['const.sn.nativeWindow.y'] ?? 0;
+			const w = (<any>this.data.sys)['const.sn.nativeWindow.w'] ?? CmnLib.stageW;
+			const h = (<any>this.data.sys)['const.sn.nativeWindow.h'] ?? CmnLib.stageH;
+			to_app.inited(this.cfg.oCfg, {c: first, x, y, w, h});
+
+			to_app.on('save_win_inf', (_e: IpcRendererEvent, {x, y, w, h}: RECT_WINDOW)=> {
 				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', x);
 				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', y);
+				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.w', w);
+				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.h', h);
 				this.flush();
 			});
 
@@ -138,15 +144,12 @@ export class SysApp extends SysNode {
 	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
 		const ret = super.init(hTag, appPixi, val, main);
 
-		const e = new Event('click');
-		to_app.on('fire', (_e: IpcRendererEvent, KEY: string)=> main.fire(KEY, e));
+		to_app.on('shutdown', (_e: IpcRendererEvent)=> main.destroy());
+
+		const ev = new Event('click');
+		to_app.on('fire', (_e: IpcRendererEvent, KEY: string)=> main.fire(KEY, ev));
 		//to_app.on('call', (_e: IpcRendererEvent, fn: string, label: string)=> main.resumeByJumpOrCall({fn, label}));	// 実験・保留コード。セキュリティ懸念
 
-		if (this.cfg.oCfg.debug.devtool) to_app.openDevTools();
-		else to_app.win_ev_devtools_opened(()=> {
-			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
-			main.destroy();
-		});
 		return ret;
 	}
 

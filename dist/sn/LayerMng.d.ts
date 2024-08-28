@@ -10,7 +10,6 @@ import { SoundMng } from './SoundMng';
 import { AnalyzeTagArg } from './AnalyzeTagArg';
 import { DesignCast } from './DesignCast';
 import { Application } from 'pixi.js';
-
 export interface IMakeDesignCast {
     (idc: DesignCast): void;
 }

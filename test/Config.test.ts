@@ -118,11 +118,11 @@ it('test_searchPath_speedtest_1', ()=> {
 		expect(()=> cfg.searchPath('update.ddd', SEARCH_PATH_ARG_EXT.TST_EEE))
 		.toThrow('指定ファイルの拡張子【ddd】は、サーチ対象拡張子群【eee】にマッチしません。探索ファイル名=【update.ddd】');
 	//}
-//	const time = (new Date()).getTime() - old_time;	// 実行後に測定
+//	const time = (new Date).getTime() - old_time;	// 実行後に測定
 //	assert.fail('経過時間:' + time);		// 差
 });
 it('test_searchPath_speedtest_2', ()=> {
-//	const old_time = (new Date()).getTime();
+//	const old_time = (new Date).getTime();
 	//for (let i=0; i<1000; ++i) {
 	expect(()=> cfg.searchPath('update.ggg', SEARCH_PATH_ARG_EXT.TST_GGG))
 	.toThrow('サーチパスに存在しない拡張子【ggg】です。探索ファイル名=【update.ggg】、サーチ対象拡張子群【ggg】');
@@ -133,6 +133,6 @@ it('test_searchPath_speedtest_2', ()=> {
 	expect(()=> cfg.searchPath('update'))
 	.toThrow('指定ファイル【update】が複数マッチします。サーチ対象拡張子群【】で絞り込むか、ファイル名を個別にして下さい。');
 	//}
-//		const time = (new Date()).getTime() - old_time;	// 実行後に測定
+//		const time = (new Date).getTime() - old_time;	// 実行後に測定
 	//assert.fail('経過時間:' + time);		// 差
 });

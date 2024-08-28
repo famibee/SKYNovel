@@ -5,10 +5,21 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {contextBridge, ipcRenderer} from 'electron';
+import {T_CFG} from './sn/ConfigBase';
+
+import {contextBridge, ipcRenderer, IpcRendererEvent} from 'electron';
+
+export	type	RECT_WINDOW	= {
+	c	: boolean;
+	x	: number;
+	y	: number;
+	w	: number;
+	h	: number;
+};
 
 export	type	HPROC	= {
 	getInfo		: ()=> Promise<HINFO>;
+	inited		: (oCfg: T_CFG, rctW: RECT_WINDOW)=> Promise<void>;
 
 	existsSync	: (path: string)=> Promise<boolean>;
 	copySync	: (path_from: string, path_to: string)=> void;
@@ -31,7 +42,6 @@ export	type	HPROC	= {
 	navigate_to	: (url: string)=> void;
 
 	openDevTools	: ()=> void;
-	win_ev_devtools_opened	: (fnc: ()=> void)=> void;
 
 	Store	: (o: object)=> Promise<void>;
 	flush	: (o: object)=> Promise<void>;
@@ -61,6 +71,7 @@ const fncE = console.error;
 export const	hProc	: HPROC	= {
 	// console.log は【アプリ】のターミナルに出る
 	getInfo		: ()=> ipcRenderer.invoke('getInfo').catch(fncE),
+	inited		: (oCfg: T_CFG, rctW: RECT_WINDOW)=> ipcRenderer.invoke('inited', oCfg, rctW).catch(fncE),
 
 	existsSync	: path=> ipcRenderer.invoke('existsSync', path).catch(fncE),
 	copySync	: (path_from, path_to)=>
@@ -87,8 +98,6 @@ export const	hProc	: HPROC	= {
 	navigate_to	: url=> ipcRenderer.invoke('navigate_to', url).catch(fncE),
 
 	openDevTools	: ()=> ipcRenderer.invoke('openDevTools').catch(fncE),
-	win_ev_devtools_opened	: fnc=>
-		ipcRenderer.invoke('win_ev_devtools_opened', fnc).catch(fncE),
 
 	Store	: o=> ipcRenderer.invoke('Store', o).catch(fncE),
 	flush	: o=> ipcRenderer.invoke('flush', o).catch(fncE),
@@ -108,10 +117,12 @@ export const	hProc	: HPROC	= {
 
 	// メイン → レンダラー
 	on	: (ch, cb)=> {switch (ch) {
-		case 'save_win_pos':
-			ipcRenderer.on(ch, (e, x, y)=> cb(e, x, y));	break;
+		case 'save_win_inf':
+			ipcRenderer.on(ch, (e: IpcRendererEvent, rctW: RECT_WINDOW)=> cb(e, rctW));	break;
+		case 'shutdown':
+			ipcRenderer.on(ch, (e: IpcRendererEvent)=> cb(e));	break;
 		case 'fire':
-			ipcRenderer.on(ch, (e, KEY)=> cb(e, KEY));	break;
+			ipcRenderer.on(ch, (e: IpcRendererEvent, KEY: string)=> cb(e, KEY));	break;
 		//case 'call':	// 実験・保留コード。セキュリティ懸念
 		//	ipcRenderer.on(ch, (e, fn, label)=> cb(e, fn, label));	break;
 	}},

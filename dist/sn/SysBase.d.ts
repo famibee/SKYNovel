@@ -3,7 +3,6 @@ import { IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, I
 import { EventListenerCtn } from './EventListenerCtn';
 import { Application } from 'pixi.js';
 import { IConfig, IFn2Path, ISysRoots } from './ConfigBase';
-
 export declare class SysBase implements ISysRoots, ISysBase {
     #private;
     readonly hPlg: HPlugin;
@@ -60,6 +59,7 @@ export declare class SysBase implements ISysRoots, ISysBase {
     protected readonly navigate_to: ITag;
     protected readonly title: ITag;
     protected titleSub(_txt: string): void;
+    static modKey(e: KeyboardEvent): string;
     protected tglFlscr_sub(): void;
     protected readonly update_check: ITag;
     protected readonly window: ITag;

@@ -54,6 +54,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	protected	readonly	data	= {sys:{}, mark:{}, kidoku:{}};
 	async	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
 	flush() {
+		// 立て続きの保存を回避し最短 500ms の間隔を開ける
 		if (this.#tidFlush) {this.#rsvFlush = true; return}	// 次の Timeout 時に予約
 
 		this.flushSub();	// ひとまず即時
@@ -406,10 +407,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 
 		const key = hArg.key.toLowerCase();
 		this.elc.add(document, 'keydown', (e: KeyboardEvent)=> {
-			const key2 = (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
-			+	e.key.toLowerCase();
+			const key2 = SysBase.modKey(e) + e.key.toLowerCase();
 			if (key2 !== key) return;
 
 			e.stopPropagation();
@@ -418,6 +416,12 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 
 		return false;
 	};
+		static	modKey(e: KeyboardEvent): string {
+			return  (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
+			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
+			+	(e.metaKey ?(e.key === 'Meta' ?'' :'meta+') :'')
+			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
+		}
 		protected	tglFlscr_sub() {}
 
 	protected readonly	update_check	: ITag = ()=> false;

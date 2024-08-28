@@ -1,3 +1,28 @@
+- feat(アプリ版ウインドウ): ウインドウサイズを変更できるように
+	- リサイズ時はアスペクト比を固定し余白を作らない
+- feat(アプリ版ウインドウ): ウインドウサイズを保存・復元するように
+- feat(SysApp.ts): 組み込み変数 sys:const.sn.nativeWindow.w、〜.h を追加
+- feat(SysBase.ts, EventMng.ts): [event] key属性での修飾子キー（AltやShift）でMetaも指定できるように
+	- Macは ⌘ Command キー、 Windowsは Windows キー ⊞。
+- fix(appMain.ts): devtool=false 設定でもアプリ版で表示できていた件
+- fix(SysApp.ts): アプリ版ウインドウ移動で左にサブモニターがある際に移動できない件
+	- メインモニター内（x>0）に戻す処理を入れていた。お節介かな
+- fix(appMain.ts): 起動時にウインドウ位置（とサイズ）が確定してからウインドウ表示するように
+- fix(appMain.ts): initRenderer()引数三つめを内部に取り込み（廃止予定）
+- fix(appMain.ts): DevTools は 別ウィンドウに切り離すが画面内に戻せない形式に
+- fix(SysApp.ts): アプリ版セーブ処理で関数ディープコピーしようとしエラーになっていた件
+- fix(TxtStage.ts): dumpHtm 出力で CSS animation-delay を削除しきれないケースがあった件
+- fix: ライブラリ更新
+	- @tweenjs/tween.js 23.1.3 固定
+	- Tween.autoStartOnUpdate=true、では対処できない
+	- 現状、更新せず固定は以下の4つ
+		- @pixi/sound          4.4.1   4.4.1   6.0.1
+		- @tweenjs/tween.js   23.1.3  23.1.3  25.0.0
+		- electron-store       8.2.0   8.2.0  10.0.0
+		- pixi.js             6.5.10  6.5.10   8.3.3
+- doc（タグリファレンス）: [snapshot]スナップショットは、ブラウザ版では限定的なサポートで、文字表示が正確ではないと明記
+
+
 ## [1.55.2](https://github.com/famibee/SKYNovel/compare/v1.55.1...v1.55.2) (2024-07-03)
 
 
