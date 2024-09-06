@@ -33,6 +33,11 @@ export interface IMakeDesignCast { (idc	: DesignCast): void; };
 
 export interface HPage {[ln: string]: Pages};
 
+type T_LOG = HArg & {
+	text	: string;	// 履歴文字列
+};
+
+
 export class LayerMng implements IGetFrm, IRecorder {
 	readonly	#stage	: Container;
 				#fore	= new Container;
@@ -296,8 +301,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 	// 既存の全文字レイヤの実際のバック不透明度、を再計算
 	#foreachRedrawTxtLayBack(g_alpha: number) {
-		for (const name of this.#getLayers()) {
-			const pg = this.#hPages[name];
+		for (const ln of this.#getLayers()) {
+			const pg = this.#hPages[ln];
 			if (! (pg.fore instanceof TxtLayer)) continue;
 			pg.fore.chgBackAlpha(g_alpha);
 			(pg.back as TxtLayer).chgBackAlpha(g_alpha);
@@ -400,8 +405,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 			this.#fore.filters = a;
 			re();
 		}));
-		else for (const v of this.#getLayers(hArg.layer)) a.push(
-			new Promise<void>(re=> this.#hPages[v][pg].snapshot(rnd, ()=>re()))
+		else for (const ln of this.#getLayers(hArg.layer)) a.push(
+			new Promise<void>(re=> this.#hPages[ln][pg].snapshot(rnd, ()=>re()))
 		);
 		Promise.allSettled(a).then(async ()=> {
 			const renTx = RenderTexture.create({width: rnd.width, height: rnd.height});	// はみ出し対策
@@ -426,7 +431,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 //				rnd.plugins.extract.base64(Sprite.from(renTx)),
 			);
 */
-			if (! CmnTween.isTrans) for (const v of this.#getLayers(hArg.layer)) this.#hPages[v][pg].snapshot_end();
+			if (! CmnTween.isTrans) for (const ln of this.#getLayers(hArg.layer)) this.#hPages[ln][pg].snapshot_end();
 			rnd.destroy(true);
 			enableEvent();
 		});
@@ -481,8 +486,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 				this.goTxt = ()=> {
 					if (this.#evtMng.isSkipping) LayerMng.#msecChWait = 0;
 					else this.setNormalChWait();
-					for (const name of this.#getLayers()) {
-						const f = this.#hPages[name].fore;
+					for (const ln of this.#getLayers()) {
+						const f = this.#hPages[ln].fore;
 						if (f instanceof TxtLayer) this.#cmdTxt('gotxt｜', f, false);
 					}
 				}
@@ -745,10 +750,10 @@ void main(void) {
 	}
 	#sps	= new SpritesMng;
 
-	#getLayers(layer = ''): string[] {return (layer)? layer.split(',') : this.#aLayName}
+	#getLayers(layer = ''): string[] {return layer? layer.split(',') : this.#aLayName}
 	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): ReadonlyArray<string> {
-		const vct = this.#getLayers(hArg.layer);
-		for (const ln of vct) {
+		const aLay = this.#getLayers(hArg.layer);
+		for (const ln of aLay) {
 			if (! ln) continue;
 
 			const pg = this.#hPages[ln];
@@ -757,7 +762,7 @@ void main(void) {
 			fnc(ln, pg);
 		}
 
-		return vct;
+		return aLay;
 	}
 	#sortLayers(layers = ''): string[] {
 		return this.#getLayers(layers)
@@ -770,6 +775,13 @@ void main(void) {
 		});
 	}
 
+	setTxtLayForeStyle(style: string) {
+		const aLay = this.#getLayers();
+		for (const ln of aLay) {
+			const pg = this.#hPages[ln];
+			if (pg.fore instanceof TxtLayer) pg.fore.lay({style});
+		}
+	}
 
 	//MARK: 画面を揺らす
 	#quake(hArg: HArg) {
@@ -1008,10 +1020,10 @@ void main(void) {
 	}
 
 
-	#oLastPage	: HArg	= {text: ''};
+	#oLastPage	: T_LOG	= {text: ''};
 	#aTxtLog	: {[name: string]: number | string}[]	= [];
-	recText(txt: string) {
-		this.#oLastPage.text = txt;
+	recText(text: string) {
+		this.#oLastPage = {text};
 		this.val.setVal_Nochk('save', 'const.sn.sLog',
 			String(this.val.getVal('const.sn.log.json'))	// これを起動したい
 		);
@@ -1060,7 +1072,7 @@ void main(void) {
 
 	//MARK: ハイパーリンク
 	#link(hArg: HArg) {
-		if (! hArg.fn && ! hArg.label && ! hArg.url) throw 'fnまたはlabelまたはurlは必須です';
+		if (! hArg.fn && ! hArg.label && ! hArg.url) throw 'fn,label,url いずれかは必須です';
 		hArg.fn ??= this.scrItr.scriptFn;	// ここで指定する必要がある
 
 		hArg.style ??= 'background-color: rgba(255,0,0,0.5);';

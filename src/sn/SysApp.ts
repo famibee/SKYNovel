@@ -35,7 +35,7 @@ export class SysApp extends SysNode {
 
 		this.$path_downloads = this.#hInfo.downloads.replaceAll('\\', '/') +'/';
 
-		to_app.on('log', (e: IpcRendererEvent, arg: any)=> console.info(`[main log] e:%o arg:%o`, e, arg));
+		to_app.on('log', (_: IpcRendererEvent, arg: any)=> console.info(`[main log] %o`, arg));
 
 		CmnLib.isDbg = Boolean(this.#hInfo.env['SKYNOVEL_DBG']) && ! CmnLib.isPackaged;	// 配布版では無効
 		if (CmnLib.isDbg) this.extPort = uint(this.#hInfo.env['SKYNOVEL_PORT'] ?? '3776');
@@ -74,8 +74,7 @@ export class SysApp extends SysNode {
 
 		this.flushSub = ()=> {
 			to_app.flush(JSON.parse(JSON.stringify(this.data)));
-			// 関数や undefined を無視してくれるので、structuredClone() よりいい動作
-		}
+		}	// 関数や undefined を無視してくれるので、structuredClone() よりいい動作
 		this.#setStore()
 		.then(async ()=> {
 			const first = hTmp['const.sn.isFirstBoot']
@@ -97,8 +96,7 @@ export class SysApp extends SysNode {
 
 			// ウインドウ位置
 			const x = (<any>this.data.sys)['const.sn.nativeWindow.x'] ?? 0;
-			//x	const x = Number(this.val.getVal('sys:const.sn.nativeWindow.x'
-				// ここではまだ使えない
+			//const x = Number(this.val.getVal(	// ここではまだ使えない
 			const y = (<any>this.data.sys)['const.sn.nativeWindow.y'] ?? 0;
 			const w = (<any>this.data.sys)['const.sn.nativeWindow.w'] ?? CmnLib.stageW;
 			const h = (<any>this.data.sys)['const.sn.nativeWindow.h'] ?? CmnLib.stageH;

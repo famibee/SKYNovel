@@ -136,21 +136,29 @@ export class Hyphenation {
 				this.#regぶら下げ = new RegExp(`[${sぶら下げ}]`);
 			}
 		}
-	record() {return {
-		行頭禁則	: this.#s行頭禁則,
-		行末禁則	: this.#s行末禁則,
-		分割禁止	: this.#s分割禁止,
-		ぶら下げ	: this.#sぶら下げ,
-
-		break_fixed			: this.break_fixed,
-		break_fixed_left	: this.break_fixed_left,
-		break_fixed_top		: this.break_fixed_top,
-		bura				: this.bura,
-	}}
+	record() {
+		const o: any = {
+			break_fixed			: this.break_fixed,
+			break_fixed_left	: this.break_fixed_left,
+			break_fixed_top		: this.break_fixed_top,
+			bura				: this.bura,
+		};
+		if (this.#s行頭禁則 === def行頭禁則) o.行頭禁則 = this.#s行頭禁則;
+		if (this.#s行末禁則 === def行末禁則) o.行末禁則 = this.#s行末禁則;
+		if (this.#s分割禁止 === def分割禁止) o.分割禁止 = this.#s分割禁止;
+		if (this.#sぶら下げ === defぶら下げ) o.ぶら下げ = this.#sぶら下げ;
+			// デフォルト値と同じならJSONで省略
+		return o;
+	}
 	playback(hLay: any) {
 		if (! hLay) return;		// 途中追加なので
 
-		this.#genKinsoku(hLay.行頭禁則, hLay.行末禁則, hLay.分割禁止, hLay.ぶら下げ);
+		this.#genKinsoku(
+			hLay.行頭禁則 ?? def行頭禁則,
+			hLay.行末禁則 ?? def行末禁則,
+			hLay.分割禁止 ?? def分割禁止,
+			hLay.ぶら下げ ?? defぶら下げ,
+		);
 
 		this.break_fixed		= hLay.break_fixed;
 		this.break_fixed_left	= hLay.break_fixed_left;

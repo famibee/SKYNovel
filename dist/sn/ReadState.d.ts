@@ -1,4 +1,4 @@
-import { IVariable, IMain, IHEvt2Fnc, IEvt2Fnc, IMark } from './CmnInterface';
+import { IVariable, IMain, IHEvt2Fnc, IEvt2Fnc } from './CmnInterface';
 import { HArg, IHTag, ITag } from './Grammar';
 import { LayerMng } from './LayerMng';
 import { ScriptIterator } from './ScriptIterator';
@@ -8,13 +8,7 @@ import { FocusMng } from './FocusMng';
 import { Config } from './Config';
 export declare function enableEvent(): void;
 export declare function disableEvent(): void;
-interface IPageLog {
-    key: string;
-    fn: string;
-    index: number;
-    mark: IMark;
-    week: boolean;
-}
+export declare function playbackPage(saPageLog: string): void;
 export declare class ReadState {
     #private;
     protected readonly hArg: HArg;
@@ -27,7 +21,7 @@ export declare class ReadState {
         sel: string;
     };
     static setEvt2Fnc(glb: boolean, key: string, fnc: IEvt2Fnc): void;
-    static getEvt2Fnc: (key: string) => IEvt2Fnc | undefined;
+    protected static getEvt2Fnc: (key: string) => IEvt2Fnc | undefined;
     static clear_eventer(KeY: string, glb: boolean, key: string): void;
     static clear_event(hArg: HArg): boolean;
     s(hArg: HArg): boolean;
@@ -48,8 +42,6 @@ export declare class ReadState {
     protected onUserAct(): void;
     readonly isWait: boolean;
     fire(_KEY: string, _e: Event): void;
-    protected static aPage: IPageLog[];
-    protected static stylePage: string;
     page(hArg: HArg): boolean;
 }
 declare class Rs_S_fire extends ReadState {
@@ -63,7 +55,7 @@ declare class Rs_S extends Rs_S_fire {
     protected onUserAct(): void;
 }
 export declare class RsPagination extends Rs_S {
-    #private;
+    constructor(hArg: HArg);
     get isSkipping(): boolean;
     readonly s: ITag;
     readonly wait: () => boolean;

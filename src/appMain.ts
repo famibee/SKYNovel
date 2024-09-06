@@ -14,6 +14,8 @@ import {existsSync, copySync, removeSync, ensureDirSync, readFileSync, writeFile
 import Store from 'electron-store';
 import AdmZip from 'adm-zip';
 
+const	isWin	= process.platform === 'win32';
+
 export class appMain {
 	static	initRenderer(path_htm: string, version: string, _o: object): BrowserWindow {
 		// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】のでこの形に
@@ -55,39 +57,6 @@ export class appMain {
 	}
 
 
-	openDevTools	= ()=> {};
-	#inited(oCfg: T_CFG, rctW: TAG_WINDOW) {
-		const {c, x, y, w, h} = rctW;
-		this.#window(c, x, y, w, h);
-		this.bw.setAspectRatio(w / h);
-		this.bw.show();
-
-		if (oCfg.debug.devtool) {
-			this.#evDevtoolsOpened = ()=> {};
-			this.openDevTools = ()=> this.bw.webContents.openDevTools({
-				mode	: 'detach',	// 別ウィンドウに切り離すが画面内に戻せない
-			//	activate: false,	// 他のウインドウの後ろに回って見失いがち
-			});
-			this.openDevTools();
-			this.bw.focus();	// 【activate: false】よりいい挙動
-			return;
-		}
-
-		this.#evDevtoolsOpened = ()=> {
-			this.bw.webContents.closeDevTools();	// 開こうとしたら閉じる
-			this.bw.setTitle(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
-			this.bw.webContents.send('shutdown');
-		};
-	}
-	#evDevtoolsOpened = ()=> this.bw.webContents.closeDevTools();	// 開こうとしたら閉じる
-
-	#scrSize: Size;
-	#chgDsp() {
-		const csp = screen.getCursorScreenPoint();
-		const dsp = screen.getDisplayNearestPoint(csp);
-		this.#scrSize = dsp.workAreaSize;
-	}
-
 	readonly	#hInfo	: HINFO = {
 		getAppPath	: app.getAppPath(),
 		isPackaged	: app.isPackaged,
@@ -102,8 +71,6 @@ export class appMain {
 	#winY	= 0;
 	#cvsW	= 0;
 	#cvsH	= 0;
-	readonly	#isWin	= process.platform === 'win32';
-	readonly	#menu_height;
 
 	private	constructor(private readonly bw: BrowserWindow, readonly version: string, readonly path_htm: string) {
 		// 以下コメントアウトなら【プロジェクト】のターミナルに出る
@@ -159,20 +126,14 @@ export class appMain {
 			zip.extractAllTo(out, true);
 		});
 
-		bw.setMenuBarVisibility(false);
-		const cs_no_menu_h = bw.getContentSize()[1];
-		bw.setMenuBarVisibility(true);
-		const cs_menu_h = bw.getContentSize()[1];
-		const menu_height = this.#menu_height = cs_no_menu_h -cs_menu_h;
-			// win10 で 20 ぐらいに。macOSでは 0
 		ipcMain.handle('isSimpleFullScreen', ()=> bw.simpleFullScreen);
-		if (this.#isWin) {
+		if (isWin) {
 			ipcMain.handle('setSimpleFullScreen', (_, b: boolean)=> {
 				this.#isMovingWin = true;
 				bw.setSimpleFullScreen(b);	// これだけで #onMove 発生
 				if (! b) {
 					bw.setPosition(this.#winX, this.#winY);
-					bw.setContentSize(this.#cvsW, this.#cvsH +menu_height);	// メニュー高さぶん足す
+					bw.setContentSize(this.#cvsW, this.#cvsH);
 				}
 				this.#isMovingWin = false;
 			});
@@ -180,29 +141,66 @@ export class appMain {
 			// 以下のイベントは winで必ず、macでは「Command + Control + F」でのみ発生
 			bw.on('enter-full-screen', ()=> {
 				//this.#isMovingWin = true;	// 効かない
-				bw.setContentSize(this.#scrSize.width, this.#scrSize.height -menu_height);	// メニュー高さぶん引く
+				bw.setContentSize(this.#scrSize.width, this.#scrSize.height);	// メニュー高さぶん引く
 				//this.#isMovingWin = false;
 			});
 			bw.on('leave-full-screen', ()=> {
-				this.#window(false, this.#winX, this.#winY, this.#cvsW, this.#cvsH +menu_height);	// メニュー高さぶん足す
+				this.#window(false, this.#winX, this.#winY, this.#cvsW, this.#cvsH);
 			});
 		}
 		else ipcMain.handle('setSimpleFullScreen', (_, b: boolean)=> {
 			bw.setSimpleFullScreen(b);
 			if (b) return;
 
-			bw.setContentSize(this.#cvsW, this.#cvsH +menu_height);	// メニュー高さぶん足す
+			bw.setContentSize(this.#cvsW, this.#cvsH);
 		});
 		ipcMain.handle('window', (_, c: boolean, x: number, y: number, w: number, h: number)=> this.#window(c, x, y, w, h));
 
 		bw.on('move', ()=> this.#onMove());
 		bw.on('resize', ()=> this.#onMove());
 
-		this.#chgDsp();
+		this.#chgDsp();	// 必須
 
 		bw.loadFile(path_htm);
 	}
+
+	#numAspectRatio	= 0;
+	openDevTools	= ()=> {};
+	#evDevtoolsOpened = ()=> this.bw.webContents.closeDevTools();	// 開こうとしたら閉じる
+	#inited(oCfg: T_CFG, rctW: TAG_WINDOW) {
+		const {c, x, y, w, h} = rctW;
+		this.#numAspectRatio = w / h;
+		if (! isWin) this.bw.setAspectRatio(this.#numAspectRatio);
+		this.#window(c, x, y, w, h);
+		this.bw.show();
+
+		if (oCfg.debug.devtool) {
+			this.#evDevtoolsOpened = ()=> {};
+			this.openDevTools = ()=> this.bw.webContents.openDevTools({
+				mode	: 'detach',	// 別ウィンドウに切り離すが画面内に戻せない
+			//	activate: false,	// 他のウインドウの後ろに回って見失いがち
+			});
+			this.openDevTools();
+			return;
+		}
+
+		this.#evDevtoolsOpened = ()=> {
+			this.bw.webContents.closeDevTools();	// 開こうとしたら閉じる
+			this.bw.setTitle(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
+			this.bw.webContents.send('shutdown');
+		};
+	}
+
+	#scrSize: Size;
+	#chgDsp() {
+		const csp = screen.getCursorScreenPoint();
+		const dsp = screen.getDisplayNearestPoint(csp);
+		this.#scrSize = dsp.workAreaSize;
+	}
+
 	#tid: NodeJS.Timeout | undefined = undefined;
+	#skipDelayWinPos	= false;
+	#isMovingWin		= false;
 	#onMove() {
 //console.log(`fn:appMain.ts #onMove #isMovingWin:${this.#isMovingWin}`);
 		if (this.#tid) return;
@@ -210,30 +208,30 @@ export class appMain {
 		if (this.#isMovingWin) return;
 		this.#isMovingWin = true;
 
-		const {x: ox, y: oy} = this.bw.getBounds();
-		const {width: ow, height: oh} = this.bw.getContentBounds();
+		const [ox, oy] = this.bw.getPosition();
+		const [ow, oh] = this.bw.getContentSize();
+//console.log(`fn:appMain.ts #onMove - ox:${ox} oy:${oy} ow:${ow} oh:${oh}`);
 		this.#tid = setTimeout(()=> {	// clearTimeout()不要と判断
 			this.#tid = undefined;
 			if (this.#skipDelayWinPos) {this.#skipDelayWinPos = false; return}
 
 			this.#isMovingWin = false;
-			const {x: nx, y: ny} = this.bw.getBounds();
-			const {width: nw, height: nh} = this.bw.getContentBounds();
+			const [nx, ny] = this.bw.getPosition();
+			const [nw, nh] = this.bw.getContentSize();
+//console.log(`fn:appMain.ts #onMove = ow:${ow} nw:${nw} oh:${oh} nh:${nh}`);
 			if (ox !== nx || oy !== ny || ow !== nw || oh !== nh) {this.#onMove(); return}
 			this.#window(false, nx, ny, nw, nh);
 		}, 1000 /60 *10);
 	}
-	#skipDelayWinPos	= false;
-	#isMovingWin		= false;
 
 	#window(centering: boolean, x: number, y: number, w: number, h: number) {
-//console.log(`#window isFS:${this.bw.simpleFullScreen} isMovingWin:${this.#isMovingWin} (${x}, ${y}, ${w}, ${h})`);
 		if (this.#isMovingWin) return;
 		this.#isMovingWin = true;
 		if (this.bw.simpleFullScreen) return;
 			// 全画面時に無効にする意味合いと、
 			// winでのみ全画面移行時に【setContentSize】から発生
 
+//console.log(`fn:appMain.ts #window (${x}, ${y}, ${w}, ${h}) w/h=${w/h} scr(${this.#scrSize.width}, ${this.#scrSize.height})`);
 		if (centering) {
 			this.#chgDsp();
 			x = (this.#scrSize.width - w) *0.5;
@@ -243,10 +241,15 @@ export class appMain {
 		this.#winY = y;
 		this.bw.setPosition(x, y);
 
+//console.log(`fn:appMain.ts #window - w:${w} h:${w /this.#numAspectRatio} cw:${this.#cvsW} ch:${this.#cvsH} +${(this.#cvsW !== w)}+${(this.#cvsW !== w) ?Math.round(w /this.#numAspectRatio) :Math.round(h *this.#numAspectRatio)}+`);
+		if (isWin) {
+			if (this.#cvsW !== w) h = Math.round(w /this.#numAspectRatio);
+			else w = Math.round(h *this.#numAspectRatio);
+				// 整数化しないとエラー？（四捨五入でいく）
+		}
 		this.#cvsW = w;
 		this.#cvsH = h;
-		this.bw.setContentSize(w, h +this.#menu_height);// メニュー高さぶん足す
-			// Sizeは変更時のみの送信、をするとどんどん小さくなるので注意
+		this.bw.setContentSize(w, h);
 
 		this.bw.webContents.send('save_win_inf', {c: centering, x, y, w, h, scrw: this.#scrSize.width, scrh: this.#scrSize.height});
 		this.#isMovingWin = false;

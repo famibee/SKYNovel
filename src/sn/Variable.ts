@@ -11,6 +11,7 @@ import {IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook, 
 import {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';
+import {playbackPage} from './ReadState';
 
 import platform from 'platform';
 
@@ -35,8 +36,8 @@ export class Variable implements IVariable {
 
 		//	デバッグ・その他
 		hTag.clearsysvar	= ()=> this.#clearsysvar();	// システム変数の全消去
-		hTag.clearvar		= ()=> this.#clearvar();		// ゲーム変数の全消去
-		hTag.dump_val		= ()=> this.#dump_val();		// 変数のダンプ
+		hTag.clearvar		= ()=> this.#clearvar();	// ゲーム変数の全消去
+		hTag.dump_val		= ()=> this.#dump_val();	// 変数のダンプ
 
 		// しおり
 		hTag.copybookmark	= o=> this.#copybookmark(o);	// しおりの複写
@@ -98,7 +99,7 @@ export class Variable implements IVariable {
 
 		this.#hTmp['const.sn.platform'] = JSON.stringify(platform);
 
-		this.#clearsysvar();
+		this.#clearsysvar(true);
 		this.#clearvar();
 
 		// prj.json
@@ -176,14 +177,17 @@ export class Variable implements IVariable {
 
 			// 初回の初期化と、v1.11.0 まで未初期化変数があった件の対策
 			const tm = this.getVal('sys:sn.tagCh.msecWait', -1);
-			if (this.#hTmp['const.sn.isFirstBoot'] || tm === -1) this.#clearsysvar();
+			if (this.#hTmp['const.sn.isFirstBoot'] || tm === -1) this.#clearsysvar(true);
 
 			this.#tagCh_doWait = this.getVal('sys:sn.tagCh.doWait');
 			this.#tagCh_doWait_Kidoku = this.getVal('sys:sn.tagCh.doWait_Kidoku');
 			this.#tagCh_msecWait = this.getVal('sys:sn.tagCh.msecWait');
 			this.#tagCh_msecWait_Kidoku = this.getVal('sys:sn.tagCh.msecWait_Kidoku');
-	});
+
+			playbackPage(this.#saPageLog());
+		});
 	}
+	#saPageLog(): string {return this.getVal('sys:const.sn.aPageLog') ?? '[]'}
 	readonly	#hProcDbgRes
 	: {[type: string]: (type: string, o: any)=> void}	= {
 		auth: (_, o)=> this.#set_data_break(o.hBreakpoint.aData),
@@ -398,7 +402,7 @@ export class Variable implements IVariable {
 
 //	// デバッグ・その他
 	// システム変数の全消去
-	#clearsysvar() {
+	#clearsysvar(init = false) {
 		const sys = this.#hSys = this.#hScopes['sys'] = this.#data.sys = {};
 
 		const is_nw = (typeof process !== 'undefined');
@@ -449,6 +453,9 @@ export class Variable implements IVariable {
 
 		this.#hScopes['mark'] = this.#data.mark = {};
 		this.setVal_Nochk('sys', 'const.sn.save.place', 1);
+
+		this.setVal_Nochk('sys', 'const.sn.aPageLog', '[]');
+		if (! init) playbackPage(this.#saPageLog());
 
 
 		this.flush();

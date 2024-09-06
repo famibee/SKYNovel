@@ -41,9 +41,9 @@ export class ScriptIterator {
 	#script		: Script	= {aToken: [''], len: 1, aLNum: [1]};
 
 	#scriptFn	= '';
-	get scriptFn() {return this.#scriptFn};
+	get scriptFn() {return this.#scriptFn}
 	#idxToken	= 0;
-	subIdxToken() {--this.#idxToken};
+	subIdxToken() {--this.#idxToken}
 	#lineNum	= 0;
 	get lineNum() {return this.#lineNum}
 	readonly addLineNum	= (len: number)=> this.#lineNum += len;
@@ -77,7 +77,7 @@ export class ScriptIterator {
 		//hTag.button	// LayerMng.ts内で定義		// ボタンを表示
 		hTag.call		= o=> this.#call(o);		// サブルーチンコール
 		hTag.jump		= o=> this.#jump(o);		// シナリオジャンプ
-		//hTag.page		= // EventMng が担当に		// ページ移動
+		//hTag.page		= // ReadState が担当に		// ページ移動
 		hTag.pop_stack	= o=> this.#pop_stack(o);	// コールスタック破棄
 		hTag.return		= o=> this.#return(o);		// サブルーチンから戻る
 
@@ -96,7 +96,7 @@ export class ScriptIterator {
 		hTag.save			= o=> this.#save(o);			// しおりの保存
 
 
-		if (cfg.oCfg.debug.token) this.#dbgToken = token=> console.log(`🌱 トークン fn:${this.#scriptFn} idx:${this.#idxToken} ln:${this.#lineNum} token【${token}】`);
+		if (cfg.oCfg.debug.token) this.#dbgToken = token=> {if (token.trim() !== '') console.log(`🌱 トークン fn:${this.#scriptFn} idx:${this.#idxToken} ln:${this.#lineNum} token【${token}】`)};
 
 		val.defTmp('const.sn.aIfStk.length', ()=> this.#aIfStk.length);
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.#aCallStk.length);
@@ -1088,7 +1088,7 @@ export class ScriptIterator {
 	}
 
 	//MARK: マクロ定義の開始
-	readonly	#REG_NG4MAC_NM = new RegExp(`["'#;\\]　]+`);
+	readonly	#REG_NG4MAC_NM = /["'#;\\]　]+/;
 	#macro(hArg: HArg) {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
@@ -1180,8 +1180,6 @@ export class ScriptIterator {
 		if (hArg.index) {	// ページ移動用
 //console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${hArg.fn ?? fn} idx:${hArg.index ?? idx}`);
 			this.#layMng.playback(this.#mark.hPages, ()=> {
-				const {style, r_style} = hArg;
-				if (style) this.#layMng.currentTxtlayFore?.lay({style, r_style});
 				this.#layMng.cover(false);
 				this.#jumpWork(hArg.fn ?? fn, '', hArg.index);
 			});

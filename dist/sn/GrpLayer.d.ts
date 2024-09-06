@@ -22,7 +22,6 @@ export declare class GrpLayer extends Layer {
     readonly record: () => {
         sBkFn: string;
         sBkFace: string;
-        idc_hArg: HArg;
         name: string;
         idx: number;
         alpha: number;

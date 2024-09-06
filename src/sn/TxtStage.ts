@@ -12,7 +12,7 @@ import {CmnTween} from './CmnTween';
 import {SpritesMng} from './SpritesMng';
 import {DebugMng} from './DebugMng';
 import {IMakeDesignCast} from './LayerMng';
-import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
+//import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 import {SysBase} from './SysBase';
 import {Hyphenation, IChRect} from './Hyphenation';
 import {ScriptIterator} from './ScriptIterator';
@@ -89,8 +89,8 @@ export class TxtStage extends Container {
 		this.addChild(this.#grpDbgMasume);
 		this.#grpDbgMasume.name = 'grpDbgMasume';
 
-		this.#idc = new TxtLayDesignCast(this.spLay, this);
-		this.#idc.adopt(this.#idcCh);
+//		this.#idc = new TxtLayDesignCast(this.spLay, this);
+//		this.#idc.adopt(this.#idcCh);
 
 		this.noticeCompTxt = sys.isApp && TxtStage.#cfg.oCfg.debug.dumpHtm
 		? ()=> {
@@ -118,8 +118,8 @@ export class TxtStage extends Container {
 		: ()=> ReadState.noticeCompTxt();
 	}
 
-	readonly	#idc	:TxtLayDesignCast;
-	readonly	#idcCh	= new TxtLayPadDesignCast(this);
+//	readonly	#idc	:TxtLayDesignCast;
+//	readonly	#idcCh	= new TxtLayPadDesignCast(this);
 	#infTL :IInfTxLay = {
 		fontsize	: 24,
 		$width		: 0,	// レイヤサイズであり、背景色（画像）サイズ
@@ -159,7 +159,7 @@ export class TxtStage extends Container {
 		if ('pb' in hArg) s.paddingBottom = (hArg.pb ?? '0') +'px';
 		this.#hyph.lay(hArg);
 		this.#lay_sub();
-		this.#idc.sethArg(hArg);
+//		this.#idc.sethArg(hArg);
 
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
 		this.#left = this.spLay.position.x;
@@ -214,8 +214,8 @@ export class TxtStage extends Container {
 		s.top = `${this.sys.ofsTop4elm +this.spLay.position.y *cvsScale}px`;
 		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *cvsScale}, ${this.spLay.scale.y *cvsScale})`;
 
-		this.#idc.cvsResize();
-		this.#idcCh.cvsResize();
+//		this.#idc.cvsResize();
+//		this.#idcCh.cvsResize();
 	}
 	#left = 0;
 	#isTategaki = false;
@@ -1003,7 +1003,7 @@ export class TxtStage extends Container {
 		to.#left = this.#left;
 		to.name = this.name;
 		to.#lay_sub();
-		to.#idc.sethArg(this.#idc.gethArg());
+//		to.#idc.sethArg(this.#idc.gethArg());
 
 		to.#ch_filter = this.#ch_filter;
 		to.#fi_easing = this.#fi_easing;
@@ -1022,7 +1022,7 @@ export class TxtStage extends Container {
 
 		cssText		: this.#htmTxt.style.cssText,
 		left		: this.#left,
-		idc_hArg	: this.#idc.gethArg(),
+//		idc_hArg	: this.#idc.gethArg(),
 
 		ch_filter	: this.#ch_filter,
 		fi_easing	: this.#fi_easing,
@@ -1037,7 +1037,7 @@ export class TxtStage extends Container {
 		this.#htmTxt.style.cssText = hLay.cssText;
 		this.#left = hLay.left;
 		this.#lay_sub();
-		this.#idc.sethArg(hLay.idc_hArg);
+//		this.#idc.sethArg(hLay.idc_hArg);
 
 		this.#ch_filter	= hLay.ch_filter;
 		this.#fi_easing	= hLay.fi_easing;
@@ -1072,14 +1072,16 @@ export class TxtStage extends Container {
 		if (this.#sss) {this.#cntTxt.removeChild(this.#sss); this.#sss = undefined}
 	}
 
-	makeDesignCast(gdc: IMakeDesignCast) {
-		gdc(this.#idc);
+	makeDesignCast(_gdc: IMakeDesignCast) {
+//	makeDesignCast(gdc: IMakeDesignCast) {
+//		gdc(this.#idc);
 
-		const o = this.#idc.gethArg();
-		this.#idcCh.sethArg({...o, ':id_dc': o[':id_tag'] +'_pad'});
-		gdc(this.#idcCh);
+//		const o = this.#idc.gethArg();
+//		this.#idcCh.sethArg({...o, ':id_dc': o[':id_tag'] +'_pad'});
+//		gdc(this.#idcCh);
 	}
-	showDesignCast() {this.#idc.visible = true; this.#idcCh.visible = true}
+	showDesignCast() {}
+//	showDesignCast() {this.#idc.visible = true; this.#idcCh.visible = true}
 
 	dump(): string {
 		const aStyle: string[] = [];

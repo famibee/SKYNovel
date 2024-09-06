@@ -425,7 +425,7 @@ export class TxtLayer extends Layer {
 	#ffs	= '';
 	#fncFFSStyle	= (_ch: string)=> '';
 	#strNoFFS	= '';
-	#regNoFFS	= new RegExp('[　]');
+	#regNoFFS	= /[　]/;
 	// Safariが全体に「font-feature-settings」した後、特定文字の「font-feature-settings: initial;」を受け付けてくれないのでわざわざ一つずつ指定
 
 

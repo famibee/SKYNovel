@@ -1,3 +1,17 @@
+- feat(ページ遷移): sys:const.sn.aPageLog 追加、ページ遷移用情報を保存するように
+	- ただし save:const.sn.sLog 同様、save:sn.doRecLog の影響を受ける
+- fix(ReadState.ts): [page]の to 属性のページ遷移が上手く動作してなかった件
+	- v1.53.8（イベント禁止状態 Rs_BanEvent 追加）でのデグレード
+- fix(ReadState.ts): ページ遷移などで[p visible=false][l ...]で文字表示処理が開始されない件
+- fix(ReadState.ts): ページ遷移で文字レイヤレベルのstyleを[p][l][s]段階で設定するように
+- fix(ReadState.ts): [page] の style 属性初期値を 'color: yellow; text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;' に
+- fix(ReadState.ts): [page] 移動中に [playbgm] が発生した場合に右クリックなどしないと次へ進まない件
+- fix(appMain.ts): Windowsでウインドウサイズ変更の挙動修正
+- fix(debug.token): 空白文字は表示しないように
+- perf(Hyphenation.ts): 禁則設定がデフォルト値と同じ場合にセーブデータを省略するように
+- perf(TxtStage.ts, GrpLayer.ts): デザインモード関係の不要なセーブデータを削除
+
+
 ## [1.56.1](https://github.com/famibee/SKYNovel/compare/v1.56.0...v1.56.1) (2024-08-28)
 
 

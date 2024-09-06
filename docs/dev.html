@@ -677,7 +677,7 @@
 </td></tr>
 <tr><td>save:sn.doRecLog</td><td>false</td><td>true、false</td><td>テキストを履歴に記録するか</td></tr>
 <tr><td>save:const.sn.sLog</td><td>'[]'</td><td>文字列</td><td>
-	履歴テキスト<br/>
+	履歴テキスト（JSON文字列）<br/>
 	【2019/12/18】内容が const.sn.log.json と同様に。<br/>
 	→以前は、'\f'区切りの妙なフォーマットだった。
 </td></tr>
@@ -722,7 +722,9 @@
 	例えば「&sys:TextLayer.Back.Alpha」はテキストウインドウの背景の濃度を変更できます。
 
 <table><tr><th>変数名</th><th>初期値</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>sys:TextLayer.Back.Alpha</td><td>1</td><td>0.0〜1.0；透過度</td><td>バック不透明度。テキストウインドウの背景の濃度。0.0で透明、1.0で不透明。</td></tr>
+<tr><td>sys:const.sn.aPageLog</td><td>'[]'</td><td>文字列</td><td>
+	ページ遷移用情報（JSON文字列）
+</td></tr>
 <tr><td>sys:const.sn.nativeWindow.x</td><td>0</td><td>実数；横座標</td><td rowspan="2">アプリウインドウの座標。画面左上を(0, 0)とする座標。[<a href="tag.html#window" target="_blank" rel="noopener">window</a>]で変更できる</td></tr>
 <tr><td>sys:const.sn.nativeWindow.y</td><td>0</td><td>実数；縦座標</td></tr>
 <tr><td>sys:const.sn.nativeWindow.w</td><td>設定での横幅</td><td>実数；横幅</td><td rowspan="2">アプリウインドウの縦横幅。[<a href="tag.html#window" target="_blank" rel="noopener">window</a>]で変更できる</td></tr>
@@ -754,6 +756,7 @@
 <tr><td>sys:sn.tagCh.doWait_Kidoku</td><td>true</td><td>true、false</td><td>既読テキストにウェイトを掛けるか</td></tr>
 <tr><td>sys:sn.tagCh.msecWait</td><td>10</td><td>0〜；ミリ秒</td><td>未読テキスト待ち時間（ミリ秒）</td></tr>
 <tr><td>sys:sn.tagCh.msecWait_Kidoku</td><td>10</td><td>0〜；ミリ秒</td><td>既読テキスト待ち時間（ミリ秒）</td></tr>
+<tr><td>sys:TextLayer.Back.Alpha</td><td>1</td><td>0.0〜1.0；透過度</td><td>バック不透明度。テキストウインドウの背景の濃度。0.0で透明、1.0で不透明。</td></tr>
 </table>
 
 </p>

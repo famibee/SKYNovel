@@ -433,7 +433,7 @@ export class EventMng implements IEvtMng {
 			return false;
 		}
 
-		if (! hArg.fn && ! hArg.label && ! hArg.url) throw 'fnまたはlabelまたはurlは必須です';
+		if (! hArg.fn && ! hArg.label && ! hArg.url) throw 'fn,label,url いずれかは必須です';
 		hArg.fn ??= this.scrItr.scriptFn;
 
 		// domイベント

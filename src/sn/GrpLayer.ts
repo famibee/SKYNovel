@@ -173,14 +173,14 @@ export class GrpLayer extends Layer {
 	override readonly record = ()=> ({...super.record(),
 		sBkFn		: this.#sBkFn,
 		sBkFace		: this.#sBkFace,
-		idc_hArg	: this.#idc.gethArg(),
+//		idc_hArg	: this.#idc.gethArg(),
 	});
 	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		if (hLay.sBkFn === '' && hLay.sBkFace === '') {
 			this.#sBkFn		= hLay.sBkFn;
 			this.#sBkFace	= hLay.sBkFace;
-			this.#idc.sethArg(hLay.idc_hArg);
+//			this.#idc.sethArg(hLay.idc_hArg);
 			return;
 		}
 

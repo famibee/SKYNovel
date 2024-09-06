@@ -5,7 +5,7 @@ export declare class appMain {
     readonly version: string;
     readonly path_htm: string;
     static initRenderer(path_htm: string, version: string, _o: object): BrowserWindow;
-    openDevTools: () => void;
     private constructor();
+    openDevTools: () => void;
 }
 //# sourceMappingURL=appMain.d.ts.map

@@ -57,25 +57,15 @@ export declare class TxtStage extends Container {
         infTL: IInfTxLay;
         cssText: string;
         left: number;
-        idc_hArg: HArg;
         ch_filter: any[] | undefined;
         fi_easing: string;
         fo_easing: string;
-        hyph: {
-            行頭禁則: string;
-            行末禁則: string;
-            分割禁止: string;
-            ぶら下げ: string;
-            break_fixed: boolean;
-            break_fixed_left: number;
-            break_fixed_top: number;
-            bura: boolean;
-        };
+        hyph: any;
     };
     playback(hLay: any): void;
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
-    makeDesignCast(gdc: IMakeDesignCast): void;
+    makeDesignCast(_gdc: IMakeDesignCast): void;
     showDesignCast(): void;
     dump(): string;
     destroy(): void;

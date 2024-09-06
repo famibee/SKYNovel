@@ -40,11 +40,12 @@ export declare class LayerMng implements IGetFrm, IRecorder {
     breakPage: (_hArg: HArg) => void;
     clearBreak(): void;
     clickTxtLay(): boolean;
+    setTxtLayForeStyle(style: string): void;
     static get msecChWait(): number;
     setNormalChWait(): void;
     get currentTxtlayForeNeedErr(): TxtLayer;
     get currentTxtlayFore(): TxtLayer | null;
-    recText(txt: string): void;
+    recText(text: string): void;
     recPagebreak(): void;
     record(): any;
     playback($hPages: HIPage, fncComp: () => void): void;

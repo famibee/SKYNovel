@@ -104,7 +104,7 @@ export class SoundMng {
 	#playse(hArg: HArg) {
 		const {buf = 'SE', fn} = hArg;
 		this.#stopse({buf});
-		if (! fn) throw `[playse] fnは必須です buf:${buf}`;
+		if (! fn) throw `fnは必須です buf:${buf}`;
 
 		// isSkipKeyDown()は此処のみとする。タイミングによって変わる
 		if (argChk_Boolean(hArg, 'canskip', true) && this.#evtMng.isSkipping) return false;

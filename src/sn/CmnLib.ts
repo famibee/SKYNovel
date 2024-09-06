@@ -160,8 +160,8 @@ export class CmnLib {
 	static	debugLog	= false;
 	static	readonly	isSafari	= name === 'Safari';
 	static	readonly	isFirefox	= name === 'Firefox';
-	static	readonly	isMac		= new RegExp('OS X').test(os?.family ?? '');
-	static	readonly	isMobile	= ! new RegExp('(Windows|OS X)').test(os?.family ?? '');
+	static	readonly	isMac		= /OS X/.test(os?.family ?? '');
+	static	readonly	isMobile	= ! /(Windows|OS X)/.test(os?.family ?? '');
 	static	hDip		: {[name: string]: string}	= {};
 	static	isDbg		= false;
 	static	isPackaged	= false;
