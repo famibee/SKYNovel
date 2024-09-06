@@ -1,3 +1,10 @@
+# [1.57.0](https://github.com/famibee/SKYNovel/compare/v1.56.1...v1.57.0) (2024-09-06)
+
+
+### Features
+
+* **ページ遷移:** sys:const.sn.aPageLog 追加、ページ遷移用情報を保存するように ([e284276](https://github.com/famibee/SKYNovel/commit/e28427669d26519f569af577383ab39aec7b1329))
+
 - feat(ページ遷移): sys:const.sn.aPageLog 追加、ページ遷移用情報を保存するように
 	- ただし save:const.sn.sLog 同様、save:sn.doRecLog の影響を受ける
 - fix(ReadState.ts): [page]の to 属性のページ遷移が上手く動作してなかった件
