@@ -1,3 +1,10 @@
+# [1.58.0](https://github.com/famibee/SKYNovel/compare/v1.57.0...v1.58.0) (2024-09-07)
+
+
+### Features
+
+* **ReadState.ts:** [page to=exit] でページ遷移状態を抜けるように ([56daeba](https://github.com/famibee/SKYNovel/commit/56daeba36ef42b399e721da7e43d7b95e856833a))
+
 - feat(ReadState.ts): [page to=exit] でページ遷移状態を抜けるように
 - feat(ReadState.ts): tmp:const.sn.isPaging 追加、ページ遷移状態か
 - doc（開発者情報）: 組み込み変数 tmp:const.sn.isPaging の説明を追加
