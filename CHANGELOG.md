@@ -1,3 +1,17 @@
+- feat(ReadState.ts): [page to=exit] でページ遷移状態を抜けるように
+- feat(ReadState.ts): tmp:const.sn.isPaging 追加、ページ遷移状態か
+- doc（開発者情報）: 組み込み変数 tmp:const.sn.isPaging の説明を追加
+- feat(ReadState.ts): ページ遷移状態出入り時の style 保存・復帰を厳密に
+- feat(ReadState.ts): ページ遷移中 CSS スタイルを保存するように
+- feat(ReadState.ts): save:const.sn.styPaging 追加、ページ遷移中 CSS スタイル
+- doc（開発者情報）: 組み込み変数 save:const.sn.styPaging の説明を追加
+- fix(ReadState.ts): ページ遷移中は [page] の style 属性設定を無視するように
+- fix(ReadState.ts): ページ遷移中は [page] の style・clear 属性設定でエラーになっていた件
+- fix(SndBuf.ts): save:const.sn.loopPlaying に buf ごとの 音声ファイル名を保存するように
+- ページ遷移状態でリロードすると？
+	- ページ遷移状態を抜けて next 末尾の本文に戻る
+
+
 # [1.57.0](https://github.com/famibee/SKYNovel/compare/v1.56.1...v1.57.0) (2024-09-06)
 
 
@@ -17,6 +31,7 @@
 - fix(debug.token): 空白文字は表示しないように
 - perf(Hyphenation.ts): 禁則設定がデフォルト値と同じ場合にセーブデータを省略するように
 - perf(TxtStage.ts, GrpLayer.ts): デザインモード関係の不要なセーブデータを削除
+- doc（開発者情報）: 組み込み変数 sys:const.sn.aPageLog の説明を追加
 
 
 ## [1.56.1](https://github.com/famibee/SKYNovel/compare/v1.56.0...v1.56.1) (2024-08-28)

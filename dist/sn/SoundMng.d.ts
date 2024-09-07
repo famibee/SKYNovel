@@ -10,7 +10,7 @@ export declare class SoundMng {
     setEvtMng(evtMng: IEvtMng): void;
     setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume): void;
     clearCache(): void;
-    playLoopFromSaveObj(): void;
+    playLoopFromSaveObj(reload_sound: boolean): void;
     destroy(): void;
 }
 //# sourceMappingURL=SoundMng.d.ts.map

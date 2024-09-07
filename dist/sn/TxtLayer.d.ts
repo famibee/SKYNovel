@@ -38,6 +38,8 @@ export declare class TxtLayer extends Layer {
     clearLay(hArg: HArg): void;
     readonly record: () => any;
     playback(hLay: any, aPrm: Promise<void>[]): void;
+    get cssText(): string;
+    set cssText(ct: string);
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
     makeDesignCast(gdc: IMakeDesignCast): void;

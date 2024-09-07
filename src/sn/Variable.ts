@@ -11,7 +11,7 @@ import {IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncHook, 
 import {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';
-import {playbackPage} from './ReadState';
+import {INI_STYPAGE, playbackPage} from './ReadState';
 
 import platform from 'platform';
 
@@ -110,6 +110,8 @@ export class Variable implements IVariable {
 
 		this.#hTmp['const.sn.Math.PI'] = Math.PI;
 
+		this.#hTmp['const.sn.isPaging'] = false;
+
 
 		if (typeof window === 'undefined') return;
 		const win: any = window;
@@ -184,10 +186,13 @@ export class Variable implements IVariable {
 			this.#tagCh_msecWait = this.getVal('sys:sn.tagCh.msecWait');
 			this.#tagCh_msecWait_Kidoku = this.getVal('sys:sn.tagCh.msecWait_Kidoku');
 
-			playbackPage(this.#saPageLog());
+			this.#saPageLog();
 		});
 	}
-	#saPageLog(): string {return this.getVal('sys:const.sn.aPageLog') ?? '[]'}
+	#saPageLog() {playbackPage(
+		this.getVal('sys:const.sn.aPageLog') ?? '[]',
+		this.getVal('save:const.sn.styPaging') ?? INI_STYPAGE,
+	)}
 	readonly	#hProcDbgRes
 	: {[type: string]: (type: string, o: any)=> void}	= {
 		auth: (_, o)=> this.#set_data_break(o.hBreakpoint.aData),
@@ -455,7 +460,7 @@ export class Variable implements IVariable {
 		this.setVal_Nochk('sys', 'const.sn.save.place', 1);
 
 		this.setVal_Nochk('sys', 'const.sn.aPageLog', '[]');
-		if (! init) playbackPage(this.#saPageLog());
+		if (! init) this.#saPageLog();
 
 
 		this.flush();
@@ -468,12 +473,14 @@ export class Variable implements IVariable {
 		const mesLayer	= this.#hSave['const.sn.mesLayer'] ?? '';
 		const doRecLog	= this.#hSave['sn.doRecLog'] ?? false;
 		const sLog		= this.#hSave['const.sn.sLog'] ?? '[]';
+		const styPaging	= this.#hSave['const.sn.styPaging'] ?? INI_STYPAGE;
 
 		this.#hSave = this.#hScopes.save = {};
 
 		this.setVal_Nochk('save', 'const.sn.mesLayer', mesLayer);
 		this.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 		this.setVal_Nochk('save', 'const.sn.sLog', sLog);
+		this.setVal_Nochk('save', 'const.sn.styPaging', styPaging);
 
 		return false;
 	}

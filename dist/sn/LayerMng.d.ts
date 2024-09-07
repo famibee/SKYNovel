@@ -40,7 +40,7 @@ export declare class LayerMng implements IGetFrm, IRecorder {
     breakPage: (_hArg: HArg) => void;
     clearBreak(): void;
     clickTxtLay(): boolean;
-    setTxtLayForeStyle(style: string): void;
+    setAllStyle2TxtLay(style: string): void;
     static get msecChWait(): number;
     setNormalChWait(): void;
     get currentTxtlayForeNeedErr(): TxtLayer;

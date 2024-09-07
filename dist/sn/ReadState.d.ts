@@ -6,9 +6,10 @@ import { EventListenerCtn } from './EventListenerCtn';
 import { SoundMng } from './SoundMng';
 import { FocusMng } from './FocusMng';
 import { Config } from './Config';
+export declare const INI_STYPAGE = "color: yellow; text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;";
 export declare function enableEvent(): void;
 export declare function disableEvent(): void;
-export declare function playbackPage(saPageLog: string): void;
+export declare function playbackPage(saPageLog: string, $styPaging: string): void;
 export declare class ReadState {
     #private;
     protected readonly hArg: HArg;
@@ -55,6 +56,7 @@ declare class Rs_S extends Rs_S_fire {
     protected onUserAct(): void;
 }
 export declare class RsPagination extends Rs_S {
+    #private;
     constructor(hArg: HArg);
     get isSkipping(): boolean;
     readonly s: ITag;

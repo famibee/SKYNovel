@@ -16,15 +16,15 @@ import {Container} from 'pixi.js';
 export class Pages {
 	#pg: {fore: Layer, back: Layer};
 
-	constructor(layer: string, readonly cls: string, fore: Container, back: Container, readonly hArg: HArg, readonly sys: SysBase, readonly val: IVariable, readonly ret: {isWait: boolean}) {
+	constructor(layname: string, readonly cls: string, fore: Container, back: Container, readonly hArg: HArg, readonly sys: SysBase, readonly val: IVariable, readonly ret: {isWait: boolean}) {
 		const fncF = sys.hFactoryCls[cls];
 		if (! fncF) throw `属性 class【${cls}】が不正です`;
 
 		const f = fncF();
 		const b = fncF();
 		f.layname =
-		b.layname = layer;
-		const nm = hArg[':id_tag'] = `layer:${layer} cls:${cls} page:`;
+		b.layname = layname;
+		const nm = hArg[':id_tag'] = `layer:${layname} cls:${cls} page:`;
 		f.spLay.name = f.name = nm +'A';
 		b.spLay.name = b.name = nm +'B';
 		fore.addChild(f.spLay);
@@ -35,7 +35,7 @@ export class Pages {
 		this.#pg = {fore: f, back: b};
 
 		// 組み込み変数
-		const valnm = `const.sn.lay.${layer}`;
+		const valnm = `const.sn.lay.${layname}`;
 		val.setVal_Nochk('tmp', valnm, true);
 		val.defTmp(valnm +'.fore.alpha', ()=> this.#pg.fore.alpha);
 		val.defTmp(valnm +'.back.alpha', ()=> this.#pg.back.alpha);

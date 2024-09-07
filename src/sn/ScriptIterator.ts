@@ -1155,7 +1155,7 @@ export class ScriptIterator {
 		this.val.setMp({});
 		this.#layMng.recPagebreak();
 
-		if (reload_sound) this.sndMng.playLoopFromSaveObj();
+		this.sndMng.playLoopFromSaveObj(reload_sound);
 
 		if (argChk_Boolean(hArg, 'do_rec', true)) this.#mark = {
 			hSave	: this.val.cloneSave(),
@@ -1170,33 +1170,34 @@ export class ScriptIterator {
 		};
 		this.hTag.autowc(o);
 
-		const fn = String(this.val.getVal('save:const.sn.scriptFn'));
-		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 		this.#aIfStk = [...this.#mark.aIfStk];
 		this.#aCallStk = [];
 
 		this.#layMng.cover(true);
 		CmnTween.stopAllTw();
-		if (hArg.index) {	// ページ移動用
-//console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${hArg.fn ?? fn} idx:${hArg.index ?? idx}`);
+		const {index, fn, label} = hArg;
+		if (index) {	// ページ移動用
+//console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${fn ?? fn2} idx:${index ?? idx}`);
 			this.#layMng.playback(this.#mark.hPages, ()=> {
 				this.#layMng.cover(false);
-				this.#jumpWork(hArg.fn ?? fn, '', hArg.index);
+				this.#jumpWork(fn, '', index);
 			});
 			return true;
 		}
 
-		delete this.#hScript[fn];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる
-		this.#layMng.playback(this.#mark.hPages, 'label' in hArg
+		const fn2 = String(this.val.getVal('save:const.sn.scriptFn'));
+		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
+		delete this.#hScript[fn2];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる
+		this.#layMng.playback(this.#mark.hPages, label
 			? ()=> {
 				this.#layMng.cover(false);
-				this.#scriptFn = fn;
+				this.#scriptFn = fn2;
 				this.#idxToken = idx;
-				this.hTag.call({fn: hArg.fn, label: hArg.label});
+				this.hTag.call({fn, label});
 			}
 			: ()=> {
 				this.#layMng.cover(false);
-				this.#jumpWork(fn, '', idx);
+				this.#jumpWork(fn2, '', idx);
 			}
 		);
 

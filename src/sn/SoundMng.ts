@@ -16,7 +16,6 @@ import {sound, utils} from '@pixi/sound';
 
 export class SoundMng {
 	#hSndBuf	: {[buf: string]: SndBuf}	= {};
-	#hLP		: {[buf: string]: 0}		= {};
 
 	constructor(cfg: Config, hTag: IHTag, readonly val: IVariable, main: IMain, sys: SysBase) {
 		hTag.volume		= o=> this.#volume(o);		// 音量設定（独自拡張）
@@ -172,15 +171,29 @@ export class SoundMng {
 	}
 
 	//MARK: しおりの読込（BGM状態復元）
-	playLoopFromSaveObj(): void {
+	playLoopFromSaveObj(reload_sound: boolean) {
+		if (reload_sound) return;
 		this.#stop_allse();
+//		if (reload_sound) this.#stop_allse();
 		const lp = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
 		if (lp === '{}') return;
 
-		this.#hLP = JSON.parse(lp);
-		const a = Object.keys(this.#hLP).map(buf=> ()=> {
+		const hLP = JSON.parse(lp);
+		const a: (()=> void)[] = Object.keys(hLP).map(buf=> ()=> {
 			const vm = 'save:const.sn.sound.'+ buf +'.';
 			if (this.val.getVal(vm +'start_ms') === undefined) return;	// この値で不具合発見したので
+/*
+			const fn = String(this.val.getVal(vm +'fn'));
+console.log(`fn:SoundMng.ts line:185 buf:${buf}`);
+			const sb = this.#hSndBuf[buf]
+			if (sb) {
+console.log(`fn:SoundMng.ts     fn:${fn}: old:${hLP[buf]}:`);
+				if (fn != hLP[buf]) {
+console.log(`fn:SoundMng.ts    stopse:${buf}`);
+//					sb.stopse({buf});
+				}
+			}
+*/
 			const hArg = {
 				fn		: String(this.val.getVal(vm +'fn')),
 				buf,

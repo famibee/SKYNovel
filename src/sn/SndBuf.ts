@@ -36,7 +36,7 @@ let sys	: SysBase;
 let evtMng	: IEvtMng;
 
 export class SndBuf {
-	static	#hLP	: {[buf: string]: 0}	= {};
+	static	#hLP	: {[buf: string]: string}	= {};
 	static	init($cfg: Config, $val: IVariable, $main: IMain, $sys: SysBase) {
 		SndBuf.#hLP = {};
 		cfg	= $cfg;
@@ -60,7 +60,7 @@ export class SndBuf {
 	}
 	static	xchgbuf(hArg: HArg) {
 		const {buf: buf1 = 'SE', buf2 = 'SE'} = hArg;
-		if (buf1 === buf2) return;
+		if (buf1 === buf2) throw `[xchgbuf] buf:${buf1} が同じ値です`;
 
 		const n1 = 'const.sn.sound.'+ buf1 +'.';
 		const v1 = Number(val.getVal('save:'+ n1 +'volume'));
@@ -75,8 +75,8 @@ export class SndBuf {
 
 		if (buf1 in SndBuf.#hLP !== buf2 in SndBuf.#hLP) {	// 演算子の優先順位確認済
 			if (buf1 in SndBuf.#hLP)
-					{delete SndBuf.#hLP[buf1]; SndBuf.#hLP[buf2] = 0}
-			else	{delete SndBuf.#hLP[buf2]; SndBuf.#hLP[buf1] = 0}
+					{delete SndBuf.#hLP[buf1]; SndBuf.#hLP[buf2] = f1}
+			else	{delete SndBuf.#hLP[buf2]; SndBuf.#hLP[buf1] = f2}
 			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
 		}
 		val.flush();
@@ -111,7 +111,7 @@ export class SndBuf {
 
 		const loop = argChk_Boolean(hArg, 'loop', false);
 		if (loop) {
-			SndBuf.#hLP[buf] = 0;
+			SndBuf.#hLP[buf] = fn;
 			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
 		}
 		else SndBuf.delLoopPlay(buf);

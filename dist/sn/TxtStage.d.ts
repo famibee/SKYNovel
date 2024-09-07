@@ -63,6 +63,8 @@ export declare class TxtStage extends Container {
         hyph: any;
     };
     playback(hLay: any): void;
+    get cssText(): string;
+    set cssText(ct: string);
     snapshot(rnd: Renderer, re: () => void): void;
     snapshot_end(): void;
     makeDesignCast(_gdc: IMakeDesignCast): void;

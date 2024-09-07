@@ -12,7 +12,7 @@ export declare class Pages {
     readonly ret: {
         isWait: boolean;
     };
-    constructor(layer: string, cls: string, fore: Container, back: Container, hArg: HArg, sys: SysBase, val: IVariable, ret: {
+    constructor(layname: string, cls: string, fore: Container, back: Container, hArg: HArg, sys: SysBase, val: IVariable, ret: {
         isWait: boolean;
     });
     destroy(): void;

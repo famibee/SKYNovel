@@ -1046,6 +1046,9 @@ export class TxtStage extends Container {
 		this.#hyph.playback(hLay.hyph);
 	}
 
+	get cssText() {return this.#htmTxt.style.cssText}
+	set cssText(ct: string) {this.#htmTxt.style.cssText = ct}
+
 	#sss :Sprite | undefined = undefined;
 	snapshot(rnd: Renderer, re: ()=> void) {
 		this.#htm2tx(tx=> {

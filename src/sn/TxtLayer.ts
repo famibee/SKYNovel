@@ -843,6 +843,9 @@ export class TxtLayer extends Layer {
 		aPrm = aPrm.concat(aBtn.map(b=> this.addButton(JSON.parse(b.replaceAll(`'`, '"')))));
 	}
 
+	get cssText() {return this.#txs.cssText}
+	set cssText(ct: string) {this.#txs.cssText = ct}
+
 	override snapshot(rnd: Renderer, re: ()=> void) {
 		rnd.render(this.spLay, {clear: false});
 		this.#txs.snapshot(rnd, re);

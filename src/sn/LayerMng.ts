@@ -750,19 +750,17 @@ void main(void) {
 	}
 	#sps	= new SpritesMng;
 
-	#getLayers(layer = ''): string[] {return layer? layer.split(',') : this.#aLayName}
+	#getLayers(layer = ''): string[] {return layer ?layer.split(',') :this.#aLayName}
 	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): ReadonlyArray<string> {
-		const aLay = this.#getLayers(hArg.layer);
-		for (const ln of aLay) {
-			if (! ln) continue;
-
+		const aLn = this.#getLayers(hArg.layer);
+		for (const ln of aLn) {
 			const pg = this.#hPages[ln];
 			if (! pg) throw '存在しないlayer【'+ ln +'】です';
 
 			fnc(ln, pg);
 		}
 
-		return aLay;
+		return aLn;
 	}
 	#sortLayers(layers = ''): string[] {
 		return this.#getLayers(layers)
@@ -775,11 +773,12 @@ void main(void) {
 		});
 	}
 
-	setTxtLayForeStyle(style: string) {
-		const aLay = this.#getLayers();
-		for (const ln of aLay) {
-			const pg = this.#hPages[ln];
-			if (pg.fore instanceof TxtLayer) pg.fore.lay({style});
+	setAllStyle2TxtLay(style: string) {
+		const aLn = this.#getLayers();
+		for (const ln of aLn) {
+			const l = this.#hPages[ln].fore;
+			if (l instanceof TxtLayer) l.lay({style});	// 必要最小限設定なので
+		//	if (l instanceof TxtLayer) l.cssText = style;
 		}
 	}
 
@@ -993,8 +992,8 @@ void main(void) {
 		for (const ln of this.#getLayers()) {
 			const pg = this.#hPages[ln];
 			if (! (pg.fore instanceof TxtLayer)) continue;
-			(pg.fore as TxtLayer).isCur =
-			(pg.back as TxtLayer).isCur = (ln === layer);
+			pg.fore.isCur =
+			(<TxtLayer>pg.back).isCur = (ln === layer);
 		}
 
 		return false;
@@ -1164,10 +1163,10 @@ void main(void) {
 
 	//MARK: イベント有無の切替
 	#enable_event(hArg: HArg) {
-		const layer = this.#argChk_layer(hArg, this.#curTxtlay);
+		const ln = this.#argChk_layer(hArg, this.#curTxtlay);
 		const v = argChk_Boolean(hArg, 'enabled', true);
 		this.#getTxtLayer(hArg).enabled = v;
-		this.val.setVal_Nochk('save', 'const.sn.layer.'+ layer +'.enabled', v);
+		this.val.setVal_Nochk('save', 'const.sn.layer.'+ ln +'.enabled', v);
 
 		return false;
 	}
@@ -1205,20 +1204,20 @@ void main(void) {
 		this.#oLastPage = {text: ''};
 
 		const aPrm: Promise<void>[] = [];
-		const aSort: {layer: string, idx: number}[] = [];
-		for (const [layer, {fore, fore: {idx}, back, cls}] of Object.entries($hPages)) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
-			aSort.push({layer, idx});
+		const aSort: {ln: string, idx: number}[] = [];
+		for (const [ln, {fore, fore: {idx}, back, cls}] of Object.entries($hPages)) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
+			aSort.push({ln, idx});
 
-			const ps = this.#hPages[layer] ??= new Pages(layer, cls, this.#fore, this.#back, {}, this.sys, this.val, {isWait: false});
+			const ps = this.#hPages[ln] ??= new Pages(ln, cls, this.#fore, this.#back, {}, this.sys, this.val, {isWait: false});
 			ps.fore.playback(fore, aPrm);
 			ps.back.playback(back, aPrm);
 		}
 		const len = this.#fore.children.length;
 		Promise.allSettled(aPrm).then(()=> {
 			// 若い順にsetChildIndex()
-			for (const {layer, idx} of
+			for (const {ln, idx} of
 				aSort.sort(({idx: a}, {idx: b})=> a === b ?0 :a < b ?-1 :1)) {
-				const {fore, back} = this.#hPages[layer];
+				const {fore, back} = this.#hPages[ln];
 				if (! fore) return;
 				const i = len > idx ?idx :len -1;
 				this.#fore.setChildIndex(fore.spLay, i);

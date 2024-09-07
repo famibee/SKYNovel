@@ -41,7 +41,9 @@ let	hGlobalEvt2Fnc	: IHEvt2Fnc = {};
 let aPage	: IPageLog[];
 let	lenPage = 0;
 let	posPage = 0;
-let	styPage	: string;
+let	styPaging	: string;
+export const INI_STYPAGE = 'color: yellow; text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;';
+
 //let	isDbgBreak		= false;
 
 function	cancelAutoSkip() {
@@ -65,10 +67,11 @@ export	function	disableEvent() {fnc_disableEvent()}
 let fnc_enableEvent	: ()=> void	= ()=> new RsEvtRsv;
 let fnc_disableEvent: ()=> void	= ()=> new Rs_BanEvent;
 
-export	function	playbackPage(saPageLog: string) {
+export	function	playbackPage(saPageLog: string, $styPaging: string) {
 	aPage = JSON.parse(saPageLog);
 	lenPage = aPage.length;
 	if (posPage >= lenPage) posPage = lenPage -1;
+	styPaging = $styPaging;
 }
 
 interface IPageLog {
@@ -135,7 +138,7 @@ export class ReadState {
 		//aPage = [];	// 初期化済につき
 		//lenPage = 0;
 		//posPage = 0;
-		styPage = 'color: yellow; text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;';
+		//styPaging =
 	}
 
 	protected	constructor(protected readonly hArg: HArg) {
@@ -364,29 +367,25 @@ export class ReadState {
 
 	page(hArg: HArg): boolean {
 		if (! ('clear' in hArg || 'to' in hArg || 'style' in hArg)) throw 'clear,style,to いずれかは必須です';
-//		if (! ('clear' in hArg || 'from' in hArg || 'to' in hArg || 'style' in hArg)) throw 'clear,from,style,to いずれかは必須です';
+
+		const {style} = hArg;
+		if (style) {
+			styPaging = style;
+			val.setVal_Nochk('save', 'const.sn.styPaging', style);
+			return false;
+		}
 
 		if (argChk_Boolean(hArg, 'clear', false)) {
 			aPage = [];
 			lenPage = 0;
 			posPage = 0;
 			val.setVal_Nochk('sys', 'const.sn.aPageLog', '[]');
+			val.setVal_Nochk('save', 'const.sn.styPaging', INI_STYPAGE);
 			return false;
 		}
 		posPage = lenPage -1;
 
 		const {to} = hArg;
-/*		const {from, to} = hArg;
-		if (from) {
-//console.log(`fn:ReadState.ts BASE == from:${from} len:${lenPage}`);
-			new RsEvtRsv;	// enableEvent()
-			const {fn, index, mark} = aPage[from];
-			return scrItr.loadFromMark({fn, index,
-				style	: (from === lenPage -1) ?undefined :styPage,
-				//r_style までは不要か
-			}, mark);
-		}*/
-//console.log(`fn:ReadState.ts BASE -- hArg:${JSON.stringify(hArg)}`);
 		switch (to) {
 			case 'prev':	if (lenPage < 2) return false;	break;
 		//	case 'next':	return false;
@@ -609,33 +608,37 @@ export class RsPagination extends Rs_S {
 	protected	override	readonly	waitTxtAndTimer = ()=> false;
 
 	override	l(hArg: HArg): boolean {
-		layMng.setTxtLayForeStyle(styPage);
+		// ページ末尾ならページ移動終了
+		if (posPage === lenPage -1) {this.#exit(); return Rs_L_Wait.go(hArg)}
+
+		layMng.setAllStyle2TxtLay(styPaging);
+		goTxt();
 		if (! aPage[posPage]?.week) return false;
 
-		if (posPage === lenPage -1) return Rs_L_Wait.go(hArg);	// ページ末尾ならページ移動終了
-
 		if (argChk_Boolean(hArg, 'visible', true)) layMng.breakLine(hArg);
-		goTxt();
 		this.waitRsvEvent(false, true);
 		return true;
 	}
 
 	override	p(hArg: HArg): boolean {
-		layMng.setTxtLayForeStyle(styPage);
-		if (posPage === lenPage -1) return Rs_P_Wait.go(hArg);	// ページ末尾ならページ移動終了
+		// ページ末尾ならページ移動終了
+		if (posPage === lenPage -1) {this.#exit(); return Rs_P_Wait.go(hArg)}
 
-		if (argChk_Boolean(hArg, 'visible', true)) layMng.breakPage(hArg);
+		layMng.setAllStyle2TxtLay(styPaging);
 		goTxt();
+		if (argChk_Boolean(hArg, 'visible', true)) layMng.breakPage(hArg);
 		this.waitRsvEvent(false, true);
 		return true;
 	}
 
-	static	override	readonly	go: ITag = hArg=> new RsPagination(hArg).page(hArg);
+	static	override	readonly	go: ITag = hArg=> {
+		val.setVal_Nochk('tmp', 'const.sn.isPaging', true);
+		return new RsPagination(hArg).page(hArg);
+	}
 	override	page(hArg: HArg): boolean {
-		const {style, to} = hArg;
-// console.log(`fn:ReadState.ts RsPa len:${lenPage} pos:${posPage} to:${to} style:${style}`);
-		if (style) styPage = style;
-
+		const {to, style, clear} = hArg;
+		if (style || clear) return false;
+// console.log(`fn:ReadState.ts RsPa len:${lenPage} pos:${posPage} to:${to}`);
 		switch (to) {
 			case 'prev':	if (posPage === 0) return false;
 				--posPage;	break;
@@ -643,16 +646,23 @@ export class RsPagination extends Rs_S {
 			case 'next':	if (posPage === lenPage -1) return false;
 				++posPage;	break;
 
-			default:	if (style) return false;
-				throw `属性to「${to}」は異常です`;
+			case 'exit':	posPage = lenPage -1;	this.#exit();	break;
+
+			case 'load':	
+//console.log(`fn:ReadState.ts line:666 load`);
+				return false;
+
+			default:	throw `属性to「${to}」は異常です`;
 		}
 
 		const {fn, index, mark} = aPage[posPage];
 // const m = scrItr.nowMark();
 // const {week} = aPage[posPage];
-// console.log(`fn:ReadState.ts -- pos:${posPage} (base=${m.hPages.base.fore.sBkFn} 0=${m.hPages['0'].fore.sBkFn} mes=${m.hPages.mes.fore.txs.cssText.match(/color: \w+;/)}) A:${posPage === lenPage -1} B:${styPage} week:${week} mark:%o`, mark);
+// console.log(`fn:ReadState.ts -- pos:${posPage} (base=${m.hPages.base.fore.sBkFn} 0=${m.hPages['0'].fore.sBkFn} mes=${m.hPages.mes.fore.txs.cssText.match(/color: \w+;/)}) A:${posPage === lenPage -1} styPaging:${styPaging} week:${week} mark:%o`, mark);
+	//	return scrItr.loadFromMark({fn, index}, mark, false);
 		return scrItr.loadFromMark({fn, index}, mark);
 	}
+	#exit() {val.setVal_Nochk('tmp', 'const.sn.isPaging', false);}
 
 	protected	override	onFinish() {}
 	protected	override	onUserAct() {}
