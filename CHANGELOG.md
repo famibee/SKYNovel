@@ -1,3 +1,10 @@
+# [1.59.0](https://github.com/famibee/SKYNovel/compare/v1.58.0...v1.59.0) (2024-09-11)
+
+
+### Features
+
+* **ReadState.ts:** [page to=load] でページ遷移状態で表示中ページからロードするように ([fbb49cc](https://github.com/famibee/SKYNovel/commit/fbb49cc155a4f0b773c5abf47c95a32409140892))
+
 - feat(ReadState.ts): [page to=load] でページ遷移状態で表示中ページからロードするように
 - fix(ReadState.ts): ページ遷移でのＢＧＭ再生も正しく復元し、不要な中断と再生をしないように
 - fix(ScriptIterator.ts): 非同期処理修正
