@@ -696,7 +696,7 @@ export class ScriptIterator {
 		const {fn} = hArg;
 		if (fn) this.#cnvSnPath(fn);	// chk only
 		this.#callSub({...hArg, ':hEvt1Time': this.#evtMng.popLocalEvts()});
-			// ':hEvt1Time'の扱いだけは定義したマクロと異なる事とする
+			// ':hEvt1Time'の扱いだけは[macro]と異なる
 
 		if (argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
 		this.#jumpWork(fn, hArg.label);
@@ -1185,14 +1185,14 @@ export class ScriptIterator {
 		const prLastGrp: Promise<void> = ap.pop() ?? Promise.resolve();
 		const fncFin = ()=> Promise.all([prLastGrp])
 		.then(()=> this.#layMng.cover(false))
-		.catch(e=> console.error(`fn:LayerMng.ts playback fin e:%o`, e));
+		.catch(e=> console.error(`fn:ScriptIterator.ts fncFin e:%o`, e));
 
 		const {index, fn, label} = hArg;
 		const p = Promise.allSettled(ap)
 		.catch(e=> console.error(`fn:ScriptIterator.ts loadFromMark e:%o`, e));
 		this.#layMng.cover(true);
 		if (index) {	// ページ移動用
-//console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${fn ?? fn2} idx:${index ?? idx}`);
+//console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${fn} idx:${index}`);
 			p.then(()=> {fncFin(); this.#jumpWork(fn, '', index)});
 			return true;
 		}
@@ -1221,11 +1221,8 @@ export class ScriptIterator {
 		// 派生ファイルを削除
 		const h: HScript = {};
 		for (const fn in this.#hScript) {
-			try {
-				this.#cnvSnPath(fn +'@');
-			} catch {
-				h[fn] = this.#hScript[fn];	// 派生ファイル以外を残す
-			}
+			try {this.#cnvSnPath(fn +'@')}
+			catch {h[fn] = this.#hScript[fn]}	// 派生ファイル以外を残す
 		}
 		this.#hScript = h;
 

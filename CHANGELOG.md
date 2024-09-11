@@ -1,3 +1,6 @@
+- feat(ReadState.ts): [page] に key 属性追加。ページ遷移状態中に有効にするグローバルイベントを限定できる
+
+
 # [1.59.0](https://github.com/famibee/SKYNovel/compare/v1.58.0...v1.59.0) (2024-09-11)
 
 

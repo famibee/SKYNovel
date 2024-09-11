@@ -2285,6 +2285,8 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	・save変数も復元する。<br/>
 	　　・前述二項の理由により、冒頭ページに &save:sn.doRecLog = true と [record_place]が必須。<br/>
 	　　　（save変数復元で &save:sn.doRecLog = false になるケースがある）<br/>
+	<br/>
+	ページ遷移状態かは tmp:const.sn.isPaging（Boolean値）でわかる。<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>clear</td><td rowspan="3">いずれかを指定</td><td>なにもしない</td><td>true、false</td><td>trueでページ状態記録をクリアする</td></tr>
@@ -2295,6 +2297,10 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	load：ページ遷移状態で表示中ページからロードする<br/>
 </td></tr>
 <tr><td>style</td><td>なにもしない</td><td>CSS style</td><td>ページ移動中の既読文字に適用する CSS スタイル。初期値は【color: yellow; text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;】</td></tr>
+<tr><td>key</td><td>なにもしない</td><td>なにもしない</td><td>
+	ページ遷移状態中に有効にするグローバルイベントを限定できる。<br/>
+	空白時は全て有効。
+</td></tr>
 </table>
 
 </p>

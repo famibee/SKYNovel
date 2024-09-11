@@ -75,7 +75,7 @@ export type HArg = {
     call?: boolean;
     global?: boolean;
     name?: string;
-    clear_local_event?: string;
+    clear_local_event?: boolean;
     style?: string;
     style_hover?: string;
     style_clicked?: string;

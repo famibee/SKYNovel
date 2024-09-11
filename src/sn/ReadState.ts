@@ -44,6 +44,8 @@ let	posPage = 0;
 let	styPaging	: string;
 export const INI_STYPAGE = 'color: yellow; text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;';
 
+let	aKeysAtPaging: string[]	= [];
+
 //let	isDbgBreak		= false;
 
 function	cancelAutoSkip() {
@@ -384,13 +386,16 @@ export class ReadState {
 			return false;
 		}
 
-		const {to} = hArg;
+		const {to, key} = hArg;
+		if (key) aKeysAtPaging = key.split((','));
 //console.log(`fn:ReadState.ts line:389 to:${to}`);
 		switch (to) {
 			case 'prev':	posPage = lenPage -1;
 				if (lenPage < 2) return false;	break;
-			case 'next':	posPage = lenPage -1;	return false;
-			default:	break;	// ダイアログ確認などするとここを通る
+
+			case 'next':	return false;
+
+			//default:	break;	// ダイアログ確認などするとここを通る
 		}
 
 		return RsPagination.go(hArg);	// 『ページ移動中』状態へ
@@ -618,9 +623,18 @@ export class RsPagination extends Rs_S {
 		if (! aPage[posPage]?.week) return false;
 
 		if (argChk_Boolean(hArg, 'visible', true)) layMng.breakLine(hArg);
-		this.waitRsvEvent(false, true);
+		this.#waitRsvEvent4Paging();
+
 		return true;
 	}
+		#waitRsvEvent4Paging() {
+			this.waitRsvEvent(false, true);
+
+			let h: IHEvt2Fnc = {};
+			if (aKeysAtPaging.length === 0) h = hGlobalEvt2Fnc;
+			else aKeysAtPaging.forEach(k=> h[k] = hGlobalEvt2Fnc[k]);
+			ReadState.getEvt2Fnc = key=> hLocalEvt2Fnc[key] ?? h[key];
+		}
 
 	override	p(hArg: HArg): boolean {
 //console.log(`fn:ReadState.ts [p] len:${lenPage} pos:${posPage}`);
@@ -629,8 +643,10 @@ export class RsPagination extends Rs_S {
 
 		layMng.setAllStyle2TxtLay(styPaging);
 		goTxt();
+
 		if (argChk_Boolean(hArg, 'visible', true)) layMng.breakPage(hArg);
-		this.waitRsvEvent(false, true);
+		this.#waitRsvEvent4Paging();
+
 		return true;
 	}
 

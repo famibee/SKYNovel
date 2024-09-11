@@ -19145,6 +19145,7 @@ var remove$6 = TWEEN.remove.bind(TWEEN), update = TWEEN.update.bind(TWEEN);
 let chgSt, main$3, val$1, layMng, scrItr, sndMng, hTag, fcs, goTxt, procWheel4wle = () => {
 }, elmHint, cfg$1, tagL_enabled = !0, skip_all = !1, skip_enabled = !1, auto_enabled = !1, hLocalEvt2Fnc = {}, hGlobalEvt2Fnc = {}, aPage, lenPage = 0, posPage = 0, styPaging;
 const INI_STYPAGE = "color: yellow; text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;";
+let aKeysAtPaging = [];
 function cancelAutoSkip() {
   tagL_enabled || (tagL_enabled = !0, val$1.setVal_Nochk("tmp", "sn.tagL.enabled", !0)), skip_enabled && (skip_enabled = !1, val$1.setVal_Nochk("tmp", "sn.skip.enabled", !1)), auto_enabled && (auto_enabled = !1, val$1.setVal_Nochk("tmp", "sn.auto.enabled", !1));
 }
@@ -19313,13 +19314,13 @@ class ReadState {
       return styPaging = e, val$1.setVal_Nochk("save", "const.sn.styPaging", e), !1;
     if (argChk_Boolean(t, "clear", !1))
       return aPage = [], lenPage = 0, posPage = 0, val$1.setVal_Nochk("sys", "const.sn.aPageLog", "[]"), val$1.setVal_Nochk("save", "const.sn.styPaging", INI_STYPAGE), !1;
-    const { to: r } = t;
-    switch (r) {
+    const { to: r, key: k } = t;
+    switch (k && (aKeysAtPaging = k.split(",")), r) {
       case "prev":
         if (posPage = lenPage - 1, lenPage < 2) return !1;
         break;
       case "next":
-        return posPage = lenPage - 1, !1;
+        return !1;
     }
     return RsPagination.go(t);
   }
@@ -19532,10 +19533,15 @@ class RsPagination extends Rs_S {
   waitclick = () => !1;
   waitTxtAndTimer = () => !1;
   l(t) {
-    return posPage === lenPage - 1 ? (this.#e(), Rs_L_Wait.go(t)) : (layMng.setAllStyle2TxtLay(styPaging), goTxt(), aPage[posPage]?.week ? (argChk_Boolean(t, "visible", !0) && layMng.breakLine(t), this.waitRsvEvent(!1, !0), !0) : !1);
+    return posPage === lenPage - 1 ? (this.#t(), Rs_L_Wait.go(t)) : (layMng.setAllStyle2TxtLay(styPaging), goTxt(), aPage[posPage]?.week ? (argChk_Boolean(t, "visible", !0) && layMng.breakLine(t), this.#e(), !0) : !1);
+  }
+  #e() {
+    this.waitRsvEvent(!1, !0);
+    let t = {};
+    aKeysAtPaging.length === 0 ? t = hGlobalEvt2Fnc : aKeysAtPaging.forEach((e) => t[e] = hGlobalEvt2Fnc[e]), ReadState.getEvt2Fnc = (e) => hLocalEvt2Fnc[e] ?? t[e];
   }
   p(t) {
-    return posPage === lenPage - 1 ? (this.#e(), Rs_P_Wait.go(t)) : (layMng.setAllStyle2TxtLay(styPaging), goTxt(), argChk_Boolean(t, "visible", !0) && layMng.breakPage(t), this.waitRsvEvent(!1, !0), !0);
+    return posPage === lenPage - 1 ? (this.#t(), Rs_P_Wait.go(t)) : (layMng.setAllStyle2TxtLay(styPaging), goTxt(), argChk_Boolean(t, "visible", !0) && layMng.breakPage(t), this.#e(), !0);
   }
   static go = (t) => (val$1.setVal_Nochk("tmp", "const.sn.isPaging", !0), new RsPagination(t).page(t));
   page(t) {
@@ -19551,7 +19557,7 @@ class RsPagination extends Rs_S {
         ++posPage;
         break;
       case "exit":
-        posPage = lenPage - 1, this.#e();
+        posPage = lenPage - 1, this.#t();
         break;
       case "load":
         lenPage = posPage + 1, aPage = aPage.slice(0, lenPage);
@@ -19562,7 +19568,7 @@ class RsPagination extends Rs_S {
     const { fn: N, index: D, mark: B } = aPage[posPage];
     return scrItr.loadFromMark({ fn: N, index: D }, B);
   }
-  #e() {
+  #t() {
     val$1.setVal_Nochk("tmp", "const.sn.isPaging", !1);
   }
   onFinish() {
@@ -26947,7 +26953,7 @@ class ScriptIterator {
       time: Number(this.val.getVal("save:const.sn.autowc.time"))
     };
     this.hTag.autowc(N), this.#S = [...this.#Q.aIfStk], this.#i = [], CmnTween.stopAllTw(), k = [k, this.#w.playback(this.#Q.hPages)].flat();
-    const D = k.pop() ?? Promise.resolve(), B = () => Promise.all([D]).then(() => this.#w.cover(!1)).catch((q) => console.error("fn:LayerMng.ts playback fin e:%o", q)), { index: $, fn: U, label: H } = t, V = Promise.allSettled(k).catch((q) => console.error("fn:ScriptIterator.ts loadFromMark e:%o", q));
+    const D = k.pop() ?? Promise.resolve(), B = () => Promise.all([D]).then(() => this.#w.cover(!1)).catch((q) => console.error("fn:ScriptIterator.ts fncFin e:%o", q)), { index: $, fn: U, label: H } = t, V = Promise.allSettled(k).catch((q) => console.error("fn:ScriptIterator.ts loadFromMark e:%o", q));
     if (this.#w.cover(!0), $)
       return V.then(() => {
         B(), this.#N(U, "", $);
