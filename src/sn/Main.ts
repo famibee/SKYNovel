@@ -251,7 +251,7 @@ export class Main implements IMain {
 		this.#isLoop = false;
 
 		this.#layMng.before_destroy();
-		if (ms_late > 0) await new Promise(r=> setTimeout(r, ms_late));
+		if (ms_late > 0) await new Promise(re=> setTimeout(re, ms_late));
 			// clearTimeout()不要と判断
 
 		this.#hTag = {};

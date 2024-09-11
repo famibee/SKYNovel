@@ -383,13 +383,14 @@ export class ReadState {
 			val.setVal_Nochk('save', 'const.sn.styPaging', INI_STYPAGE);
 			return false;
 		}
-		posPage = lenPage -1;
 
 		const {to} = hArg;
+//console.log(`fn:ReadState.ts line:389 to:${to}`);
 		switch (to) {
-			case 'prev':	if (lenPage < 2) return false;	break;
-		//	case 'next':	return false;
-			default:	return false;
+			case 'prev':	posPage = lenPage -1;
+				if (lenPage < 2) return false;	break;
+			case 'next':	posPage = lenPage -1;	return false;
+			default:	break;	// ダイアログ確認などするとここを通る
 		}
 
 		return RsPagination.go(hArg);	// 『ページ移動中』状態へ
@@ -447,8 +448,8 @@ class Rs_S_fire extends ReadState {
 		if (! ke) {
 			// スマホ用疑似スワイプスクロール
 			if (key.slice(0, 5) === 'swipe') globalThis.scrollBy(
-				-(<any>e).deltaX || 0,	// NaN なので ?? ではダメ
-				-(<any>e).deltaY || 0,
+				-(e as WheelEvent).deltaX || 0,	// NaN なので ?? ではダメ
+				-(e as WheelEvent).deltaY || 0,
 			);
 			return;
 		}
@@ -608,6 +609,7 @@ export class RsPagination extends Rs_S {
 	protected	override	readonly	waitTxtAndTimer = ()=> false;
 
 	override	l(hArg: HArg): boolean {
+//console.log(`fn:ReadState.ts [l] len:${lenPage} pos:${posPage}`);
 		// ページ末尾ならページ移動終了
 		if (posPage === lenPage -1) {this.#exit(); return Rs_L_Wait.go(hArg)}
 
@@ -621,6 +623,7 @@ export class RsPagination extends Rs_S {
 	}
 
 	override	p(hArg: HArg): boolean {
+//console.log(`fn:ReadState.ts [p] len:${lenPage} pos:${posPage}`);
 		// ページ末尾ならページ移動終了
 		if (posPage === lenPage -1) {this.#exit(); return Rs_P_Wait.go(hArg)}
 
@@ -648,9 +651,8 @@ export class RsPagination extends Rs_S {
 
 			case 'exit':	posPage = lenPage -1;	this.#exit();	break;
 
-			case 'load':	
-//console.log(`fn:ReadState.ts line:666 load`);
-				return false;
+			case 'load':	lenPage = posPage +1;
+				aPage = aPage.slice(0, lenPage);	break;
 
 			default:	throw `属性to「${to}」は異常です`;
 		}
@@ -659,7 +661,6 @@ export class RsPagination extends Rs_S {
 // const m = scrItr.nowMark();
 // const {week} = aPage[posPage];
 // console.log(`fn:ReadState.ts -- pos:${posPage} (base=${m.hPages.base.fore.sBkFn} 0=${m.hPages['0'].fore.sBkFn} mes=${m.hPages.mes.fore.txs.cssText.match(/color: \w+;/)}) A:${posPage === lenPage -1} styPaging:${styPaging} week:${week} mark:%o`, mark);
-	//	return scrItr.loadFromMark({fn, index}, mark, false);
 		return scrItr.loadFromMark({fn, index}, mark);
 	}
 	#exit() {val.setVal_Nochk('tmp', 'const.sn.isPaging', false);}

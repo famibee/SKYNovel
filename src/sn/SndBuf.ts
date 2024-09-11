@@ -85,9 +85,13 @@ export class SndBuf {
 
 	#sb		: ISndBuf;
 
+	#fn		= '';
+	get fn() {return this.#fn}
+
 	static	readonly	#MAX_END_MS	= 999000;
 	init(hArg: HArg): boolean {
 		const {buf = 'SE', fn = ''} = hArg;
+		this.#fn = fn;
 
 		const start_ms = argChk_Num(hArg, 'start_ms', 0);
 		const end_ms = argChk_Num(hArg, 'end_ms', SndBuf.#MAX_END_MS);
@@ -146,6 +150,7 @@ export class SndBuf {
 				this.#sb.stt.onLoad(this.#sb);
 				if (pan !== 0) s2.filters = [new filters.StereoFilter(pan)];
 			//	if (! o.loop) sound.add(fn, snd);	// 手動キャッシュすると単発連打で無音に
+				hArg.fnc?.();
 			},
 		};
 

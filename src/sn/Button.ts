@@ -6,13 +6,13 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Container, Text, Rectangle, Texture, TextStyle, Sprite, Graphics, IDestroyOptions} from 'pixi.js';
-import {uint, IEvtMng, argChk_Boolean, argChk_Num, CmnLib, mesErrJSON} from './CmnLib';
+import {uint, IEvtMng, argChk_Boolean, argChk_Num, mesErrJSON} from './CmnLib';
 import {HArg} from './Grammar';
 import {SpritesMng} from './SpritesMng';
 import {Layer} from './Layer';
 import {Config} from './Config';
 import {IMakeDesignCast} from './LayerMng';
-import {DesignCast, TxtBtnDesignCast, PicBtnDesignCast} from './DesignCast';
+//import {DesignCast, TxtBtnDesignCast, PicBtnDesignCast} from './DesignCast';
 
 export class Button extends Container {
 	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
@@ -44,7 +44,7 @@ export class Button extends Container {
 
 	#sps		= new SpritesMng;
 
-	#idc		: DesignCast;
+//	#idc		: DesignCast;
 	readonly	#o	: {
 		type	: 'pic'|'text';
 		enabled	: boolean;
@@ -66,12 +66,12 @@ export class Button extends Container {
 
 	constructor(private readonly hArg: HArg, readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
 		super();
-
+/*
 		if (CmnLib.isDbg) {
 			this.makeDesignCast = gdc=> gdc(this.#idc);
 			this.cvsResize = ()=> this.#idc.cvsResize();
 		}
-
+*/
 		this.#o = {
 			type	: 'pic',
 			enabled	: argChk_Boolean(hArg, 'enabled', true),
@@ -101,7 +101,7 @@ export class Button extends Container {
 		// == 画像から生成
 		if (hArg.pic) {
 			this.#o.type = 'pic';	// dump用
-			this.#idc = new PicBtnDesignCast(this, hArg);
+//			this.#idc = new PicBtnDesignCast(this, hArg);
 
 			this.#sps = new SpritesMng(
 				hArg.pic,
@@ -151,7 +151,7 @@ export class Button extends Container {
 		this.#o.text = txt.text;
 		this.#o.width = txt.width;
 		this.#o.height = txt.height;
-		this.#idc = new TxtBtnDesignCast(this, hArg, txt);
+//		this.#idc = new TxtBtnDesignCast(this, hArg, txt);
 
 		let isStop = false;
 		this.#o.width = this.width;
@@ -220,7 +220,8 @@ export class Button extends Container {
 	}
 
 	makeDesignCast(_gdc: IMakeDesignCast) {}
-	showDesignCast() {this.#idc.visible = true}
+	showDesignCast() {}
+//	showDesignCast() {this.#idc.visible = true}
 	cvsResize() {}
 
 	#loaded_b_pic(sp: Sprite, txt: Text) {
@@ -241,7 +242,7 @@ export class Button extends Container {
 	#clicked	: ()=> void		= ()=> {};
 	#loaded_pic(sp: Sprite) {
 		this.#o.alpha = sp.alpha = argChk_Num(this.hArg, 'alpha', sp.alpha);
-		(<PicBtnDesignCast>this.#idc).setSp(sp);
+//		(this.#idc as PicBtnDesignCast).setSp(sp);
 
 		const w_3 = sp.width /3;
 		const w = this.#o.enabled ?w_3 :sp.width;

@@ -16,7 +16,7 @@ import {Application} from 'pixi.js';
 
 import {HINFO, HPROC, SAVE_WIN_INF} from '../preload';
 import {IpcRendererEvent, MessageBoxOptions} from 'electron/renderer';
-const to_app: HPROC = (<any>window).to_app;
+const to_app: HPROC = (window as any).to_app;
 //const {to_app} = window;
 
 
@@ -95,11 +95,11 @@ export class SysApp extends SysNode {
 			}
 
 			// ウインドウ位置
-			const x = (<any>this.data.sys)['const.sn.nativeWindow.x'] ?? 0;
+			const x = (this.data.sys as any)['const.sn.nativeWindow.x'] ?? 0;
 			//const x = Number(this.val.getVal(	// ここではまだ使えない
-			const y = (<any>this.data.sys)['const.sn.nativeWindow.y'] ?? 0;
-			const w = (<any>this.data.sys)['const.sn.nativeWindow.w'] ?? CmnLib.stageW;
-			const h = (<any>this.data.sys)['const.sn.nativeWindow.h'] ?? CmnLib.stageH;
+			const y = (this.data.sys as any)['const.sn.nativeWindow.y'] ?? 0;
+			const w = (this.data.sys as any)['const.sn.nativeWindow.w'] ?? CmnLib.stageW;
+			const h = (this.data.sys as any)['const.sn.nativeWindow.h'] ?? CmnLib.stageH;
 			to_app.inited(this.cfg.oCfg, {c: first, x, y, w, h});
 
 			to_app.on('save_win_inf', (_e: IpcRendererEvent, {x, y, w, h, scrw, scrh}: SAVE_WIN_INF)=> {
@@ -132,7 +132,7 @@ export class SysApp extends SysNode {
 		if (this.#main) {
 			const ms_late = 10;	// NOTE: リソース解放待ち用・魔法数字
 			this.#main.destroy(ms_late);
-			await new Promise(r=> setTimeout(r, ms_late));
+			await new Promise(rs=> setTimeout(rs, ms_late));
 				// clearTimeout()不要と判断
 		}
 
@@ -317,7 +317,7 @@ export class SysApp extends SysNode {
 				else {
 					let d = '';
 					const regOldSameKey = new RegExp('^'+ this.#hInfo.platform +'_');
-					const a = Object.entries(<{[nm: string]: {
+					const a: (()=> Promise<void>)[] = Object.entries(<{[nm: string]: {
 						path: string,
 						cn	: string,
 					}}>oIdx)

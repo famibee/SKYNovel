@@ -71,7 +71,7 @@ export class SysWeb extends SysBase {
 		if (this.#main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
 			this.#main.destroy(ms_late);
-			await new Promise(r=> setTimeout(r, ms_late));
+			await new Promise(rs=> setTimeout(rs, ms_late));
 				// clearTimeout()不要と判断
 		}
 

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {argChk_Boolean, getFn, CmnLib} from './CmnLib';
+import {argChk_Boolean, getFn, CmnLib, argChk_Num} from './CmnLib';
 import {IHTag, HArg, Script} from './Grammar';
 import {IMain, IVariable, IMark, IPropParser} from './CmnInterface';
 import {Config} from './Config';
@@ -35,6 +35,12 @@ interface ISeek {
 
 
 const enum BreakState {Running, Wait, Break, Breaking, Step, Stepping, StepOuting, StepOut};
+
+const enum SndProcOnLoad {
+	MINIMAL_STOP,
+	NO_TOUCH,
+	ALL_STOP_AND_PLAY,
+};
 
 
 export class ScriptIterator {
@@ -1139,23 +1145,24 @@ export class ScriptIterator {
 
 	//MARK: しおりの読込
 	#load(hArg: HArg) {
-		if (! ('place' in hArg)) throw 'placeは必須です';
-		const place = Number(hArg.place);
 		if (('fn' in hArg) !== ('label' in hArg)) throw 'fnとlabelはセットで指定して下さい';
 
+		const place = argChk_Num(hArg, 'place', 0);
 		const mark = this.val.getMark(place);
 		if (! mark) throw `place【${place}】は存在しません`;
 
 		enableEvent();
-		return this.loadFromMark(hArg, mark);
+		return this.loadFromMark(hArg, mark, SndProcOnLoad.ALL_STOP_AND_PLAY);
 	}
-	loadFromMark(hArg: HArg, mark: IMark, reload_sound = true) {
+	loadFromMark(hArg: HArg, mark: IMark, snd: SndProcOnLoad = SndProcOnLoad.MINIMAL_STOP) {
 		this.hTag.clear_event({});
 		this.val.mark2save(mark);
 		this.val.setMp({});
 		this.#layMng.recPagebreak();
 
-		this.sndMng.playLoopFromSaveObj(reload_sound);
+		let ap: Promise<void>[] = [];
+		if (snd !== SndProcOnLoad.NO_TOUCH) ap = this.sndMng
+		.playLoopFromSaveObj(snd === SndProcOnLoad.ALL_STOP_AND_PLAY);
 
 		if (argChk_Boolean(hArg, 'do_rec', true)) this.#mark = {
 			hSave	: this.val.cloneSave(),
@@ -1172,34 +1179,34 @@ export class ScriptIterator {
 
 		this.#aIfStk = [...this.#mark.aIfStk];
 		this.#aCallStk = [];
-
-		this.#layMng.cover(true);
 		CmnTween.stopAllTw();
+
+		ap = [ap, this.#layMng.playback(this.#mark.hPages)].flat();
+		const prLastGrp: Promise<void> = ap.pop() ?? Promise.resolve();
+		const fncFin = ()=> Promise.all([prLastGrp])
+		.then(()=> this.#layMng.cover(false))
+		.catch(e=> console.error(`fn:LayerMng.ts playback fin e:%o`, e));
+
 		const {index, fn, label} = hArg;
+		const p = Promise.allSettled(ap)
+		.catch(e=> console.error(`fn:ScriptIterator.ts loadFromMark e:%o`, e));
+		this.#layMng.cover(true);
 		if (index) {	// ページ移動用
 //console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${fn ?? fn2} idx:${index ?? idx}`);
-			this.#layMng.playback(this.#mark.hPages, ()=> {
-				this.#layMng.cover(false);
-				this.#jumpWork(fn, '', index);
-			});
+			p.then(()=> {fncFin(); this.#jumpWork(fn, '', index)});
 			return true;
 		}
 
 		const fn2 = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 		delete this.#hScript[fn2];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる
-		this.#layMng.playback(this.#mark.hPages, label
-			? ()=> {
-				this.#layMng.cover(false);
-				this.#scriptFn = fn2;
-				this.#idxToken = idx;
-				this.hTag.call({fn, label});
-			}
-			: ()=> {
-				this.#layMng.cover(false);
-				this.#jumpWork(fn2, '', idx);
-			}
-		);
+		p.then(label ? ()=> {
+			fncFin();
+			this.#scriptFn = fn2;
+			this.#idxToken = idx;
+			this.hTag.call({fn, label});
+		}
+		: ()=> {fncFin(); this.#jumpWork(fn2, '', idx)});
 
 		return true;
 	}
@@ -1224,7 +1231,7 @@ export class ScriptIterator {
 
 		hArg.do_rec = false;
 		enableEvent();
-		return this.loadFromMark(hArg, mark, false);
+		return this.loadFromMark(hArg, mark, SndProcOnLoad.NO_TOUCH);
 	}
 
 

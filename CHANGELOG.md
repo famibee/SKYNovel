@@ -1,3 +1,12 @@
+- feat(ReadState.ts): [page to=load] でページ遷移状態で表示中ページからロードするように
+- fix(ReadState.ts): ページ遷移でのＢＧＭ再生も正しく復元し、不要な中断と再生をしないように
+- fix(ScriptIterator.ts): 非同期処理修正
+	- ページ遷移状態のprevで、BGM切り替えページで両方のBGMが同時に鳴る件
+- refactor(LayerMng.ts, SoundMng.ts): リソース読み込み非同期処理を親に委譲するように
+- refactor(Button.ts): デザインモード関係の不要な処理を削除
+- style: アングルブラケット構文を as を使った型アサーションに統一
+
+
 # [1.58.0](https://github.com/famibee/SKYNovel/compare/v1.57.0...v1.58.0) (2024-09-07)
 
 
@@ -7,11 +16,11 @@
 
 - feat(ReadState.ts): [page to=exit] でページ遷移状態を抜けるように
 - feat(ReadState.ts): tmp:const.sn.isPaging 追加、ページ遷移状態か
-- doc（開発者情報）: 組み込み変数 tmp:const.sn.isPaging の説明を追加
+- doc(開発者情報): 組み込み変数 tmp:const.sn.isPaging の説明を追加
 - feat(ReadState.ts): ページ遷移状態出入り時の style 保存・復帰を厳密に
 - feat(ReadState.ts): ページ遷移中 CSS スタイルを保存するように
 - feat(ReadState.ts): save:const.sn.styPaging 追加、ページ遷移中 CSS スタイル
-- doc（開発者情報）: 組み込み変数 save:const.sn.styPaging の説明を追加
+- doc(開発者情報): 組み込み変数 save:const.sn.styPaging の説明を追加
 - fix(ReadState.ts): ページ遷移中は [page] の style 属性設定を無視するように
 - fix(ReadState.ts): ページ遷移中は [page] の style・clear 属性設定でエラーになっていた件
 - fix(SndBuf.ts): save:const.sn.loopPlaying に buf ごとの 音声ファイル名を保存するように

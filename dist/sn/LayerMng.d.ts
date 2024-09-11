@@ -48,6 +48,6 @@ export declare class LayerMng implements IGetFrm, IRecorder {
     recText(text: string): void;
     recPagebreak(): void;
     record(): any;
-    playback($hPages: HIPage, fncComp: () => void): void;
+    playback($hPages: HIPage): Promise<void>[];
 }
 //# sourceMappingURL=LayerMng.d.ts.map

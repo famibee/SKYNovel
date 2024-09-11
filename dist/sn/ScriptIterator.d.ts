@@ -6,6 +6,11 @@ import { EventMng } from './EventMng';
 import { LayerMng } from './LayerMng';
 import { SoundMng } from './SoundMng';
 import { SysBase } from './SysBase';
+declare const enum SndProcOnLoad {
+    MINIMAL_STOP = 0,
+    NO_TOUCH = 1,
+    ALL_STOP_AND_PLAY = 2
+}
 export declare class ScriptIterator {
     #private;
     private readonly cfg;
@@ -36,7 +41,7 @@ export declare class ScriptIterator {
     get isKidoku(): boolean;
     get isNextKidoku(): boolean;
     get normalWait(): number;
-    loadFromMark(hArg: HArg, mark: IMark, reload_sound?: boolean): boolean;
+    loadFromMark(hArg: HArg, mark: IMark, snd?: SndProcOnLoad): boolean;
     nowScrIdx(): {
         fn: string;
         idx: number;
@@ -51,4 +56,5 @@ export declare class ScriptIterator {
     recodeDesign(hArg: HArg): void;
     replace(idx: number, val: string): void;
 }
+export {};
 //# sourceMappingURL=ScriptIterator.d.ts.map

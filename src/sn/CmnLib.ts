@@ -141,7 +141,7 @@ const REG_ERRMES_JSON = /JSON at position (\d+)$/;
 export	function mesErrJSON(hArg: HArg, nm = '', mes = ''): string {
 	const col = (mes.match(REG_ERRMES_JSON) ?? ['',''])[1];
 	return `[${hArg[':タグ名']}] ${nm} 属性の解析エラー : ${mes}
-${(<any>hArg)[nm]}${col ?`
+${(hArg as any)[nm]}${col ?`
 ${'^'.padStart(Number(col))}` :``}`;
 }
 

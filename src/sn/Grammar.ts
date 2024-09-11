@@ -121,7 +121,7 @@ export type HArg = {
 
 	breakout?	: Function;
 	arg?	: HArg;
-	fnc?	: (e: Event)=> void;
+	fnc?	: ()=> void;
 
 	filter?	: string;
 	matrix?	: string;

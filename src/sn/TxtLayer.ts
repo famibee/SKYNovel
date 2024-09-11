@@ -828,19 +828,23 @@ export class TxtLayer extends Layer {
 		// 文字背景サイズは TxtStage を参照するのでこの順で
 		this.#b_alpha			= hLay.b_alpha;
 		this.#b_alpha_isfixed	= hLay.b_alpha_isfixed;
-		aPrm.push(new Promise<void>(re=> {
-			const h: HArg = (hLay.b_do)
-				? (hLay.b_do === 'Sprite'
-					? {b_pic: hLay.b_pic}
-					: {b_color: hLay.b_color})
-				: {b_pic: ''};
-			h.b_alpha = hLay.b_alpha;
-			h.b_alpha_isfixed = hLay.b_alpha_isfixed;
-			if (! this.#drawBack(h, isStop=> {if (isStop) re()})) re();
-		}));
 
-		const aBtn: string[] = hLay.btns;
-		aPrm = aPrm.concat(aBtn.map(b=> this.addButton(JSON.parse(b.replaceAll(`'`, '"')))));
+		aPrm = [
+			aPrm,
+			new Promise<void>(re=> {
+				const h: HArg = (hLay.b_do)
+					? (hLay.b_do === 'Sprite'
+						? {b_pic: hLay.b_pic}
+						: {b_color: hLay.b_color})
+					: {b_pic: ''};
+				h.b_alpha = hLay.b_alpha;
+				h.b_alpha_isfixed = hLay.b_alpha_isfixed;
+				if (! this.#drawBack(h, isStop=> {if (isStop) re()})) re();
+			}),
+			(hLay.btns as string[]).map(b=> new Promise<void>(re=> {
+				this.addButton(JSON.parse(b.replaceAll(`'`, '"'))); re()
+			})),
+		].flat();
 	}
 
 	get cssText() {return this.#txs.cssText}

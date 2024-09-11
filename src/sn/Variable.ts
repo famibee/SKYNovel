@@ -500,7 +500,7 @@ export class Variable implements IVariable {
 			throw '[変数に値セット] 変数【'+ nm +'】は書き換え不可です';
 		}
 
-		this.setVal_Nochk(<Scope>o.scope, nm, val, autocast);
+		this.setVal_Nochk(o.scope as Scope, nm, val, autocast);
 	}
 	setVal_Nochk(scope: Scope, nm: string, val: any, autocast = false) {
 		const hScope = this.#hScopes[scope];

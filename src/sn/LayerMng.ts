@@ -850,7 +850,7 @@ void main(void) {
 		const spBack: any = pg.back.spLay;	// fore, back が変わる恐れで外へ
 		CmnTween.tween(name ?? layer, hArg, lay, CmnTween.cnvTweenArg(hArg, lay), ()=> {}, finishBlendLayer, ()=> {
 			if (arrive) Object.assign(lay, hTo);
-			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) spBack[nm] = (<any>lay)[nm];
+			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) spBack[nm] = (lay as any)[nm];
 		});
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
@@ -993,7 +993,7 @@ void main(void) {
 			const pg = this.#hPages[ln];
 			if (! (pg.fore instanceof TxtLayer)) continue;
 			pg.fore.isCur =
-			(<TxtLayer>pg.back).isCur = (ln === layer);
+			(pg.back as TxtLayer).isCur = ln === layer;
 		}
 
 		return false;
@@ -1198,7 +1198,7 @@ void main(void) {
 		}
 		return o;
 	}
-	playback($hPages: HIPage, fncComp: ()=> void): void {
+	playback($hPages: HIPage): Promise<void>[] {
 		// これを先に。save:const.sn.sLog がクリアされてしまう
 		this.#aTxtLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
 		this.#oLastPage = {text: ''};
@@ -1207,26 +1207,25 @@ void main(void) {
 		const aSort: {ln: string, idx: number}[] = [];
 		for (const [ln, {fore, fore: {idx}, back, cls}] of Object.entries($hPages)) {	// 引数で言及の無いレイヤはそのまま。特に削除しない
 			aSort.push({ln, idx});
-
 			const ps = this.#hPages[ln] ??= new Pages(ln, cls, this.#fore, this.#back, {}, this.sys, this.val, {isWait: false});
 			ps.fore.playback(fore, aPrm);
 			ps.back.playback(back, aPrm);
 		}
+
 		const len = this.#fore.children.length;
-		Promise.allSettled(aPrm).then(()=> {
-			// 若い順にsetChildIndex()
+		aPrm.push(new Promise(re=> {	// 若い順にsetChildIndex()
 			for (const {ln, idx} of
 				aSort.sort(({idx: a}, {idx: b})=> a === b ?0 :a < b ?-1 :1)) {
 				const {fore, back} = this.#hPages[ln];
-				if (! fore) return;
+				if (! fore) continue;
+
 				const i = len > idx ?idx :len -1;
 				this.#fore.setChildIndex(fore.spLay, i);
 				this.#back.setChildIndex(back.spLay, i);
 			}
-
-			fncComp();
-		})
-		.catch(e=> console.error(`fn:LayerMng.ts playback e:%o`, e));
+			re();
+		}));
+		return aPrm;
 	}
 
 }

@@ -548,9 +548,9 @@ export class TxtStage extends Container {
 				(new XMLSerializer).serializeToString(node)
 				.replaceAll('#', '%23').replaceAll('\n', '%0A')
 			}</foreignObject></svg>` // ? + (new Date).getTime();
-			return new Promise(resolve=> img.onload = ()=> resolve(img));
+			return new Promise(re=> img.onload = ()=> re(img));
 		})
-		.then(img=> new Promise(resolve=> setTimeout(()=> resolve(img) , 100)))
+		.then(img=> new Promise(re=> setTimeout(()=> re(img) , 100)))
 			// 無くすとSafariでテクスチャ取れない場合があった
 			// clearTimeout()不要と判断
 		.then((img: any)=> {	//console.log(`🍉 toPng`);

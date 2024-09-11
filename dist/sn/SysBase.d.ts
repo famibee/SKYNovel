@@ -11,7 +11,7 @@ export declare class SysBase implements ISysRoots, ISysBase {
         [name: string]: ILayerFactory;
     };
     protected readonly elc: EventListenerCtn;
-    constructor(hPlg: HPlugin, arg: HSysBaseArg);
+    constructor(hPlg: HPlugin | undefined, arg: HSysBaseArg);
     protected loaded(hPlg: HPlugin, _arg: HSysBaseArg): Promise<void>;
     get cur(): string;
     get crypto(): boolean;

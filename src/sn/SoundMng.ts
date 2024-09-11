@@ -14,6 +14,7 @@ import {SndBuf} from './SndBuf';
 
 import {sound, utils} from '@pixi/sound';
 
+
 export class SoundMng {
 	#hSndBuf	: {[buf: string]: SndBuf}	= {};
 
@@ -171,31 +172,35 @@ export class SoundMng {
 	}
 
 	//MARK: しおりの読込（BGM状態復元）
-	playLoopFromSaveObj(reload_sound: boolean) {
-		if (reload_sound) return;
-		this.#stop_allse();
-//		if (reload_sound) this.#stop_allse();
+	playLoopFromSaveObj(all_stop_and_play: boolean): Promise<void>[] {
 		const lp = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
-		if (lp === '{}') return;
-
-		const hLP = JSON.parse(lp);
-		const a: (()=> void)[] = Object.keys(hLP).map(buf=> ()=> {
-			const vm = 'save:const.sn.sound.'+ buf +'.';
-			if (this.val.getVal(vm +'start_ms') === undefined) return;	// この値で不具合発見したので
+		if (lp === '{}') {this.#stop_allse(); this.clearCache(); return []}
 /*
-			const fn = String(this.val.getVal(vm +'fn'));
-console.log(`fn:SoundMng.ts line:185 buf:${buf}`);
-			const sb = this.#hSndBuf[buf]
-			if (sb) {
-console.log(`fn:SoundMng.ts     fn:${fn}: old:${hLP[buf]}:`);
-				if (fn != hLP[buf]) {
-console.log(`fn:SoundMng.ts    stopse:${buf}`);
-//					sb.stopse({buf});
-				}
-			}
+					(Now)#hSndBuf
+					stop	play
+	hSaveLP	stop	-		stop		--[1]
+	(to)	play	play	stop/play	--[2]
+			eq play	play	-			--[2]
 */
+		const hSaveLP: {[buf: string]: string} = JSON.parse(lp);
+		if (all_stop_and_play) {this.#stop_allse(); this.clearCache()}
+		else for (const [buf, sb] of Object.entries(this.#hSndBuf)) {
+			// [1] #hSndBuf（再生中）だが hSaveLP（再生予定） にない buf -> stop
+			if (! (buf in hSaveLP)) sb.stopse({buf});
+		}
+
+		// [2] hSaveLP（再生予定）を再生。だが#hSndBuf（再生中）の状況で処理変更
+		return Object.entries(hSaveLP).map(([buf, fn])=> new Promise(re=> {
+			const sb = this.#hSndBuf[buf]
+			if (! all_stop_and_play && sb) {
+				if (sb.fn === fn) {re(); return}
+				//sb.stopse({buf});	// 再生中 fn !== 再生予定 fn なら stop
+					// #playbgm()、#playse() 内で stop するので省略
+			}
+
+			const vm = 'save:const.sn.sound.'+ buf +'.';
 			const hArg = {
-				fn		: String(this.val.getVal(vm +'fn')),
+				fn,
 				buf,
 				join	: false,
 				loop	: true,
@@ -203,13 +208,13 @@ console.log(`fn:SoundMng.ts    stopse:${buf}`);
 				start_ms: Number(this.val.getVal(vm +'start_ms')),
 				end_ms	: Number(this.val.getVal(vm +'end_ms')),
 				ret_ms	: Number(this.val.getVal(vm +'ret_ms')),
+				fnc		: re,	// loaded
 			};
 			if (hArg.buf === 'BGM') this.#playbgm(hArg);
 			else this.#playse(hArg);
-		});
-		for (const f of a) f();
+		}));
 	}
 
-	destroy() {sound.stopAll(); this.clearCache()}
+	destroy() {this.#stop_allse(); this.clearCache()}
 
 }

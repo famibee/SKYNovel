@@ -101,7 +101,7 @@ export type HArg = {
     camera_target?: string;
     breakout?: Function;
     arg?: HArg;
-    fnc?: (e: Event) => void;
+    fnc?: () => void;
     filter?: string;
     matrix?: string;
     clear_filter?: boolean;
