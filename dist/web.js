@@ -26954,10 +26954,11 @@ class ScriptIterator {
     };
     this.hTag.autowc(N), this.#S = [...this.#Q.aIfStk], this.#i = [], CmnTween.stopAllTw(), k = [k, this.#w.playback(this.#Q.hPages)].flat();
     const D = k.pop() ?? Promise.resolve(), B = () => Promise.all([D]).then(() => this.#w.cover(!1)).catch((q) => console.error("fn:ScriptIterator.ts fncFin e:%o", q)), { index: $, fn: U, label: H } = t, V = Promise.allSettled(k).catch((q) => console.error("fn:ScriptIterator.ts loadFromMark e:%o", q));
-    if (this.#w.cover(!0), $)
+    if ($)
       return V.then(() => {
         B(), this.#N(U, "", $);
       }), !0;
+    this.#w.cover(!0);
     const z = String(this.val.getVal("save:const.sn.scriptFn")), X = Number(this.val.getVal("save:const.sn.scriptIdx"));
     return delete this.#R[z], V.then(H ? () => {
       B(), this.#t = z, this.#r = X, this.hTag.call({ fn: U, label: H });

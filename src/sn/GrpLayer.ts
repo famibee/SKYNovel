@@ -78,7 +78,7 @@ export class GrpLayer extends Layer {
 
 		this.#sps.destroy();
 		this.#sps = new SpritesMng(
-			this.#csvFn = fn + (face ? ','+ face : ''),
+			this.#csvFn = fn + (face ?','+ face :''),
 			this.spLay,
 			sp=> {
 				if ('width' in hArg || 'height' in hArg) {

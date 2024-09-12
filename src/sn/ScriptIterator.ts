@@ -1190,13 +1190,13 @@ export class ScriptIterator {
 		const {index, fn, label} = hArg;
 		const p = Promise.allSettled(ap)
 		.catch(e=> console.error(`fn:ScriptIterator.ts loadFromMark e:%o`, e));
-		this.#layMng.cover(true);
 		if (index) {	// ページ移動用
 //console.log(`fn:ScriptIterator.ts \x1b[42mmove!\x1b[49m fn:${fn} idx:${index}`);
 			p.then(()=> {fncFin(); this.#jumpWork(fn, '', index)});
 			return true;
 		}
 
+		this.#layMng.cover(true);	// ページ移動では全画面黒で覆わない
 		const fn2 = String(this.val.getVal('save:const.sn.scriptFn'));
 		const idx = Number(this.val.getVal('save:const.sn.scriptIdx'));
 		delete this.#hScript[fn2];	// 必ずスクリプトを再読込。吉里吉里に動作を合わせる

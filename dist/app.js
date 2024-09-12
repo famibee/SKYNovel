@@ -25351,10 +25351,11 @@ class Oe {
     };
     this.hTag.autowc(s), this.#E = [...this.#Q.aIfStk], this.#r = [], V.stopAllTw(), n = [n, this.#S.playback(this.#Q.hPages)].flat();
     const o = n.pop() ?? Promise.resolve(), a = () => Promise.all([o]).then(() => this.#S.cover(!1)).catch((m) => console.error("fn:ScriptIterator.ts fncFin e:%o", m)), { index: h, fn: l, label: u } = t, c = Promise.allSettled(n).catch((m) => console.error("fn:ScriptIterator.ts loadFromMark e:%o", m));
-    if (this.#S.cover(!0), h)
+    if (h)
       return c.then(() => {
         a(), this.#A(l, "", h);
       }), !0;
+    this.#S.cover(!0);
     const f = String(this.val.getVal("save:const.sn.scriptFn")), d = Number(this.val.getVal("save:const.sn.scriptIdx"));
     return delete this.#I[f], c.then(u ? () => {
       a(), this.#t = f, this.#i = d, this.hTag.call({ fn: l, label: u });
