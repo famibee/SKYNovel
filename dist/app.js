@@ -17716,8 +17716,6 @@ class vt {
       case "prev":
         if (ve = Ie - 1, Ie < 2) return !1;
         break;
-      case "next":
-        return !1;
     }
     return qs.go(t);
   }

@@ -19319,8 +19319,6 @@ class ReadState {
       case "prev":
         if (posPage = lenPage - 1, lenPage < 2) return !1;
         break;
-      case "next":
-        return !1;
     }
     return RsPagination.go(t);
   }

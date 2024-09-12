@@ -392,9 +392,7 @@ export class ReadState {
 		switch (to) {
 			case 'prev':	posPage = lenPage -1;
 				if (lenPage < 2) return false;	break;
-
-			case 'next':	return false;
-
+			//case 'next':	break;
 			//default:	break;	// ダイアログ確認などするとここを通る
 		}
 
