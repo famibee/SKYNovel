@@ -1,3 +1,10 @@
+## [1.60.2](https://github.com/famibee/SKYNovel/compare/v1.60.1...v1.60.2) (2024-09-12)
+
+
+### Bug Fixes
+
+* **ReadState.ts:** ページ遷移を to=next で抜けられない場合がある件 ([ea8e29e](https://github.com/famibee/SKYNovel/commit/ea8e29e822719b0f5fd785585c6e5d7492801a5c))
+
 - fix(ReadState.ts): ページ遷移を to=next で抜けられない場合がある件
 
 
