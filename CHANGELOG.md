@@ -1,3 +1,10 @@
+## [1.60.1](https://github.com/famibee/SKYNovel/compare/v1.60.0...v1.60.1) (2024-09-12)
+
+
+### Bug Fixes
+
+* **ScriptIterator.ts:** ページ移動では全画面黒で覆わないように。ちらつくので ([512fc86](https://github.com/famibee/SKYNovel/commit/512fc86331d1a9e02e06279f043366821cd99f95))
+
 - fix(ScriptIterator.ts): ページ移動では全画面黒で覆わないように。ちらつくので
 
 
