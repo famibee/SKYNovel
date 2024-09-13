@@ -237,19 +237,18 @@ export class appMain {
 			x = (this.#scrSize.width - w) *0.5;
 			y = (this.#scrSize.height- h) *0.5;
 		}
-		this.#winX = x;
-		this.#winY = y;
-		this.bw.setPosition(x, y);
+		this.#winX = x = Math.round(x);
+		this.#winY = y = Math.round(y);
+		this.bw.setPosition(x, y);	// 小数値を渡すと例外？　ぽい（四捨五入でいく）
 
 //console.log(`fn:appMain.ts #window - w:${w} h:${w /this.#numAspectRatio} cw:${this.#cvsW} ch:${this.#cvsH} +${(this.#cvsW !== w)}+${(this.#cvsW !== w) ?Math.round(w /this.#numAspectRatio) :Math.round(h *this.#numAspectRatio)}+`);
 		if (isWin) {
-			if (this.#cvsW !== w) h = Math.round(w /this.#numAspectRatio);
-			else w = Math.round(h *this.#numAspectRatio);
-				// 整数化しないとエラー？（四捨五入でいく）
+			if (this.#cvsW !== w) h = w /this.#numAspectRatio;
+			else w = h *this.#numAspectRatio;
 		}
-		this.#cvsW = w;
-		this.#cvsH = h;
-		this.bw.setContentSize(w, h);
+		this.#cvsW = w = Math.round(w);
+		this.#cvsH = h = Math.round(h);
+		this.bw.setContentSize(w, h);	// 小数値を渡すと例外？　ぽい（四捨五入でいく）
 
 		this.bw.webContents.send('save_win_inf', {c: centering, x, y, w, h, scrw: this.#scrSize.width, scrh: this.#scrSize.height});
 		this.#isMovingWin = false;

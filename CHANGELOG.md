@@ -1,3 +1,6 @@
+- fix: Electron ウインドウの位置・サイズ指定で小数値を渡すと例外になる？　ぽい件に対応（四捨五入でいく）
+
+
 ## [1.60.2](https://github.com/famibee/SKYNovel/compare/v1.60.1...v1.60.2) (2024-09-12)
 
 
