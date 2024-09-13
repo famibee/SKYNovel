@@ -1,3 +1,10 @@
+## [1.60.3](https://github.com/famibee/SKYNovel/compare/v1.60.2...v1.60.3) (2024-09-13)
+
+
+### Bug Fixes
+
+* Electron ウインドウの位置・サイズ指定で小数値を渡すと例外になる？　ぽい件に対応（四捨五入でいく） ([1f422b7](https://github.com/famibee/SKYNovel/commit/1f422b766265946cc857c599661daef0455da0a0))
+
 - fix: Electron ウインドウの位置・サイズ指定で小数値を渡すと例外になる？　ぽい件に対応（四捨五入でいく）
 
 
