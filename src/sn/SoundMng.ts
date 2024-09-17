@@ -186,7 +186,7 @@ export class SoundMng {
 		if (all_stop_and_play) {this.#stop_allse(); this.clearCache()}
 		else for (const [buf, sb] of Object.entries(this.#hSndBuf)) {
 			// [1] #hSndBuf（再生中）だが hSaveLP（再生予定） にない buf -> stop
-			if (! (buf in hSaveLP)) sb.stopse({buf});
+			if (! (buf in hSaveLP)) sb?.stopse({buf});
 		}
 
 		// [2] hSaveLP（再生予定）を再生。だが#hSndBuf（再生中）の状況で処理変更

@@ -21551,7 +21551,7 @@ class SoundMng {
     if (t)
       this.#m(), this.clearCache();
     else for (const [k, N] of Object.entries(this.#e))
-      k in r || N.stopse({ buf: k });
+      k in r || N?.stopse({ buf: k });
     return Object.entries(r).map(([k, N]) => new Promise((D) => {
       const B = this.#e[k];
       if (!t && B && B.fn === N) {

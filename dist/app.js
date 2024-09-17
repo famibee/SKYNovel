@@ -19948,7 +19948,7 @@ class h0 {
     if (t)
       this.#m(), this.clearCache();
     else for (const [n, s] of Object.entries(this.#e))
-      n in i || s.stopse({ buf: n });
+      n in i || s?.stopse({ buf: n });
     return Object.entries(i).map(([n, s]) => new Promise((o) => {
       const a = this.#e[n];
       if (!t && a && a.fn === s) {
