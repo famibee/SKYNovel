@@ -1,3 +1,10 @@
+## [1.60.4](https://github.com/famibee/SKYNovel/compare/v1.60.3...v1.60.4) (2024-09-17)
+
+
+### Bug Fixes
+
+* **SoundMng.ts:** [page]移動やロード時にエラーになる場合がある件 ([c88dd59](https://github.com/famibee/SKYNovel/commit/c88dd596ef4e0914b7fc7b494f36c79220609041))
+
 ## v1.60.4
 - fix(SoundMng.ts): [page]移動やロード時にエラーになる場合がある件
 
