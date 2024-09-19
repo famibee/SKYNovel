@@ -42,7 +42,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	}
 	get cur() {return this.arg.cur}
 	get crypto() {return this.arg.crypto}
-	fetch = (url: string)=> fetch(url);
+	fetch = (url: string, init?: RequestInit)=> fetch(url, init);
 
 	destroy() {this.elc.clear()}
 

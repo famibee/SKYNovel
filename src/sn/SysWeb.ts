@@ -50,7 +50,7 @@ export class SysWeb extends SysBase {
 
 		if (argChk_Boolean(CmnLib.hDip, 'dbg', false)) {
 			CmnLib.isDbg = true;
-			this.fetch = (url: string)=> fetch(url, {mode: 'cors',});
+			this.fetch = (url: string, init?: RequestInit)=> fetch(url, {...init,　mode: 'cors'});
 		}
 		this.extPort = argChk_Num(CmnLib.hDip, 'port', this.extPort);
 

@@ -29448,7 +29448,7 @@ class SysBase {
   get crypto() {
     return this.arg.crypto;
   }
-  fetch = (t) => fetch(t);
+  fetch = (t, e) => fetch(t, e);
   destroy() {
     this.elc.clear();
   }
@@ -30347,7 +30347,7 @@ class SysWeb extends SysBase {
     ), e.dip && (CmnLib.hDip = JSON.parse(e.dip));
     const r = new URLSearchParams(location.search), k = r.get("dip");
     if (k && (CmnLib.hDip = { ...CmnLib.hDip, ...JSON.parse(k.replaceAll("%2C", ",")) }), !argChk_Boolean(CmnLib.hDip, "oninit_run", !0)) return;
-    argChk_Boolean(CmnLib.hDip, "dbg", !1) && (CmnLib.isDbg = !0, this.fetch = (D) => fetch(D, { mode: "cors" })), this.extPort = argChk_Num(CmnLib.hDip, "port", this.extPort);
+    argChk_Boolean(CmnLib.hDip, "dbg", !1) && (CmnLib.isDbg = !0, this.fetch = (D, B) => fetch(D, { ...B, mode: "cors" })), this.extPort = argChk_Num(CmnLib.hDip, "port", this.extPort);
     const N = r.get("cur");
     N && (e.cur = this.#e + N + "/"), this.run();
   }

@@ -1,3 +1,6 @@
+- fix(SysApp.ts): [update_check] でキャッシュが利きすぎる件
+
+
 ## [1.60.4](https://github.com/famibee/SKYNovel/compare/v1.60.3...v1.60.4) (2024-09-17)
 
 

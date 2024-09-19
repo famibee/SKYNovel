@@ -15,7 +15,7 @@ export declare class SysBase implements ISysRoots, ISysBase {
     protected loaded(hPlg: HPlugin, _arg: HSysBaseArg): Promise<void>;
     get cur(): string;
     get crypto(): boolean;
-    fetch: (url: string) => Promise<Response>;
+    fetch: (url: string, init?: RequestInit) => Promise<Response>;
     destroy(): void;
     resolution: number;
     protected cfg: IConfig;

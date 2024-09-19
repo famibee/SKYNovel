@@ -27843,7 +27843,7 @@ class Sr {
   get crypto() {
     return this.arg.crypto;
   }
-  fetch = (t) => fetch(t);
+  fetch = (t, e) => fetch(t, e);
   destroy() {
     this.elc.clear();
   }
@@ -28204,6 +28204,7 @@ class mx extends px {
     platform: "",
     arch: ""
   };
+  fetch = (t) => fetch(t, { cache: "no-store" });
   ensureFileSync = Et.ensureFileSync;
   readFileSync = Et.readFileSync;
   writeFileSync = Et.writeFileSync;

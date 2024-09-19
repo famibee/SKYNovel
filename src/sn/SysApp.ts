@@ -53,6 +53,8 @@ export class SysApp extends SysNode {
 		arch		: '',
 	};
 
+	override	fetch = (url: string)=> fetch(url, {cache: 'no-store'});
+
 	override	ensureFileSync	= to_app.ensureFileSync;
 	protected override	readFileSync	= to_app.readFileSync;
 	protected override	writeFileSync	= to_app.writeFileSync;

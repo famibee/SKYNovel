@@ -10,6 +10,7 @@ export declare class SysApp extends SysNode {
         dip: string;
     });
     protected loaded(hPlg: HPlugin, arg: HSysBaseArg): Promise<void>;
+    fetch: (url: string) => Promise<Response>;
     ensureFileSync: (path: string) => Promise<void>;
     protected readFileSync: (path: string) => Promise<string>;
     protected writeFileSync: (path: string, data: string | NodeJS.ArrayBufferView, o?: object) => Promise<void>;
