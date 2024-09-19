@@ -1,3 +1,10 @@
+## [1.60.5](https://github.com/famibee/SKYNovel/compare/v1.60.4...v1.60.5) (2024-09-19)
+
+
+### Bug Fixes
+
+* **SysApp.ts:** [update_check] でキャッシュが利きすぎる件 ([c61eba8](https://github.com/famibee/SKYNovel/commit/c61eba828064db795965a47bd3cbd0b97d125f7f))
+
 - fix(SysApp.ts): [update_check] でキャッシュが利きすぎる件
 
 
