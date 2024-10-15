@@ -58,8 +58,7 @@ export class SndBuf {
 		if (vol > 1) return 1;
 		return vol;
 	}
-	static	xchgbuf(hArg: HArg) {
-		const {buf: buf1 = 'SE', buf2 = 'SE'} = hArg;
+	static	xchgbuf({buf: buf1 = 'SE', buf2 = 'SE'}: HArg) {
 		if (buf1 === buf2) throw `[xchgbuf] buf:${buf1} が同じ値です`;
 
 		const n1 = 'const.sn.sound.'+ buf1 +'.';
@@ -143,7 +142,7 @@ export class SndBuf {
 			volume,
 			loaded	: (e, s2)=> {
 				if (this.#sb.stt.isDestroy) return;
-				if (e) {main.errScript(`Sound ロード失敗ですa fn:${fn} ${e}`, false); return}
+				if (e) {main.errScript(`ロード失敗ですa fn:${fn} ${e}`, false); return}
 				if (! s2) return;
 
 				this.#sb.snd = s2;
@@ -252,16 +251,16 @@ export class SndBuf {
 		sound.volumeAll = Number(val.getVal('sys:sn.sound.global_volume', 1));
 		this.#initVol = ()=> {};
 	};
-	#playseSub(fn: string, o: Options): void {
-		const url = cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SOUND);
-	//	const url = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
-		if (url.slice(-4) !== '.bin') {
-			o.url = url;
+	#playseSub(fn: string, o: Options) {
+		const src = cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SOUND);
+	//	const src = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
+		if (src.slice(-4) !== '.bin') {
+			o.url = src;
 			Sound.from(o);
 			return;
 		}
 
-		(new Loader).add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
+		(new Loader).add({name: fn, url: src, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
 		.use(async (res, next)=> {
 			try {
 				res.data = await sys.decAB(res.data);
@@ -278,8 +277,7 @@ export class SndBuf {
 
 
 	ws =(hArg: HArg)=> this.#sb.stt.ws(this.#sb, hArg);
-	stopse(hArg: HArg) {
-		const {buf = 'SE'} = hArg;
+	stopse({buf = 'SE'}: HArg) {
 		stop2var(this.#sb, buf);
 		this.#sb.stt.stopse(this.#sb);
 	}
@@ -292,8 +290,8 @@ export class SndBuf {
 
 
 // =================================================
-function stop2var(sb: ISndBuf, buf: string): void {
-	if (sb.loop) SndBuf.delLoopPlay(buf);
+function stop2var({loop}: ISndBuf, buf: string): void {
+	if (loop) SndBuf.delLoopPlay(buf);
 	else {
 		const vn = 'const.sn.sound.'+ buf +'.';
 		val.setVal_Nochk('tmp', vn +'playing', false);

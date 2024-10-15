@@ -7,7 +7,6 @@ export declare const enum SEARCH_PATH_ARG_EXT {
     HTML = "htm|html",
     CSS = "css",
     SN = "sn",
-    PSD = "psd",
     TST_PNGPNG_ = "png|png_",
     TST_HH = "hh",
     TST_EEE = "eee",

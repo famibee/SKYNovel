@@ -73,11 +73,17 @@ export class FrameMng implements IGetFrm {
 		const b_color = hArg.b_color ?` background-color: ${hArg.b_color};` :'';
 		const rct = this.#rect(hArg);
 		// 【sandbox="allow-scripts allow-same-origin"】は必要なのに警告が出るので削除
-		Main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id}" style="opacity: ${a
-		}; position: absolute; left:${FrameMng.#sys.ofsLeft4elm +rct.x *FrameMng.#sys.cvsScale
-		}px; top: ${FrameMng.#sys.ofsTop4elm +rct.y *FrameMng.#sys.cvsScale}px; z-index: 1; ${b_color
-		} border: 0px; overflow: hidden; display: ${v ?'inline' :'none'
-		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${rct.width *FrameMng.#sys.cvsScale}" height="${rct.height *FrameMng.#sys.cvsScale}"></iframe>`);
+		Main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id}" style="opacity: ${a}; ${b_color} position: absolute; left:${
+			FrameMng.#sys.ofsLeft4elm +rct.x *FrameMng.#sys.cvsScale
+		}px; top: ${
+			FrameMng.#sys.ofsTop4elm +rct.y *FrameMng.#sys.cvsScale
+		}px; z-index: 1; border: 0px; overflow: hidden; display: ${
+			v ?'inline' :'none'
+		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${
+			rct.width *FrameMng.#sys.cvsScale
+		}" height="${
+			rct.height *FrameMng.#sys.cvsScale
+		}"></iframe>`);
 
 		disableEvent();
 		const url = FrameMng.#cfg.searchPath(src, SEARCH_PATH_ARG_EXT.HTML);
@@ -96,19 +102,20 @@ export class FrameMng implements IGetFrm {
 			this.#hIfrm[id] = f;
 			this.#hDisabled[id] = false;
 
-			const path_parent = url.slice(0, url.lastIndexOf('/') +1);
-			const path_pa_pa = path_parent.slice(0, url.lastIndexOf('/') +1);
+			const iLastSep = url.lastIndexOf('/') +1;
+			const path_parent = url.slice(0, iLastSep);
+			const path_pa_pa = path_parent.slice(0, iLastSep);
 			f.srcdoc = String(hRes[src]?.data)	// .src はふりーむで問題発生
 			.replace('sn_repRes();', '')	// これはいずれやめる
 			.replaceAll(
 				/\s(?:src|href)=(["'])(\S+?)\1/g,	// 【\s】が大事、data-src弾く
-				(m, br, v)=> v.slice(0, 3) === '../'
+				(m, br, v)=> v.startsWith('../')
 				? m.replace('../', path_pa_pa)
 				: m.replace('./', '')	// 「./」は無視
 					.replace(br, br + path_parent)
 			);
-			
-			if (f.srcdoc.indexOf('true/*WEBP*/;') >= 0) f.srcdoc = f.srcdoc.replaceAll(
+
+			if (f.srcdoc.includes('true/*WEBP*/;')) f.srcdoc = f.srcdoc.replaceAll(
 				/data-src="(.+?\.)(?:jpe?g|png)/g,
 				(_, p1)=> `data-src="${p1}webp`
 			);
@@ -153,18 +160,22 @@ export class FrameMng implements IGetFrm {
 	static	#REG_REP_PRM = /\?([^?]+)$/;	// https://regex101.com/r/ZUnoFq/1
 	static	#loadPic2Img(src: string, img: HTMLImageElement, onload?: (img2: HTMLImageElement)=> void) {
 		const oUrl = this.#hEncImgOUrl[src];
-		if (oUrl) {img.src = oUrl; return}
+		if (oUrl) {
+			img.src = oUrl;
+			if (onload) img.onload = ()=> onload(img);
+			return;
+		}
 
-		const aImg = this.#hAEncImg[src];
-		if (aImg) {aImg.push(img); return}
-		this.#hAEncImg[src] = [img];
+		const aImg = this.#hARetImg[src];
+		if (aImg) {aImg.push(img); return}	// load 終了前の駆け込み対応
+		this.#hARetImg[src] = [img];
 
 		const srcNoPrm = src.replace(FrameMng.#REG_REP_PRM, '');
 		const prmSrc = (src === srcNoPrm) ?'' :src.slice(srcNoPrm.length);
-		const url2 = FrameMng.#cfg.searchPath(srcNoPrm, SEARCH_PATH_ARG_EXT.SP_GSM);
+		const path = FrameMng.#cfg.searchPath(srcNoPrm, SEARCH_PATH_ARG_EXT.SP_GSM);
 		const ld2 = (new Loader)
-		.add({name: src, url: url2, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
-		if (FrameMng.#sys.crypto && getExt(url2) === 'bin') ld2.use(async (res, next)=> {
+		.add({name: src, url: path, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
+		if (FrameMng.#sys.crypto && getExt(path) === 'bin') ld2.use(async (res, next)=> {
 			try {
 				const r = await FrameMng.#sys.decAB(res.data);
 				if (res.extension !== 'bin') {next(); return}
@@ -180,16 +191,16 @@ export class FrameMng implements IGetFrm {
 			for (const [s2, {data: {src}}] of Object.entries(hRes)) {
 				const u2 = this.#hEncImgOUrl[s2]
 				= src + (src.slice(0, 5) === 'blob:' ?'' :prmSrc);
-				for (const i of this.#hAEncImg[s2]) {
+				for (const i of this.#hARetImg[s2]) {
 					i.src = u2;
 					if (onload) i.onload = ()=> onload(i);
 				}
-				delete this.#hAEncImg[s2];
+				delete this.#hARetImg[s2];
 			//	URL.revokeObjectURL(u2);// 画面遷移で毎回再生成するので
 			}
 		});
 	}
-	static	#hAEncImg		: {[src: string]: HTMLImageElement[]}	= {};
+	static	#hARetImg		: {[src: string]: HTMLImageElement[]}	= {};
 	static	#hEncImgOUrl	: {[src: string]: string}				= {};
 
 

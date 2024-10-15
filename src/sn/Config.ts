@@ -29,15 +29,15 @@ export class Config extends ConfigBase {
 		CmnLib.debugLog = this.oCfg.debug.debugLog;
 	}
 
-	override	searchPath(path: string, extptn: SEARCH_PATH_ARG_EXT = SEARCH_PATH_ARG_EXT.DEFAULT): string {
-		if (path.slice(0, 11) === 'downloads:/') {
-			return this.sys.path_downloads + path.slice(11);
+	override	searchPath(fn: string, extptn: SEARCH_PATH_ARG_EXT = SEARCH_PATH_ARG_EXT.DEFAULT): string {
+		if (fn.startsWith('downloads:/')) {
+			return this.sys.path_downloads + fn.slice(11);
 		}
-		if (path.slice(0, 10) === 'userdata:/') {
-			return this.sys.path_userdata + 'storage/'+ path.slice(10);
+		if (fn.startsWith('userdata:/')) {
+			return this.sys.path_userdata + 'storage/'+ fn.slice(10);
 		}
 
-		return super.searchPath(path, extptn);
+		return super.searchPath(fn, extptn);
 	}
 
 }

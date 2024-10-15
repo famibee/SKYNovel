@@ -496,7 +496,7 @@ export class Variable implements IVariable {
 		if (! hScope) throw '[変数に値セット] scopeが異常【'+ o.scope +'】です';
 
 		const nm = o['name'];
-		if (nm.slice(0, 6) === 'const.' && (nm in hScope)) {
+		if (nm.startsWith('const.') && (nm in hScope)) {
 			throw '[変数に値セット] 変数【'+ nm +'】は書き換え不可です';
 		}
 

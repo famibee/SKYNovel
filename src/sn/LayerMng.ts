@@ -335,7 +335,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 	//MARK: スナップショット
 	#snapshot(hArg: HArg) {
 		const fn0 = hArg.fn
-		? hArg.fn.slice(0, 10) === 'userdata:/'
+		? hArg.fn.startsWith('userdata:/')
 			? hArg.fn
 			: `downloads:/${hArg.fn + getDateStr('-', '_', '', '_')}.png`
 		: `downloads:/snapshot${getDateStr('-', '_', '', '_')}.png`;
@@ -359,15 +359,15 @@ export class LayerMng implements IGetFrm, IRecorder {
 		// 一時的に非表示にしてスナップショット
 		const hBk: {[ln: string]: boolean} = {};
 		for (const ln of this.#getLayers()) {
-			const sp = this.#hPages[ln].fore.spLay;
+			const sp = this.#hPages[ln].fore.ctn;
 			hBk[ln] = sp.visible;
 			sp.visible = false;
 		}
-		for (const ln of this.#getLayers(hArg.layer)) this.#hPages[ln].fore.spLay.visible = true;
+		for (const ln of this.#getLayers(hArg.layer)) this.#hPages[ln].fore.ctn.visible = true;
 
 		this.sys.capturePage(url, width, height, ()=> {
 			for (const [ln, v] of Object.entries(hBk)) {
-				this.#hPages[ln].fore.spLay.visible = v;
+				this.#hPages[ln].fore.ctn.visible = v;
 			}
 			this.#frmMng.restoreAllFrame();
 			enableEvent();
@@ -446,19 +446,16 @@ export class LayerMng implements IGetFrm, IRecorder {
 		const join = argChk_Boolean(hArg, 'join', true);
 
 		if (join) disableEvent();
-		switch (getExt(fn)) {
-			case 'css':		// 読み込んで<style>に追加
-				(async ()=> {
-					const res = await fetch(fn);
-					if (! res.ok) throw new Error('Network response was not ok.');
+		if (fn.endsWith('.css')) {
+			(async ()=> {
+				const res = await fetch(fn);
+				if (! res.ok) throw new Error('Network response was not ok.');
 
-					addStyle(await res.text());
-					if (join) enableEvent();
-				})();
-				break;
-
-			default:	throw 'サポートされない拡張子です'
+				addStyle(await res.text());
+				if (join) enableEvent();
+			})();
 		}
+		else throw 'サポートされない拡張子です';
 
 		return join;
 	}
@@ -519,8 +516,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 		// Trans
 		const ln = this.#argChk_layer(hArg);
 		const pg = this.#hPages[ln];
-		const back = pg.back.spLay;
-		const fore = pg.fore.spLay;
+		const back = pg.back.ctn;
+		const fore = pg.fore.ctn;
 		if (argChk_Boolean(hArg, 'float', false)) {
 			this.#back.setChildIndex(back, this.#back.children.length -1);
 			this.#fore.setChildIndex(fore, this.#fore.children.length -1);
@@ -542,8 +539,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 			if (! pg_dive) throw '[lay] 属性 dive【'+ dive +'】が不正です。レイヤーがありません';
 			const back_dive = pg_dive.back;
 			const fore_dive = pg_dive.fore;
-			const idx_back_dive = this.#back.getChildIndex(back_dive.spLay);
-			const idx_fore_dive = this.#fore.getChildIndex(fore_dive.spLay);
+			const idx_back_dive = this.#back.getChildIndex(back_dive.ctn);
+			const idx_fore_dive = this.#fore.getChildIndex(fore_dive.ctn);
 			idx_dive = (idx_back_dive < idx_fore_dive) ?idx_back_dive :idx_fore_dive;
 			if (idx_dive > this.#back.getChildIndex(back)) --idx_dive;	//自分が無くなって下がる分下げる
 
@@ -635,16 +632,16 @@ void main(void) {
 
 		const {layer} = hArg;
 		this.#aBackTransAfter = [];
-		const hTarget: {[ln: string]: boolean} = {};
-		const aFore: Layer[] = [];
+		const sDoTrans = new Set<string>;
+		const aLayFore: Layer[] = [];
 		for (const ln of this.#getLayers(layer)) {
-			hTarget[ln] = true;
-			aFore.push(this.#hPages[ln].fore);
+			sDoTrans.add(ln);
+			aLayFore.push(this.#hPages[ln].fore);
 		}
 		const aBack: Layer[] = [];
 		for (const ln of this.#getLayers()) {
-			const lay = this.#hPages[ln][hTarget[ln] ?'back' :'fore'];
-			this.#aBackTransAfter.push(lay.spLay);
+			const lay = this.#hPages[ln][sDoTrans.has(ln) ?'back' :'fore'];
+			this.#aBackTransAfter.push(lay.ctn);
 			aBack.push(lay);
 		}
 		this.#rtTransBack.resize(CmnLib.stageW, CmnLib.stageH);
@@ -669,7 +666,7 @@ void main(void) {
 			this.appPixi.renderer.render(this.#fore, {renderTexture: this.#rtTransFore});
 			this.#fore.visible = false;
 		};
-		if (! aFore.some(lay=> lay.containMovement)) {
+		if (! aLayFore.some(lay=> lay.containMovement)) {
 			const oldFnc = fncRenderFore;	// 動きがないなら最初に一度
 			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc()};
 		}
@@ -686,33 +683,36 @@ void main(void) {
 		//this.sprRtAtTransBack.visible = true;	// trans中専用back(Render Texture)
 		//this.sprRtAtTransFore.visible = true;	// trans中専用fore(Render Texture)
 		this.#spTransFore.alpha = 1;
-		const comp = ()=> {
+		const comp = async ()=> {
 			this.appPixi.ticker?.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			[this.#fore, this.#back] = [this.#back, this.#fore];
 			const aPrm: Promise<void>[] = [];
 			for (const [ln, pg] of Object.entries(this.#hPages)) {
-				if (hTarget[ln]) {pg.transPage(aPrm); continue}
+				if (sDoTrans.has(ln)) {pg.transPage(aPrm); continue}
 
 				// transしないために交換する
-				const {fore: {spLay: f}, back: {spLay: b}} = pg;
+				const {fore: {ctn: f}, back: {ctn: b}} = pg;
 				const idx = this.#fore.getChildIndex(b);
 				this.#fore.removeChild(b);
 				this.#back.removeChild(f);
 				this.#fore.addChildAt(f, idx);
 				this.#back.addChildAt(b, idx);
 			}
-			Promise.allSettled(aPrm);
+			await Promise.allSettled(aPrm);
 
 			this.#fore.visible = true;
 			this.#back.visible = false;
 			this.#spTransBack.visible = false;
 			this.#spTransFore.visible = false;
 		};
-		const time = argChk_Num(hArg, 'time', 0);
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
+
+		// 一瞬切り替え
+		const time = argChk_Num(hArg, 'time', 0);
 		if (time === 0 || this.#evtMng.isSkipping) {comp(); return false}
+
 
 		// クロスフェード
 		const {glsl, rule, chain} = hArg;
@@ -765,8 +765,8 @@ void main(void) {
 	#sortLayers(layers = ''): string[] {
 		return this.#getLayers(layers)
 		.sort((a, b)=> {
-			const ai = this.#fore.getChildIndex(this.#hPages[a].fore.spLay);
-			const bi = this.#fore.getChildIndex(this.#hPages[b].fore.spLay);
+			const ai = this.#fore.getChildIndex(this.#hPages[a].fore.ctn);
+			const bi = this.#fore.getChildIndex(this.#hPages[b].fore.ctn);
 			if (ai < bi) return -1;
 			if (ai > bi) return 1;
 			return 0;
@@ -792,7 +792,7 @@ void main(void) {
 		const {layer} = hArg;
 		const aDo: DisplayObject[] = [];
 		for (const ln of this.#getLayers(layer)) {
-			aDo.push(this.#hPages[ln].fore.spLay);
+			aDo.push(this.#hPages[ln].fore.ctn);
 		}
 		this.#rtTransFore.resize(CmnLib.stageW, CmnLib.stageH);
 			// NOTE: スマホ回転対応が要るかも？
@@ -847,7 +847,7 @@ void main(void) {
 		const hTo = CmnTween.cnvTweenArg(hArg, lay);
 		const arrive = argChk_Boolean(hArg, 'arrive', false);
 		const backlay = argChk_Boolean(hArg, 'backlay', false);
-		const spBack: any = pg.back.spLay;	// fore, back が変わる恐れで外へ
+		const spBack: any = pg.back.ctn;	// fore, back が変わる恐れで外へ
 		CmnTween.tween(name ?? layer, hArg, lay, CmnTween.cnvTweenArg(hArg, lay), ()=> {}, finishBlendLayer, ()=> {
 			if (arrive) Object.assign(lay, hTo);
 			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) spBack[nm] = (lay as any)[nm];
@@ -856,7 +856,7 @@ void main(void) {
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
 
 		if ('filter' in hArg) {
-			lay.spLay.filters = [Layer.bldFilters(hArg)];
+			lay.ctn.filters = [Layer.bldFilters(hArg)];
 			lay.aFltHArg = [hArg];
 		}
 
@@ -882,7 +882,7 @@ void main(void) {
 		return false;
 	}
 	#add_filter2(l: Layer, hArg: HArg) {
-		const s = l.spLay;
+		const s = l.ctn;
 		s.filters ??= [];
 		s.filters = [...s.filters, Layer.bldFilters(hArg)];
 		l.aFltHArg.push(hArg);
@@ -895,14 +895,14 @@ void main(void) {
 			if (hArg.page === 'both') {	// page=both で両面に
 				const f = pg.fore;
 				const b = pg.back;
-				f.spLay.filters = null;
-				b.spLay.filters = null;
+				f.ctn.filters = null;
+				b.ctn.filters = null;
 				f.aFltHArg = [];
 				b.aFltHArg = [];
 				return;
 			}
 			const l = pg.getPage(hArg);
-			l.spLay.filters = null;
+			l.ctn.filters = null;
 			l.aFltHArg = [];
 		});
 
@@ -925,7 +925,7 @@ void main(void) {
 		return false;
 	}
 	#enable_filter2(l: Layer, hArg: HArg) {
-		const s = l.spLay;
+		const s = l.ctn;
 		if (! s.filters) throw 'フィルターがありません';
 
 		const i = uint(argChk_Num(hArg, 'index', 0));
@@ -1220,8 +1220,8 @@ void main(void) {
 				if (! fore) continue;
 
 				const i = len > idx ?idx :len -1;
-				this.#fore.setChildIndex(fore.spLay, i);
-				this.#back.setChildIndex(back.spLay, i);
+				this.#fore.setChildIndex(fore.ctn, i);
+				this.#back.setChildIndex(back.ctn, i);
 			}
 			re();
 		}));

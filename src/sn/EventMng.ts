@@ -22,16 +22,15 @@ import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {ReadState} from './ReadState';
 
 import {Container, Application, utils} from 'pixi.js';
-const {GamepadListener} = require('gamepad.js');
+/*
+	- Xユーザーのまさとらんさん: 「ブラウザからあらゆる ゲームコントローラーを操作 できるようにしてくれるJavaScriptライブラリ 【joypad.js】 https://t.co/CTF7sxU5kW https://t.co/t4IqMsD2qo」 / Twitter https://x.com/0310lan/status/1713886757874237521
+	- ArunMichaelDsouza/joypad.js: JavaScript library that lets you connect and use various gaming controllers with browsers that support the Gamepad API. Less than 5KB in size with zero dependencies and support for button press, axis movement events and vibration play effect. https://github.com/ArunMichaelDsouza/joypad.js
+*/
 import {createPopper, Instance as InsPop} from '@popperjs/core';
 
 export class EventMng implements IEvtMng {
 	readonly	#elc		= new EventListenerCtn;
 
-	readonly	#gamepad	= new GamepadListener({
-		analog	: false,
-		deadZone: 0.3,
-	});
 	readonly	#fcs		= new FocusMng;
 
 	#rs	: ReadState;
@@ -183,42 +182,52 @@ export class EventMng implements IEvtMng {
 		}
 		ReadState.init((rs: ReadState)=> this.#rs = rs, main, val, layMng, scrItr, sndMng, hTag, this.#fcs, procWheel4wle, this.#elmHint, cfg);
 
-		// Gamepad
-		if (CmnLib.debugLog) {
-			this.#gamepad.on('gamepad:connected', (e: any)=> console.log(`👺<'gamepad:connected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
-			this.#gamepad.on('gamepad:disconnected', (e: any)=> console.log(`👺<'gamepad:disconnected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
-		}
-		const aStick: string[] = [
-			'',			'ArrowUp',	'',				// '7', '8', '9',
-			'ArrowLeft', '',		'ArrowRight',	// '4', '5', '6',
-			'',			'ArrowDown', '',			// '1', '2', '3',
-		];
-		const stick_xy = [0, 0];
-		this.#gamepad.on('gamepad:axis', (e: any)=> {
-			if (! document.hasFocus() || e.detail.stick !== 0) return;
-			stick_xy[e.detail.axis] = e.detail.value;
-			const s = (stick_xy[1] +1)*3 + (stick_xy[0] +1);
-//console.log(`fn:EventMng.ts line:137 👺 'gamepad:axis' detail:%o`, e.detail);
-			const s2 = aStick[s];
-			if (! s2) return;
-			const cmp = this.#fcs.getFocus();
-			((! cmp || cmp instanceof Container) ?globalThis :cmp)
-			.dispatchEvent(new KeyboardEvent('keydown', {key: s2, bubbles: true}));
 
-			if (! cmp || cmp instanceof Container) return;
-			if (cmp.getAttribute('type') === 'range') cmp.dispatchEvent(new InputEvent('input', {bubbles: true}));	// スライダー変更時、表示数字が変わらない対応
-		});
-		this.#gamepad.on('gamepad:button', (e: any)=> {
-			if (! document.hasFocus()) return;
-//console.log(`fn:EventMng.ts line:155 👺 'gamepad:button' detail:%o`, e.detail);
-			if (e.detail.button % 2 === 0) {
+		import('gamepad.js').then(({GamepadListener})=> {
+			const gamepad = new GamepadListener({
+				analog	: false,
+				deadZone: 0.3,
+			});
+			if (CmnLib.debugLog) {
+				// コネクタを挿した時ではなく、ボタンなどを押した時に発生
+				// ただ一度抜き→差しするとすぐ発生するようになる
+				gamepad.on('gamepad:connected', (e: any)=> console.log(`👺<'gamepad:connected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
+				// コネクタを抜いた時に発生
+				gamepad.on('gamepad:disconnected', (e: any)=> console.log(`👺<'gamepad:disconnected' index:${e.detail.index} id:${e.detail.gamepad?.id}`));	// e.detail.gamepad = undefined
+			}
+			const aStick: string[] = [
+				'',			'ArrowUp',	'',				// '7', '8', '9',
+				'ArrowLeft', '',		'ArrowRight',	// '4', '5', '6',
+				'',			'ArrowDown', '',			// '1', '2', '3',
+			];
+			const stick_xy = [0, 0];
+			gamepad.on('gamepad:axis', (e: any)=> {
+				if (! document.hasFocus()) return;
+				stick_xy[e.detail.axis] = e.detail.value;
+				const s = (stick_xy[1] +1)*3 + (stick_xy[0] +1);
+//console.log(`fn:EventMng.ts 👺 'gamepad:axis' detail:%o`, e.detail);
+				const s2 = aStick[s];
+				if (! s2) return;
 				const cmp = this.#fcs.getFocus();
 				((! cmp || cmp instanceof Container) ?globalThis :cmp)
-				.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles: true}));
-			}
-			else Main.cvs.dispatchEvent(new Event('contextmenu'));
+				.dispatchEvent(new KeyboardEvent('keydown', {key: s2, bubbles: true}));
+
+				if (! cmp || cmp instanceof Container) return;
+				if (cmp.getAttribute('type') === 'range') cmp.dispatchEvent(new InputEvent('input', {bubbles: true}));	// スライダー変更時、表示数字が変わらない対応
+			});
+			gamepad.on('gamepad:button', (e: any)=> {
+				if (! document.hasFocus()) return;
+//console.log(`fn:EventMng.ts 👺 'gamepad:button' detail:%o`, e.detail);
+				if (e.detail.button % 2 === 0) {
+					const cmp = this.#fcs.getFocus();
+					((! cmp || cmp instanceof Container) ?globalThis :cmp)
+					.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles: true}));
+				}
+				else Main.cvs.dispatchEvent(new Event('contextmenu'));
+			});
+			gamepad.start();
+
 		});
-		this.#gamepad.start();
 
 		this.#elc.add(window, 'keyup', (e: any)=> {
 			if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
@@ -437,7 +446,7 @@ export class EventMng implements IEvtMng {
 		hArg.fn ??= this.scrItr.scriptFn;
 
 		// domイベント
-		if (KeY.slice(0, 4) === 'dom=') {
+		if (KeY.startsWith('dom=')) {
 			const g = ReadState.getHtmlElmList(KeY);
 			if (g.el.length === 0) {
 				if (argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
@@ -508,7 +517,7 @@ export class EventMng implements IEvtMng {
 	// フォーカス移動
 	#set_focus(hArg: HArg) {
 		const {add, del, to} = hArg;
-		if (add?.slice(0, 4) === 'dom=') {
+		if (add?.startsWith('dom=')) {
 			const g = ReadState.getHtmlElmList(add);
 			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 
@@ -524,7 +533,7 @@ export class EventMng implements IEvtMng {
 			return false;
 		}
 
-		if (del?.slice(0, 4) === 'dom=') {
+		if (del?.startsWith('dom=')) {
 			const g = ReadState.getHtmlElmList(del);
 			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 

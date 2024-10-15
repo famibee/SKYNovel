@@ -32,7 +32,7 @@ export class GrpLayer extends Layer {
 	}
 	static	destroy() {GrpLayer.#elc.clear(); SpritesMng.destroy()}
 
-	readonly	#idc	= new GrpLayDesignCast(this.spLay, this);
+	readonly	#idc	= new GrpLayDesignCast(this.ctn, this);
 	constructor() {
 		super();
 		if (CmnLib.isDbg) {
@@ -58,7 +58,7 @@ export class GrpLayer extends Layer {
 		if (! fn) {
 			super.lay(hArg);
 
-			if (this.spLay.children.length > 0) this.setPos(hArg);
+			if (this.ctn.children.length > 0) this.setPos(hArg);
 			this.#sBkFn = '';
 			this.#csvFn = this.#sBkFace = face;
 			resolve(false);
@@ -79,7 +79,7 @@ export class GrpLayer extends Layer {
 		this.#sps.destroy();
 		this.#sps = new SpritesMng(
 			this.#csvFn = fn + (face ?','+ face :''),
-			this.spLay,
+			this.ctn,
 			sp=> {
 				if ('width' in hArg || 'height' in hArg) {
 					sp.width = argChk_Num(hArg, 'width', 0);
@@ -87,8 +87,8 @@ export class GrpLayer extends Layer {
 				}
 				this.#width = sp.width;
 				this.#height = sp.height;
-				Layer.setXY(sp, hArg, this.spLay, true);
-				Layer.setBlendmode(this.spLay, hArg);
+				Layer.setXY(sp, hArg, this.ctn, true);
+				Layer.setBlendmode(this.ctn, hArg);
 			//	if (hArg.page === 'fore') this.rsvEvent(sp);	// ======
 					// [lay page=fore]のみswfアニメ終了イベント発生
 				this.#setIdcSp(sp);
@@ -111,17 +111,17 @@ export class GrpLayer extends Layer {
 		});
 		this.#spTsy = new Sprite(this.#rtTsy);
 		this.#spTsy.visible = false;
-		this.spLay.addChildAt(this.#spTsy, 0);
-		this.#spTsy.position.set(-this.spLay.x, -this.spLay.y);
+		this.ctn.addChildAt(this.#spTsy, 0);
+		this.#spTsy.position.set(-this.ctn.x, -this.ctn.y);
 
 		let fncRenderFore = ()=> {
-			const a = this.spLay.alpha;
-			this.spLay.alpha = 1;
-			for (const s of this.spLay.children) s.visible = true;
+			const a = this.ctn.alpha;
+			this.ctn.alpha = 1;
+			for (const s of this.ctn.children) s.visible = true;
 			this.#spTsy.visible = false;
-			GrpLayer.#appPixi.renderer.render(this.spLay, {renderTexture: this.#rtTsy});	// clear: true
-			this.spLay.alpha = a;
-			for (const s of this.spLay.children) s.visible = false;
+			GrpLayer.#appPixi.renderer.render(this.ctn, {renderTexture: this.#rtTsy});	// clear: true
+			this.ctn.alpha = a;
+			for (const s of this.ctn.children) s.visible = false;
 		}
 		if (! this.containMovement) {
 			let oldFnc = fncRenderFore;	// 動きがないなら最初に一度
@@ -138,17 +138,17 @@ export class GrpLayer extends Layer {
 	#fncRender = ()=> {};
 	override	renderEnd() {
 		GrpLayer.#appPixi.ticker.remove(this.#fncRender);
-		this.spLay.removeChild(this.#spTsy);
-		for (const s of this.spLay.children) s.visible = true;
+		this.ctn.removeChild(this.#spTsy);
+		for (const s of this.ctn.children) s.visible = true;
 		this.#spTsy.destroy(true);
 	}
 
 
 	setPos(hArg: HArg): void {
 		Layer.setXY(
-			(this.spLay.children.length === 0) ?this.spLay :this.spLay.children[0],
+			(this.ctn.children.length === 0) ?this.ctn :this.ctn.children[0],
 			hArg,
-			this.spLay,
+			this.ctn,
 			true
 		);
 	}
@@ -157,7 +157,7 @@ export class GrpLayer extends Layer {
 	override get containMovement(): boolean {
 		if (this.#csvFn === '') return false;
 
-		const c = this.spLay.children;
+		const c = this.ctn.children;
 		return this.#csvFn.split(',').some(
 			(fn, i)=> c[i] instanceof AnimatedSprite || SpritesMng.getHFn2VElm(fn)
 		);
@@ -178,21 +178,21 @@ export class GrpLayer extends Layer {
 	override playback(hLay: any, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		if (hLay.sBkFn === '' && hLay.sBkFace === '') {
-			this.#sBkFn		= hLay.sBkFn;
-			this.#sBkFace	= hLay.sBkFace;
+			this.#sBkFn		= '';
+			this.#sBkFace	= '';
 //			this.#idc.sethArg(hLay.idc_hArg);
 			return;
 		}
 
 		aPrm.push(new Promise(re=> this.#laySub(
 			{fn: hLay.sBkFn, face: hLay.sBkFace, left: hLay.x, top: hLay.y, alpha: hLay.alpha, blendmode: Layer.getNum2Blendmode(hLay.blendMode), rotation: hLay.rotation, scale_x: hLay.scale_x, scale_y: hLay.scale_y},
-			_isStop=> {this.spLay.position.set(hLay.x, hLay.y); re()},
+			_isStop=> {this.ctn.position.set(hLay.x, hLay.y); re()},
 				// Layer.setXY()の後に再度移動
 		)));
 	}
 
 	override makeDesignCast(gdc: IMakeDesignCast) {
-		if (! this.spLay.visible) return;
+		if (! this.ctn.visible) return;
 		gdc(this.#idc);
 	}
 	//makeDesignCastChildren(_gdc: IMakeDesignCast) {}

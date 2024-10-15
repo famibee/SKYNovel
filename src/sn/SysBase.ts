@@ -437,16 +437,14 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	#plgDecAB: (ab: ArrayBuffer)=> Promise<PLUGIN_DECAB_RET> = ()=> Promise.resolve({ext_num: 0, ab: new ArrayBuffer(0)});
 
 	dec = (_ext: string, tx: string)=> Promise.resolve(tx);
-	async decAB(iab: ArrayBuffer) {
+	async decAB(iab: ArrayBuffer): Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer> {
 		const {ext_num, ab} = await this.#plgDecAB(iab);
 		const fm = this.#hN2Ext[ext_num];
 		return fm?.fnc ?await fm.fnc(ab) :ab;
 	}
 	readonly #hN2Ext: {[id: number]: {
 		ext	: string;
-		fnc	: {(ab: ArrayBuffer): Promise<HTMLImageElement>}
-			| {(ab: ArrayBuffer): Promise<HTMLVideoElement>}
-			| {(ab: ArrayBuffer): Promise<ArrayBuffer>};	// サウンドファイル用
+		fnc	: {(ab: ArrayBuffer): Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer>};	// サウンドファイル用
 	}} = {
 		1	: {ext: 'jpeg', fnc: ab=> this.#genImage(ab, 'image/jpeg')},
 		2	: {ext: 'png', fnc: ab=> this.#genImage(ab, 'image/png')},

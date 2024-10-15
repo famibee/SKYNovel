@@ -452,7 +452,7 @@ it.each(<{
 	], p_i: 6, p_ch: 'の', i: 7, ch: '春', ret: {cont: false, ins: 2 +1,},},
 
 
-])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch, p_i, p_ch, ret})=> {
+])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch: _, p_i, p_ch, ret})=> {
 	expect(hyph.hyph_alg_bura(a, p_i, p_ch, i)).toStrictEqual(ret);
 });
 
@@ -608,7 +608,7 @@ it.each(<{
 	], p_i: 6, p_ch: '末', i: 7, ch: '頭', ret: {cont: false, ins: 1 +1,},},
 */
 
-])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch, p_i, p_ch, ret})=> {
+])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch: _, p_i, p_ch, ret})=> {
 	expect(hyph.hyph_alg_bura(a, p_i, p_ch, i)).toStrictEqual(ret);
 });
 
@@ -721,7 +721,7 @@ it.each(<{
 		{ch: '☀',	elm, rect: new Rectangle(sx -1 *w, sy +3 *h, w, h)},
 	], p_i: 3, p_ch: '春', i: 4, ch: 'ゞ', ret: {cont: false, ins: 1 +1,},},
 
-])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch, p_i, p_ch, ret})=> {
+])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch: _, p_i, p_ch, ret})=> {
 	hyph.lay({kinsoku_bura: 'ぁぃぅぇぉ'});
 	expect(hyph.ぶら下げ).toBe('ぁぃぅぇぉ');
 

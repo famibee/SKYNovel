@@ -95,7 +95,7 @@ export class RubySpliter {
 		}
 
 		// 自動区切りを行わない（単漢字など）
-		if (len === 1 || ruby.indexOf(' ') === -1) {
+		if (len === 1 || ! ruby.includes(' ')) {
 			this.#putCh(text, decodeURIComponent(ruby));
 			return;
 		}

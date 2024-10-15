@@ -42,7 +42,7 @@ export function initStyle() {
 	for (let i=len -1; i>=0; --i) {
 		const v = he.children[i];
 		if (! (v instanceof HTMLStyleElement)) continue;
-		if (v.innerText.slice(0, 14) !== css_key4del) continue;
+		if (! v.innerText.startsWith(css_key4del)) continue;
 		he.removeChild(v);
 	}
 }
@@ -79,7 +79,7 @@ export	function argChk_Num(hash: any, name: string, def: number): number {
 		return def;
 	}
 
-	const n = (String(v).slice(0, 2) === '0x')
+	const n = String(v).startsWith('0x')
 		? parseInt(v)
 		: parseFloat(v);
 	if (isNaN(n)) throw `[${hash[':タグ名']}]属性 ${name} の値【${v}】が数値ではありません`;
@@ -154,6 +154,7 @@ const REG_EXT	= /\.([^\.]+)$/;
 export 	function getExt(p: string) {return (p.match(REG_EXT) ?? ['',''])[1]}
 
 import {name, os} from 'platform';
+//import {isMobile} from 'pixi.js';		// 使い物にならないことを確認済み
 export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;

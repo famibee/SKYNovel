@@ -47,15 +47,13 @@ export class Main implements IMain {
 		utils.skipHello();
 
 		Config.generate(sys)
-		.then(c=> this.#cfg = c)
-		.then(()=> this.#init())
+		.then(c=> this.#init(c))
 		.catch(e=> console.error(`load err fn:prj.json e:%o`, e));
 	}
 	readonly	#SN_ID	= 'skynovel';
-	async #init() {
-		const cc = document.createElement('canvas')?.getContext('2d');
-		if (! cc) throw 'argChk_Color err';
-		CmnLib.cc4ColorName = cc;
+	async #init(c: Config) {
+		this.#cfg = c;
+
 		const hApp: IApplicationOptions = {
 			width			: this.#cfg.oCfg.window.width,
 			height			: this.#cfg.oCfg.window.height,
@@ -64,18 +62,25 @@ export class Main implements IMain {
 		//	resolution		: sys.resolution,
 			resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
 		};
-		const cvs = document.getElementById(this.#SN_ID) as HTMLCanvasElement;
+
+		const cvs = <HTMLCanvasElement>document.getElementById(this.#SN_ID);
 		if (cvs) {
-			this.#clone_cvs = cvs.cloneNode(true) as HTMLCanvasElement;
+			this.#clone_cvs = <HTMLCanvasElement>cvs.cloneNode(true);
 			this.#clone_cvs.id = this.#SN_ID;
 			hApp.view = cvs;
 		}
+
 		this.#appPixi = new Application(hApp);
+
 		Main.cvs = this.#appPixi.view;
-		if (! cvs) {
-			document.body.appendChild(Main.cvs);
-			Main.cvs.id = this.#SN_ID;
-		}
+		Main.cvs.id = this.#SN_ID +'_act';
+		if (! cvs) document.body.appendChild(Main.cvs);
+
+
+		const cc = document.createElement('canvas')?.getContext('2d');
+		if (! cc) throw '#init cc err';
+		CmnLib.cc4ColorName = cc;
+
 
 		// 変数
 		this.#val = new Variable(this.#cfg, this.#hTag);
@@ -269,8 +274,8 @@ export class Main implements IMain {
 			Main.cvs.parentNode!.appendChild(this.#clone_cvs);
 		}
 		utils.clearTextureCache();
-		this.#appPixi.destroy(true);
 		this.sys.destroy();
+		this.#appPixi.destroy(true);
 	}
 	#destroyed = false;
 	readonly isDestroyed = ()=> this.#destroyed;

@@ -51,7 +51,7 @@ export class SpritesMng {
 
 		const fnc = ()=> {
 			const vol = SpritesMng.#glbVol * SpritesMng.#movVol;
-			for (const v of Object.values(SpritesMng.#hFn2VElm)) v.volume = vol;
+			for (const v of Object.values(SpritesMng.#hFn2hve)) v.volume = vol;
 		};
 		sndMng.setNoticeChgVolume(
 			vol=> {SpritesMng.#glbVol = vol; fnc()},
@@ -97,15 +97,16 @@ export class SpritesMng {
 		SpritesMng.#hFace	= {};
 		SpritesMng.#hFn2ResAniSpr	= {};
 		//SpritesMng.#ldrHFn	= {};
-		SpritesMng.#hFn2VElm	= {};
+		SpritesMng.#hFn2hve	= {};
 	}
 
 
 	//static #ldrHFn: {[fn: string]: 1} = {};
-	static #csv2Sprites(csv: string, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void, addChild: (sp: Sprite)=> void): boolean {
-		// Data URI
+	static	#csv2Sprites(csv: string, fncFirstComp: IFncCompSpr, fncAllComp: (isStop: boolean)=> void, addChild: (sp: Sprite)=> void): boolean {
+		if (! csv) return false;
+
 		let needLoad = false;
-		if (csv.slice(0, 5) === 'data:') {
+		if (csv.startsWith('data:')) {	// Data URI
 			const fnc = ()=> {
 				const sp = Sprite.from(csv);
 				addChild(sp);
@@ -204,7 +205,7 @@ export class SpritesMng {
 			case LoaderResource.TYPE.VIDEO:
 				const hve = data as HTMLVideoElement;
 				hve.volume = SpritesMng.#glbVol;
-				SpritesMng.#hFn2VElm[name] = SpritesMng.#charmVideoElm(hve);
+				SpritesMng.#hFn2hve[name] = SpritesMng.#charmVideoElm(hve);
 		}
 		next();
 	}
@@ -231,23 +232,22 @@ export class SpritesMng {
 		}
 		else if (r instanceof HTMLVideoElement) {
 			r.volume = SpritesMng.#glbVol;
-			SpritesMng.#hFn2VElm[res.name] = SpritesMng.#charmVideoElm(r);
+			SpritesMng.#hFn2hve[res.name] = SpritesMng.#charmVideoElm(r);
 
 			res.type = LoaderResource.TYPE.VIDEO;
 //			URL.revokeObjectURL(r.src);
 		}
 		next();
 	}
-	static #charmVideoElm(v: HTMLVideoElement): HTMLVideoElement {
+	static #charmVideoElm(hve: HTMLVideoElement): HTMLVideoElement {
 		// 【PixiJS】iOSとChromeでAutoPlay可能なビデオSpriteの設定 - Qiita https://qiita.com/masato_makino/items/8316e7743acac514e361
-		// v.muted = true;// Chrome対応：自動再生を許可。ないと再開時に DOMException
 		if (SpritesMng.#val.getVal('const.sn.needClick2Play')) {
 			// ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる
 			DebugMng.trace_beforeNew(`[lay系] ${DebugMng.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, 'W');
-			v.muted = true;
+			hve.muted = true;	// Chrome対応：自動再生を許可させるため。ないと再開時に DOMException
 		}
-		v.setAttribute('playsinline', '');	// iOS対応
-		return v;
+		hve.setAttribute('playsinline', '');	// iOS対応
+		return hve;
 	}
 
 	static #cacheAniSpr = (_r: string, {type, spritesheet, name, data}: any, next: ()=> void)=> {
@@ -302,28 +302,28 @@ export class SpritesMng {
 		});
 	}
 
-	static #mkSprite(fn: string, hRes: {[fn: string]: LoaderResource}): Sprite {
-		const ras = SpritesMng.#hFn2ResAniSpr[fn];
-		if (ras) {
-			const asp = new AnimatedSprite(ras.aTex);
-			asp.animationSpeed = ras.meta.animationSpeed ?? 1.0;
-			asp.play();
-			return asp;
-		}
-		if (fn in utils.TextureCache) return Sprite.from(fn);
-		if (fn in SpritesMng.#hFn2VElm) return Sprite.from(SpritesMng.#hFn2VElm[fn]);
+		static	#mkSprite(fn: string, hRes: {[fn: string]: LoaderResource}): Sprite {
+			const ras = SpritesMng.#hFn2ResAniSpr[fn];
+			if (ras) {
+				const asp = new AnimatedSprite(ras.aTex);
+				asp.animationSpeed = ras.meta.animationSpeed ?? 1.0;
+				asp.play();
+				return asp;
+			}
+			if (fn in utils.TextureCache) return Sprite.from(fn);
+			if (fn in SpritesMng.#hFn2hve) return Sprite.from(SpritesMng.#hFn2hve[fn]);
 
-		return (fn in hRes) ?new Sprite(hRes[fn].texture) :new Sprite;
-	}
-	static #hFn2VElm	: {[fn: string]: HTMLVideoElement} = {};
-	static	getHFn2VElm(fn: string) {return SpritesMng.#hFn2VElm[fn]}
+			return (fn in hRes) ?new Sprite(hRes[fn].texture) :new Sprite;
+		}
+	static	#hFn2hve	: {[fn: string]: HTMLVideoElement} = {};
+	static	getHFn2VElm(fn: string) {return SpritesMng.#hFn2hve[fn]}
 
 	static	wv(hArg: HArg): boolean {
 		// 動画ファイル名指定でいいかなと。なぜなら「ループで再生しつつ」
 		// 同ファイル名の別の動画の再生は待ちたい、なんて状況は普通は無いだろうと
 		const {fn} = hArg;
 		if (! fn) throw 'fnは必須です';
-		const hve = SpritesMng.#hFn2VElm[fn];
+		const hve = SpritesMng.#hFn2hve[fn];
 		if (! hve || hve.loop) return false;
 
 		if (SpritesMng.#evtMng.isSkipping || hve.ended) {SpritesMng.stopVideo(fn); return false}
@@ -340,10 +340,10 @@ export class SpritesMng {
 	}
 
 	static	stopVideo(fn: string) {
-		const hve = SpritesMng.#hFn2VElm[fn];
+		const hve = SpritesMng.#hFn2hve[fn];
 		if (! hve) return;
 
-		delete SpritesMng.#hFn2VElm[fn];
+		delete SpritesMng.#hFn2hve[fn];
 		hve.pause();
 		hve.currentTime = hve.duration;
 	}

@@ -1021,7 +1021,6 @@ void main(void) {
 }
 [endlet_ml]`;
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe(`[let_ml name=ml]`);

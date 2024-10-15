@@ -9,11 +9,11 @@ export declare class SndBuf {
     static setEvtMng($evtMng: IEvtMng): void;
     static delLoopPlay(buf: string): void;
     static getVol(hArg: HArg, def: number): number;
-    static xchgbuf(hArg: HArg): void;
+    static xchgbuf({ buf: buf1, buf2 }: HArg): void;
     get fn(): string;
     init(hArg: HArg): boolean;
     ws: (hArg: HArg) => boolean;
-    stopse(hArg: HArg): void;
+    stopse({ buf }: HArg): void;
     fade: (hArg: HArg) => void;
     wf: (hArg: HArg) => boolean;
     stopfadese: (hArg: HArg) => void;

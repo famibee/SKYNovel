@@ -102,7 +102,7 @@ export class appMain {
 			ensureFileSync(fn);	// 【必須】ディレクトリ、なければ作る
 
 			const c = ni.resize({width, height, quality: 'best'});
-			const d = (fn.slice(-4) === '.png') ?c.toPNG() :c.toJPEG(80);
+			const d = (fn.endsWith('.png')) ?c.toPNG() :c.toJPEG(80);
 			writeFileSync(fn, d);
 		}));
 		ipcMain.handle('navigate_to', (_, url: string)=> shell.openExternal(url));

@@ -17,52 +17,52 @@ export class Layer {
 	protected	name_	= '';
 	set name(nm) {this.name_ = nm}
 	get name() {return this.name_}
-	readonly	spLay	= new Sprite(Texture.EMPTY);
+	readonly	ctn	= new Sprite(Texture.EMPTY);
 
 	// tsy用
-	get	alpha() {return this.spLay.alpha}
-	set alpha(v) {this.spLay.alpha = v}
-	get	height() {return this.spLay.height}
-	get	rotation() {return this.spLay.angle}
-	set rotation(v) {this.spLay.angle = v}
-	get	scale_x() {return this.spLay.scale.x}
-	set scale_x(v) {this.spLay.scale.x = v}
-	get	scale_y() {return this.spLay.scale.y}
-	set scale_y(v) {this.spLay.scale.y = v}
-	get	width() {return this.spLay.width}
-	get	x() {return this.spLay.x}
-	set x(v) {this.procSetX(v); this.spLay.x = v}
+	get	alpha() {return this.ctn.alpha}
+	set alpha(v) {this.ctn.alpha = v}
+	get	height() {return this.ctn.height}
+	get	rotation() {return this.ctn.angle}
+	set rotation(v) {this.ctn.angle = v}
+	get	scale_x() {return this.ctn.scale.x}
+	set scale_x(v) {this.ctn.scale.x = v}
+	get	scale_y() {return this.ctn.scale.y}
+	set scale_y(v) {this.ctn.scale.y = v}
+	get	width() {return this.ctn.width}
+	get	x() {return this.ctn.x}
+	set x(v) {this.procSetX(v); this.ctn.x = v}
 		protected	procSetX(_x: number) {}	// set を override できないので
-	get	y() {return this.spLay.y}
-	set y(v) {this.procSetY(v); this.spLay.y = v}
+	get	y() {return this.ctn.y}
+	set y(v) {this.procSetY(v); this.ctn.y = v}
 		protected	procSetY(_y: number) {}	// set を override できないので
 
 	destroy() {}
 
 	lay(hArg: HArg): boolean {
-		const s = this.spLay;
-		if ('alpha' in hArg) s.alpha = argChk_Num(hArg, 'alpha', 1);
+		const c = this.ctn;
+		if ('alpha' in hArg) c.alpha = argChk_Num(hArg, 'alpha', 1);
 
-		Layer.setBlendmode(s, hArg);
+		Layer.setBlendmode(c, hArg);
 
-		if ('pivot_x' in hArg || 'pivot_y' in hArg) s.pivot.set(
-			argChk_Num(hArg, 'pivot_x', s.pivot.x),
-			argChk_Num(hArg, 'pivot_y', s.pivot.y)
+		if ('pivot_x' in hArg || 'pivot_y' in hArg) c.pivot.set(
+			argChk_Num(hArg, 'pivot_x', c.pivot.x),
+			argChk_Num(hArg, 'pivot_y', c.pivot.y)
 		);
 
-		if ('rotation' in hArg) s.angle = argChk_Num(hArg, 'rotation', 0);
+		if ('rotation' in hArg) c.angle = argChk_Num(hArg, 'rotation', 0);
 			// flash : rotation is in degrees.
 			// pixijs: rotation is in radians, angle is in degrees.
 
-		if ('scale_x' in hArg || 'scale_y' in hArg) s.scale.set(
-			argChk_Num(hArg, 'scale_x', s.scale.x),
-			argChk_Num(hArg, 'scale_y', s.scale.y)
+		if ('scale_x' in hArg || 'scale_y' in hArg) c.scale.set(
+			argChk_Num(hArg, 'scale_x', c.scale.x),
+			argChk_Num(hArg, 'scale_y', c.scale.y)
 		);
 
-		if ('visible' in hArg) s.visible = argChk_Boolean(hArg, 'visible', true);
+		if ('visible' in hArg) c.visible = argChk_Boolean(hArg, 'visible', true);
 
 		if ('filter' in hArg) {
-			s.filters = [Layer.bldFilters(hArg)];
+			c.filters = [Layer.bldFilters(hArg)];
 			this.aFltHArg = [hArg];
 		}
 
@@ -399,14 +399,14 @@ export class Layer {
 	renderEnd() {}
 
 	clearLay(hArg: HArg): void {
-		this.spLay.alpha = 1;
-		this.spLay.blendMode = BLEND_MODES.NORMAL;
+		this.ctn.alpha = 1;
+		this.ctn.blendMode = BLEND_MODES.NORMAL;
 		// visibleは触らない
-		this.spLay.pivot.set(0, 0);
-		this.spLay.angle = 0;
-		this.spLay.scale.set(1, 1);
+		this.ctn.pivot.set(0, 0);
+		this.ctn.angle = 0;
+		this.ctn.scale.set(1, 1);
 		if (argChk_Boolean(hArg, 'clear_filter', false)) {
-			this.spLay.filters = null;
+			this.ctn.filters = null;
 			this.aFltHArg = [];
 		}
 		//transform.colorTransform = nulColTrfm;
@@ -418,40 +418,40 @@ export class Layer {
 	}
 	record() {return {
 		name	: this.name_,
-		idx		: this.spLay.parent.getChildIndex(this.spLay),
-		alpha	: this.spLay.alpha,
-		blendMode	: this.spLay.blendMode,
-		rotation	: this.spLay.angle,
-		scale_x	: this.spLay.scale.x,
-		scale_y	: this.spLay.scale.y,
-		pivot_x	: this.spLay.pivot.x,
-		pivot_y	: this.spLay.pivot.y,
-		x		: this.spLay.x,
-		y		: this.spLay.y,
-		visible	: this.spLay.visible,
+		idx		: this.ctn.parent.getChildIndex(this.ctn),
+		alpha	: this.ctn.alpha,
+		blendMode	: this.ctn.blendMode,
+		rotation	: this.ctn.angle,
+		scale_x	: this.ctn.scale.x,
+		scale_y	: this.ctn.scale.y,
+		pivot_x	: this.ctn.pivot.x,
+		pivot_y	: this.ctn.pivot.y,
+		x		: this.ctn.x,
+		y		: this.ctn.y,
+		visible	: this.ctn.visible,
 		aFltHArg: this.aFltHArg,
 	}}
 	playback(hLay: any, _aPrm: Promise<void>[]): void {
 		this.name = hLay.name;
-		//idx	// コール順に意味があるので親でやる
+		//idx	// コール順に意味があるので LayerMng でやる
 
 		this.clearLay({clear_filter: true});
-		this.spLay.alpha = hLay.alpha;
-		this.spLay.blendMode = hLay.blendMode;
-		this.spLay.angle = hLay.rotation;
-		this.spLay.scale.set(hLay.scale_x, hLay.scale_y);
-		this.spLay.pivot.set(hLay.pivot_x, hLay.pivot_y);
-		this.spLay.position.set(hLay.x, hLay.y);
-		this.spLay.visible = hLay.visible;
+		this.ctn.alpha = hLay.alpha;
+		this.ctn.blendMode = hLay.blendMode;
+		this.ctn.angle = hLay.rotation;
+		this.ctn.scale.set(hLay.scale_x, hLay.scale_y);
+		this.ctn.pivot.set(hLay.pivot_x, hLay.pivot_y);
+		this.ctn.position.set(hLay.x, hLay.y);
+		this.ctn.visible = hLay.visible;
 
 		this.aFltHArg = hLay.aFltHArg ?? [];
-		this.spLay.filters = (this.aFltHArg.length === 0)
+		this.ctn.filters = (this.aFltHArg.length === 0)
 			? null
 			: this.aFltHArg.map(f=> Layer.bldFilters(f));
 	}
 
 	snapshot(rnd: AbstractRenderer, re: ()=> void) {
-		rnd.render(this.spLay, {clear: false});
+		rnd.render(this.ctn, {clear: false});
 		re();
 	}
 	snapshot_end() {}
@@ -466,13 +466,13 @@ export class Layer {
 	cvsResizeChildren() {}
 
 	dump(): string {
-		return ` "idx":${this.spLay.parent.getChildIndex(this.spLay)
-		}, "visible":"${this.spLay.visible
-		}", "left":${this.spLay.x}, "top":${this.spLay.y
-		}, "alpha":${this.spLay.alpha}, "rotation":${this.spLay.angle
-//		}, "blendMode":${this.spLay.blendMode
-		}, "name":"${this.name_}", "scale_x":${this.spLay.scale.x
-		}, "scale_y":${this.spLay.scale.y
+		return ` "idx":${this.ctn.parent.getChildIndex(this.ctn)
+		}, "visible":"${this.ctn.visible
+		}", "left":${this.ctn.x}, "top":${this.ctn.y
+		}, "alpha":${this.ctn.alpha}, "rotation":${this.ctn.angle
+//		}, "blendMode":${this.ctn.blendMode
+		}, "name":"${this.name_}", "scale_x":${this.ctn.scale.x
+		}, "scale_y":${this.ctn.scale.y
 		}, "filters": [${this.aFltHArg.map(f=> `"${f.filter}"`).join(',')}]`;
 	}
 

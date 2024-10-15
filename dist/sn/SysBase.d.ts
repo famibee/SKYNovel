@@ -65,7 +65,7 @@ export declare class SysBase implements ISysRoots, ISysBase {
     protected readonly window: ITag;
     setTitleInfo(txt: string): void;
     dec: (_ext: string, tx: string) => Promise<string>;
-    decAB(iab: ArrayBuffer): Promise<ArrayBuffer | HTMLImageElement | HTMLVideoElement>;
+    decAB(iab: ArrayBuffer): Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer>;
     protected enc: (tx: string) => Promise<string>;
     protected stk: () => string;
     hash: (_str: string) => string;

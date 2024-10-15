@@ -769,9 +769,9 @@ export class ScriptIterator {
 	#jumpWork(fn = '', label = '', idx = 0) {
 		if (! fn && ! label) this.main.errScript('[jump系] fnまたはlabelは必須です');
 		if (label) {
-			if (label.at(0) !== '*') this.main.errScript('[jump系] labelは*で始まります');
+			if (! label.startsWith('*')) this.main.errScript('[jump系] labelは*で始まります');
 			this.#skipLabel = label;
-			if (this.#skipLabel.slice(0, 2) !== '**') this.#idxToken = idx;
+			if (! this.#skipLabel.startsWith('**')) this.#idxToken = idx;
 		}
 		else {
 			this.#skipLabel = '';

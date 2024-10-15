@@ -177,7 +177,7 @@ export class ReadState {
 	}
 	protected	static	getEvt2Fnc = (key: string): IEvt2Fnc | undefined => hLocalEvt2Fnc[key] ?? hGlobalEvt2Fnc[key];
 	static	clear_eventer(KeY: string, glb: boolean, key: string) {
-		if (KeY.slice(0, 4) !== 'dom=') return;
+		if (! KeY.startsWith('dom=')) return;
 
 		const e2f = glb ? hGlobalEvt2Fnc[key] : hLocalEvt2Fnc[key];
 		ReadState.getHtmlElmList(KeY).el.forEach(v=> v.removeEventListener('click', e2f));
@@ -189,7 +189,7 @@ export class ReadState {
 		const glb = argChk_Boolean(hArg, 'global', false);
 		const h = glb ?hGlobalEvt2Fnc :hLocalEvt2Fnc;
 		for (const [KeY, e2f] of Object.entries(h)) {
-			if (KeY.slice(0, 4) !== 'dom=') continue;
+			if (! KeY.startsWith('dom=')) continue;
 
 			ReadState.getHtmlElmList(KeY).el.forEach(v=> v.removeEventListener('click', e2f));
 		}
@@ -450,16 +450,16 @@ class Rs_S_fire extends ReadState {
 		const ke = ReadState.getEvt2Fnc(key);
 		if (! ke) {
 			// スマホ用疑似スワイプスクロール
-			if (key.slice(0, 5) === 'swipe') globalThis.scrollBy(
+			if (key.startsWith('swipe')) globalThis.scrollBy(
 				-(e as WheelEvent).deltaX || 0,	// NaN なので ?? ではダメ
 				-(e as WheelEvent).deltaY || 0,
 			);
 			return;
 		}
 
-		if (key.slice(-5) !== 'wheel') e.preventDefault?.();
+		if (! key.endsWith('wheel')) e.preventDefault?.();
 		e.stopPropagation();
-		if (key.slice(0, 4) !== 'dom=') if (layMng.clickTxtLay()) return;
+		if (! key.startsWith('dom=')) if (layMng.clickTxtLay()) return;
 
 		ke(e);
 		//this.hLocalEvt2Fnc = {};	// ここで消去禁止、Main.resumeByJumpOrCall()が担当

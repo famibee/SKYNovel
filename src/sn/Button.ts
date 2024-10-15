@@ -135,6 +135,8 @@ export class Button extends Container {
 			const o = JSON.parse(hArg.style);
 			for (const [nm, v] of Object.entries(o)) (style as any)[nm] = v;
 		//	style = {...style, ...JSON.parse(hArg.style)};	// 上手くいかない
+
+			this.#o = {...this.#o, ...o};
 		} catch (e) {
 			throw new Error(mesErrJSON(hArg, 'style', e.message));
 		}
@@ -145,12 +147,13 @@ export class Button extends Container {
 		txt.height = hArg.height = height;
 		this.setText = text=> txt.text = text;
 
-		this.#o.type = 'text';	// dump用
-		this.#o = {...this.#o, ...style};
-		this.#o.alpha = txt.alpha;
-		this.#o.text = txt.text;
-		this.#o.width = txt.width;
-		this.#o.height = txt.height;
+		this.#o = {...this.#o,
+			type	: 'text',	// dump用
+			alpha	: txt.alpha,
+			text	: txt.text,
+			width	: txt.width,
+			height	: txt.height,
+		};
 //		this.#idc = new TxtBtnDesignCast(this, hArg, txt);
 
 		let isStop = false;
@@ -165,6 +168,7 @@ export class Button extends Container {
 					this.#loaded_b_pic(sp, txt);
 					this.#o.width = this.width;
 					this.#o.height = this.height;
+					txt.name = JSON.stringify(this.#o);
 				},
 				isStop=> {
 					Layer.setBlendmode(this, hArg);

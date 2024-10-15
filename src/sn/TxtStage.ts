@@ -202,7 +202,7 @@ export class TxtStage extends Container {
 		const lh = s.lineHeight ?? '0';
 		this.#lh_half = this.#isTategaki
 			? 0
-			: (	(lh.slice(-2) === 'px')
+			: (	(lh.endsWith('px'))
 				? parseFloat(lh)
 				: (fs *parseFloat(lh) -fs)) /2;
 			// globalThis.getComputedStyle(this.htmTxt)がチョイチョイ値を返さないので
@@ -558,14 +558,7 @@ export class TxtStage extends Container {
 			canvas.width = this.#infTL.$width;
 			canvas.height = this.#infTL.$height;
 			canvas.getContext('2d')!.drawImage(img, 0, 0);
-			canvas.toBlob(blob=> {
-				if (! blob) return;
-				const url = URL.createObjectURL(blob);
-				Texture.from(url).once('update', tx2=> {
-					fnc(tx2);
-					URL.revokeObjectURL(url);
-				});
-			});
+			fnc(Texture.from(canvas));
 		})
 		.catch(err=> DebugMng.myTrace(`goTxt() = ${err}`));
 	}
@@ -1052,7 +1045,7 @@ export class TxtStage extends Container {
 	#sss :Sprite | undefined = undefined;
 	snapshot(rnd: Renderer, re: ()=> void) {
 		this.#htm2tx(tx=> {
-			this.#sss = new Sprite(tx);	// Safariだけ文字影が映らない
+			this.#sss = Sprite.from(tx);	// Safariだけ文字影が映らない
 			if (this.#isTategaki) {
 				this.#sss.x += CmnLib.stageW -(this.#left +this.#infTL.$width)
 				//- ((CmnLib.isSafari && !CmnLib.isMobile)	// 無効化 2022/02/09
@@ -1072,7 +1065,9 @@ export class TxtStage extends Container {
 		}, false);
 	}
 	snapshot_end() {
-		if (this.#sss) {this.#cntTxt.removeChild(this.#sss); this.#sss = undefined}
+		if (! this.#sss) return;
+		this.#cntTxt.removeChild(this.#sss);
+		this.#sss = undefined;
 	}
 
 	makeDesignCast(_gdc: IMakeDesignCast) {

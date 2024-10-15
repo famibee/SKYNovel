@@ -189,7 +189,7 @@ export class TxtLayer extends Layer {
 	#b_pic			= '';	// 背景画像無し（＝単色塗り）
 
 	// 文字表示
-	#txs	= new TxtStage(this.spLay, ()=> this.canFocus(), TxtLayer.#sys);
+	#txs	= new TxtStage(this.ctn, ()=> this.canFocus(), TxtLayer.#sys);
 
 	readonly	#rbSpl	= new RubySpliter;
 	readonly	#htmRb	= document.createElement('span');// cssチェック・保存用
@@ -209,18 +209,18 @@ export class TxtLayer extends Layer {
 	constructor() {
 		super();
 
-		this.spLay.addChild(this.#txs);
+		this.ctn.addChild(this.#txs);
 
 		this.#rbSpl.init(this.#putCh);
 
-		this.spLay.addChild(this.#cntBtn);	// ボタンはpaddingの影響を受けない
+		this.ctn.addChild(this.#cntBtn);	// ボタンはpaddingの影響を受けない
 		this.#cntBtn.name = 'cntBtn';
 
 		const padding = 16;	// 初期padding
 		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true'});
 	}
 	override destroy() {
-		if (this.#b_do) {this.spLay.removeChild(this.#b_do).destroy(); this.#b_do = undefined}
+		if (this.#b_do) {this.ctn.removeChild(this.#b_do).destroy(); this.#b_do = undefined}
 
 		TxtLayer.#recorder.recPagebreak();
 		this.#txs.destroy();
@@ -245,7 +245,7 @@ export class TxtLayer extends Layer {
 
 	override lay(hArg: HArg) {
 		super.lay(hArg);
-		Layer.setXY(this.spLay, hArg, this.spLay);
+		Layer.setXY(this.ctn, hArg, this.ctn);
 
 		hArg[':id_tag'] = this.name_.slice(0, -7);	// Design用
 		RubySpliter.setting(hArg);
@@ -281,7 +281,7 @@ export class TxtLayer extends Layer {
 			else this.#htmRb.style.cssText = '';
 		}
 
-		if ('alpha' in hArg) for (const b of this.#cntBtn.children) b.alpha = this.spLay.alpha;
+		if ('alpha' in hArg) for (const b of this.#cntBtn.children) b.alpha = this.ctn.alpha;
 
 		this.#set_ch_in(hArg);
 		this.#set_ch_out(hArg);
@@ -336,11 +336,11 @@ export class TxtLayer extends Layer {
 			if (this.#b_pic !== hArg.b_pic) {
 				this.#b_pic = hArg.b_pic;
 				if (this.#b_do) {
-					this.spLay.removeChild(this.#b_do);	// Graphics かも
+					this.ctn.removeChild(this.#b_do);	// Graphics かも
 					this.#b_do.destroy();	// Graphics かも
 				}
 				//this.#sps.destroy();	// Graphics かもなので使用不可
-				this.#sps = new SpritesMng(this.#b_pic, this.spLay, sp=> {
+				this.#sps = new SpritesMng(this.#b_pic, this.ctn, sp=> {
 					this.#b_do = sp;
 					sp.name = 'back(pic)';
 					sp.visible = (alpha > 0);
@@ -348,7 +348,7 @@ export class TxtLayer extends Layer {
 					//CmnLib.adjustRetinaSize(this.b_pic, sp);
 					this.#txs.setSize(sp.width, sp.height);
 						// ちなみに左上表示位置は本レイヤと同じ
-					this.spLay.setChildIndex(sp, 0);
+					this.ctn.setChildIndex(sp, 0);
 					fncComp(true);
 				});
 				return this.#sps.ret;
@@ -357,12 +357,12 @@ export class TxtLayer extends Layer {
 		else if ('b_color' in hArg) {
 			this.#b_color = argChk_Color(hArg, 'b_color', 0x000000);
 			if (this.#b_do) {
-				this.spLay.removeChild(this.#b_do);	// Graphics かも
+				this.ctn.removeChild(this.#b_do);	// Graphics かも
 				this.#b_do.destroy();	// Graphics かも
 				//this.#sps.destroy();	// Graphics かもなので使用不可
 			}
 			this.#b_pic = '';	// 忘れずクリア
-			this.spLay.addChildAt(
+			this.ctn.addChildAt(
 				(this.#b_do = new Graphics)
 				.beginFill(this.#b_color)
 				.lineStyle(undefined)
@@ -388,10 +388,10 @@ export class TxtLayer extends Layer {
 			: g_alpha * this.#b_alpha;
 		if (this.#b_do instanceof Graphics) {
 			if (this.#b_do) {
-				this.spLay.removeChild(this.#b_do);
+				this.ctn.removeChild(this.#b_do);
 				this.#b_do.destroy();
 			}
-			this.spLay.addChildAt(
+			this.ctn.addChildAt(
 				(this.#b_do = new Graphics)
 				.beginFill(this.#b_color)
 				.lineStyle(undefined)
@@ -750,12 +750,12 @@ export class TxtLayer extends Layer {
 	}
 
 	readonly click = ()=> {	// true: 文字出現中だったので、停止する
-		if (! this.spLay.interactiveChildren || ! this.spLay.visible) return false;
+		if (! this.ctn.interactiveChildren || ! this.ctn.visible) return false;
 		return this.#txs.skipChIn();
 	}
 
 	clearText(): void {
-		this.spLay.addChild(this.#txs = this.#txs.reNew());
+		this.ctn.addChild(this.#txs = this.#txs.reNew());
 
 		this.#cumDelay = 0;
 		this.#firstCh = true;
@@ -769,8 +769,8 @@ export class TxtLayer extends Layer {
 	get pageText() {return this.#page_text.replace('《&emsp;》', '')}
 	get pagePlainText() {return this.#page_plain_text}
 
-	get enabled() {return this.spLay.interactiveChildren}
-	set enabled(e) {this.spLay.interactiveChildren = e}
+	get enabled() {return this.ctn.interactiveChildren}
+	set enabled(e) {this.ctn.interactiveChildren = e}
 
 	readonly	addButton = (hArg: HArg)=> new Promise<void>(re=> {
 		hArg.key = `btn=[${this.#cntBtn.children.length}] `+ this.name_;
@@ -781,7 +781,7 @@ export class TxtLayer extends Layer {
 		this.#cntBtn.addChild(btn);
 	});
 	canFocus(): boolean {
-		return (this.spLay.interactiveChildren ?? false) && this.spLay.visible
+		return (this.ctn.interactiveChildren ?? false) && this.ctn.visible
 			&& TxtLayer.#isPageFore(this);
 	}
 
@@ -851,17 +851,17 @@ export class TxtLayer extends Layer {
 	set cssText(ct: string) {this.#txs.cssText = ct}
 
 	override snapshot(rnd: Renderer, re: ()=> void) {
-		rnd.render(this.spLay, {clear: false});
+		rnd.render(this.ctn, {clear: false});
 		this.#txs.snapshot(rnd, re);
 	}
 	override snapshot_end() {this.#txs.snapshot_end()}
 
 	override makeDesignCast(gdc: IMakeDesignCast) {
-		if (! this.spLay.visible) return;
+		if (! this.ctn.visible) return;
 		this.#txs.makeDesignCast(gdc);
 	}
 	override makeDesignCastChildren(gdc: IMakeDesignCast) {
-		if (! this.spLay.visible) return;
+		if (! this.ctn.visible) return;
 		for (const b of this.#cntBtn.children) b.makeDesignCast(gdc);
 	}
 
@@ -878,7 +878,7 @@ export class TxtLayer extends Layer {
 		}", "b_alpha":${this.#b_alpha}, "b_alpha_isfixed":"${this.#b_alpha_isfixed
 		}", "width":${this.#txs.getWidth}, "height":${this.#txs.getHeight
 		}, "pixi_obj":[${
-			this.spLay.children.map(e=> `{"class":"${
+			this.ctn.children.map(e=> `{"class":"${
 				(e instanceof Sprite) ?'Sprite' :(
 					(e instanceof Graphics) ?'Graphics' :(
 						(e instanceof Container) ?'Container' :'?'

@@ -1,3 +1,10 @@
+- fix: esbuild-jest を tsx に切り替え
+- fix(Button.ts): 軽微な修正
+- fix: startsWith、endsWith を積極使用
+- fix: リファクタリング
+- test: esbuild-jest がメンテされてないので ts-jest に切り替え
+
+
 ## [1.60.5](https://github.com/famibee/SKYNovel/compare/v1.60.4...v1.60.5) (2024-09-19)
 
 

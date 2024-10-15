@@ -10,14 +10,12 @@ import {int} from './CmnLib';
 export const enum SEARCH_PATH_ARG_EXT {	// #searchPath 使用時、第二引数用
 	DEFAULT	= '',
 	SP_GSM	= 'png|jpg|jpeg|json|svg|webp|mp4|webm',
-		// NOTE: ogvがそもそも再生できないので、ogvのみ保留
 	SCRIPT	= 'sn|ssn',
 	FONT	= 'woff2|woff|otf|ttf',
 	SOUND	= 'mp3|m4a|ogg|aac|flac|wav',
 	HTML	= 'htm|html',
 	CSS		=	'css',
 	SN		=	'sn',
-	PSD		=	'psd',
 
 	TST_PNGPNG_	= 'png|png_',
 	TST_HH		= 'hh',
@@ -175,7 +173,7 @@ export class ConfigBase implements IConfig {
 					hFn2Ext[fn0] = ext;
 					continue;
 				}
-				if (ext.slice(-3) !== ':id') continue;
+				if (! ext.endsWith(':id')) continue;
 				const hp = v.slice(v.lastIndexOf('/') +1);
 				const fn = hExts[ext.slice(0, -10)];
 				const res = await this.sys.fetch(fn);
@@ -196,7 +194,7 @@ export class ConfigBase implements IConfig {
 		// 4 match 498 step(~1ms)  https://regex101.com/r/tpVgmI/1
 	searchPath(fn: string, extptn: SEARCH_PATH_ARG_EXT = SEARCH_PATH_ARG_EXT.DEFAULT): string {
 		if (! fn) throw '[searchPath] fnが空です';
-		if (fn.slice(0, 7) === 'http://') return fn;
+		if (fn.startsWith('http://')) return fn;
 
 		const a = fn.match(this.#REG_PATH);
 		let fn0 = a ?a[1] :fn;
@@ -206,7 +204,7 @@ export class ConfigBase implements IConfig {
 			if (utn in this.hPathFn2Exts) {
 				if (extptn === '') fn0 = utn;
 				else for (const e3 of Object.keys(this.hPathFn2Exts[utn])) {
-					if (`|${extptn}|`.indexOf(`|${e3}|`) === -1) continue;
+					if (! `|${extptn}|`.includes(`|${e3}|`)) continue;
 
 					fn0 = utn;
 					break;
@@ -230,19 +228,19 @@ export class ConfigBase implements IConfig {
 			if (hcnt > 1) {
 				let cnt = 0;
 				for (const e2 of Object.keys(h_exts)) {
-					if (search_exts.indexOf(`|${e2}|`) === -1) continue;
+					if (! search_exts.includes(`|${e2}|`)) continue;
 					if (++cnt > 1) throw `指定ファイル【${fn}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
 				}
 			}
 			for (let e of Object.keys(h_exts)) {
-				if (search_exts.indexOf(`|${e}|`) > -1) return h_exts[e];
+				if (search_exts.includes(`|${e}|`)) return h_exts[e];
 			}
 			throw `サーチ対象拡張子群【${extptn}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${fn}】`;
 		}
 
 		// fnに拡張子xが含まれている
 		//	ファイル名サーチ→拡張子群にxが含まれるか
-		if (extptn !== '' && `|${extptn}|`.indexOf(`|${ext}|`) === -1) {
+		if (extptn !== '' && ! `|${extptn}|`.includes(`|${ext}|`)) {
 			throw `指定ファイルの拡張子【${ext}】は、サーチ対象拡張子群【${extptn}】にマッチしません。探索ファイル名=【${fn}】`;
 		}
 

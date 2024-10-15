@@ -133,7 +133,7 @@ export class SysApp extends SysNode {
 	protected override async run() {
 		if (this.#main) {
 			const ms_late = 10;	// NOTE: リソース解放待ち用・魔法数字
-			this.#main.destroy(ms_late);
+			await this.#main.destroy(ms_late);
 			await new Promise(rs=> setTimeout(rs, ms_late));
 				// clearTimeout()不要と判断
 		}

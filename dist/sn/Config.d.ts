@@ -5,6 +5,6 @@ export declare class Config extends ConfigBase {
     static generate(sys: SysBase): Promise<Config>;
     constructor(sys: SysBase);
     load(oCfg: any): Promise<void>;
-    searchPath(path: string, extptn?: SEARCH_PATH_ARG_EXT): string;
+    searchPath(fn: string, extptn?: SEARCH_PATH_ARG_EXT): string;
 }
 //# sourceMappingURL=Config.d.ts.map
