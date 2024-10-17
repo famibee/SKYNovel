@@ -1,7 +1,6 @@
 import { IHTag, HArg } from './Grammar';
 import { IMain, IVariable, IMark, IPropParser } from './CmnInterface';
 import { Config } from './Config';
-import { AnalyzeTagArg } from './AnalyzeTagArg';
 import { EventMng } from './EventMng';
 import { LayerMng } from './LayerMng';
 import { SoundMng } from './SoundMng';
@@ -17,8 +16,6 @@ export declare class ScriptIterator {
     private readonly hTag;
     private readonly main;
     private readonly val;
-    private readonly alzTagArg;
-    private readonly runAnalyze;
     private readonly prpPrs;
     private readonly sndMng;
     private readonly sys;
@@ -27,7 +24,7 @@ export declare class ScriptIterator {
     get lineNum(): number;
     readonly addLineNum: (len: number) => number;
     jumpJustBefore(): void;
-    constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, alzTagArg: AnalyzeTagArg, runAnalyze: () => void, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
+    constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
     noticeWait: () => void;
     destroy(): void;
     cnvPath4Dbg: (fn: string) => string;

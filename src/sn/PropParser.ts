@@ -310,14 +310,14 @@ export class PropParser implements IPropParser {
 
 		return String(b).replaceAll(
 			this.#REG_EMBEDVAR,
-			v=> (v.at(0) === '$')
+			v=> v.startsWith('$')
 				? this.val.getVal(v.slice(1))
 				: this.parse(v.slice(2, -1))
 		);
 	}
 
 
-	getValAmpersand = (val: string)=> (val.at(0) === '&')
+	getValAmpersand = (val: string)=> val.startsWith('&')
 		? String(this.parse(val.slice(1)))
 		: val;
 

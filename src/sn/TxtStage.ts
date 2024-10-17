@@ -793,10 +793,10 @@ export class TxtStage extends Container {
 	#fncEndChIn: ()=> boolean	= ()=> false;
 	#spWork(sp: Container, arg: any, add: any, rct: Rectangle, ease: (k: number)=> number, cis: any) {
 		sp.alpha = 0;
-		if (arg.x) rct.x = (arg.x.at(0) === '=')
+		if (arg.x) rct.x = arg.x.startsWith('=')
 			? rct.x +parseInt(arg.x.slice(1))
 			: parseInt(arg.x);
-		if (arg.y) rct.y = (arg.y.at(0) === '=')
+		if (arg.y) rct.y = arg.y.startsWith('=')
 			? rct.y +parseInt(arg.y.slice(1))
 			: parseInt(arg.y);
 		if (arg.width) rct.width = parseInt(arg.width);
@@ -805,8 +805,8 @@ export class TxtStage extends Container {
 		sp.width = rct.width;
 		sp.height = rct.height;
 		if (cis.x) sp.position.set(
-			(cis.x.at(0) === '=') ?rct.x +sp.width  *cis.nx :cis.nx,
-			(cis.y.at(0) === '=') ?rct.y +sp.height *cis.ny :cis.ny
+			cis.x.startsWith('=') ?rct.x +sp.width  *cis.nx :cis.nx,
+			cis.y.startsWith('=') ?rct.y +sp.height *cis.ny :cis.ny
 		);
 		else sp.position.set(rct.x, rct.y,);
 		const st: ISpTw = {

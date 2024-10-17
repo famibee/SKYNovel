@@ -1,3 +1,8 @@
+- fix: イベント系修正、[s]からクリックや読み飛ばしで次に進んでしまうケースがあった件
+- fix(Main.ts): メインループをリファクタリング
+- fix: startsWith、endsWith を積極使用
+
+
 ## [1.60.6](https://github.com/famibee/SKYNovel/compare/v1.60.5...v1.60.6) (2024-10-15)
 
 

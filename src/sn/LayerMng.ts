@@ -22,7 +22,6 @@ import {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 import {Button} from './Button';
 import {SoundMng} from './SoundMng';
-import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {DesignCast} from './DesignCast';
 import {EventListenerCtn} from './EventListenerCtn';
 import {disableEvent, enableEvent} from './ReadState';
@@ -49,7 +48,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 	readonly	#elc		= new EventListenerCtn;
 
 	//MARK: コンストラクタ
-	constructor(readonly cfg: Config, readonly hTag: IHTag, readonly appPixi: Application, readonly val: IVariable, readonly main: IMain, readonly scrItr: ScriptIterator, readonly sys: SysBase, readonly sndMng: SoundMng, readonly alzTagArg: AnalyzeTagArg, readonly prpPrs: IPropParser) {
+	constructor(readonly cfg: Config, readonly hTag: IHTag, readonly appPixi: Application, readonly val: IVariable, readonly main: IMain, readonly scrItr: ScriptIterator, readonly sys: SysBase, readonly sndMng: SoundMng, readonly prpPrs: IPropParser) {
 		// レスポンシブや回転・全画面切り替え・DevTools 表示切り替えの対応
 		const fncResizeLay = ()=> {
 			sys.cvsResize();
@@ -214,7 +213,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		val.defTmp('const.sn.last_page_text', ()=> this.currentTxtlayFore?.pageText ?? '');
 		val.defTmp('const.sn.last_page_plain_text', ()=> this.currentTxtlayFore?.pagePlainText ?? '');
 		if (CmnLib.isDbg) {
-			DesignCast.init(appPixi, sys, scrItr, prpPrs, alzTagArg, cfg, this.#hPages);
+			DesignCast.init(appPixi, sys, scrItr, prpPrs, cfg, this.#hPages);
 			this.cvsResizeDesign = ()=> DesignCast.cvsResizeDesign();
 			sys.addHook((type, o)=> {
 				if (! this.#hProcDbgRes[type]?.(type, o)) return;
@@ -284,8 +283,9 @@ export class LayerMng implements IGetFrm, IRecorder {
 		CmnTween.init(evtMng, this.appPixi);
 	}
 
-	before_destroy() {for (const p of Object.values(this.#hPages)) p.destroy()}
 	destroy() {
+		for (const p of Object.values(this.#hPages)) p.destroy();
+
 		this.#elc.clear();
 		GrpLayer.destroy();
 		RubySpliter.destroy();

@@ -100,8 +100,8 @@ export class TxtLayer extends Layer {
 	// 文字出現演出
 	static	#ch_in_style(hArg: HArg) {
 		const o = TxtStage.ch_in_style(hArg);
-		const x = (o.x.at(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
-		const y = (o.y.at(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
+		const x = o.x.startsWith('=') ?`${o.nx *100}%` :`${o.nx}px`;
+		const y = o.y.startsWith('=') ?`${o.ny *100}%` :`${o.ny}px`;
 		const {name} = hArg;
 		addStyle(`
 .sn_ch_in_${name} {
@@ -125,8 +125,8 @@ export class TxtLayer extends Layer {
 	// 文字消去演出
 	static	#ch_out_style(hArg: HArg) {
 		const o = TxtStage.ch_out_style(hArg);
-		const x = (o.x.at(0) === '=') ?`${o.nx *100}%` :`${o.nx}px`;
-		const y = (o.y.at(0) === '=') ?`${o.ny *100}%` :`${o.ny}px`;
+		const x = o.x.startsWith('=') ?`${o.nx *100}%` :`${o.nx}px`;
+		const y = o.y.startsWith('=') ?`${o.ny *100}%` :`${o.ny}px`;
 		const {name} = hArg;
 		addStyle(`
 .go_ch_out_${name} {

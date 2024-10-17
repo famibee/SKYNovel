@@ -10,39 +10,30 @@ import {IHTag, HArg} from './Grammar';
 import {IMain} from './CmnInterface';
 import {Config} from './Config';
 import {tagToken2Name, splitAmpersand} from './Grammar';
-import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {PropParser} from './PropParser';
 import {DebugMng} from './DebugMng';
 import {Variable} from './Variable';
-import {SoundMng} from './SoundMng';
 import {LayerMng} from './LayerMng';
 import {EventMng} from './EventMng';
 import {ScriptIterator} from './ScriptIterator';
-
 import {SysBase} from './SysBase';
+
 import {Application, IApplicationOptions, utils} from 'pixi.js';
 
-export class Main implements IMain {
-	#cfg		: Config;
+const	SN_ID	= 'skynovel';
 
-	#appPixi	: Application;
+export class Main implements IMain {
 	static	cvs	: HTMLCanvasElement;
 
 	#hTag		: IHTag		= Object.create(null);	// タグ処理辞書
 
 	#val		: Variable;
 	#prpPrs		: PropParser;
-	#sndMng		: SoundMng;
 	#scrItr		: ScriptIterator;
-	#dbgMng		: DebugMng;
 	#layMng		: LayerMng;
 	#evtMng		: EventMng;
 
-	#fncNext	= ()=> {};
-	readonly	#alzTagArg	= new AnalyzeTagArg;
 
-
-	#inited = false;
 	constructor(private readonly sys: SysBase) {
 		utils.skipHello();
 
@@ -50,30 +41,36 @@ export class Main implements IMain {
 		.then(c=> this.#init(c))
 		.catch(e=> console.error(`load err fn:prj.json e:%o`, e));
 	}
-	readonly	#SN_ID	= 'skynovel';
-	async #init(c: Config) {
-		this.#cfg = c;
 
+	#aDest: {(): void}[]	= [];
+	async #init(cfg: Config) {
 		const hApp: IApplicationOptions = {
-			width			: this.#cfg.oCfg.window.width,
-			height			: this.#cfg.oCfg.window.height,
-			backgroundColor	: parseColor(String(this.#cfg.oCfg.init.bg_color)),
+			width			: cfg.oCfg.window.width,
+			height			: cfg.oCfg.window.height,
+			backgroundColor	: parseColor(String(cfg.oCfg.init.bg_color)),
 				// このString()は後方互換性のため必須
 		//	resolution		: sys.resolution,
 			resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
 		};
 
-		const cvs = <HTMLCanvasElement>document.getElementById(this.#SN_ID);
+		const cvs = <HTMLCanvasElement>document.getElementById(SN_ID);
 		if (cvs) {
-			this.#clone_cvs = <HTMLCanvasElement>cvs.cloneNode(true);
-			this.#clone_cvs.id = this.#SN_ID;
+			const clone_cvs = <HTMLCanvasElement>cvs.cloneNode(true);
+			clone_cvs.id = SN_ID;
 			hApp.view = cvs;
+			const p = cvs.parentNode!;
+			this.#aDest.unshift(()=> p.appendChild(clone_cvs));
 		}
 
-		this.#appPixi = new Application(hApp);
+		const app = new Application(hApp);
+		this.#aDest.unshift(()=> {
+			utils.clearTextureCache();
+			this.sys.destroy();
+			app.destroy(true);
+		});
 
-		Main.cvs = this.#appPixi.view;
-		Main.cvs.id = this.#SN_ID +'_act';
+		Main.cvs = app.view;
+		Main.cvs.id = SN_ID +'_act';
 		if (! cvs) document.body.appendChild(Main.cvs);
 
 
@@ -83,35 +80,55 @@ export class Main implements IMain {
 
 
 		// 変数
-		this.#val = new Variable(this.#cfg, this.#hTag);
-		this.#prpPrs = new PropParser(this.#val, this.#cfg.oCfg.init.escape ?? '\\');
+		this.#val = new Variable(cfg, this.#hTag);
+		this.#prpPrs = new PropParser(this.#val, cfg.oCfg.init.escape ?? '\\');
 
-		// システム（11/13）
-		await Promise.allSettled(this.sys.init(this.#hTag, this.#appPixi, this.#val,this));
-			// 変数準備完了
-		this.#hTag.title({text: this.#cfg.oCfg.book.title || 'SKYNovel'});
+		// システム
+		await Promise.allSettled(this.sys.init(this.#hTag, app, this.#val,this));	// 変数準備完了
+		this.#hTag.title({text: cfg.oCfg.book.title || 'SKYNovel'});
 
 		// ＢＧＭ・効果音
-		this.#sndMng = new SoundMng(this.#cfg, this.#hTag, this.#val, this, this.sys);
+		const {SoundMng} = await import('./SoundMng');
+		const sndMng = new SoundMng(cfg, this.#hTag, this.#val, this, this.sys);
+		this.#aDest.unshift(()=> sndMng.destroy());
 
 		// 条件分岐、ラベル・ジャンプ、マクロ、しおり
-		this.#scrItr = new ScriptIterator(this.#cfg, this.#hTag, this, this.#val, this.#alzTagArg, ()=> this.#runAnalyze(), this.#prpPrs, this.#sndMng, this.sys);
+		this.#scrItr = new ScriptIterator(cfg, this.#hTag, this, this.#val, this.#prpPrs, sndMng, this.sys);
+		this.#aDest.unshift(()=> this.#scrItr.destroy());
 
 		// デバッグ・その他
-		this.#dbgMng = new DebugMng(this.sys, this.#hTag, this.#scrItr);
+		const dbgMng = new DebugMng(this.sys, this.#hTag, this.#scrItr);
+		this.#aDest.unshift(()=> dbgMng.destroy());
 
 		// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
-		this.#layMng = new LayerMng(this.#cfg, this.#hTag, this.#appPixi, this.#val, this, this.#scrItr, this.sys, this.#sndMng, this.#alzTagArg, this.#prpPrs);
+		this.#layMng = new LayerMng(cfg, this.#hTag, app, this.#val, this, this.#scrItr, this.sys, sndMng, this.#prpPrs);
+		this.#aDest.unshift(()=> this.#layMng.destroy());
 
 		// イベント
-		this.#evtMng = new EventMng(this.#cfg, this.#hTag, this.#appPixi, this, this.#layMng, this.#val, this.#sndMng, this.#scrItr, this.sys);
+		this.#evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, this.#val, sndMng, this.#scrItr, this.sys);
+		this.#aDest.unshift(()=> this.#evtMng.destroy());
 
-		this.#appPixi.ticker.add(this.#fncTicker);
-		this.resumeByJumpOrCall({fn: 'main'});
+		this.#aDest.unshift(()=> {
+			this.stop();
+			this.#isLoop = false;
 
-		this.#inited = true;
+			this.#hTag = {};
+		});
+
+		this.#hTag.jump({fn: 'main'});
+		this.stop();
 	}
-	readonly #fncTicker = ()=> this.#fncNext();	// thisの扱いによりメソッド代入はダメ
+
+
+	destroy() {
+		if (this.#destroyed) return;	// destroy()連打対策
+		this.#destroyed = true;
+		this.#aDest.forEach(f=> f());
+		this.#aDest = [];
+	}
+	#destroyed = false;
+	readonly isDestroyed = ()=> this.#destroyed;
+
 
 	errScript(mes: string, isThrow = true) {
 		this.stop();
@@ -120,22 +137,9 @@ export class Main implements IMain {
 		if (isThrow) throw mes;
 	}
 
+	fire(KEY: string, e: Event) {this.#evtMng.fire(KEY, e)}
 
-	// メイン処理（シナリオ解析）
-	#fncresume = (fnc = this.#runAnalyze)=> {
-		// スクリプトが動き出すとき、ブレイクマークは消去する
-		if (this.#destroyed) return;	// destroy()連打対策
-		this.#layMng.clearBreak();
 
-		///console.log('resume!');
-		this.#fncNext = fnc;
-		this.resume = (fnc = this.#runAnalyze)=> {
-			///console.log('resume!');
-			this.#fncNext = fnc;
-		};
-		this.#scrItr.noticeBreak(false);
-	};
-	resume = this.#fncresume;
 	resumeByJumpOrCall(hArg: HArg) {
 		if (hArg.url) {
 			this.#hTag.navigate_to(hArg);
@@ -145,19 +149,29 @@ export class Main implements IMain {
 
 		this.#val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
 		this.#val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
+//console.log(`%cfn:Main.ts line:159 - resumeByJumpOrCall:%o`, 'color:#3B0;', hArg);
 		if (argChk_Boolean(hArg, 'call', false)) {
 			this.#scrItr.subIdxToken();	// 「コール元の次」に進めず、「コール元」に戻す
-			this.resume(()=> this.#hTag.call(hArg));
+			this.#hTag.call(hArg);
 		}
 		else {
 			this.#hTag.clear_event({});
-			this.resume(()=> this.#hTag.jump(hArg));
+			this.#hTag.jump(hArg);
 		}
+		this.resume();
+	}
+
+	resume() {
+//console.log(`-- resume!`);
+		if (this.#destroyed) return;	// destroy()連打対策
+
+		this.#layMng.clearBreak();	// スクリプトが動くとき、ブレイクマーク消去
+		this.#scrItr.noticeBreak(false);
+
+		requestAnimationFrame(()=> this.#main());
 	}
 	readonly stop = ()=> {
-		///console.log('stop!');
-		this.#fncNext = ()=> {};
-		this.resume = this.#fncresume;
+//console.log(`-- stop!`);
 		this.#scrItr.noticeBreak(true);
 	};
 
@@ -167,10 +181,13 @@ export class Main implements IMain {
 		this.sys.setTitleInfo(mes ?` -- ${mes}中` :'');
 	}
 	#isLoop = true;
-	#runAnalyze() {
+
+	//MARK: メイン処理（シナリオ解析）
+	#main() {
 		while (this.#isLoop) {
 			let token = this.#scrItr.nextToken();
-			if (! token) break;	// 初期化前に終了した場合向け
+//console.log(`fn:Main.ts main (fn:${this.#scrItr.scriptFn} ln:${this.#scrItr.lineNum}) token=${token}=`);
+			if (! token) return;	// 初期化前に終了した場合向け
 
 			const uc = token.charCodeAt(0);	// TokenTopUnicode
 			// \t タブ
@@ -179,11 +196,12 @@ export class Main implements IMain {
 			if (uc === 10) {this.#scrItr.addLineNum(token.length); continue}
 			// [ タグ開始
 			if (uc === 91) {
+//console.log(`(fn:${this.#scrItr.scriptFn} ln:${this.#scrItr.lineNum}) %c${token.slice(0, 64)}`, 'background-color:#30B;');
 				if (this.#scrItr.isBreak(token)) return;
 				try {
 					const cl = (token.match(/\n/g) ?? []).length;
 					if (cl > 0) this.#scrItr.addLineNum(cl);
-					if (this.#scrItr.タグ解析(token)) {this.stop(); break}
+					if (this.#scrItr.タグ解析(token)) {this.stop(); return}
 					continue;
 				}
 				catch (e) {
@@ -195,7 +213,7 @@ export class Main implements IMain {
 			// & 変数操作・変数表示
 			if (uc === 38) {
 				try {
-					if (token.at(-1) !== '&') {//変数操作
+					if (! token.endsWith('&')) {	//変数操作
 						// 変数計算
 						if (this.#scrItr.isBreak(token)) return;
 						const o = splitAmpersand(token.slice(1));
@@ -239,46 +257,6 @@ export class Main implements IMain {
 				return;
 			}
 		}
-
-//		if (CmnLib.debugLog) console.log('🍵 waiting...');
 	}
-
-	fire(KEY: string, e: Event) {this.#evtMng.fire(KEY, e)}
-
-
-	async destroy(ms_late = 0) {
-		if (this.#destroyed) return;
-		this.#destroyed = true;
-
-		if (! this.#inited) return;
-
-		this.stop();
-		this.#isLoop = false;
-
-		this.#layMng.before_destroy();
-		if (ms_late > 0) await new Promise(re=> setTimeout(re, ms_late));
-			// clearTimeout()不要と判断
-
-		this.#hTag = {};
-		this.#evtMng.destroy();
-		this.#scrItr.destroy();
-		this.#layMng.destroy();
-		this.#dbgMng.destroy();
-		this.#sndMng.destroy();
-		this.#appPixi.ticker.remove(this.#fncTicker);
-
-		if (this.#clone_cvs && this.#appPixi) {
-		//x	document.body.insertBefore(this.#clone_cvs, this.#cvs);
-				// DOMException: Failed to execute ‘insertBefore’ on ‘Node’:
-				// The node before which the new node is to be inserted is not a child of this node.
-			Main.cvs.parentNode!.appendChild(this.#clone_cvs);
-		}
-		utils.clearTextureCache();
-		this.sys.destroy();
-		this.#appPixi.destroy(true);
-	}
-	#destroyed = false;
-	readonly isDestroyed = ()=> this.#destroyed;
-	#clone_cvs	: HTMLCanvasElement;
 
 }

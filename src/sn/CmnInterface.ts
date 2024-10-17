@@ -93,7 +93,7 @@ export interface IMain {
 	setLoop(v: boolean, mes?: string): void;
 	fire(KEY: string, e: Event): void;
 	isDestroyed(): boolean;
-	destroy(ms_late?: number): void;
+	destroy(): void;
 }
 
 

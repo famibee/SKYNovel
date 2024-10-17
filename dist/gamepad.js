@@ -1,4 +1,4 @@
-import { c as K } from "./app2.js";
+import { h as K } from "./web2.js";
 function Q(F, $) {
   for (var G = 0; G < $.length; G++) {
     const B = $[G];

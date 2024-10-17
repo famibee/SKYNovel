@@ -148,6 +148,11 @@ export class ReadState {
 		fnc_disableEvent= ()=> new Rs_BanEvent;
 		chgSt(this);
 	}
+	destroy() {
+		this.onFinish	= ()=> {};
+		this.onUserAct	= ()=> {};
+		this.#wle.destroy();
+	}
 
 	get	isSkipping(): boolean {return skip_enabled}
 
@@ -227,7 +232,7 @@ export class ReadState {
 			})
 			.start();
 			this.waitLimitedEvent(hArg, ()=> {	// 2)時間待ち
-//console.log(`fn:ReadState.ts 2) CANCEL`);
+//console.log(`%cfn:ReadState.ts 2) CANCEL`, 'color:#B30;');
 				tw.stop();
 				remove(tw);	//x	tw.end();
 				this.onUserAct();
@@ -425,7 +430,10 @@ export class ReadState {
 
 // === イベント予約受付中 ===
 class RsEvtRsv extends ReadState {
-	constructor() {super({}); main.resume(); elmHint.hidden = true}
+	constructor() {super({});
+//console.log(`%cfn:ReadState.ts line:429 = RsEvtRsv = to resume`, 'color:#3B0;');
+	main.resume(); elmHint.hidden = true}
+//	constructor() {super({}); main.resume(); elmHint.hidden = true}
 	override	breakEvent() {}
 }
 
@@ -466,14 +474,27 @@ class Rs_S_fire extends ReadState {
 	}
 }
 class Rs_S extends Rs_S_fire {
-	static	readonly	go: ITag = hArg=> new Rs_S(hArg).waitTxtAndTimer(0, {});
-	override	breakEvent() {}
-	protected	override	onFinish() {
-		cancelAutoSkip();
-		const glb = argChk_Boolean(this.hArg, 'global', true);
-		this.waitRsvEvent(false, glb);
+	static	readonly	go: ITag = hArg=> {
+		new Rs_S(hArg).waitTxtAndTimer(0, {});
+		fnc_enableEvent = ()=> {};	// constructor 後に
+		return true;
 	}
+	override	breakEvent() {}
+	protected	override	onFinish() {Rs_S_Wait.go(this.hArg)}
 	protected	override	onUserAct() {this.onFinish()}
+}
+
+class Rs_S_Wait extends Rs_S_fire {
+	static	readonly	go: ITag = hArg=> {
+		cancelAutoSkip();
+		const glb = argChk_Boolean(hArg, 'global', true);
+		new Rs_S_Wait(hArg).waitRsvEvent(false, glb);
+		fnc_enableEvent = ()=> {};	// constructor 後に
+		return true;
+	}
+	override	breakEvent() {}
+	protected	override	onFinish() {}
+	protected	override	onUserAct() {}
 }
 
 
@@ -689,6 +710,7 @@ class Rs_BanEvPage extends ReadState {	// fireがない → イベント受付�
 		super({});
 		fnc_enableEvent = ()=> {	// RsEvtRsv ぽい
 			new RsPagination({});
+//console.log(`%cfn:ReadState.ts line:695 =Rs_BanEvPage= to resume`, 'color:#3B0;');
 			main.resume();
 			elmHint.hidden = true;
 		};

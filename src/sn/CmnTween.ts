@@ -104,11 +104,11 @@ export class CmnTween {
 			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
 			const v = String((hArg as any)[nm]);
-			const a = ((v.at(0) === '=') ?v.slice(1) :v).split(',');
+			const a = (v.startsWith('=') ?v.slice(1) :v).split(',');
 			const a0 = hTo[nm] = parseFloat(a[0]);
 			if (a.length > 1) hTo[nm] += Math.round(Math.random()
 				* (parseFloat(a[1]) -a0 +1));
-			if (v.at(0) === '=') hTo[nm] += parseFloat(lay[nm]);	// 相対に
+			if (v.startsWith('=')) hTo[nm] += parseFloat(lay[nm]);	// 相対に
 		}
 		return hTo;
 	}

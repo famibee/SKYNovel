@@ -22,10 +22,6 @@ import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {ReadState} from './ReadState';
 
 import {Container, Application, utils} from 'pixi.js';
-/*
-	- Xユーザーのまさとらんさん: 「ブラウザからあらゆる ゲームコントローラーを操作 できるようにしてくれるJavaScriptライブラリ 【joypad.js】 https://t.co/CTF7sxU5kW https://t.co/t4IqMsD2qo」 / Twitter https://x.com/0310lan/status/1713886757874237521
-	- ArunMichaelDsouza/joypad.js: JavaScript library that lets you connect and use various gaming controllers with browsers that support the Gamepad API. Less than 5KB in size with zero dependencies and support for button press, axis movement events and vibration play effect. https://github.com/ArunMichaelDsouza/joypad.js
-*/
 import {createPopper, Instance as InsPop} from '@popperjs/core';
 
 export class EventMng implements IEvtMng {
@@ -180,7 +176,7 @@ export class EventMng implements IEvtMng {
 				fnc();
 			});
 		}
-		ReadState.init((rs: ReadState)=> this.#rs = rs, main, val, layMng, scrItr, sndMng, hTag, this.#fcs, procWheel4wle, this.#elmHint, cfg);
+		ReadState.init(rs=> {this.#rs?.destroy(); this.#rs = rs}, main, val, layMng, scrItr, sndMng, hTag, this.#fcs, procWheel4wle, this.#elmHint, cfg);
 
 
 		import('gamepad.js').then(({GamepadListener})=> {
@@ -295,6 +291,7 @@ export class EventMng implements IEvtMng {
 	}
 
 	destroy() {
+		this.#rs.destroy();
 		this.#fcs.destroy();
 		this.#elc.clear();
 	}

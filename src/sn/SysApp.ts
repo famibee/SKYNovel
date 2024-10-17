@@ -133,7 +133,7 @@ export class SysApp extends SysNode {
 	protected override async run() {
 		if (this.#main) {
 			const ms_late = 10;	// NOTE: リソース解放待ち用・魔法数字
-			await this.#main.destroy(ms_late);
+			this.#main.destroy();
 			await new Promise(rs=> setTimeout(rs, ms_late));
 				// clearTimeout()不要と判断
 		}
@@ -261,7 +261,7 @@ export class SysApp extends SysNode {
 	protected override readonly	update_check: ITag = hArg=> {
 		const {url} = hArg;
 		if (! url) throw '[update_check] urlは必須です';
-		if (url.at(-1) !== '/') throw '[update_check] urlの最後は/です';
+		if (! url.endsWith('/')) throw '[update_check] urlの最後は/です';
 		if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] url=${url}`, 'D');
 
 		(async ()=> {

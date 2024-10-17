@@ -217,7 +217,7 @@ export function	splitAmpersand(token: string): {
 		// != を弾けないので中途半端ではある
 	const cnt_equa = equa.length;
 	if (cnt_equa < 2 || cnt_equa > 3) throw '「&計算」書式では「=」指定が一つか二つ必要です';
-	if (equa[1].at(0) === '&') throw '「&計算」書式では「&」指定が不要です';
+	if (equa[1].startsWith('&')) throw '「&計算」書式では「&」指定が不要です';
 	return {
 		name: equa[0].replaceAll('＝', '==').replaceAll('≠', '!='),
 		text: equa[1].replaceAll('＝', '==').replaceAll('≠', '!='),
@@ -375,7 +375,7 @@ export class Grammar {
 				const macro = this.#hC2M[ch.at(0) ?? ' '];
 					// 省略時は #REG_CANTC2M に引っかかる ' ' に
 				if (macro) {
-					ch = macro +((macro.at(-1) === ']')
+					ch = macro +(macro.endsWith(']')
 						? ''
 						: (`'${ch.slice(1, -1)}']`));
 					// 文字列は半角空白を意識して''で囲むが、いずれ変えたい場合がある？

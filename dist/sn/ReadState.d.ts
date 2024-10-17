@@ -15,6 +15,7 @@ export declare class ReadState {
     protected readonly hArg: HArg;
     static init($chgSt: (rs: ReadState) => void, $main: IMain, $val: IVariable, $layMng: LayerMng, $scrItr: ScriptIterator, $sndMng: SoundMng, $hTag: IHTag, $fcs: FocusMng, $procWheel4wle: (elc: EventListenerCtn, onIntr: () => void) => void, $elmHint: HTMLElement, $cfg: Config): void;
     protected constructor(hArg: HArg);
+    destroy(): void;
     get isSkipping(): boolean;
     static getHtmlElmList(KeY: string): {
         el: NodeListOf<HTMLElement>;

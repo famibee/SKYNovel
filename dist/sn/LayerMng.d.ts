@@ -7,7 +7,6 @@ import { Config } from './Config';
 import { ScriptIterator } from './ScriptIterator';
 import { SysBase } from './SysBase';
 import { SoundMng } from './SoundMng';
-import { AnalyzeTagArg } from './AnalyzeTagArg';
 import { DesignCast } from './DesignCast';
 import { Application } from 'pixi.js';
 export interface IMakeDesignCast {
@@ -26,14 +25,12 @@ export declare class LayerMng implements IGetFrm, IRecorder {
     readonly scrItr: ScriptIterator;
     readonly sys: SysBase;
     readonly sndMng: SoundMng;
-    readonly alzTagArg: AnalyzeTagArg;
     readonly prpPrs: IPropParser;
-    constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng, alzTagArg: AnalyzeTagArg, prpPrs: IPropParser);
+    constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng, prpPrs: IPropParser);
     private cvsResizeDesign;
     getFrmDisabled: (id: string) => boolean;
     cover(visible: boolean, bg_color?: number): void;
     setEvtMng(evtMng: IEvtMng): void;
-    before_destroy(): void;
     destroy(): void;
     goTxt: () => void;
     breakLine: (_hArg: HArg) => void;

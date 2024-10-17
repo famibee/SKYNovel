@@ -117,7 +117,7 @@ export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
 
 
 export function parseColor(v: string): number {
-	if (v.at(0) === '#') return parseInt(v.slice(1), 16);
+	if (v.startsWith('#')) return parseInt(v.slice(1), 16);
 	const n = Number(v);
 	if (! isNaN(n)) return n;	// 0, 0xffffff
 

@@ -161,7 +161,7 @@ export class ConfigBase implements IConfig {
 		if (! this.sys.crypto) {
 			for (const [fn0, hExts] of Object.entries(this.hPathFn2Exts)) {
 				for (const ext of Object.keys(hExts)) {
-					if (ext.charAt(0) === ':') continue;
+					if (ext.startsWith(':')) continue;
 					hFn2Ext[fn0] = ext;
 				}
 			}
@@ -169,7 +169,7 @@ export class ConfigBase implements IConfig {
 		else
 		for (const [fn0, hExts] of Object.entries(this.hPathFn2Exts)) {
 			for (const [ext, v] of Object.entries(hExts)) {
-				if (ext.charAt(0) !== ':') {
+				if (! ext.startsWith(':')) {
 					hFn2Ext[fn0] = ext;
 					continue;
 				}
@@ -274,7 +274,7 @@ export class ConfigBase implements IConfig {
 	addPath(fn: string, h_exts: IExts) {
 		const o: any = {};
 		for (const [ext, v] of Object.entries(h_exts)) {
-			o[ext] = (ext.at(0) === ':' ?`` :this.sys.cur) + v;
+			o[ext] = (ext.startsWith(':') ?`` :this.sys.cur) + v;
 		}
 		this.hPathFn2Exts[fn] = o;
 	}

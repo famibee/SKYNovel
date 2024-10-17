@@ -3,7 +3,7 @@ import { IPropParser } from './CmnInterface';
 import { SysBase } from './SysBase';
 import { ScriptIterator } from './ScriptIterator';
 import { HPage } from './LayerMng';
-import { AnalyzeTagArg, HPRM } from './AnalyzeTagArg';
+import { HPRM } from './AnalyzeTagArg';
 import { TxtStage } from './TxtStage';
 import { Button } from './Button';
 import { GrpLayer } from './GrpLayer';
@@ -12,7 +12,7 @@ import { Application, Text, Sprite } from 'pixi.js';
 export declare class DesignCast {
     readonly bg_col: string;
     readonly isLay: boolean;
-    static init(_appPixi: Application, _sys: SysBase, _scrItr: ScriptIterator, _prpPrs: IPropParser, _alzTagArg: AnalyzeTagArg, _cfg: Config, _hPages: HPage): void;
+    static init(_appPixi: Application, _sys: SysBase, _scrItr: ScriptIterator, _prpPrs: IPropParser, _cfg: Config, _hPages: HPage): void;
     static cvsResizeDesign(): void;
     constructor(bg_col: string, isLay?: boolean);
     destroy(): void;

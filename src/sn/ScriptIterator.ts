@@ -59,11 +59,12 @@ export class ScriptIterator {
 
 	#aCallStk	: CallStack[]	= [];	// FILOバッファ（push/pop）
 
-	readonly	#grm	= new Grammar;
+	readonly	#grm		= new Grammar;
+	readonly	#alzTagArg	= new AnalyzeTagArg;
 
 
 	//MARK: コンストラクタ
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly main: IMain, private readonly val: IVariable, private readonly alzTagArg: AnalyzeTagArg, private readonly runAnalyze: ()=> void, private readonly prpPrs: IPropParser, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly main: IMain, private readonly val: IVariable, private readonly prpPrs: IPropParser, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
 		// 変数操作
 		hTag.let_ml		= o=> this.#let_ml(o);	// インラインテキスト代入
 		hTag.endlet_ml	= ()=> false;			// インラインテキスト代入終端
@@ -159,7 +160,7 @@ export class ScriptIterator {
 			}
 		}
 		else this.recodeDesign = ()=> {};
-		if (cfg.oCfg.debug.tag) this.#procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.#scriptFn} idx:${this.#idxToken} ln:${this.#lineNum} [${tag_name} %o]`, this.alzTagArg.hPrm);
+		if (cfg.oCfg.debug.tag) this.#procDebugtag = tag_name=> console.log(`🌲 タグ解析 fn:${this.#scriptFn} idx:${this.#idxToken} ln:${this.#lineNum} [${tag_name} %o]`, this.#alzTagArg.hPrm);
 	}
 	noticeWait = ()=> {};
 	#regBreakPoint(fn: string, o: {[ln: number]: any}) {
@@ -387,13 +388,13 @@ export class ScriptIterator {
 		const tag_fnc = this.hTag[tag_name];
 		if (! tag_fnc) throw `未定義のタグ【${tag_name}】です`;
 
-		this.alzTagArg.parse(args);
+		this.#alzTagArg.parse(args);
 		this.#procDebugtag(tag_name);
 
-		const hPrm = this.alzTagArg.hPrm;
+		const hPrm = this.#alzTagArg.hPrm;
 		if (hPrm.cond) {
 			const cond = hPrm.cond.val;
-			if (! cond || cond.at(0) === '&') throw '属性condは「&」が不要です';
+			if (! cond || cond.startsWith('&')) throw '属性condは「&」が不要です';
 			const p = this.prpPrs.parse(cond);
 			const ps = String(p);
 			if (ps === 'null' || ps === 'undefined') return false;
@@ -403,7 +404,7 @@ export class ScriptIterator {
 		let hArg: any = {};
 		const len = this.#aCallStk.length;
 		const csa: any = len === 0 ?{} :this.#aCallStk[len -1].csArg;
-		if (this.alzTagArg.isKomeParam) {
+		if (this.#alzTagArg.isKomeParam) {
 			if (len === 0) throw '属性「*」はマクロのみ有効です';
 			hArg = {...csa};
 		}
@@ -437,7 +438,7 @@ export class ScriptIterator {
 		// 省略時以外で undefined はない。a=undefined と書いても 'undefined' になる
 		for (const [arg_nm, {val, def}] of Object.entries(hPrm)) {
 			let v = val;
-			if (v?.at(0) === '%') {
+			if (v?.startsWith('%')) {
 				if (len === 0) throw '属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）';
 				const mac = csa[v.slice(1)];
 				if (mac) {hArg[arg_nm] = mac; continue}
@@ -528,7 +529,7 @@ export class ScriptIterator {
 		let i = idx -1;
 		const lN = ret.ln = st.aLNum[i];
 		while (st.aLNum[i] === lN) {
-			if (st.aToken[i].at(0) !== '\n') {
+			if (! st.aToken[i].startsWith('\n')) {
 				const len = st.aToken[i].length;
 //console.log(`fn:ScriptIterator.ts line:586 cnvIdx2lineCol tkn:${st.aToken[i]} len:${len} s:${ret.col_s} e:${ret.col_e}`);
 				if (ret.col_e > 0) ret.col_s += len;
@@ -630,7 +631,7 @@ export class ScriptIterator {
 		//console.log('if idxToken:'+ this.#idxToken);
 		const {exp} = hArg;
 		if (! exp) throw 'expは必須です';
-		if (exp.at(0) === '&') throw '属性expは「&」が不要です';
+		if (exp.startsWith('&')) throw '属性expは「&」が不要です';
 
 		let cntDepth = 0;		// if深度カウンター
 		let	idxGo = this.prpPrs.parse(exp) ?this.#idxToken :-1;
@@ -650,7 +651,7 @@ export class ScriptIterator {
 
 			const [tag_name, args] = tagToken2Name_Args(tkn);
 			if (! (tag_name in this.hTag)) throw `未定義のタグ[${tag_name}]です`;
-			this.alzTagArg.parse(args);
+			this.#alzTagArg.parse(args);
 
 			switch (tag_name) {
 			case 'if':	++cntDepth; break;
@@ -659,8 +660,8 @@ export class ScriptIterator {
 				if (cntDepth > 0) break;
 				if (idxGo > -1) break;
 
-				const e = this.alzTagArg.hPrm.exp.val;
-				if (e.at(0) === '&') throw '属性expは「&」が不要です';
+				const e = this.#alzTagArg.hPrm.exp.val;
+				if (e.startsWith('&')) throw '属性expは「&」が不要です';
 				if (this.prpPrs.parse(e)) idxGo = this.#idxToken +1;
 				break;
 
@@ -699,9 +700,7 @@ export class ScriptIterator {
 			// ':hEvt1Time'の扱いだけは[macro]と異なる
 
 		if (argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
-		this.#jumpWork(fn, hArg.label);
-
-		return true;
+		return this.#jumpWork(fn, hArg.label);
 	}
 	#callSub(h: any) {
 		const csa: ICallStackArg = {...h, ':hMp': this.val.cloneMp(), ':lenIfStk': this.#aIfStk.length};
@@ -716,9 +715,7 @@ export class ScriptIterator {
 		if (! argChk_Boolean(hArg, 'count', true)) this.#eraseKidoku();
 
 		this.#aIfStk[0] = -1;
-		this.#jumpWork(hArg.fn, hArg.label);
-
-		return true;
+		return this.#jumpWork(hArg.fn, hArg.label);
 	}
 
 	//MARK: コールスタック破棄
@@ -751,11 +748,10 @@ export class ScriptIterator {
 		if (csa[':hEvt1Time']) this.#evtMng.pushLocalEvts(csa[':hEvt1Time']);
 
 		const {fn, label} = hArg;
-		if (fn || label) {this.#jumpWork(fn, label); return true}
+		if (fn || label) return this.#jumpWork(fn, label);
 
 		if (cs.fn in this.#hScript) {this.#jump_light(cs); return false}
-		this.#jumpWork(cs.fn, '', cs.idx);	// 確実にスクリプトロードなので
-		return true;
+		return this.#jumpWork(cs.fn, '', cs.idx);	// 確実にスクリプトロードなので
 	}
 
 	#resvToken	= '';
@@ -766,7 +762,8 @@ export class ScriptIterator {
 
 
 	#skipLabel = '';
-	#jumpWork(fn = '', label = '', idx = 0) {
+	#jumpWork(fn = '', label = '', idx = 0): boolean {
+//console.log(`fn:ScriptIterator.ts %cjumpWork fn:${fn} label:${label} idx:${idx}`, 'background-color:#734e95;');
 		if (! fn && ! label) this.main.errScript('[jump系] fnまたはlabelは必須です');
 		if (label) {
 			if (! label.startsWith('*')) this.main.errScript('[jump系] labelは*で始まります');
@@ -778,16 +775,16 @@ export class ScriptIterator {
 			this.#idxToken = idx;
 		}
 
-		disableEvent();
-		if (! fn) {this.analyzeInit(); return}
+		if (! fn) {this.analyzeInit(); return false}
 		if (fn.includes('@')) throw `[jump系] fn には文字「@」は禁止です`;
 
 		const full_path = this.#cnvSnPath(fn);
-		if (fn === this.#scriptFn) {this.analyzeInit(); return}
+		if (fn === this.#scriptFn) {this.analyzeInit(); return false}
 		this.#scriptFn = fn;
 		const st = this.#hScript[fn];
-		if (st) {this.#script = st; this.analyzeInit(); return}
+		if (st) {this.#script = st; this.analyzeInit(); return false}
 
+		disableEvent();
 		const ldr = new Loader;
 		let fp_diff = '';
 		try {
@@ -828,17 +825,17 @@ export class ScriptIterator {
 
 			this.#resolveScript(hRes[fn].data);
 			this.hTag.record_place({});
-			this.main.resume(()=> this.analyzeInit());
-				// 直接呼んでもいいが、内部コールスタック積んだままになるのがなんかイヤで
+			this.analyzeInit();
+			enableEvent();
 		});
-		this.main.stop();
+
+		return true;
 	}
 	private	analyzeInit(): void {
+//console.log(`%cfn:ScriptIterator.ts line:841 analyzeInit()`, 'color:#3B0;');
 		const o = this.#seekScript(this.#script, Boolean(this.val.getVal('mp:const.sn.macro.name')), this.#lineNum, this.#skipLabel, this.#idxToken);
 		this.#idxToken	= o.idx;
 		this.#lineNum	= o.ln;
-		enableEvent();
-		this.runAnalyze();
 	}
 
 	// シナリオ解析処理ループ・冒頭処理
@@ -880,7 +877,7 @@ export class ScriptIterator {
 					st.aLNum[j] ||= ln;	// ??はNaN不可
 
 					const tkn = st.aToken[j];
-					if (tkn.charCodeAt(0) === 10) ln += tkn.length;	// \n 改行
+					if (tkn.startsWith('\n')) ln += tkn.length;	// \n 改行
 					else ln += (tkn.match(/\n/g) ?? []).length;
 				}
 				st.aLNum[idx] = ln;
@@ -980,6 +977,7 @@ export class ScriptIterator {
 		const st = this.#hScript[this.#scriptFn];
 		if (st) this.#script = st;
 		this.#lineNum = this.#script.aLNum[cs.idx];
+//console.log(`fn:ScriptIterator.ts %cjump_light cs.fn:${cs.fn} cs.idx:${cs.idx} ln:${this.#lineNum}`, 'background-color:#a03b79;');
 	}
 
 
@@ -991,12 +989,12 @@ export class ScriptIterator {
 			if (! this.#REG_WILDCARD.test(token)) continue;
 
 			const [tag_name, args] = tagToken2Name_Args(token);
-			this.alzTagArg.parse(args);
+			this.#alzTagArg.parse(args);
 
-			const p_fn = this.alzTagArg.hPrm.fn;
+			const p_fn = this.#alzTagArg.hPrm.fn;
 			if (! p_fn) continue;
 			const {val: fn} = p_fn;
-			if (! fn || fn.at(-1) !== '*') continue;
+			if (! fn || ! fn.endsWith('*')) continue;
 
 			scr.aToken.splice(i, 1, '\t', '; '+ token);
 			scr.aLNum.splice(i, 1, NaN, NaN);

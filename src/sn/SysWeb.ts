@@ -70,7 +70,7 @@ export class SysWeb extends SysBase {
 	protected	override run = async ()=> {
 		if (this.#main) {
 			const ms_late = 10;	// NOTE: ギャラリーでのえもふり/Live 2D用・魔法数字
-			await this.#main.destroy(ms_late);
+			this.#main.destroy();
 			await new Promise(rs=> setTimeout(rs, ms_late));
 				// clearTimeout()不要と判断
 		}
