@@ -1,3 +1,10 @@
+## [1.60.7](https://github.com/famibee/SKYNovel/compare/v1.60.6...v1.60.7) (2024-10-17)
+
+
+### Bug Fixes
+
+* イベント系修正、[s]からクリックや読み飛ばしで次に進んでしまうケースがあった件 ([c9064d4](https://github.com/famibee/SKYNovel/commit/c9064d41c6cd8d46d7e4aac9ab551b5c0d9b1572))
+
 - fix: イベント系修正、[s]からクリックや読み飛ばしで次に進んでしまうケースがあった件
 - fix(Main.ts): メインループをリファクタリング
 - fix: startsWith、endsWith を積極使用
