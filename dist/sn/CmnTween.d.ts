@@ -23,11 +23,8 @@ export declare class CmnTween {
     static cnvTweenArg(hArg: HArg, lay: any): {};
     static stopAllTw(): void;
     static tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: () => void, onComplete: () => void, onEnd: () => void): void;
-    static tweenA(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: () => void, onComplete: () => void, onEnd: () => void): Tween<any>;
-    static tweenB(chain: string | undefined, tw: Tween<any>): void;
     static wt(hArg: HArg): boolean;
     static readonly TW_INT_TRANS = "trans\n";
-    static get isTrans(): boolean;
     static finish_trans(): boolean;
     static wait_tsy(hArg: HArg): boolean;
     static stop_tsy(hArg: HArg): boolean;

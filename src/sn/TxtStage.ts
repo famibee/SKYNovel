@@ -77,7 +77,7 @@ export class TxtStage extends Container {
 
 	#hyph	= new Hyphenation;
 	noticeCompTxt	= ()=> {};
-	constructor(private readonly spLay: Sprite, private readonly canFocus: ()=> boolean, private readonly sys: SysBase) {
+	constructor(private readonly ctn: Sprite, private readonly canFocus: ()=> boolean, private readonly sys: SysBase) {
 		super();
 
 		this.#htmTxt.classList.add('sn_tx');
@@ -89,7 +89,7 @@ export class TxtStage extends Container {
 		this.addChild(this.#grpDbgMasume);
 		this.#grpDbgMasume.name = 'grpDbgMasume';
 
-//		this.#idc = new TxtLayDesignCast(this.spLay, this);
+//		this.#idc = new TxtLayDesignCast(ctn, this);
 //		this.#idc.adopt(this.#idcCh);
 
 		this.noticeCompTxt = sys.isApp && TxtStage.#cfg.oCfg.debug.dumpHtm
@@ -100,7 +100,7 @@ export class TxtStage extends Container {
 			if (htm === '') return;
 			const {fn, ln} = TxtStage.#scrItr.nowScrFnLn();
 			const id = `dumpHtm ${
-				this.spLay.name.slice(0, -7)	// 末尾「 page=B」削り
+				ctn.name.slice(0, -7)	// 末尾「 page=B」削り
 				.replaceAll(':', '=')			// ファイル名で困る文字
 			}(fn=${fn} line=${ln})`;
 			sys.outputFile(
@@ -145,11 +145,11 @@ export class TxtStage extends Container {
 					}
 					s[key] = cln.style[key];
 				}
-				if (! cln.style.opacity && 'alpha' in hArg) s.opacity = String(this.spLay.alpha);
+				if (! cln.style.opacity && 'alpha' in hArg) s.opacity = String(this.ctn.alpha);
 			}
 			else this.#htmTxt.style.cssText = '';
 		}
-		else if ('alpha' in hArg) s.opacity = String(this.spLay.alpha);
+		else if ('alpha' in hArg) s.opacity = String(this.ctn.alpha);
 
 		if ('width' in hArg) s.width = (hArg.width ?? '0') +'px';
 		if ('height' in hArg) s.height = (hArg.height ?? '0') +'px';
@@ -162,13 +162,13 @@ export class TxtStage extends Container {
 //		this.#idc.sethArg(hArg);
 
 		// CSS・インラインレイアウトで右や上にはみ出る分の余裕
-		this.#left = this.spLay.position.x;
+		this.#left = this.ctn.position.x;
 			//-(CmnLib.isSafari && !CmnLib.isMobile && this.#isTategaki
 			//	? this.#infTL.pad_left +this.#infTL.pad_right
 			//	: 0);	// 無効化 2022/02/09
-		s.transformOrigin = `${this.spLay.pivot.x}px ${this.spLay.pivot.y}px`;
+		s.transformOrigin = `${this.ctn.pivot.x}px ${this.ctn.pivot.y}px`;
 		this.cvsResize();
-		s.display = this.spLay.visible ?'inline' :'none';
+		s.display = this.ctn.visible ?'inline' :'none';
 
 		// パディングキャスト変更時・クリック待ち表示を追従させる（高速再描写）
 		if (':redraw' in hArg && this.#lenHtmTxt > 0) {
@@ -211,8 +211,8 @@ export class TxtStage extends Container {
 		const s = this.#htmTxt.style;
 		const cvsScale = this.sys.cvsScale;
 		s.left = `${this.sys.ofsLeft4elm +this.#left *cvsScale}px`;
-		s.top = `${this.sys.ofsTop4elm +this.spLay.position.y *cvsScale}px`;
-		s.transform = `rotate(${this.spLay.angle}deg) scale(${this.spLay.scale.x *cvsScale}, ${this.spLay.scale.y *cvsScale})`;
+		s.top = `${this.sys.ofsTop4elm +this.ctn.position.y *cvsScale}px`;
+		s.transform = `rotate(${this.ctn.angle}deg) scale(${this.ctn.scale.x *cvsScale}, ${this.ctn.scale.y *cvsScale})`;
 
 //		this.#idc.cvsResize();
 //		this.#idcCh.cvsResize();
@@ -227,7 +227,7 @@ export class TxtStage extends Container {
 	get	getWidth() {return this.#infTL.$width}
 	get	getHeight() {return this.#infTL.$height}
 
-	setSize(width: number, height: number) {
+	setMySize(width: number, height: number) {
 		this.#infTL.$width = width;
 		this.#infTL.$height = height;
 		this.#htmTxt.style.width = this.#infTL.$width +'px';
@@ -990,7 +990,7 @@ export class TxtStage extends Container {
 	reNew(): TxtStage {
 		this.#clearText();
 
-		const to = new TxtStage(this.spLay, ()=> this.canFocus(), this.sys);
+		const to = new TxtStage(this.ctn, ()=> this.canFocus(), this.sys);
 		to.#infTL = this.#infTL;
 		to.#htmTxt.style.cssText = this.#htmTxt.style.cssText;
 		to.#left = this.#left;

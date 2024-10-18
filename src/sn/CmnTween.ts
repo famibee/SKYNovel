@@ -118,10 +118,6 @@ export class CmnTween {
 	static	stopAllTw() {CmnTween.#hTwInf = {}; removeAll()}
 
 	static	tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void): void {
-		const tw = CmnTween.tweenA(tw_nm, hArg, hNow, hTo, onUpdate, onComplete, onEnd);
-		CmnTween.tweenB(hArg.chain, tw);
-	}
-	static	tweenA(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void): Tween<any> {
 		const time = this.#evtMng.isSkipping ?0 :argChk_Num(hArg, 'time', NaN);
 		const tw = new Tween(hNow)
 		.to(hTo, time)
@@ -173,9 +169,7 @@ export class CmnTween {
 			onComplete();
 		});
 
-		return tw;
-	}
-	static	tweenB(chain: string | undefined, tw: Tween<any>) {
+		const {chain} = hArg;
 		if (chain) {	// 指定レイヤのアニメ終了に、このトゥイーンを続ける
 			const twFrom = CmnTween.#hTwInf[chain];
 			if (! twFrom?.tw) throw `${chain}は存在しない・または終了したトゥイーンです`;
@@ -211,7 +205,6 @@ export class CmnTween {
 		return CmnTween.#evtMng.waitEvent('tsy nm:'+ CmnTween.TW_INT_TRANS, hArg, ()=> CmnTween.finish_trans());
 	}
 	static	readonly	TW_INT_TRANS = 'trans\n';	// 改行でスクリプトから絶対指定できない値に
-	static	get	isTrans(): boolean {return CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw !== undefined}
 
 	// レイヤのトランジションの停止
 	static	finish_trans(): boolean {CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw?.stop().end(); return false}	// stop()とend()は別

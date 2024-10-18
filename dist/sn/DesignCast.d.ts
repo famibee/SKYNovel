@@ -30,11 +30,11 @@ export declare class DesignCast {
     static replaceToken(_o: any): void;
 }
 export declare class GrpLayDesignCast extends DesignCast {
-    constructor(_spLay: Sprite, _gl: GrpLayer);
+    constructor(_ctn: Sprite, _gl: GrpLayer);
     setSp(_sp: Sprite): void;
 }
 export declare class TxtLayDesignCast extends DesignCast {
-    constructor(_spLay: Sprite, _ts: TxtStage);
+    constructor(_ctn: Sprite, _ts: TxtStage);
 }
 export declare class TxtLayPadDesignCast extends DesignCast {
     constructor(_ts: TxtStage);

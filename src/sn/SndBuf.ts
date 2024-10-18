@@ -254,7 +254,7 @@ export class SndBuf {
 	#playseSub(fn: string, o: Options) {
 		const src = cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SOUND);
 	//	const src = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
-		if (src.slice(-4) !== '.bin') {
+		if (! src.endsWith('.bin')) {
 			o.url = src;
 			Sound.from(o);
 			return;

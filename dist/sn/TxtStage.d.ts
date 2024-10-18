@@ -16,21 +16,21 @@ interface IInfTxLay {
 }
 export declare class TxtStage extends Container {
     #private;
-    private readonly spLay;
+    private readonly ctn;
     private readonly canFocus;
     private readonly sys;
     static init(cfg: Config, appPixi: Application): void;
     static setEvtMng(evtMng: IEvtMng, scrItr: ScriptIterator): void;
     static destroy(): void;
     noticeCompTxt: () => void;
-    constructor(spLay: Sprite, canFocus: () => boolean, sys: SysBase);
+    constructor(ctn: Sprite, canFocus: () => boolean, sys: SysBase);
     lay(hArg: HArg): void;
     cvsResize(): void;
     get tategaki(): boolean;
     get infTL(): IInfTxLay;
     get getWidth(): number;
     get getHeight(): number;
-    setSize(width: number, height: number): void;
+    setMySize(width: number, height: number): void;
     goTxt(aSpan: string[], instant: boolean): void;
     skipChIn(): boolean;
     static initChStyle(): void;

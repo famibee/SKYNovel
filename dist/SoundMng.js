@@ -579,7 +579,7 @@ var K = Y.filter(function(s) {
   }, t.prototype.destroy = function() {
     this.removeAllListeners();
   }, t;
-}($), z = function(s) {
+}($), W = function(s) {
   function t() {
     var e = s.call(this, null, null) || this;
     e.autoPause = !0;
@@ -637,7 +637,7 @@ var K = Y.filter(function(s) {
     this.init();
   }
   return s.prototype.init = function() {
-    return this.supported && (this._webAudioContext = new z()), this._htmlAudioContext = new wt(), this._sounds = {}, this.useLegacy = !this.supported, this;
+    return this.supported && (this._webAudioContext = new W()), this._htmlAudioContext = new wt(), this._sounds = {}, this.useLegacy = !this.supported, this;
   }, Object.defineProperty(s.prototype, "context", { get: function() {
     return this._context;
   }, enumerable: !1, configurable: !0 }), Object.defineProperty(s.prototype, "filtersAll", { get: function() {
@@ -645,7 +645,7 @@ var K = Y.filter(function(s) {
   }, set: function(t) {
     this.useLegacy || (this._context.filters = t);
   }, enumerable: !1, configurable: !0 }), Object.defineProperty(s.prototype, "supported", { get: function() {
-    return z.AudioContext !== null;
+    return W.AudioContext !== null;
   }, enumerable: !1, configurable: !0 }), s.prototype.add = function(t, e) {
     if (typeof t == "object") {
       var n = {};
@@ -903,15 +903,15 @@ var K = Y.filter(function(s) {
     s.call(this, null);
   }
   return v(t, s), t;
-}(E) }, W = 0, Et = { __proto__: null, playOnce: function(s, t) {
-  var e = "alias".concat(W++);
+}(E) }, z = 0, Et = { __proto__: null, playOnce: function(s, t) {
+  var e = "alias".concat(z++);
   return _().add(e, { url: s, preload: !0, autoPlay: !0, loaded: function(n) {
     n && (_().remove(e), t && t(n));
   }, complete: function() {
     _().remove(e), t && t(null);
   } }), e;
 }, get PLAY_ID() {
-  return W;
+  return z;
 }, render: function(s, t) {
   var e = document.createElement("canvas");
   t = k({ width: 512, height: 128, fill: "black" }, t || {}), e.width = t.width, e.height = t.height;
@@ -1075,7 +1075,7 @@ class f {
   };
   #i(t, e) {
     const n = Z.searchPath(t, pt.SOUND);
-    if (n.slice(-4) !== ".bin") {
+    if (!n.endsWith(".bin")) {
       e.url = n, M.from(e);
       return;
     }

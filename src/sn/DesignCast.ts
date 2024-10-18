@@ -54,13 +54,13 @@ export class DesignCast {
 
 // 画像レイヤ
 export class GrpLayDesignCast extends DesignCast {
-	constructor(_spLay: Sprite, _gl: GrpLayer) {super('#29e', true)}
+	constructor(_ctn: Sprite, _gl: GrpLayer) {super('#29e', true)}
 	setSp(_sp: Sprite) {}
 }
 
 // 文字レイヤ
 export class TxtLayDesignCast extends DesignCast {
-	constructor(_spLay: Sprite, _ts: TxtStage) {
+	constructor(_ctn: Sprite, _ts: TxtStage) {
 		super('#29e', true);
 	}
 }

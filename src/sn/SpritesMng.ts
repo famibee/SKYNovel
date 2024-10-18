@@ -65,10 +65,10 @@ export class SpritesMng {
 	static	setEvtMng(evtMng: IEvtMng) {SpritesMng.#evtMng = evtMng}
 
 
-	constructor(readonly csvFn = '', readonly spLay?: Container, private fncFirstComp: IFncCompSpr = ()=> {}, private fncAllComp: (isStop: boolean)=> void = ()=> {}) {
+	constructor(readonly csvFn = '', readonly ctn?: Container, private fncFirstComp: IFncCompSpr = ()=> {}, private fncAllComp: (isStop: boolean)=> void = ()=> {}) {
 		if (! csvFn) return;
 
-		this.#addChild = spLay ? sp=> {spLay.addChild(sp); this.#aSp.push(sp)} : ()=> {};
+		this.#addChild = ctn ? sp=> {ctn.addChild(sp); this.#aSp.push(sp)} : ()=> {};
 		this.ret = SpritesMng.#csv2Sprites(
 			csvFn,
 			sp=> this.fncFirstComp(sp),			// 差し替え考慮

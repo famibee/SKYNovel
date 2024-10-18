@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Container, Text, Rectangle, Texture, TextStyle, Sprite, Graphics, IDestroyOptions} from 'pixi.js';
+import {Container, Text, Rectangle, Texture, TextStyle, Sprite, Graphics} from 'pixi.js';
 import {uint, IEvtMng, argChk_Boolean, argChk_Num, mesErrJSON} from './CmnLib';
 import {HArg} from './Grammar';
 import {SpritesMng} from './SpritesMng';
@@ -217,7 +217,7 @@ export class Button extends Container {
 		if (! isStop) resolve();
 	}
 
-	override	destroy(_options?: IDestroyOptions | boolean): void {
+	override	destroy(): void {
 		this.evtMng.unButton(this);
 		this.#sps.destroy();
 		super.destroy();

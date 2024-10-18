@@ -1,4 +1,4 @@
-import { Container, Rectangle, IDestroyOptions } from 'pixi.js';
+import { Container, Rectangle } from 'pixi.js';
 import { IEvtMng } from './CmnLib';
 import { HArg } from './Grammar';
 import { Config } from './Config';
@@ -14,7 +14,7 @@ export declare class Button extends Container {
     setText(_text: string): void;
     getBtnBounds: () => Rectangle;
     constructor(hArg: HArg, evtMng: IEvtMng, resolve: () => void, canFocus: () => boolean);
-    destroy(_options?: IDestroyOptions | boolean): void;
+    destroy(): void;
     makeDesignCast(_gdc: IMakeDesignCast): void;
     showDesignCast(): void;
     cvsResize(): void;

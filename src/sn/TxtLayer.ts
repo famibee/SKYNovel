@@ -346,7 +346,7 @@ export class TxtLayer extends Layer {
 					sp.visible = (alpha > 0);
 					sp.alpha = alpha;
 					//CmnLib.adjustRetinaSize(this.b_pic, sp);
-					this.#txs.setSize(sp.width, sp.height);
+					this.#txs.setMySize(sp.width, sp.height);
 						// ちなみに左上表示位置は本レイヤと同じ
 					this.ctn.setChildIndex(sp, 0);
 					fncComp(true);

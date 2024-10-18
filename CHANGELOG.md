@@ -1,3 +1,7 @@
+- fix: [trans rule=] 時の GLSL を最適化
+- fix: リファクタリング
+
+
 ## [1.60.7](https://github.com/famibee/SKYNovel/compare/v1.60.6...v1.60.7) (2024-10-17)
 
 
