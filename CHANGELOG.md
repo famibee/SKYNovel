@@ -1,3 +1,10 @@
+## [1.60.8](https://github.com/famibee/SKYNovel/compare/v1.60.7...v1.60.8) (2024-10-18)
+
+
+### Bug Fixes
+
+* [trans rule=] 時の GLSL を最適化 ([2de36ae](https://github.com/famibee/SKYNovel/commit/2de36ae234316fed174341753bcde73a3a495fac))
+
 - fix: [trans rule=] 時の GLSL を最適化
 - fix: リファクタリング
 
