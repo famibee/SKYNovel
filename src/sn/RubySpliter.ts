@@ -77,7 +77,7 @@ export class RubySpliter {
 			if (kan_ruby) {this.putTxtRb(kan, kan_ruby); continue}
 			if (ce) {this.#putCh(ce.slice(1), ''); continue}
 
-			for (const v of Array.from(txt as string)) this.#putCh(v, '');
+			for (const v of Array.from(txt)) this.#putCh(v, '');
 				// txt.split('')や [...txt] はサロゲートペアで問題
 		}
 	}

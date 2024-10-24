@@ -96,7 +96,7 @@ export class Button extends Container {
 			return this.#rctBtnTxt;
 		};
 
-		if (this.#o.enabled) evtMng.button(this.hArg, this, ()=> this.normal(), ()=> this.#hover(), ()=> this.#clicked());	// あとで差し替えるのでアロー必須
+		if (this.#o.enabled) evtMng.button(hArg, this, ()=> this.normal(), ()=> this.#hover(), ()=> this.#clicked());	// あとで差し替えるのでアロー必須
 
 		// == 画像から生成
 		if (hArg.pic) {

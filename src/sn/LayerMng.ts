@@ -26,7 +26,7 @@ import {DesignCast} from './DesignCast';
 import {EventListenerCtn} from './EventListenerCtn';
 import {disableEvent, enableEvent} from './ReadState';
 
-import {Container, Application, Graphics, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer} from 'pixi.js';
+import {Container, Application, Graphics, Filter, RenderTexture, Sprite, DisplayObject, autoDetectRenderer, Texture} from 'pixi.js';
 
 export interface IMakeDesignCast { (idc	: DesignCast): void; };
 
@@ -599,6 +599,7 @@ void main() {
 	});
 	#spTransFore = new Sprite(this.#rtTransFore);
 
+
 	//MARK: ページ裏表を交換
 	#trans(hArg: HArg) {
 		CmnTween.finish_trans();
@@ -647,19 +648,17 @@ void main() {
 		const aBack: Layer[] = [];
 		for (const ln of this.#getLayers()) {
 			const lay = this.#hPages[ln][sDoTrans.has(ln) ?'back' :'fore'];
-			aBackTransAfter.push(lay.ctn);
+			if (lay.ctn.visible) aBackTransAfter.push(lay.ctn);
 			aBack.push(lay);
 		}
 		const {ticker, renderer} = this.appPixi;
 		renderer.render(this.#back, {renderTexture: this.#rtTransBack});	// clear: true
 
 		let fncRenderBack = ()=> {
-			aBackTransAfter.forEach(ctn=> renderer.render(
-				ctn, {
-					renderTexture	: this.#rtTransBack,
-					clear			: false,
-				},
-			));
+			for (const ctn of aBackTransAfter) renderer.render(
+				ctn,
+				{renderTexture: this.#rtTransBack, clear: false}
+			);
 		};
 		if (! aBack.some(lay=> lay.containMovement)) {
 			const oldFnc = fncRenderBack;	// 動きがないなら最初に一度
@@ -667,6 +666,7 @@ void main() {
 		}
 
 		const render = ()=> renderer.render(this.#fore, {renderTexture: this.#rtTransFore});	// clear: true
+		render();
 		let fncRenderFore = ()=> {
 			this.#fore.visible = true;
 			render();
@@ -695,26 +695,25 @@ void main() {
 		}
 
 		// ルール画像（デフォルト値を glsl 属性で上書き可能）
-		this.#sps.destroy();
-		this.#sps = new SpritesMng(rule, undefined, sp=> {
-			const {
-				glsl	= LayerMng.#srcRuleTransFragment,
-			} = hArg;
-			const vague	= argChk_Num(hArg, 'vague', 0.04);
-			const flt	= new Filter(undefined, glsl, {
-				rule	: sp.texture,
-				vague,
-				tick	: 0.0,
-			});
-			this.#spTransFore.filters = [flt];
+		const uniforms = {
+			rule	: Texture.EMPTY,
+			vague	: argChk_Num(hArg, 'vague', 0.04),
+			tick	: 0.0,
+		};
+		const tw = CmnTween.tween(CmnTween.TW_INT_TRANS, hArg, uniforms, {tick: 1}, ()=> {}, comp2, ()=> {}, false);
+		const sm = new SpritesMng(rule, undefined, sp=> {
+			uniforms.rule = sp.texture;
 			sp.destroy();
+			sm.destroy();
 
-			CmnTween.tween(CmnTween.TW_INT_TRANS, hArg, flt.uniforms, {tick: 1}, ()=> {}, comp2, ()=> {});
+			const {glsl = LayerMng.#srcRuleTransFragment} = hArg;
+			this.#spTransFore.filters = [new Filter(undefined, glsl, uniforms)];
+
+			tw.start();
 			ticker.add(fncRender);
 		});
 		return false;
 	}
-	#sps	= new SpritesMng;
 
 	#getLayers(layer = ''): string[] {return layer ?layer.split(',') :this.#aLayName}
 	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): ReadonlyArray<string> {

@@ -117,7 +117,9 @@ export class CmnTween {
 	// トゥイーン全停止
 	static	stopAllTw() {CmnTween.#hTwInf = {}; removeAll()}
 
-	static	tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void): void {
+
+
+	static	tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween<any> {
 		const time = this.#evtMng.isSkipping ?0 :argChk_Num(hArg, 'time', NaN);
 		const tw = new Tween(hNow)
 		.to(hTo, time)
@@ -176,7 +178,9 @@ export class CmnTween {
 			delete twFrom.onEnd;
 			twFrom.tw.chain(tw);
 		}
-		else tw.start();
+		else if (start) tw.start();
+
+		return tw;
 	}
 	// 11 match 301 step (0.1ms) PCRE2 https://regex101.com/r/reinpq/1
 		// List ${x}${x2}/${y}${y2}/${o}${o2}=${json}\n

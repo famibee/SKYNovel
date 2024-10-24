@@ -430,10 +430,7 @@ export class ReadState {
 
 // === イベント予約受付中 ===
 class RsEvtRsv extends ReadState {
-	constructor() {super({});
-//console.log(`%cfn:ReadState.ts line:429 = RsEvtRsv = to resume`, 'color:#3B0;');
-	main.resume(); elmHint.hidden = true}
-//	constructor() {super({}); main.resume(); elmHint.hidden = true}
+	constructor() {super({}); main.resume(); elmHint.hidden = true}
 	override	breakEvent() {}
 }
 
@@ -710,7 +707,6 @@ class Rs_BanEvPage extends ReadState {	// fireがない → イベント受付�
 		super({});
 		fnc_enableEvent = ()=> {	// RsEvtRsv ぽい
 			new RsPagination({});
-//console.log(`%cfn:ReadState.ts line:695 =Rs_BanEvPage= to resume`, 'color:#3B0;');
 			main.resume();
 			elmHint.hidden = true;
 		};

@@ -22,7 +22,7 @@ export declare class CmnTween {
     };
     static cnvTweenArg(hArg: HArg, lay: any): {};
     static stopAllTw(): void;
-    static tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: () => void, onComplete: () => void, onEnd: () => void): void;
+    static tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: () => void, onComplete: () => void, onEnd: () => void, start?: boolean): Tween<any>;
     static wt(hArg: HArg): boolean;
     static readonly TW_INT_TRANS = "trans\n";
     static finish_trans(): boolean;

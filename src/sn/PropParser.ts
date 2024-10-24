@@ -28,7 +28,7 @@ export class PropParser implements IPropParser {
 			let keys = Object.keys(ops).sort();
 			let ps = keys.map(k=>
 				((typeof ops[k] === 'string')
-					? string(ops[k] as string) :regex(ops[k] as RegExp))
+					? string(ops[k]) :regex(ops[k]))
 				.trim(optWhitespace)
 				.result(k)
 			);

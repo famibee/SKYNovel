@@ -16,7 +16,7 @@ import {Application} from 'pixi.js';
 
 import {HINFO, HPROC, SAVE_WIN_INF} from '../preload';
 import {IpcRendererEvent, MessageBoxOptions} from 'electron/renderer';
-const to_app: HPROC = (window as any).to_app;
+const to_app: HPROC = window.to_app;
 //const {to_app} = window;
 
 
