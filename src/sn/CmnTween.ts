@@ -118,7 +118,6 @@ export class CmnTween {
 	static	stopAllTw() {CmnTween.#hTwInf = {}; removeAll()}
 
 
-
 	static	tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween<any> {
 		const time = this.#evtMng.isSkipping ?0 :argChk_Num(hArg, 'time', NaN);
 		const tw = new Tween(hNow)

@@ -223,12 +223,11 @@ export class SndBuf {
 				const ab = snd.options.source;
 				if (! (ab instanceof ArrayBuffer)
 					|| ab.byteLength === 0) snd.play(o);
-				else {
-					this.#sb.snd = Sound.from({
+				else this.#sb.snd = Sound.from({
 					...o,
 					url		: snd.options.url,
 					source	: ab,
-				})}
+				});
 				if (pan !== 0) snd.filters = [new filters.StereoFilter(pan)];
 			}
 			return false;
@@ -253,12 +252,7 @@ export class SndBuf {
 	};
 	#playseSub(fn: string, o: Options) {
 		const src = cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SOUND);
-	//	const src = 'http://localhost:8080/prj/audio/title.{ogg,mp3}';
-		if (! src.endsWith('.bin')) {
-			o.url = src;
-			Sound.from(o);
-			return;
-		}
+		if (! src.endsWith('.bin')) {o.url = src; Sound.from(o); return}
 
 		(new Loader).add({name: fn, url: src, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
 		.use(async (res, next)=> {

@@ -1,3 +1,6 @@
+- fix: [trans glsl=] で rule 属性を指定しない動作が無効になっていたデグレード修正
+
+
 ## [1.60.9](https://github.com/famibee/SKYNovel/compare/v1.60.8...v1.60.9) (2024-10-24)
 
 

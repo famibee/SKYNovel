@@ -686,28 +686,36 @@ void main() {
 
 
 		// クロスフェード
-		const {rule} = hArg;
+		const {glsl, rule} = hArg;
 		const comp2 = ()=> {ticker.remove(fncRender); comp()};
-		if (! rule) {
+		if (! glsl && ! rule) {
 			CmnTween.tween(CmnTween.TW_INT_TRANS, hArg, this.#spTransFore, {alpha: 0}, ()=> {}, comp2, ()=> {});
 			ticker.add(fncRender);
 			return false;
 		}
 
-		// ルール画像（デフォルト値を glsl 属性で上書き可能）
+		// Filter使用系（デフォルト値を glsl 属性で上書き可能）
 		const uniforms = {
 			rule	: Texture.EMPTY,
 			vague	: argChk_Num(hArg, 'vague', 0.04),
 			tick	: 0.0,
 		};
-		const tw = CmnTween.tween(CmnTween.TW_INT_TRANS, hArg, uniforms, {tick: 1}, ()=> {}, comp2, ()=> {}, false);
+		this.#spTransFore.filters = [new Filter(
+			undefined,
+			glsl ?? LayerMng.#srcRuleTransFragment,
+			uniforms,
+		)];
+
+		const tw = CmnTween.tween(CmnTween.TW_INT_TRANS, hArg, uniforms, {tick: 1}, ()=> {}, comp2, ()=> {}, ! rule);
+		if (! rule) {
+			ticker.add(fncRender);
+			return false;
+		}
+		// ルール画像あり
 		const sm = new SpritesMng(rule, undefined, sp=> {
 			uniforms.rule = sp.texture;
 			sp.destroy();
 			sm.destroy();
-
-			const {glsl = LayerMng.#srcRuleTransFragment} = hArg;
-			this.#spTransFore.filters = [new Filter(undefined, glsl, uniforms)];
 
 			tw.start();
 			ticker.add(fncRender);
