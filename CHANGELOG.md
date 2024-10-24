@@ -1,3 +1,10 @@
+## [1.60.9](https://github.com/famibee/SKYNovel/compare/v1.60.8...v1.60.9) (2024-10-24)
+
+
+### Bug Fixes
+
+* 直前２更新のデグレード修正 ([0831eee](https://github.com/famibee/SKYNovel/commit/0831eee8cabd9f6463a7d750c699d60a3bdbe0a6))
+
 - fix: 直前２更新のデグレード修正
 	- (a)本文中でリロードするとエラー、[load]から次に進んでしまう件
 		- 【{E} (fn:_archive line:276) [return] スタックが空です】
