@@ -1,3 +1,10 @@
+## [1.60.10](https://github.com/famibee/SKYNovel/compare/v1.60.9...v1.60.10) (2024-10-24)
+
+
+### Bug Fixes
+
+* [trans glsl=] で rule 属性を指定しない動作が無効になっていたデグレード修正 ([40c98b8](https://github.com/famibee/SKYNovel/commit/40c98b8444426ebfb39676536b6ba98ac37c5195))
+
 - fix: [trans glsl=] で rule 属性を指定しない動作が無効になっていたデグレード修正
 
 
