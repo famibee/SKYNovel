@@ -1,4 +1,4 @@
-- refactor(tsconfig.json): 設定再検討、それにともなう記述修正
+- fix(tsconfig.json): 設定再検討、それにともなう記述修正
 - chore(release.yml): 【node-version: '22'】に更新
 
 
