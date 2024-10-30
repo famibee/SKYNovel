@@ -1,3 +1,10 @@
+## [1.60.11](https://github.com/famibee/SKYNovel/compare/v1.60.10...v1.60.11) (2024-10-30)
+
+
+### Bug Fixes
+
+* **tsconfig.json:** 設定再検討、それにともなう記述修正 ([f54f2a9](https://github.com/famibee/SKYNovel/commit/f54f2a97d86e344b54f1d86336283235467b739d))
+
 - fix(tsconfig.json): 設定再検討、それにともなう記述修正
 - chore(release.yml): 【node-version: '22'】に更新
 
