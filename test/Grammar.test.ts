@@ -234,27 +234,27 @@ it('test_let_expansion_0_cr', ()=> {
 
 	expect(len).toBe(6);
 	expect(aToken[0]).toBe('&text=1+2=int');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\n");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[3]).toBe(" あ。/");
-	ch = aToken[3].charAt(0);
+	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
 	expect(aToken[4]).toBe("\n");
-	ch = aToken[4].charAt(0);
+	ch = aToken[4]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[5]).toBe("あ。/");
-	ch = aToken[5].charAt(0);
+	ch = aToken[5]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 });
 it('test_let_expansion_0_cr_spc', ()=> {
@@ -264,11 +264,11 @@ it('test_let_expansion_0_cr_spc', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text = 1 + 2 = int\t');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(';');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_0_cr_spc_var', ()=> {
@@ -278,11 +278,11 @@ it('test_let_expansion_0_cr_spc_var', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text = hA[#ar$BB#]\t');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(';');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_1_tab', ()=> {
@@ -292,11 +292,11 @@ it('test_let_expansion_1_tab', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int\t');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(';');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_1_tab_spc', ()=> {
@@ -306,11 +306,11 @@ it('test_let_expansion_1_tab_spc', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text = 1 + 2 = int\t');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(';');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_1_tab_spc_var', ()=> {
@@ -320,11 +320,11 @@ it('test_let_expansion_1_tab_spc_var', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text = hA[#ar$BB#]\t');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(';');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 	it('test_let_expansion_1_tab_spc_var2', ()=> {
@@ -334,11 +334,11 @@ it('test_let_expansion_1_tab_spc_var', ()=> {
 
 		expect(len).toBe(2);
 		expect(aToken[0]).toBe('&text = hA[#a;r$BB#]\t');
-		ch = aToken[0].charAt(0);
+		ch = aToken[0]!.charAt(0);
 		expect(grm.testNoTxt(ch)).toBe(true);
 
 		expect(aToken[1]).toBe(';');
-		ch = aToken[1].charAt(0);
+		ch = aToken[1]!.charAt(0);
 		expect(grm.testNoTxt(ch)).toBe(true);
 	});
 it('test_let_expansion_2_spc', ()=> {
@@ -348,11 +348,11 @@ it('test_let_expansion_2_spc', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int ');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(';');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_2_spc2', ()=> {
@@ -362,11 +362,11 @@ it('test_let_expansion_2_spc2', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int  ');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(';');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_3_comment', ()=> {
@@ -376,11 +376,11 @@ it('test_let_expansion_3_comment', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int\t');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe('; [tcy t="!!"]');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_3_comment2', ()=> {
@@ -390,11 +390,11 @@ it('test_let_expansion_3_comment2', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int\t\t');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe('; [tcy t="!!"]');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_4_OperatorEq', ()=> {
@@ -404,11 +404,11 @@ it('test_let_expansion_4_OperatorEq', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2 == null\t\t');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe('; [tcy t="!!"]');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_expansion_4_OperatorNotEq', ()=> {
@@ -418,11 +418,11 @@ it('test_let_expansion_4_OperatorNotEq', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2 != null\t\t');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe('; [tcy t="!!"]');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_bug_20120321s_aira', ()=> {
@@ -432,11 +432,11 @@ it('test_let_bug_20120321s_aira', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe("&&'tex'+0 = 1+2\t");
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(";[tcy t='!!']");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 
@@ -447,15 +447,15 @@ it('test_ch_expansion_0_cr', ()=> {
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\n");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_0_cr_spc', ()=> {
@@ -465,15 +465,15 @@ it('test_ch_expansion_0_cr_spc', ()=> {
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test cr spc&');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\n");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_0_cr_spc_var', ()=> {
@@ -483,15 +483,15 @@ it('test_ch_expansion_0_cr_spc_var', ()=> {
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test hA[#ar$BB#]&');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\n");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_1_tab', ()=> {
@@ -501,15 +501,15 @@ it('test_ch_expansion_1_tab', ()=> {
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\t");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_1_tab_spc', ()=> {
@@ -519,15 +519,15 @@ it('test_ch_expansion_1_tab_spc', ()=> {
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test tab spc&');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\t");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_1_tab_spc_var', ()=> {
@@ -537,15 +537,15 @@ it('test_ch_expansion_1_tab_spc_var', ()=> {
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test hA[#ar$BB#]&');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\t");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_2_spc', ()=> {
@@ -555,15 +555,15 @@ it('test_ch_expansion_2_spc', ()=> {
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(" ");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
 	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_2_spc2', ()=> {
@@ -573,15 +573,15 @@ it('test_ch_expansion_2_spc2', ()=> {
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("  ");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
 	expect(aToken[2]).toBe('[tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_2_comment', ()=> {
@@ -591,15 +591,15 @@ it('test_ch_expansion_2_comment', ()=> {
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\t");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe('; [tcy t="!!"]');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_miss_0', ()=> {
@@ -609,23 +609,23 @@ it('test_ch_expansion_miss_0', ()=> {
 
 	expect(len).toBe(5);
 	expect(aToken[0]).toBe('&te');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\n");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe("st&");
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
 	expect(aToken[3]).toBe("\n");
-	ch = aToken[3].charAt(0);
+	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[4]).toBe('[tcy t="!!"]');
-	ch = aToken[4].charAt(0);
+	ch = aToken[4]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_ch_expansion_miss_1', ()=> {
@@ -635,27 +635,27 @@ it('test_ch_expansion_miss_1', ()=> {
 
 	expect(len).toBe(6);
 	expect(aToken[0]).toBe('&te');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe("\n");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe('\t');
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[3]).toBe('st&');
-	ch = aToken[3].charAt(0);
+	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
 	expect(aToken[4]).toBe("\n");
-	ch = aToken[4].charAt(0);
+	ch = aToken[4]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[5]).toBe('[tcy t="!!"]');
-	ch = aToken[5].charAt(0);
+	ch = aToken[5]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 
@@ -666,11 +666,11 @@ it('test_let_bug_20140606_comment_in_str', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe(`&st_hv='back;'\t\t`);
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe('; [tcy t="!!"]');
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 
@@ -683,19 +683,19 @@ it('test_char2macro_0', ()=> {
 
 	expect(len).toBe(4);
 	expect(aToken[0]).toBe('[tcy t="!!"]');
-	ch = aToken[0].charAt(0);
+	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[1]).toBe(" あ。/");
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
 	expect(aToken[2]).toBe("\n");
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[3]).toBe("あ。/");
-	ch = aToken[3].charAt(0);
+	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 });
 
@@ -1057,11 +1057,11 @@ it('test_let_ml_1', ()=> {
 	{"fn": "../bgimage/yun_1317.jpg").toBe("dt": "2018/12/18 11:44").toBe("txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
 ]
 `);
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe(`[endlet_ml]`);
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_ml_2', ()=> {
@@ -1095,11 +1095,11 @@ it('test_let_ml_2', ()=> {
 	}
 }
 `);
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe(`[endlet_ml]`);
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_ml_2022/10/15_0', ()=> {
@@ -1176,11 +1176,11 @@ it('test_let_ml_2023/04/06 [let_ml]の[if]はさまない', ()=> {
 		}
 	}
 `);
-	ch = aToken[1].charAt(0);
+	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[2]).toBe(`[endlet_ml]`);
-	ch = aToken[2].charAt(0);
+	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_ml_2023/04/06 [let_ml]の[if]はさみ', ()=> {
@@ -1214,11 +1214,11 @@ it('test_let_ml_2023/04/06 [let_ml]の[if]はさみ', ()=> {
 		}
 	}
 `);
-	ch = aToken[3].charAt(0);
+	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[4]).toBe(`[endlet_ml]`);
-	ch = aToken[4].charAt(0);
+	ch = aToken[4]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[5]).toBe('\n');
