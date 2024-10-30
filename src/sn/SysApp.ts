@@ -212,11 +212,14 @@ export class SysApp extends SysNode {
 	// プレイデータをインポート
 	protected override readonly	_import = ()=> {
 		const flush = this.flush;
-		new Promise((rs, rj)=> {
+		new Promise((rs: (inp: string)=> void, rj)=> {
 			const inp = document.createElement('input');
 			inp.type = 'file';
 			inp.accept = '.spd, text/plain';
-			inp.onchange = ()=> {if (inp.files) rs(inp.files[0].path); else rj()};
+			inp.onchange = ()=> {
+				const f = inp.files?.[0];
+				if (f) rs(f.path); else rj()
+			};
 			inp.click();
 		})
 		.then(async (inp: string)=> {
@@ -285,8 +288,9 @@ export class SysApp extends SysNode {
 				if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] .ymlを取得しました`, 'D');
 				sYml = await resYml.text();
 				const mv = /version: (.+)/.exec(sYml);
-				if (! mv) throw `[update_check] .yml に version が見つかりません`;
-				[,netver] = mv;
+				const mv2 = mv?.[1];
+				if (! mv2) throw `[update_check] .yml に version が見つかりません`;
+				netver = mv2;
 			}
 
 			const appver = this.#hInfo.getVersion;
@@ -341,6 +345,7 @@ export class SysApp extends SysNode {
 				const mp = /path: (.+)/.exec(sYml);
 				if (! mp) throw `[update_check] path が見つかりません`;
 				const [,path] = mp;
+				if (! path) throw `[update_check] path が見つかりません.`;
 				if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] path=${path}`, 'D');
 
 				const mc = /sha512: (.+)/.exec(sYml);

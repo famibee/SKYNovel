@@ -197,7 +197,7 @@ export function	tagToken2Name_Args(token: string): [name: string, args: string] 
 	const g = e?.groups;
 	if (! g) throw `タグ記述【${token}】異常です(タグ解析)`;
 
-	const nm = g.name;
+	const nm = g.name!;
 	return [nm, token.slice(1 +nm.length, -1)];
 }
 export function	tagToken2Name(token: string): string {
@@ -205,7 +205,7 @@ export function	tagToken2Name(token: string): string {
 	const g = e?.groups;
 	if (! g) throw `タグ記述【${token}】異常です(タグ解析)`;
 
-	return g.name;
+	return g.name!;
 }
 
 export function	splitAmpersand(token: string): {
@@ -217,11 +217,12 @@ export function	splitAmpersand(token: string): {
 		// != を弾けないので中途半端ではある
 	const cnt_equa = equa.length;
 	if (cnt_equa < 2 || cnt_equa > 3) throw '「&計算」書式では「=」指定が一つか二つ必要です';
-	if (equa[1].startsWith('&')) throw '「&計算」書式では「&」指定が不要です';
+	const [e0, e1, e2] = equa;
+	if (e1!.startsWith('&')) throw '「&計算」書式では「&」指定が不要です';
 	return {
-		name: equa[0].replaceAll('＝', '==').replaceAll('≠', '!='),
-		text: equa[1].replaceAll('＝', '==').replaceAll('≠', '!='),
-		cast: ((cnt_equa === 3) ?equa[2].trim() :undefined)
+		name: e0!.replaceAll('＝', '==').replaceAll('≠', '!='),
+		text: e1!.replaceAll('＝', '==').replaceAll('≠', '!='),
+		cast: (cnt_equa === 3 ?e2!.trim() :undefined)
 	};
 }
 
@@ -343,7 +344,7 @@ export class Grammar {
 			return [a, b];
 		}) ?? [];
 
-		const scr = {aToken :a, len :a.length, aLNum :[]};
+		const scr = {aToken :a as string[], len :a.length, aLNum :[]};
 		this.#replaceScr_C2M(scr);
 		return scr;
 	}
@@ -362,16 +363,16 @@ export class Grammar {
 		if (! this.#hC2M) return;
 
 		for (let i=scr.len- 1; i >= start_idx; --i) {
-			const token = scr.aToken[i];
+			const token = scr.aToken[i]!;
 			if (this.testNoTxt(token.at(0) ?? '\n')) continue;
 				// 省略時は #REG_TOKEN_NOTXT に引っかかる \n に
 
-			const lnum = scr.aLNum[i];
+			const lnum = scr.aLNum[i]!;
 			const a = token.match(this.#REGC2M);
 			if (! a) continue;
 			let del = 1;
 			for (let j=a.length -1; j>=0; --j) {
-				let ch = a[j];
+				let ch = a[j]!;
 				const macro = this.#hC2M[ch.at(0) ?? ' '];
 					// 省略時は #REG_CANTC2M に引っかかる ' ' に
 				if (macro) {

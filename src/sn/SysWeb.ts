@@ -227,15 +227,14 @@ export class SysWeb extends SysBase {
 			const inp = document.createElement('input');
 			inp.type = 'file';
 			inp.accept = '.swpd, text/plain';
-			inp.onchange = ()=> {if (inp.files) rs(inp.files[0]); else rj()};
+			inp.onchange = ()=> {
+				const f = inp.files?.[0];
+				if (f) rs(f); else rj()
+			};
 			inp.click();
 		})
-		.then(file=> new Promise(rs=> {
-			const rd = new FileReader;
-			rd.readAsText(file);
-			rd.onload = ()=> rs(rd.result);
-		}))
-		.then(async (s: string)=> {
+		.then(async blob=> {
+			const s = await blob.text();
 			const o = JSON.parse(this.crypto ?await this.dec('json', s) :s);
 			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
 			if (o.sys[SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {

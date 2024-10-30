@@ -24,7 +24,7 @@ export declare function parseColor(v: string): number;
 export declare function argChk_Color(hash: any, name: string, def: number): number;
 export declare function mesErrJSON(hArg: HArg, nm?: string, mes?: string): string;
 export declare function getFn(p: string): string;
-export declare function getExt(p: string): string;
+export declare function getExt(p: string): string | undefined;
 export declare class CmnLib {
     static stageW: number;
     static stageH: number;

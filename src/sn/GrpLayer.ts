@@ -105,10 +105,6 @@ export class GrpLayer extends Layer {
 
 
 	override	renderStart() {
-		this.#rtTsy = RenderTexture.create({
-			width	: CmnLib.stageW,
-			height	: CmnLib.stageH,
-		});
 		this.#spTsy = new Sprite(this.#rtTsy);
 		this.#spTsy.visible = false;
 		this.ctn.addChildAt(this.#spTsy, 0);
@@ -133,20 +129,28 @@ export class GrpLayer extends Layer {
 		};
 		GrpLayer.#appPixi.ticker.add(this.#fncRender);
 	}
-	#rtTsy	: RenderTexture;
-	#spTsy	: Sprite;
+	#rtTsy	= RenderTexture.create({
+		width	: CmnLib.stageW,
+		height	: CmnLib.stageH,
+	});
+	#spTsy	= new Sprite;
 	#fncRender = ()=> {};
 	override	renderEnd() {
 		GrpLayer.#appPixi.ticker.remove(this.#fncRender);
 		this.ctn.removeChild(this.#spTsy);
 		for (const s of this.ctn.children) s.visible = true;
 		this.#spTsy.destroy(true);
+
+		this.#rtTsy = RenderTexture.create({
+			width	: CmnLib.stageW,
+			height	: CmnLib.stageH,
+		});
 	}
 
 
 	setPos(hArg: HArg): void {
 		Layer.setXY(
-			(this.ctn.children.length === 0) ?this.ctn :this.ctn.children[0],
+			this.ctn.children[0] ?? this.ctn,
 			hArg,
 			this.ctn,
 			true

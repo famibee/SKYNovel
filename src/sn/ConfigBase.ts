@@ -175,7 +175,7 @@ export class ConfigBase implements IConfig {
 				}
 				if (! ext.endsWith(':id')) continue;
 				const hp = v.slice(v.lastIndexOf('/') +1);
-				const fn = hExts[ext.slice(0, -10)];
+				const fn = hExts[ext.slice(0, -10)] ?? '';
 				const res = await this.sys.fetch(fn);
 				const src = await res.text();
 				const hf = this.sys.hash(src);
@@ -203,7 +203,7 @@ export class ConfigBase implements IConfig {
 			const utn = fn0 +'@@'+ this.userFnTail;
 			if (utn in this.hPathFn2Exts) {
 				if (extptn === '') fn0 = utn;
-				else for (const e3 of Object.keys(this.hPathFn2Exts[utn])) {
+				else for (const e3 of Object.keys(this.hPathFn2Exts[utn] ?? {})) {
 					if (! `|${extptn}|`.includes(`|${e3}|`)) continue;
 
 					fn0 = utn;
@@ -211,10 +211,9 @@ export class ConfigBase implements IConfig {
 				}
 			}
 		}
-		const h_exts = this.hPathFn2Exts[fn0];
+		const h_exts = this.hPathFn2Exts[fn0!];
 		if (! h_exts) throw `サーチパスに存在しないファイル【${fn}】です`;
 
-		let ret = '';
 		if (! ext) {	// fnに拡張子が含まれていない
 			//	extのどれかでサーチ（ファイル名サーチ→拡張子群にextが含まれるか）
 			const hcnt = int(h_exts[':cnt']);
@@ -232,8 +231,8 @@ export class ConfigBase implements IConfig {
 					if (++cnt > 1) throw `指定ファイル【${fn}】が複数マッチします。サーチ対象拡張子群【${extptn}】で絞り込むか、ファイル名を個別にして下さい。`;
 				}
 			}
-			for (let e of Object.keys(h_exts)) {
-				if (search_exts.includes(`|${e}|`)) return h_exts[e];
+			for (const e of Object.keys(h_exts)) {
+				if (search_exts.includes(`|${e}|`)) return h_exts[e]!;
 			}
 			throw `サーチ対象拡張子群【${extptn}】にマッチするファイルがサーチパスに存在しません。探索ファイル名=【${fn}】`;
 		}
@@ -244,7 +243,7 @@ export class ConfigBase implements IConfig {
 			throw `指定ファイルの拡張子【${ext}】は、サーチ対象拡張子群【${extptn}】にマッチしません。探索ファイル名=【${fn}】`;
 		}
 
-		ret = h_exts[ext];
+		const ret = h_exts[ext];
 		if (! ret) throw `サーチパスに存在しない拡張子【${ext}】です。探索ファイル名=【${fn}】、サーチ対象拡張子群【${extptn}】`;
 
 		return ret;

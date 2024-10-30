@@ -25,7 +25,7 @@ export class Areas implements IAreas {
 			if (v +1 === idx) {
 				if (String(idx +1) in this.hAreas) {
 					// 二つの領域がマージできる場合
-					this.hAreas[begin] = this.hAreas[idx +1];
+					this.hAreas[begin] = this.hAreas[idx +1]!;
 					delete this.hAreas[idx +1]
 				}
 				else this.hAreas[begin] = idx;
@@ -35,7 +35,7 @@ export class Areas implements IAreas {
 
 		// 領域先頭-1とマッチ
 		if (String(idx +1) in this.hAreas) {
-			this.hAreas[idx] = this.hAreas[idx +1];
+			this.hAreas[idx] = this.hAreas[idx +1]!;
 			delete this.hAreas[idx +1];
 			return;
 		}
@@ -48,7 +48,7 @@ export class Areas implements IAreas {
 
 		// 領域先頭とマッチ
 		if (String(idx) in this.hAreas) {
-			if (this.hAreas[idx] > idx) this.hAreas[idx +1] = this.hAreas[idx];
+			if (this.hAreas[idx]! > idx) this.hAreas[idx +1] = this.hAreas[idx]!;
 			delete this.hAreas[idx];
 			return;
 		}

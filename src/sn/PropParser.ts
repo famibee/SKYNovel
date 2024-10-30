@@ -28,7 +28,7 @@ export class PropParser implements IPropParser {
 			let keys = Object.keys(ops).sort();
 			let ps = keys.map(k=>
 				((typeof ops[k] === 'string')
-					? string(ops[k]) :regex(ops[k]))
+					? string(ops[k]) :regex(ops[k]!))
 				.trim(optWhitespace)
 				.result(k)
 			);
@@ -188,12 +188,12 @@ export class PropParser implements IPropParser {
 		PrefixDec:	_=> {throw Error('(PropParser)前置デクリメントは未サポートです')},
 
 		// 論理 NOT
-		'!':	a=> ! this.#hFnc['Boolean'](a),
+		'!':	a=> ! this.#hFnc['Boolean']!(a),
 		// チルダ演算子（ビット反転）
 		'~':	a=> ~ Number(this.#calc(a.shift())),
 
 //		UnaryNegate:	a=> - Number(this.#calc(a.shift())),
-		UnaryNegate:	a=> - this.#hFnc['Number'](a),
+		UnaryNegate:	a=> - this.#hFnc['Number']!(a),
 	//	Unaryplus:		a=> this.#hFnc['Number'](a),
 
 		// 乗算、除算、剰余
@@ -203,7 +203,7 @@ export class PropParser implements IPropParser {
 					Number(this.#calc(a.shift())),
 		'/':	a=> Number(this.#calc(a.shift())) /
 					Number(this.#calc(a.shift())),
-		'¥':	a=> Math.floor( this.#hFnc['/'](a) ),
+		'¥':	a=> Math.floor( this.#hFnc['/']!(a) ),
 		'%':	a=> Number(this.#calc(a.shift())) %
 					Number(this.#calc(a.shift())),
 
@@ -220,7 +220,7 @@ export class PropParser implements IPropParser {
 
 		// 関数
 		'int':		a=> int(this.#fncSub_ChkNum(a.shift())),
-		'parseInt':	a=> int(this.#hFnc['Number'](a)),
+		'parseInt':	a=> int(this.#hFnc['Number']!(a)),
 		'Number':	a=> {
 			const b = this.#calc(a.shift());
 			return Object.prototype.toString.call(b) === '[object String]'
@@ -263,7 +263,7 @@ export class PropParser implements IPropParser {
 			return ((b == null) && (c == null) && (!b || !c))
 				? (b == c) : String(b) === String(c);
 		},
-		'!=':	a=> ! this.#hFnc['=='](a),
+		'!=':	a=> ! this.#hFnc['==']!(a),
 		'===':	a=> {
 			const b = this.#calc(a.shift());
 			const c = this.#calc(a.shift());
@@ -271,7 +271,7 @@ export class PropParser implements IPropParser {
 					Object.prototype.toString.call(c))
 					? false : String(b) === String(c);
 		},
-		'!==':	a=> ! this.#hFnc['==='](a),
+		'!==':	a=> ! this.#hFnc['===']!(a),
 
 		// ビット演算子
 		'&':	a=> Number(this.#calc(a.shift())) &
@@ -289,7 +289,7 @@ export class PropParser implements IPropParser {
 
 		// 条件
 		'?':	a=> {
-			const cond = this.#hFnc['Boolean'](a);
+			const cond = this.#hFnc['Boolean']!(a);
 			const elm2 = a.shift();
 			if (elm2[0] !== ':') throw Error('(PropParser)三項演算子の文法エラーです。: が見つかりません');
 
@@ -334,7 +334,7 @@ export class PropParser implements IPropParser {
 		const {scope='tmp', name, at=''} = g;
 		return {
 			scope,
-			name	: PropParser.#getValName_B2D(name),
+			name	: PropParser.#getValName_B2D(name!),
 			at,
 		};
 	}

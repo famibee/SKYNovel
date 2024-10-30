@@ -21,7 +21,7 @@ export class DebugMng {
 	constructor(private readonly sys: SysBase, hTag: IHTag, scrItr: ScriptIterator) {
 		DebugMng.#scrItr = scrItr;
 		DebugMng.#hTag = hTag;
-		DebugMng.#title = hTag.title;
+		DebugMng.#title = hTag.title!;
 		DebugMng.myTrace = DebugMng.#st_trace;
 
 		//	デバッグ・その他
@@ -112,10 +112,10 @@ export class DebugMng {
 						+ "※一部記号は全角表示しています。";
 					flash.net.navigateToURL(new URLRequest(buf));
 				}*/
-				this.#hTag.dump_lay({});
-				this.#hTag.dump_val({});
+				this.#hTag.dump_lay!({});
+				this.#hTag.dump_val!({});
 				DebugMng.#scrItr.dumpErrForeLine();
-				this.#hTag.dump_stack({});
+				this.#hTag.dump_stack!({});
 
 				if (lvl === 'ET') throw mes;
 				console.error('%c'+ mes, 'color:#F30;');	return;

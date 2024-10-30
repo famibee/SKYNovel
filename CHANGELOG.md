@@ -1,3 +1,7 @@
+- refactor(tsconfig.json): 設定再検討、それにともなう記述修正
+- chore(release.yml): 【node-version: '22'】に更新
+
+
 ## [1.60.10](https://github.com/famibee/SKYNovel/compare/v1.60.9...v1.60.10) (2024-10-24)
 
 

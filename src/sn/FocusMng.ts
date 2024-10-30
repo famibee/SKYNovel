@@ -31,7 +31,7 @@ export class FocusMng {
 			// フレーム部品に【 if (btn instanceof HTMLElement) 】が上手く使えない
 			cmp.on('pointerdown', ()=> {
 				for (let i=this.#aBtn.length -1; i>=0; --i) {
-					const b = this.#aBtn[i];
+					const b = this.#aBtn[i]!;
 					if (b.btn === cmp) {this.#idx = i; return}
 				}
 				this.#idx = -1;
@@ -43,7 +43,7 @@ export class FocusMng {
 
 		this.#elc.add(cmp, 'focus', ()=> {
 			for (let i=this.#aBtn.length -1; i>=0; --i) {
-				const b = this.#aBtn[i];
+				const b = this.#aBtn[i]!;
 				if (b.btn === cmp) {this.#idx = i; return}
 			}
 			this.#idx = -1;
@@ -111,16 +111,16 @@ export class FocusMng {
 		const op = elm.querySelectorAll('input[type]') as NodeListOf<HTMLInputElement>;
 		const len = op.length;
 		for (let i=0; i<len; ++i) {
-			if (! op[i].checked) continue;
+			if (! op[i]!.checked) continue;
 
-			op[(i +len +(key === 'ArrowUp' ?-1 :1)) %len].checked = true;
+			op[(i +len +(key === 'ArrowUp' ?-1 :1)) %len]!.checked = true;
 			break;
 		}
 	}
 
 	isFocus(cmp: Container | HTMLElement) {
 		if (this.#idx < 0) return false;	//  || this.aBtn.length === 0 は略できる
-		return this.#aBtn[this.#idx].btn === cmp;
+		return this.#aBtn[this.#idx]!.btn === cmp;
 	}
 
 	prev() {
@@ -131,7 +131,7 @@ export class FocusMng {
 		if (--this.#idx < 0) this.#idx = len -1;
 		for (let i=len; i>=1; --i) {
 			const j = (this.#idx +i) % len;
-			if (this.#aBtn[j].on()) {this.#idx = j; this.#logFocus(j); return}
+			if (this.#aBtn[j]!.on()) {this.#idx = j; this.#logFocus(j); return}
 		}
 		this.#idx = -1;
 	}
@@ -143,26 +143,26 @@ export class FocusMng {
 		if (++this.#idx >= len) this.#idx = 0;
 		for (let i=0; i<len; ++i) {
 			const j = (this.#idx +i) % len;
-			if (this.#aBtn[j].on()) {this.#idx = j; this.#logFocus(j); return}
+			if (this.#aBtn[j]!.on()) {this.#idx = j; this.#logFocus(j); return}
 		}
 		this.#idx = -1;
 	}
 	readonly	#logFocus = CmnLib.debugLog
-		? (i: number)=> console.log(`👾 <FocusMng idx:${i} btn:%o`, this.#aBtn[i].btn)
+		? (i: number)=> console.log(`👾 <FocusMng idx:${i} btn:%o`, this.#aBtn[i]!.btn)
 		: ()=> {};
 	getFocus(): Container | HTMLElement | null {
 		if (this.#idx < 0) return null;
 
 		this.#allOff();
 		if (this.#idx >= this.#aBtn.length) this.#idx = 0;
-		const b = this.#aBtn[this.#idx];
+		const b = this.#aBtn[this.#idx]!;
 		return b.on() ?b.btn : null;
 	}
 
 	blur() {this.#allOff(); this.#idx = -1; globalThis.focus()}
 	#allOff() {
 		for (let i=this.#aBtn.length -1; i>=0; --i) {
-			const b = this.#aBtn[i];
+			const b = this.#aBtn[i]!;
 			if (! (b.btn instanceof Container) || b.btn.parent) b.off();
 			else this.#aBtn.splice(i, 1);
 		}

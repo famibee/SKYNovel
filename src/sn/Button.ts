@@ -138,7 +138,8 @@ export class Button extends Container {
 
 			this.#o = {...this.#o, ...o};
 		} catch (e) {
-			throw new Error(mesErrJSON(hArg, 'style', e.message));
+			if (e instanceof SyntaxError) throw new Error(mesErrJSON(hArg, 'style', e.message));
+			else throw `fn:Button.ts style`;
 		}
 
 		const txt = new Text(hArg.text ?? '', style);
@@ -193,7 +194,8 @@ export class Button extends Container {
 			const o = JSON.parse(hArg.style_hover);
 			for (const [nm, v] of Object.entries(o)) (style_hover as any)[nm] = v;
 		} catch (e) {
-			throw new Error(mesErrJSON(hArg, 'style_hover', e.message));
+			if (e instanceof SyntaxError) throw new Error(mesErrJSON(hArg, 'style_hover', e.message));
+			else throw `fn:Button.ts style_hover`;
 		}
 		else style_hover.fill = 'white';
 
@@ -202,7 +204,8 @@ export class Button extends Container {
 			const o = JSON.parse(hArg.style_clicked);
 			for (const [nm, v] of Object.entries(o)) (style_clicked as any)[nm] = v;
 		} catch (e) {
-			throw new Error(mesErrJSON(hArg, 'style_clicked', e.message));
+			if (e instanceof SyntaxError) throw new Error(mesErrJSON(hArg, 'style_clicked', e.message));
+			else throw `fn:Button.ts style_clicked`;
 		}
 		else style_clicked.dropShadow = false;
 

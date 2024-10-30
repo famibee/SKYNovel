@@ -37,7 +37,7 @@ export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''
 
 const	css_key4del	= '/* SKYNovel */';
 export function initStyle() {
-	const he = document.getElementsByTagName('head')[0];
+	const he = document.getElementsByTagName('head')[0]!;
 	const len = he.children.length;
 	for (let i=len -1; i>=0; --i) {
 		const v = he.children[i];
@@ -49,7 +49,7 @@ export function initStyle() {
 export function addStyle(style: string) {
 	const gs = document.createElement('style');
 	gs.innerHTML = css_key4del + style;
-	document.getElementsByTagName('head')[0].appendChild(gs);
+	document.getElementsByTagName('head')[0]!.appendChild(gs);
 }
 
 

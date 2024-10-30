@@ -140,7 +140,7 @@ export class SoundMng {
 	//MARK: 効果音フェードの終了待ち
 	#wf(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
-		return this.#hSndBuf[buf]?.wf(hArg);
+		return this.#hSndBuf[buf]?.wf(hArg) as boolean;
 	}
 
 	//MARK: 音声フェードの停止
@@ -156,7 +156,7 @@ export class SoundMng {
 	//MARK: 効果音再生の終了待ち
 	#ws(hArg: HArg) {
 		const {buf = 'SE'} = hArg;
-		return this.#hSndBuf[buf]?.ws(hArg);
+		return this.#hSndBuf[buf]?.ws(hArg) as boolean;
 	}
 
 	//MARK: 再生トラックの交換
@@ -164,8 +164,11 @@ export class SoundMng {
 		const {buf: buf1 = 'SE', buf2 = 'SE'} = hArg;
 		if (buf1 === buf2) return false;
 
-		[this.#hSndBuf[buf1], this.#hSndBuf[buf2]] =
-		[this.#hSndBuf[buf2], this.#hSndBuf[buf1]];
+		const a = this.#hSndBuf[buf1];	// 分割代入の変数交換だと noUncheckedIndexedAccess エラーになるので
+		const b = this.#hSndBuf[buf2];
+		if (a) this.#hSndBuf[buf2] = a; else delete this.#hSndBuf[buf2];
+		if (b) this.#hSndBuf[buf1] = b; else delete this.#hSndBuf[buf1];
+
 		SndBuf.xchgbuf(hArg);
 
 		return false;

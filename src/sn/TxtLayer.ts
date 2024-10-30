@@ -174,7 +174,7 @@ export class TxtLayer extends Layer {
 		const a = String(hArg.time).split(',');
 		if (a.length !== len) throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
 		TxtLayer.#hAutoWc = {};	// 毎回クリアを仕様とする
-		a.forEach((v, i)=> TxtLayer.#hAutoWc[text[i]] = uint(v));
+		for (let i=0; i<len; ++i) TxtLayer.#hAutoWc[text[i]!] = uint(a[i]);
 		TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
 
 		return false;
@@ -274,7 +274,8 @@ export class TxtLayer extends Layer {
 						DebugMng.myTrace(`${key}は指定できません`, 'W');
 						continue;
 					}
-					s[key] = cln.style[key];
+					const v = cln.style[key];
+					if (v) s[key] = v;
 				}
 	//			if ((! cln.style.opacity) && ('alpha' in hArg)) s.opacity = String(this.spLay.alpha);
 			}

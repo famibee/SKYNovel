@@ -210,11 +210,11 @@ export class SpritesMng {
 		next();
 	}
 	static #sortAFrameName(aFn: string[]): string[] {
-		const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0]);
+		const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0] ?? '');
 		if (! a_base_name) return [];
 
-		const is = a_base_name[1].length;
-		const ie = -a_base_name[2].length -1;
+		const is = a_base_name[1]!.length;
+		const ie = -a_base_name[2]!.length -1;
 		return aFn.sort((a, b)=> int(a.slice(is, ie)) > int(b.slice(is, ie)) ?1 :-1);
 	}
 
@@ -311,9 +311,11 @@ export class SpritesMng {
 				return asp;
 			}
 			if (fn in utils.TextureCache) return Sprite.from(fn);
-			if (fn in SpritesMng.#hFn2hve) return Sprite.from(SpritesMng.#hFn2hve[fn]);
+			const hve = SpritesMng.#hFn2hve[fn];
+			if (hve) return Sprite.from(hve);
 
-			return (fn in hRes) ?new Sprite(hRes[fn].texture) :new Sprite;
+			const r = hRes[fn];
+			return r ?new Sprite(r.texture) :new Sprite;
 		}
 	static	#hFn2hve	: {[fn: string]: HTMLVideoElement} = {};
 	static	getHFn2VElm(fn: string) {return SpritesMng.#hFn2hve[fn]}

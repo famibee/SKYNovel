@@ -71,7 +71,7 @@ export class RubySpliter {
 
 	putTxt(text: string) {
 		for (const {groups} of text.matchAll(RubySpliter.#REG_RUBY)) {
-			const {ruby, kan_ruby, kan, ce, txt='', str} = groups!;
+			const {ruby, kan_ruby, kan='', ce, txt='', str=''} = groups!;
 			if (ruby) {this.putTxtRb(decodeURIComponent(str), ruby); continue}
 
 			if (kan_ruby) {this.putTxtRb(kan, kan_ruby); continue}
@@ -90,7 +90,7 @@ export class RubySpliter {
 		const len = a.length;
 		if (/^\*.?$/.test(ruby)) {	// 傍点文法
 			const rb_ses = 'center｜'+ (ruby === '*' ?RubySpliter.#sesame :ruby.charAt(1));
-			for (let i=0; i<len; ++i) this.#putCh(a[i], rb_ses);
+			for (let i=0; i<len; ++i) this.#putCh(a[i]!, rb_ses);
 			return;
 		}
 
@@ -105,8 +105,8 @@ export class RubySpliter {
 		const lenR = aR.length;
 		const len_max = (lenR > len) ?lenR :len;
 		for (let i=0; i<len_max; ++i) this.#putCh(
-			(i < len) ? a[i] : '',
-			(i < lenR) ? decodeURIComponent(aR[i]) : ''
+			(i < len) ? a[i]! : '',
+			(i < lenR) ? decodeURIComponent(aR[i]!) : ''
 		);
 	}
 

@@ -7,7 +7,7 @@
 
 import {CmnLib, argChk_Boolean, parseColor} from './CmnLib';
 import {IHTag, HArg} from './Grammar';
-import {IMain} from './CmnInterface';
+import {IMain, Scope} from './CmnInterface';
 import {Config} from './Config';
 import {tagToken2Name, splitAmpersand} from './Grammar';
 import {PropParser} from './PropParser';
@@ -27,11 +27,8 @@ export class Main implements IMain {
 
 	#hTag		: IHTag		= Object.create(null);	// タグ処理辞書
 
-	#val		: Variable;
-	#prpPrs		: PropParser;
 	#scrItr		: ScriptIterator;
 	#layMng		: LayerMng;
-	#evtMng		: EventMng;
 
 
 	constructor(private readonly sys: SysBase) {
@@ -80,20 +77,23 @@ export class Main implements IMain {
 
 
 		// 変数
-		this.#val = new Variable(cfg, this.#hTag);
-		this.#prpPrs = new PropParser(this.#val, cfg.oCfg.init.escape ?? '\\');
+		const val = new Variable(cfg, this.#hTag);
+		const prpPrs = new PropParser(val, cfg.oCfg.init.escape ?? '\\');
+		this.#setVal_Nochk = (scope, nm, v, autocast)=> val.setVal_Nochk(scope, nm, v, autocast);
+		this.#getValAmpersand = v=> prpPrs.getValAmpersand(v);
+		this.#parse = s=> prpPrs.parse(s);
 
 		// システム
-		await Promise.allSettled(this.sys.init(this.#hTag, app, this.#val,this));	// 変数準備完了
-		this.#hTag.title({text: cfg.oCfg.book.title || 'SKYNovel'});
+		await Promise.allSettled(this.sys.init(this.#hTag, app, val,this));	// 変数準備完了
+		this.#hTag.title!({text: cfg.oCfg.book.title || 'SKYNovel'});
 
 		// ＢＧＭ・効果音
 		const {SoundMng} = await import('./SoundMng');
-		const sndMng = new SoundMng(cfg, this.#hTag, this.#val, this, this.sys);
+		const sndMng = new SoundMng(cfg, this.#hTag, val, this, this.sys);
 		this.#aDest.unshift(()=> sndMng.destroy());
 
 		// 条件分岐、ラベル・ジャンプ、マクロ、しおり
-		this.#scrItr = new ScriptIterator(cfg, this.#hTag, this, this.#val, this.#prpPrs, sndMng, this.sys);
+		this.#scrItr = new ScriptIterator(cfg, this.#hTag, this, val, prpPrs, sndMng, this.sys);
 		this.#aDest.unshift(()=> this.#scrItr.destroy());
 
 		// デバッグ・その他
@@ -101,12 +101,13 @@ export class Main implements IMain {
 		this.#aDest.unshift(()=> dbgMng.destroy());
 
 		// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
-		this.#layMng = new LayerMng(cfg, this.#hTag, app, this.#val, this, this.#scrItr, this.sys, sndMng, this.#prpPrs);
+		this.#layMng = new LayerMng(cfg, this.#hTag, app, val, this, this.#scrItr, this.sys, sndMng, prpPrs);
 		this.#aDest.unshift(()=> this.#layMng.destroy());
 
 		// イベント
-		this.#evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, this.#val, sndMng, this.#scrItr, this.sys);
-		this.#aDest.unshift(()=> this.#evtMng.destroy());
+		const evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, val, sndMng, this.#scrItr, this.sys);
+		this.#aDest.unshift(()=> evtMng.destroy());
+		this.fire = (KEY, e)=> evtMng.fire(KEY, e);
 
 		this.#aDest.unshift(()=> {
 			this.stop();
@@ -115,7 +116,7 @@ export class Main implements IMain {
 			this.#hTag = {};
 		});
 
-		this.#hTag.jump({fn: 'main'});
+		this.#hTag.jump!({fn: 'main'});
 		this.stop();
 	}
 
@@ -137,29 +138,30 @@ export class Main implements IMain {
 		if (isThrow) throw mes;
 	}
 
-	fire(KEY: string, e: Event) {this.#evtMng.fire(KEY, e)}
+	fire(_KEY: string, _e: Event) {}
 
 
 	resumeByJumpOrCall(hArg: HArg) {
 		if (hArg.url) {
-			this.#hTag.navigate_to(hArg);
+			this.#hTag.navigate_to!(hArg);
 			this.#scrItr.jumpJustBefore();
 			return;
 		}
 
-		this.#val.setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
-		this.#val.setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
+		this.#setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
+		this.#setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
 //console.log(`%cfn:Main.ts resumeByJumpOrCall:%o`, 'color:#3B0;', hArg);
 		if (argChk_Boolean(hArg, 'call', false)) {
 			this.#scrItr.subIdxToken();	// 「コール元の次」に進めず、「コール元」に戻す
-			this.#hTag.call(hArg);
+			this.#hTag.call!(hArg);
 		}
 		else {
-			this.#hTag.clear_event({});
-			this.#hTag.jump(hArg);
+			this.#hTag.clear_event!({});
+			this.#hTag.jump!(hArg);
 		}
 		this.resume();
 	}
+		#setVal_Nochk = (_scope: Scope, _nm: string, _val: any, _autocast = false)=> {}
 
 	resume() {
 //console.log(`-- resume!`);
@@ -215,20 +217,20 @@ export class Main implements IMain {
 						// 変数計算
 						if (this.#scrItr.isBreak(token)) return;
 						const o = splitAmpersand(token.slice(1));
-						o.name = this.#prpPrs.getValAmpersand(o.name);
-						o.text = String(this.#prpPrs.parse(o.text));
-						this.#hTag.let(o);
+						o.name = this.#getValAmpersand(o.name);
+						o.text = String(this.#parse(o.text));
+						this.#hTag.let!(o);
 						continue;
 					}
 
 					if (token.charAt(1) === '&') throw new Error('「&表示&」書式では「&」指定が不要です');
-					token = String(this.#prpPrs.parse( token.slice(1, -1) ));
+					token = String(this.#parse( token.slice(1, -1) ));
 				}
 				catch (err) {
 					this.errScript(
 						err instanceof Error
 							? `& 変数操作・表示 mes=${err.message}(${err.name})`
-							: err,
+							: String(err),
 						false
 					);
 					return;
@@ -249,12 +251,14 @@ export class Main implements IMain {
 				this.errScript(
 					err instanceof Error
 						? `文字表示 mes=${err.message}(${err.name})`
-						: err,
+						: String(err),
 					false
 				);
 				return;
 			}
 		}
 	}
+		#getValAmpersand	= (_v: string)=> '';
+		#parse				= (_s: string): any => {};
 
 }

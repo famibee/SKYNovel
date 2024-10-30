@@ -18,7 +18,7 @@ export declare class SpritesMng {
     readonly ret: boolean;
     destroy(): void;
     static destroy(): void;
-    static getHFn2VElm(fn: string): HTMLVideoElement;
+    static getHFn2VElm(fn: string): HTMLVideoElement | undefined;
     static wv(hArg: HArg): boolean;
     static stopVideo(fn: string): void;
     static add_face(hArg: HArg): boolean;

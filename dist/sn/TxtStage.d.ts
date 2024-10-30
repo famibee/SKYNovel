@@ -48,7 +48,7 @@ export declare class TxtStage extends Container {
         rotate: number;
         join: boolean;
         ease: string;
-    };
+    } | undefined;
     static ch_out_style(hArg: HArg): any;
     dispBreak(o: HArg): void;
     static delBreak(): void;

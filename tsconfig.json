@@ -10,26 +10,43 @@
 		"declaration": true,
 		"declarationMap": true,
 		"removeComments": true,
-		"noImplicitThis": true,		// this に型を明示しないとエラーに
-		"noImplicitReturns": true,	// 暗黙的に undefined を返している関数をエラーに
-		"noFallthroughCasesInSwitch": true,	// switch 文のフォールスルーをエラーに
-		"forceConsistentCasingInFileNames": true,
-		"noImplicitAny": true,		// 暗黙的な any をエラーに
-		"strictNullChecks": true,	// 全ての型で Null を許容しないように
+
+		"strict": true,
+		/*
+			noImplicitAny
+			strictNullChecks
+			strictFunctionTypes
+			strictBindCallApply
+			strictPropertyInitialization
+			noImplicitThis
+			useUnknownInCatchVariables
+			alwaysStrict
+		*/
+		"strictPropertyInitialization": false,	// クラスプロパティの初期化を必須に
+
+		"allowUnreachableCode": false,	// 到達しえないコードを許容しない (false)
+		"allowUnusedLabels": true,	// 到達しえないラベルを許容しない
+		"noFallthroughCasesInSwitch": true,	// switch文のfallthroughを禁止
+		"noImplicitOverride": true,	// overrideキーワードを必須
+		"noImplicitReturns": true,	// 関数戻り値の型注釈を必須に
+		//"noPropertyAccessFromIndexSignature": false,	// インデックス型のプロパティ参照に[]を必須にする
+		"noUncheckedIndexedAccess": true,	// undefined の可能性があるプロパティへのアクセスを厳密に
 		"noUnusedLocals": true,		// 使っていないローカル変数をエラーに
 		"noUnusedParameters": true,	// 使っていない仮引数をエラーに
 								// ただし引数名の先頭にアンダースコアを付けると回避できる
-		"allowUnreachableCode": false,	// 到達しえないコードを許容しない (false)
-		"allowUnusedLabels": true,	// 到達しえないラベルを許容しない
+
+		"forceConsistentCasingInFileNames": true,	// import時にファイルパスの文字列で大文字小文字を区別するか
+		//"isolatedDeclarations": true,	// 変数や関数をエクスポート時、ユーザーに明示的な型注釈を求める（トランスパイラ向け）
+			// 時々 true でチェックできたら
+		"isolatedModules": true,		// 各ファイルを独立して変換する際に、解釈できないコードがある場合に警告（トランスパイラ向け）
+		//preserveSymlinks	false
+		//verbatimModuleSyntax	false
+		//emitDecoratorMetadata		// 出力 js に型を発行
+		//"extendedDiagnostics": true,	// コンパイル時に TypeScript が時間を費やしている場所を検出
+		"incremental": true,			// 差分ビルド
+
 		// オブジェクトへの過剰なプロパティチェックを抑制しない
-		"strictPropertyInitialization": false,	// クラス定義時、インスタンス変数の初期化が宣言時、もしくはコンストラクタのどちらでも行われていない場合にエラー
-		"noImplicitOverride": true,	// overrideを使用しないオーバーライドをエラーに
-		"esModuleInterop": true,				// pixi.js 6.1.0以降必須
-		"allowSyntheticDefaultImports": true,	// pixi.js 6.1.0以降必須
-		"useDefineForClassFields": true,	// "本来あるべき"コードが生成されるように（今後デフォルトtrueになる予定）
-		"incremental": true			// 差分ビルド
+		"esModuleInterop": true			// pixi.js 6.1.0以降必須
 	},
-	"include": [
-		"src/**/*"
-	]
+	"include": ["src/**/*"]
 }

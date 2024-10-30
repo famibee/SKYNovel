@@ -143,7 +143,7 @@ export class TxtStage extends Container {
 						DebugMng.myTrace(`${key}は指定できません`, 'W');
 						continue;
 					}
-					s[key] = cln.style[key];
+					s[key] = cln.style[key]!;
 				}
 				if (! cln.style.opacity && 'alpha' in hArg) s.opacity = String(this.ctn.alpha);
 			}
@@ -252,7 +252,7 @@ export class TxtStage extends Container {
 			asArray: (arrayLike: StyleSheetList)=> {
 				const a: StyleSheet[] = [];
 				const len = arrayLike.length;
-				for (let i=0; i<len; ++i) a.push(arrayLike[i]);
+				for (let i=0; i<len; ++i) a.push(arrayLike[i]!);
 				return a;
 			},
 		};
@@ -398,7 +398,7 @@ export class TxtStage extends Container {
 				const result: string[] = [];
 				let match: RegExpExecArray | null;
 				while ((match = URL_REGEX.exec(str))) {
-					result.push(match[1]);
+					result.push(match[1]!);
 				}
 				return result.filter(function (url) {
 					return !util.isDataUrl(url);
@@ -471,7 +471,7 @@ export class TxtStage extends Container {
 							util.asArray(sheet.cssRules || []).forEach(cssRules.push.bind(cssRules));
 						}
 						catch (e) {
-							console.error('Error while reading CSS rules from ' + sheet.href, e.toString());
+							console.error('Error while reading CSS rules from ' + sheet.href, String(e));
 						}
 					}
 
@@ -634,7 +634,7 @@ export class TxtStage extends Container {
 			// [r]は後述コメントのHTMLタグになってるので問題なし
 
 		// ルビ付き文字に背景指定（style='background:'）がある場合、「文字」と「ルビ」と「その二つを含んだ領域」の三つが個別に塗られるが、三つめは背景指定を削除する
-		this.#htmTxt.querySelectorAll('.sn_ch:has(> ruby)').forEach((v: HTMLSpanElement)=> v.style.background = '');	// :has直前に空白厳禁
+		this.#htmTxt.querySelectorAll('.sn_ch:has(> ruby)').forEach(v=> (v as HTMLElement).style.background = '');	// :has直前に空白厳禁
 
 		this.#lenHtmTxt = aSpan.length;
 //console.log(`fn:TxtStage.ts === ==${this.#htmTxt.innerHTML.slice(360)}==`);
@@ -690,7 +690,7 @@ export class TxtStage extends Container {
 		const ease = CmnTween.ease(this.#fi_easing);
 
 		for (let i=begin; i<len; ++i) {
-			const c = this.#aRect[i];
+			const c = this.#aRect[i]!;
 			const rct = c.rect;
 			const arg = JSON.parse(c.elm.dataset.arg ?? '{"delay": 0}');
 			const add = JSON.parse(c.elm.dataset.add ?? '{}');
@@ -774,7 +774,7 @@ export class TxtStage extends Container {
 		// 文字表示に時間をかける最後の文字を探す。末尾はダミー（#SPAN_LAST）
 		let lastElm: HTMLElement | undefined = undefined;
 		for (let i=len -2; i>=0; --i) {		// 末尾の手前から
-			const {elm} = this.#aRect[i];
+			const {elm} = this.#aRect[i]!;
 			if (elm.tagName !== 'SPAN') continue;	// ルビ以外
 
 //console.log(`fn:TxtStage.ts txt:${elm.textContent}: i:${i} begin:${begin} len:${len} elm:%o`, elm);
@@ -1087,7 +1087,7 @@ export class TxtStage extends Container {
 		const len = s.length;
 		for (let i=0; i<len; ++i) {
 			const key: any = s[i];
-			aStyle.push(`"${key}":"${s[key].replaceAll(/(["\\])/g, '\\$1')}"`);
+			aStyle.push(`"${key}":"${s[key]!.replaceAll(/(["\\])/g, '\\$1')}"`);
 		}
 		return `"txt":"${this.#htmTxt.textContent!.replaceAll(/(["\\])/g, '\\$1')
 		}", "style":{${aStyle.join(',')}}`;

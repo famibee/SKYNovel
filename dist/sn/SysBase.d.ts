@@ -12,7 +12,7 @@ export declare class SysBase implements ISysRoots, ISysBase {
     };
     protected readonly elc: EventListenerCtn;
     constructor(hPlg: HPlugin | undefined, arg: HSysBaseArg);
-    protected loaded(hPlg: HPlugin, _arg: HSysBaseArg): Promise<void>;
+    protected loaded(hPlg: HPlugin, _arg: HSysBaseArg): Promise<void | undefined>;
     get cur(): string;
     get crypto(): boolean;
     fetch: (url: string, init?: RequestInit) => Promise<Response>;

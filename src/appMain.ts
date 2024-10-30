@@ -216,8 +216,8 @@ export class appMain {
 			if (this.#skipDelayWinPos) {this.#skipDelayWinPos = false; return}
 
 			this.#isMovingWin = false;
-			const [nx, ny] = this.bw.getPosition();
-			const [nw, nh] = this.bw.getContentSize();
+			const [nx=0, ny=0] = this.bw.getPosition();
+			const [nw=0, nh=0] = this.bw.getContentSize();
 //console.log(`fn:appMain.ts #onMove = ow:${ow} nw:${nw} oh:${oh} nh:${nh}`);
 			if (ox !== nx || oy !== ny || ow !== nw || oh !== nh) {this.#onMove(); return}
 			this.#window(false, nx, ny, nw, nh);

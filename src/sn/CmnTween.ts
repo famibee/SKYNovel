@@ -76,9 +76,10 @@ export class CmnTween {
 	};
 	static	ease(nm: string | undefined): (k: number)=> number {
 		if (! nm) return k=> Easing.Linear.None(k);
-		if (! (nm in CmnTween.#hEase)) throw '異常なease指定です';
 
-		return CmnTween.#hEase[nm];
+		const es = CmnTween.#hEase[nm];
+		if (! es) throw '異常なease指定です';
+		return es;
 	}
 
 	static readonly hMemberCnt	= {
@@ -96,19 +97,26 @@ export class CmnTween {
 	static cnvTweenArg(hArg: HArg, lay: any): {} {
 		const hTo: any = {};
 		for (const nm of Object.keys(CmnTween.hMemberCnt)) {
-			if (! (nm in hArg)) continue;
+			const arg = (hArg as any)[nm];
+			if (! arg) continue;
 	
 			// {x:500}			X位置を500に
 			// {x:'=500'}		現在のX位置に+500加算した位置
 			// {x:'=-500'}		現在のX位置に-500加算した位置
 			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
-			const v = String((hArg as any)[nm]);
-			const a = (v.startsWith('=') ?v.slice(1) :v).split(',');
-			const a0 = hTo[nm] = parseFloat(a[0]);
-			if (a.length > 1) hTo[nm] += Math.round(Math.random()
-				* (parseFloat(a[1]) -a0 +1));
-			if (v.startsWith('=')) hTo[nm] += parseFloat(lay[nm]);	// 相対に
+			const v = String(arg);
+			const hdeq = v.startsWith('=');
+			const vx = hdeq ?v.slice(1) :v;
+			if (! vx) continue;
+
+			const [v0, v1] = vx.split(',');
+			const a0 = hTo[nm] = parseFloat(v0!);
+
+			if (v1) hTo[nm] += Math.round(
+				Math.random() * (parseFloat(v1) -a0 +1)
+			);
+			if (hdeq) hTo[nm] += parseFloat(lay[nm]);	// 相対に
 		}
 		return hTo;
 	}

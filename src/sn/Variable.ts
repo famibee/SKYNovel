@@ -51,7 +51,7 @@ export class Variable implements IVariable {
 		this.defTmp('const.sn.bookmark.json', ()=> {
 			const a: object[] = [];
 			for (const k of Object.keys(this.#data.mark).sort()) {
-				const o = {...this.#data.mark[k].json};
+				const o = {...this.#data.mark[k]!.json};
 				o.place = k;
 				a.push(o);	// パスを searchPath() で展開してはいけない
 			}
@@ -232,7 +232,11 @@ export class Variable implements IVariable {
 	cloneMp() {return {...this.#hScopes.mp}}
 	setMp(mp: IValMp) {this.#hScopes.mp = mp}
 	setMark(place: number, mark: IMark) {this.#data.mark[place] = mark; this.flush()}
-	readonly	getMark = (place: number)=> this.#data.mark[place];
+	readonly	getMark = (place: number)=> {
+		const mark = this.#data.mark[place];
+		if (! mark) throw `place【${place}】は存在しません`;
+		return mark;
+	}
 	cloneSave() {return {...this.#hScopes.save}}
 	mark2save(mark: IMark) {
 		this.#hSave = this.#hScopes.save = {...mark.hSave};
@@ -242,7 +246,11 @@ export class Variable implements IVariable {
 
 	// 既読系
 	touchAreaKidoku(fn: string): Areas {return this.#hAreaKidoku[fn] ??= new Areas}
-	readonly	getAreaKidoku = (fn: string)=> this.#hAreaKidoku[fn];
+	readonly	getAreaKidoku = (fn: string)=> {
+		const areas = this.#hAreaKidoku[fn];
+		if (! areas) throw `hAreaKidoku${fn}】は存在しません`;
+		return areas;
+	}
 	saveKidoku() {
 		for (const [fn, {hAreas}] of Object.entries(this.#hAreaKidoku)) {
 			this.#data.kidoku[fn] = {...hAreas};
@@ -261,8 +269,9 @@ export class Variable implements IVariable {
 		const to = Number(hArg.to);
 		if (from === to) return false;
 
-		if (! (from in this.#data.mark)) throw `from:${from} のセーブデータは存在しません`;
-		this.setMark(to, {...this.#data.mark[from]});
+		const f = this.#data.mark[from];
+		if (! f) throw `from:${from} のセーブデータは存在しません`;
+		this.setMark(to, {...f});
 		this.#sys.copyBMFolder(from, to);
 
 		return false;
@@ -449,7 +458,7 @@ export class Variable implements IVariable {
 		this.setVal_Nochk('sys', 'const.sn.sound.SYS.volume', 1);
 		for (const [fn, v] of Object.entries(this.#data.kidoku)) {
 			v.hAreas = {};
-			this.#hAreaKidoku[fn].clear();
+			this.#hAreaKidoku[fn]?.clear();
 		}
 
 
@@ -490,12 +499,12 @@ export class Variable implements IVariable {
 		if (val == null) throw '[変数に値セット] textは必須です（空文字はOK）';
 
 		const o = PropParser.getValName(arg_name);
-		if (o === null) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
+		if (! o) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
-		const hScope = this.#hScopes[o.scope];
+		const hScope = this.#hScopes[o.scope!];
 		if (! hScope) throw '[変数に値セット] scopeが異常【'+ o.scope +'】です';
 
-		const nm = o['name'];
+		const nm = o.name!;
 		if (nm.startsWith('const.') && (nm in hScope)) {
 			throw '[変数に値セット] 変数【'+ nm +'】は書き換え不可です';
 		}
@@ -535,12 +544,12 @@ export class Variable implements IVariable {
 		if (! arg_name) throw '[変数参照] nameは必須です';
 
 		const o = PropParser.getValName(arg_name);
-		if (o === null) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
+		if (! o) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
-		const hScope = this.#hScopes[o['scope']];
-		if (! hScope) throw '[変数参照] scopeが異常【'+ o['scope'] +'】です';
+		const hScope = this.#hScopes[o.scope!];
+		if (! hScope) throw '[変数参照] scopeが異常【'+ o.scope +'】です';
 
-		const val_name = o['name'];
+		const val_name = o.name!;
 		let val = hScope[val_name];
 //console.log(`fn:Variable.ts line:527 ・getVal arg_name=${arg_name}= val_name=${val_name}= A:${! (val_name in hScope)} val:%o`, val);
 		if (! (val_name in hScope)) {	// 存在しない変数名の場合、刻んで調べていく
@@ -566,9 +575,10 @@ export class Variable implements IVariable {
 
 				let j = i;	// JSONオブジェクトの階層を降りつつ探索
 				while (++j < len) {
+					const nj = aNm[j]!;
 //console.log(`fn:Variable.ts line:561   nm:${nm} j:${j} aNm[j]=${aNm[j]}= A:${! (aNm[j] in v)}`);
-					if (! (aNm[j] in v)) {val = def; break}
-					v = v[aNm[j]];
+					if (! (nj in v)) {val = def; break}
+					v = v[nj];
 //console.log(`fn:Variable.ts line:564   v:${v} J:${j +1 === len}`);
 					if (Object.prototype.toString.call(v) !== '[object Object]'
 						|| j +1 === len) {val = v; break}// 最下層ならそのまま返す

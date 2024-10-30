@@ -185,7 +185,7 @@ export class ReadState {
 		if (! KeY.startsWith('dom=')) return;
 
 		const e2f = glb ? hGlobalEvt2Fnc[key] : hLocalEvt2Fnc[key];
-		ReadState.getHtmlElmList(KeY).el.forEach(v=> v.removeEventListener('click', e2f));
+		if (e2f) ReadState.getHtmlElmList(KeY).el.forEach(v=> v.removeEventListener('click', e2f));
 		if (glb) delete hGlobalEvt2Fnc[key]; else delete hLocalEvt2Fnc[key];
 	}
 
@@ -561,7 +561,7 @@ class Rs_P_Wait extends Rs_S_fire {		// [p] クリック待ち
 		return true;
 	}
 	protected	override	onFinish() {
-		if (argChk_Boolean(this.hArg, 'er', false)) hTag.er(this.hArg);
+		if (argChk_Boolean(this.hArg, 'er', false)) hTag.er!(this.hArg);
 
 		sndMng.clearCache();
 		//scrItr.turnPage();
@@ -648,7 +648,10 @@ export class RsPagination extends Rs_S {
 
 			let h: IHEvt2Fnc = {};
 			if (aKeysAtPaging.length === 0) h = hGlobalEvt2Fnc;
-			else aKeysAtPaging.forEach(k=> h[k] = hGlobalEvt2Fnc[k]);
+			else for (const k of aKeysAtPaging) {
+				const v = hGlobalEvt2Fnc[k];
+				if (v) h[k] = v;
+			}
 			ReadState.getEvt2Fnc = key=> hLocalEvt2Fnc[key] ?? h[key];
 		}
 
@@ -689,7 +692,9 @@ export class RsPagination extends Rs_S {
 			default:	throw `属性to「${to}」は異常です`;
 		}
 
-		const {fn, index, mark} = aPage[posPage];
+		const gg = aPage[posPage];
+		if (! gg) throw `[page] posPage異常:${posPage}`
+		const {fn, index, mark} = gg;
 // const m = scrItr.nowMark();
 // const {week} = aPage[posPage];
 // console.log(`fn:ReadState.ts -- pos:${posPage} (base=${m.hPages.base.fore.sBkFn} 0=${m.hPages['0'].fore.sBkFn} mes=${m.hPages.mes.fore.txs.cssText.match(/color: \w+;/)}) A:${posPage === lenPage -1} styPaging:${styPaging} week:${week} mark:%o`, mark);

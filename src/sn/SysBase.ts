@@ -282,7 +282,7 @@ export class SysBase implements ISysRoots, ISysBase {
 75% {transform:	translate(0px,  -5px);}
 100%{transform:	translate(0px,   0px);}
 }`;
-		document.getElementsByTagName('head')[0].appendChild(gs);
+		document.getElementsByTagName('head')[0]!.appendChild(gs);
 
 
 		this.addHook((type, o)=> this.#hHook[type]?.(o));
@@ -343,6 +343,7 @@ export class SysBase implements ISysRoots, ISysBase {
 
 		const img = document.createElement('img');
 		const td = SysBase.#hToastDat[nm];
+		if (! td) throw new Error(`toast 名ミス=${nm}`);
 		img.src = `data:image/svg+xml;base64,${td.dat}`;
 		const size = Math.min(CmnLib.stageW, CmnLib.stageH) /4 *this.#cvsScale;
 		img.width = img.height = size;

@@ -45,7 +45,7 @@ export class AnalyzeTagArg {
 		for (const {groups} of args.matchAll(this.#REG_TAGARG)) {
 			const {key, val, val2, def, def2, literal} = groups!;
 			if (key) this.#hPrm[key] = {
-				val: val ?? val2,
+				val: val ?? val2 ?? '',
 				def: def ?? def2
 			};
 			else if (literal) {
@@ -62,7 +62,7 @@ export class AnalyzeTagArg {
 		const args = token.slice(1+lenNm, -1);
 		for (const {groups, index, 0: z} of args.matchAll(this.#REG_TAGARG)) {
 			if (index === undefined) continue;
-			const {key, val, val2, literal} = groups!;
+			const {key, val, val2='', literal} = groups!;
 			if (literal) {
 				if (literal.endsWith('=')) {
 					const lenVnm = literal.length -1;
@@ -81,7 +81,7 @@ export class AnalyzeTagArg {
 			if (! key) continue;
 
 			const {ln: k_ln, ch: k_ch} = this.#idx2LnCol(lenNm, ln, ch, args, index);
-			const {ln: v_ln, ch: v_ch} = this.#idx2LnCol(lenNm, ln, ch, args, index +z.lastIndexOf(val ?? val2) -(val ?0 :1));
+			const {ln: v_ln, ch: v_ch} = this.#idx2LnCol(lenNm, ln, ch, args, index +z.lastIndexOf(val ?? val2 ?? '') -(val ?0 :1));
 			hRng[key] = {k_ln, k_ch, v_ln, v_ch, v_len: val ?val.length :val2.length +2};
 		}
 

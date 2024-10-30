@@ -75,7 +75,7 @@ export class EventMng implements IEvtMng {
 			hHook.stopOnStep =
 			hHook.stopOnStepIn =
 			hHook.stopOnStepOut =
-			hHook.stopOnBackstep = hHook.pause;
+			hHook.stopOnBackstep = hHook.pause!;
 
 			sys.addHook(type=> hHook[type]?.());
 		}
@@ -200,7 +200,8 @@ export class EventMng implements IEvtMng {
 			gamepad.on('gamepad:axis', (e: any)=> {
 				if (! document.hasFocus()) return;
 				stick_xy[e.detail.axis] = e.detail.value;
-				const s = (stick_xy[1] +1)*3 + (stick_xy[0] +1);
+				const [x=0, y=0] = stick_xy;
+				const s = (y +1)*3 + (x +1);
 //console.log(`fn:EventMng.ts 👺 'gamepad:axis' detail:%o`, e.detail);
 				const s2 = aStick[s];
 				if (! s2) return;
@@ -230,12 +231,12 @@ export class EventMng implements IEvtMng {
 
 			if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = 0;
 		});
-		val.defTmp('const.sn.key.alternate', ()=> this.#hDownKeys['Alt'] > 0);
-		val.defTmp('const.sn.key.command', ()=> this.#hDownKeys['Meta'] > 0);
-		val.defTmp('const.sn.key.control', ()=> this.#hDownKeys['Control'] > 0);
-		val.defTmp('const.sn.key.end', ()=> this.#hDownKeys['End'] > 0);
-		val.defTmp('const.sn.key.escape', ()=> this.#hDownKeys['Escape'] > 0);
-		val.defTmp('const.sn.key.back', ()=> this.#hDownKeys['GoBack'] > 0);
+		val.defTmp('const.sn.key.alternate', ()=> this.#hDownKeys.Alt! > 0);
+		val.defTmp('const.sn.key.command', ()=> this.#hDownKeys.Meta! > 0);
+		val.defTmp('const.sn.key.control', ()=> this.#hDownKeys.Control! > 0);
+		val.defTmp('const.sn.key.end', ()=> this.#hDownKeys.End! > 0);
+		val.defTmp('const.sn.key.escape', ()=> this.#hDownKeys.Escape! > 0);
+		val.defTmp('const.sn.key.back', ()=> this.#hDownKeys.GoBack! > 0);
 	}
 
 	resvFlameEvent(win: Window) {
@@ -339,21 +340,21 @@ export class EventMng implements IEvtMng {
 			hArg.clicksebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.clickse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerdown', ()=> {
-				this.hTag.playse({fn: hArg.clickse, buf: hArg.clicksebuf, join: false});
+				this.hTag.playse!({fn: hArg.clickse, buf: hArg.clicksebuf, join: false});
 			});
 		}
 		if (hArg.enterse) {	//	enterse	ボタン上にマウスカーソルが載った時に効果音
 			hArg.entersebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.enterse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerover', ()=> {
-				this.hTag.playse({fn: hArg.enterse, buf: hArg.entersebuf, join: false});
+				this.hTag.playse!({fn: hArg.enterse, buf: hArg.entersebuf, join: false});
 			});
 		}
 		if (hArg.leavese) {	//	leavese	ボタン上からマウスカーソルが外れた時に効果音
 			hArg.leavesebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.leavese, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerout', ()=> {
-				this.hTag.playse({fn: hArg.leavese, buf: hArg.leavesebuf, join: false});
+				this.hTag.playse!({fn: hArg.leavese, buf: hArg.leavesebuf, join: false});
 			});
 		}
 
@@ -408,7 +409,13 @@ export class EventMng implements IEvtMng {
 		try {
 			const o = hArg.hint_opt ?{...this.#oHintOpt, ...JSON.parse(hArg.hint_opt)}: this.#oHintOpt;
 			this.#popper.setOptions(o);
-		} catch (e) {console.error(mesErrJSON(hArg, 'hint_opt', e.message))}
+		} catch (e) {console.error(mesErrJSON(
+			hArg,
+			'hint_opt', 
+			`dispHint 引数 hint_opt エラー ${
+				e instanceof SyntaxError ?e.message :''
+			}`,
+		))}
 
 		this.#elmV.getBoundingClientRect = ()=> DOMRect.fromRect({
 			x: this.sys.ofsLeft4elm +rctBtn.x *this.sys.cvsScale,

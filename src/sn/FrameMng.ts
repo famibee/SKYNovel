@@ -55,7 +55,8 @@ export class FrameMng implements IGetFrm {
 	#hIfrmVisibleBk: {[id: string]: boolean} = Object.create(null);
 	restoreAllFrame() {	// 保存していた表示・非表示を回復
 		for (const [id, v] of Object.entries(this.#hIfrmVisibleBk)) {
-			this.#hIfrm[id].style.display = v ?'inline' :'none';
+			const f = this.#hIfrm[id];
+			if (f) f.style.display = v ?'inline' :'none';
 		}
 		this.#hIfrmVisibleBk = Object.create(null);
 	}
@@ -145,7 +146,7 @@ export class FrameMng implements IGetFrm {
 		return true;
 	}
 	#hDisabled	: {[id: string]: boolean}	= {};
-	getFrmDisabled(id: string): boolean {return this.#hDisabled[id]}
+	getFrmDisabled(id: string): boolean {return this.#hDisabled[id] as boolean}
 	#rect(hArg: HArg): DOMRect {
 		const a = {...hArg};
 		const re = FrameMng.#sys.resolution;
@@ -191,7 +192,8 @@ export class FrameMng implements IGetFrm {
 			for (const [s2, {data: {src}}] of Object.entries(hRes)) {
 				const u2 = this.#hEncImgOUrl[s2]
 				= src + (src.slice(0, 5) === 'blob:' ?'' :prmSrc);
-				for (const i of this.#hARetImg[s2]) {
+				const ri = this.#hARetImg[s2];
+				if (ri) for (const i of ri) {
 					i.src = u2;
 					if (onload) i.onload = ()=> onload(i);
 				}
