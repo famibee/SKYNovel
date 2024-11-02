@@ -52,7 +52,7 @@ export class EventMng implements IEvtMng {
 		scrItr.setOtherObj(this, layMng);
 		TxtLayer.setEvtMng(this, sys, scrItr);
 		layMng.setEvtMng(this);
-		sys.setFire((KEY, e)=> this.fire(KEY, e));
+		sys.setFire((KEY, e)=> this.#rs.fire(KEY, e));
 
 		if (CmnLib.isDbg) {
 			const hHook	: {[type: string]: ()=> void}	= {
@@ -128,11 +128,11 @@ export class EventMng implements IEvtMng {
 
 
 		appPixi.stage.interactive = true;
-		if (CmnLib.isMobile) appPixi.stage.on('pointerdown', e=> this.fire('click', e));
+		if (CmnLib.isMobile) appPixi.stage.on('pointerdown', e=> this.#rs.fire('click', e));
 		else this.#elc.add(appPixi.stage, 'pointerdown', e=> {
 			switch (e.data.button) {
-				case 0:	this.fire('click', e);	break;
-				case 1:	this.fire('middleclick', e);	break;
+				case 0:	this.#rs.fire('click', e);	break;
+				case 1:	this.#rs.fire('middleclick', e);	break;
 			}
 		});
 		this.#elc.add(window, 'keydown', e=> this.#ev_keydown(e));
@@ -145,7 +145,7 @@ export class EventMng implements IEvtMng {
 		this.#elc.add(window, 'languagechange', e=> {
 //console.log(`fn:EventMng.ts languagechange `);
 			fncUpdNavLang();
-			this.fire('sn:chgNavLang', e);
+			this.#rs.fire('sn:chgNavLang', e);
 			utils.clearTextureCache();
 		});
 		fncUpdNavLang();
@@ -159,7 +159,7 @@ export class EventMng implements IEvtMng {
 		fncMql(mql);
 		this.#elc.add(mql, 'change', e=> {
 			fncMql(e);
-			this.fire('sn:chgDarkMode', e);
+			this.#rs.fire('sn:chgDarkMode', e);
 		});
 
 		let procWheel4wle = (_elc: EventListenerCtn, _onIntr: ()=> void)=> {};
@@ -251,12 +251,12 @@ export class EventMng implements IEvtMng {
 
 		if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = e.repeat ?2 :1;
 
-		this.fire(SysBase.modKey(e) + e.key, e);
+		this.#rs.fire(SysBase.modKey(e) + e.key, e);
 	}
 	#ev_contextmenu(e: MouseEvent) {
 		//if (! e.isTrusted) return;
 
-		this.fire(this.#modKey4MouseEvent(e) +'rightclick', e);
+		this.#rs.fire(this.#modKey4MouseEvent(e) +'rightclick', e);
 		e.preventDefault();		// イベント未登録時、メニューが出てしまうので
 	}
 		#modKey4MouseEvent(e: MouseEvent) {
@@ -276,7 +276,7 @@ export class EventMng implements IEvtMng {
 		// 今のところ縦回転ホイールのみ想定
 		const key = this.#modKey4MouseEvent(e)
 		+	(e.deltaY > 0 ?'downwheel' :'upwheel');
-		this.fire(key, e);
+		this.#rs.fire(key, e);
 	}
 	#wheeling = false;
 	#extend_wheel = false;
@@ -363,14 +363,14 @@ export class EventMng implements IEvtMng {
 			const k = key + hArg.onenter.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: k};
 			ReadState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
-			ctnBtn.on('pointerover', (e: any)=> this.fire(k, e));
+			ctnBtn.on('pointerover', (e: any)=> this.#rs.fire(k, e));
 		}
 		if (hArg.onleave) {
 			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
 			const k = key + hArg.onleave.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: k};
 			ReadState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
-			ctnBtn.on('pointerout', (e: any)=> this.fire(k, e));
+			ctnBtn.on('pointerout', (e: any)=> this.#rs.fire(k, e));
 		}
 	}
 	readonly	#elmV = {
@@ -474,7 +474,7 @@ export class EventMng implements IEvtMng {
 
 					const d = elm.dataset;
 					for (const [k, v] of Object.entries(d)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${k}`, v);
-					this.fire(KeY, e);
+					this.#rs.fire(KeY, e);
 				});
 
 				// フォーカス処理対象として登録

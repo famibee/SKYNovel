@@ -24471,7 +24471,7 @@ var defaultModifiers = [eventListeners, popperOffsets$1, computeStyles$1, applyS
 });
 class EventMng {
   constructor(t, e, r, a, o, l, h, u, c) {
-    if (this.cfg = t, this.hTag = e, this.appPixi = r, this.main = a, this.layMng = o, this.val = l, this.scrItr = u, this.sys = c, e.clear_event = (g) => ReadState.clear_event(g), e.event = (g) => this.#x(g), e.l = (g) => this.#r.l(g), e.p = (g) => this.#r.p(g), e.s = (g) => this.#r.s(g), e.set_cancel_skip = () => !1, e.set_focus = (g) => this.#p(g), e.wait = (g) => this.#r.wait(g), e.waitclick = (g) => this.#r.waitclick(g), e.page = (g) => this.#r.page(g), h.setEvtMng(this), u.setOtherObj(this, o), TxtLayer.setEvtMng(this, c, u), o.setEvtMng(this), c.setFire((g, y) => this.fire(g, y)), CmnLib.isDbg) {
+    if (this.cfg = t, this.hTag = e, this.appPixi = r, this.main = a, this.layMng = o, this.val = l, this.scrItr = u, this.sys = c, e.clear_event = (g) => ReadState.clear_event(g), e.event = (g) => this.#x(g), e.l = (g) => this.#r.l(g), e.p = (g) => this.#r.p(g), e.s = (g) => this.#r.s(g), e.set_cancel_skip = () => !1, e.set_focus = (g) => this.#p(g), e.wait = (g) => this.#r.wait(g), e.waitclick = (g) => this.#r.waitclick(g), e.page = (g) => this.#r.page(g), h.setEvtMng(this), u.setOtherObj(this, o), TxtLayer.setEvtMng(this, c, u), o.setEvtMng(this), c.setFire((g, y) => this.#r.fire(g, y)), CmnLib.isDbg) {
       const g = {
         pause: () => {
           if (!this.#r.isWait) return;
@@ -24523,25 +24523,25 @@ class EventMng {
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>
-</div>`), this.#u = document.querySelector(".sn_hint"), this.#m = this.#u.querySelector("span"), this.#v = createPopper(this.#f, this.#u), this.#u.hidden = !0, r.stage.interactive = !0, CmnLib.isMobile ? r.stage.on("pointerdown", (g) => this.fire("click", g)) : this.#e.add(r.stage, "pointerdown", (g) => {
+</div>`), this.#u = document.querySelector(".sn_hint"), this.#m = this.#u.querySelector("span"), this.#v = createPopper(this.#f, this.#u), this.#u.hidden = !0, r.stage.interactive = !0, CmnLib.isMobile ? r.stage.on("pointerdown", (g) => this.#r.fire("click", g)) : this.#e.add(r.stage, "pointerdown", (g) => {
       switch (g.data.button) {
         case 0:
-          this.fire("click", g);
+          this.#r.fire("click", g);
           break;
         case 1:
-          this.fire("middleclick", g);
+          this.#r.fire("middleclick", g);
           break;
       }
     }), this.#e.add(window, "keydown", (g) => this.#i(g)), this.#e.add(Main.cvs, "contextmenu", (g) => this.#s(g));
     const d = () => l.setVal_Nochk("tmp", "const.sn.navigator.language", navigator.language);
     this.#e.add(window, "languagechange", (g) => {
-      d(), this.fire("sn:chgNavLang", g), clearTextureCache();
+      d(), this.#r.fire("sn:chgNavLang", g), clearTextureCache();
     }), d();
     const v = (g) => {
       CmnLib.isDarkMode = g.matches, l.setVal_Nochk("tmp", "const.sn.isDarkMode", CmnLib.isDarkMode);
     }, m = globalThis.matchMedia("(prefers-color-scheme: dark)");
     v(m), this.#e.add(m, "change", (g) => {
-      v(g), this.fire("sn:chgDarkMode", g);
+      v(g), this.#r.fire("sn:chgDarkMode", g);
     });
     let _ = (g, y) => {
     };
@@ -24596,10 +24596,10 @@ class EventMng {
   #n = (t) => {
   };
   #i(t) {
-    t.isComposing || (t.key in this.#o && (this.#o[t.key] = t.repeat ? 2 : 1), this.fire(SysBase.modKey(t) + t.key, t));
+    t.isComposing || (t.key in this.#o && (this.#o[t.key] = t.repeat ? 2 : 1), this.#r.fire(SysBase.modKey(t) + t.key, t));
   }
   #s(t) {
-    this.fire(this.#l(t) + "rightclick", t), t.preventDefault();
+    this.#r.fire(this.#l(t) + "rightclick", t), t.preventDefault();
   }
   #l(t) {
     return (t.altKey ? "alt+" : "") + (t.ctrlKey ? "ctrl+" : "") + (t.metaKey ? "meta+" : "") + (t.shiftKey ? "shift+" : "");
@@ -24611,7 +24611,7 @@ class EventMng {
     }
     this.#h = !0, this.#g();
     const e = this.#l(t) + (t.deltaY > 0 ? "downwheel" : "upwheel");
-    this.fire(e, t);
+    this.#r.fire(e, t);
   }
   #h = !1;
   #a = !1;
@@ -24666,11 +24666,11 @@ class EventMng {
       this.hTag.playse({ fn: t.leavese, buf: t.leavesebuf, join: !1 });
     })), t.onenter) {
       const v = l + t.onenter.toLowerCase(), m = { fn: t.fn, label: t.onenter, call: !0, key: v };
-      ReadState.setEvt2Fnc(h, v, () => this.main.resumeByJumpOrCall(m)), e.on("pointerover", (_) => this.fire(v, _));
+      ReadState.setEvt2Fnc(h, v, () => this.main.resumeByJumpOrCall(m)), e.on("pointerover", (_) => this.#r.fire(v, _));
     }
     if (t.onleave) {
       const v = l + t.onleave.toLowerCase(), m = { fn: t.fn, label: t.onleave, call: !0, key: v };
-      ReadState.setEvt2Fnc(h, v, () => this.main.resumeByJumpOrCall(m)), e.on("pointerout", (_) => this.fire(v, _));
+      ReadState.setEvt2Fnc(h, v, () => this.main.resumeByJumpOrCall(m)), e.on("pointerout", (_) => this.#r.fire(v, _));
     }
   }
   #f = {
@@ -24758,7 +24758,7 @@ class EventMng {
           if (!this.#r.isWait || this.layMng.getFrmDisabled(l.id) || c === "keydown" && m.key !== "Enter") return;
           const _ = v.dataset;
           for (const [g, y] of Object.entries(_)) this.val.setVal_Nochk("tmp", `sn.event.domdata.${g}`, y);
-          this.fire(e, m);
+          this.#r.fire(e, m);
         }), d === 0 && this.#t.add(
           v,
           () => this.#b(v) ? (v.focus(), !0) : !1,
@@ -25726,7 +25726,7 @@ class Main {
     const d = new DebugMng(this.sys, this.#e, this.#t);
     this.#n.unshift(() => d.destroy()), this.#r = new LayerMng(t, this.#e, a, l, this, this.#t, this.sys, c, h), this.#n.unshift(() => this.#r.destroy());
     const v = new EventMng(t, this.#e, a, this, this.#r, l, c, this.#t, this.sys);
-    this.#n.unshift(() => v.destroy()), this.fire = (m, _) => v.fire(m, _), this.#n.unshift(() => {
+    this.#n.unshift(() => v.destroy()), this.#n.unshift(() => {
       this.stop(), this.#d = !1, this.#e = {};
     }), this.#e.jump({ fn: "main" }), this.stop();
   }
@@ -25738,8 +25738,6 @@ class Main {
   errScript(t, e = !0) {
     if (this.stop(), DebugMng.myTrace(t), CmnLib.debugLog && console.log("🍜 SKYNovel err!"), e) throw t;
   }
-  fire(t, e) {
-  }
   resumeByJumpOrCall(t) {
     if (t.url) {
       this.#e.navigate_to(t), this.#t.jumpJustBefore();
@@ -25750,7 +25748,7 @@ class Main {
   #l = (t, e, r, a = !1) => {
   };
   resume() {
-    this.#s || (this.#r.clearBreak(), this.#t.noticeBreak(!1), requestAnimationFrame(() => this.#h()));
+    this.#s || (this.#r.clearBreak(), this.#t.noticeBreak(!1), queueMicrotask(() => this.#h()));
   }
   stop = () => {
     this.#t.noticeBreak(!0);

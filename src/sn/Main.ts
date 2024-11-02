@@ -107,7 +107,6 @@ export class Main implements IMain {
 		// イベント
 		const evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, val, sndMng, this.#scrItr, this.sys);
 		this.#aDest.unshift(()=> evtMng.destroy());
-		this.fire = (KEY, e)=> evtMng.fire(KEY, e);
 
 		this.#aDest.unshift(()=> {
 			this.stop();
@@ -137,8 +136,6 @@ export class Main implements IMain {
 		if (CmnLib.debugLog) console.log('🍜 SKYNovel err!');
 		if (isThrow) throw mes;
 	}
-
-	fire(_KEY: string, _e: Event) {}
 
 
 	resumeByJumpOrCall(hArg: HArg) {
@@ -170,7 +167,7 @@ export class Main implements IMain {
 		this.#layMng.clearBreak();	// スクリプトが動くとき、ブレイクマーク消去
 		this.#scrItr.noticeBreak(false);
 
-		requestAnimationFrame(()=> this.#main());
+		queueMicrotask(()=> this.#main());
 	}
 	readonly stop = ()=> {
 //console.log(`-- stop!`);

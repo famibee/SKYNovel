@@ -148,7 +148,7 @@ export class SysApp extends SysNode {
 		to_app.on('shutdown', (_e: IpcRendererEvent)=> main.destroy());
 
 		const ev = new Event('click');
-		to_app.on('fire', (_e: IpcRendererEvent, KEY: string)=> main.fire(KEY, ev));
+		to_app.on('fire', (_e: IpcRendererEvent, KEY: string)=> this.fire(KEY, ev));
 		//to_app.on('call', (_e: IpcRendererEvent, fn: string, label: string)=> main.resumeByJumpOrCall({fn, label}));	// 実験・保留コード。セキュリティ懸念
 
 		return ret;

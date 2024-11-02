@@ -9,7 +9,6 @@ export declare class Main implements IMain {
     destroy(): void;
     readonly isDestroyed: () => boolean;
     errScript(mes: string, isThrow?: boolean): void;
-    fire(_KEY: string, _e: Event): void;
     resumeByJumpOrCall(hArg: HArg): void;
     resume(): void;
     readonly stop: () => void;
