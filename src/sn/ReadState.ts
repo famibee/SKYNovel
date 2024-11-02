@@ -692,9 +692,9 @@ export class RsPagination extends Rs_S {
 			default:	throw `属性to「${to}」は異常です`;
 		}
 
-		const gg = aPage[posPage];
-		if (! gg) throw `[page] posPage異常:${posPage}`
-		const {fn, index, mark} = gg;
+		const p = aPage[posPage];
+		if (! p) throw `[page] posPage異常:${posPage}`
+		const {fn, index, mark} = p;
 // const m = scrItr.nowMark();
 // const {week} = aPage[posPage];
 // console.log(`fn:ReadState.ts -- pos:${posPage} (base=${m.hPages.base.fore.sBkFn} 0=${m.hPages['0'].fore.sBkFn} mes=${m.hPages.mes.fore.txs.cssText.match(/color: \w+;/)}) A:${posPage === lenPage -1} styPaging:${styPaging} week:${week} mark:%o`, mark);

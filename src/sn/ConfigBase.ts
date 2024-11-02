@@ -49,6 +49,7 @@ export type T_CFG = {
 	},
 	debug	: {	// デバッグ情報
 		devtool		: boolean,
+		dumpHtm		: boolean,	// テキストレイヤ：HTML部分をファイル出力するか
 		token		: boolean,
 		tag			: boolean,
 		putCh		: boolean,
@@ -56,7 +57,6 @@ export type T_CFG = {
 		baseTx		: boolean,
 		masume		: boolean,	// テキストレイヤ：ガイドマス目を表示するか
 		variable	: boolean,
-		dumpHtm	: boolean,	// テキストレイヤ：HTML部分をファイル出力するか
 	},
 	code	: {[fold_nm: string]: boolean,},	// 暗号化しないフォルダ
 	debuger_token	: string,	// デバッガとの接続トークン

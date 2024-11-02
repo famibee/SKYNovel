@@ -453,6 +453,7 @@ export class Variable implements IVariable {
 		//	SoundMixer.soundTransform = new SoundTransform(
 		//		(sys['flash.media.SoundMixer.soundTransform.volume'] = 1)
 		//	);
+		this.setVal_Nochk('sys', 'sn.sound.BGM.vol_mul_talking', 1);
 		this.setVal_Nochk('sys', 'const.sn.sound.BGM.volume', 1);
 		this.setVal_Nochk('sys', 'const.sn.sound.SE.volume', 1);
 		this.setVal_Nochk('sys', 'const.sn.sound.SYS.volume', 1);

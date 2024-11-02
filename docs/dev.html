@@ -744,12 +744,19 @@
 <tr><td>sys:sn.auto.msecLineWait_Kidoku</td><td>500</td><td>0〜；ミリ秒</td><td>既読テキストの改行待ち時間（ミリ秒）<br/>※ここでの改行とは[l]の事</td></tr>
 <tr><td>sys:sn.auto.msecPageWait</td><td>3500</td><td>0〜；ミリ秒</td><td>未読テキストの改ページ待ち時間（ミリ秒）<br/>※ここでの改ページとは[p]の事</td></tr>
 <tr><td>sys:sn.auto.msecPageWait_Kidoku</td><td>3500</td><td>0〜；ミリ秒</td><td>既読テキストの改ページ待ち時間（ミリ秒）<br/>※ここでの改ページとは[p]の事</td></tr>
-<tr><td>sys:sn.skip.mode</td><td>'s'</td><td>文字列</td><td>スキップモード。<br/>
+<tr><td>sys:sn.skip.mode</td><td>'s'</td><td>文字列</td><td>
+	スキップモード。<br/>
 	sn.skip.enabled = trueの際、改行待ちや改ページ待ちをスキップするかどうかの動作を指定する。<br/>
 	'l' …… 改行待ち=する、改ページ待ち=する<br/>
 	'p' …… 改行待ち=しない、改ページ待ち=する<br/>
 	's' …… 改行待ち=しない、改ページ待ち=しない<br/>
-	（初期値="s"）</td></tr>
+	（初期値="s"）
+</td></tr>
+<tr><td>sys:sn.sound.BGM.vol_mul_talking</td><td>1.0</td><td>0.0〜1.0</td><td>
+	ボイス（VOICEバッファの音声）再生中のBGM音量への乗数。<br/>
+	1.0より小さい数字にすると、ボイス再生中のBGM音量を絞ることができる。ボイス再生終了次第、BGMの音量は元に戻る。<br/>
+	1.0にすると、この機能をOFFにできる。（後方互換）
+</td></tr>
 <tr><td>sys:sn.sound.global_volume</td><td>1</td><td>0.0〜1.0</td><td>全体的な音量を設定する。バッファの実際の音量は「sys:const.sn.sound.【buf】.volume」x「save:const.sn.sound.【buf】.volume」x「全体的な音量」の値となる</td></tr>
 <tr><td>sys:sn.sound.movie_volume</td><td>1</td><td>0.0〜1.0</td><td>ムービー音量を設定する。バッファの実際の音量はこの「ムービー音量」x「全体的な音量」の値となる</td></tr>
 <tr><td>sys:sn.tagCh.canskip</td><td>true</td><td>true、false</td><td>テキストをクリックなどでスキップ可能か</td></tr>

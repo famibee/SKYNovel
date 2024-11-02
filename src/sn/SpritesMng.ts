@@ -192,7 +192,7 @@ export class SpritesMng {
 			})
 			.load(fncLoaded);
 		}
-		else fncLoaded(0, {});
+		else queueMicrotask(()=> fncLoaded(0, {}));
 
 		return needLoad;
 	}

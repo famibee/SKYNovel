@@ -10,13 +10,13 @@ import {IHTag, HArg} from './Grammar';
 import {IVariable, IMain, INoticeChgVolume} from './CmnInterface';
 import {Config} from './Config';
 import {SysBase} from './SysBase';
-import {SndBuf} from './SndBuf';
+import {BUF_BGM, BUF_SE, HSndBuf, SndBuf} from './SndBuf';
 
 import {sound, utils} from '@pixi/sound';
 
 
 export class SoundMng {
-	#hSndBuf	: {[buf: string]: SndBuf}	= {};
+	#hSndBuf	: HSndBuf	= {};
 
 	constructor(cfg: Config, hTag: IHTag, readonly val: IVariable, main: IMain, sys: SysBase) {
 		hTag.volume		= o=> this.#volume(o);		// 音量設定（独自拡張）
@@ -40,7 +40,7 @@ export class SoundMng {
 
 		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(utils.supported));
 
-		SndBuf.init(cfg, val, main, sys);
+		SndBuf.init(cfg, val, main, sys, this.#hSndBuf);
 		sound.disableAutoPause = true;
 	}
 
@@ -57,7 +57,7 @@ export class SoundMng {
 
 	//MARK: 音量設定（独自拡張）
 	#volume(hArg: HArg) {
-		const {buf = 'SE'} = hArg;
+		const {buf = BUF_SE} = hArg;
 		const vnV = 'const.sn.sound.'+ buf +'.volume';
 		const arg_vol = this.#getVol(hArg, 1);
 		if (Number(this.val.getVal('sys:'+ vnV)) === arg_vol) return false;
@@ -82,10 +82,10 @@ export class SoundMng {
 	//MARK: 効果音のフェードアウト（loadから使うのでマクロ化禁止）
 	#fadeoutse(hArg: HArg) {hArg.volume = 0; return this.#fadese(hArg)}
 	//MARK: BGMのフェード（loadから使うのでマクロ化禁止）
-	#fadebgm(hArg: HArg) {hArg.buf = 'BGM'; return this.#fadese(hArg)}
+	#fadebgm(hArg: HArg) {hArg.buf = BUF_BGM; return this.#fadese(hArg)}
 	//MARK: 効果音のフェード
 	#fadese(hArg: HArg) {
-		const {buf = 'SE'} = hArg;
+		const {buf = BUF_SE} = hArg;
 		this.#stopfadese(hArg);
 		this.#hSndBuf[buf]?.fade(hArg);
 
@@ -94,7 +94,7 @@ export class SoundMng {
 
 	//MARK: BGM の演奏
 	#playbgm(hArg: HArg) {
-		hArg.buf = 'BGM';
+		hArg.buf = BUF_BGM;
 		hArg.canskip = false;
 		argChk_Boolean(hArg, 'loop', true);
 		return this.#playse(hArg);
@@ -102,15 +102,14 @@ export class SoundMng {
 
 	//MARK: 効果音の再生
 	#playse(hArg: HArg) {
-		const {buf = 'SE', fn} = hArg;
+		const {buf = BUF_SE, fn} = hArg;
 		this.#stopse({buf});
 		if (! fn) throw `fnは必須です buf:${buf}`;
 
 		// isSkipKeyDown()は此処のみとする。タイミングによって変わる
 		if (argChk_Boolean(hArg, 'canskip', true) && this.#evtMng.isSkipping) return false;
 
-		const sb = this.#hSndBuf[buf] = new SndBuf;
-		return sb.init(hArg);
+		return SndBuf.generate(hArg);
 	}
 
 	clearCache() {sound.removeAll()}
@@ -125,43 +124,43 @@ export class SoundMng {
 		return false;
 	}
 	//MARK: BGM 演奏の停止（loadから使うのでマクロ化禁止）
-	#stopbgm(hArg: HArg) {hArg.buf = 'BGM'; return this.#stopse(hArg)}
+	#stopbgm(hArg: HArg) {hArg.buf = BUF_BGM; return this.#stopse(hArg)}
 	//MARK: 効果音再生の停止
 	#stopse(hArg: HArg) {
-		const {buf = 'SE'} = hArg;
+		const {buf = BUF_SE} = hArg;
 		this.#hSndBuf[buf]?.stopse(hArg);
 
 		return false;
 	}
 
 	//MARK: BGM フェードの終了待ち
-	#wb(hArg: HArg) {hArg.buf = 'BGM'; return this.#wf(hArg)}
+	#wb(hArg: HArg) {hArg.buf = BUF_BGM; return this.#wf(hArg)}
 
 	//MARK: 効果音フェードの終了待ち
 	#wf(hArg: HArg) {
-		const {buf = 'SE'} = hArg;
+		const {buf = BUF_SE} = hArg;
 		return this.#hSndBuf[buf]?.wf(hArg) as boolean;
 	}
 
 	//MARK: 音声フェードの停止
 	#stopfadese(hArg: HArg) {
-		const {buf = 'SE'} = hArg;
+		const {buf = BUF_SE} = hArg;
 		this.#hSndBuf[buf]?.stopfadese(hArg);
 
 		return false;
 	}
 
 	//MARK: BGM 再生の終了待ち
-	#wl(hArg: HArg) {hArg.buf = 'BGM'; return this.#ws(hArg)}
+	#wl(hArg: HArg) {hArg.buf = BUF_BGM; return this.#ws(hArg)}
 	//MARK: 効果音再生の終了待ち
 	#ws(hArg: HArg) {
-		const {buf = 'SE'} = hArg;
+		const {buf = BUF_SE} = hArg;
 		return this.#hSndBuf[buf]?.ws(hArg) as boolean;
 	}
 
 	//MARK: 再生トラックの交換
 	#xchgbuf(hArg: HArg) {
-		const {buf: buf1 = 'SE', buf2 = 'SE'} = hArg;
+		const {buf: buf1 = BUF_SE, buf2 = BUF_SE} = hArg;
 		if (buf1 === buf2) return false;
 
 		const a = this.#hSndBuf[buf1];	// 分割代入の変数交換だと noUncheckedIndexedAccess エラーになるので
@@ -213,7 +212,7 @@ export class SoundMng {
 				ret_ms	: Number(this.val.getVal(vm +'ret_ms')),
 				fnc		: re,	// loaded
 			};
-			if (hArg.buf === 'BGM') this.#playbgm(hArg);
+			if (hArg.buf === BUF_BGM) this.#playbgm(hArg);
 			else this.#playse(hArg);
 		}));
 	}

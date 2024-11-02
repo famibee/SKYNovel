@@ -39,6 +39,7 @@ export type T_CFG = {
     };
     debug: {
         devtool: boolean;
+        dumpHtm: boolean;
         token: boolean;
         tag: boolean;
         putCh: boolean;
@@ -46,7 +47,6 @@ export type T_CFG = {
         baseTx: boolean;
         masume: boolean;
         variable: boolean;
-        dumpHtm: boolean;
     };
     code: {
         [fold_nm: string]: boolean;
