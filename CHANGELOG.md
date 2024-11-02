@@ -1,3 +1,10 @@
+# [1.61.0](https://github.com/famibee/SKYNovel/compare/v1.60.11...v1.61.0) (2024-11-02)
+
+
+### Features
+
+* 組み込み変数 sys:sn.sound.BGM.vol_mul_during_talking 追加 ([b816bf9](https://github.com/famibee/SKYNovel/commit/b816bf9ebbc55ee566ee17bc1581ec452ab81479))
+
 - feat: 組み込み変数 sys:sn.sound.BGM.vol_mul_during_talking 追加
 	- ボイス（VOICEバッファの音声）再生中のBGM音量への乗数。
 	- 1.0より小さい数字にすると、ボイス再生中のBGM音量を絞ることができる。ボイス再生終了次第、BGMの音量は元に戻る。
