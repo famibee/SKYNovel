@@ -109,7 +109,8 @@ export class SoundMng {
 		// isSkipKeyDown()は此処のみとする。タイミングによって変わる
 		if (argChk_Boolean(hArg, 'canskip', true) && this.#evtMng.isSkipping) return false;
 
-		return SndBuf.generate(hArg);
+		const sb = this.#hSndBuf[buf] = new SndBuf(hArg, buf, fn);
+		return sb.needLoad;
 	}
 
 	clearCache() {sound.removeAll()}

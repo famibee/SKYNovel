@@ -146,18 +146,13 @@ export class SndBuf {
 
 
 	static	readonly	#MAX_END_MS	= 999000;
-	static	generate(hArg: HArg): boolean {
-		const {buf = BUF_SE, fn = ''} = hArg;
-		const sb = hSndBuf[buf] = new SndBuf(hArg, buf, fn);
-		return sb.#init_wait;
-	}
 
 
 	readonly #si		: SndInf;
-	readonly #init_wait;
+	readonly needLoad;
 
 
-	private	constructor(
+	constructor(
 		readonly hArg	: HArg,
 		readonly buf	: string,
 		readonly fn		: string,
@@ -300,11 +295,11 @@ export class SndBuf {
 				}));
 				if (pan !== 0) snd.filters = [new filters.StereoFilter(pan)];
 			}
-			this.#init_wait = false;
+			this.needLoad = false;
 			return;
 		}
 
-		const join = this.#init_wait = argChk_Boolean(hArg, 'join', true);
+		const join = this.needLoad = argChk_Boolean(hArg, 'join', true);
 		if (join) {
 			disableEvent();
 			const old = o.loaded!;

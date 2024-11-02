@@ -1,3 +1,6 @@
+- fix: 音声処理手直し、リファクタリング
+
+
 ## [1.61.1](https://github.com/famibee/SKYNovel/compare/v1.61.0...v1.61.1) (2024-11-02)
 
 
