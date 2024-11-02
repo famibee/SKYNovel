@@ -1,3 +1,10 @@
+## [1.61.1](https://github.com/famibee/SKYNovel/compare/v1.61.0...v1.61.1) (2024-11-02)
+
+
+### Bug Fixes
+
+* フレーム画面のスライダーなどでイベントが立て続けに発生した場合、[s]なども跳び越える場合がある件 ([e88d809](https://github.com/famibee/SKYNovel/commit/e88d8098eef125fcd9025b5fd1b16afe96ca3679))
+
 - fix: フレーム画面のスライダーなどでイベントが立て続けに発生した場合、[s]なども跳び越える場合がある件
 - fix: リファクタリング
 
