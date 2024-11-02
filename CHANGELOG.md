@@ -1,3 +1,10 @@
+## [1.61.2](https://github.com/famibee/SKYNovel/compare/v1.61.1...v1.61.2) (2024-11-02)
+
+
+### Bug Fixes
+
+* 音声処理手直し、リファクタリング ([3f8f950](https://github.com/famibee/SKYNovel/commit/3f8f9501be40ffc85f79b098f9b671b58439825a))
+
 - fix: 音声処理手直し、リファクタリング
 
 
