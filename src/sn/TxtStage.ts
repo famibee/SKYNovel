@@ -720,7 +720,7 @@ export class TxtStage extends Container {
 				const st_r_hover = st_r_normal +(aLnk.r_style_hover ?? '');
 				const st_r_clicked = st_r_normal +(aLnk.r_style_clicked ?? '');
 
-				const nlRt = [...eCh.getElementsByTagName('rt')];
+				const nlRt = Array.from(eCh.getElementsByTagName('rt'));
 				nlRt.forEach(e=> e.dataset.st_r_bk = e.style.cssText);
 				const st_bk = eCh.style.cssText;
 				const fncStyle = (st: string, st_r: string)=> {
@@ -747,7 +747,7 @@ export class TxtStage extends Container {
 		}
 
 		// 文字出現演出・開始〜終了
-		const chs = [...this.#htmTxt.getElementsByClassName('sn_ch')];
+		const chs = Array.from(this.#htmTxt.getElementsByClassName('sn_ch'));
 		this.#fncEndChIn = ()=> {
 			this.#fncEndChIn = ()=> false;
 			chs.forEach(v=> v.className = v.className.replaceAll(/ go_ch_in_[^\s"]+/g, ''));

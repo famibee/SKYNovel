@@ -8,6 +8,8 @@
 import {ConfigBase, SEARCH_PATH_ARG_EXT} from '../src/sn/ConfigBase';
 import {SysNode} from '../src/sn/SysNode';
 
+import {beforeEach, it, expect} from 'vitest';
+
 //===== Test Class =====
 import {readFileSync, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
 export class SysTest extends SysNode {

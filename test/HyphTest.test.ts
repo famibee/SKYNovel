@@ -8,7 +8,9 @@
 import {Hyphenation, IChRect} from '../src/sn/Hyphenation';
 
 import {Rectangle} from 'pixi.js';
+import {beforeEach, it, expect} from 'vitest';
 
+// @vitest-environment happy-dom
 let	hyph	: Hyphenation;
 	const sx = 11;
 	const sy = 13;

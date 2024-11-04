@@ -21525,7 +21525,7 @@ $1
         R.key = `lnk=[${E}] ` + this.name;
         const I = new Sprite();
         this.#H(I, R, w, T, g, O ?? {});
-        const k = R.style ?? "", $ = k + (R.style_hover ?? ""), q = k + (R.style_clicked ?? ""), K = R.r_style ?? "", rt = K + (R.r_style_hover ?? ""), z = K + (R.r_style_clicked ?? ""), G = [...M.getElementsByTagName("rt")];
+        const k = R.style ?? "", $ = k + (R.style_hover ?? ""), q = k + (R.style_clicked ?? ""), K = R.r_style ?? "", rt = K + (R.r_style_hover ?? ""), z = K + (R.r_style_clicked ?? ""), G = Array.from(M.getElementsByTagName("rt"));
         G.forEach((W) => W.dataset.st_r_bk = W.style.cssText);
         const tt = M.style.cssText, ft = (W, U) => {
           M.style.cssText = tt + W, G.forEach((nt) => nt.style.cssText = nt.dataset.st_r_bk + U);
@@ -21542,7 +21542,7 @@ $1
         ), this.#s.addChild(I);
       }
     }
-    const y = [...this.#i.getElementsByClassName("sn_ch")];
+    const y = Array.from(this.#i.getElementsByClassName("sn_ch"));
     this.#C = () => (this.#C = () => !1, y.forEach((E) => E.className = E.className.replaceAll(/ go_ch_in_[^\s"]+/g, "")), TxtStage.#D.position.set(
       this.#h.break_fixed_left,
       this.#h.break_fixed_top
@@ -22707,8 +22707,8 @@ class FrameMng {
     if ("b_color" in t && (o.backgroundColor = t.b_color), "disabled" in t) {
       const h = this.#d[e] = argChk_Boolean(t, "disabled", !0), u = r.contentDocument.body;
       [
-        ...u.getElementsByTagName("input"),
-        ...u.getElementsByTagName("select")
+        ...Array.from(u.getElementsByTagName("input")),
+        ...Array.from(u.getElementsByTagName("select"))
       ].forEach((c) => c.disabled = h);
     }
     return !1;
@@ -23027,7 +23027,6 @@ void main() {
   
   	if (abs(v) < vague) {
   		float f_a = fg.a *(0.5 +v /vague *0.5);
-  
   		gl_FragColor.rgb = fg.rgb *f_a;
   		gl_FragColor.a = f_a;
   		return;
@@ -28336,8 +28335,8 @@ class SysBase {
   toast(t) {
     const e = document.body;
     [
-      ...e.getElementsByClassName("sn_BounceIn"),
-      ...e.getElementsByClassName("sn_HopIn")
+      ...Array.from(e.getElementsByClassName("sn_BounceIn")),
+      ...Array.from(e.getElementsByClassName("sn_HopIn"))
     ].forEach((l) => l.remove());
     const r = document.createElement("img"), a = SysBase.#u[t];
     if (!a) throw new Error(`toast 名ミス=${t}`);

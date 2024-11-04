@@ -10,6 +10,8 @@ import {Variable} from '../src/sn/Variable';
 import {Config} from '../src/sn/Config';
 import {SysNode} from '../src/sn/SysNode';
 
+import {beforeEach, it, expect} from 'vitest';
+
 //===== Test Class =====
 export class SysTest extends SysNode {
 	protected	override	readFileSync = ()=> Promise.resolve('{}');

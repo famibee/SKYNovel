@@ -337,8 +337,8 @@ export class SysBase implements ISysRoots, ISysBase {
 	protected toast(nm: string) {
 		const p = document.body;
 		[
-			...p.getElementsByClassName('sn_BounceIn'),
-			...p.getElementsByClassName('sn_HopIn'),
+			...Array.from(p.getElementsByClassName('sn_BounceIn')),
+			...Array.from(p.getElementsByClassName('sn_HopIn')),
 		].forEach(e=> e.remove());
 
 		const img = document.createElement('img');

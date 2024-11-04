@@ -575,7 +575,6 @@ void main() {
 
 	if (abs(v) < vague) {
 		float f_a = fg.a *(0.5 +v /vague *0.5);
-
 		gl_FragColor.rgb = fg.rgb *f_a;
 		gl_FragColor.a = f_a;
 		return;

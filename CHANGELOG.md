@@ -1,3 +1,6 @@
+- test: jest を vitest に移行
+
+
 ## [1.61.2](https://github.com/famibee/SKYNovel/compare/v1.61.1...v1.61.2) (2024-11-02)
 
 

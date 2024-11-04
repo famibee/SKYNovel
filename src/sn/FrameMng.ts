@@ -318,8 +318,8 @@ export class FrameMng implements IGetFrm {
 			const d = this.#hDisabled[id] = argChk_Boolean(hArg, 'disabled', true);
 			const b = f.contentDocument!.body;
 			[
-				...b.getElementsByTagName('input'),
-				...b.getElementsByTagName('select'),
+				...Array.from(b.getElementsByTagName('input')),
+				...Array.from(b.getElementsByTagName('select')),
 			].forEach(e=> e.disabled = d);
 		}
 
