@@ -19,7 +19,7 @@ jobs:
     - run: bun install
     - run: bun test
 
-    - run: bun semantic-release
+    - run: npx -p node@v22-lts -c "npx semantic-release"
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NPM_TOKEN: ${{secrets.NPM_TOKEN}}
