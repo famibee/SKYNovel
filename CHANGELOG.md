@@ -1,4 +1,4 @@
-- chore: CI(GitHub Actions) に Semantic Release Action を使用
+- fix: CI(GitHub Actions) に Semantic Release Action を使用
 	- cycjimmy/semantic-release-action: GitHub Action for Semantic Release https://github.com/cycjimmy/semantic-release-action
 
 
