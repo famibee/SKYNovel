@@ -19,15 +19,16 @@ jobs:
     - run: bun install
     - run: bun test
 
-    - uses: actions/setup-node@v4
+    - name: Semantic Release
+      uses: cycjimmy/semantic-release-action@v4
       with:
-        registry-url: https://npm.pkg.github.com/
-        node-version: '22'
-    - run: npm run semantic-release
+        # You can specify specifying version range for the extra plugins if you prefer.
+        extra_plugins: |
+          @semantic-release/changelog
+          @semantic-release/git
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NPM_TOKEN: ${{secrets.NPM_TOKEN}}
-        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     - run: bunx can-npm-publish --verbose && bun publish || echo "Does not publish"
       env:

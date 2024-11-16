@@ -1,3 +1,7 @@
+- chore: CI(GitHub Actions) に Semantic Release Action を使用
+	- cycjimmy/semantic-release-action: GitHub Action for Semantic Release https://github.com/cycjimmy/semantic-release-action
+
+
 ## [1.61.5](https://github.com/famibee/SKYNovel/compare/v1.61.4...v1.61.5) (2024-11-16)
 
 
