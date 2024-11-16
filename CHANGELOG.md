@@ -1,3 +1,10 @@
+## [1.61.6](https://github.com/famibee/SKYNovel/compare/v1.61.5...v1.61.6) (2024-11-16)
+
+
+### Bug Fixes
+
+* CI(GitHub Actions) に Semantic Release Action を使用 ([20953a4](https://github.com/famibee/SKYNovel/commit/20953a49e4dca3fbffdb5511e6bc3d5193f9db8c))
+
 - fix: CI(GitHub Actions) に Semantic Release Action を使用
 	- cycjimmy/semantic-release-action: GitHub Action for Semantic Release https://github.com/cycjimmy/semantic-release-action
 
