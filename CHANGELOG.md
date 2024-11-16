@@ -1,3 +1,10 @@
+## [1.61.3](https://github.com/famibee/SKYNovel/compare/v1.61.2...v1.61.3) (2024-11-16)
+
+
+### Bug Fixes
+
+* **Grammar.ts:** 正規表現微妙に手直し、パッケージマネージャー・tsx・jest・CI(GitHub Actions) を bun 担当に ([5afc278](https://github.com/famibee/SKYNovel/commit/5afc2785252829ac88b8548fe5bb324c525cfdc9))
+
 - fix(Grammar.ts): 正規表現微妙に手直し
 - chore: パッケージマネージャー・tsx・jest・CI(GitHub Actions) を bun 担当に
 
