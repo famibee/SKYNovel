@@ -1,3 +1,10 @@
+## [1.61.5](https://github.com/famibee/SKYNovel/compare/v1.61.4...v1.61.5) (2024-11-16)
+
+
+### Bug Fixes
+
+* **Grammar.ts:** 正規表現微妙に手直し：修正5 ([c495fee](https://github.com/famibee/SKYNovel/commit/c495fee29d31d801eba07128de73f203959dbf54))
+
 ## [1.61.4](https://github.com/famibee/SKYNovel/compare/v1.61.3...v1.61.4) (2024-11-16)
 
 
