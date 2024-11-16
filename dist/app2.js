@@ -19922,7 +19922,7 @@ $1
         E.key = `lnk=[${_}] ` + this.name;
         const P = new Vt();
         this.#$(P, E, b, x, d, T ?? {});
-        const O = E.style ?? "", L = O + (E.style_hover ?? ""), X = O + (E.style_clicked ?? ""), Y = E.r_style ?? "", lt = Y + (E.r_style_hover ?? ""), $ = Y + (E.r_style_clicked ?? ""), H = [...S.getElementsByTagName("rt")];
+        const O = E.style ?? "", L = O + (E.style_hover ?? ""), X = O + (E.style_clicked ?? ""), Y = E.r_style ?? "", lt = Y + (E.r_style_hover ?? ""), $ = Y + (E.r_style_clicked ?? ""), H = Array.from(S.getElementsByTagName("rt"));
         H.forEach((gt) => gt.dataset.st_r_bk = gt.style.cssText);
         const nt = S.style.cssText, Tt = (gt, K) => {
           S.style.cssText = nt + gt, H.forEach((ne) => ne.style.cssText = ne.dataset.st_r_bk + K);
@@ -19939,7 +19939,7 @@ $1
         ), this.#s.addChild(P);
       }
     }
-    const v = [...this.#r.getElementsByClassName("sn_ch")];
+    const v = Array.from(this.#r.getElementsByClassName("sn_ch"));
     this.#P = () => (this.#P = () => !1, v.forEach((_) => _.className = _.className.replaceAll(/ go_ch_in_[^\s"]+/g, "")), ot.#D.position.set(
       this.#l.break_fixed_left,
       this.#l.break_fixed_top
@@ -21104,8 +21104,8 @@ class ct {
     if ("b_color" in t && (s.backgroundColor = t.b_color), "disabled" in t) {
       const o = this.#d[e] = U(t, "disabled", !0), h = i.contentDocument.body;
       [
-        ...h.getElementsByTagName("input"),
-        ...h.getElementsByTagName("select")
+        ...Array.from(h.getElementsByTagName("input")),
+        ...Array.from(h.getElementsByTagName("select"))
       ].forEach((l) => l.disabled = o);
     }
     return !1;
@@ -26730,8 +26730,8 @@ class vr {
   toast(t) {
     const e = document.body;
     [
-      ...e.getElementsByClassName("sn_BounceIn"),
-      ...e.getElementsByClassName("sn_HopIn")
+      ...Array.from(e.getElementsByClassName("sn_BounceIn")),
+      ...Array.from(e.getElementsByClassName("sn_HopIn"))
     ].forEach((a) => a.remove());
     const i = document.createElement("img"), n = vr.#u[t];
     if (!n) throw new Error(`toast 名ミス=${t}`);

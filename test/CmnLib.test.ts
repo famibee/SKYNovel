@@ -7,8 +7,6 @@ http://opensource.org/licenses/mit-license.php
 
 import {argChk_Boolean, argChk_Num} from '../src/sn/CmnLib';
 
-import {beforeEach, it, expect} from 'vitest';
-
 it('argChk_Num0', ()=> {
 	expect(argChk_Num(
 		{あ:2, い:3.5, う:'0x15', え:'も', ':タグ名':'ぺきゅ'},

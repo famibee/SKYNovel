@@ -7,8 +7,6 @@ http://opensource.org/licenses/mit-license.php
 
 import {AnalyzeTagArg} from '../src/sn/AnalyzeTagArg';
 
-import {beforeEach, it, expect} from 'vitest';
-
 let alz: AnalyzeTagArg;
 beforeEach(()=> {
 	alz = new AnalyzeTagArg;

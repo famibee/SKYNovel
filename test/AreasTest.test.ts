@@ -7,8 +7,6 @@ http://opensource.org/licenses/mit-license.php
 
 import {Areas} from '../src/sn/Areas';
 
-import {beforeEach, it, expect} from 'vitest';
-
 /*
 let startTime = 0;	// 処理時間計測
 beforeAll(()=> startTime = performance.now());

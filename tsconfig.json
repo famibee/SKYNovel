@@ -5,12 +5,22 @@
 		"lib": ["esnext","DOM"],
 		"module": "commonjs",
 		"moduleResolution": "node",
+
+		/* Bundler mode */
+		// "moduleResolution": "bundler",
+		"esModuleInterop": true,	// CommonJS/AMD/UMD モジュールを ES6 モジュールと同様に扱う
+			// pixi.js 6.1.0以降必須
+		"resolveJsonModule": true,	// JSON ファイルの型検証、json をインポートできるように
+
+		/* Output */
 		"sourceMap": true,
 		"outDir": "dist/",
 		"declaration": true,
 		"declarationMap": true,
 		"removeComments": true,
+		//emitDecoratorMetadata		// 出力 js に型を発行
 
+		/* Linting */
 		"strict": true,
 		/*
 			noImplicitAny
@@ -41,12 +51,12 @@
 		"isolatedModules": true,		// 各ファイルを独立して変換する際に、解釈できないコードがある場合に警告（トランスパイラ向け）
 		//preserveSymlinks	false
 		//verbatimModuleSyntax	false
-		//emitDecoratorMetadata		// 出力 js に型を発行
 		//"extendedDiagnostics": true,	// コンパイル時に TypeScript が時間を費やしている場所を検出
-		"incremental": true,			// 差分ビルド
+		"noUncheckedSideEffectImports": true,
 
-		// オブジェクトへの過剰なプロパティチェックを抑制しない
-		"esModuleInterop": true			// pixi.js 6.1.0以降必須
+		/* Other */
+		// experimentalDecorators
+		"incremental": true
 	},
 	"include": ["src/**/*"]
 }

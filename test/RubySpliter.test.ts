@@ -8,8 +8,6 @@
 import {RubySpliter} from '../src/sn/RubySpliter';
 import {IPutCh} from '../src/sn/CmnInterface';
 
-import {beforeEach, it, expect} from 'vitest';
-
 let	rbSpl	: RubySpliter;
 let	retText	= '';
 let	retRuby	= '';

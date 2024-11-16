@@ -10,21 +10,22 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - uses: actions/setup-node@v4
+    - uses: oven-sh/setup-bun@v2
       with:
+        # Subsequent workflow runs will use the cached version of Bun.
+        bun-version: 1.1.34
         registry-url: https://npm.pkg.github.com/
-        node-version: '22'
 
-    - run: npm ci
-    - run: npm test
+    - run: bun install
+    - run: bun test
 
-    - run: npm run semantic-release
+    - run: bun semantic-release
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NPM_TOKEN: ${{secrets.NPM_TOKEN}}
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-    - run: npx can-npm-publish --verbose && npm publish || echo "Does not publish"
+    - run: bunx can-npm-publish --verbose && bun publish || echo "Does not publish"
       env:
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
@@ -43,14 +44,15 @@ jobs:
           ref: ${{steps.latest_tag.outputs.latest_tag}}
       - run: git log
 
-      - uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
+          # Subsequent workflow runs will use the cached version of Bun.
+          bun-version: 1.1.34
           registry-url: https://registry.npmjs.org/
-          node-version: '22'
           scope: '@famibee'
 
-      - run: npm ci
+      - run: bun install
 
-      - run: npx can-npm-publish --verbose && npm publish --access=public || echo "Does not publish"
+      - run: bunx can-npm-publish --verbose && bun publish --access=public || echo "Does not publish"
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}

@@ -2097,9 +2097,17 @@ function addNumericSeparator(s, t) {
   }
   return $replace.call(t, e, "$&_");
 }
-var utilInspect = require$$0, inspectCustom = utilInspect.custom, inspectSymbol = isSymbol(inspectCustom) ? inspectCustom : null, objectInspect = function s(t, e, r, a) {
+var utilInspect = require$$0, inspectCustom = utilInspect.custom, inspectSymbol = isSymbol(inspectCustom) ? inspectCustom : null, quotes = {
+  __proto__: null,
+  double: '"',
+  single: "'"
+}, quoteREs = {
+  __proto__: null,
+  double: /(["\\])/g,
+  single: /(['\\])/g
+}, objectInspect = function s(t, e, r, a) {
   var o = e || {};
-  if (has$3(o, "quoteStyle") && o.quoteStyle !== "single" && o.quoteStyle !== "double")
+  if (has$3(o, "quoteStyle") && !has$3(quotes, o.quoteStyle))
     throw new TypeError('option "quoteStyle" must be "single" or "double"');
   if (has$3(o, "maxStringLength") && (typeof o.maxStringLength == "number" ? o.maxStringLength < 0 && o.maxStringLength !== 1 / 0 : o.maxStringLength !== null))
     throw new TypeError('option "maxStringLength", if provided, must be a positive integer, Infinity, or `null`');
@@ -2212,8 +2220,8 @@ var utilInspect = require$$0, inspectCustom = utilInspect.custom, inspectSymbol 
   return String(t);
 };
 function wrapQuotes(s, t, e) {
-  var r = (e.quoteStyle || t) === "double" ? '"' : "'";
-  return r + s + r;
+  var r = e.quoteStyle || t, a = quotes[r];
+  return a + s + a;
 }
 function quote(s) {
   return $replace.call(String(s), /"/g, "&quot;");
@@ -2361,8 +2369,10 @@ function inspectString(s, t) {
     var e = s.length - t.maxStringLength, r = "... " + e + " more character" + (e > 1 ? "s" : "");
     return inspectString($slice.call(s, 0, t.maxStringLength), t) + r;
   }
-  var a = $replace.call($replace.call(s, /(['\\])/g, "\\$1"), /[\x00-\x1f]/g, lowbyte);
-  return wrapQuotes(a, "single", t);
+  var a = quoteREs[t.quoteStyle || "single"];
+  a.lastIndex = 0;
+  var o = $replace.call($replace.call(s, a, "\\$1"), /[\x00-\x1f]/g, lowbyte);
+  return wrapQuotes(o, "single", t);
 }
 function lowbyte(s) {
   var t = s.charCodeAt(0), e = {
@@ -17660,7 +17670,7 @@ class Grammar {
     );
   }
   resolveScript(t) {
-    const e = t.replaceAll(/(\r\n|\r)/g, `
+    const e = t.replaceAll(/\r\n?/g, `
 `).match(this.#e)?.flatMap((a) => {
       if (!this.testTagLetml(a)) return a;
       const o = /^([^\]]+?])(.*)$/s.exec(a);

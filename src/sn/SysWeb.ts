@@ -10,11 +10,11 @@ import {CmnLib, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
 import {IHTag, ITag} from './Grammar';
 import {IVariable, IMain, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
-
-import store from 'store';
-import {Application} from 'pixi.js';
-import 'devtools-detect';
 import {IFn2Path, IConfig} from './ConfigBase';
+
+import {Application} from 'pixi.js';
+import store from 'store';
+import 'devtools-detect';
 
 
 export class SysWeb extends SysBase {

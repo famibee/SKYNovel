@@ -10,8 +10,6 @@ import {PropParser} from '../src/sn/PropParser';
 import {IVariable, ISysBase, typeProcVal, ISetVal, IMark, IData4Vari} from '../src/sn/CmnInterface';
 import {Areas} from '../src/sn/Areas';
 
-import {beforeEach, it, expect} from 'vitest';
-
 //===== Test Class =====
 class MyVal implements IVariable {
 	#hGetVal: {[nm: string]: any} = {

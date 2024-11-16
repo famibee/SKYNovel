@@ -1,4 +1,5 @@
-- test: jest を vitest に移行
+- fix(Grammar.ts): 正規表現微妙に手直し
+- chore: パッケージマネージャー・tsx・jest・CI(GitHub Actions) を bun 担当に
 
 
 ## [1.61.2](https://github.com/famibee/SKYNovel/compare/v1.61.1...v1.61.2) (2024-11-02)

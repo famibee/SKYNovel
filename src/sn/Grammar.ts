@@ -333,7 +333,7 @@ export class Grammar {
 
 	resolveScript(txt: string): Script {
 		const a = txt
-		.replaceAll(/(\r\n|\r)/g, '\n')
+		.replaceAll(/\r\n?/g, '\n')
 		.match(this.#REG_TOKEN)
 		?.flatMap(tkn=> {
 			if (! this.testTagLetml(tkn)) return tkn;
