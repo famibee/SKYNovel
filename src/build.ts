@@ -11,7 +11,6 @@ const web = aCmd.includes('--web') ?{} :null;
 
 import {build} from 'vite';
 import dts, {PluginOptions} from 'vite-plugin-dts';
-import {resolve} from 'node:path';
 import {builtinModules} from 'node:module';
 
 const output = { // entry chunk assets それぞれの書き出し名の指定
@@ -30,7 +29,7 @@ build({
 	build: {
 		target		: 'esnext',
 		lib: {
-			entry	: resolve(__dirname, 'web'),
+			entry	: './src/web',
 			fileName: _=> 'web.js',
 			formats	: ['es'],
 		},
@@ -52,7 +51,7 @@ build({
 	build: {
 		target		: 'esnext',
 		lib: {
-			entry	: resolve(__dirname, 'app'),
+			entry	: './src/app',
 			fileName: _=> 'app.js',
 			formats	: ['es'],
 		},
@@ -75,7 +74,7 @@ build({
 	build: {
 		target		: 'esnext',
 		lib: {
-			entry	: resolve(__dirname, 'appMain'),
+			entry	: './src/appMain',
 			fileName: _=> 'appMain.js',
 			formats	: ['cjs'],
 		},
@@ -100,7 +99,7 @@ build({
 	build: {
 		target		: 'esnext',
 		lib: {
-			entry	: resolve(__dirname, 'preload'),
+			entry	: './src/preload',
 			fileName: _=> 'preload.js',
 			formats	: ['cjs'],
 		},

@@ -7,11 +7,9 @@
 	"license": "MIT",
 	"main": "dist/web.js",
 	"types": "dist/index.d.ts",
-	"files": [
-		"dist"
-	],
+	"files": ["dist"],
 	"engines": {
-		"node": ">=22.10"
+		"node": ">=22.12"
 	},
 	"exports": {
 		".": "./dist/web.js",
@@ -36,34 +34,34 @@
 		"xml2js": "^0.6.2"
 	},
 	"devDependencies": {
-		"@happy-dom/global-registrator": "^15.11.6",
+		"@happy-dom/global-registrator": "^15.11.7",
 		"@semantic-release/changelog": "^6.0.3",
 		"@semantic-release/git": "^10.0.1",
-		"@types/adm-zip": "^0.5.6",
+		"@types/adm-zip": "^0.5.7",
 		"@types/electron-json-storage": "^4.5.4",
 		"@types/fs-extra": "^11.0.4",
 		"@types/jest": "^29.5.14",
-		"@types/node": "^22.9.0",
+		"@types/node": "^22.10.2",
 		"@types/offscreencanvas": "^2019.7.3",
 		"@types/parsimmon": "^1.10.9",
 		"@types/platform": "^1.3.6",
 		"@types/store": "^2.0.5",
 		"@types/xml2js": "^0.4.14",
-		"electron": "^33.2.0",
-		"rimraf": "^6.0.1",
+		"electron": "^33.2.1",
 		"semantic-release": "^24.2.0",
-		"typescript": "^5.6.3",
-		"vite": "^5.4.11",
+		"typescript": "^5.7.2",
+		"vite": "^6.0.3",
 		"vite-plugin-dts": "^4.3.0"
 	},
 	"scripts": {
 		"build": "bun src/build.ts",
 		"watch": "bun --watch src/build.ts --watch",
 		"watch_web": "bun --watch src/build.ts --watch --web",
-		"update": "bun update && bun watch_web && ncu -g",
+		"update": "bun update && bun watch && ncu -g",
 		"test": "bun test",
+		"testw": "bun test --watch",
 		"docs": "vite docs/ --open /tag.html",
-		"rebuild": "rimraf package-lock.json && rimraf node_modules && bun pm cache rm && bun watch",
+		"rebuild": "bun pm cache rm && bun watch",
 		"semantic-release": "semantic-release"
 	},
 	"keywords": [

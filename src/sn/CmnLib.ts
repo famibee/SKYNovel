@@ -5,8 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg} from './Grammar';
-import {IHEvt2Fnc} from './CmnInterface';
+import type {HArg} from './Grammar';
+import type {IHEvt2Fnc} from './CmnInterface';
 
 // =============== Global
 export function int(o: any): number {return parseInt(String(o), 10)}
@@ -162,6 +162,7 @@ export class CmnLib {
 	static	readonly	isSafari	= name === 'Safari';
 	static	readonly	isFirefox	= name === 'Firefox';
 	static	readonly	isMac		= /OS X/.test(os?.family ?? '');
+	static	readonly	isWin		= /Windows/.test(os?.family ?? '');
 	static	readonly	isMobile	= ! /(Windows|OS X)/.test(os?.family ?? '');
 	static	hDip		: {[name: string]: string}	= {};
 	static	isDbg		= false;

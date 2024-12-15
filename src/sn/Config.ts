@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib} from './CmnLib';
-import {SysBase} from './SysBase';
+import type {SysBase} from './SysBase';
 import {ConfigBase, SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 

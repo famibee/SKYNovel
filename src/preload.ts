@@ -5,9 +5,9 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {T_CFG} from './sn/ConfigBase';
+import type {T_CFG} from './sn/ConfigBase';
 
-import {contextBridge, ipcRenderer, IpcRendererEvent, MessageBoxOptions, MessageBoxReturnValue} from 'electron';
+import {contextBridge, ipcRenderer, type IpcRendererEvent, type MessageBoxOptions, type MessageBoxReturnValue} from 'electron';
 
 export	type	TAG_WINDOW	= {
 	c	: boolean;

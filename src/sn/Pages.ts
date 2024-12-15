@@ -5,13 +5,13 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg} from './Grammar';
-import {IVariable} from './CmnInterface';
-import {Layer} from './Layer';
-import {SysBase} from './SysBase';
+import type {HArg} from './Grammar';
+import type {IVariable} from './CmnInterface';
+import type {Layer} from './Layer';
+import type {SysBase} from './SysBase';
 import {argChk_Boolean} from './CmnLib';
 
-import {Container} from 'pixi.js';
+import type {Container} from 'pixi.js';
 
 export class Pages {
 	#pg: {fore: Layer, back: Layer};

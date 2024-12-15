@@ -7,7 +7,7 @@
 
 import {alt, lazy, of, optWhitespace, regex, seq, seqMap, string} from 'parsimmon';
 import {int} from './CmnLib';
-import {IPropParser, IVariable} from './CmnInterface';
+import type {IPropParser, IVariable} from './CmnInterface';
 
 interface IFncCalc { (a: any[]): any;}
 interface IHFncCalc { [key: string]: IFncCalc; }

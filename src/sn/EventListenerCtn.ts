@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {BaseTexture, utils} from "pixi.js";
+import {BaseTexture, utils} from 'pixi.js';
 
 type IEmitter = BaseTexture | utils.EventEmitter | {
 	addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;

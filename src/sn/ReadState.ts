@@ -5,15 +5,15 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IVariable, IMain, IHEvt2Fnc, IEvt2Fnc, IMark} from './CmnInterface';
+import type {IVariable, IMain, IHEvt2Fnc, IEvt2Fnc, IMark} from './CmnInterface';
 import {CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
-import {HArg, IHTag, ITag} from './Grammar';
-import {LayerMng} from './LayerMng';
-import {ScriptIterator} from './ScriptIterator';
+import type {HArg, IHTag, ITag} from './Grammar';
+import type {LayerMng} from './LayerMng';
+import type {ScriptIterator} from './ScriptIterator';
 import {EventListenerCtn} from './EventListenerCtn';
-import {SoundMng} from './SoundMng';
-import {FocusMng} from './FocusMng';
-import {Config} from './Config';
+import type {SoundMng} from './SoundMng';
+import type {FocusMng} from './FocusMng';
+import type {Config} from './Config';
 
 import {Container, utils} from 'pixi.js';
 import {Tween, remove} from '@tweenjs/tween.js'

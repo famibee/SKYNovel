@@ -1,4 +1,6 @@
-import { T as D, n as ht, e as pt, L as it, a as O, i as I, B as ft, b as E, c as L, d as dt, f as _t, S as yt, g as mt, C as bt, r as vt } from "./web2.js";
+import { T as D, n as ht, e as pt, L as it, c as O, d as I, B as ft, b as E, a as L, S as dt } from "./web2.js";
+import { C as _t } from "./CmnTween.js";
+import { d as yt, e as mt, T as bt, r as vt } from "./ReadState.js";
 /*!
  * @pixi/sound - v4.4.1
  * https://github.com/pixijs/pixi-sound
@@ -948,11 +950,12 @@ class S {
   stt;
   loop = !1;
   addSnd(t) {
-    switch (this.loop = t.loop, this.stt.onLoad(this), this.pan !== 0 && (t.filters = [new q.StereoFilter(this.pan)]), this.setVol = (e) => t.volume = e, this.tw = () => new mt(t), this.onPlayEnd = () => {
+    switch (this.loop = t.loop, this.stt.onLoad(this), this.pan !== 0 && (t.filters = [new q.StereoFilter(this.pan)]), this.setVol = (e) => t.volume = e, this.tw = () => new bt(t), this.onPlayEnd = () => {
       this.stt.onPlayEnd(this.buf), this.#s();
     }, this.stop = () => {
       t.stop(), this.#s();
     }, this.destroy = () => t.destroy(), this.buf) {
+      // セリフ再生中はBGM音量を絞る
       case ot:
         const e = Number(h.getVal("sys:sn.sound.BGM.vol_mul_talking") ?? 1);
         if (e === 1) break;
@@ -1075,10 +1078,10 @@ class f {
       return;
     }
     if (this.needLoad = L(t, "join", !0)) {
-      dt();
+      yt();
       const p = _.loaded;
       _.loaded = (x, N) => {
-        this.#e.stt.isDestroy || p(x, N), _t();
+        this.#e.stt.isDestroy || p(x, N), mt();
       };
     }
     this.#o(s, _);
@@ -1112,7 +1115,7 @@ class f {
     };
   };
   #o(t, e) {
-    const s = st.searchPath(t, yt.SOUND);
+    const s = st.searchPath(t, dt.SOUND);
     if (!s.endsWith(".bin")) {
       e.url = s, T.from(e);
       return;
@@ -1203,7 +1206,7 @@ class B {
       return;
     }
     const m = t.tw();
-    m && (bt.setTwProp(m, e).to({ volume: u }, l).onComplete(() => {
+    m && (_t.setTwProp(m, e).to({ volume: u }, l).onComplete(() => {
       vt(m), t.stt.compFade(s), t.stt = a ? new C(t) : new B();
     }).start(), t.stt = new Nt(m));
   }
@@ -1326,7 +1329,7 @@ class C {
   // ok
   isDestroy = !0;
 }
-class Tt {
+class Rt {
   constructor(t, e, s, o, r) {
     this.val = s, e.volume = (i) => this.#e(i), e.fadebgm = (i) => this.#l(i), e.fadeoutbgm = (i) => this.#o(i), e.fadeoutse = (i) => this.#d(i), e.fadese = (i) => this.#i(i), e.playbgm = (i) => this.#c(i), e.playse = (i) => this.#a(i), e.stop_allse = () => this.#r(), e.stopbgm = (i) => this.#_(i), e.stopse = (i) => this.#u(i), e.wb = (i) => this.#y(i), e.wf = (i) => this.#h(i), e.stopfadese = (i) => this.#p(i), e.wl = (i) => this.#m(i), e.ws = (i) => this.#f(i), e.xchgbuf = (i) => this.#b(i), s.setVal_Nochk("save", "const.sn.loopPlaying", "{}"), s.setVal_Nochk("tmp", "const.sn.sound.codecs", JSON.stringify(Lt.supported)), f.init(t, s, o, r, this.#t), A.disableAutoPause = !0;
   }
@@ -1457,6 +1460,6 @@ class Tt {
   }
 }
 export {
-  Tt as SoundMng
+  Rt as SoundMng
 };
 //# sourceMappingURL=SoundMng.js.map

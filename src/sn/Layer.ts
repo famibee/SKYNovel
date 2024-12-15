@@ -6,8 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, int, argChk_Boolean, argChk_Num, uint} from './CmnLib';
-import {HArg} from './Grammar';
-import {IMakeDesignCast} from './LayerMng';
+import type {HArg} from './Grammar';
+import type {IMakeDesignCast} from './LayerMng';
 
 import {BLEND_MODES, DisplayObject, Container, Sprite, Texture, AbstractRenderer, filters, Filter} from 'pixi.js';
 const {BlurFilter, ColorMatrixFilter, NoiseFilter} = filters;
@@ -127,7 +127,7 @@ export class Layer {
 				const m = matrix.split(',');
 				const len = m.length;
 				if (len !== 20) throw `matrix の個数（${len}）が 20 ではありません`;
-				m.forEach((v, i)=> f.matrix[i] = uint(v));
+				for (let i=0; i<len; ++i) f.matrix[i] = uint(m[i]);
 			}
 			else {
 				f.matrix[0] = uint(argChk_Num(hArg, 'rtor', 1));

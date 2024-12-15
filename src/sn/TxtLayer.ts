@@ -6,20 +6,20 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Layer} from './Layer';
-import {uint, CmnLib, IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
-import {IHTag, HArg} from './Grammar';
-import {IVariable, IPutCh, IRecorder} from './CmnInterface';
+import {uint, CmnLib, type IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
+import type {IHTag, HArg} from './Grammar';
+import type {IVariable, IPutCh, IRecorder} from './CmnInterface';
 import {TxtStage} from './TxtStage';
-import {Config} from './Config';
+import type {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {SpritesMng} from './SpritesMng';
 import {Button} from './Button';
-import {LayerMng, IMakeDesignCast} from './LayerMng';
-import {SysBase} from './SysBase';
+import {LayerMng, type IMakeDesignCast} from './LayerMng';
+import type {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {enableEvent, disableEvent} from './ReadState';
-import {ScriptIterator} from './ScriptIterator';
+import type {ScriptIterator} from './ScriptIterator';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer, Application} from 'pixi.js';
 

@@ -6,19 +6,16 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, argChk_Boolean, parseColor} from './CmnLib';
-import {IHTag, HArg} from './Grammar';
-import {IMain, Scope} from './CmnInterface';
+import type {IHTag, HArg} from './Grammar';
+import type {IMain, Scope} from './CmnInterface';
+import type {SysBase} from './SysBase';
+import {DebugMng} from './DebugMng';
 import {Config} from './Config';
 import {tagToken2Name, splitAmpersand} from './Grammar';
-import {PropParser} from './PropParser';
-import {DebugMng} from './DebugMng';
-import {Variable} from './Variable';
-import {LayerMng} from './LayerMng';
-import {EventMng} from './EventMng';
-import {ScriptIterator} from './ScriptIterator';
-import {SysBase} from './SysBase';
+import type {ScriptIterator} from './ScriptIterator';
+import type {LayerMng} from './LayerMng';
 
-import {Application, IApplicationOptions, utils} from 'pixi.js';
+import {Application, type IApplicationOptions, utils} from 'pixi.js';
 
 const	SN_ID	= 'skynovel';
 
@@ -75,67 +72,76 @@ export class Main implements IMain {
 		if (! cc) throw '#init cc err';
 		CmnLib.cc4ColorName = cc;
 
+		await Promise.all([
+			import('./Variable'),
+			import('./PropParser'),
+			import('./SoundMng'),
+			import('./ScriptIterator'),
+			import('./LayerMng'),
+			import('./EventMng'),
+		]).then(async ([{Variable}, {PropParser}, {SoundMng},
+		{ScriptIterator}, {LayerMng}, {EventMng}])=> {
+			// 変数
+			const val = new Variable(cfg, this.#hTag);
+			const prpPrs = new PropParser(val, cfg.oCfg.init.escape ?? '\\');
+			this.#setVal_Nochk = (scope, nm, v, autocast)=> val.setVal_Nochk(scope, nm, v, autocast);
+			this.#getValAmpersand = v=> prpPrs.getValAmpersand(v);
+			this.#parse = s=> prpPrs.parse(s);
 
-		// 変数
-		const val = new Variable(cfg, this.#hTag);
-		const prpPrs = new PropParser(val, cfg.oCfg.init.escape ?? '\\');
-		this.#setVal_Nochk = (scope, nm, v, autocast)=> val.setVal_Nochk(scope, nm, v, autocast);
-		this.#getValAmpersand = v=> prpPrs.getValAmpersand(v);
-		this.#parse = s=> prpPrs.parse(s);
+			// システム
+			await Promise.allSettled(this.sys.init(this.#hTag, app, val,this));	// 変数準備完了
+			this.#hTag.title!({text: cfg.oCfg.book.title || 'SKYNovel'});
 
-		// システム
-		await Promise.allSettled(this.sys.init(this.#hTag, app, val,this));	// 変数準備完了
-		this.#hTag.title!({text: cfg.oCfg.book.title || 'SKYNovel'});
+			// ＢＧＭ・効果音
+			const sndMng = new SoundMng(cfg, this.#hTag, val, this, this.sys);
+			this.#aDest.unshift(()=> sndMng.destroy());
 
-		// ＢＧＭ・効果音
-		const {SoundMng} = await import('./SoundMng');
-		const sndMng = new SoundMng(cfg, this.#hTag, val, this, this.sys);
-		this.#aDest.unshift(()=> sndMng.destroy());
+			// 条件分岐、ラベル・ジャンプ、マクロ、しおり
+			this.#scrItr = new ScriptIterator(cfg, this.#hTag, this, val, prpPrs, sndMng, this.sys);
+			this.#aDest.unshift(()=> this.#scrItr.destroy());
 
-		// 条件分岐、ラベル・ジャンプ、マクロ、しおり
-		this.#scrItr = new ScriptIterator(cfg, this.#hTag, this, val, prpPrs, sndMng, this.sys);
-		this.#aDest.unshift(()=> this.#scrItr.destroy());
+			// デバッグ・その他
+			const dbgMng = new DebugMng(this.sys, this.#hTag, this.#scrItr);
+			this.#aDest.unshift(()=> dbgMng.destroy());
+			this.errScript = (mes: string, isThrow = true)=> {
+				this.stop();
+				DebugMng.myTrace(mes);
+				if (CmnLib.debugLog) console.log('🍜 SKYNovel err!');
+				if (isThrow) throw mes;
+			}
 
-		// デバッグ・その他
-		const dbgMng = new DebugMng(this.sys, this.#hTag, this.#scrItr);
-		this.#aDest.unshift(()=> dbgMng.destroy());
+			// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
+			this.#layMng = new LayerMng(cfg, this.#hTag, app, val, this, this.#scrItr, this.sys, sndMng, prpPrs);
+			this.#aDest.unshift(()=> this.#layMng.destroy());
 
-		// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
-		this.#layMng = new LayerMng(cfg, this.#hTag, app, val, this, this.#scrItr, this.sys, sndMng, prpPrs);
-		this.#aDest.unshift(()=> this.#layMng.destroy());
+			// イベント
+			const evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, val, sndMng, this.#scrItr, this.sys);
+			this.#aDest.unshift(()=> evtMng.destroy());
 
-		// イベント
-		const evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, val, sndMng, this.#scrItr, this.sys);
-		this.#aDest.unshift(()=> evtMng.destroy());
+			this.#aDest.unshift(()=> {
+				this.stop();
+				this.#isLoop = false;
 
-		this.#aDest.unshift(()=> {
+				this.#hTag = {};
+			});
+
+			this.#hTag.jump!({fn: 'main'});
 			this.stop();
-			this.#isLoop = false;
-
-			this.#hTag = {};
 		});
-
-		this.#hTag.jump!({fn: 'main'});
-		this.stop();
 	}
 
 
 	destroy() {
 		if (this.#destroyed) return;	// destroy()連打対策
 		this.#destroyed = true;
-		this.#aDest.forEach(f=> f());
+		for (const f of this.#aDest) f();
 		this.#aDest = [];
 	}
 	#destroyed = false;
 	readonly isDestroyed = ()=> this.#destroyed;
 
 
-	errScript(mes: string, isThrow = true) {
-		this.stop();
-		DebugMng.myTrace(mes);
-		if (CmnLib.debugLog) console.log('🍜 SKYNovel err!');
-		if (isThrow) throw mes;
-	}
+	errScript = (_mes: string, _isThrow = true)=> {}
 
 
 	resumeByJumpOrCall(hArg: HArg) {

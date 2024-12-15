@@ -5,10 +5,10 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, getDateStr, uint, IEvtMng, argChk_Boolean, argChk_Num, addStyle, argChk_Color, parseColor} from './CmnLib';
+import {CmnLib, getDateStr, uint, type IEvtMng, argChk_Boolean, argChk_Num, addStyle, argChk_Color, parseColor} from './CmnLib';
 import {CmnTween} from './CmnTween';
-import {IHTag, HArg} from './Grammar';
-import {IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder} from './CmnInterface';
+import type {IHTag, HArg} from './Grammar';
+import type {IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder} from './CmnInterface';
 import {Pages} from './Pages';
 import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';
@@ -16,12 +16,12 @@ import {SpritesMng} from './SpritesMng';
 import {TxtLayer} from './TxtLayer';
 import {RubySpliter} from './RubySpliter';
 import {TxtStage} from './TxtStage';
-import {Config} from './Config';
-import {ScriptIterator} from './ScriptIterator';
-import {SysBase} from './SysBase';
+import type {Config} from './Config';
+import type {ScriptIterator} from './ScriptIterator';
+import type {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
 import {Button} from './Button';
-import {SoundMng} from './SoundMng';
+import type {SoundMng} from './SoundMng';
 import {DesignCast} from './DesignCast';
 import {EventListenerCtn} from './EventListenerCtn';
 import {disableEvent, enableEvent} from './ReadState';

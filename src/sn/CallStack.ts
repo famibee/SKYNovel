@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IHEvt2Fnc, IValMp} from './CmnInterface';
+import type {IHEvt2Fnc, IValMp} from './CmnInterface';
 
 export interface ICallStackArg {
 	':resvToken'?	: string;		// call元のtoken

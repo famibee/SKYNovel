@@ -5,16 +5,16 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HINFO, TAG_WINDOW} from './preload';
-import {T_CFG} from './sn/ConfigBase';
+import type {HINFO, TAG_WINDOW} from './preload';
+import type {T_CFG} from './sn/ConfigBase';
+import {CmnLib} from "./sn/CmnLib";
 
-import {screen, app, BrowserWindow, ipcMain, shell, dialog, MessageBoxOptions, Size} from 'electron';
+import {screen, app, BrowserWindow, ipcMain, shell, dialog, type MessageBoxOptions, Size} from 'electron';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
 import {existsSync, copySync, removeSync, ensureDirSync, readFileSync, writeFileSync, appendFile, ensureFileSync, outputFile, WriteFileOptions} from 'fs-extra';
 import Store from 'electron-store';
 import AdmZip from 'adm-zip';
 
-const	isWin	= process.platform === 'win32';
 
 export class appMain {
 	static	initRenderer(path_htm: string, version: string, _o: object): BrowserWindow {
@@ -127,7 +127,7 @@ export class appMain {
 		});
 
 		ipcMain.handle('isSimpleFullScreen', ()=> bw.simpleFullScreen);
-		if (isWin) {
+		if (CmnLib.isWin) {
 			ipcMain.handle('setSimpleFullScreen', (_, b: boolean)=> {
 				this.#isMovingWin = true;
 				bw.setSimpleFullScreen(b);	// これだけで #onMove 発生
@@ -170,7 +170,7 @@ export class appMain {
 	#inited(oCfg: T_CFG, rctW: TAG_WINDOW) {
 		const {c, x, y, w, h} = rctW;
 		this.#numAspectRatio = w / h;
-		if (! isWin) this.bw.setAspectRatio(this.#numAspectRatio);
+		if (! CmnLib.isWin) this.bw.setAspectRatio(this.#numAspectRatio);
 		this.#window(c, x, y, w, h);
 		this.bw.show();
 
@@ -242,7 +242,7 @@ export class appMain {
 		this.bw.setPosition(x, y);	// 小数値を渡すと例外？　ぽい（四捨五入でいく）
 
 //console.log(`fn:appMain.ts #window - w:${w} h:${w /this.#numAspectRatio} cw:${this.#cvsW} ch:${this.#cvsH} +${(this.#cvsW !== w)}+${(this.#cvsW !== w) ?Math.round(w /this.#numAspectRatio) :Math.round(h *this.#numAspectRatio)}+`);
-		if (isWin) {
+		if (CmnLib.isWin) {
 			if (this.#cvsW !== w) h = w /this.#numAspectRatio;
 			else w = h *this.#numAspectRatio;
 		}

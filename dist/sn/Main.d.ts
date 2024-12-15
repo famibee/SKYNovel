@@ -8,7 +8,7 @@ export declare class Main implements IMain {
     constructor(sys: SysBase);
     destroy(): void;
     readonly isDestroyed: () => boolean;
-    errScript(mes: string, isThrow?: boolean): void;
+    errScript: (_mes: string, _isThrow?: boolean) => void;
     resumeByJumpOrCall(hArg: HArg): void;
     resume(): void;
     readonly stop: () => void;

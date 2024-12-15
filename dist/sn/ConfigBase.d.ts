@@ -59,10 +59,12 @@ export interface IExts {
 export interface IFn2Path {
     [fn: string]: IExts;
 }
+export type T_SEARCHPATH = (fn: string, extptn?: SEARCH_PATH_ARG_EXT) => string;
 export interface IConfig {
     oCfg: T_CFG;
     getNs(): string;
-    searchPath(fn: string, extptn?: string): string;
+    searchPath: T_SEARCHPATH;
+    matchPath(fnptn: string, extptn?: SEARCH_PATH_ARG_EXT): ReadonlyArray<IExts>;
     addPath(fn: string, h_exts: IExts): void;
 }
 export interface ISysRoots {

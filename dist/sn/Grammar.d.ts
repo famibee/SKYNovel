@@ -1,3 +1,4 @@
+import { IConfig } from './ConfigBase';
 export type HArg = {
     ':タグ名'?: string;
     layer?: string;
@@ -168,7 +169,8 @@ export declare function splitAmpersand(token: string): {
 };
 export declare class Grammar {
     #private;
-    constructor();
+    private readonly cfg;
+    constructor(cfg: IConfig);
     setEscape(ce: string): void;
     bracket2macro(hArg: HArg, hTag: IHTag, scr: Script, start_idx: number): void;
     char2macro(hArg: HArg, hTag: IHTag, scr: Script, start_idx: number): void;

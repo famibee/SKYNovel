@@ -5,16 +5,16 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg} from './Grammar';
-import {IPropParser} from './CmnInterface';
-import {SysBase} from './SysBase';
-import {ScriptIterator} from './ScriptIterator';
-import {HPage} from './LayerMng';
-import {HPRM} from './AnalyzeTagArg';
-import {TxtStage} from './TxtStage';
-import {Button} from './Button';
-import {GrpLayer} from './GrpLayer';
-import {Config} from './Config';
+import type {HArg} from './Grammar';
+import type {IPropParser} from './CmnInterface';
+import type {SysBase} from './SysBase';
+import type {ScriptIterator} from './ScriptIterator';
+import type {HPage} from './LayerMng';
+import type {HPRM} from './AnalyzeTagArg';
+import type {TxtStage} from './TxtStage';
+import type {Button} from './Button';
+import type {GrpLayer} from './GrpLayer';
+import type {Config} from './Config';
 
 import {Application, Text, Sprite} from 'pixi.js';
 

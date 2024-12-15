@@ -5,6 +5,11 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
+import {AnalyzeTagArg} from './AnalyzeTagArg';
+import {getFn} from './CmnLib';
+import {type IConfig, SEARCH_PATH_ARG_EXT} from './ConfigBase';
+
+
 export type HArg = {
 	':タグ名'?	: string;
 
@@ -228,7 +233,7 @@ export function	splitAmpersand(token: string): {
 
 
 export class Grammar {
-	constructor() {this.setEscape('')}
+	constructor(private readonly cfg: IConfig) {this.setEscape('')}
 
 	#REG_TOKEN	: RegExp;
 	setEscape(ce: string) {
@@ -344,10 +349,52 @@ export class Grammar {
 			return [a, b];
 		}) ?? [];
 
-		const scr = {aToken :a as string[], len :a.length, aLNum :[]};
+		const scr = {aToken: a as string[], len: a.length, aLNum: []};
 		this.#replaceScr_C2M(scr);
+
+		this.#replaceScript_Wildcard(scr);
+
 		return scr;
 	}
+
+
+	readonly #REG_WILDCARD	= /^\[(call|loadplugin)\s/;
+	readonly #REG_WILDCARD2	= /\bfn\s*=\s*[^\s\]]+/;
+	#replaceScript_Wildcard(scr: Script) {
+		for (let i=scr.len -1; i>=0; --i) {
+			const token = scr.aToken[i]!;
+			if (! this.#REG_WILDCARD.test(token)) continue;
+
+			const [tag_name, args] = tagToken2Name_Args(token);
+			this.#alzTagArg.parse(args);
+
+			const p_fn = this.#alzTagArg.hPrm.fn;
+			if (! p_fn) continue;
+			const {val: fn} = p_fn;
+			if (! fn || ! fn.endsWith('*')) continue;
+
+			scr.aToken.splice(i, 1, '\t', '; '+ token);
+			scr.aLNum.splice(i, 1, NaN, NaN);
+
+			const ext = tag_name === 'loadplugin'
+				? SEARCH_PATH_ARG_EXT.CSS
+				: SEARCH_PATH_ARG_EXT.SN;
+			const a = this.cfg.matchPath('^'+ fn.slice(0, -1) +'.*', ext);
+			for (const v of a) {
+				const nt = token.replace(
+					this.#REG_WILDCARD2,
+					'fn='+ decodeURIComponent(getFn(v[ext]!))
+				);
+				//console.log('\t='+ nt +'=');
+				scr.aToken.splice(i, 0, nt);
+				scr.aLNum.splice(i, 0, NaN);
+			}
+		}
+		scr.len = scr.aToken.length;
+	}
+		readonly	#alzTagArg	= new AnalyzeTagArg;
+
+
 	testTagLetml(tkn: string): boolean {return /^\[let_ml\s/.test(tkn)};
 	testTagEndLetml(tkn: string): boolean {return /^\[endlet_ml\s*]/.test(tkn)};
 

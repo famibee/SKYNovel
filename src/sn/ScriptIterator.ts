@@ -6,18 +6,18 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {argChk_Boolean, getFn, CmnLib, argChk_Num} from './CmnLib';
-import {IHTag, HArg, Script} from './Grammar';
-import {IMain, IVariable, IMark, IPropParser} from './CmnInterface';
+import type {IHTag, HArg, Script} from './Grammar';
+import type {IMain, IVariable, IMark, IPropParser} from './CmnInterface';
 import {Config} from './Config';
-import {CallStack, ICallStackArg} from './CallStack';
+import {CallStack, type ICallStackArg} from './CallStack';
 import {Grammar, tagToken2Name_Args, tagToken2Name} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {RubySpliter} from './RubySpliter';
-import {EventMng} from './EventMng';
-import {LayerMng} from './LayerMng';
+import type {EventMng} from './EventMng';
+import type {LayerMng} from './LayerMng';
 import {DebugMng} from './DebugMng';
-import {SoundMng} from './SoundMng';
-import {SysBase} from './SysBase';
+import type {SoundMng} from './SoundMng';
+import type {SysBase} from './SysBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {disableEvent, enableEvent} from './ReadState';
 import {CmnTween} from './CmnTween';
@@ -59,7 +59,7 @@ export class ScriptIterator {
 
 	#aCallStk	: CallStack[]	= [];	// FILOバッファ（push/pop）
 
-	readonly	#grm		= new Grammar;
+	readonly	#grm;
 	readonly	#alzTagArg	= new AnalyzeTagArg;
 
 
@@ -108,6 +108,8 @@ export class ScriptIterator {
 		val.defTmp('const.sn.aIfStk.length', ()=> this.#aIfStk.length);
 		val.defTmp('const.sn.vctCallStk.length', ()=> this.#aCallStk.length);
 
+		this.#grm = new Grammar(cfg);
+		
 		const ce = cfg.oCfg.init.escape;
 		this.#grm.setEscape(ce);
 		RubySpliter.setEscape(ce);

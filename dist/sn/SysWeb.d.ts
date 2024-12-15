@@ -11,7 +11,7 @@ export declare class SysWeb extends SysBase {
         dip: string;
     });
     protected loaded(hPlg: HPlugin, arg: HSysBaseArg): Promise<void>;
-    runSN(prj: string): void;
+    runSN(prj: string): Promise<void>;
     protected run: () => Promise<void>;
     stop(): void;
     loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;

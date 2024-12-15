@@ -8,13 +8,13 @@
 import {Layer} from './Layer';
 
 import {CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
-import {HArg} from './Grammar';
-import {IMain, IVariable} from './CmnInterface';
+import type {HArg} from './Grammar';
+import type {IMain, IVariable} from './CmnInterface';
 import {Config} from './Config';
-import {SysBase} from './SysBase';
+import type {SysBase} from './SysBase';
 import {EventListenerCtn} from './EventListenerCtn';
-import {SoundMng} from './SoundMng';
-import {IMakeDesignCast} from './LayerMng';
+import type {SoundMng} from './SoundMng';
+import type {IMakeDesignCast} from './LayerMng';
 import {GrpLayDesignCast} from './DesignCast';
 import {SpritesMng} from './SpritesMng';
 import {enableEvent, disableEvent} from './ReadState';

@@ -1,9 +1,9 @@
-import { k as r, l as e, j as o, c as b, b as k } from "./web2.js";
+import { C as r, x as e, Q as o, a as C, b } from "./web2.js";
 export {
   r as CmnLib,
   e as Layer,
   o as SysWeb,
-  b as argChk_Boolean,
-  k as argChk_Num
+  C as argChk_Boolean,
+  b as argChk_Num
 };
 //# sourceMappingURL=web.js.map

@@ -1,3 +1,13 @@
+- fix: 動的 import() を積極使用
+- fix: （大勢に影響ないが）await 忘れを追加
+- fix(FrameMng): 画像ファイル名処理に正規表現ではなく String.split() を使用するように
+- refactor: リファクタリング：forEach 削除（for や for of に変更）
+- refactor: replaceScript_Wildcard() を Grammar に移動
+- refactor: isWin 変数移動（appMain -> CmnLib）
+- chore: import ステートメントになるべく type 指定をするように
+- chore(.github/workflows/release.yml): コメント追加
+
+
 ## [1.61.6](https://github.com/famibee/SKYNovel/compare/v1.61.5...v1.61.6) (2024-11-16)
 
 

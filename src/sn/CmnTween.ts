@@ -5,8 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IEvtMng, CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
-import {HArg} from './Grammar';
+import {type IEvtMng, CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
+import type {HArg} from './Grammar';
 
 import {Tween, Easing, removeAll, update} from '@tweenjs/tween.js'
 import {Application} from 'pixi.js';

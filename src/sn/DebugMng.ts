@@ -6,11 +6,14 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, getDateStr} from './CmnLib';
-import {HArg, ITag, IHTag} from './Grammar';
-import {SysBase} from './SysBase';
-import {ScriptIterator} from './ScriptIterator';
+import type {HArg, ITag, IHTag} from './Grammar';
+import type {SysBase} from './SysBase';
+import type {ScriptIterator} from './ScriptIterator';
 
 import platform from 'platform';
+
+export type T_TRACE = (txt: string, lvl?: 'D'|'W'|'F'|'E'|'I'|'ET')=> void;
+
 
 export class DebugMng {
 	static	#scrItr	: ScriptIterator;
@@ -77,7 +80,7 @@ export class DebugMng {
 	}
 
 	// private禁止、galleryでエラーになる
-	static trace_beforeNew(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
+	static readonly trace_beforeNew: T_TRACE = (txt, lvl = 'E')=> {
 		let mes = `{${lvl}} `+ txt;
 		let sty = '';
 		switch (lvl) {
@@ -94,7 +97,7 @@ export class DebugMng {
 	static strPos = ()=> DebugMng.#scrItr.lineNum > 0
 		? `(fn:${DebugMng.#scrItr.scriptFn} line:${DebugMng.#scrItr.lineNum}) `
 		: '';
-	static #st_trace(txt: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET' = 'E') {
+	static readonly	#st_trace: T_TRACE = (txt, lvl = 'E')=> {
 		let mes = `{${lvl}} `+ DebugMng.strPos() + txt;
 		DebugMng.#dspDbg(mes, lvl);
 
@@ -124,7 +127,7 @@ export class DebugMng {
 		console.info('%c'+ mes, sty);
 	}
 
-	static	#dspDbg(mes: string, lvl: 'D'|'W'|'F'|'E'|'I'|'ET') {
+	static readonly	#dspDbg: T_TRACE = (mes, lvl)=> {
 		let sty = '';
 		switch (lvl) {
 			case 'D':	sty = 'color:#05A;';	break;

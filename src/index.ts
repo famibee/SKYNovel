@@ -32,7 +32,7 @@ export * from "./app";
 export * from "./appMain";
 export * from "./web";
 
-import {HPROC} from "./preload";
+import type {HPROC} from "./preload";
 declare global {
 	interface Window {
 		to_app: HPROC;

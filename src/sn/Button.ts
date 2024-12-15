@@ -6,12 +6,12 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Container, Text, Rectangle, Texture, TextStyle, Sprite, Graphics} from 'pixi.js';
-import {uint, IEvtMng, argChk_Boolean, argChk_Num, mesErrJSON} from './CmnLib';
-import {HArg} from './Grammar';
+import {uint, type IEvtMng, argChk_Boolean, argChk_Num, mesErrJSON} from './CmnLib';
+import type {HArg} from './Grammar';
 import {SpritesMng} from './SpritesMng';
 import {Layer} from './Layer';
 import {Config} from './Config';
-import {IMakeDesignCast} from './LayerMng';
+import type {IMakeDesignCast} from './LayerMng';
 //import {DesignCast, TxtBtnDesignCast, PicBtnDesignCast} from './DesignCast';
 
 export class Button extends Container {

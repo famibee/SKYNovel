@@ -5,12 +5,12 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
-import {IHTag, HArg} from './Grammar';
-import {IVariable, IMain, INoticeChgVolume} from './CmnInterface';
-import {Config} from './Config';
-import {SysBase} from './SysBase';
-import {BUF_BGM, BUF_SE, HSndBuf, SndBuf} from './SndBuf';
+import {type IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
+import type {IHTag, HArg} from './Grammar';
+import type {IVariable, IMain, INoticeChgVolume} from './CmnInterface';
+import type {Config} from './Config';
+import type {SysBase} from './SysBase';
+import {BUF_BGM, BUF_SE, type HSndBuf, SndBuf} from './SndBuf';
 
 import {sound, utils} from '@pixi/sound';
 

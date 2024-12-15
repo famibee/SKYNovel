@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {HArg, ITag} from './Grammar';
+import type {HArg, ITag} from './Grammar';
 
 export interface IMyTrace {
 	(txt: string, lvl?: string, fnline?: boolean, adjust_line?: number): void;
@@ -31,11 +31,12 @@ export type T_PLUGIN_INFO = {
 		height	: number;
 	},
 }
+import type {T_SEARCHPATH} from './ConfigBase';
 export type IPluginInitArg = {
 	getInfo(): T_PLUGIN_INFO;
 	addTag(tag_name: string, tag_fnc: ITag): void;
 	addLayCls(cls: string, fnc: ILayerFactory): void;
-	searchPath(fn: string, extptn?: string): string;
+	searchPath: T_SEARCHPATH;
 	getVal(arg_name: string, def?: number | string): object;
 	resume(fnc?: ()=> void): void;
 	render(dsp: DisplayObject, renTx?: RenderTexture, clear?: boolean): void;

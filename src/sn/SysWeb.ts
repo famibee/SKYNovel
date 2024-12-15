@@ -5,12 +5,12 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {SysBase} from "./SysBase";
+import {SysBase} from './SysBase';
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
-import {IHTag, ITag} from './Grammar';
-import {IVariable, IMain, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
+import type {IHTag, ITag} from './Grammar';
+import type {IVariable, IMain, IData4Vari, HPlugin, HSysBaseArg} from './CmnInterface';
 import {Main} from './Main';
-import {IFn2Path, IConfig} from './ConfigBase';
+import type {IFn2Path, IConfig} from './ConfigBase';
 
 import {Application} from 'pixi.js';
 import store from 'store';
@@ -25,19 +25,19 @@ export class SysWeb extends SysBase {
 		const a = arg.cur.split('/');
 		this.#path_base = (a.length > 2) ? a.slice(0, -2).join('/') +'/' :'';
 
-		globalThis.onload = async ()=> this.loaded(hPlg, arg);
+		this.loaded(hPlg, arg);
 	}
 	protected override async loaded(hPlg: HPlugin, arg: HSysBaseArg) {
 		await super.loaded(hPlg, arg);
 
 		document.querySelectorAll('[data-prj]').forEach(v=> {
 			const elm = v.attributes.getNamedItem('data-prj');
-			if (elm) v.addEventListener('click', ()=> this.runSN(elm.value), {passive: true});
+			if (elm) v.addEventListener('click', async ()=> this.runSN(elm.value), {passive: true});
 			//if (elm) this.elc.add(v, 'click', ()=> this.runSN(elm.value), {passive: true});
 				// ギャラリーであっても、ここには一度しか来ないので
 		});
 		document.querySelectorAll('[data-reload]').forEach(v=>
-			v.addEventListener('click', ()=> this.run(), {passive: true})
+			v.addEventListener('click', async ()=> this.run(), {passive: true})
 			//this.elc.add(v, 'click', ()=> this.run(), {passive: true})
 				// ギャラリーであっても、ここには一度しか来ないので
 		);
@@ -50,22 +50,22 @@ export class SysWeb extends SysBase {
 
 		if (argChk_Boolean(CmnLib.hDip, 'dbg', false)) {
 			CmnLib.isDbg = true;
-			this.fetch = (url: string, init?: RequestInit)=> fetch(url, {...init,　mode: 'cors'});
+			this.fetch = (url: string, init?: RequestInit)=> fetch(url, {...init, mode: 'cors'});
 		}
 		this.extPort = argChk_Num(CmnLib.hDip, 'port', this.extPort);
 
 		const cur = sp.get('cur');
 		if (cur) arg.cur = this.#path_base + cur +'/';
-		this.run();
+		await this.run();
 	}
 
 	#now_prj	= ':';
-	runSN(prj: string) {
+	async runSN(prj: string) {
 		this.arg.cur = this.#path_base + prj +'/';
 		if (this.#now_prj === this.arg.cur) return;
 
 		this.#now_prj = this.arg.cur;
-		this.run();
+		await this.run();
 	}
 	protected	override run = async ()=> {
 		if (this.#main) {
