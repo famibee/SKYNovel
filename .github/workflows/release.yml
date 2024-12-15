@@ -18,9 +18,8 @@ jobs:
         node-version: '22'
 
     - name: 📦 Install dependencies
-      run: |
-        npm ci
-        npm test
+      run: npm ci
+    - run: npm test
 
     - name: 📜 Semantic Release
       run: npm run semantic-release
