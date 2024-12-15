@@ -11,32 +11,26 @@ jobs:
     - name: 📥 Checkout
       uses: actions/checkout@v4
 
-    - name: 🔧 Setup Bun
-      uses: oven-sh/setup-bun@v2
+    - name: 🔧 Setup
+      uses: actions/setup-node@v4
       with:
-        # Subsequent workflow runs will use the cached version of Bun.
-        bun-version: 1.1.34
         registry-url: https://npm.pkg.github.com/
+        node-version: '22'
 
     - name: 📦 Install dependencies
       run: |
-        bun install
-        bun test
+        npm ci
+        npm test
 
     - name: 📜 Semantic Release
-      uses: cycjimmy/semantic-release-action@v4
-      with:
-        # You can specify specifying version range for the extra plugins if you prefer.
-        extra_plugins: |
-          @semantic-release/changelog
-          @semantic-release/git
+      run: npm run semantic-release
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NPM_TOKEN: ${{secrets.NPM_TOKEN}}
+        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     - name: 📦 Publish to NPM Registry (in Gihhub ?)
-      run: |
-        bunx can-npm-publish --verbose && bun publish || echo "Does not publish"
+      run: npx can-npm-publish --verbose && npm publish || echo "Does not publish"
       env:
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
@@ -56,19 +50,16 @@ jobs:
       - run: git log
 
       - name: 🔧 Setup Bun
-        uses: oven-sh/setup-bun@v2
+        uses: actions/setup-node@v4
         with:
-          # Subsequent workflow runs will use the cached version of Bun.
-          bun-version: 1.1.34
           registry-url: https://registry.npmjs.org/
+          node-version: '22'
           scope: '@famibee'
 
       - name: 📦 Install dependencies
-        run: |
-          bun install
+        run: npm ci
 
       - name: 📦 Publish to NPM Registry
-        run: |
-          bun publish --access=public || echo "Does not publish"
+        run: npx can-npm-publish --verbose && npm publish --access=public || echo "Does not publish"
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
