@@ -22,7 +22,7 @@ jobs:
         bun test
 
     - name: 📜 Semantic Release
-      run: bun semantic-release
+      run: bun run semantic-release
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NPM_TOKEN: ${{secrets.NPM_TOKEN}}
