@@ -1,3 +1,10 @@
+## [1.61.8](https://github.com/famibee/SKYNovel/compare/v1.61.7...v1.61.8) (2024-12-15)
+
+
+### Bug Fixes
+
+* **.github/workflows/release.yml:** semantic-release 失敗していた件 ([a7fd2ea](https://github.com/famibee/SKYNovel/commit/a7fd2eaf01b8d3b1480819e6c697b9176e2480da))
+
 - fix(.github/workflows/release.yml): semantic-release 失敗していた件
 
 
