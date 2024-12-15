@@ -15,6 +15,11 @@ jobs:
       uses: oven-sh/setup-bun@v2
       with:
         registry-url: https://npm.pkg.github.com/
+    - name: 🔧 Setup node 4 Semantic Release
+      uses: actions/setup-node@v4
+      with:
+        registry-url: https://npm.pkg.github.com/
+        node-version: '22'
 
     - name: 📦 Install dependencies
       run: |
@@ -22,7 +27,7 @@ jobs:
         bun test
 
     - name: 📜 Semantic Release
-      run: bun run semantic-release
+      run: npm run semantic-release
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NPM_TOKEN: ${{secrets.NPM_TOKEN}}
