@@ -16,10 +16,15 @@ jobs:
       with:
         registry-url: https://npm.pkg.github.com/
         node-version: '22'
+    - name: 🔧 Setup bun
+      uses: oven-sh/setup-bun@v2
+      with:
+        registry-url: https://npm.pkg.github.com/
 
     - name: 📦 Install dependencies
-      run: npm install
-    - run: npm test
+      run: |
+        bun install
+        bun test
 
     - name: 📜 Semantic Release
       run: npm run semantic-release
@@ -29,7 +34,7 @@ jobs:
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     - name: 📦 Publish to NPM Registry (in Gihhub ?)
-      run: npx can-npm-publish --verbose && npm publish || echo "Does not publish"
+      run: bunx can-npm-publish --verbose && bun publish || echo "Does not publish"
       env:
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
