@@ -1,3 +1,6 @@
+- fix(.github/workflows/release.yml): semantic-release 失敗していた件
+
+
 ## [1.61.7](https://github.com/famibee/SKYNovel/compare/v1.61.6...v1.61.7) (2024-12-15)
 
 
