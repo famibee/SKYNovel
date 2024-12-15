@@ -12,11 +12,6 @@ jobs:
       uses: actions/checkout@v4
 
     - name: 🔧 Setup
-      uses: actions/setup-node@v4
-      with:
-        registry-url: https://npm.pkg.github.com/
-        node-version: '22'
-    - name: 🔧 Setup bun
       uses: oven-sh/setup-bun@v2
       with:
         registry-url: https://npm.pkg.github.com/
@@ -27,7 +22,7 @@ jobs:
         bun test
 
     - name: 📜 Semantic Release
-      run: npm run semantic-release
+      run: bun semantic-release
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NPM_TOKEN: ${{secrets.NPM_TOKEN}}
@@ -53,17 +48,16 @@ jobs:
           ref: ${{steps.latest_tag.outputs.latest_tag}}
       - run: git log
 
-      - name: 🔧 Setup Bun
-        uses: actions/setup-node@v4
+      - name: 🔧 Setup
+        uses: oven-sh/setup-bun@v2
         with:
           registry-url: https://registry.npmjs.org/
-          node-version: '22'
           scope: '@famibee'
 
       - name: 📦 Install dependencies
-        run: npm install
+        run: bun install
 
       - name: 📦 Publish to NPM Registry
-        run: npx can-npm-publish --verbose && npm publish --access=public || echo "Does not publish"
+        run: bunx can-npm-publish --verbose && bun publish --access=public || echo "Does not publish"
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
