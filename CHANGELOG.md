@@ -1,3 +1,10 @@
+## [1.61.7](https://github.com/famibee/SKYNovel/compare/v1.61.6...v1.61.7) (2024-12-15)
+
+
+### Bug Fixes
+
+* 動的 import() を積極使用 ([3b375fd](https://github.com/famibee/SKYNovel/commit/3b375fd6d85d233463dc83f9f3a2ab3818bc72b3))
+
 - fix: 動的 import() を積極使用
 - fix: （大勢に影響ないが）await 忘れを追加
 - fix(FrameMng): 画像ファイル名処理に正規表現ではなく String.split() を使用するように
