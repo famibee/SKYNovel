@@ -16,6 +16,7 @@ export type SAVE_WIN_INF = {
     scrh: number;
 };
 export type HPROC = {
+    openDevTools: () => void;
     getInfo: () => Promise<HINFO>;
     inited: (oCfg: T_CFG, tagW: TAG_WINDOW) => Promise<void>;
     existsSync: (path: string) => Promise<boolean>;
@@ -34,7 +35,6 @@ export type HPROC = {
     showMessageBox: (o: MessageBoxOptions) => Promise<MessageBoxReturnValue>;
     capturePage: (fn: string, w: number, h: number) => Promise<void>;
     navigate_to: (url: string) => void;
-    openDevTools: () => void;
     Store: (o: object) => Promise<void>;
     flush: (o: object) => Promise<void>;
     Store_isEmpty: () => Promise<boolean>;

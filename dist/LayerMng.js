@@ -101,7 +101,7 @@ class _ {
   static #n;
   static #o;
   static init(t, e, s, i, n) {
-    _.#i = t, _.#e = e, _.#n = s, _.#o = i, s.crypto && (_.#f = _.#p, _.#l = _.#I);
+    _.#i = t, _.#e = e, _.#n = s, _.#o = i, s.arg.crypto && (_.#f = _.#p, _.#l = _.#I);
     const o = () => {
       const a = _.#c * _.#t;
       for (const l of Object.values(_.#x)) l.volume = a;
@@ -160,7 +160,7 @@ class _ {
       };
       if (o.push({ fn: d, fnc: y }), d in _.#h || d in ot || d in Y.shared.resources) break;
       n = !0;
-      const b = _.#i.searchPath(d, G.SP_GSM), C = this.#n.crypto ? { xhrType: b.slice(-5) === ".json" ? B.XHR_RESPONSE_TYPE.TEXT : B.XHR_RESPONSE_TYPE.BUFFER } : {};
+      const b = _.#i.searchPath(d, G.SP_GSM), C = this.#n.arg.crypto ? { xhrType: b.slice(-5) === ".json" ? B.XHR_RESPONSE_TYPE.TEXT : B.XHR_RESPONSE_TYPE.BUFFER } : {};
       a.add({ ...C, name: d, url: b });
     }
     const u = (h, m) => {
@@ -1963,7 +1963,7 @@ class $ {
     const c = R(t, "visible", !0), u = t.b_color ? ` background-color: ${t.b_color};` : "", h = this.#r(t);
     Tt.cvs.insertAdjacentHTML("beforebegin", `<iframe id="${e}" style="opacity: ${i}; ${u} position: absolute; left:${$.#e.ofsLeft4elm + h.x * $.#e.cvsScale}px; top: ${$.#e.ofsTop4elm + h.y * $.#e.cvsScale}px; z-index: 1; border: 0px; overflow: hidden; display: ${c ? "inline" : "none"}; transform: scale(${n}, ${o}) rotate(${a}deg);" width="${h.width * $.#e.cvsScale}" height="${h.height * $.#e.cvsScale}"></iframe>`), X();
     const m = $.#i.searchPath(s, G.HTML), f = new Y().add({ name: s, url: m, xhrType: B.XHR_RESPONSE_TYPE.TEXT });
-    return $.#e.crypto && f.use(async (r, p) => {
+    return $.#e.arg.crypto && f.use(async (r, p) => {
       try {
         r.data = await $.#e.dec(r.extension, r.data);
       } catch (d) {
@@ -2014,7 +2014,7 @@ class $ {
     }
     this.#y[t] = [e];
     const [o = "", a = ""] = t.split("?"), l = $.#i.searchPath(o, G.SP_GSM), c = new Y().add({ name: t, url: l, xhrType: B.XHR_RESPONSE_TYPE.BUFFER });
-    $.#e.crypto && Ft(l) === "bin" && c.use(async (u, h) => {
+    $.#e.arg.crypto && Ft(l) === "bin" && c.use(async (u, h) => {
       try {
         const m = await $.#e.decAB(u.data);
         if (u.extension !== "bin") {
@@ -2427,7 +2427,7 @@ void main() {
   	}
   	gl_FragColor = v >= 0.0 ? fg : vec4(0);
   
-  		★GLSL : don't use "if"｜Nobu https://note.com/nobuhirosaijo/n/n606a3f5d8e89
+  		★GLSL : don't use "if"｜Nobu note.com/nobuhirosaijo/n/n606a3f5d8e89
   			> if文はあまり使わない方がいいらしい (処理負荷が高い)
   */
   #W = K.create({

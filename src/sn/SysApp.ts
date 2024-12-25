@@ -8,7 +8,7 @@
 import {SysNode} from './SysNode';
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num, uint} from './CmnLib';
 import type {IHTag, ITag} from './Grammar';
-import type {IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg} from './CmnInterface';
+import type {IVariable, IData4Vari, IMain, T_SysBaseParams, T_SysBaseLoadedParams} from './CmnInterface';
 import {Main} from './Main';
 import {DebugMng} from './DebugMng';
 
@@ -20,12 +20,12 @@ const to_app: HPROC = (window as any).to_app;
 
 
 export class SysApp extends SysNode {
-	constructor(hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}) {
+	constructor(...[hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}]: T_SysBaseParams) {	// DOMContentLoaded は呼び出し側でやる
 		super(hPlg, arg);
 
-		globalThis.addEventListener('DOMContentLoaded', async ()=> this.loaded(hPlg, arg), {once: true, passive: true});
+		queueMicrotask(async ()=> this.loaded(hPlg, arg));
 	}
-	protected override async loaded(hPlg: HPlugin, arg: HSysBaseArg) {
+	protected override async loaded(...[hPlg, arg]: T_SysBaseLoadedParams) {
 		await super.loaded(hPlg, arg);
 
 		this.#hInfo = await to_app.getInfo();
@@ -130,13 +130,7 @@ export class SysApp extends SysNode {
 
 	#main: Main;
 	protected override async run() {
-		if (this.#main) {
-			const ms_late = 10;	// NOTE: リソース解放待ち用・魔法数字
-			this.#main.destroy();
-			await new Promise(rs=> setTimeout(rs, ms_late));
-				// clearTimeout()不要と判断
-		}
-
+		if (this.#main) this.#main.destroy();
 		this.#main = new Main(this);
 	}
 
@@ -199,7 +193,7 @@ export class SysApp extends SysNode {
 	protected override readonly	_export = ()=> {
 		to_app.zip(
 			this.$path_userdata +'storage/',
-			this.$path_downloads + (this.crypto ?'' :'no_crypto_')
+			this.$path_downloads + (this.arg.crypto ?'' :'no_crypto_')
 			+ this.cfg.getNs() + getDateStr('-', '_', '') +'.spd',
 		);
 		if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');

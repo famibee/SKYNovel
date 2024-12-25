@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import type {IHTag, ITag} from './Grammar';
-import type {IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO} from './CmnInterface';
+import type {IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, HPlugin, HSysBaseArg} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
 import {Main} from './Main';
@@ -21,8 +21,8 @@ export class SysBase implements ISysRoots, ISysBase {
 
 	protected	readonly	elc		= new EventListenerCtn;
 
-	constructor(readonly hPlg: HPlugin = {}, protected arg: HSysBaseArg) {}
-	protected async loaded(hPlg: HPlugin, _arg: HSysBaseArg) {
+	constructor(readonly hPlg: HPlugin = {}, public arg: HSysBaseArg) {}
+	protected async loaded(...[hPlg,]: T_SysBaseLoadedParams) {
 		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
 		delete hPlg.snsys_pre;
 		return fncPre?.init({
@@ -40,8 +40,6 @@ export class SysBase implements ISysRoots, ISysBase {
 			getHash: fnc=> this.hash = fnc,
 		});
 	}
-	get cur() {return this.arg.cur}
-	get crypto() {return this.arg.crypto}
 	fetch = (url: string, init?: RequestInit)=> fetch(url, init);
 
 	destroy() {this.elc.clear()}

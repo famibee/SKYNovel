@@ -17621,7 +17621,7 @@ class DebugMng {
     return this.#s && (this.#s = !1, t = `== ${platform.description} ==
 `), this.sys.appendFile(
       this.sys.path_downloads + "log.txt",
-      `${t}--- ${getDateStr("-", "_", "")} [fn:${DebugMng.#e.scriptFn} line:${DebugMng.#e.lineNum}] prj:${this.sys.cur}
+      `${t}--- ${getDateStr("-", "_", "")} [fn:${DebugMng.#e.scriptFn} line:${DebugMng.#e.lineNum}] prj:${this.sys.arg.cur}
 ${e.text || `(text is ${e.text})`}
 `
     ), !1;
@@ -17762,7 +17762,7 @@ class ConfigBase {
   // 4tst public
   hPathFn2Exts = {};
   async load(e) {
-    if (this.oCfg.save_ns = e?.save_ns ?? this.oCfg.save_ns, this.oCfg.window.width = Number(e?.window?.width ?? this.oCfg.window.width), this.oCfg.window.height = Number(e?.window?.height ?? this.oCfg.window.height), this.oCfg.book = { ...this.oCfg.book, ...e.book }, this.oCfg.log.max_len = e.log?.max_len?.max_len ?? this.oCfg.log.max_len, this.oCfg.init = { ...this.oCfg.init, ...e.init }, this.oCfg.debug = { ...this.oCfg.debug, ...e.debug }, this.oCfg.debuger_token = e.debuger_token, await this.sys.loadPath(this.hPathFn2Exts, this), this.#e = this.matchPath(
+    if (this.oCfg.save_ns = e?.save_ns ?? this.oCfg.save_ns, this.oCfg.window.width = Number(e?.window?.width ?? this.oCfg.window.width), this.oCfg.window.height = Number(e?.window?.height ?? this.oCfg.window.height), this.oCfg.book = { ...this.oCfg.book, ...e.book }, this.oCfg.log.max_len = e.log?.max_len ?? this.oCfg.log.max_len, this.oCfg.init = { ...this.oCfg.init, ...e.init }, this.oCfg.debug = { ...this.oCfg.debug, ...e.debug }, this.oCfg.debuger_token = e.debuger_token, await this.sys.loadPath(this.hPathFn2Exts, this), this.#e = this.matchPath(
       "^breakline$",
       "png|jpg|jpeg|json|svg|webp|mp4|webm"
       /* SP_GSM */
@@ -17770,7 +17770,7 @@ class ConfigBase {
       "^breakpage$",
       "png|jpg|jpeg|json|svg|webp|mp4|webm"
       /* SP_GSM */
-    ).length > 0, this.sys.crypto)
+    ).length > 0, this.sys.arg.crypto)
       for (const [t, r] of Object.entries(this.hPathFn2Exts))
         for (const [s, o] of Object.entries(r)) {
           if (!s.startsWith(":") || !s.endsWith(":id")) continue;
@@ -17856,7 +17856,7 @@ class ConfigBase {
   addPath(e, t) {
     const r = {};
     for (const [s, o] of Object.entries(t))
-      r[s] = (s.startsWith(":") ? "" : this.sys.cur) + o;
+      r[s] = (s.startsWith(":") ? "" : this.sys.arg.cur) + o;
     this.hPathFn2Exts[e] = r;
   }
 }
@@ -17865,11 +17865,13 @@ class Config extends ConfigBase {
     super(e), this.sys = e;
   }
   static async generate(e) {
-    const t = new Config(e), r = e.cur + "prj.json", s = await (await e.fetch(r)).text(), o = JSON.parse(await e.dec(r, s));
-    return await t.load(o), t;
+    const t = new Config(e), r = e.arg.cur + "prj.json", s = await e.fetch(r);
+    if (!s.ok) throw Error(s.statusText);
+    const o = await e.dec(r, await s.text());
+    return await t.load(JSON.parse(o)), t;
   }
   async load(e) {
-    await super.load(e), CmnLib.stageW = this.oCfg.window.width, CmnLib.stageH = this.oCfg.window.height, CmnLib.debugLog = this.oCfg.debug.debugLog;
+    await super.load(e), CmnLib.stageW = e.window.width, CmnLib.stageH = e.window.height, CmnLib.debugLog = e.debug.debugLog;
   }
   searchPath(e, t = SEARCH_PATH_ARG_EXT.DEFAULT) {
     return e.startsWith("downloads:/") ? this.sys.path_downloads + e.slice(11) : e.startsWith("userdata:/") ? this.sys.path_userdata + "storage/" + e.slice(10) : super.searchPath(e, t);
@@ -18115,10 +18117,13 @@ class Main {
       u.id = SN_ID, t.view = r;
       const h = r.parentNode;
       this.#r.unshift(() => h.appendChild(u));
+    } else {
+      const u = document.createElement("canvas");
+      u.id = SN_ID, t.view = u, document.body.appendChild(u), this.#r.unshift(() => document.body.removeChild(u));
     }
     const s = new Application(t);
     this.#r.unshift(() => {
-      clearTextureCache(), this.sys.destroy(), s.destroy(!0);
+      clearTextureCache(), this.sys.destroy(), s.destroy(!1);
     }), Main.cvs = s.view, Main.cvs.id = SN_ID + "_act", r || document.body.appendChild(Main.cvs);
     const o = document.createElement("canvas")?.getContext("2d");
     if (!o) throw "#init cc err";
@@ -18153,7 +18158,7 @@ class Main {
   }
   destroy() {
     if (!this.#a) {
-      this.#a = !0;
+      this.#a = !0, Main.cvs.parentElement?.removeChild(Main.cvs);
       for (const e of this.#r) e();
       this.#r = [];
     }
@@ -20542,9 +20547,9 @@ class SysBase {
   }
   hFactoryCls = {};
   elc = new EventListenerCtn();
-  async loaded(e, t) {
-    const r = e.snsys_pre;
-    return delete e.snsys_pre, r?.init({
+  async loaded(...[e]) {
+    const t = e.snsys_pre;
+    return delete e.snsys_pre, t?.init({
       getInfo: this.#i,
       addTag: () => {
       },
@@ -20556,18 +20561,12 @@ class SysBase {
       },
       render: () => {
       },
-      setDec: (s) => this.dec = s,
-      setDecAB: (s) => this.#m = s,
-      setEnc: (s) => this.enc = s,
-      getStK: (s) => this.stk = s,
-      getHash: (s) => this.hash = s
+      setDec: (r) => this.dec = r,
+      setDecAB: (r) => this.#m = r,
+      setEnc: (r) => this.enc = r,
+      getStK: (r) => this.stk = r,
+      getHash: (r) => this.hash = r
     });
-  }
-  get cur() {
-    return this.arg.cur;
-  }
-  get crypto() {
-    return this.arg.crypto;
   }
   fetch = (e, t) => fetch(e, t);
   destroy() {
@@ -21529,13 +21528,13 @@ const devtools = {
 main({ emitEvents: !1 });
 setInterval(main, 500);
 class SysWeb extends SysBase {
-  #e = "";
-  constructor(e = {}, t = { cur: "prj/", crypto: !1, dip: "" }) {
+  #e;
+  constructor(...[e = {}, t = { cur: "prj/", crypto: !1, dip: "" }]) {
     super(e, t);
     const r = t.cur.split("/");
-    this.#e = r.length > 2 ? r.slice(0, -2).join("/") + "/" : "", this.loaded(e, t);
+    this.#e = r.length > 2 ? r.slice(0, -2).join("/") + "/" : "", queueMicrotask(async () => this.loaded(e, t));
   }
-  async loaded(e, t) {
+  async loaded(...[e, t]) {
     await super.loaded(e, t), document.querySelectorAll("[data-prj]").forEach((u) => {
       const h = u.attributes.getNamedItem("data-prj");
       h && u.addEventListener("click", async () => this.runSN(h.value), { passive: !0 });
@@ -21555,7 +21554,7 @@ class SysWeb extends SysBase {
     this.arg.cur = this.#e + e + "/", this.#t !== this.arg.cur && (this.#t = this.arg.cur, await this.run());
   }
   run = async () => {
-    this.#i && (this.#i.destroy(), await new Promise((t) => setTimeout(t, 10))), this.#i = new Main(this);
+    this.#i && this.#i.destroy(), this.#i = new Main(this);
   };
   stop() {
     this.#i && (this.#i.destroy(), this.#i = void 0);
@@ -21576,7 +21575,7 @@ class SysWeb extends SysBase {
     const s = encodeURIComponent(document.location.hostname);
     t["const.sn.isDebugger"] = s === "localhost" || s === "127.0.0.1";
     const o = this.cfg.getNs();
-    this.flushSub = this.crypto ? async () => {
+    this.flushSub = this.arg.crypto ? async () => {
       store.set(o + "sys_", await this.enc(JSON.stringify(this.data.sys))), store.set(o + "mark_", await this.enc(JSON.stringify(this.data.mark))), store.set(o + "kidoku_", await this.enc(JSON.stringify(this.data.kidoku)));
     } : () => {
       store.set(o + "sys", this.data.sys), store.set(o + "mark", this.data.mark), store.set(o + "kidoku", this.data.kidoku);
@@ -21586,7 +21585,7 @@ class SysWeb extends SysBase {
       this.data.sys = e.sys, this.data.mark = e.mark, this.data.kidoku = e.kidoku, this.flush(), r(this.data);
       return;
     }
-    if (!this.crypto) {
+    if (!this.arg.crypto) {
       this.data.sys = store.get(o + "sys"), this.data.mark = store.get(o + "mark"), this.data.kidoku = store.get(o + "kidoku"), r(this.data);
       return;
     }
@@ -21624,8 +21623,8 @@ class SysWeb extends SysBase {
       sys: this.data.sys,
       mark: this.data.mark,
       kidoku: this.data.kidoku
-    }), t = this.crypto ? await this.enc(e) : e, r = new Blob([t], { type: "text/json" }), s = document.createElement("a");
-    s.href = URL.createObjectURL(r), s.download = (this.crypto ? "" : "no_crypto_") + this.cfg.getNs() + getDateStr("-", "_", "") + ".swpd", s.click(), CmnLib.debugLog && console.log("プレイデータをエクスポートしました"), setTimeout(() => this.fire("sn:exported", new Event("click")), 10);
+    }), t = this.arg.crypto ? await this.enc(e) : e, r = new Blob([t], { type: "text/json" }), s = document.createElement("a");
+    s.href = URL.createObjectURL(r), s.download = (this.arg.crypto ? "" : "no_crypto_") + this.cfg.getNs() + getDateStr("-", "_", "") + ".swpd", s.click(), CmnLib.debugLog && console.log("プレイデータをエクスポートしました"), setTimeout(() => this.fire("sn:exported", new Event("click")), 10);
   })(), !1);
   // プレイデータをインポート
   _import = () => (new Promise((e, t) => {
@@ -21635,7 +21634,7 @@ class SysWeb extends SysBase {
       s ? e(s) : t();
     }, r.click();
   }).then(async (e) => {
-    const t = await e.text(), r = JSON.parse(this.crypto ? await this.dec("json", t) : t);
+    const t = await e.text(), r = JSON.parse(this.arg.crypto ? await this.dec("json", t) : t);
     if (!r.sys || !r.mark || !r.kidoku) throw new Error("異常なプレイデータです");
     if (r.sys[SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {
       console.error(`別のゲーム【プロジェクト名=${r.sys[SysBase.VALNM_CFG_NS]}】のプレイデータです`);

@@ -7,26 +7,28 @@
 
 import {CmnLib} from './CmnLib';
 import type {SysBase} from './SysBase';
-import {ConfigBase, SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import {ConfigBase, SEARCH_PATH_ARG_EXT, T_CFG} from './ConfigBase';
 
 
 export class Config extends ConfigBase {
 	static	async	generate(sys: SysBase) {
 		const c = new Config(sys);
-		const fn = sys.cur +'prj.json';
-		const src = await (await sys.fetch(fn)).text();
-		const oJs = JSON.parse(await sys.dec(fn, src));
-		await c.load(oJs);
+		const fn = sys.arg.cur +'prj.json';
+		const res = await sys.fetch(fn);
+		if (! res.ok) throw Error(res.statusText);
+
+		const dec = await sys.dec(fn, await res.text());
+		await c.load(JSON.parse(dec));
 		return c;
 	}
 
-	constructor(override readonly sys: SysBase) {super(sys)}
-	override	async load(oCfg: any) {		// test用に public
+	protected	constructor(override readonly sys: SysBase) {super(sys)}
+	override	async load(oCfg: T_CFG) {		// test用に public
 		await super.load(oCfg);
 
-		CmnLib.stageW = this.oCfg.window.width;
-		CmnLib.stageH = this.oCfg.window.height;
-		CmnLib.debugLog = this.oCfg.debug.debugLog;
+		CmnLib.stageW = oCfg.window.width;
+		CmnLib.stageH = oCfg.window.height;
+		CmnLib.debugLog = oCfg.debug.debugLog;
 	}
 
 	override	searchPath(fn: string, extptn: SEARCH_PATH_ARG_EXT = SEARCH_PATH_ARG_EXT.DEFAULT): string {

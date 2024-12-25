@@ -1,16 +1,12 @@
 import { SysBase } from './SysBase';
 import { IHTag, ITag } from './Grammar';
-import { IVariable, IMain, IData4Vari, HPlugin, HSysBaseArg } from './CmnInterface';
+import { IVariable, IMain, IData4Vari, T_SysBaseParams, T_SysBaseLoadedParams } from './CmnInterface';
 import { IFn2Path, IConfig } from './ConfigBase';
 import { Application } from 'pixi.js';
 export declare class SysWeb extends SysBase {
     #private;
-    constructor(hPlg?: {}, arg?: {
-        cur: string;
-        crypto: boolean;
-        dip: string;
-    });
-    protected loaded(hPlg: HPlugin, arg: HSysBaseArg): Promise<void>;
+    constructor(...[hPlg, arg]: T_SysBaseParams);
+    protected loaded(...[hPlg, arg]: T_SysBaseLoadedParams): Promise<void>;
     runSN(prj: string): Promise<void>;
     protected run: () => Promise<void>;
     stop(): void;

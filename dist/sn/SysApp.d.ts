@@ -1,15 +1,11 @@
 import { SysNode } from './SysNode';
 import { IHTag, ITag } from './Grammar';
-import { IVariable, IData4Vari, IMain, HPlugin, HSysBaseArg } from './CmnInterface';
+import { IVariable, IData4Vari, IMain, T_SysBaseParams, T_SysBaseLoadedParams } from './CmnInterface';
 import { Application } from 'pixi.js';
 export declare class SysApp extends SysNode {
     #private;
-    constructor(hPlg?: {}, arg?: {
-        cur: string;
-        crypto: boolean;
-        dip: string;
-    });
-    protected loaded(hPlg: HPlugin, arg: HSysBaseArg): Promise<void>;
+    constructor(...[hPlg, arg]: T_SysBaseParams);
+    protected loaded(...[hPlg, arg]: T_SysBaseLoadedParams): Promise<void>;
     fetch: (url: string) => Promise<Response>;
     ensureFileSync: (path: string) => Promise<void>;
     protected readFileSync: (path: string) => Promise<string>;

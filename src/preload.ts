@@ -27,6 +27,8 @@ export	type	SAVE_WIN_INF	= {
 };
 
 export	type	HPROC	= {
+	openDevTools	: ()=> void;
+
 	getInfo		: ()=> Promise<HINFO>;
 	inited		: (oCfg: T_CFG, tagW: TAG_WINDOW)=> Promise<void>;
 
@@ -49,8 +51,6 @@ export	type	HPROC	= {
 
 	capturePage	: (fn: string, w: number, h: number)=> Promise<void>;
 	navigate_to	: (url: string)=> void;
-
-	openDevTools	: ()=> void;
 
 	Store	: (o: object)=> Promise<void>;
 	flush	: (o: object)=> Promise<void>;
@@ -77,7 +77,7 @@ export	type	HINFO	= {
 
 const fncE = console.error;
 
-export const	hProc	: HPROC	= {
+export const	hProc	: HPROC = {
 	// console.log は【アプリ】のターミナルに出る
 	getInfo		: ()=> ipcRenderer.invoke('getInfo').catch(fncE),
 	inited		: (oCfg: T_CFG, tagW: TAG_WINDOW)=> ipcRenderer.invoke('inited', oCfg, tagW).catch(fncE),

@@ -1,20 +1,18 @@
 import { IHTag, ITag } from './Grammar';
-import { IVariable, ISysBase, IData4Vari, HPlugin, HSysBaseArg, ILayerFactory, IMain, IFire, IFncHook } from './CmnInterface';
+import { IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, T_SysBaseLoadedParams, HPlugin, HSysBaseArg } from './CmnInterface';
 import { EventListenerCtn } from './EventListenerCtn';
 import { IConfig, IFn2Path, ISysRoots } from './ConfigBase';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysRoots, ISysBase {
     #private;
     readonly hPlg: HPlugin;
-    protected arg: HSysBaseArg;
+    arg: HSysBaseArg;
     hFactoryCls: {
         [name: string]: ILayerFactory;
     };
     protected readonly elc: EventListenerCtn;
     constructor(hPlg: HPlugin | undefined, arg: HSysBaseArg);
-    protected loaded(hPlg: HPlugin, _arg: HSysBaseArg): Promise<void | undefined>;
-    get cur(): string;
-    get crypto(): boolean;
+    protected loaded(...[hPlg,]: T_SysBaseLoadedParams): Promise<void | undefined>;
     fetch: (url: string, init?: RequestInit) => Promise<Response>;
     destroy(): void;
     resolution: number;

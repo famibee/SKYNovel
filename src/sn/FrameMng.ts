@@ -90,7 +90,7 @@ export class FrameMng implements IGetFrm {
 		const url = FrameMng.#cfg.searchPath(src, SEARCH_PATH_ARG_EXT.HTML);
 		const ld = (new Loader)
 		.add({name: src, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
-		if (FrameMng.#sys.crypto) ld.use(async (res, next)=> {
+		if (FrameMng.#sys.arg.crypto) ld.use(async (res, next)=> {
 			try {
 				res.data = await FrameMng.#sys.dec(res.extension, res.data);
 			} catch (e) {
@@ -174,7 +174,7 @@ export class FrameMng implements IGetFrm {
 		const path = FrameMng.#cfg.searchPath(srcNoPrm, SEARCH_PATH_ARG_EXT.SP_GSM);
 		const ld2 = (new Loader)
 		.add({name: src, url: path, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
-		if (FrameMng.#sys.crypto && getExt(path) === 'bin') ld2.use(async (res, next)=> {
+		if (FrameMng.#sys.arg.crypto && getExt(path) === 'bin') ld2.use(async (res, next)=> {
 			try {
 				const r = await FrameMng.#sys.decAB(res.data);
 				if (res.extension !== 'bin') {next(); return}

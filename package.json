@@ -5,8 +5,8 @@
 	"author": "miyazawa famibee",
 	"publisher": "famibee",
 	"license": "MIT",
-	"main": "dist/web.js",
-	"types": "dist/index.d.ts",
+	"main": "./dist/web.js",
+	"types": "./dist/index.d.ts",
 	"files": [
 		"dist"
 	],
@@ -16,8 +16,8 @@
 	"exports": {
 		".": "./dist/web.js",
 		"./web": "./dist/web.js",
-		"./app": "./dist/app.js",
-		"./appMain": "./dist/appMain.js"
+		"./appMain": "./dist/appMain.js",
+		"./app": "./dist/app.js"
 	},
 	"dependencies": {
 		"@pixi/sound": "^4.4.1",
@@ -52,13 +52,14 @@
 		"electron": "^33.2.1",
 		"semantic-release": "^24.2.0",
 		"typescript": "^5.7.2",
-		"vite": "^6.0.3",
-		"vite-plugin-dts": "^4.3.0"
+		"vite": "^6.0.5",
+		"vite-plugin-dts": "^4.4.0"
 	},
 	"scripts": {
 		"build": "bun src/build.ts",
 		"watch": "bun --watch src/build.ts --watch",
 		"watch_web": "bun --watch src/build.ts --watch --web",
+		"watch_app": "bun --watch src/build.ts --watch --app",
 		"update": "bun update && bun watch && ncu -g",
 		"test": "bun test",
 		"testw": "bun test --watch",

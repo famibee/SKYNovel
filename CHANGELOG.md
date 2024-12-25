@@ -1,3 +1,13 @@
+- fix: リファクタリング、記述ミス、不具合修正
+- fix(SysWeb.ts, SysApp.ts): new を一旦終わらせ、次の Microtask で続きの処理を行うように
+	- DOMContentLoaded は呼び出し側でやる
+- fix(Main.ts): 開始時、終了時の処理修正
+- fix(SysWeb.ts, SysApp.ts, Main.ts, EventMng.ts): ギャラリーリロード時の不具合対応処理を改良
+- fix(ConfigBase.ts): 短絡メソッド（get cur(), get crypto()）削除、argプロパティを使わせるように
+- style: 一部の any 型指定を厳密に
+	- それで発見したミス修正（?.max_len?.max_len）
+
+
 ## [1.61.8](https://github.com/famibee/SKYNovel/compare/v1.61.7...v1.61.8) (2024-12-15)
 
 
@@ -6,6 +16,7 @@
 * **.github/workflows/release.yml:** semantic-release 失敗していた件 ([a7fd2ea](https://github.com/famibee/SKYNovel/commit/a7fd2eaf01b8d3b1480819e6c697b9176e2480da))
 
 - fix(.github/workflows/release.yml): semantic-release 失敗していた件
+	- semantic-release のみ npm 担当、それ以外を bun 担当に
 
 
 ## [1.61.7](https://github.com/famibee/SKYNovel/compare/v1.61.6...v1.61.7) (2024-12-15)

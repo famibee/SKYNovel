@@ -66,7 +66,7 @@ export class DebugMng {
 			this.sys.path_downloads +'log.txt',
 			`${dat}--- ${getDateStr('-', '_', '')
 			} [fn:${DebugMng.#scrItr.scriptFn} line:${DebugMng.#scrItr.lineNum
-			}] prj:${this.sys.cur
+			}] prj:${this.sys.arg.cur
 			}\n${hArg.text || `(text is ${hArg.text})`}\n`,
 		);
 

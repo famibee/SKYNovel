@@ -114,8 +114,6 @@ export class EventMng implements IEvtMng {
 .sn_hint[data-popper-placement^='right']	> .sn_hint_ar {left: -4px;}
 `);
 
-		for (const v of Array.from(document.getElementsByClassName('sn_hint'))) v.parentElement?.removeChild(v);
-			// ギャラリーリロード用初期化
 		Main.cvs.parentElement?.insertAdjacentHTML('beforeend', `
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
@@ -292,6 +290,8 @@ export class EventMng implements IEvtMng {
 	}
 
 	destroy() {
+		for (const v of Array.from(document.getElementsByClassName('sn_hint'))) v.parentElement?.removeChild(v);	// ギャラリーリロード用初期化
+
 		this.#rs.destroy();
 		this.#fcs.destroy();
 		this.#elc.clear();

@@ -45,7 +45,7 @@ export class SpritesMng {
 		SpritesMng.#val = val;
 		SpritesMng.#sys = sys;
 		SpritesMng.#main = main;
-		if (sys.crypto) {
+		if (sys.arg.crypto) {
 			SpritesMng.#cachePicMov = SpritesMng.#dec2cachePicMov;
 			SpritesMng.#cacheAniSpr = SpritesMng.#dec2cacheAniSpr;
 		}
@@ -160,7 +160,7 @@ export class SpritesMng {
 
 			needLoad = true;
 			const url = SpritesMng.#cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SP_GSM);
-			const xt = this.#sys.crypto
+			const xt = this.#sys.arg.crypto
 			? {xhrType: (url.slice(-5) === '.json')
 				? LoaderResource.XHR_RESPONSE_TYPE.TEXT
 				: LoaderResource.XHR_RESPONSE_TYPE.BUFFER}

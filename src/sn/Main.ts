@@ -55,12 +55,19 @@ export class Main implements IMain {
 			const p = cvs.parentNode!;
 			this.#aDest.unshift(()=> p.appendChild(clone_cvs));
 		}
+		else {	// 自動的に作ってくれるが、どうも appendChild に遅延があるので
+			const c = document.createElement('canvas');
+			c.id = SN_ID;
+			hApp.view = c;
+			document.body.appendChild(c);
+			this.#aDest.unshift(()=> document.body.removeChild(c));
+		}
 
 		const app = new Application(hApp);
 		this.#aDest.unshift(()=> {
 			utils.clearTextureCache();
 			this.sys.destroy();
-			app.destroy(true);
+			app.destroy(false);	// remove canvas from DOM が非同期なのでウチがやる
 		});
 
 		Main.cvs = app.view;
@@ -110,7 +117,7 @@ export class Main implements IMain {
 				if (isThrow) throw mes;
 			}
 
-			// レイヤ共通、文字レイヤ（16/17）、画像レイヤ
+			// レイヤ共通、文字レイヤ、画像レイヤ
 			this.#layMng = new LayerMng(cfg, this.#hTag, app, val, this, this.#scrItr, this.sys, sndMng, prpPrs);
 			this.#aDest.unshift(()=> this.#layMng.destroy());
 
@@ -134,6 +141,8 @@ export class Main implements IMain {
 	destroy() {
 		if (this.#destroyed) return;	// destroy()連打対策
 		this.#destroyed = true;
+
+		Main.cvs.parentElement?.removeChild(Main.cvs);	// remove canvas from DOM
 		for (const f of this.#aDest) f();
 		this.#aDest = [];
 	}

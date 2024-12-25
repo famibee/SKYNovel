@@ -5,11 +5,10 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-// electron レンダラープロセス
+import type {HPlugin, IPlugin, IPluginInitArg} from './sn/CmnInterface';
+export type {HPlugin, IPlugin, IPluginInitArg};
+
 import {SysApp} from './sn/SysApp';
 import {CmnLib, argChk_Num, argChk_Boolean} from './sn/CmnLib';
 import {Layer} from './sn/Layer';
-import type {HPlugin, IPlugin, IPluginInitArg} from './sn/CmnInterface';
-
 export {SysApp, CmnLib, argChk_Num, argChk_Boolean, Layer};
-export type {HPlugin, IPlugin, IPluginInitArg};

@@ -71,8 +71,7 @@ export interface ISysRoots {
     loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
     dec(ext: string, tx: string): Promise<string>;
     decAB(ab: ArrayBuffer): Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer>;
-    get cur(): string;
-    get crypto(): boolean;
+    arg: HSysBaseArg;
     fetch(url: string): Promise<Response>;
     hash(str: string): string;
 }
@@ -87,8 +86,8 @@ export declare class ConfigBase implements IConfig {
     oCfg: T_CFG;
     userFnTail: string;
     protected hPathFn2Exts: IFn2Path;
-    constructor(sys: ISysRoots);
-    load(oCfg: any): Promise<void>;
+    protected constructor(sys: ISysRoots);
+    load(oCfg: T_CFG): Promise<void>;
     get existsBreakline(): boolean;
     get existsBreakpage(): boolean;
     getNs(): string;

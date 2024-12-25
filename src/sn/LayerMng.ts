@@ -581,7 +581,7 @@ void main() {
 	}
 	gl_FragColor = v >= 0.0 ? fg : vec4(0);
 
-		★GLSL : don't use "if"｜Nobu https://note.com/nobuhirosaijo/n/n606a3f5d8e89
+		★GLSL : don't use "if"｜Nobu note.com/nobuhirosaijo/n/n606a3f5d8e89
 			> if文はあまり使わない方がいいらしい (処理負荷が高い)
 */
 

@@ -1078,9 +1078,7 @@ class jr {
 .sn_hint[data-popper-placement^='bottom']	> .sn_hint_ar {top: -4px;}
 .sn_hint[data-popper-placement^='left']		> .sn_hint_ar {right: -4px;}
 .sn_hint[data-popper-placement^='right']	> .sn_hint_ar {left: -4px;}
-`);
-    for (const c of Array.from(document.getElementsByClassName("sn_hint"))) c.parentElement?.removeChild(c);
-    at.cvs.parentElement?.insertAdjacentHTML("beforeend", `
+`), at.cvs.parentElement?.insertAdjacentHTML("beforeend", `
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>
@@ -1186,6 +1184,7 @@ class jr {
     }, 250);
   }
   destroy() {
+    for (const t of Array.from(document.getElementsByClassName("sn_hint"))) t.parentElement?.removeChild(t);
     this.#r.destroy(), this.#t.destroy(), this.#e.clear();
   }
   fire(t, e) {

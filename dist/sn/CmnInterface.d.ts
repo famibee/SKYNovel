@@ -47,6 +47,14 @@ export type HSysBaseArg = {
     crypto: boolean;
     dip: string;
 };
+export type T_SysBaseParams = [
+    hPlg: HPlugin,
+    arg?: HSysBaseArg
+];
+export type T_SysBaseLoadedParams = [
+    hPlg: HPlugin,
+    arg: HSysBaseArg
+];
 export type SYS_DEC_RET = HTMLImageElement | HTMLVideoElement | ArrayBuffer;
 export interface ISysBase {
     initVal(data: IData4Vari, hTmp: object, comp: (data: IData4Vari) => void): Promise<void>;
