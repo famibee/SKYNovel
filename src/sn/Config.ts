@@ -23,7 +23,7 @@ export class Config extends ConfigBase {
 	}
 
 	protected	constructor(override readonly sys: SysBase) {super(sys)}
-	override	async load(oCfg: T_CFG) {		// test用に public
+	protected	override	async load(oCfg: T_CFG) {
 		await super.load(oCfg);
 
 		CmnLib.stageW = oCfg.window.width;

@@ -83,7 +83,7 @@ export class SysWeb extends SysBase {
 		await super.loadPath(hPathFn2Exts, cfg);
 
 		const fn = this.arg.cur +'path.json';
-		const res = await fetch(fn);
+		const res = await this.fetch(fn);
 		if (! res.ok) throw Error(res.statusText);
 
 		const src = await res.text();
@@ -182,7 +182,7 @@ export class SysWeb extends SysBase {
 		super.cvsResize();
 
 		if (this.isFullScr) {
-			const s = Main.cvs.style;
+			const s = this.main.cvs.style;
 			s.width = s.height = '';	// ブラウザ版のセンタリングに必須
 		}
 	}

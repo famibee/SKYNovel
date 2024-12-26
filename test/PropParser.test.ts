@@ -7,7 +7,7 @@
 
 import {PropParser} from '../src/sn/PropParser';
 
-import {IVariable, ISysBase, typeProcVal, ISetVal, IMark, IData4Vari} from '../src/sn/CmnInterface';
+import type {IVariable, ISysBase, typeProcVal, ISetVal, IMark, IData4Vari} from '../src/sn/CmnInterface';
 import {Areas} from '../src/sn/Areas';
 
 //===== Test Class =====

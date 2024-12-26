@@ -20,7 +20,7 @@ import {Application, type IApplicationOptions, utils} from 'pixi.js';
 const	SN_ID	= 'skynovel';
 
 export class Main implements IMain {
-	static	cvs	: HTMLCanvasElement;
+	cvs			: HTMLCanvasElement;
 
 	#hTag		: IHTag		= Object.create(null);	// タグ処理辞書
 
@@ -70,9 +70,9 @@ export class Main implements IMain {
 			app.destroy(false);	// remove canvas from DOM が非同期なのでウチがやる
 		});
 
-		Main.cvs = app.view;
-		Main.cvs.id = SN_ID +'_act';
-		if (! cvs) document.body.appendChild(Main.cvs);
+		this.cvs = app.view;
+		this.cvs.id = SN_ID +'_act';
+		if (! cvs) document.body.appendChild(this.cvs);
 
 
 		const cc = document.createElement('canvas')?.getContext('2d');
@@ -142,7 +142,7 @@ export class Main implements IMain {
 		if (this.#destroyed) return;	// destroy()連打対策
 		this.#destroyed = true;
 
-		Main.cvs.parentElement?.removeChild(Main.cvs);	// remove canvas from DOM
+		this.cvs.parentElement?.removeChild(this.cvs);	// remove canvas from DOM
 		for (const f of this.#aDest) f();
 		this.#aDest = [];
 	}

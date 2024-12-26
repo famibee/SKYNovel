@@ -6,6 +6,7 @@
 - fix(ConfigBase.ts): 短絡メソッド（get cur(), get crypto()）削除、argプロパティを使わせるように
 - style: 一部の any 型指定を厳密に
 	- それで発見したミス修正（?.max_len?.max_len）
+- test: テスト修正
 
 
 ## [1.61.8](https://github.com/famibee/SKYNovel/compare/v1.61.7...v1.61.8) (2024-12-15)

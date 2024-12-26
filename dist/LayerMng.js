@@ -1,6 +1,6 @@
-import { a as R, q as ot, L as Y, r as Nt, S as G, c as B, i as ut, s as W, D as M, f as Et, R as U, v as bt, w as O, b as g, x as V, E as _t, C as E, y as K, j, z, u as L, F as St, o as lt, H as Rt, I as Pt, k as st, J as wt, M as Tt, K as Ft, N as Ot, g as mt, O as It, P as Bt } from "./web2.js";
+import { a as R, q as ot, L as Y, r as Nt, S as G, c as B, i as ut, s as W, D as M, f as Et, R as U, v as bt, w as O, b as g, x as V, E as _t, C as E, y as K, j, z, u as L, F as St, o as lt, H as Rt, I as Pt, k as st, J as wt, K as Tt, M as Ft, g as mt, N as Ot, O as It } from "./web2.js";
 import { C as F } from "./CmnTween.js";
-import { e as q, d as X, R as yt, T as Vt } from "./ReadState.js";
+import { e as q, d as X, R as yt, T as Bt } from "./ReadState.js";
 import { R as ht } from "./RubySpliter.js";
 class Q {
   constructor(t, e, s, i, n, o, a, l) {
@@ -72,7 +72,7 @@ class ct {
   static replaceToken(t) {
   }
 }
-class jt extends ct {
+class Vt extends ct {
   constructor(t, e) {
     super("#29e", !0);
   }
@@ -300,7 +300,7 @@ class H extends V {
   static destroy() {
     H.#i.clear(), _.destroy();
   }
-  #n = new jt(this.ctn, this);
+  #n = new Vt(this.ctn, this);
   constructor() {
     super(), E.isDbg && (this.#o = (t) => this.#n.setSp(t), this.cvsResize = () => {
       super.cvsResize(), this.#n.cvsResize();
@@ -426,8 +426,8 @@ class H extends V {
   //showDesignCastChildren() {}
   dump = () => super.dump() + `, "pic":"${this.#t}"`;
 }
-const Z = "、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々", it = "［（｛〈「『【〔“〝", nt = "─‥…", rt = Z, xt = new RegExp(`[${Z}]`), Dt = new RegExp(`[${it}]`), Ht = new RegExp(`[${nt}]`), Wt = xt;
-class zt {
+const Z = "、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々", it = "［（｛〈「『【〔“〝", nt = "─‥…", rt = Z, xt = new RegExp(`[${Z}]`), jt = new RegExp(`[${it}]`), Dt = new RegExp(`[${nt}]`), Ht = xt;
+class Wt {
   #i = Z;
   #e = it;
   #n = nt;
@@ -445,9 +445,9 @@ class zt {
     return this.#o;
   }
   #t = xt;
-  #c = Dt;
-  #d = Ht;
-  #m = Wt;
+  #c = jt;
+  #d = Dt;
+  #m = Ht;
   break_fixed = !1;
   break_fixed_left = 0;
   break_fixed_top = 0;
@@ -672,7 +672,7 @@ $1
     "margin-right": 0,
     "margin-top": 0
   };
-  #r = new zt();
+  #r = new Wt();
   noticeCompTxt = () => {
   };
   //	readonly	#idc	:TxtLayDesignCast;
@@ -1036,7 +1036,7 @@ $1
     ) : t.position.set(i.x, i.y);
     const a = {
       sp: t,
-      tw: new Vt(t).to({ alpha: 1, x: i.x, y: i.y, width: i.width, height: i.height, angle: 0 }, o.wait ?? 0).easing(n).delay((s.wait ?? 0) + (e.delay ?? 0)).onComplete(() => {
+      tw: new Bt(t).to({ alpha: 1, x: i.x, y: i.y, width: i.width, height: i.height, angle: 0 }, o.wait ?? 0).easing(n).delay((s.wait ?? 0) + (e.delay ?? 0)).onComplete(() => {
         a.tw = void 0;
       }).start()
     };
@@ -1961,7 +1961,7 @@ class $ {
     const l = "const.sn.frm." + e;
     if (this.val.getVal(`tmp:${l}`)) throw `frame【${e}】はすでにあります`;
     const c = R(t, "visible", !0), u = t.b_color ? ` background-color: ${t.b_color};` : "", h = this.#r(t);
-    Tt.cvs.insertAdjacentHTML("beforebegin", `<iframe id="${e}" style="opacity: ${i}; ${u} position: absolute; left:${$.#e.ofsLeft4elm + h.x * $.#e.cvsScale}px; top: ${$.#e.ofsTop4elm + h.y * $.#e.cvsScale}px; z-index: 1; border: 0px; overflow: hidden; display: ${c ? "inline" : "none"}; transform: scale(${n}, ${o}) rotate(${a}deg);" width="${h.width * $.#e.cvsScale}" height="${h.height * $.#e.cvsScale}"></iframe>`), X();
+    $.#n.cvs.insertAdjacentHTML("beforebegin", `<iframe id="${e}" style="opacity: ${i}; ${u} position: absolute; left:${$.#e.ofsLeft4elm + h.x * $.#e.cvsScale}px; top: ${$.#e.ofsTop4elm + h.y * $.#e.cvsScale}px; z-index: 1; border: 0px; overflow: hidden; display: ${c ? "inline" : "none"}; transform: scale(${n}, ${o}) rotate(${a}deg);" width="${h.width * $.#e.cvsScale}" height="${h.height * $.#e.cvsScale}"></iframe>`), X();
     const m = $.#i.searchPath(s, G.HTML), f = new Y().add({ name: s, url: m, xhrType: B.XHR_RESPONSE_TYPE.TEXT });
     return $.#e.arg.crypto && f.use(async (r, p) => {
       try {
@@ -2014,7 +2014,7 @@ class $ {
     }
     this.#y[t] = [e];
     const [o = "", a = ""] = t.split("?"), l = $.#i.searchPath(o, G.SP_GSM), c = new Y().add({ name: t, url: l, xhrType: B.XHR_RESPONSE_TYPE.BUFFER });
-    $.#e.arg.crypto && Ft(l) === "bin" && c.use(async (u, h) => {
+    $.#e.arg.crypto && Tt(l) === "bin" && c.use(async (u, h) => {
       try {
         const m = await $.#e.decAB(u.data);
         if (u.extension !== "bin") {
@@ -2174,7 +2174,7 @@ class J {
       delete r.visible, r.id = "break", r.pic = "breakpage";
       const p = encodeURIComponent(JSON.stringify(r));
       this.#u("grp｜" + p);
-    }), this.#t = Ot(String(t.oCfg.init.bg_color));
+    }), this.#t = Ft(String(t.oCfg.init.bg_color));
     const h = new z();
     h.beginFill(this.#t, 1).lineStyle(0, this.#t).drawRect(0, 0, E.stageW, E.stageH).endFill(), this.#e.addChild(h.clone()), this.#n.addChild(h), this.#n.visible = !1, this.#e.name = "page:A", this.#n.name = "page:B", this.#i = s.stage, this.#i.addChild(this.#n), this.#i.addChild(this.#e), this.#i.addChild(this.#N), this.#i.addChild(this.#b), this.#i.name = "stage";
     const m = (r, p) => {
@@ -2281,7 +2281,7 @@ class J {
   }
   #I(t, e, s, i) {
     X();
-    const n = wt(t, "b_color", this.#t), o = It({
+    const n = wt(t, "b_color", this.#t), o = Ot({
       width: s,
       height: i,
       backgroundAlpha: n > 16777216 && e.endsWith(".png") ? 0 : 1,
@@ -2508,7 +2508,7 @@ void main() {
       vague: g(t, "vague", 0.04),
       tick: 0
     };
-    this.#b.filters = [new Bt(
+    this.#b.filters = [new It(
       void 0,
       p ?? J.#H,
       b
@@ -2834,13 +2834,13 @@ void main() {
     })), e;
   }
 }
-const Xt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
+const Yt = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   __proto__: null,
   LayerMng: J
 }, Symbol.toStringTag, { value: "Module" }));
 export {
   D as B,
-  Xt as L,
+  Yt as L,
   x as T
 };
 //# sourceMappingURL=LayerMng.js.map

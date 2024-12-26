@@ -4,7 +4,7 @@ import { SysBase } from './SysBase';
 export declare class Main implements IMain {
     #private;
     private readonly sys;
-    static cvs: HTMLCanvasElement;
+    cvs: HTMLCanvasElement;
     constructor(sys: SysBase);
     destroy(): void;
     readonly isDestroyed: () => boolean;

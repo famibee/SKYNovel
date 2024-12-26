@@ -1,4 +1,4 @@
-import { C as r, x as e, Q as o, a as C, b } from "./web2.js";
+import { C as r, x as e, P as o, a as C, b } from "./web2.js";
 export {
   r as CmnLib,
   e as Layer,

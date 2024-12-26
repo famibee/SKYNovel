@@ -6,21 +6,14 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Variable} from '../src/sn/Variable';
-
 import {Config} from '../src/sn/Config';
-import {SysNode} from '../src/sn/SysNode';
-
-//===== Test Class =====
-export class SysTest extends SysNode {
-	protected	override	readFileSync = ()=> Promise.resolve('{}');
-}
-//===== Test Class =====
+import {SysTest} from './SysTest';
 
 
 let	val	: Variable;
 beforeEach(async ()=> {
-	const cfg = new Config(new SysTest({}, {cur: 'test/', crypto: false, dip: ''}));
-	await cfg.load({search: ['mat']});
+	const sys = new SysTest({}, {cur: 'test/', crypto: false, dip: ''});
+	const cfg = await Config.generate(sys);
 
 	val = new Variable(cfg, {});
 });

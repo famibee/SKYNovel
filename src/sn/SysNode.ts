@@ -11,7 +11,7 @@ import type {IFn2Path, IConfig} from './ConfigBase';
 import type {IVariable, IMain} from './CmnInterface';
 import type {IHTag} from './Grammar';
 
-import {Application} from 'pixi.js';
+import type {Application} from 'pixi.js';
 
 
 export class SysNode extends SysBase {
@@ -19,7 +19,7 @@ export class SysNode extends SysBase {
 		await super.loadPath(hPathFn2Exts, cfg);
 
 		const fn = this.arg.cur +'path.json';
-		const src = await (await fetch(fn)).text();
+		const src = await (await this.fetch(fn)).text();
 		const oJs = JSON.parse(await this.dec(fn, src));
 		for (const [nm, v] of Object.entries(oJs)) {
 			const h = hPathFn2Exts[nm] = <any>v;

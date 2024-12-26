@@ -15,10 +15,11 @@ import {INI_STYPAGE, playbackPage} from './ReadState';
 
 import platform from 'platform';
 
+
 export class Variable implements IVariable {
 	#hScopes	: {[name: string]: any}	= {sys:{}, save:{}, tmp:{}, mp:{}};
-	#hSave	: any	= this.#hScopes.save;
-	#hTmp	: any	= this.#hScopes.tmp;
+	#hSave		= this.#hScopes.save;
+	#hTmp		= this.#hScopes.tmp;
 
 
 	constructor(private readonly cfg: Config, hTag: IHTag) {

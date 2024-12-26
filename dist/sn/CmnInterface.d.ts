@@ -76,6 +76,7 @@ export interface IFncHook {
 }
 export interface IMain {
     errScript(mes: string, isThrow?: boolean): void;
+    cvs: HTMLCanvasElement;
     resume(fnc?: () => void): void;
     resumeByJumpOrCall(hArg: HArg): void;
     stop(): void;

@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {RubySpliter} from '../src/sn/RubySpliter';
-import {IPutCh} from '../src/sn/CmnInterface';
+import type {IPutCh} from '../src/sn/CmnInterface';
 
 let	rbSpl	: RubySpliter;
 let	retText	= '';

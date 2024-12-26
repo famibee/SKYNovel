@@ -6,11 +6,25 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {Grammar, REG_TAG, splitAmpersand} from '../src/sn/Grammar';
+import {type IConfig, type IExts, SEARCH_PATH_ARG_EXT, type T_CFG, type T_SEARCHPATH} from '../src/sn/ConfigBase';
 
+//===== Test Class =====
+class CfgTest implements IConfig {
+	oCfg	: T_CFG;
+	getNs = ()=> '';
+	searchPath: T_SEARCHPATH;
+	matchPath = (fnptn: string, extptn?: SEARCH_PATH_ARG_EXT): ReadonlyArray<IExts>=> [];
+	addPath(fn: string, h_exts: IExts) {}
+}
+//===== Test Class =====
+
+
+let cfg: CfgTest;
 let	grm: Grammar;
 
 beforeEach(()=> {
-	grm = new Grammar;
+	cfg = new CfgTest;
+	grm = new Grammar(cfg);
 });
 
 it('testAnalyzeScript0', ()=> {

@@ -9,7 +9,6 @@ import type {IHTag, ITag} from './Grammar';
 import type {IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, HPlugin, HSysBaseArg} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
-import {Main} from './Main';
 import {type IConfig, type IFn2Path, type ISysRoots, SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 import {Application, DisplayObject, RenderTexture} from 'pixi.js';
@@ -73,8 +72,10 @@ export class SysBase implements ISysRoots, ISysBase {
 
 
 	protected	val		: IVariable;
+	protected	main	: IMain;
 	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
 		this.val = val;
+		this.main = main;
 		let mes = '';
 		try {
 			val.setSys(this);
@@ -168,7 +169,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	cvsResize() {
 		let w = globalThis.innerWidth;
 		let h = globalThis.innerHeight;
-		const cvs = Main.cvs;
+		const cvs = this.main.cvs;
 		const isGallery = cvs.parentElement !== document.body;
 		if (isGallery) {
 			const st = globalThis.getComputedStyle(cvs);
@@ -351,7 +352,7 @@ left: ${(CmnLib.stageW -size) /2 *this.#cvsScale +size *(td.dx ?? 0)}px;
 top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		img.classList.add('sn_toast', td.ease ?? 'sn_BounceInOut');
 		if (! td.ease) img.addEventListener('animationend', ()=> p.removeChild(img), {once: true, passive: true});
-		p.insertBefore(img, Main.cvs);
+		p.insertBefore(img, this.main.cvs);
 	}
 	static	readonly	#hToastDat
 	: {[nm: string] :{dat: string, dx?: number, dy?: number, ease?: string}}	= {	// Thanks ICOOON MONO https://icooon-mono.com/ 、 https://vectr.com/ で 640x640化、ImageOptim経由、Base64エンコーダー https://lab.syncer.jp/Tool/Base64-encode/ 

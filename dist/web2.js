@@ -17600,164 +17600,65 @@ class EventListenerCtn {
     return this.#e.length === 0;
   }
 }
-class DebugMng {
-  constructor(e, t, r) {
-    this.sys = e, DebugMng.#e = r, DebugMng.#t = t, DebugMng.#i = t.title, DebugMng.myTrace = DebugMng.#u, t.log = (s) => this.#a(s), t.trace = (s) => this.#o(s), DebugMng.#r = document.createElement("span"), DebugMng.#r.hidden = !0, DebugMng.#r.textContent = "", DebugMng.#r.style.cssText = `	z-index: ${Number.MAX_SAFE_INTEGER};
-			position: absolute; left: 0; top: 0;
-			color: black;
-			background-color: rgba(255, 255, 255, 0.7);`, document.body.appendChild(DebugMng.#r);
-  }
-  static #e;
-  static #t;
-  static #i;
-  static #r;
-  destroy() {
-    DebugMng.#i = () => !1, document.body.removeChild(DebugMng.#r), DebugMng.myTrace = DebugMng.trace_beforeNew;
-  }
-  // ログ出力
-  #s = !0;
-  #a(e) {
-    let t = "";
-    return this.#s && (this.#s = !1, t = `== ${platform.description} ==
-`), this.sys.appendFile(
-      this.sys.path_downloads + "log.txt",
-      `${t}--- ${getDateStr("-", "_", "")} [fn:${DebugMng.#e.scriptFn} line:${DebugMng.#e.lineNum}] prj:${this.sys.arg.cur}
-${e.text || `(text is ${e.text})`}
-`
-    ), !1;
-  }
-  #o(e) {
-    return DebugMng.myTrace(e.text || `(text is ${e.text})`, "I"), !1;
-  }
-  // private禁止、galleryでエラーになる
-  static trace_beforeNew = (e, t = "E") => {
-    let r = `{${t}} ` + e, s = "";
-    switch (t) {
-      case "D":
-        s = `color:#${CmnLib.isDarkMode ? "49F" : "05A"};`;
-        break;
-      case "W":
-        s = "color:#FF8800;";
-        break;
-      case "F":
-        s = "color:#BB0000;";
-        break;
-      case "ET":
-        throw r;
-      case "E":
-        console.error("%c" + r, "color:#FF3300;");
-        return;
-      default:
-        s = "color:black;", r = " " + r;
-    }
-    console.info("%c" + r, s);
-  };
-  static myTrace = DebugMng.trace_beforeNew;
-  static strPos = () => DebugMng.#e.lineNum > 0 ? `(fn:${DebugMng.#e.scriptFn} line:${DebugMng.#e.lineNum}) ` : "";
-  static #u = (e, t = "E") => {
-    let r = `{${t}} ` + DebugMng.strPos() + e;
-    DebugMng.#h(r, t);
-    let s = "";
-    switch (t) {
-      case "D":
-        s = `color:#${CmnLib.isDarkMode ? "49F" : "05A"};`;
-        break;
-      case "W":
-        s = "color:#F80;";
-        break;
-      case "F":
-        s = "color:#B00;";
-        break;
-      case "ET":
-      case "E":
-        if (DebugMng.#i({ text: e }), this.#t.dump_lay({}), this.#t.dump_val({}), DebugMng.#e.dumpErrForeLine(), this.#t.dump_stack({}), t === "ET") throw r;
-        console.error("%c" + r, "color:#F30;");
-        return;
-      default:
-        s = "", r = " " + r;
-    }
-    console.info("%c" + r, s);
-  };
-  static #h = (e, t) => {
-    let r = "";
-    switch (t) {
-      case "D":
-        r = "color:#05A;";
-        break;
-      case "W":
-        r = "color:#F80;";
-        break;
-      case "F":
-        r = "color:#B00;";
-        break;
-      case "ET":
-      case "E":
-        r = "color:#F30;";
-        break;
-      default:
-        r = "";
-    }
-    DebugMng.#r.innerHTML += `<span style='${r}'>${e}</span><br/>`, DebugMng.#r.hidden = !1;
-  };
-}
 var SEARCH_PATH_ARG_EXT = /* @__PURE__ */ ((a) => (a.DEFAULT = "", a.SP_GSM = "png|jpg|jpeg|json|svg|webp|mp4|webm", a.SCRIPT = "sn|ssn", a.FONT = "woff2|woff|otf|ttf", a.SOUND = "mp3|m4a|ogg|aac|flac|wav", a.HTML = "htm|html", a.CSS = "css", a.SN = "sn", a.TST_PNGPNG_ = "png|png_", a.TST_HH = "hh", a.TST_EEE = "eee", a.TST_GGG = "ggg", a.TST_PNGXML = "png|xml", a))(SEARCH_PATH_ARG_EXT || {});
+const DEF_CFG = {
+  save_ns: "",
+  // 扱うセーブデータを一意に識別するキーワード文字列
+  window: {
+    // アプリケーションウインドウサイズ
+    width: 300,
+    height: 300
+  },
+  book: {
+    // プロジェクトの詳細情報です
+    title: "",
+    //作品タイトル
+    creator: "",
+    //著作者。同人ならペンネーム
+    cre_url: "",
+    //著作者URL。ツイッターやメール、サイトなど
+    publisher: "",
+    //出版社。同人ならサークル名
+    pub_url: "",
+    //出版社URL。無ければ省略します
+    detail: "",
+    // 内容紹介。端的に記入
+    version: "1.0"
+  },
+  log: { max_len: 64 },
+  // プレイヤーが読んだ文章を読み返せる履歴のページ数
+  init: {
+    bg_color: "#000000",
+    // 背景色
+    tagch_msecwait: 10,
+    // 通常文字表示待ち時間（未読／既読）
+    auto_msecpagewait: 3500,
+    // 自動文字表示、行クリック待ち時間（未読／既読）
+    escape: ""
+    // エスケープ文字
+  },
+  debug: {
+    devtool: !1,
+    token: !1,
+    tag: !1,
+    putCh: !1,
+    debugLog: !1,
+    baseTx: !1,
+    masume: !1,
+    // テキストレイヤ：ガイドマス目を表示するか
+    variable: !1,
+    dumpHtm: !1
+  },
+  code: {},
+  // 暗号化しないフォルダ
+  debuger_token: ""
+  // デバッガとの接続トークン
+};
 class ConfigBase {
   constructor(e) {
     this.sys = e;
   }
-  oCfg = {
-    save_ns: "",
-    // 扱うセーブデータを一意に識別するキーワード文字列
-    window: {
-      // アプリケーションウインドウサイズ
-      width: 300,
-      height: 300
-    },
-    book: {
-      // プロジェクトの詳細情報です
-      title: "",
-      //作品タイトル
-      creator: "",
-      //著作者。同人ならペンネーム
-      cre_url: "",
-      //著作者URL。ツイッターやメール、サイトなど
-      publisher: "",
-      //出版社。同人ならサークル名
-      pub_url: "",
-      //出版社URL。無ければ省略します
-      detail: "",
-      // 内容紹介。端的に記入
-      version: "1.0"
-    },
-    log: { max_len: 64 },
-    // プレイヤーが読んだ文章を読み返せる履歴のページ数
-    init: {
-      bg_color: "#000000",
-      // 背景色
-      tagch_msecwait: 10,
-      // 通常文字表示待ち時間（未読／既読）
-      auto_msecpagewait: 3500,
-      // 自動文字表示、行クリック待ち時間（未読／既読）
-      escape: ""
-      // エスケープ文字
-    },
-    debug: {
-      devtool: !1,
-      token: !1,
-      tag: !1,
-      putCh: !1,
-      debugLog: !1,
-      baseTx: !1,
-      masume: !1,
-      // テキストレイヤ：ガイドマス目を表示するか
-      variable: !1,
-      dumpHtm: !1
-    },
-    code: {},
-    // 暗号化しないフォルダ
-    debuger_token: ""
-    // デバッガとの接続トークン
-  };
+  oCfg = DEF_CFG;
   userFnTail = "";
   // 4tst public
   hPathFn2Exts = {};
@@ -17859,394 +17760,6 @@ class ConfigBase {
       r[s] = (s.startsWith(":") ? "" : this.sys.arg.cur) + o;
     this.hPathFn2Exts[e] = r;
   }
-}
-class Config extends ConfigBase {
-  constructor(e) {
-    super(e), this.sys = e;
-  }
-  static async generate(e) {
-    const t = new Config(e), r = e.arg.cur + "prj.json", s = await e.fetch(r);
-    if (!s.ok) throw Error(s.statusText);
-    const o = await e.dec(r, await s.text());
-    return await t.load(JSON.parse(o)), t;
-  }
-  async load(e) {
-    await super.load(e), CmnLib.stageW = e.window.width, CmnLib.stageH = e.window.height, CmnLib.debugLog = e.debug.debugLog;
-  }
-  searchPath(e, t = SEARCH_PATH_ARG_EXT.DEFAULT) {
-    return e.startsWith("downloads:/") ? this.sys.path_downloads + e.slice(11) : e.startsWith("userdata:/") ? this.sys.path_userdata + "storage/" + e.slice(10) : super.searchPath(e, t);
-  }
-}
-class AnalyzeTagArg {
-  // 87 match 2725 step(0.5ms) PCRE2 https://regex101.com/r/aeN57J/1
-  /*
-  ;[^\n]*
-  |	(?<key>[^\s="'#|;]+)
-  	(?: \s | ;[^\n]*\n)*
-  	=
-  	(?: \s | ;[^\n]*\n)*
-  	(?:	(?<val> [^\s"'#|;]+)
-  	|	(["'#]) (?<val2>.*?) \3 )
-  	(?: \|
-  		(?: (?<def> [^\s"'#;]+)
-  	|	(["'#]) (?<def2>.*?) \6 ) )?
-  |	(?<literal>[^\s;]+)
-  	*/
-  #e = /;[^\n]*|(?<key>[^\s="'#|;]+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
-  // 【属性 = 値 | 省略値】の分析
-  parse(e) {
-    this.#i = {}, this.#r = !1;
-    for (const { groups: t } of e.matchAll(this.#e)) {
-      const { key: r, val: s, val2: o, def: u, def2: h, literal: l } = t;
-      r ? this.#i[r] = {
-        val: s ?? o ?? "",
-        def: u ?? h
-      } : l && (l === "*" ? this.#r = !0 : this.#i[l] = { val: "1" });
-    }
-  }
-  // 属性と値の位置をまとめて返す
-  parseinDetail(e, t, r, s) {
-    const o = {}, u = e.slice(1 + t, -1);
-    for (const { groups: h, index: l, 0: c } of u.matchAll(this.#e)) {
-      if (l === void 0) continue;
-      const { key: d, val: _, val2: v = "", literal: y } = h;
-      if (y) {
-        if (y.endsWith("=")) {
-          const S = y.length - 1, { ch: P } = this.#t(t, r, s, u, l + S);
-          o[y.slice(0, -1)] = {
-            k_ln: r,
-            k_ch: P - S,
-            v_ln: r,
-            v_ch: P + 1,
-            //	v_ch: ch +1+lenNm +literal.length +1,
-            v_len: 0
-          };
-        }
-        continue;
-      }
-      if (!d) continue;
-      const { ln: b, ch: g } = this.#t(t, r, s, u, l), { ln: m, ch: E } = this.#t(t, r, s, u, l + c.lastIndexOf(_ ?? v ?? "") - (_ ? 0 : 1));
-      o[d] = { k_ln: b, k_ch: g, v_ln: m, v_ch: E, v_len: _ ? _.length : v.length + 2 };
-    }
-    return o;
-  }
-  #t(e, t, r, s, o) {
-    const h = s.slice(0, o).split(`
-`), l = h.length;
-    return {
-      ln: t + l - 1,
-      ch: l < 2 ? r + 1 + e + o : h.at(-1).length
-    };
-  }
-  #i = {};
-  get hPrm() {
-    return this.#i;
-  }
-  #r = !1;
-  get isKomeParam() {
-    return this.#r;
-  }
-}
-const REG_TAG = /(?<name>[^\s;\]]+)/;
-function tagToken2Name_Args(a) {
-  const t = REG_TAG.exec(a.slice(1, -1))?.groups;
-  if (!t) throw `タグ記述【${a}】異常です(タグ解析)`;
-  const r = t.name;
-  return [r, a.slice(1 + r.length, -1)];
-}
-function tagToken2Name(a) {
-  const t = REG_TAG.exec(a.slice(1))?.groups;
-  if (!t) throw `タグ記述【${a}】異常です(タグ解析)`;
-  return t.name;
-}
-function splitAmpersand(a) {
-  const e = a.replaceAll("==", "＝").replaceAll("!=", "≠").split("="), t = e.length;
-  if (t < 2 || t > 3) throw "「&計算」書式では「=」指定が一つか二つ必要です";
-  const [r, s, o] = e;
-  if (s.startsWith("&")) throw "「&計算」書式では「&」指定が不要です";
-  return {
-    name: r.replaceAll("＝", "==").replaceAll("≠", "!="),
-    text: s.replaceAll("＝", "==").replaceAll("≠", "!="),
-    cast: t === 3 ? o.trim() : void 0
-  };
-}
-class Grammar {
-  constructor(e) {
-    this.cfg = e, this.setEscape("");
-  }
-  #e;
-  setEscape(e) {
-    if (this.#n && e in this.#n) throw "[エスケープ文字] char【" + e + "】が登録済みの括弧マクロまたは一文字マクロです";
-    this.#e = new RegExp(
-      (e ? `\\${e}\\S|` : "") + // エスケープシーケンス
-      `\\n+|\\t+|\\[let_ml\\s+[^\\]]+\\].+?(?=\\[endlet_ml[\\]\\s])|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]|;[^\\n]*|&[^&\\n]+&|&&?(?:[^"'#;\\n&]+|(["'#]).*?\\2)+|^\\*[^\\s\\[&;\\\\]+|[^\\n\\t\\[;${e ? `\\${e}` : ""}]+`,
-      // 本文
-      "gs"
-    ), this.#t = new RegExp(`[\\w\\s;[\\]*=&｜《》${e ? `\\${e}` : ""}]`), this.#l = new RegExp(`[\\n\\t;\\[*&${e ? `\\${e}` : ""}]`);
-  }
-  // 括弧マクロの定義
-  bracket2macro(e, t, r, s) {
-    const { name: o, text: u } = e;
-    if (!o) throw "[bracket2macro] nameは必須です";
-    if (!u) throw "[bracket2macro] textは必須です";
-    const h = u.at(0);
-    if (!h) throw "[bracket2macro] textは必須です";
-    if (u.length !== 2) throw "[bracket2macro] textは括弧の前後を示す二文字を指定してください";
-    if (!(o in t)) throw `[bracket2macro] 未定義のタグ又はマクロ[${o}]です`;
-    this.#n ??= {};
-    const l = u.charAt(1);
-    if (h in this.#n) throw "[bracket2macro] text【" + h + "】が登録済みの括弧マクロまたは一文字マクロです";
-    if (l in this.#n) throw "[bracket2macro] text【" + l + "】が登録済みの括弧マクロまたは一文字マクロです";
-    if (this.#t.test(h)) throw "[bracket2macro] text【" + h + "】は括弧マクロに使用できない文字です";
-    if (this.#t.test(l)) throw "[bracket2macro] text【" + l + "】は括弧マクロに使用できない文字です";
-    this.#n[l] = "0", this.#n[h] = `[${o} text=`, this.addC2M(`\\${h}[^\\${l}]*\\${l}`, `\\${h}\\${l}`), this.#c(r, s);
-  }
-  // 一文字マクロの定義
-  char2macro(e, t, r, s) {
-    const { char: o, name: u } = e;
-    if (!o) throw "[char2macro] charは必須です";
-    if (this.#n ??= {}, o in this.#n) throw "[char2macro] char【" + o + "】が登録済みの括弧マクロまたは一文字マクロです";
-    if (this.#t.test(o)) throw "[char2macro] char【" + o + "】は一文字マクロに使用できない文字です";
-    if (!u) throw "[char2macro] nameは必須です";
-    if (!(u in t)) throw `[char2macro] 未定義のタグ又はマクロ[${u}]です`;
-    this.#n[o] = `[${u}]`, this.addC2M(`\\${o}`, `\\${o}`), this.#c(r, s);
-  }
-  #t;
-  #i = new RegExp("");
-  #r = "";
-  #s = "";
-  addC2M(e, t) {
-    this.#r += `${e}|`, this.#s += `${t}`, this.#i = new RegExp(
-      `(${this.#r}[^${this.#s}]+)`,
-      "g"
-    );
-  }
-  resolveScript(e) {
-    const t = e.replaceAll(/\r\n?/g, `
-`).match(this.#e)?.flatMap((s) => {
-      if (!this.testTagLetml(s)) return s;
-      const o = /^([^\]]+?])(.*)$/s.exec(s);
-      if (!o) return s;
-      const [, u, h] = o;
-      return [u, h];
-    }) ?? [], r = { aToken: t, len: t.length, aLNum: [] };
-    return this.#c(r), this.#u(r), r;
-  }
-  #a = /^\[(call|loadplugin)\s/;
-  #o = /\bfn\s*=\s*[^\s\]]+/;
-  #u(e) {
-    for (let t = e.len - 1; t >= 0; --t) {
-      const r = e.aToken[t];
-      if (!this.#a.test(r)) continue;
-      const [s, o] = tagToken2Name_Args(r);
-      this.#h.parse(o);
-      const u = this.#h.hPrm.fn;
-      if (!u) continue;
-      const { val: h } = u;
-      if (!h || !h.endsWith("*")) continue;
-      e.aToken.splice(t, 1, "	", "; " + r), e.aLNum.splice(t, 1, NaN, NaN);
-      const l = s === "loadplugin" ? SEARCH_PATH_ARG_EXT.CSS : SEARCH_PATH_ARG_EXT.SN, c = this.cfg.matchPath("^" + h.slice(0, -1) + ".*", l);
-      for (const d of c) {
-        const _ = r.replace(
-          this.#o,
-          "fn=" + decodeURIComponent(getFn(d[l]))
-        );
-        e.aToken.splice(t, 0, _), e.aLNum.splice(t, 0, NaN);
-      }
-    }
-    e.len = e.aToken.length;
-  }
-  #h = new AnalyzeTagArg();
-  testTagLetml(e) {
-    return /^\[let_ml\s/.test(e);
-  }
-  testTagEndLetml(e) {
-    return /^\[endlet_ml\s*]/.test(e);
-  }
-  analyzToken(e) {
-    return this.#e.lastIndex = 0, this.#e.exec(e);
-  }
-  #n;
-  #l;
-  #c(e, t = 0) {
-    if (this.#n) {
-      for (let r = e.len - 1; r >= t; --r) {
-        const s = e.aToken[r];
-        if (this.testNoTxt(s.at(0) ?? `
-`)) continue;
-        const o = e.aLNum[r], u = s.match(this.#i);
-        if (!u) continue;
-        let h = 1;
-        for (let l = u.length - 1; l >= 0; --l) {
-          let c = u[l];
-          const d = this.#n[c.at(0) ?? " "];
-          d && (c = d + (d.endsWith("]") ? "" : `'${c.slice(1, -1)}']`)), e.aToken.splice(r, h, c), e.aLNum.splice(r, h, o), h = 0;
-        }
-      }
-      e.len = e.aToken.length;
-    }
-  }
-  testNoTxt(e) {
-    return this.#l.test(e);
-  }
-  //4tst
-}
-const SN_ID = "skynovel";
-class Main {
-  constructor(e) {
-    this.sys = e, skipHello(), Config.generate(e).then((t) => this.#s(t)).catch((t) => console.error("load err fn:prj.json e:%o", t));
-  }
-  static cvs;
-  #e = /* @__PURE__ */ Object.create(null);
-  // タグ処理辞書
-  #t;
-  #i;
-  #r = [];
-  async #s(e) {
-    const t = {
-      width: e.oCfg.window.width,
-      height: e.oCfg.window.height,
-      backgroundColor: parseColor(String(e.oCfg.init.bg_color)),
-      // このString()は後方互換性のため必須
-      //	resolution		: sys.resolution,
-      resolution: globalThis.devicePixelRatio ?? 1
-      // 理想
-    }, r = document.getElementById(SN_ID);
-    if (r) {
-      const u = r.cloneNode(!0);
-      u.id = SN_ID, t.view = r;
-      const h = r.parentNode;
-      this.#r.unshift(() => h.appendChild(u));
-    } else {
-      const u = document.createElement("canvas");
-      u.id = SN_ID, t.view = u, document.body.appendChild(u), this.#r.unshift(() => document.body.removeChild(u));
-    }
-    const s = new Application(t);
-    this.#r.unshift(() => {
-      clearTextureCache(), this.sys.destroy(), s.destroy(!1);
-    }), Main.cvs = s.view, Main.cvs.id = SN_ID + "_act", r || document.body.appendChild(Main.cvs);
-    const o = document.createElement("canvas")?.getContext("2d");
-    if (!o) throw "#init cc err";
-    CmnLib.cc4ColorName = o, await Promise.all([
-      import("./Variable.js"),
-      import("./PropParser.js"),
-      import("./SoundMng.js"),
-      import("./ScriptIterator.js"),
-      import("./LayerMng.js").then((u) => u.L),
-      import("./EventMng.js")
-    ]).then(async ([
-      { Variable: u },
-      { PropParser: h },
-      { SoundMng: l },
-      { ScriptIterator: c },
-      { LayerMng: d },
-      { EventMng: _ }
-    ]) => {
-      const v = new u(e, this.#e), y = new h(v, e.oCfg.init.escape ?? "\\");
-      this.#o = (E, S, P, L) => v.setVal_Nochk(E, S, P, L), this.#n = (E) => y.getValAmpersand(E), this.#l = (E) => y.parse(E), await Promise.allSettled(this.sys.init(this.#e, s, v, this)), this.#e.title({ text: e.oCfg.book.title || "SKYNovel" });
-      const b = new l(e, this.#e, v, this, this.sys);
-      this.#r.unshift(() => b.destroy()), this.#t = new c(e, this.#e, this, v, y, b, this.sys), this.#r.unshift(() => this.#t.destroy());
-      const g = new DebugMng(this.sys, this.#e, this.#t);
-      this.#r.unshift(() => g.destroy()), this.errScript = (E, S = !0) => {
-        if (this.stop(), DebugMng.myTrace(E), CmnLib.debugLog && console.log("🍜 SKYNovel err!"), S) throw E;
-      }, this.#i = new d(e, this.#e, s, v, this, this.#t, this.sys, b, y), this.#r.unshift(() => this.#i.destroy());
-      const m = new _(e, this.#e, s, this, this.#i, v, b, this.#t, this.sys);
-      this.#r.unshift(() => m.destroy()), this.#r.unshift(() => {
-        this.stop(), this.#u = !1, this.#e = {};
-      }), this.#e.jump({ fn: "main" }), this.stop();
-    });
-  }
-  destroy() {
-    if (!this.#a) {
-      this.#a = !0, Main.cvs.parentElement?.removeChild(Main.cvs);
-      for (const e of this.#r) e();
-      this.#r = [];
-    }
-  }
-  #a = !1;
-  isDestroyed = () => this.#a;
-  errScript = (e, t = !0) => {
-  };
-  resumeByJumpOrCall(e) {
-    if (e.url) {
-      this.#e.navigate_to(e), this.#t.jumpJustBefore();
-      return;
-    }
-    this.#o("tmp", "sn.eventArg", e.arg ?? ""), this.#o("tmp", "sn.eventLabel", e.label ?? ""), argChk_Boolean(e, "call", !1) ? (this.#t.subIdxToken(), this.#e.call(e)) : (this.#e.clear_event({}), this.#e.jump(e)), this.resume();
-  }
-  #o = (e, t, r, s = !1) => {
-  };
-  resume() {
-    this.#a || (this.#i.clearBreak(), this.#t.noticeBreak(!1), queueMicrotask(() => this.#h()));
-  }
-  stop = () => {
-    this.#t.noticeBreak(!0);
-  };
-  setLoop(e, t = "") {
-    (this.#u = e) ? this.resume() : this.stop(), this.sys.setTitleInfo(t ? ` -- ${t}中` : "");
-  }
-  #u = !0;
-  //MARK: メイン処理（シナリオ解析）
-  #h() {
-    for (; this.#u; ) {
-      let e = this.#t.nextToken();
-      if (!e) return;
-      const t = e.charCodeAt(0);
-      if (t !== 9) {
-        if (t === 10) {
-          this.#t.addLineNum(e.length);
-          continue;
-        }
-        if (t === 91) {
-          if (this.#t.isBreak(e)) return;
-          try {
-            const r = (e.match(/\n/g) ?? []).length;
-            if (r > 0 && this.#t.addLineNum(r), this.#t.タグ解析(e)) {
-              this.stop();
-              return;
-            }
-            continue;
-          } catch (r) {
-            r instanceof Error ? this.errScript(`[${tagToken2Name(e)}]タグ解析中例外 mes=${r.message}(${r.name})`, !1) : this.errScript(String(r), !1);
-            return;
-          }
-        }
-        if (t === 38)
-          try {
-            if (!e.endsWith("&")) {
-              if (this.#t.isBreak(e)) return;
-              const r = splitAmpersand(e.slice(1));
-              r.name = this.#n(r.name), r.text = String(this.#l(r.text)), this.#e.let(r);
-              continue;
-            }
-            if (e.charAt(1) === "&") throw new Error("「&表示&」書式では「&」指定が不要です");
-            e = String(this.#l(e.slice(1, -1)));
-          } catch (r) {
-            this.errScript(
-              r instanceof Error ? `& 変数操作・表示 mes=${r.message}(${r.name})` : String(r),
-              !1
-            );
-            return;
-          }
-        else {
-          if (t === 59) continue;
-          if (t === 42 && e.length > 1) continue;
-        }
-        try {
-          this.#i.setNormalChWait(), this.#i.currentTxtlayForeNeedErr.tagCh(e);
-        } catch (r) {
-          this.errScript(
-            r instanceof Error ? `文字表示 mes=${r.message}(${r.name})` : String(r),
-            !1
-          );
-          return;
-        }
-      }
-    }
-  }
-  #n = (e) => "";
-  #l = (e) => {
-  };
 }
 const PACKET_TYPES = /* @__PURE__ */ Object.create(null);
 PACKET_TYPES.open = "0";
@@ -20596,8 +20109,9 @@ class SysBase {
   async run() {
   }
   val;
+  main;
   init(e, t, r, s) {
-    this.val = r;
+    this.val = r, this.main = s;
     let o = "";
     try {
       r.setSys(this), o = "sys", o += Number(r.getVal("sys:TextLayer.Back.Alpha", 1)), o = "kidoku", r.saveKidoku();
@@ -20668,7 +20182,7 @@ class SysBase {
   isFullScr = !1;
   cvsResize() {
     let e = globalThis.innerWidth, t = globalThis.innerHeight;
-    const r = Main.cvs, s = r.parentElement !== document.body;
+    const r = this.main.cvs, s = r.parentElement !== document.body;
     if (s) {
       const l = globalThis.getComputedStyle(r);
       e = parseFloat(l.width), t = parseFloat(l.height);
@@ -20768,7 +20282,7 @@ class SysBase {
     const o = Math.min(CmnLib.stageW, CmnLib.stageH) / 4 * this.#a;
     r.width = r.height = o, r.style.cssText = `position: absolute;
 left: ${(CmnLib.stageW - o) / 2 * this.#a + o * (s.dx ?? 0)}px;
-top: ${(CmnLib.stageH - o) / 2 * this.#a + o * (s.dy ?? 0)}px;`, r.classList.add("sn_toast", s.ease ?? "sn_BounceInOut"), s.ease || r.addEventListener("animationend", () => t.removeChild(r), { once: !0, passive: !0 }), t.insertBefore(r, Main.cvs);
+top: ${(CmnLib.stageH - o) / 2 * this.#a + o * (s.dy ?? 0)}px;`, r.classList.add("sn_toast", s.ease ?? "sn_BounceInOut"), s.ease || r.addEventListener("animationend", () => t.removeChild(r), { once: !0, passive: !0 }), t.insertBefore(r, this.main.cvs);
   }
   static #y = {
     // Thanks ICOOON MONO https://icooon-mono.com/ 、 https://vectr.com/ で 640x640化、ImageOptim経由、Base64エンコーダー https://lab.syncer.jp/Tool/Base64-encode/ 
@@ -20882,6 +20396,494 @@ top: ${(CmnLib.stageH - o) / 2 * this.#a + o * (s.dy ?? 0)}px;`, r.classList.add
   }
   async outputFile(e, t) {
   }
+}
+class DebugMng {
+  constructor(e, t, r) {
+    this.sys = e, DebugMng.#e = r, DebugMng.#t = t, DebugMng.#i = t.title, DebugMng.myTrace = DebugMng.#u, t.log = (s) => this.#a(s), t.trace = (s) => this.#o(s), DebugMng.#r = document.createElement("span"), DebugMng.#r.hidden = !0, DebugMng.#r.textContent = "", DebugMng.#r.style.cssText = `	z-index: ${Number.MAX_SAFE_INTEGER};
+			position: absolute; left: 0; top: 0;
+			color: black;
+			background-color: rgba(255, 255, 255, 0.7);`, document.body.appendChild(DebugMng.#r);
+  }
+  static #e;
+  static #t;
+  static #i;
+  static #r;
+  destroy() {
+    DebugMng.#i = () => !1, document.body.removeChild(DebugMng.#r), DebugMng.myTrace = DebugMng.trace_beforeNew;
+  }
+  // ログ出力
+  #s = !0;
+  #a(e) {
+    let t = "";
+    return this.#s && (this.#s = !1, t = `== ${platform.description} ==
+`), this.sys.appendFile(
+      this.sys.path_downloads + "log.txt",
+      `${t}--- ${getDateStr("-", "_", "")} [fn:${DebugMng.#e.scriptFn} line:${DebugMng.#e.lineNum}] prj:${this.sys.arg.cur}
+${e.text || `(text is ${e.text})`}
+`
+    ), !1;
+  }
+  #o(e) {
+    return DebugMng.myTrace(e.text || `(text is ${e.text})`, "I"), !1;
+  }
+  // private禁止、galleryでエラーになる
+  static trace_beforeNew = (e, t = "E") => {
+    let r = `{${t}} ` + e, s = "";
+    switch (t) {
+      case "D":
+        s = `color:#${CmnLib.isDarkMode ? "49F" : "05A"};`;
+        break;
+      case "W":
+        s = "color:#FF8800;";
+        break;
+      case "F":
+        s = "color:#BB0000;";
+        break;
+      case "ET":
+        throw r;
+      case "E":
+        console.error("%c" + r, "color:#FF3300;");
+        return;
+      default:
+        s = "color:black;", r = " " + r;
+    }
+    console.info("%c" + r, s);
+  };
+  static myTrace = DebugMng.trace_beforeNew;
+  static strPos = () => DebugMng.#e.lineNum > 0 ? `(fn:${DebugMng.#e.scriptFn} line:${DebugMng.#e.lineNum}) ` : "";
+  static #u = (e, t = "E") => {
+    let r = `{${t}} ` + DebugMng.strPos() + e;
+    DebugMng.#h(r, t);
+    let s = "";
+    switch (t) {
+      case "D":
+        s = `color:#${CmnLib.isDarkMode ? "49F" : "05A"};`;
+        break;
+      case "W":
+        s = "color:#F80;";
+        break;
+      case "F":
+        s = "color:#B00;";
+        break;
+      case "ET":
+      case "E":
+        if (DebugMng.#i({ text: e }), this.#t.dump_lay({}), this.#t.dump_val({}), DebugMng.#e.dumpErrForeLine(), this.#t.dump_stack({}), t === "ET") throw r;
+        console.error("%c" + r, "color:#F30;");
+        return;
+      default:
+        s = "", r = " " + r;
+    }
+    console.info("%c" + r, s);
+  };
+  static #h = (e, t) => {
+    let r = "";
+    switch (t) {
+      case "D":
+        r = "color:#05A;";
+        break;
+      case "W":
+        r = "color:#F80;";
+        break;
+      case "F":
+        r = "color:#B00;";
+        break;
+      case "ET":
+      case "E":
+        r = "color:#F30;";
+        break;
+      default:
+        r = "";
+    }
+    DebugMng.#r.innerHTML += `<span style='${r}'>${e}</span><br/>`, DebugMng.#r.hidden = !1;
+  };
+}
+class Config extends ConfigBase {
+  constructor(e) {
+    super(e), this.sys = e;
+  }
+  static async generate(e) {
+    const t = new Config(e), r = e.arg.cur + "prj.json", s = await e.fetch(r);
+    if (!s.ok) throw Error(s.statusText);
+    const o = await e.dec(r, await s.text());
+    return await t.load(JSON.parse(o)), t;
+  }
+  async load(e) {
+    await super.load(e), CmnLib.stageW = e.window.width, CmnLib.stageH = e.window.height, CmnLib.debugLog = e.debug.debugLog;
+  }
+  searchPath(e, t = SEARCH_PATH_ARG_EXT.DEFAULT) {
+    return e.startsWith("downloads:/") ? this.sys.path_downloads + e.slice(11) : e.startsWith("userdata:/") ? this.sys.path_userdata + "storage/" + e.slice(10) : super.searchPath(e, t);
+  }
+}
+class AnalyzeTagArg {
+  // 87 match 2725 step(0.5ms) PCRE2 https://regex101.com/r/aeN57J/1
+  /*
+  ;[^\n]*
+  |	(?<key>[^\s="'#|;]+)
+  	(?: \s | ;[^\n]*\n)*
+  	=
+  	(?: \s | ;[^\n]*\n)*
+  	(?:	(?<val> [^\s"'#|;]+)
+  	|	(["'#]) (?<val2>.*?) \3 )
+  	(?: \|
+  		(?: (?<def> [^\s"'#;]+)
+  	|	(["'#]) (?<def2>.*?) \6 ) )?
+  |	(?<literal>[^\s;]+)
+  	*/
+  #e = /;[^\n]*|(?<key>[^\s="'#|;]+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
+  // 【属性 = 値 | 省略値】の分析
+  parse(e) {
+    this.#i = {}, this.#r = !1;
+    for (const { groups: t } of e.matchAll(this.#e)) {
+      const { key: r, val: s, val2: o, def: u, def2: h, literal: l } = t;
+      r ? this.#i[r] = {
+        val: s ?? o ?? "",
+        def: u ?? h
+      } : l && (l === "*" ? this.#r = !0 : this.#i[l] = { val: "1" });
+    }
+  }
+  // 属性と値の位置をまとめて返す
+  parseinDetail(e, t, r, s) {
+    const o = {}, u = e.slice(1 + t, -1);
+    for (const { groups: h, index: l, 0: c } of u.matchAll(this.#e)) {
+      if (l === void 0) continue;
+      const { key: d, val: _, val2: v = "", literal: y } = h;
+      if (y) {
+        if (y.endsWith("=")) {
+          const S = y.length - 1, { ch: P } = this.#t(t, r, s, u, l + S);
+          o[y.slice(0, -1)] = {
+            k_ln: r,
+            k_ch: P - S,
+            v_ln: r,
+            v_ch: P + 1,
+            //	v_ch: ch +1+lenNm +literal.length +1,
+            v_len: 0
+          };
+        }
+        continue;
+      }
+      if (!d) continue;
+      const { ln: b, ch: g } = this.#t(t, r, s, u, l), { ln: m, ch: E } = this.#t(t, r, s, u, l + c.lastIndexOf(_ ?? v ?? "") - (_ ? 0 : 1));
+      o[d] = { k_ln: b, k_ch: g, v_ln: m, v_ch: E, v_len: _ ? _.length : v.length + 2 };
+    }
+    return o;
+  }
+  #t(e, t, r, s, o) {
+    const h = s.slice(0, o).split(`
+`), l = h.length;
+    return {
+      ln: t + l - 1,
+      ch: l < 2 ? r + 1 + e + o : h.at(-1).length
+    };
+  }
+  #i = {};
+  get hPrm() {
+    return this.#i;
+  }
+  #r = !1;
+  get isKomeParam() {
+    return this.#r;
+  }
+}
+const REG_TAG = /(?<name>[^\s;\]]+)/;
+function tagToken2Name_Args(a) {
+  const t = REG_TAG.exec(a.slice(1, -1))?.groups;
+  if (!t) throw `タグ記述【${a}】異常です(タグ解析)`;
+  const r = t.name;
+  return [r, a.slice(1 + r.length, -1)];
+}
+function tagToken2Name(a) {
+  const t = REG_TAG.exec(a.slice(1))?.groups;
+  if (!t) throw `タグ記述【${a}】異常です(タグ解析)`;
+  return t.name;
+}
+function splitAmpersand(a) {
+  const e = a.replaceAll("==", "＝").replaceAll("!=", "≠").split("="), t = e.length;
+  if (t < 2 || t > 3) throw "「&計算」書式では「=」指定が一つか二つ必要です";
+  const [r, s, o] = e;
+  if (s.startsWith("&")) throw "「&計算」書式では「&」指定が不要です";
+  return {
+    name: r.replaceAll("＝", "==").replaceAll("≠", "!="),
+    text: s.replaceAll("＝", "==").replaceAll("≠", "!="),
+    cast: t === 3 ? o.trim() : void 0
+  };
+}
+class Grammar {
+  constructor(e) {
+    this.cfg = e, this.setEscape("");
+  }
+  #e;
+  setEscape(e) {
+    if (this.#n && e in this.#n) throw "[エスケープ文字] char【" + e + "】が登録済みの括弧マクロまたは一文字マクロです";
+    this.#e = new RegExp(
+      (e ? `\\${e}\\S|` : "") + // エスケープシーケンス
+      `\\n+|\\t+|\\[let_ml\\s+[^\\]]+\\].+?(?=\\[endlet_ml[\\]\\s])|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]|;[^\\n]*|&[^&\\n]+&|&&?(?:[^"'#;\\n&]+|(["'#]).*?\\2)+|^\\*[^\\s\\[&;\\\\]+|[^\\n\\t\\[;${e ? `\\${e}` : ""}]+`,
+      // 本文
+      "gs"
+    ), this.#t = new RegExp(`[\\w\\s;[\\]*=&｜《》${e ? `\\${e}` : ""}]`), this.#l = new RegExp(`[\\n\\t;\\[*&${e ? `\\${e}` : ""}]`);
+  }
+  // 括弧マクロの定義
+  bracket2macro(e, t, r, s) {
+    const { name: o, text: u } = e;
+    if (!o) throw "[bracket2macro] nameは必須です";
+    if (!u) throw "[bracket2macro] textは必須です";
+    const h = u.at(0);
+    if (!h) throw "[bracket2macro] textは必須です";
+    if (u.length !== 2) throw "[bracket2macro] textは括弧の前後を示す二文字を指定してください";
+    if (!(o in t)) throw `[bracket2macro] 未定義のタグ又はマクロ[${o}]です`;
+    this.#n ??= {};
+    const l = u.charAt(1);
+    if (h in this.#n) throw "[bracket2macro] text【" + h + "】が登録済みの括弧マクロまたは一文字マクロです";
+    if (l in this.#n) throw "[bracket2macro] text【" + l + "】が登録済みの括弧マクロまたは一文字マクロです";
+    if (this.#t.test(h)) throw "[bracket2macro] text【" + h + "】は括弧マクロに使用できない文字です";
+    if (this.#t.test(l)) throw "[bracket2macro] text【" + l + "】は括弧マクロに使用できない文字です";
+    this.#n[l] = "0", this.#n[h] = `[${o} text=`, this.addC2M(`\\${h}[^\\${l}]*\\${l}`, `\\${h}\\${l}`), this.#c(r, s);
+  }
+  // 一文字マクロの定義
+  char2macro(e, t, r, s) {
+    const { char: o, name: u } = e;
+    if (!o) throw "[char2macro] charは必須です";
+    if (this.#n ??= {}, o in this.#n) throw "[char2macro] char【" + o + "】が登録済みの括弧マクロまたは一文字マクロです";
+    if (this.#t.test(o)) throw "[char2macro] char【" + o + "】は一文字マクロに使用できない文字です";
+    if (!u) throw "[char2macro] nameは必須です";
+    if (!(u in t)) throw `[char2macro] 未定義のタグ又はマクロ[${u}]です`;
+    this.#n[o] = `[${u}]`, this.addC2M(`\\${o}`, `\\${o}`), this.#c(r, s);
+  }
+  #t;
+  #i = new RegExp("");
+  #r = "";
+  #s = "";
+  addC2M(e, t) {
+    this.#r += `${e}|`, this.#s += `${t}`, this.#i = new RegExp(
+      `(${this.#r}[^${this.#s}]+)`,
+      "g"
+    );
+  }
+  resolveScript(e) {
+    const t = e.replaceAll(/\r\n?/g, `
+`).match(this.#e)?.flatMap((s) => {
+      if (!this.testTagLetml(s)) return s;
+      const o = /^([^\]]+?])(.*)$/s.exec(s);
+      if (!o) return s;
+      const [, u, h] = o;
+      return [u, h];
+    }) ?? [], r = { aToken: t, len: t.length, aLNum: [] };
+    return this.#c(r), this.#u(r), r;
+  }
+  #a = /^\[(call|loadplugin)\s/;
+  #o = /\bfn\s*=\s*[^\s\]]+/;
+  #u(e) {
+    for (let t = e.len - 1; t >= 0; --t) {
+      const r = e.aToken[t];
+      if (!this.#a.test(r)) continue;
+      const [s, o] = tagToken2Name_Args(r);
+      this.#h.parse(o);
+      const u = this.#h.hPrm.fn;
+      if (!u) continue;
+      const { val: h } = u;
+      if (!h || !h.endsWith("*")) continue;
+      e.aToken.splice(t, 1, "	", "; " + r), e.aLNum.splice(t, 1, NaN, NaN);
+      const l = s === "loadplugin" ? SEARCH_PATH_ARG_EXT.CSS : SEARCH_PATH_ARG_EXT.SN, c = this.cfg.matchPath("^" + h.slice(0, -1) + ".*", l);
+      for (const d of c) {
+        const _ = r.replace(
+          this.#o,
+          "fn=" + decodeURIComponent(getFn(d[l]))
+        );
+        e.aToken.splice(t, 0, _), e.aLNum.splice(t, 0, NaN);
+      }
+    }
+    e.len = e.aToken.length;
+  }
+  #h = new AnalyzeTagArg();
+  testTagLetml(e) {
+    return /^\[let_ml\s/.test(e);
+  }
+  testTagEndLetml(e) {
+    return /^\[endlet_ml\s*]/.test(e);
+  }
+  analyzToken(e) {
+    return this.#e.lastIndex = 0, this.#e.exec(e);
+  }
+  #n;
+  #l;
+  #c(e, t = 0) {
+    if (this.#n) {
+      for (let r = e.len - 1; r >= t; --r) {
+        const s = e.aToken[r];
+        if (this.testNoTxt(s.at(0) ?? `
+`)) continue;
+        const o = e.aLNum[r], u = s.match(this.#i);
+        if (!u) continue;
+        let h = 1;
+        for (let l = u.length - 1; l >= 0; --l) {
+          let c = u[l];
+          const d = this.#n[c.at(0) ?? " "];
+          d && (c = d + (d.endsWith("]") ? "" : `'${c.slice(1, -1)}']`)), e.aToken.splice(r, h, c), e.aLNum.splice(r, h, o), h = 0;
+        }
+      }
+      e.len = e.aToken.length;
+    }
+  }
+  testNoTxt(e) {
+    return this.#l.test(e);
+  }
+  //4tst
+}
+const SN_ID = "skynovel";
+class Main {
+  constructor(e) {
+    this.sys = e, skipHello(), Config.generate(e).then((t) => this.#s(t)).catch((t) => console.error("load err fn:prj.json e:%o", t));
+  }
+  cvs;
+  #e = /* @__PURE__ */ Object.create(null);
+  // タグ処理辞書
+  #t;
+  #i;
+  #r = [];
+  async #s(e) {
+    const t = {
+      width: e.oCfg.window.width,
+      height: e.oCfg.window.height,
+      backgroundColor: parseColor(String(e.oCfg.init.bg_color)),
+      // このString()は後方互換性のため必須
+      //	resolution		: sys.resolution,
+      resolution: globalThis.devicePixelRatio ?? 1
+      // 理想
+    }, r = document.getElementById(SN_ID);
+    if (r) {
+      const u = r.cloneNode(!0);
+      u.id = SN_ID, t.view = r;
+      const h = r.parentNode;
+      this.#r.unshift(() => h.appendChild(u));
+    } else {
+      const u = document.createElement("canvas");
+      u.id = SN_ID, t.view = u, document.body.appendChild(u), this.#r.unshift(() => document.body.removeChild(u));
+    }
+    const s = new Application(t);
+    this.#r.unshift(() => {
+      clearTextureCache(), this.sys.destroy(), s.destroy(!1);
+    }), this.cvs = s.view, this.cvs.id = SN_ID + "_act", r || document.body.appendChild(this.cvs);
+    const o = document.createElement("canvas")?.getContext("2d");
+    if (!o) throw "#init cc err";
+    CmnLib.cc4ColorName = o, await Promise.all([
+      import("./Variable.js"),
+      import("./PropParser.js"),
+      import("./SoundMng.js"),
+      import("./ScriptIterator.js"),
+      import("./LayerMng.js").then((u) => u.L),
+      import("./EventMng.js")
+    ]).then(async ([
+      { Variable: u },
+      { PropParser: h },
+      { SoundMng: l },
+      { ScriptIterator: c },
+      { LayerMng: d },
+      { EventMng: _ }
+    ]) => {
+      const v = new u(e, this.#e), y = new h(v, e.oCfg.init.escape ?? "\\");
+      this.#o = (E, S, P, L) => v.setVal_Nochk(E, S, P, L), this.#n = (E) => y.getValAmpersand(E), this.#l = (E) => y.parse(E), await Promise.allSettled(this.sys.init(this.#e, s, v, this)), this.#e.title({ text: e.oCfg.book.title || "SKYNovel" });
+      const b = new l(e, this.#e, v, this, this.sys);
+      this.#r.unshift(() => b.destroy()), this.#t = new c(e, this.#e, this, v, y, b, this.sys), this.#r.unshift(() => this.#t.destroy());
+      const g = new DebugMng(this.sys, this.#e, this.#t);
+      this.#r.unshift(() => g.destroy()), this.errScript = (E, S = !0) => {
+        if (this.stop(), DebugMng.myTrace(E), CmnLib.debugLog && console.log("🍜 SKYNovel err!"), S) throw E;
+      }, this.#i = new d(e, this.#e, s, v, this, this.#t, this.sys, b, y), this.#r.unshift(() => this.#i.destroy());
+      const m = new _(e, this.#e, s, this, this.#i, v, b, this.#t, this.sys);
+      this.#r.unshift(() => m.destroy()), this.#r.unshift(() => {
+        this.stop(), this.#u = !1, this.#e = {};
+      }), this.#e.jump({ fn: "main" }), this.stop();
+    });
+  }
+  destroy() {
+    if (!this.#a) {
+      this.#a = !0, this.cvs.parentElement?.removeChild(this.cvs);
+      for (const e of this.#r) e();
+      this.#r = [];
+    }
+  }
+  #a = !1;
+  isDestroyed = () => this.#a;
+  errScript = (e, t = !0) => {
+  };
+  resumeByJumpOrCall(e) {
+    if (e.url) {
+      this.#e.navigate_to(e), this.#t.jumpJustBefore();
+      return;
+    }
+    this.#o("tmp", "sn.eventArg", e.arg ?? ""), this.#o("tmp", "sn.eventLabel", e.label ?? ""), argChk_Boolean(e, "call", !1) ? (this.#t.subIdxToken(), this.#e.call(e)) : (this.#e.clear_event({}), this.#e.jump(e)), this.resume();
+  }
+  #o = (e, t, r, s = !1) => {
+  };
+  resume() {
+    this.#a || (this.#i.clearBreak(), this.#t.noticeBreak(!1), queueMicrotask(() => this.#h()));
+  }
+  stop = () => {
+    this.#t.noticeBreak(!0);
+  };
+  setLoop(e, t = "") {
+    (this.#u = e) ? this.resume() : this.stop(), this.sys.setTitleInfo(t ? ` -- ${t}中` : "");
+  }
+  #u = !0;
+  //MARK: メイン処理（シナリオ解析）
+  #h() {
+    for (; this.#u; ) {
+      let e = this.#t.nextToken();
+      if (!e) return;
+      const t = e.charCodeAt(0);
+      if (t !== 9) {
+        if (t === 10) {
+          this.#t.addLineNum(e.length);
+          continue;
+        }
+        if (t === 91) {
+          if (this.#t.isBreak(e)) return;
+          try {
+            const r = (e.match(/\n/g) ?? []).length;
+            if (r > 0 && this.#t.addLineNum(r), this.#t.タグ解析(e)) {
+              this.stop();
+              return;
+            }
+            continue;
+          } catch (r) {
+            r instanceof Error ? this.errScript(`[${tagToken2Name(e)}]タグ解析中例外 mes=${r.message}(${r.name})`, !1) : this.errScript(String(r), !1);
+            return;
+          }
+        }
+        if (t === 38)
+          try {
+            if (!e.endsWith("&")) {
+              if (this.#t.isBreak(e)) return;
+              const r = splitAmpersand(e.slice(1));
+              r.name = this.#n(r.name), r.text = String(this.#l(r.text)), this.#e.let(r);
+              continue;
+            }
+            if (e.charAt(1) === "&") throw new Error("「&表示&」書式では「&」指定が不要です");
+            e = String(this.#l(e.slice(1, -1)));
+          } catch (r) {
+            this.errScript(
+              r instanceof Error ? `& 変数操作・表示 mes=${r.message}(${r.name})` : String(r),
+              !1
+            );
+            return;
+          }
+        else {
+          if (t === 59) continue;
+          if (t === 42 && e.length > 1) continue;
+        }
+        try {
+          this.#i.setNormalChWait(), this.#i.currentTxtlayForeNeedErr.tagCh(e);
+        } catch (r) {
+          this.errScript(
+            r instanceof Error ? `文字表示 mes=${r.message}(${r.name})` : String(r),
+            !1
+          );
+          return;
+        }
+      }
+    }
+  }
+  #n = (e) => "";
+  #l = (e) => {
+  };
 }
 var util, hasRequiredUtil;
 function requireUtil() {
@@ -21562,7 +21564,7 @@ class SysWeb extends SysBase {
   #i = void 0;
   async loadPath(e, t) {
     await super.loadPath(e, t);
-    const r = this.arg.cur + "path.json", s = await fetch(r);
+    const r = this.arg.cur + "path.json", s = await this.fetch(r);
     if (!s.ok) throw Error(s.statusText);
     const o = await s.text(), u = JSON.parse(await this.dec(r, o));
     for (const [h, l] of Object.entries(u)) {
@@ -21612,7 +21614,7 @@ class SysWeb extends SysBase {
   }
   cvsResize() {
     if (super.cvsResize(), this.isFullScr) {
-      const e = Main.cvs.style;
+      const e = this.main.cvs.style;
       e.width = e.height = "";
     }
   }
@@ -22100,11 +22102,10 @@ export {
   argChk_Color as J,
   getExt as K,
   Loader as L,
-  Main as M,
-  parseColor as N,
-  autoDetectRenderer as O,
-  Filter as P,
-  SysWeb as Q,
+  parseColor as M,
+  autoDetectRenderer as N,
+  Filter as O,
+  SysWeb as P,
   Rectangle as R,
   SEARCH_PATH_ARG_EXT as S,
   Ticker as T,

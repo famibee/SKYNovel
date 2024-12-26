@@ -12,7 +12,6 @@ import type {IVariable, IMain, IGetFrm} from './CmnInterface';
 import type {SysBase} from './SysBase';
 import {Config} from './Config';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
-import {Main} from './Main';
 import {disableEvent, enableEvent} from './ReadState';
 
 import {Application, Loader, LoaderResource} from 'pixi.js';
@@ -74,7 +73,7 @@ export class FrameMng implements IGetFrm {
 		const b_color = hArg.b_color ?` background-color: ${hArg.b_color};` :'';
 		const rct = this.#rect(hArg);
 		// 【sandbox="allow-scripts allow-same-origin"】は必要なのに警告が出るので削除
-		Main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id}" style="opacity: ${a}; ${b_color} position: absolute; left:${
+		FrameMng.#main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id}" style="opacity: ${a}; ${b_color} position: absolute; left:${
 			FrameMng.#sys.ofsLeft4elm +rct.x *FrameMng.#sys.cvsScale
 		}px; top: ${
 			FrameMng.#sys.ofsTop4elm +rct.y *FrameMng.#sys.cvsScale

@@ -53,6 +53,7 @@ export type T_CFG = {
     };
     debuger_token: string;
 };
+export declare const DEF_CFG: T_CFG;
 export interface IExts {
     [ext: string]: string;
 }
@@ -87,7 +88,7 @@ export declare class ConfigBase implements IConfig {
     userFnTail: string;
     protected hPathFn2Exts: IFn2Path;
     protected constructor(sys: ISysRoots);
-    load(oCfg: T_CFG): Promise<void>;
+    protected load(oCfg: T_CFG): Promise<void>;
     get existsBreakline(): boolean;
     get existsBreakpage(): boolean;
     getNs(): string;

@@ -62,6 +62,44 @@ export type T_CFG = {
 	debuger_token	: string,	// デバッガとの接続トークン
 }
 
+export	const DEF_CFG: T_CFG = {
+	save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
+	window	: {		// アプリケーションウインドウサイズ
+		width	: 300,
+		height	: 300,
+	},
+	book	: {		// プロジェクトの詳細情報です
+		title		: '',	//作品タイトル
+		creator		: '',	//著作者。同人ならペンネーム
+		cre_url		: '',	//著作者URL。ツイッターやメール、サイトなど
+		publisher	: '',	//出版社。同人ならサークル名
+		pub_url		: '',	//出版社URL。無ければ省略します
+		detail		: '',	// 内容紹介。端的に記入
+		version		: '1.0',
+	},
+	log		: {max_len: 64},	// プレイヤーが読んだ文章を読み返せる履歴のページ数
+	init	: {
+		bg_color			: '#000000',	// 背景色
+		tagch_msecwait		: 10,		// 通常文字表示待ち時間（未読／既読）
+		auto_msecpagewait	: 3500,		// 自動文字表示、行クリック待ち時間（未読／既読）
+		escape				: '',		// エスケープ文字
+	},
+	debug	: {
+		devtool		: false,
+		token		: false,
+		tag			: false,
+		putCh		: false,
+		debugLog	: false,
+		baseTx		: false,
+		masume		: false,	// テキストレイヤ：ガイドマス目を表示するか
+		variable	: false,
+		dumpHtm	: false,
+	},
+	code	: {},	// 暗号化しないフォルダ
+	debuger_token	: '',		// デバッガとの接続トークン
+};
+
+
 
 export interface IExts { [ext: string]: string; };
 export interface IFn2Path { [fn: string]: IExts; };
@@ -92,48 +130,13 @@ export type HSysBaseArg = {
 
 
 export class ConfigBase implements IConfig {
-	oCfg: T_CFG = {
-		save_ns		: '',		// 扱うセーブデータを一意に識別するキーワード文字列
-		window	: {		// アプリケーションウインドウサイズ
-			width	: 300,
-			height	: 300,
-		},
-		book	: {		// プロジェクトの詳細情報です
-			title		: '',	//作品タイトル
-			creator		: '',	//著作者。同人ならペンネーム
-			cre_url		: '',	//著作者URL。ツイッターやメール、サイトなど
-			publisher	: '',	//出版社。同人ならサークル名
-			pub_url		: '',	//出版社URL。無ければ省略します
-			detail		: '',	// 内容紹介。端的に記入
-			version		: '1.0',
-		},
-		log		: {max_len: 64},	// プレイヤーが読んだ文章を読み返せる履歴のページ数
-		init	: {
-			bg_color			: '#000000',	// 背景色
-			tagch_msecwait		: 10,		// 通常文字表示待ち時間（未読／既読）
-			auto_msecpagewait	: 3500,		// 自動文字表示、行クリック待ち時間（未読／既読）
-			escape				: '',		// エスケープ文字
-		},
-		debug	: {
-			devtool		: false,
-			token		: false,
-			tag			: false,
-			putCh		: false,
-			debugLog	: false,
-			baseTx		: false,
-			masume		: false,	// テキストレイヤ：ガイドマス目を表示するか
-			variable	: false,
-			dumpHtm	: false,
-		},
-		code	: {},	// 暗号化しないフォルダ
-		debuger_token	: '',		// デバッガとの接続トークン
-	};
+	oCfg	= DEF_CFG;
 
 	userFnTail		= '';	// 4tst public
 	protected	hPathFn2Exts	: IFn2Path	= {};
 
 	protected	constructor(readonly sys: ISysRoots) {}
-	async load(oCfg: T_CFG) {
+	protected	async load(oCfg: T_CFG) {
 		// this.oCfg = {...this.oCfg, ...oCfg};	// 一階層目でコピーしてしまう
 		this.oCfg.save_ns = oCfg?.save_ns ?? this.oCfg.save_ns;
 

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Hyphenation, IChRect} from '../src/sn/Hyphenation';
+import {Hyphenation, type IChRect} from '../src/sn/Hyphenation';
 
 import {Rectangle} from 'pixi.js';
 import {GlobalRegistrator} from '@happy-dom/global-registrator';

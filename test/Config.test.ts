@@ -5,23 +5,15 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {ConfigBase, SEARCH_PATH_ARG_EXT} from '../src/sn/ConfigBase';
-import {SysNode} from '../src/sn/SysNode';
+import {Config} from '../src/sn/Config';
+import {SEARCH_PATH_ARG_EXT} from '../src/sn/ConfigBase';
+import {SysTest} from './SysTest';
 
-//===== Test Class =====
-import {readFileSync, writeFileSync, appendFile, ensureFileSync} from 'fs-extra';
-export class SysTest extends SysNode {
-	override ensureFileSync = async (path: string)=> ensureFileSync(path);
-	protected	override readFileSync = async (path: string)=> readFileSync(path, {encoding: 'utf8'});
-	protected	override writeFileSync = async (path: string, data: Buffer, o?: object)=> writeFileSync(path, data, o);
-	override appendFile = async (path: string, data: string)=> appendFile(path, data).catch(err=> {throw err});
-}
-//===== Test Class =====
 
-let	cfg: ConfigBase;
+let	cfg: Config;
 beforeEach(async ()=> {
-	cfg = new ConfigBase(new SysTest({}, {cur: 'test/', crypto: false, dip: ''}));
-	await cfg.load({search: ['mat']});
+	const sys = new SysTest({}, {cur: 'test/', crypto: false, dip: ''});
+	cfg = await Config.generate(sys);
 });
 
 it('testsetSearchPath_0', ()=> {
