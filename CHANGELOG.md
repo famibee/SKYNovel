@@ -1,3 +1,11 @@
+## [1.61.9](https://github.com/famibee/SKYNovel/compare/v1.61.8...v1.61.9) (2024-12-26)
+
+
+### Bug Fixes
+
+* リファクタリング、記述ミス、不具合修正 ([c311fb1](https://github.com/famibee/SKYNovel/commit/c311fb140d1a782686597f030aeb4367207a9fd8))
+* リファクタリング、記述ミス、不具合修正、テスト修正 ([0adbdd3](https://github.com/famibee/SKYNovel/commit/0adbdd3cfb55fa4e4db8316cd84b192d95673e99))
+
 - fix: リファクタリング、記述ミス、不具合修正
 - fix(SysWeb.ts, SysApp.ts): new を一旦終わらせ、次の Microtask で続きの処理を行うように
 	- DOMContentLoaded は呼び出し側でやる
