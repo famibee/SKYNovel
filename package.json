@@ -52,7 +52,7 @@
 		"electron": "^33.2.1",
 		"semantic-release": "^24.2.0",
 		"typescript": "^5.7.2",
-		"vite": "^6.0.6",
+		"vite": "6.0.5",
 		"vite-plugin-dts": "^4.4.0"
 	},
 	"scripts": {
