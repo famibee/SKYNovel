@@ -1,3 +1,10 @@
+## [1.61.12](https://github.com/famibee/SKYNovel/compare/v1.61.11...v1.61.12) (2024-12-31)
+
+
+### Bug Fixes
+
+* Github Action の Publish to NPM Registry でのエラー追求2 ([760307b](https://github.com/famibee/SKYNovel/commit/760307bdff76292f425b56c44c055b8ca490fae2))
+
 ## [1.61.11](https://github.com/famibee/SKYNovel/compare/v1.61.10...v1.61.11) (2024-12-31)
 
 
