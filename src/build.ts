@@ -11,7 +11,7 @@ const web = aCmd.includes('--web') ?{} :null;
 const app = aCmd.includes('--app') ?{} :null;
 
 import {build} from 'vite';
-import dts, {type PluginOptions} from 'vite-plugin-dts';
+import dts, {PluginOptions} from 'vite-plugin-dts';
 import {builtinModules} from 'node:module';
 
 const output = { // entry chunk assets それぞれの書き出し名の指定
