@@ -13,10 +13,10 @@ export declare class EventMng implements IEvtMng {
     private readonly hTag;
     readonly appPixi: Application;
     private readonly main;
-    readonly layMng: LayerMng;
-    readonly val: IVariable;
+    private readonly layMng;
+    private readonly val;
     private readonly scrItr;
-    readonly sys: SysBase;
+    private readonly sys;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, main: IMain, layMng: LayerMng, val: IVariable, sndMng: SoundMng, scrItr: ScriptIterator, sys: SysBase);
     resvFlameEvent(win: Window): void;
     destroy(): void;

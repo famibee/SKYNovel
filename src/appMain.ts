@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2021-2024 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2021-2025 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -9,9 +9,9 @@ import type {HINFO, TAG_WINDOW} from './preload';
 import type {T_CFG} from './sn/ConfigBase';
 import {CmnLib} from "./sn/CmnLib";
 
-import {screen, app, BrowserWindow, ipcMain, shell, dialog, type MessageBoxOptions, Size} from 'electron';
+import {app, BrowserWindow, dialog, ipcMain as ipc, screen, shell, type MessageBoxOptions, type Size} from 'electron';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
-import {existsSync, copySync, removeSync, ensureDirSync, readFileSync, writeFileSync, appendFile, ensureFileSync, outputFile, WriteFileOptions} from 'fs-extra';
+import {appendFile, copySync, ensureDirSync, ensureFileSync, existsSync, outputFile, readFileSync, removeSync, WriteFileOptions, writeFileSync} from 'fs-extra';
 import Store from 'electron-store';
 import AdmZip from 'adm-zip';
 
@@ -77,27 +77,27 @@ export class appMain {
 		console.log = (arg: any)=> this.bw.webContents.send('log', arg);
 
 		bw.webContents.on('devtools-opened', ()=> this.#evDevtoolsOpened());
-		ipcMain.handle('openDevTools', ()=> bw.webContents.openDevTools());
+		ipc.handle('openDevTools', ()=> bw.webContents.openDevTools());
 
 		this.#hInfo.getVersion = version;
-		ipcMain.handle('getInfo', ()=> this.#hInfo);
-		ipcMain.handle('inited', (_, c: T_CFG, tagW: TAG_WINDOW)=> this.#inited(c, tagW));
+		ipc.handle('getInfo', ()=> this.#hInfo);
+		ipc.handle('inited', (_, c: T_CFG, tagW: TAG_WINDOW)=> this.#inited(c, tagW));
 
-		ipcMain.handle('existsSync', (_, fn: string)=> existsSync(fn));
-		ipcMain.handle('copySync', (_, path_from: string, path_to: string)=> copySync(path_from, path_to));
-		ipcMain.handle('removeSync', (_, fn: string)=> removeSync(fn));
-		ipcMain.handle('ensureFileSync', (_, fn: string)=> ensureFileSync(fn));
-		ipcMain.handle('readFileSync', (_, path: string)=> readFileSync(path, {encoding: 'utf8'}));
-		ipcMain.handle('writeFileSync', (_, path: string, data: string | NodeJS.ArrayBufferView, o: WriteFileOptions)=> writeFileSync(path, data, o));
-		ipcMain.handle('appendFile', (_, path: string, data: string | Uint8Array)=> appendFile(path, data).catch(err=> console.log(err)));
-		ipcMain.handle('outputFile', (_, path: string, data: string | NodeJS.ArrayBufferView)=> outputFile(path, data).catch(err=> console.log(err)));
+		ipc.handle('existsSync', (_, fn: string)=> existsSync(fn));
+		ipc.handle('copySync', (_, path_from: string, path_to: string)=> copySync(path_from, path_to));
+		ipc.handle('removeSync', (_, fn: string)=> removeSync(fn));
+		ipc.handle('ensureFileSync', (_, fn: string)=> ensureFileSync(fn));
+		ipc.handle('readFileSync', (_, path: string)=> readFileSync(path, {encoding: 'utf8'}));
+		ipc.handle('writeFileSync', (_, path: string, data: string | NodeJS.ArrayBufferView, o?: WriteFileOptions)=> writeFileSync(path, data, o));
+		ipc.handle('appendFile', (_, path: string, data: string | Uint8Array)=> appendFile(path, data).catch(err=> console.log(err)));
+		ipc.handle('outputFile', (_, path: string, data: string | NodeJS.ArrayBufferView)=> outputFile(path, data).catch(err=> console.log(err)));
 
-		ipcMain.handle('win_close', ()=> bw.close());
-		ipcMain.handle('win_setTitle', (_, title: string)=> bw.setTitle(title));
+		ipc.handle('win_close', ()=> bw.close());
+		ipc.handle('win_setTitle', (_, title: string)=> bw.setTitle(title));
 
-		ipcMain.handle('showMessageBox', (_, o: MessageBoxOptions)=> dialog.showMessageBox(o));
+		ipc.handle('showMessageBox', (_, o: MessageBoxOptions)=> dialog.showMessageBox(o));
 
-		ipcMain.handle('capturePage', (_, fn: string, width: number, height: number)=> bw.webContents.capturePage()
+		ipc.handle('capturePage', (_, fn: string, width: number, height: number)=> bw.webContents.capturePage()
 		.then(ni=> {
 			ensureFileSync(fn);	// 【必須】ディレクトリ、なければ作る
 
@@ -105,20 +105,20 @@ export class appMain {
 			const d = (fn.endsWith('.png')) ?c.toPNG() :c.toJPEG(80);
 			writeFileSync(fn, d);
 		}));
-		ipcMain.handle('navigate_to', (_, url: string)=> shell.openExternal(url));
+		ipc.handle('navigate_to', (_, url: string)=> shell.openExternal(url));
 
 		let	st: any;
-		ipcMain.handle('Store', (_, o)=> {st = new Store(o); return});	// return必要、Storeをcloneしてしまうので
-		ipcMain.handle('flush', (_, o)=> {st.store = o; return});
-		ipcMain.handle('Store_isEmpty', ()=> st.size === 0);
-		ipcMain.handle('Store_get', ()=> st.store);
+		ipc.handle('Store', (_, o)=> {st = new Store(o); return});	// return必要、Storeをcloneしてしまうので
+		ipc.handle('flush', (_, o)=> {st.store = o; return});
+		ipc.handle('Store_isEmpty', ()=> st.size === 0);
+		ipc.handle('Store_get', ()=> st.store);
 
-		ipcMain.handle('zip', (_, inp: string, out: string)=> {
+		ipc.handle('zip', (_, inp: string, out: string)=> {
 			const zip = new AdmZip;
 			zip.addLocalFolder(inp);
 			zip.writeZip(out);
 		});
-		ipcMain.handle('unzip', (_, inp: string, out: string)=> {
+		ipc.handle('unzip', (_, inp: string, out: string)=> {
 			removeSync(out);
 			ensureDirSync(out);	// ディレクトリ、なければ作る
 
@@ -126,9 +126,9 @@ export class appMain {
 			zip.extractAllTo(out, true);
 		});
 
-		ipcMain.handle('isSimpleFullScreen', ()=> bw.simpleFullScreen);
+		ipc.handle('isSimpleFullScreen', ()=> bw.simpleFullScreen);
 		if (CmnLib.isWin) {
-			ipcMain.handle('setSimpleFullScreen', (_, b: boolean)=> {
+			ipc.handle('setSimpleFullScreen', (_, b: boolean)=> {
 				this.#isMovingWin = true;
 				bw.setSimpleFullScreen(b);	// これだけで #onMove 発生
 				if (! b) {
@@ -148,13 +148,13 @@ export class appMain {
 				this.#window(false, this.#winX, this.#winY, this.#cvsW, this.#cvsH);
 			});
 		}
-		else ipcMain.handle('setSimpleFullScreen', (_, b: boolean)=> {
+		else ipc.handle('setSimpleFullScreen', (_, b: boolean)=> {
 			bw.setSimpleFullScreen(b);
 			if (b) return;
 
 			bw.setContentSize(this.#cvsW, this.#cvsH);
 		});
-		ipcMain.handle('window', (_, c: boolean, x: number, y: number, w: number, h: number)=> this.#window(c, x, y, w, h));
+		ipc.handle('window', (_, c: boolean, x: number, y: number, w: number, h: number)=> this.#window(c, x, y, w, h));
 
 		bw.on('move', ()=> this.#onMove());
 		bw.on('resize', ()=> this.#onMove());

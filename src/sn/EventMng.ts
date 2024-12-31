@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2024 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -30,7 +30,8 @@ export class EventMng implements IEvtMng {
 
 	#rs	: ReadState;
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, readonly layMng: LayerMng, readonly val: IVariable, sndMng: SoundMng, private readonly scrItr: ScriptIterator, readonly sys: SysBase) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, sndMng: SoundMng, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
+// console.log(`fn:EventMng.ts line:34 %o`, appPixi.stage);
 		//	イベント
 		hTag.clear_event	= o=> ReadState.clear_event(o);	// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替

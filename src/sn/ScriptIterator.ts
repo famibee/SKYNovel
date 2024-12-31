@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2024 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -8,7 +8,7 @@
 import {argChk_Boolean, getFn, CmnLib, argChk_Num} from './CmnLib';
 import type {IHTag, HArg, Script} from './Grammar';
 import type {IMain, IVariable, IMark, IPropParser} from './CmnInterface';
-import {Config} from './Config';
+import type {Config} from './Config';
 import {CallStack, type ICallStackArg} from './CallStack';
 import {Grammar, tagToken2Name_Args, tagToken2Name} from './Grammar';
 import {AnalyzeTagArg} from './AnalyzeTagArg';

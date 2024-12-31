@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2021-2024 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2021-2025 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -64,16 +64,16 @@ export	type	HPROC	= {
 	on: (channel: string, callback: Function) => void;
 };
 
-export	type	HINFO	= {
-	getAppPath	: string;
-	isPackaged	: boolean;
-	downloads	: string;
-	userData	: string;
-	getVersion	: string;
-	env			: {[name: string]: any};
-	platform	: string;
-	arch		: string;
-}
+	export	type	HINFO	= {
+		getAppPath	: string;
+		isPackaged	: boolean;
+		downloads	: string;
+		userData	: string;
+		getVersion	: string;
+		env			: {[name: string]: any};
+		platform	: string;
+		arch		: string;
+	}
 
 const fncE = console.error;
 

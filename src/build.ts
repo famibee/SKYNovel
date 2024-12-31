@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2022-2024 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2022-2025 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -77,7 +77,7 @@ build({
 		lib: {
 			entry	: './src/appMain',
 			fileName: _=> 'appMain.js',
-			formats	: ['cjs'],
+			formats	: ['es'],
 		},
 		sourcemap	: true,
 		emptyOutDir	: false,
@@ -102,7 +102,7 @@ build({
 		lib: {
 			entry	: './src/preload',
 			fileName: _=> 'preload.js',
-			formats	: ['cjs'],
+			formats	: ['es'],
 		},
 		sourcemap	: true,
 		emptyOutDir	: false,

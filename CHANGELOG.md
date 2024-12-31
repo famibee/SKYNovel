@@ -1,3 +1,9 @@
+- fix(build.ts): appMain, preload も ESM ビルドに
+- style: コンストラクタ引数で private にできるものはするように
+- fix: ライブラリ更新（npm リリースに失敗するので vite は 6.0.5 固定）
+- docs: コードブロックライセンス年更新
+
+
 ## [1.61.9](https://github.com/famibee/SKYNovel/compare/v1.61.8...v1.61.9) (2024-12-26)
 
 

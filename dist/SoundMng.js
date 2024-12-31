@@ -1,4 +1,4 @@
-import { T as D, n as ht, e as pt, L as it, c as O, d as I, B as ft, b as E, a as L, S as dt } from "./web2.js";
+import { T as D, n as ht, e as pt, L as it, c as O, d as I, B as ft, b as E, a as L, S as dt } from "./app2.js";
 import { C as _t } from "./CmnTween.js";
 import { d as yt, e as mt, T as bt, r as vt } from "./ReadState.js";
 /*!

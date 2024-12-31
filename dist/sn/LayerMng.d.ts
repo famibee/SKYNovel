@@ -17,13 +17,13 @@ export interface HPage {
 }
 export declare class LayerMng implements IGetFrm, IRecorder {
     #private;
-    readonly cfg: Config;
-    readonly hTag: IHTag;
-    readonly appPixi: Application;
-    readonly val: IVariable;
+    private readonly cfg;
+    private readonly hTag;
+    private readonly appPixi;
+    private readonly val;
     readonly main: IMain;
-    readonly scrItr: ScriptIterator;
-    readonly sys: SysBase;
+    private readonly scrItr;
+    private readonly sys;
     readonly sndMng: SoundMng;
     readonly prpPrs: IPropParser;
     constructor(cfg: Config, hTag: IHTag, appPixi: Application, val: IVariable, main: IMain, scrItr: ScriptIterator, sys: SysBase, sndMng: SoundMng, prpPrs: IPropParser);

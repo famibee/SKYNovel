@@ -1,4 +1,4 @@
-import { g as b, p as v, a as _, u as w, b as r, i as m } from "./web2.js";
+import { g as b, p as v, a as _, u as w, b as r, i as m } from "./app2.js";
 import { PropParser as p } from "./PropParser.js";
 import { p as S, I as d } from "./ReadState.js";
 class y {

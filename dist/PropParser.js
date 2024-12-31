@@ -1,4 +1,4 @@
-import { i as dt } from "./web2.js";
+import { i as dt } from "./app2.js";
 var lt = { exports: {} }, Ht = lt.exports, Ot;
 function Xt() {
   return Ot || (Ot = 1, function(At, e) {

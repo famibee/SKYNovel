@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2024 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -48,7 +48,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 	readonly	#elc		= new EventListenerCtn;
 
 	//MARK: コンストラクタ
-	constructor(readonly cfg: Config, readonly hTag: IHTag, readonly appPixi: Application, readonly val: IVariable, readonly main: IMain, readonly scrItr: ScriptIterator, readonly sys: SysBase, readonly sndMng: SoundMng, readonly prpPrs: IPropParser) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, readonly prpPrs: IPropParser) {
 		// レスポンシブや回転・全画面切り替え・DevTools 表示切り替えの対応
 		const fncResizeLay = ()=> {
 			sys.cvsResize();

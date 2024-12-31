@@ -1,5 +1,5 @@
 /* ***** BEGIN LICENSE BLOCK *****
-	Copyright (c) 2018-2024 Famibee (famibee.blog38.fc2.com)
+	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
 	This software is released under the MIT License.
 	http://opensource.org/licenses/mit-license.php
@@ -18,7 +18,7 @@ import {sound, utils} from '@pixi/sound';
 export class SoundMng {
 	#hSndBuf	: HSndBuf	= {};
 
-	constructor(cfg: Config, hTag: IHTag, readonly val: IVariable, main: IMain, sys: SysBase) {
+	constructor(cfg: Config, hTag: IHTag, private readonly val: IVariable, main: IMain, sys: SysBase) {
 		hTag.volume		= o=> this.#volume(o);		// 音量設定（独自拡張）
 		hTag.fadebgm	= o=> this.#fadebgm(o);		// BGMのフェード
 		hTag.fadeoutbgm	= o=> this.#fadeoutbgm(o);	// BGMのフェードアウト
