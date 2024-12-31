@@ -1,3 +1,10 @@
+## [1.61.11](https://github.com/famibee/SKYNovel/compare/v1.61.10...v1.61.11) (2024-12-31)
+
+
+### Bug Fixes
+
+* **build.ts:** 前回更新はできたが、気になるエラーにつき開発設定を変えて再度 ([301d097](https://github.com/famibee/SKYNovel/commit/301d0974fa2ada1deab9610f9053fe3631615c46))
+
 ## [1.61.10](https://github.com/famibee/SKYNovel/compare/v1.61.9...v1.61.10) (2024-12-31)
 
 
