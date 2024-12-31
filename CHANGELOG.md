@@ -1,3 +1,10 @@
+## [1.61.10](https://github.com/famibee/SKYNovel/compare/v1.61.9...v1.61.10) (2024-12-31)
+
+
+### Bug Fixes
+
+* **build.ts:** appMain, preload も ESM ビルドに ([ad6101c](https://github.com/famibee/SKYNovel/commit/ad6101c40fa37c8eb4c8dd0a3b183816aec0516a))
+
 - fix(build.ts): appMain, preload も ESM ビルドに
 - style: コンストラクタ引数で private にできるものはするように
 - fix: ライブラリ更新（npm リリースに失敗するので vite は 6.0.5 固定）
