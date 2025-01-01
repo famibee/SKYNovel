@@ -8,7 +8,8 @@
 	"main": "./dist/web.js",
 	"types": "./dist/index.d.ts",
 	"files": [
-		"dist"
+		"dist",
+		"dist_app"
 	],
 	"engines": {
 		"node": ">=22.12"
@@ -16,8 +17,8 @@
 	"exports": {
 		".": "./dist/web.js",
 		"./web": "./dist/web.js",
-		"./appMain": "./dist/appMain.js",
-		"./app": "./dist/app.js"
+		"./appMain": "./dist_app/appMain.js",
+		"./app": "./dist_app/app.js"
 	},
 	"dependencies": {
 		"@pixi/sound": "^4.4.1",

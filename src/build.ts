@@ -60,6 +60,7 @@ build({
 //		minify		: 'terser',
 		reportCompressedSize	: false,
 		watch,
+		outDir	: 'dist_app',
 		rollupOptions: {
 			external: [
 				...builtinModules.flatMap(p=> [p, `node:${p}`]),
@@ -84,6 +85,7 @@ build({
 //		minify		: 'terser',
 		reportCompressedSize	: false,
 		watch,
+		outDir	: 'dist_app',
 		rollupOptions: {
 			external: [
 				'electron',
@@ -109,6 +111,7 @@ build({
 //		minify		: 'terser',
 		reportCompressedSize	: false,
 		watch,
+		outDir	: 'dist_app',
 		rollupOptions: {
 			external: [
 				'electron',
