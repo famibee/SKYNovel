@@ -1,3 +1,10 @@
+## [1.61.15](https://github.com/famibee/SKYNovel/compare/v1.61.14...v1.61.15) (2025-01-01)
+
+
+### Bug Fixes
+
+* **build.ts:** appMain, preload を cjs ビルドに戻す ([2abec82](https://github.com/famibee/SKYNovel/commit/2abec825413f27c8c73f8b53cfbf8f5d53b092fd))
+
 - fix(build.ts): appMain, preload を cjs ビルドに戻す。アプリ起動エラー
 - fix(EventMng.ts, EventListenerCtn.ts): 記述ミス、不具合修正
 	- load err fn:prj.json e:TypeError: e.addEventListener is not a function
