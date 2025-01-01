@@ -126,8 +126,8 @@ export class EventMng implements IEvtMng {
 
 
 		appPixi.stage.interactive = true;
-		if (CmnLib.isMobile) appPixi.stage.on('pointerdown', e=> this.#rs.fire('click', e));
-		else this.#elc.add(appPixi.stage, 'pointerdown', e=> {
+		if (CmnLib.isMobile) this.#elc.addC(appPixi.stage, 'pointerdown', e=> this.#rs.fire('click', e));
+		else this.#elc.addC(appPixi.stage, 'pointerdown', e=> {
 			switch (e.data.button) {
 				case 0:	this.#rs.fire('click', e);	break;
 				case 1:	this.#rs.fire('middleclick', e);	break;

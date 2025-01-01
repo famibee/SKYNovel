@@ -9,9 +9,10 @@ import type {IHTag, ITag} from './Grammar';
 import type {IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, HPlugin, HSysBaseArg} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
-import {type IConfig, type IFn2Path, type ISysRoots, SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import type {IConfig, IFn2Path, ISysRoots} from './ConfigBase';
+import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
-import {Application, DisplayObject, RenderTexture} from 'pixi.js';
+import type {Application, DisplayObject, RenderTexture} from 'pixi.js';
 import {io, Socket} from 'socket.io-client';
 
 

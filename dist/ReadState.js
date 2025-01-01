@@ -1,4 +1,4 @@
-import { a as w, d as wt, C as ut, b as bt, E as yt, j as kt } from "./app2.js";
+import { a as w, d as wt, C as ut, b as bt, E as yt, j as kt } from "./web2.js";
 var W = Object.freeze({
   Linear: Object.freeze({
     None: function(e) {

@@ -3743,7 +3743,7 @@ var Fe = (
   scaleMode: Jt.NEAREST,
   format: F.RGBA,
   alphaMode: qt.NPM
-}, at = (
+}, ot = (
   /** @class */
   function(i) {
     _t(t, i);
@@ -3886,7 +3886,7 @@ var Fe = (
       var n = this, s = r || {}, a = s.width, o = s.height;
       n = i.call(this, a, o) || this, n.items = [], n.itemDirtyIds = [];
       for (var h = 0; h < e; h++) {
-        var u = new at();
+        var u = new ot();
         n.items.push(u), n.itemDirtyIds.push(-2);
       }
       return n.length = e, n._load = null, n.baseTexture = null, n;
@@ -4299,7 +4299,7 @@ var ho = {
       enumerable: !1,
       configurable: !0
     }), i.prototype.addColorTexture = function(t, e) {
-      return t === void 0 && (t = 0), this.colorTextures[t] = e || new at(null, {
+      return t === void 0 && (t = 0), this.colorTextures[t] = e || new ot(null, {
         scaleMode: Jt.NEAREST,
         resolution: 1,
         mipmap: Zt.OFF,
@@ -4307,7 +4307,7 @@ var ho = {
         height: this.height
       }), this.dirtyId++, this.dirtyFormat++, this;
     }, i.prototype.addDepthTexture = function(t) {
-      return this.depthTexture = t || new at(new Jf(null, { width: this.width, height: this.height }), {
+      return this.depthTexture = t || new ot(new Jf(null, { width: this.width, height: this.height }), {
         scaleMode: Jt.NEAREST,
         resolution: 1,
         width: this.width,
@@ -4358,7 +4358,7 @@ var ho = {
     }, t.prototype.destroy = function() {
       i.prototype.destroy.call(this), this.framebuffer.destroyDepthTexture(), this.framebuffer = null;
     }, t;
-  }(at)
+  }(ot)
 ), ss = (
   /** @class */
   function() {
@@ -4426,10 +4426,10 @@ var et = (
       var s = typeof e == "string", a = null;
       if (s)
         a = e;
-      else if (e instanceof at) {
+      else if (e instanceof ot) {
         if (!e.cacheId) {
           var o = r && r.pixiIdPrefix || "pixiid";
-          e.cacheId = o + "-" + Be(), at.addToCache(e, e.cacheId);
+          e.cacheId = o + "-" + Be(), ot.addToCache(e, e.cacheId);
         }
         a = e.cacheId;
       } else {
@@ -4442,22 +4442,22 @@ var et = (
       var h = Yt[a];
       if (s && n && !h)
         throw new Error('The cacheId "' + a + '" does not exist in TextureCache.');
-      return !h && !(e instanceof at) ? (r.resolution || (r.resolution = li(e)), h = new t(new at(e, r)), h.baseTexture.cacheId = a, at.addToCache(h.baseTexture, a), t.addToCache(h, a)) : !h && e instanceof at && (h = new t(e), t.addToCache(h, a)), h;
+      return !h && !(e instanceof ot) ? (r.resolution || (r.resolution = li(e)), h = new t(new ot(e, r)), h.baseTexture.cacheId = a, ot.addToCache(h.baseTexture, a), t.addToCache(h, a)) : !h && e instanceof ot && (h = new t(e), t.addToCache(h, a)), h;
     }, t.fromURL = function(e, r) {
       var n = Object.assign({ autoLoad: !1 }, r?.resourceOptions), s = t.from(e, Object.assign({ resourceOptions: n }, r), !1), a = s.baseTexture.resource;
       return s.baseTexture.valid ? Promise.resolve(s) : a.load().then(function() {
         return Promise.resolve(s);
       });
     }, t.fromBuffer = function(e, r, n, s) {
-      return new t(at.fromBuffer(e, r, n, s));
+      return new t(ot.fromBuffer(e, r, n, s));
     }, t.fromLoader = function(e, r, n, s) {
-      var a = new at(e, Object.assign({
+      var a = new ot(e, Object.assign({
         scaleMode: z.SCALE_MODE,
         resolution: li(r)
       }, s)), o = a.resource;
       o instanceof Si && (o.url = r);
       var h = new t(a);
-      return n || (n = r), at.addToCache(h.baseTexture, n), t.addToCache(h, n), n !== r && (at.addToCache(h.baseTexture, r), t.addToCache(h, r)), h.baseTexture.valid ? Promise.resolve(h) : new Promise(function(u) {
+      return n || (n = r), ot.addToCache(h.baseTexture, n), t.addToCache(h, n), n !== r && (ot.addToCache(h.baseTexture, r), t.addToCache(h, r)), h.baseTexture.valid ? Promise.resolve(h) : new Promise(function(u) {
         h.baseTexture.once("loaded", function() {
           return u(h);
         });
@@ -4541,7 +4541,7 @@ var et = (
     }, Object.defineProperty(t, "EMPTY", {
       /** An empty texture, used often to not have to create multiple empty textures. Can not be destroyed. */
       get: function() {
-        return t._EMPTY || (t._EMPTY = new t(new at()), Rr(t._EMPTY), Rr(t._EMPTY.baseTexture)), t._EMPTY;
+        return t._EMPTY || (t._EMPTY = new t(new ot()), Rr(t._EMPTY), Rr(t._EMPTY.baseTexture)), t._EMPTY;
       },
       enumerable: !1,
       configurable: !0
@@ -4550,7 +4550,7 @@ var et = (
       get: function() {
         if (!t._WHITE) {
           var e = z.ADAPTER.createCanvas(16, 16), r = e.getContext("2d");
-          e.width = 16, e.height = 16, r.fillStyle = "white", r.fillRect(0, 0, 16, 16), t._WHITE = new t(at.from(e)), Rr(t._WHITE), Rr(t._WHITE.baseTexture);
+          e.width = 16, e.height = 16, r.fillStyle = "white", r.fillRect(0, 0, 16, 16), t._WHITE = new t(ot.from(e)), Rr(t._WHITE), Rr(t._WHITE.baseTexture);
         }
         return t._WHITE;
       },
@@ -7058,7 +7058,7 @@ var ti = (
   /** @class */
   function() {
     function i(t) {
-      this.renderer = t, this.boundTextures = [], this.currentLocation = -1, this.managedTextures = [], this._unknownBoundTextures = !1, this.unknownTexture = new at(), this.hasIntegerTextures = !1;
+      this.renderer = t, this.boundTextures = [], this.currentLocation = -1, this.managedTextures = [], this._unknownBoundTextures = !1, this.unknownTexture = new ot(), this.hasIntegerTextures = !1;
     }
     return i.prototype.contextChange = function() {
       var t = this.gl = this.renderer.gl;
@@ -7557,7 +7557,7 @@ void main(void)
     }, t.prototype.render = function(e) {
       e._texture.valid && (this._vertexCount + e.vertexData.length / 2 > this.size && this.flush(), this._vertexCount += e.vertexData.length / 2, this._indexCount += e.indices.length, this._bufferedTextures[this._bufferSize] = e._texture.baseTexture, this._bufferedElements[this._bufferSize++] = e);
     }, t.prototype.buildTexturesAndDrawCalls = function() {
-      var e = this, r = e._bufferedTextures, n = e.MAX_TEXTURES, s = t._textureArrayPool, a = this.renderer.batch, o = this._tempBoundTextures, h = this.renderer.textureGC.count, u = ++at._globalBatch, l = 0, f = s[0], c = 0;
+      var e = this, r = e._bufferedTextures, n = e.MAX_TEXTURES, s = t._textureArrayPool, a = this.renderer.batch, o = this._tempBoundTextures, h = this.renderer.textureGC.count, u = ++ot._globalBatch, l = 0, f = s[0], c = 0;
       a.copyBoundTextures(o, n);
       for (var d = 0; d < this._bufferSize; ++d) {
         var p = r[d];
@@ -7566,7 +7566,7 @@ void main(void)
       f.count > 0 && (a.boundArray(f, o, u, n), this.buildDrawCalls(f, c, this._bufferSize), ++l, ++u);
       for (var d = 0; d < o.length; d++)
         o[d] = null;
-      at._globalBatch = u;
+      ot._globalBatch = u;
     }, t.prototype.buildDrawCalls = function(e, r, n) {
       var s = this, a = s._bufferedElements, o = s._attributeBuffer, h = s._indexBuffer, u = s.vertexSize, l = t._drawCallPool, f = this._dcIndex, c = this._aIndex, d = this._iIndex, p = l[f];
       p.start = this._iIndex, p.texArray = e;
@@ -7775,7 +7775,7 @@ const A_ = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   Attribute: yn,
   BaseImageResource: ie,
   BaseRenderTexture: ns,
-  BaseTexture: at,
+  BaseTexture: ot,
   BatchDrawCall: pi,
   BatchGeometry: Es,
   BatchPluginFactory: Lo,
@@ -9604,14 +9604,14 @@ function Go(i, t, e) {
   if (!t)
     return r;
   var n = t.map(function(s) {
-    return new et(new at(s, Object.assign({
+    return new et(new ot(s, Object.assign({
       mipmap: Zt.OFF,
       alphaMode: qt.NO_PREMULTIPLIED_ALPHA
     }, e)));
   });
   return n.forEach(function(s, a) {
     var o = s.baseTexture, h = i + "-" + (a + 1);
-    at.addToCache(o, h), et.addToCache(s, h), a === 0 && (at.addToCache(o, i), et.addToCache(s, i), r.texture = s), r.textures[h] = s;
+    ot.addToCache(o, h), et.addToCache(s, h), a === 0 && (ot.addToCache(o, i), et.addToCache(s, i), r.texture = s), r.textures[h] = s;
   }), r;
 }
 var ar, jt, tn = 4, Hr = 124, Td = 32, wa = 20, Ed = 542327876, Xr = {
@@ -9840,13 +9840,13 @@ var Vd = (
           } else if (a) {
             var l = {};
             a.forEach(function(f, c) {
-              var d = new et(new at(f.resource, {
+              var d = new et(new ot(f.resource, {
                 mipmap: Zt.OFF,
                 alphaMode: qt.NO_PREMULTIPLIED_ALPHA,
                 type: f.type,
                 format: f.format
               })), p = r + "-" + (c + 1);
-              o && (d.baseTexture.ktxKeyValueData = o), at.addToCache(d.baseTexture, p), et.addToCache(d, p), c === 0 && (l[r] = d, at.addToCache(d.baseTexture, r), et.addToCache(d, r)), l[p] = d;
+              o && (d.baseTexture.ktxKeyValueData = o), ot.addToCache(d.baseTexture, p), et.addToCache(d, p), c === 0 && (l[r] = d, ot.addToCache(d.baseTexture, r), et.addToCache(d, r)), l[p] = d;
             }), Object.assign(t, { textures: l });
           }
         } catch (f) {
@@ -10607,7 +10607,7 @@ var Ra = (
           return !1;
       return this.points.length < t.BATCHABLE_SIZE * 2;
     }, t.prototype.buildDrawCalls = function() {
-      for (var e = ++at._globalBatch, r = 0; r < this.drawCalls.length; r++)
+      for (var e = ++ot._globalBatch, r = 0; r < this.drawCalls.length; r++)
         this.drawCalls[r].texArray.clear(), Wr.push(this.drawCalls[r]);
       this.drawCalls.length = 0;
       var n = this.colors, s = this.textureIds, a = Wr.pop();
@@ -10618,7 +10618,7 @@ var Ra = (
         var d = this.batches[r], p = 8, v = d.style, _ = v.texture.baseTexture;
         l !== !!v.native && (l = !!v.native, f = l ? $t.LINES : $t.TRIANGLES, h = null, o = p, e++), h !== _ && (h = _, _._batchEnabled !== e && (o === p && (e++, o = 0, a.size > 0 && (a = Wr.pop(), a || (a = new pi(), a.texArray = new vi()), this.drawCalls.push(a)), a.start = c, a.size = 0, a.texArray.count = 0, a.type = f), _.touched = 1, _._batchEnabled = e, _._batchLocation = o, _.wrapMode = Qt.REPEAT, a.texArray.elements[a.texArray.count++] = _, o++)), a.size += d.size, c += d.size, u = _._batchLocation, this.addColors(n, v.color, v.alpha, d.attribSize, d.attribStart), this.addTextureIds(s, u, d.attribSize, d.attribStart);
       }
-      at._globalBatch = e, this.packAttributes();
+      ot._globalBatch = e, this.packAttributes();
     }, t.prototype.packAttributes = function() {
       for (var e = this.points, r = this.uvs, n = this.colors, s = this.textureIds, a = new ArrayBuffer(e.length * 3 * 4), o = new Float32Array(a), h = new Uint32Array(a), u = 0, l = 0; l < e.length / 2; l++)
         o[u++] = e[l * 2], o[u++] = e[l * 2 + 1], o[u++] = r[l * 2], o[u++] = r[l * 2 + 1], h[u++] = n[l], o[u++] = s[l];
@@ -12061,7 +12061,7 @@ function vp(i, t) {
   return e;
 }
 function _p(i, t) {
-  if (i.baseTexture instanceof at) {
+  if (i.baseTexture instanceof ot) {
     var e = i.baseTexture;
     return t.indexOf(e) === -1 && t.push(e), !0;
   }
@@ -12153,7 +12153,7 @@ var Tp = (
   }()
 );
 function Yo(i, t) {
-  return t instanceof at ? (t._glTextures[i.CONTEXT_UID] || i.texture.bind(t), !0) : !1;
+  return t instanceof ot ? (t._glTextures[i.CONTEXT_UID] || i.texture.bind(t), !0) : !1;
 }
 function Ep(i, t) {
   if (!(t instanceof bi))
@@ -12194,7 +12194,7 @@ var Ip = (
   /** @class */
   function() {
     function i(t, e, r) {
-      r === void 0 && (r = null), this.linkedSheets = [], this._texture = t instanceof et ? t : null, this.baseTexture = t instanceof at ? t : this._texture.baseTexture, this.textures = {}, this.animations = {}, this.data = e;
+      r === void 0 && (r = null), this.linkedSheets = [], this._texture = t instanceof et ? t : null, this.baseTexture = t instanceof ot ? t : this._texture.baseTexture, this.textures = {}, this.animations = {}, this.data = e;
       var n = this.baseTexture.resource;
       this.resolution = this._updateResolution(r || (n ? n.url : null)), this._frames = this.data.frames, this._frameKeys = Object.keys(this._frames), this._batchIndex = 0, this._callback = null;
     }
@@ -13188,7 +13188,7 @@ var ge = (
         lineHeight: f.fontSize
       };
       for (var p = 0, v = 0, _, g, I, E = 0, B = [], P = 0; P < l.length; P++) {
-        _ || (_ = z.ADAPTER.createCanvas(), _.width = h, _.height = u, g = _.getContext("2d"), I = new at(_, { resolution: o }), B.push(new et(I)), d.page.push({
+        _ || (_ = z.ADAPTER.createCanvas(), _.width = h, _.height = u, g = _.getContext("2d"), I = new ot(_, { resolution: o }), B.push(new et(I)), d.page.push({
           id: B.length - 1,
           file: ""
         }));
@@ -15160,7 +15160,7 @@ St.prototype._initCachedDisplayObject = function(t) {
       resolution: this.cacheAsBitmapResolution || t.resolution,
       multisample: (e = this.cacheAsBitmapMultisample) !== null && e !== void 0 ? e : t.multisample
     }), f = "cacheAsBitmap_" + Be();
-    this._cacheData.textureCacheId = f, at.addToCache(l.baseTexture, f), et.addToCache(l, f);
+    this._cacheData.textureCacheId = f, ot.addToCache(l.baseTexture, f), et.addToCache(l, f);
     var c = this.transform.localTransform.copyTo(qo).invert().translate(-n.x, -n.y);
     this.render = this._cacheData.originalRender, t.render(this, { renderTexture: l, clear: !0, transform: c, skipUpdateTransform: !1 }), t.framebuffer.blit(), t.projection.transform = u, t.renderTexture.bind(a, o, h), this.render = this._renderCached, this.updateTransform = this.displayObjectUpdateTransform, this.calculateBounds = this._calculateCachedBounds, this.getLocalBounds = this._getCachedLocalBounds, this._mask = null, this.filterArea = null, this.alpha = r;
     var d = new xe(l);
@@ -15177,7 +15177,7 @@ St.prototype._initCachedDisplayObjectCanvas = function(t) {
     var n = t.context, s = t._projTransform;
     e.ceil(z.RESOLUTION);
     var a = Ee.create({ width: e.width, height: e.height }), o = "cacheAsBitmap_" + Be();
-    this._cacheData.textureCacheId = o, at.addToCache(a.baseTexture, o), et.addToCache(a, o);
+    this._cacheData.textureCacheId = o, ot.addToCache(a.baseTexture, o), et.addToCache(a, o);
     var h = qo;
     this.transform.localTransform.copyTo(h), h.invert(), h.tx -= e.x, h.ty -= e.y, this.renderCanvas = this._cacheData.originalRenderCanvas, t.render(this, { renderTexture: a, clear: !0, transform: h, skipUpdateTransform: !1 }), t.context = n, t._projTransform = s, this.renderCanvas = this._renderCachedCanvas, this.updateTransform = this.displayObjectUpdateTransform, this.calculateBounds = this._calculateCachedBounds, this.getLocalBounds = this._getCachedLocalBounds, this._mask = null, this.filterArea = null, this.alpha = r;
     var u = new xe(a);
@@ -15191,7 +15191,7 @@ St.prototype._getCachedLocalBounds = function() {
   return this._cacheData.sprite.getLocalBounds(null);
 };
 St.prototype._destroyCachedDisplayObject = function() {
-  this._cacheData.sprite._texture.destroy(!0), this._cacheData.sprite = null, at.removeFromCache(this._cacheData.textureCacheId), et.removeFromCache(this._cacheData.textureCacheId), this._cacheData.textureCacheId = null;
+  this._cacheData.sprite._texture.destroy(!0), this._cacheData.sprite = null, ot.removeFromCache(this._cacheData.textureCacheId), et.removeFromCache(this._cacheData.textureCacheId), this._cacheData.textureCacheId = null;
 };
 St.prototype._cacheAsBitmapDestroy = function(t) {
   this.cacheAsBitmap = !1, this.destroy(t);
@@ -15796,18 +15796,10 @@ var yv = {
 class bv {
   // リソースリーク対策
   #t = [];
+  addC(t, e, r, n = {}) {
+    t.on(e, r, n), this.#t.push(() => t.off(e, r, n));
+  }
   add(t, e, r, n = {}) {
-    if (t instanceof at) {
-      switch (e) {
-        case "loaded":
-        case "update":
-        case "error":
-        case "dispose":
-          t.on(e, r, n), this.#t.push(() => t.off(e, r, n));
-          break;
-      }
-      return;
-    }
     if (t instanceof qe) {
       t.on(e, r, n), this.#t.push(() => t.off(e, r, n));
       return;
@@ -17200,10 +17192,10 @@ const l_ = [
   "removeListener"
   // used by the Node.js EventEmitter
 ], f_ = 5;
-var ot;
+var at;
 (function(i) {
   i[i.CONNECT = 0] = "CONNECT", i[i.DISCONNECT = 1] = "DISCONNECT", i[i.EVENT = 2] = "EVENT", i[i.ACK = 3] = "ACK", i[i.CONNECT_ERROR = 4] = "CONNECT_ERROR", i[i.BINARY_EVENT = 5] = "BINARY_EVENT", i[i.BINARY_ACK = 6] = "BINARY_ACK";
-})(ot || (ot = {}));
+})(at || (at = {}));
 class c_ {
   /**
    * Encoder constructor
@@ -17220,8 +17212,8 @@ class c_ {
    * @param {Object} obj - packet object
    */
   encode(t) {
-    return (t.type === ot.EVENT || t.type === ot.ACK) && ni(t) ? this.encodeAsBinary({
-      type: t.type === ot.EVENT ? ot.BINARY_EVENT : ot.BINARY_ACK,
+    return (t.type === at.EVENT || t.type === at.ACK) && ni(t) ? this.encodeAsBinary({
+      type: t.type === at.EVENT ? at.BINARY_EVENT : at.BINARY_ACK,
       nsp: t.nsp,
       data: t.data,
       id: t.id
@@ -17232,7 +17224,7 @@ class c_ {
    */
   encodeAsString(t) {
     let e = "" + t.type;
-    return (t.type === ot.BINARY_EVENT || t.type === ot.BINARY_ACK) && (e += t.attachments + "-"), t.nsp && t.nsp !== "/" && (e += t.nsp + ","), t.id != null && (e += t.id), t.data != null && (e += JSON.stringify(t.data, this.replacer)), e;
+    return (t.type === at.BINARY_EVENT || t.type === at.BINARY_ACK) && (e += t.attachments + "-"), t.nsp && t.nsp !== "/" && (e += t.nsp + ","), t.id != null && (e += t.id), t.data != null && (e += JSON.stringify(t.data, this.replacer)), e;
   }
   /**
    * Encode packet as 'buffer sequence' by removing blobs, and
@@ -17267,8 +17259,8 @@ class Os extends Ct {
       if (this.reconstructor)
         throw new Error("got plaintext data when reconstructing a packet");
       e = this.decodeString(t);
-      const r = e.type === ot.BINARY_EVENT;
-      r || e.type === ot.BINARY_ACK ? (e.type = r ? ot.EVENT : ot.ACK, this.reconstructor = new d_(e), e.attachments === 0 && super.emitReserved("decoded", e)) : super.emitReserved("decoded", e);
+      const r = e.type === at.BINARY_EVENT;
+      r || e.type === at.BINARY_ACK ? (e.type = r ? at.EVENT : at.ACK, this.reconstructor = new d_(e), e.attachments === 0 && super.emitReserved("decoded", e)) : super.emitReserved("decoded", e);
     } else if (Rs(t) || t.base64)
       if (this.reconstructor)
         e = this.reconstructor.takeBinaryData(t), e && (this.reconstructor = null, super.emitReserved("decoded", e));
@@ -17288,9 +17280,9 @@ class Os extends Ct {
     const r = {
       type: Number(t.charAt(0))
     };
-    if (ot[r.type] === void 0)
+    if (at[r.type] === void 0)
       throw new Error("unknown packet type " + r.type);
-    if (r.type === ot.BINARY_EVENT || r.type === ot.BINARY_ACK) {
+    if (r.type === at.BINARY_EVENT || r.type === at.BINARY_ACK) {
       const s = e + 1;
       for (; t.charAt(++e) !== "-" && e != t.length; )
         ;
@@ -17338,17 +17330,17 @@ class Os extends Ct {
   }
   static isPayloadValid(t, e) {
     switch (t) {
-      case ot.CONNECT:
+      case at.CONNECT:
         return za(e);
-      case ot.DISCONNECT:
+      case at.DISCONNECT:
         return e === void 0;
-      case ot.CONNECT_ERROR:
+      case at.CONNECT_ERROR:
         return typeof e == "string" || za(e);
-      case ot.EVENT:
-      case ot.BINARY_EVENT:
+      case at.EVENT:
+      case at.BINARY_EVENT:
         return Array.isArray(e) && (typeof e[0] == "number" || typeof e[0] == "string" && l_.indexOf(e[0]) === -1);
-      case ot.ACK:
-      case ot.BINARY_ACK:
+      case at.ACK:
+      case at.BINARY_ACK:
         return Array.isArray(e);
     }
   }
@@ -17390,7 +17382,7 @@ const p_ = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
   Decoder: Os,
   Encoder: c_,
   get PacketType() {
-    return ot;
+    return at;
   },
   protocol: f_
 }, Symbol.toStringTag, { value: "Module" }));
@@ -17529,7 +17521,7 @@ class lh extends Ct {
     if (e.unshift(t), this._opts.retries && !this.flags.fromQueue && !this.flags.volatile)
       return this._addToQueue(e), this;
     const a = {
-      type: ot.EVENT,
+      type: at.EVENT,
       data: e
     };
     if (a.options = {}, a.options.compress = this.flags.compress !== !1, typeof e[e.length - 1] == "function") {
@@ -17637,7 +17629,7 @@ class lh extends Ct {
    */
   _sendConnectPacket(t) {
     this.packet({
-      type: ot.CONNECT,
+      type: at.CONNECT,
       data: this._pid ? Object.assign({ pid: this._pid, offset: this._lastOffset }, t) : t
     });
   }
@@ -17683,21 +17675,21 @@ class lh extends Ct {
   onpacket(t) {
     if (t.nsp === this.nsp)
       switch (t.type) {
-        case ot.CONNECT:
+        case at.CONNECT:
           t.data && t.data.sid ? this.onconnect(t.data.sid, t.data.pid) : this.emitReserved("connect_error", new Error("It seems you are trying to reach a Socket.IO server in v2.x with a v3.x client, but they are not compatible (more information here: https://socket.io/docs/v3/migrating-from-2-x-to-3-0/)"));
           break;
-        case ot.EVENT:
-        case ot.BINARY_EVENT:
+        case at.EVENT:
+        case at.BINARY_EVENT:
           this.onevent(t);
           break;
-        case ot.ACK:
-        case ot.BINARY_ACK:
+        case at.ACK:
+        case at.BINARY_ACK:
           this.onack(t);
           break;
-        case ot.DISCONNECT:
+        case at.DISCONNECT:
           this.ondisconnect();
           break;
-        case ot.CONNECT_ERROR:
+        case at.CONNECT_ERROR:
           this.destroy();
           const r = new Error(t.data.message);
           r.data = t.data.data, this.emitReserved("connect_error", r);
@@ -17732,7 +17724,7 @@ class lh extends Ct {
     let r = !1;
     return function(...n) {
       r || (r = !0, e.packet({
-        type: ot.ACK,
+        type: at.ACK,
         id: t,
         data: n
       }));
@@ -17801,7 +17793,7 @@ class lh extends Ct {
    * @return self
    */
   disconnect() {
-    return this.connected && this.packet({ type: ot.DISCONNECT }), this.destroy(), this.connected && this.onclose("io client disconnect"), this;
+    return this.connected && this.packet({ type: at.DISCONNECT }), this.destroy(), this.connected && this.onclose("io client disconnect"), this;
   }
   /**
    * Alias for {@link disconnect()}.
@@ -19754,7 +19746,7 @@ class Xt {
 }
 export {
   m_ as A,
-  at as B,
+  ot as B,
   j as C,
   rt as D,
   bv as E,

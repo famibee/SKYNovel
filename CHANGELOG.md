@@ -1,3 +1,9 @@
+- fix(build.ts): appMain, preload を cjs ビルドに戻す。アプリ起動エラー
+- fix(EventMng.ts, EventListenerCtn.ts): 記述ミス、不具合修正
+	- load err fn:prj.json e:TypeError: e.addEventListener is not a function
+	- ○Container は addListener ゆえ。メソッドを分ける＆onで。
+
+
 ## [1.61.14](https://github.com/famibee/SKYNovel/compare/v1.61.13...v1.61.14) (2024-12-31)
 
 

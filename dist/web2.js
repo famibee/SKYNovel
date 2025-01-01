@@ -17574,18 +17574,10 @@ var filters = {
 class EventListenerCtn {
   // リソースリーク対策
   #e = [];
+  addC(e, t, r, s = {}) {
+    e.on(t, r, s), this.#e.push(() => e.off(t, r, s));
+  }
   add(e, t, r, s = {}) {
-    if (e instanceof BaseTexture) {
-      switch (t) {
-        case "loaded":
-        case "update":
-        case "error":
-        case "dispose":
-          e.on(t, r, s), this.#e.push(() => e.off(t, r, s));
-          break;
-      }
-      return;
-    }
     if (e instanceof i) {
       e.on(t, r, s), this.#e.push(() => e.off(t, r, s));
       return;

@@ -1,4 +1,4 @@
-import { b, a as N, C as k } from "./app2.js";
+import { b, a as N, C as k } from "./web2.js";
 import { u as P, E as a, a as R, T as L } from "./ReadState.js";
 class i {
   static #t = {};

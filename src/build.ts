@@ -77,7 +77,7 @@ build({
 		lib: {
 			entry	: './src/appMain',
 			fileName: _=> 'appMain.js',
-			formats	: ['es'],
+			formats	: ['cjs'],
 		},
 		sourcemap	: true,
 		emptyOutDir	: false,
@@ -102,7 +102,7 @@ build({
 		lib: {
 			entry	: './src/preload',
 			fileName: _=> 'preload.js',
-			formats	: ['es'],
+			formats	: ['cjs'],
 		},
 		sourcemap	: true,
 		emptyOutDir	: false,
