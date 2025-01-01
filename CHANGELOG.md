@@ -1,3 +1,10 @@
+## [1.61.16](https://github.com/famibee/SKYNovel/compare/v1.61.15...v1.61.16) (2025-01-01)
+
+
+### Bug Fixes
+
+* **build.ts, package.json:** アプリ系ファイルをブラウザ系と別フォルダ（dist_app）に ([8994e62](https://github.com/famibee/SKYNovel/commit/8994e62f6ca73eca913bc05cdcb29c0a19a25798))
+
 - fix(build.ts, package.json): アプリ系ファイルをブラウザ系と別フォルダ（dist_app）に
 	- package-lock.json・node_modules 削除と npm i が必要と思われる
 
