@@ -1,3 +1,10 @@
+## [1.61.17](https://github.com/famibee/SKYNovel/compare/v1.61.16...v1.61.17) (2025-01-02)
+
+
+### Bug Fixes
+
+* **app.ts, web.ts:** HArg 型宣言の export が消えていたので追加 ([5ac3f63](https://github.com/famibee/SKYNovel/commit/5ac3f637c6c61abad4b32bbe68ea3d2c3f84eb77))
+
 - fix(app.ts, web.ts): HArg 型宣言の export が消えていたので追加
 
 
