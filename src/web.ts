@@ -7,6 +7,8 @@
 
 import type {HPlugin, IPlugin, IPluginInitArg} from './sn/CmnInterface';
 export type {HPlugin, IPlugin, IPluginInitArg};
+import type {HArg} from './sn/Grammar';
+export type {HArg};
 
 import {SysWeb} from './sn/SysWeb';
 import {CmnLib, argChk_Num, argChk_Boolean} from './sn/CmnLib';

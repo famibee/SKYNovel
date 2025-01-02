@@ -6,7 +6,7 @@
 	"publisher": "famibee",
 	"license": "MIT",
 	"main": "./dist/web.js",
-	"types": "./dist/index.d.ts",
+	"types": "./dist_app/index.d.ts",
 	"files": [
 		"dist",
 		"dist_app"

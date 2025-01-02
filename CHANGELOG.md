@@ -1,3 +1,6 @@
+- fix(app.ts, web.ts): HArg 型宣言の export が消えていたので追加
+
+
 ## [1.61.16](https://github.com/famibee/SKYNovel/compare/v1.61.15...v1.61.16) (2025-01-01)
 
 
