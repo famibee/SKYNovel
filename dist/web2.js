@@ -444,10 +444,6 @@ const REG_FN = /^[^\/\.]+$|[^\/]+(?=\.)/;
 function getFn(a) {
   return (a.match(REG_FN) ?? [""])[0];
 }
-const REG_EXT = /\.([^\.]+)$/;
-function getExt(a) {
-  return (a.match(REG_EXT) ?? ["", ""])[1];
-}
 class CmnLib {
   static stageW = 0;
   static stageH = 0;
@@ -20489,6 +20485,7 @@ ${e.text || `(text is ${e.text})`}
     DebugMng.#r.innerHTML += `<span style='${r}'>${e}</span><br/>`, DebugMng.#r.hidden = !1;
   };
 }
+const PROTOCOL_USERDATA = "userdata:/", PROTOCOL_DL = "downloads:/";
 class Config extends ConfigBase {
   constructor(e) {
     super(e), this.sys = e;
@@ -20503,7 +20500,7 @@ class Config extends ConfigBase {
     await super.load(e), CmnLib.stageW = e.window.width, CmnLib.stageH = e.window.height, CmnLib.debugLog = e.debug.debugLog;
   }
   searchPath(e, t = SEARCH_PATH_ARG_EXT.DEFAULT) {
-    return e.startsWith("downloads:/") ? this.sys.path_downloads + e.slice(11) : e.startsWith("userdata:/") ? this.sys.path_userdata + "storage/" + e.slice(10) : super.searchPath(e, t);
+    return e.startsWith(PROTOCOL_DL) ? this.sys.path_downloads + e.slice(11) : e.startsWith(PROTOCOL_USERDATA) ? this.sys.path_userdata + "storage/" + e.slice(10) : super.searchPath(e, t);
   }
 }
 class AnalyzeTagArg {
@@ -22092,12 +22089,13 @@ export {
   Text as H,
   initStyle as I,
   argChk_Color as J,
-  getExt as K,
+  parseColor as K,
   Loader as L,
-  parseColor as M,
+  PROTOCOL_DL as M,
   autoDetectRenderer as N,
   Filter as O,
-  SysWeb as P,
+  PROTOCOL_USERDATA as P,
+  SysWeb as Q,
   Rectangle as R,
   SEARCH_PATH_ARG_EXT as S,
   Ticker as T,

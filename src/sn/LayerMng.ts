@@ -16,7 +16,7 @@ import {SpritesMng} from './SpritesMng';
 import {TxtLayer} from './TxtLayer';
 import {RubySpliter} from './RubySpliter';
 import {TxtStage} from './TxtStage';
-import type {Config} from './Config';
+import {PROTOCOL_DL, PROTOCOL_USERDATA, type Config} from './Config';
 import type {ScriptIterator} from './ScriptIterator';
 import type {SysBase} from './SysBase';
 import {FrameMng} from './FrameMng';
@@ -335,10 +335,10 @@ export class LayerMng implements IGetFrm, IRecorder {
 	//MARK: スナップショット
 	#snapshot(hArg: HArg) {
 		const fn0 = hArg.fn
-		? hArg.fn.startsWith('userdata:/')
+		? hArg.fn.startsWith(PROTOCOL_USERDATA)
 			? hArg.fn
-			: `downloads:/${hArg.fn + getDateStr('-', '_', '', '_')}.png`
-		: `downloads:/snapshot${getDateStr('-', '_', '', '_')}.png`;
+			: `${PROTOCOL_DL + hArg.fn + getDateStr('-', '_', '', '_')}.png`
+		: `${PROTOCOL_DL}snapshot${getDateStr('-', '_', '', '_')}.png`;
 		const url = this.cfg.searchPath(fn0);
 		const width = argChk_Num(hArg, 'width', CmnLib.stageW);
 		const height= argChk_Num(hArg, 'height', CmnLib.stageH);

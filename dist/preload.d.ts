@@ -23,7 +23,6 @@ export type HPROC = {
     copySync: (path_from: string, path_to: string) => void;
     removeSync: (path: string) => Promise<void>;
     ensureFileSync: (path: string) => Promise<void>;
-    readFileSync: (path: string) => Promise<string>;
     writeFileSync: (path: string, data: string | NodeJS.ArrayBufferView, o?: object) => Promise<void>;
     appendFile: (path: string, data: string) => Promise<void>;
     outputFile: (path: string, data: string) => Promise<void>;

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, type IEvtMng, argChk_Boolean, argChk_Num, getExt} from './CmnLib';
+import {CmnLib, type IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {CmnTween} from './CmnTween';
 import type {IHTag, HArg} from './Grammar';
 import type {IVariable, IMain, IGetFrm} from './CmnInterface';
@@ -173,7 +173,7 @@ export class FrameMng implements IGetFrm {
 		const path = FrameMng.#cfg.searchPath(srcNoPrm, SEARCH_PATH_ARG_EXT.SP_GSM);
 		const ld2 = (new Loader)
 		.add({name: src, url: path, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
-		if (FrameMng.#sys.arg.crypto && getExt(path) === 'bin') ld2.use(async (res, next)=> {
+		if (FrameMng.#sys.arg.crypto && path.endsWith('.bin')) ld2.use(async (res, next)=> {
 			try {
 				const r = await FrameMng.#sys.decAB(res.data);
 				if (res.extension !== 'bin') {next(); return}
@@ -181,14 +181,14 @@ export class FrameMng implements IGetFrm {
 				res.data = r;
 				if (r instanceof HTMLImageElement) res.type = LoaderResource.TYPE.IMAGE;
 			} catch (e) {
-				FrameMng.#main.errScript(`GrpLayer loadPic ロード失敗です fn:${res.name} ${e}`, false)
+				FrameMng.#main.errScript(`FrameMng loadPic ロード失敗です fn:${res.name} ${e}`, false)
 			}
 			next();
 		});
 		ld2.load((_ldr, hRes)=> {
 			for (const [s2, {data: {src}}] of Object.entries(hRes)) {
 				const u2 = this.#hEncImgOUrl[s2] = src
-				+ (src.startsWith('blob:') ?'' :(Prm ? '?': '')+ Prm);
+				+ (src.startsWith('blob:') || src.startsWith('data:') ?'' :(Prm ? '?'+ Prm: ''));
 				const ri = this.#hARetImg[s2];
 				if (ri) for (const i of ri) {
 					i.src = u2;

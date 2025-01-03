@@ -7,7 +7,8 @@
 
 import type {T_CFG} from './sn/ConfigBase';
 
-import {contextBridge, ipcRenderer, type IpcRendererEvent, type MessageBoxOptions, type MessageBoxReturnValue} from 'electron';
+import type {IpcRendererEvent, MessageBoxOptions, MessageBoxReturnValue} from 'electron';
+import {contextBridge, ipcRenderer} from 'electron';
 
 export	type	TAG_WINDOW	= {
 	c	: boolean;
@@ -36,7 +37,6 @@ export	type	HPROC	= {
 	copySync	: (path_from: string, path_to: string)=> void;
 	removeSync	: (path: string)=> Promise<void>;
 	ensureFileSync	: (path: string)=> Promise<void>;
-	readFileSync: (path: string)=> Promise<string>;
 	writeFileSync	: (path: string, data: string | NodeJS.ArrayBufferView, o?: object)=> Promise<void>;
 	appendFile		: (path: string, data: string)=> Promise<void>;
 	outputFile		: (path: string, data: string)=> Promise<void>;
@@ -88,8 +88,6 @@ export const	hProc	: HPROC = {
 	removeSync	: path=> ipcRenderer.invoke('removeSync', path).catch(fncE),
 	ensureFileSync	: path=>
 		ipcRenderer.invoke('ensureFileSync', path).catch(fncE),
-	readFileSync	: path=>
-		ipcRenderer.invoke('readFileSync', path).catch(fncE),
 	writeFileSync	: (path, data, o?)=>
 		ipcRenderer.invoke('writeFileSync', path, data, o).catch(fncE),
 	appendFile		: (path, data)=>

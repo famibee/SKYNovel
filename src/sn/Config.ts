@@ -9,6 +9,9 @@ import {CmnLib} from './CmnLib';
 import type {SysBase} from './SysBase';
 import {ConfigBase, SEARCH_PATH_ARG_EXT, type T_CFG} from './ConfigBase';
 
+export const PROTOCOL_USERDATA	= 'userdata:/';
+export const PROTOCOL_DL		= 'downloads:/';
+
 
 export class Config extends ConfigBase {
 	static	async	generate(sys: SysBase) {
@@ -32,10 +35,10 @@ export class Config extends ConfigBase {
 	}
 
 	override	searchPath(fn: string, extptn: SEARCH_PATH_ARG_EXT = SEARCH_PATH_ARG_EXT.DEFAULT): string {
-		if (fn.startsWith('downloads:/')) {
+		if (fn.startsWith(PROTOCOL_DL)) {
 			return this.sys.path_downloads + fn.slice(11);
 		}
-		if (fn.startsWith('userdata:/')) {
+		if (fn.startsWith(PROTOCOL_USERDATA)) {
 			return this.sys.path_userdata + 'storage/'+ fn.slice(10);
 		}
 

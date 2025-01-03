@@ -149,9 +149,6 @@ ${'^'.padStart(Number(col))}` :``}`;
 const REG_FN	= /^[^\/\.]+$|[^\/]+(?=\.)/;
 	// https://regex101.com/r/8sltIm/1
 export	function getFn(p: string) {return (p.match(REG_FN) ?? [''])[0]}
-const REG_EXT	= /\.([^\.]+)$/;
-	// https://regex101.com/r/IULqII/3
-export 	function getExt(p: string) {return (p.match(REG_EXT) ?? ['',''])[1]}
 
 import {name, os} from 'platform';
 //import {isMobile} from 'pixi.js';		// 使い物にならないことを確認済み

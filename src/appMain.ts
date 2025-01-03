@@ -11,7 +11,7 @@ import {CmnLib} from "./sn/CmnLib";
 
 import {app, BrowserWindow, dialog, ipcMain as ipc, screen, shell, type MessageBoxOptions, type Size} from 'electron';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
-import {appendFile, copySync, ensureDirSync, ensureFileSync, existsSync, outputFile, readFileSync, removeSync, WriteFileOptions, writeFileSync} from 'fs-extra';
+import {appendFile, copySync, ensureDirSync, ensureFileSync, existsSync, outputFile, removeSync, WriteFileOptions, writeFileSync} from 'fs-extra';
 import Store from 'electron-store';
 import AdmZip from 'adm-zip';
 
@@ -23,10 +23,6 @@ export class appMain {
 		let opLocalDevTools = ()=> {};
 		try {
 			Store.initRenderer();
-
-			process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
-			// 2018/05/08
-			// disable security-warnings not working · Issue #11970 · electron/electron https://github.com/electron/electron/issues/11970
 
 			bw = new BrowserWindow({
 			//	...o,
@@ -87,7 +83,6 @@ export class appMain {
 		ipc.handle('copySync', (_, path_from: string, path_to: string)=> copySync(path_from, path_to));
 		ipc.handle('removeSync', (_, fn: string)=> removeSync(fn));
 		ipc.handle('ensureFileSync', (_, fn: string)=> ensureFileSync(fn));
-		ipc.handle('readFileSync', (_, path: string)=> readFileSync(path, {encoding: 'utf8'}));
 		ipc.handle('writeFileSync', (_, path: string, data: string | NodeJS.ArrayBufferView, o?: WriteFileOptions)=> writeFileSync(path, data, o));
 		ipc.handle('appendFile', (_, path: string, data: string | Uint8Array)=> appendFile(path, data).catch(err=> console.log(err)));
 		ipc.handle('outputFile', (_, path: string, data: string | NodeJS.ArrayBufferView)=> outputFile(path, data).catch(err=> console.log(err)));

@@ -1,3 +1,12 @@
+- fix: リファクタリング、記述ミス修正
+	- 一部文字列リテラルを定数化
+	- getExt()、readFileSync() 関数不要に付き削除
+	- 記述削除：process.env['ELECTRON_DISABLE_SECURITY_WARNINGS'] = 'true';
+		- close されていた
+			// 2018/05/08
+			// disable security-warnings not working · Issue #11970 · electron/electron https://github.com/electron/electron/issues/11970
+
+
 ## [1.61.17](https://github.com/famibee/SKYNovel/compare/v1.61.16...v1.61.17) (2025-01-02)
 
 
