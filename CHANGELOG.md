@@ -1,3 +1,10 @@
+## [1.61.18](https://github.com/famibee/SKYNovel/compare/v1.61.17...v1.61.18) (2025-01-03)
+
+
+### Bug Fixes
+
+* リファクタリング、記述ミス修正 ([c33dfef](https://github.com/famibee/SKYNovel/commit/c33dfefb7771c1a339bf716094fe6f9aaf4a76c7))
+
 - fix: リファクタリング、記述ミス修正
 	- 一部文字列リテラルを定数化
 	- getExt()、readFileSync() 関数不要に付き削除
