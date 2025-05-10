@@ -1139,21 +1139,16 @@ it('test_let_ml_2022/10/15_1', ()=> {
 `[let_ml name=ml
 	aaa
 `;
-	const {len} = grm.resolveScript(sScr);
-	// const {aToken, len} = grm.resolveScript(sScr);
+	const {aToken, len} = grm.resolveScript(sScr);
 
-	// bun 版
-	expect(len).toBe(0);
-
-	// jest/vtest 版
-// 	expect(len).toBe(5);
-// 	expect(aToken[0]).toBe(`let_ml name=ml`);// [ が飛ばされるのは正規表現のくせ
-// 	expect(aToken[1]).toBe(`
-// `);
-// 	expect(aToken[2]).toBe(`	`);
-// 	expect(aToken[3]).toBe(`aaa`);
-// 	expect(aToken[4]).toBe(`
-// `);
+	expect(len).toBe(5);
+	expect(aToken[0]).toBe(`let_ml name=ml`);// [ が飛ばされるのは正規表現のくせ
+	expect(aToken[1]).toBe(`
+`);
+	expect(aToken[2]).toBe(`	`);
+	expect(aToken[3]).toBe(`aaa`);
+	expect(aToken[4]).toBe(`
+`);
 });
 it('test_let_ml_2022/10/15_2_負荷100%', ()=> {
 	const sScr =
