@@ -1,3 +1,11 @@
+## [1.61.19](https://github.com/famibee/SKYNovel/compare/v1.61.18...v1.61.19) (2025-05-10)
+
+
+### Bug Fixes
+
+* [export] 後にジャンプ先が異常になり永久ループになっていた件 ([89cd10c](https://github.com/famibee/SKYNovel/commit/89cd10c85284cd3938d7d85a1178cc297610ed43))
+* [export] 後にジャンプ先が異常になり永久ループになっていた件 ([f2fd363](https://github.com/famibee/SKYNovel/commit/f2fd363f22e07e3e64fdf4fc8fa7881aabb7b423))
+
 - fix: [export] 後にジャンプ先が異常になり永久ループになっていた件
 - fix: Electron 32.0.0 移行の重大な変更（File.path 削除）に対応
 - fix: ライブラリ更新
