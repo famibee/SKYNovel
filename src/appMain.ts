@@ -9,9 +9,10 @@ import type {HINFO, TAG_WINDOW} from './preload';
 import type {T_CFG} from './sn/ConfigBase';
 import {CmnLib} from "./sn/CmnLib";
 
-import {app, BrowserWindow, dialog, ipcMain as ipc, screen, shell, type MessageBoxOptions, type Size} from 'electron';
+import {app, BrowserWindow, dialog, ipcMain as ipc, screen, shell} from 'electron';
+import type {MessageBoxOptions, Size, OpenDialogOptions} from 'electron/main';
 	// ギャラリーでエラーになる【error TS2503: Cannot find namespace 'Electron'.】ので const ではなく import の形に
-import {appendFile, copySync, ensureDirSync, ensureFileSync, existsSync, outputFile, removeSync, WriteFileOptions, writeFileSync} from 'fs-extra';
+import {appendFile, copySync, ensureDir, ensureFileSync, existsSync, outputFile, remove, removeSync, WriteFileOptions, writeFileSync} from 'fs-extra';
 import Store from 'electron-store';
 import AdmZip from 'adm-zip';
 
@@ -90,7 +91,8 @@ export class appMain {
 		ipc.handle('win_close', ()=> bw.close());
 		ipc.handle('win_setTitle', (_, title: string)=> bw.setTitle(title));
 
-		ipc.handle('showMessageBox', (_, o: MessageBoxOptions)=> dialog.showMessageBox(o));
+		ipc.handle('showMessageBox', (_, o: MessageBoxOptions)=> dialog.showMessageBox(bw, o));
+		ipc.handle('showOpenDialog', (_, o: OpenDialogOptions)=> dialog.showOpenDialog(bw, o));
 
 		ipc.handle('capturePage', (_, fn: string, width: number, height: number)=> bw.webContents.capturePage()
 		.then(ni=> {
@@ -108,14 +110,14 @@ export class appMain {
 		ipc.handle('Store_isEmpty', ()=> st.size === 0);
 		ipc.handle('Store_get', ()=> st.store);
 
-		ipc.handle('zip', (_, inp: string, out: string)=> {
+		ipc.handle('zip', async (_, inp: string, out: string)=> {
 			const zip = new AdmZip;
 			zip.addLocalFolder(inp);
-			zip.writeZip(out);
+			await zip.writeZipPromise(out);
 		});
-		ipc.handle('unzip', (_, inp: string, out: string)=> {
-			removeSync(out);
-			ensureDirSync(out);	// ディレクトリ、なければ作る
+		ipc.handle('unzip', async (_, inp: string, out: string)=> {
+			await remove(out);
+			await ensureDir(out);	// ディレクトリ、なければ作る
 
 			const zip = new AdmZip(inp);
 			zip.extractAllTo(out, true);

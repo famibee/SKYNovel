@@ -613,7 +613,6 @@ function pt(r, t) {
   var e = t, i = e.placement, n = i === void 0 ? r.placement : i, a = e.strategy, s = a === void 0 ? r.strategy : a, o = e.boundary, f = o === void 0 ? Ee : o, p = e.rootBoundary, l = p === void 0 ? ie : p, h = e.elementContext, m = h === void 0 ? at : h, d = e.altBoundary, c = d === void 0 ? !1 : d, u = e.padding, v = u === void 0 ? 0 : u, k = fe(typeof v != "number" ? v : ce(v, ut)), g = m === at ? De : at, O = r.rects.popper, y = r.elements[c ? g : m], w = nr(Z(y) ? y : y.contextElement || q(r.elements.popper), f, l, s), b = rt(r.elements.reference), x = pe({
     reference: b,
     element: O,
-    strategy: "absolute",
     placement: n
   }), C = _t(Object.assign({}, O, x)), D = m === at ? C : b, E = {
     top: w.top - D.top + k.top,
@@ -783,7 +782,6 @@ function hr(r) {
   t.modifiersData[e] = pe({
     reference: t.rects.reference,
     element: t.rects.popper,
-    strategy: "absolute",
     placement: t.placement
   });
 }

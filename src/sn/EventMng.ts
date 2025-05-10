@@ -20,7 +20,7 @@ import {SysBase} from './SysBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {ReadState} from './ReadState';
 
-import {Container, Application, utils} from 'pixi.js';
+import {Container, type Application, utils} from 'pixi.js';
 import {createPopper, type Instance as InsPop} from '@popperjs/core';
 
 export class EventMng implements IEvtMng {
@@ -31,7 +31,6 @@ export class EventMng implements IEvtMng {
 	#rs	: ReadState;
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, sndMng: SoundMng, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
-// console.log(`fn:EventMng.ts line:34 %o`, appPixi.stage);
 		//	イベント
 		hTag.clear_event	= o=> ReadState.clear_event(o);	// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替

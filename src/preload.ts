@@ -7,8 +7,8 @@
 
 import type {T_CFG} from './sn/ConfigBase';
 
-import type {IpcRendererEvent, MessageBoxOptions, MessageBoxReturnValue} from 'electron';
 import {contextBridge, ipcRenderer} from 'electron';
+import type {IpcRendererEvent, MessageBoxOptions, MessageBoxReturnValue, OpenDialogOptions, OpenDialogReturnValue} from 'electron/renderer';
 
 export	type	TAG_WINDOW	= {
 	c	: boolean;
@@ -48,6 +48,7 @@ export	type	HPROC	= {
 	win_setTitle	: (title: string)=> void;
 
 	showMessageBox	: (o: MessageBoxOptions)=> Promise<MessageBoxReturnValue>;
+	showOpenDialog	: (o: OpenDialogOptions)=> Promise<OpenDialogReturnValue>;
 
 	capturePage	: (fn: string, w: number, h: number)=> Promise<void>;
 	navigate_to	: (url: string)=> void;
@@ -57,8 +58,8 @@ export	type	HPROC	= {
 	Store_isEmpty	: ()=> Promise<boolean>;
 	Store_get		: ()=> Promise<any>;
 
-	zip		: (inp: string, out: string)=> void;
-	unzip	: (inp: string, out: string)=> void;
+	zip		: (inp: string, out: string)=> Promise<void>;
+	unzip	: (inp: string, out: string)=> Promise<void>;
 
 	// メイン → レンダラー
 	on: (channel: string, callback: Function) => void;
@@ -100,6 +101,7 @@ export const	hProc	: HPROC = {
 		ipcRenderer.invoke('win_setTitle', title).catch(fncE),
 
 	showMessageBox	: o=> ipcRenderer.invoke('showMessageBox', o).catch(fncE),
+	showOpenDialog	: o=> ipcRenderer.invoke('showOpenDialog', o).catch(fncE),
 
 	capturePage	: (fn, w, h)=>	ipcRenderer.invoke('capturePage', fn, w, h).catch(fncE),
 	navigate_to	: url=> ipcRenderer.invoke('navigate_to', url).catch(fncE),

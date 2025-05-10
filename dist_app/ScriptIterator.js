@@ -1,4 +1,4 @@
-import { G as x, C as N, A as $, S as v, t as b, f as y, h as T, a as m, L as E, D as d, b as L } from "./app2.js";
+import { G as x, C as N, A as $, S as v, t as b, f as y, h as T, a as m, d as E, D as d, b as L } from "./app2.js";
 import { R as D } from "./RubySpliter.js";
 import { d as S, e as C } from "./ReadState.js";
 import { C as P } from "./CmnTween.js";

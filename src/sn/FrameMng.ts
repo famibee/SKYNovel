@@ -10,11 +10,11 @@ import {CmnTween} from './CmnTween';
 import type {IHTag, HArg} from './Grammar';
 import type {IVariable, IMain, IGetFrm} from './CmnInterface';
 import type {SysBase} from './SysBase';
-import {Config} from './Config';
+import type {Config} from './Config';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {disableEvent, enableEvent} from './ReadState';
 
-import {Application, Loader, LoaderResource} from 'pixi.js';
+import {type Application, Loader, LoaderResource} from 'pixi.js';
 
 
 export class FrameMng implements IGetFrm {

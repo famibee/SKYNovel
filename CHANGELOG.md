@@ -1,3 +1,8 @@
+- fix: [export] 後にジャンプ先が異常になり永久ループになっていた件
+- fix: Electron 32.0.0 移行の重大な変更（File.path 削除）に対応
+- fix: ライブラリ更新
+
+
 ## [1.61.18](https://github.com/famibee/SKYNovel/compare/v1.61.17...v1.61.18) (2025-01-03)
 
 

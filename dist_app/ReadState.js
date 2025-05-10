@@ -1,5 +1,5 @@
-import { a as w, d as wt, C as ut, b as bt, E as yt, j as kt } from "./app2.js";
-var W = Object.freeze({
+import { a as w, c as bt, C as ut, b as kt, E as yt, j as Et } from "./app2.js";
+var D = Object.freeze({
   Linear: Object.freeze({
     None: function(e) {
       return e;
@@ -118,13 +118,13 @@ var W = Object.freeze({
   }),
   Bounce: Object.freeze({
     In: function(e) {
-      return 1 - W.Bounce.Out(1 - e);
+      return 1 - D.Bounce.Out(1 - e);
     },
     Out: function(e) {
       return e < 1 / 2.75 ? 7.5625 * e * e : e < 2 / 2.75 ? 7.5625 * (e -= 1.5 / 2.75) * e + 0.75 : e < 2.5 / 2.75 ? 7.5625 * (e -= 2.25 / 2.75) * e + 0.9375 : 7.5625 * (e -= 2.625 / 2.75) * e + 0.984375;
     },
     InOut: function(e) {
-      return e < 0.5 ? W.Bounce.In(e * 2) * 0.5 : W.Bounce.Out(e * 2 - 1) * 0.5 + 0.5;
+      return e < 0.5 ? D.Bounce.In(e * 2) * 0.5 : D.Bounce.Out(e * 2 - 1) * 0.5 + 0.5;
     }
   }),
   generatePow: function(e) {
@@ -140,9 +140,9 @@ var W = Object.freeze({
       }
     };
   }
-}), D = function() {
+}), m = function() {
   return performance.now();
-}, Et = (
+}, Tt = (
   /** @class */
   function() {
     function e() {
@@ -160,7 +160,7 @@ var W = Object.freeze({
     }, e.prototype.remove = function(t) {
       delete this._tweens[t.getId()], delete this._tweensAddedDuringUpdate[t.getId()];
     }, e.prototype.update = function(t, i) {
-      t === void 0 && (t = D()), i === void 0 && (i = !1);
+      t === void 0 && (t = m()), i === void 0 && (i = !1);
       var s = Object.keys(this._tweens);
       if (s.length === 0)
         return !1;
@@ -175,45 +175,17 @@ var W = Object.freeze({
       return !0;
     }, e;
   }()
-), O = {
+), X = {
   Linear: function(e, t) {
-    var i = e.length - 1, s = i * t, n = Math.floor(s), r = O.Utils.Linear;
+    var i = e.length - 1, s = i * t, n = Math.floor(s), r = X.Utils.Linear;
     return t < 0 ? r(e[0], e[1], s) : t > 1 ? r(e[i], e[i - 1], i - s) : r(e[n], e[n + 1 > i ? i : n + 1], s - n);
-  },
-  Bezier: function(e, t) {
-    for (var i = 0, s = e.length - 1, n = Math.pow, r = O.Utils.Bernstein, a = 0; a <= s; a++)
-      i += n(1 - t, s - a) * n(t, a) * e[a] * r(s, a);
-    return i;
-  },
-  CatmullRom: function(e, t) {
-    var i = e.length - 1, s = i * t, n = Math.floor(s), r = O.Utils.CatmullRom;
-    return e[0] === e[i] ? (t < 0 && (n = Math.floor(s = i * (1 + t))), r(e[(n - 1 + i) % i], e[n], e[(n + 1) % i], e[(n + 2) % i], s - n)) : t < 0 ? e[0] - (r(e[0], e[0], e[1], e[1], -s) - e[0]) : t > 1 ? e[i] - (r(e[i], e[i], e[i - 1], e[i - 1], s - i) - e[i]) : r(e[n ? n - 1 : 0], e[n], e[i < n + 1 ? i : n + 1], e[i < n + 2 ? i : n + 2], s - n);
   },
   Utils: {
     Linear: function(e, t, i) {
       return (t - e) * i + e;
-    },
-    Bernstein: function(e, t) {
-      var i = O.Utils.Factorial;
-      return i(e) / i(t) / i(e - t);
-    },
-    Factorial: /* @__PURE__ */ function() {
-      var e = [1];
-      return function(t) {
-        var i = 1;
-        if (e[t])
-          return e[t];
-        for (var s = t; s > 1; s--)
-          i *= s;
-        return e[t] = i, i;
-      };
-    }(),
-    CatmullRom: function(e, t, i, s, n) {
-      var r = (i - e) * 0.5, a = (s - t) * 0.5, o = n * n, h = n * o;
-      return (2 * t - 2 * i + r + a) * h + (-3 * t + 3 * i - 2 * r - a) * o + r * n + t;
     }
   }
-}, Tt = (
+}, dt = (
   /** @class */
   function() {
     function e() {
@@ -222,11 +194,11 @@ var W = Object.freeze({
       return e._nextId++;
     }, e._nextId = 0, e;
   }()
-), Y = new Et(), xt = (
+), Y = new Tt(), xt = (
   /** @class */
   function() {
     function e(t, i) {
-      i === void 0 && (i = Y), this._object = t, this._group = i, this._isPaused = !1, this._pauseStart = 0, this._valuesStart = {}, this._valuesEnd = {}, this._valuesStartRepeat = {}, this._duration = 1e3, this._isDynamic = !1, this._initialRepeat = 0, this._repeat = 0, this._yoyo = !1, this._isPlaying = !1, this._reversed = !1, this._delayTime = 0, this._startTime = 0, this._easingFunction = W.Linear.None, this._interpolationFunction = O.Linear, this._chainedTweens = [], this._onStartCallbackFired = !1, this._onEveryStartCallbackFired = !1, this._id = Tt.nextId(), this._isChainStopped = !1, this._propertiesAreSetUp = !1, this._goToEnd = !1;
+      i === void 0 && (i = Y), this._object = t, this._group = i, this._isPaused = !1, this._pauseStart = 0, this._valuesStart = {}, this._valuesEnd = {}, this._valuesStartRepeat = {}, this._duration = 1e3, this._isDynamic = !1, this._initialRepeat = 0, this._repeat = 0, this._yoyo = !1, this._isPlaying = !1, this._reversed = !1, this._delayTime = 0, this._startTime = 0, this._easingFunction = D.Linear.None, this._interpolationFunction = X.Linear, this._chainedTweens = [], this._onStartCallbackFired = !1, this._onEveryStartCallbackFired = !1, this._id = dt.nextId(), this._isChainStopped = !1, this._propertiesAreSetUp = !1, this._goToEnd = !1;
     }
     return e.prototype.getId = function() {
       return this._id;
@@ -245,7 +217,7 @@ var W = Object.freeze({
     }, e.prototype.dynamic = function(t) {
       return t === void 0 && (t = !1), this._isDynamic = t, this;
     }, e.prototype.start = function(t, i) {
-      if (t === void 0 && (t = D()), i === void 0 && (i = !1), this._isPlaying)
+      if (t === void 0 && (t = m()), i === void 0 && (i = !1), this._isPlaying)
         return this;
       if (this._group && this._group.add(this), this._repeat = this._initialRepeat, this._reversed) {
         this._reversed = !1;
@@ -266,38 +238,38 @@ var W = Object.freeze({
       return this.start(t, !0);
     }, e.prototype._setupProperties = function(t, i, s, n, r) {
       for (var a in s) {
-        var o = t[a], h = Array.isArray(o), T = h ? "array" : typeof o, b = !h && Array.isArray(s[a]);
+        var o = t[a], f = Array.isArray(o), T = f ? "array" : typeof o, b = !f && Array.isArray(s[a]);
         if (!(T === "undefined" || T === "function")) {
           if (b) {
             var _ = s[a];
             if (_.length === 0)
               continue;
-            for (var C = [o], p = 0, R = _.length; p < R; p += 1) {
-              var $ = this._handleRelativeValue(o, _[p]);
-              if (isNaN($)) {
+            for (var C = [o], p = 0, A = _.length; p < A; p += 1) {
+              var K = this._handleRelativeValue(o, _[p]);
+              if (isNaN(K)) {
                 b = !1, console.warn("Found invalid interpolation list. Skipping.");
                 break;
               }
-              C.push($);
+              C.push(K);
             }
             b && (s[a] = C);
           }
-          if ((T === "object" || h) && o && !b) {
-            i[a] = h ? [] : {};
-            var j = o;
-            for (var F in j)
-              i[a][F] = j[F];
-            n[a] = h ? [] : {};
+          if ((T === "object" || f) && o && !b) {
+            i[a] = f ? [] : {};
+            var R = o;
+            for (var I in R)
+              i[a][I] = R[I];
+            n[a] = f ? [] : {};
             var _ = s[a];
             if (!this._isDynamic) {
-              var m = {};
-              for (var F in _)
-                m[F] = _[F];
-              s[a] = _ = m;
+              var j = {};
+              for (var I in _)
+                j[I] = _[I];
+              s[a] = _ = j;
             }
-            this._setupProperties(j, i[a], _, n[a], r);
+            this._setupProperties(R, i[a], _, n[a], r);
           } else
-            (typeof i[a] > "u" || r) && (i[a] = o), h || (i[a] *= 1), b ? n[a] = s[a].slice().reverse() : n[a] = i[a] || 0;
+            (typeof i[a] > "u" || r) && (i[a] = o), f || (i[a] *= 1), b ? n[a] = s[a].slice().reverse() : n[a] = i[a] || 0;
         }
       }
     }, e.prototype.stop = function() {
@@ -305,9 +277,9 @@ var W = Object.freeze({
     }, e.prototype.end = function() {
       return this._goToEnd = !0, this.update(1 / 0), this;
     }, e.prototype.pause = function(t) {
-      return t === void 0 && (t = D()), this._isPaused || !this._isPlaying ? this : (this._isPaused = !0, this._pauseStart = t, this._group && this._group.remove(this), this);
+      return t === void 0 && (t = m()), this._isPaused || !this._isPlaying ? this : (this._isPaused = !0, this._pauseStart = t, this._group && this._group.remove(this), this);
     }, e.prototype.resume = function(t) {
-      return t === void 0 && (t = D()), !this._isPaused || !this._isPlaying ? this : (this._isPaused = !1, this._startTime += t - this._pauseStart, this._pauseStart = 0, this._group && this._group.add(this), this);
+      return t === void 0 && (t = m()), !this._isPaused || !this._isPlaying ? this : (this._isPaused = !1, this._startTime += t - this._pauseStart, this._pauseStart = 0, this._group && this._group.add(this), this);
     }, e.prototype.stopChainedTweens = function() {
       for (var t = 0, i = this._chainedTweens.length; t < i; t++)
         this._chainedTweens[t].stop();
@@ -323,9 +295,9 @@ var W = Object.freeze({
     }, e.prototype.yoyo = function(t) {
       return t === void 0 && (t = !1), this._yoyo = t, this;
     }, e.prototype.easing = function(t) {
-      return t === void 0 && (t = W.Linear.None), this._easingFunction = t, this;
+      return t === void 0 && (t = D.Linear.None), this._easingFunction = t, this;
     }, e.prototype.interpolation = function(t) {
-      return t === void 0 && (t = O.Linear), this._interpolationFunction = t, this;
+      return t === void 0 && (t = X.Linear), this._interpolationFunction = t, this;
     }, e.prototype.chain = function() {
       for (var t = [], i = 0; i < arguments.length; i++)
         t[i] = arguments[i];
@@ -344,7 +316,7 @@ var W = Object.freeze({
       return this._onStopCallback = t, this;
     }, e.prototype.update = function(t, i) {
       var s = this, n;
-      if (t === void 0 && (t = D()), i === void 0 && (i = !0), this._isPaused)
+      if (t === void 0 && (t = m()), i === void 0 && (i = !0), this._isPaused)
         return !0;
       var r, a = this._startTime + this._duration;
       if (!this._goToEnd && !this._isPlaying) {
@@ -355,32 +327,32 @@ var W = Object.freeze({
       if (this._goToEnd = !1, t < this._startTime)
         return !0;
       this._onStartCallbackFired === !1 && (this._onStartCallback && this._onStartCallback(this._object), this._onStartCallbackFired = !0), this._onEveryStartCallbackFired === !1 && (this._onEveryStartCallback && this._onEveryStartCallback(this._object), this._onEveryStartCallbackFired = !0);
-      var o = t - this._startTime, h = this._duration + ((n = this._repeatDelayTime) !== null && n !== void 0 ? n : this._delayTime), T = this._duration + this._repeat * h, b = function() {
+      var o = t - this._startTime, f = this._duration + ((n = this._repeatDelayTime) !== null && n !== void 0 ? n : this._delayTime), T = this._duration + this._repeat * f, b = function() {
         if (s._duration === 0 || o > T)
           return 1;
-        var j = Math.trunc(o / h), F = o - j * h, m = Math.min(F / s._duration, 1);
-        return m === 0 && o === s._duration ? 1 : m;
+        var R = Math.trunc(o / f), I = o - R * f, j = Math.min(I / s._duration, 1);
+        return j === 0 && o === s._duration ? 1 : j;
       }, _ = b(), C = this._easingFunction(_);
       if (this._updateProperties(this._object, this._valuesStart, this._valuesEnd, C), this._onUpdateCallback && this._onUpdateCallback(this._object, _), this._duration === 0 || o >= this._duration)
         if (this._repeat > 0) {
-          var p = Math.min(Math.trunc((o - this._duration) / h) + 1, this._repeat);
+          var p = Math.min(Math.trunc((o - this._duration) / f) + 1, this._repeat);
           isFinite(this._repeat) && (this._repeat -= p);
           for (r in this._valuesStartRepeat)
             !this._yoyo && typeof this._valuesEnd[r] == "string" && (this._valuesStartRepeat[r] = // eslint-disable-next-line
             // @ts-ignore FIXME?
             this._valuesStartRepeat[r] + parseFloat(this._valuesEnd[r])), this._yoyo && this._swapEndStartRepeatValues(r), this._valuesStart[r] = this._valuesStartRepeat[r];
-          return this._yoyo && (this._reversed = !this._reversed), this._startTime += h * p, this._onRepeatCallback && this._onRepeatCallback(this._object), this._onEveryStartCallbackFired = !1, !0;
+          return this._yoyo && (this._reversed = !this._reversed), this._startTime += f * p, this._onRepeatCallback && this._onRepeatCallback(this._object), this._onEveryStartCallbackFired = !1, !0;
         } else {
           this._onCompleteCallback && this._onCompleteCallback(this._object);
-          for (var R = 0, $ = this._chainedTweens.length; R < $; R++)
-            this._chainedTweens[R].start(this._startTime + this._duration, !1);
+          for (var A = 0, K = this._chainedTweens.length; A < K; A++)
+            this._chainedTweens[A].start(this._startTime + this._duration, !1);
           return this._isPlaying = !1, !1;
         }
       return !0;
     }, e.prototype._updateProperties = function(t, i, s, n) {
       for (var r in s)
         if (i[r] !== void 0) {
-          var a = i[r] || 0, o = s[r], h = Array.isArray(t[r]), T = Array.isArray(o), b = !h && T;
+          var a = i[r] || 0, o = s[r], f = Array.isArray(t[r]), T = Array.isArray(o), b = !f && T;
           b ? t[r] = this._interpolationFunction(o, n) : typeof o == "object" && o ? this._updateProperties(t[r], a, o, n) : (o = this._handleRelativeValue(a, o), typeof o == "number" && (t[r] = a + (o - a) * n));
         }
     }, e.prototype._handleRelativeValue = function(t, i) {
@@ -390,52 +362,54 @@ var W = Object.freeze({
       typeof s == "string" ? this._valuesStartRepeat[t] = this._valuesStartRepeat[t] + parseFloat(s) : this._valuesStartRepeat[t] = this._valuesEnd[t], this._valuesEnd[t] = i;
     }, e;
   }()
-), E = Y;
+);
+dt.nextId;
+var E = Y;
 E.getAll.bind(E);
 var St = E.removeAll.bind(E);
 E.add.bind(E);
-var lt = E.remove.bind(E), It = E.update.bind(E);
-let ft, tt, l, x, g, dt, pt, _t, L, vt = () => {
-}, et, ct, z = !0, S = !1, k = !1, M = !1, c = {}, y = {}, d, v = 0, u = 0, q;
+var lt = E.remove.bind(E), Ft = E.update.bind(E);
+let ct, tt, l, x, g, pt, _t, vt, M, gt = () => {
+}, et, ht, W = !0, S = !1, y = !1, O = !1, h = {}, k = {}, d, v = 0, u = 0, $;
 const Pt = "color: yellow; text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;";
 let Z = [];
-function B() {
-  z || (z = !0, l.setVal_Nochk("tmp", "sn.tagL.enabled", !0)), k && (k = !1, l.setVal_Nochk("tmp", "sn.skip.enabled", !1)), M && (M = !1, l.setVal_Nochk("tmp", "sn.auto.enabled", !1));
+function V() {
+  W || (W = !0, l.setVal_Nochk("tmp", "sn.tagL.enabled", !0)), y && (y = !1, l.setVal_Nochk("tmp", "sn.skip.enabled", !1)), O && (O = !1, l.setVal_Nochk("tmp", "sn.auto.enabled", !1));
 }
 function P() {
-  I();
+  F();
 }
 function Ot() {
-  K();
+  B();
 }
-let I = () => new G(), K = () => new gt();
+let F = () => new q(), B = () => new wt();
 function Mt(e, t) {
-  d = JSON.parse(e), v = d.length, u >= v && (u = v - 1), q = t;
+  d = JSON.parse(e), v = d.length, u >= v && (u = v - 1), $ = t;
 }
-class ht {
+class ft {
   #t = new yt();
   constructor(t, i) {
-    if (k && !S && !g.isNextKidoku && B(), w(t, "canskip", !0)) {
+    if (y && !S && !g.isNextKidoku && V(), w(t, "canskip", !0)) {
       const s = () => {
-        this.destroy(), B(), i();
+        this.destroy(), V(), i();
       };
       this.#t.add(window, "pointerdown", (n) => {
         n.stopPropagation(), s();
       }), this.#t.add(window, "keydown", (n) => {
         n.isComposing || (n.stopPropagation(), s());
-      }), vt(this.#t, s);
+      }), gt(this.#t, s);
     }
   }
   destroy() {
     this.#t.clear();
   }
 }
-class f {
+class c {
   constructor(t) {
-    this.hArg = t, I = () => new G(), K = () => new gt(), ft(this);
+    this.hArg = t, F = () => new q(), B = () => new wt(), ct(this);
   }
-  static init(t, i, s, n, r, a, o, h, T, b, _) {
-    ft = t, tt = i, l = s, x = n, g = r, dt = a, pt = o, _t = h, L = () => x.goTxt(), vt = T, et = b, ct = _, new G(), l.defTmp("sn.tagL.enabled", () => z), l.defValTrg("tmp:sn.tagL.enabled", (C, p) => z = String(p) !== "false"), l.defTmp("sn.skip.all", () => S), l.defValTrg("tmp:sn.skip.all", (C, p) => S = String(p) !== "false"), l.defTmp("sn.skip.enabled", () => k), l.defValTrg("tmp:sn.skip.enabled", (C, p) => k = String(p) !== "false"), l.defTmp("sn.auto.enabled", () => M), l.defValTrg("tmp:sn.auto.enabled", (C, p) => M = String(p) !== "false"), c = {}, y = {};
+  static init(t, i, s, n, r, a, o, f, T, b, _) {
+    ct = t, tt = i, l = s, x = n, g = r, pt = a, _t = o, vt = f, M = () => x.goTxt(), gt = T, et = b, ht = _, new q(), l.defTmp("sn.tagL.enabled", () => W), l.defValTrg("tmp:sn.tagL.enabled", (C, p) => W = String(p) !== "false"), l.defTmp("sn.skip.all", () => S), l.defValTrg("tmp:sn.skip.all", (C, p) => S = String(p) !== "false"), l.defTmp("sn.skip.enabled", () => y), l.defValTrg("tmp:sn.skip.enabled", (C, p) => y = String(p) !== "false"), l.defTmp("sn.auto.enabled", () => O), l.defValTrg("tmp:sn.auto.enabled", (C, p) => O = String(p) !== "false"), h = {}, k = {};
   }
   destroy() {
     this.onFinish = () => {
@@ -443,7 +417,7 @@ class f {
     }, this.#i.destroy();
   }
   get isSkipping() {
-    return k;
+    return y;
   }
   static getHtmlElmList(t) {
     const i = t.indexOf(":");
@@ -457,27 +431,27 @@ class f {
     return s = t.slice(4), { el: document.querySelectorAll(s), id: "", sel: s };
   }
   static setEvt2Fnc(t, i, s) {
-    t ? y[i] = s : c[i] = s;
+    t ? k[i] = s : h[i] = s;
   }
-  static getEvt2Fnc = (t) => c[t] ?? y[t];
+  static getEvt2Fnc = (t) => h[t] ?? k[t];
   static clear_eventer(t, i, s) {
     if (!t.startsWith("dom=")) return;
-    const n = i ? y[s] : c[s];
-    n && f.getHtmlElmList(t).el.forEach((r) => r.removeEventListener("click", n)), i ? delete y[s] : delete c[s];
+    const n = i ? k[s] : h[s];
+    n && c.getHtmlElmList(t).el.forEach((r) => r.removeEventListener("click", n)), i ? delete k[s] : delete h[s];
   }
   static clear_event(t) {
-    const i = w(t, "global", !1), s = i ? y : c;
+    const i = w(t, "global", !1), s = i ? k : h;
     for (const [n, r] of Object.entries(s))
-      n.startsWith("dom=") && f.getHtmlElmList(n).el.forEach((a) => a.removeEventListener("click", r));
-    return i ? y = {} : c = {}, !1;
+      n.startsWith("dom=") && c.getHtmlElmList(n).el.forEach((a) => a.removeEventListener("click", r));
+    return i ? k = {} : h = {}, !1;
   }
   s(t) {
-    return this.#s(), V.go(t);
+    return this.#s(), z.go(t);
   }
-  wait = (t) => k ? (!S && !g.isNextKidoku && B(), !1) : st.go(t);
+  wait = (t) => y ? (!S && !g.isNextKidoku && V(), !1) : st.go(t);
   waitclick = (t) => at.go(t);
   waitTxtAndTimer(t, i) {
-    return f.#t.once(f.#e, () => {
+    return c.#t.once(c.#e, () => {
       if (this.#i.destroy(), t === 0) {
         this.onFinish();
         return;
@@ -488,74 +462,74 @@ class f {
       this.waitLimitedEvent(i, () => {
         s.stop(), lt(s), this.onUserAct();
       });
-    }), L(), l.saveKidoku(), this.waitLimitedEvent(i, () => {
-      f.#t.removeAllListeners(), this.onUserAct();
+    }), M(), l.saveKidoku(), this.waitLimitedEvent(i, () => {
+      c.#t.removeAllListeners(), this.onUserAct();
     });
   }
   static noticeCompTxt() {
-    f.#t.emit(f.#e);
+    c.#t.emit(c.#e);
   }
-  static #t = new wt();
+  static #t = new bt();
   // static必須
   static #e = "sn:notice_comp_txt";
   static popLocalEvts() {
-    const t = c;
-    return c = {}, t;
+    const t = h;
+    return h = {}, t;
   }
   static pushLocalEvts(t) {
-    c = t;
+    h = t;
   }
   // 予約イベントの発生待ち
   waitRsvEvent(t, i) {
-    if (l.saveKidoku(), t ? c.click = //this.hTag.event({key:'enter', breakout: fnc});
+    if (l.saveKidoku(), t ? h.click = //this.hTag.event({key:'enter', breakout: fnc});
     //hTag.event({key:'down', breakout: fnc});
     //	hTag.event()は内部で使わず、こうする
-    c.enter = c.arrowdown = // hTag.event({key:'downwheel', breakout: fnc});
+    h.enter = h.arrowdown = // hTag.event({key:'downwheel', breakout: fnc});
     //	hTag.event()は内部で使わず、こうする
-    c["wheel.y>0"] = () => this.onUserAct() : (delete c.click, delete c.enter, delete c.arrowdown, delete c["wheel.y>0"]), f.getEvt2Fnc = i ? (s) => c[s] ?? y[s] : (s) => c[s], g.noticeWait(), ut.debugLog) {
+    h["wheel.y>0"] = () => this.onUserAct() : (delete h.click, delete h.enter, delete h.arrowdown, delete h["wheel.y>0"]), c.getEvt2Fnc = i ? (s) => h[s] ?? k[s] : (s) => h[s], g.noticeWait(), ut.debugLog) {
       const s = /* @__PURE__ */ Object.create(null);
-      s.local = Object.keys(c), s.global = Object.keys(y), console.log("🎍 wait event... %o", s);
+      s.local = Object.keys(h), s.global = Object.keys(k), console.log("🎍 wait event... %o", s);
     }
   }
   l(t) {
-    if (!z) return !1;
-    if (this.#s(!0), M) {
+    if (!W) return !1;
+    if (this.#s(!0), O) {
       const i = Number(l.getVal(`sys:sn.auto.msecLineWait${g.isKidoku ? "_Kidoku" : ""}`));
-      return H.go(i, t);
+      return G.go(i, t);
     }
-    if (k) {
+    if (y) {
       if (!S && !g.isNextKidoku) return N.go(t);
-      if ("ps".includes(l.getVal("sys:sn.skip.mode"))) return H.go(50, t);
+      if ("ps".includes(l.getVal("sys:sn.skip.mode"))) return G.go(50, t);
     }
     return nt.go(t);
   }
   p(t) {
-    if (this.#s(), M) {
+    if (this.#s(), O) {
       const i = Number(l.getVal(`sys:sn.auto.msecPageWait${g.isKidoku ? "_Kidoku" : ""}`));
-      return Q.go(i, t);
+      return H.go(i, t);
     }
-    if (k) {
-      if (!S && !g.isNextKidoku) return A.go(t);
+    if (y) {
+      if (!S && !g.isNextKidoku) return U.go(t);
       if (l.getVal("sys:sn.skip.mode") == "s")
-        return Q.go(50, t);
+        return H.go(50, t);
     }
     return rt.go(t);
   }
   // 予約イベントの発生待ちしない waitRsvEvent()
   // 使う場合、外部要因でキャンセルした際は breakLimitedEvent() で後始末を忘れないこと
   waitLimitedEvent(t, i) {
-    return this.#i.destroy(), this.#i = new ht(t, i), !0;
+    return this.#i.destroy(), this.#i = new ft(t, i), !0;
   }
   breakEvent(t) {
-    f.evnm === t && (f.evnm = "", this.#i.destroy(), P());
+    c.evnm === t && (c.evnm = "", this.#i.destroy(), P());
   }
-  #i = new ht({}, () => {
+  #i = new ft({}, () => {
   });
   // ':タグ名' は未定義、デバッグ時に無視を
   static evnm = "";
   // 状態保存する変数はすべて static に
   waitEvent(t, i, s) {
-    return f.evnm = t, k && !S && !g.isNextKidoku ? J.go(i, s) : ot.go(i, s);
+    return c.evnm = t, y && !S && !g.isNextKidoku ? Q.go(i, s) : ot.go(i, s);
   }
   onFinish() {
   }
@@ -569,7 +543,7 @@ class f {
     if (!("clear" in t || "to" in t || "style" in t)) throw "clear,style,to いずれかは必須です";
     const { style: i } = t;
     if (i)
-      return q = i, l.setVal_Nochk("save", "const.sn.styPaging", i), !1;
+      return $ = i, l.setVal_Nochk("save", "const.sn.styPaging", i), !1;
     if (w(t, "clear", !1))
       return d = [], v = 0, u = 0, l.setVal_Nochk("sys", "const.sn.aPageLog", "[]"), l.setVal_Nochk("save", "const.sn.styPaging", Pt), !1;
     const { to: s, key: n } = t;
@@ -578,14 +552,14 @@ class f {
         if (u = v - 1, v < 2) return !1;
         break;
     }
-    return X.go(t);
+    return J.go(t);
   }
   #s(t = !1) {
     if (!l.getVal("save:sn.doRecLog")) return;
     const { fn: i, idx: s } = g.nowScrIdx(), n = `${s - 1}:` + i;
     if (d.findIndex((a) => a.key === n) > -1) return;
     d.at(-1)?.week && d.pop();
-    const { max_len: r } = ct.oCfg.log;
+    const { max_len: r } = ht.oCfg.log;
     d.push({
       key: n,
       week: t,
@@ -595,26 +569,26 @@ class f {
     }) > r && (d = d.slice(-r)), v = d.length, l.setVal_Nochk("sys", "const.sn.aPageLog", JSON.stringify(d));
   }
 }
-class G extends f {
+class q extends c {
   constructor() {
     super({}), tt.resume(), et.hidden = !0;
   }
   breakEvent() {
   }
 }
-class U extends f {
+class L extends c {
   isWait = !0;
   // 予約イベントの発生待ち中か
   fire(t, i) {
     const s = t.toLowerCase();
     if (ut.debugLog && console.log(`👺 fire<(key:\`${s}\` type:${i.type} e:%o)`, { ...i }), s === "enter") {
-      const r = _t.getFocus();
-      if (r instanceof kt) {
+      const r = vt.getFocus();
+      if (r instanceof Et) {
         r.emit("pointerdown", new Event("pointerdown"));
         return;
       }
     }
-    const n = f.getEvt2Fnc(s);
+    const n = c.getEvt2Fnc(s);
     if (!n) {
       s.startsWith("swipe") && globalThis.scrollBy(
         -i.deltaX || 0,
@@ -626,8 +600,8 @@ class U extends f {
     s.endsWith("wheel") || i.preventDefault?.(), i.stopPropagation(), !(!s.startsWith("dom=") && x.clickTxtLay()) && n(i);
   }
 }
-class V extends U {
-  static go = (t) => (new V(t).waitTxtAndTimer(0, {}), I = () => {
+class z extends L {
+  static go = (t) => (new z(t).waitTxtAndTimer(0, {}), F = () => {
   }, !0);
   breakEvent() {
   }
@@ -638,11 +612,11 @@ class V extends U {
     this.onFinish();
   }
 }
-class it extends U {
+class it extends L {
   static go = (t) => {
-    B();
+    V();
     const i = w(t, "global", !0);
-    return new it(t).waitRsvEvent(!1, i), I = () => {
+    return new it(t).waitRsvEvent(!1, i), F = () => {
     }, !0;
   };
   breakEvent() {
@@ -652,10 +626,10 @@ class it extends U {
   onUserAct() {
   }
 }
-class st extends f {
+class st extends c {
   // 文字表示終了待ち→[wait]
   static go = (t) => {
-    const i = bt(t, "time", NaN);
+    const i = kt(t, "time", NaN);
     return new st(t).waitTxtAndTimer(i, t);
   };
   onFinish() {
@@ -665,7 +639,7 @@ class st extends f {
     this.onFinish();
   }
 }
-class nt extends f {
+class nt extends c {
   // 文字表示終了待ち（そして[l]）
   static go = (t) => new nt(t).waitTxtAndTimer(0, t);
   breakEvent() {
@@ -677,9 +651,9 @@ class nt extends f {
     this.onFinish();
   }
 }
-class H extends f {
+class G extends c {
   // 文字表示終了待ち（そして[l]auto/skipウェイト待ち）
-  static go = (t, i) => new H(i).waitTxtAndTimer(t, i);
+  static go = (t, i) => new G(i).waitTxtAndTimer(t, i);
   breakEvent() {
   }
   onFinish() {
@@ -689,10 +663,10 @@ class H extends f {
     N.go(this.hArg);
   }
 }
-class N extends U {
+class N extends L {
   // [l] クリック待ち
   static go = (t) => {
-    w(t, "visible", !0) && x.breakLine(t), L();
+    w(t, "visible", !0) && x.breakLine(t), M();
     const i = w(t, "global", !0);
     return new N(t).waitRsvEvent(!0, i), !0;
   };
@@ -703,48 +677,48 @@ class N extends U {
     P();
   }
 }
-class rt extends f {
+class rt extends c {
   // 文字表示終了待ち（そして[p]）
   static go = (t) => new rt(t).waitTxtAndTimer(0, t);
   breakEvent() {
   }
   onFinish() {
-    A.go(this.hArg);
+    U.go(this.hArg);
   }
   onUserAct() {
     this.onFinish();
   }
 }
-class Q extends f {
+class H extends c {
   // 文字表示終了待ち（そして[p]auto/skipウェイト待ち）
-  static go = (t, i) => new Q(i).waitTxtAndTimer(t, i);
+  static go = (t, i) => new H(i).waitTxtAndTimer(t, i);
   breakEvent() {
   }
   onFinish() {
     P();
   }
   onUserAct() {
-    A.go(this.hArg);
+    U.go(this.hArg);
   }
 }
-class A extends U {
+class U extends L {
   // [p] クリック待ち
   static go = (t) => {
-    w(t, "visible", !0) && x.breakPage(t), L();
+    w(t, "visible", !0) && x.breakPage(t), M();
     const i = w(t, "global", !0);
-    return new A(t).waitRsvEvent(!0, i), !0;
+    return new U(t).waitRsvEvent(!0, i), !0;
   };
   onFinish() {
-    w(this.hArg, "er", !1) && pt.er(this.hArg), dt.clearCache(), P();
+    w(this.hArg, "er", !1) && _t.er(this.hArg), pt.clearCache(), P();
   }
   onUserAct() {
     this.onFinish();
   }
 }
-class at extends U {
+class at extends L {
   static go = (t) => new at(t).waitTxtAndTimer(0, t);
   onFinish() {
-    B();
+    V();
     const t = w(this.hArg, "global", !0);
     this.waitRsvEvent(!0, t);
   }
@@ -752,26 +726,26 @@ class at extends U {
     P();
   }
 }
-class ot extends f {
+class ot extends c {
   constructor(t, i) {
     super(t), this.onIntr = i;
   }
   // 文字表示終了待ち（そして[*]）
   static go = (t, i) => new ot(t, i).waitTxtAndTimer(0, t);
   onFinish() {
-    J.go(this.hArg, this.onIntr);
+    Q.go(this.hArg, this.onIntr);
   }
   onUserAct() {
     this.onFinish();
   }
 }
-class J extends U {
+class Q extends L {
   constructor(t, i) {
     super(t), this.onIntr = i;
   }
   // fireがある → イベント受付する
   //class Rs_Any_Wait extends ReadState {	// fireがない → イベント受付しない
-  static go = (t, i) => new J(t, i).waitLimitedEvent(t, i);
+  static go = (t, i) => new Q(t, i).waitLimitedEvent(t, i);
   onFinish() {
     P();
   }
@@ -779,45 +753,45 @@ class J extends U {
     this.onIntr(), this.onFinish();
   }
 }
-class gt extends f {
+class wt extends c {
   // fireがない → イベント受付しない
   constructor() {
-    super({}), I = () => new G(), K = () => {
+    super({}), F = () => new q(), B = () => {
     };
   }
   breakEvent() {
   }
 }
-class X extends V {
+class J extends z {
   constructor(t) {
-    super(t), I = () => {
-    }, K = () => new Ct();
+    super(t), F = () => {
+    }, B = () => new Ct();
   }
   get isSkipping() {
     return !d[u]?.week;
   }
   // return true で良いのだが、[l]でページ移動モードになったあと、[l]に戻ってモード終了してから、[p]に至る文字表示が瞬時表示になる対策
-  s = (t) => V.go(t);
+  s = (t) => z.go(t);
   wait = () => !1;
   waitclick = () => !1;
   waitTxtAndTimer = () => !1;
   l(t) {
-    return u === v - 1 ? (this.#e(), N.go(t)) : (x.setAllStyle2TxtLay(q), L(), d[u]?.week ? (w(t, "visible", !0) && x.breakLine(t), this.#t(), !0) : !1);
+    return u === v - 1 ? (this.#e(), N.go(t)) : (x.setAllStyle2TxtLay($), M(), d[u]?.week ? (w(t, "visible", !0) && x.breakLine(t), this.#t(), !0) : !1);
   }
   #t() {
     this.waitRsvEvent(!1, !0);
     let t = {};
-    if (Z.length === 0) t = y;
+    if (Z.length === 0) t = k;
     else for (const i of Z) {
-      const s = y[i];
+      const s = k[i];
       s && (t[i] = s);
     }
-    f.getEvt2Fnc = (i) => c[i] ?? t[i];
+    c.getEvt2Fnc = (i) => h[i] ?? t[i];
   }
   p(t) {
-    return u === v - 1 ? (this.#e(), A.go(t)) : (x.setAllStyle2TxtLay(q), L(), w(t, "visible", !0) && x.breakPage(t), this.#t(), !0);
+    return u === v - 1 ? (this.#e(), U.go(t)) : (x.setAllStyle2TxtLay($), M(), w(t, "visible", !0) && x.breakPage(t), this.#t(), !0);
   }
-  static go = (t) => (l.setVal_Nochk("tmp", "const.sn.isPaging", !0), new X(t).page(t));
+  static go = (t) => (l.setVal_Nochk("tmp", "const.sn.isPaging", !0), new J(t).page(t));
   page(t) {
     const { to: i, style: s, clear: n } = t;
     if (s || n) return !1;
@@ -841,8 +815,8 @@ class X extends V {
     }
     const r = d[u];
     if (!r) throw `[page] posPage異常:${u}`;
-    const { fn: a, index: o, mark: h } = r;
-    return g.loadFromMark({ fn: a, index: o }, h);
+    const { fn: a, index: o, mark: f } = r;
+    return g.loadFromMark({ fn: a, index: o }, f);
   }
   #e() {
     l.setVal_Nochk("tmp", "const.sn.isPaging", !1);
@@ -852,27 +826,27 @@ class X extends V {
   onUserAct() {
   }
 }
-class Ct extends f {
+class Ct extends c {
   // fireがない → イベント受付しない
   constructor() {
-    super({}), I = () => {
-      new X({}), tt.resume(), et.hidden = !0;
-    }, K = () => {
+    super({}), F = () => {
+      new J({}), tt.resume(), et.hidden = !0;
+    }, B = () => {
     };
   }
   breakEvent() {
   }
 }
 export {
-  W as E,
+  D as E,
   Pt as I,
-  f as R,
+  c as R,
   xt as T,
   St as a,
   Ot as d,
   P as e,
   Mt as p,
   lt as r,
-  It as u
+  Ft as u
 };
 //# sourceMappingURL=ReadState.js.map

@@ -53,6 +53,7 @@
 		//verbatimModuleSyntax	false
 		//"extendedDiagnostics": true,	// コンパイル時に TypeScript が時間を費やしている場所を検出
 		"noUncheckedSideEffectImports": true,
+		"libReplacement": false,
 
 		/* Other */
 		// experimentalDecorators

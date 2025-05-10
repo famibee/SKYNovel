@@ -1,4 +1,4 @@
-import { a as S, q as ot, L as Y, r as Et, S as G, c as B, i as ut, s as W, D as M, f as Rt, R as U, v as _t, w as O, b as g, x as V, E as wt, C as E, y as K, j, z, u as L, F as St, o as lt, H as Pt, I as Tt, k as st, J as xt, K as Ft, P as Ot, M as mt, g as yt, N as It, O as Bt } from "./app2.js";
+import { a as S, q as ot, d as Y, B as Et, S as G, L as I, i as ut, r as W, D as M, f as Rt, R as U, s as _t, v as O, w as V, b as g, E as wt, C as E, x as K, j, y as z, u as L, z as St, o as lt, F as Pt, H as Tt, k as st, I as xt, J as Ft, P as Ot, K as mt, g as yt, M as Bt, N as It } from "./app2.js";
 import { C as F } from "./CmnTween.js";
 import { e as q, d as X, R as bt, T as Vt } from "./ReadState.js";
 import { R as ht } from "./RubySpliter.js";
@@ -101,7 +101,7 @@ class _ {
   static #n;
   static #o;
   static init(t, e, s, i, n) {
-    _.#i = t, _.#e = e, _.#n = s, _.#o = i, s.arg.crypto && (_.#f = _.#p, _.#l = _.#I);
+    _.#i = t, _.#e = e, _.#n = s, _.#o = i, s.arg.crypto && (_.#f = _.#p, _.#l = _.#B);
     const o = () => {
       const a = _.#c * _.#t;
       for (const l of Object.values(_.#x)) l.volume = a;
@@ -160,7 +160,7 @@ class _ {
       };
       if (o.push({ fn: d, fnc: y }), d in _.#h || d in ot || d in Y.shared.resources) break;
       n = !0;
-      const b = _.#i.searchPath(d, G.SP_GSM), C = this.#n.arg.crypto ? { xhrType: b.slice(-5) === ".json" ? B.XHR_RESPONSE_TYPE.TEXT : B.XHR_RESPONSE_TYPE.BUFFER } : {};
+      const b = _.#i.searchPath(d, G.SP_GSM), C = this.#n.arg.crypto ? { xhrType: b.slice(-5) === ".json" ? I.XHR_RESPONSE_TYPE.TEXT : I.XHR_RESPONSE_TYPE.BUFFER } : {};
       a.add({ ...C, name: d, url: b });
     }
     const u = (h, m) => {
@@ -189,7 +189,7 @@ class _ {
   static #h = {};
   static #f = (t, { type: e, name: s, data: i }, n) => {
     switch (e) {
-      case B.TYPE.VIDEO:
+      case I.TYPE.VIDEO:
         const o = i;
         o.volume = _.#c, _.#x[s] = _.#w(o);
     }
@@ -202,14 +202,14 @@ class _ {
     return t.sort((n, o) => ut(n.slice(s, i)) > ut(o.slice(s, i)) ? 1 : -1);
   }
   static async #p(t, e, s) {
-    e.data = t, e.extension !== "bin" && s(), t instanceof HTMLImageElement ? (e.texture = await W.fromLoader(t, e.url, e.name), e.type = B.TYPE.IMAGE) : t instanceof HTMLVideoElement && (t.volume = _.#c, _.#x[e.name] = _.#w(t), e.type = B.TYPE.VIDEO), s();
+    e.data = t, e.extension !== "bin" && s(), t instanceof HTMLImageElement ? (e.texture = await W.fromLoader(t, e.url, e.name), e.type = I.TYPE.IMAGE) : t instanceof HTMLVideoElement && (t.volume = _.#c, _.#x[e.name] = _.#w(t), e.type = I.TYPE.VIDEO), s();
   }
   static #w(t) {
     return _.#e.getVal("const.sn.needClick2Play") && (M.trace_beforeNew(`[lay系] ${M.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, "W"), t.muted = !0), t.setAttribute("playsinline", ""), t;
   }
   static #l = (t, { type: e, spritesheet: s, name: i, data: n }, o) => {
     switch (e) {
-      case B.TYPE.JSON:
+      case I.TYPE.JSON:
         const a = s._frameKeys;
         _.#u(a), _.#h[i] = {
           aTex: a.map((l) => W.from(l)),
@@ -218,18 +218,18 @@ class _ {
     }
     o();
   };
-  static #I(t, e, s) {
+  static #B(t, e, s) {
     const { meta: i, frames: n } = e.data = JSON.parse(t);
-    if (e.type = B.TYPE.JSON, !i?.image) {
+    if (e.type = I.TYPE.JSON, !i?.image) {
       s();
       return;
     }
     const o = Rt(i.image), a = _.#i.searchPath(o, G.SP_GSM);
     new Y().use((l, c) => {
       this.#n.decAB(l.data).then((u) => {
-        l.data = u, u instanceof HTMLImageElement && (l.type = B.TYPE.IMAGE, URL.revokeObjectURL(u.src)), c();
+        l.data = u, u instanceof HTMLImageElement && (l.type = I.TYPE.IMAGE, URL.revokeObjectURL(u.src)), c();
       }).catch((u) => this.#o.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${l.name} ${u}`, !1));
-    }).add({ name: o, url: a, xhrType: B.XHR_RESPONSE_TYPE.BUFFER }).load((l, c) => {
+    }).add({ name: o, url: a, xhrType: I.XHR_RESPONSE_TYPE.BUFFER }).load((l, c) => {
       for (const { data: u } of Object.values(l.resources)) {
         const { baseTexture: h } = W.from(u), m = Object.values(n);
         _.#h[e.name] = {
@@ -522,8 +522,8 @@ class zt {
         const p = this.#h(o, l), { elm: d, rect: y, ch: b } = o[p];
         if (!this.break_fixed) {
           this.break_fixed_left = y.x, this.break_fixed_top = y.y;
-          const P = globalThis.getComputedStyle(d), I = parseFloat(P.fontSize);
-          s ? this.break_fixed_top += I : this.break_fixed_left += I;
+          const P = globalThis.getComputedStyle(d), B = parseFloat(P.fontSize);
+          s ? this.break_fixed_top += B : this.break_fixed_left += B;
         }
         u = -1 / 0;
         const C = l, { cont: v, ins: w } = this.bura ? this.hyph_alg_bura(o, p, b, l) : this.hyph_alg(o, p, b, l, f);
@@ -654,7 +654,7 @@ $1
     k.#n = t, k.#o = e;
   }
   static destroy() {
-    k.#S = /* @__PURE__ */ Object.create(null), k.#B = /* @__PURE__ */ Object.create(null), k.delBreak();
+    k.#S = /* @__PURE__ */ Object.create(null), k.#I = /* @__PURE__ */ Object.create(null), k.delBreak();
   }
   #t = document.createElement("span");
   // サンプリング元
@@ -855,7 +855,7 @@ $1
         if (R()) return Promise.resolve(v);
         return Promise.resolve(v).then(y).then((T) => {
           let P = Promise.resolve(v);
-          for (const I of T) P = P.then((at) => b(at, I, w, N));
+          for (const B of T) P = P.then((at) => b(at, B, w, N));
           return P;
         });
         function R() {
@@ -916,7 +916,7 @@ $1
       d.width = this.#s.$width, d.height = this.#s.$height, d.getContext("2d").drawImage(p, 0, 0), t(W.from(d));
     }).catch((p) => M.myTrace(`goTxt() = ${p}`));
   }
-  #I = void 0;
+  #B = void 0;
   // 文字にかけるフィルター
   #$ = [];
   #x = [];
@@ -985,7 +985,7 @@ $1
         T.key = `lnk=[${y}] ` + this.name;
         const P = new O();
         this.#J(P, T, w, C, r, N ?? {});
-        const I = T.style ?? "", at = I + (T.style_hover ?? ""), kt = I + (T.style_clicked ?? ""), A = T.r_style ?? "", vt = A + (T.r_style_hover ?? ""), $t = A + (T.r_style_clicked ?? ""), ft = Array.from(R.getElementsByTagName("rt"));
+        const B = T.style ?? "", at = B + (T.style_hover ?? ""), kt = B + (T.style_clicked ?? ""), A = T.r_style ?? "", vt = A + (T.r_style_hover ?? ""), $t = A + (T.r_style_clicked ?? ""), ft = Array.from(R.getElementsByTagName("rt"));
         for (const et of ft) et.dataset.st_r_bk = et.style.cssText;
         const Ct = R.style.cssText, tt = (et, Nt) => {
           R.style.cssText = Ct + et;
@@ -994,11 +994,11 @@ $1
         S(T, "enabled", !0) ? k.#n.button(
           T,
           P,
-          () => tt(I, A),
+          () => tt(B, A),
           () => this.canFocus() ? (tt(at, vt), !0) : !1,
           () => tt(kt, $t)
         ) : tt(
-          I + (T.style_disable ?? "color: gray;"),
+          B + (T.style_disable ?? "color: gray;"),
           A + (T.r_style_disable ?? "color: gray;")
         ), this.#c.addChild(P);
       }
@@ -1051,7 +1051,7 @@ $1
   static #S = /* @__PURE__ */ Object.create(null);
   static #D = /[\s\.,]/;
   static initChStyle() {
-    k.#S = /* @__PURE__ */ Object.create(null), k.#B = /* @__PURE__ */ Object.create(null);
+    k.#S = /* @__PURE__ */ Object.create(null), k.#I = /* @__PURE__ */ Object.create(null);
   }
   static getChInStyle(t) {
     return k.#S[t];
@@ -1085,17 +1085,17 @@ $1
       ease: t.ease ?? "ease-out"
     };
   }
-  static #B = /* @__PURE__ */ Object.create(null);
+  static #I = /* @__PURE__ */ Object.create(null);
   static getChOutStyle(t) {
-    return k.#B[t];
+    return k.#I[t];
   }
   static ch_out_style(t) {
     const { name: e } = t;
     if (!e) throw "nameは必須です";
     if (k.#D.test(e)) throw `name【${e}】に使えない文字が含まれます`;
-    if (e in k.#B) throw `name【${e}】はすでにあります`;
+    if (e in k.#I) throw `name【${e}】はすでにあります`;
     const s = String(t.x ?? "=0"), i = String(t.y ?? "=0");
-    return k.#B[e] = {
+    return k.#I[e] = {
       wait: g(t, "wait", 500),
       // アニメ・FI時間
       alpha: g(t, "alpha", 0),
@@ -1148,7 +1148,7 @@ $1
         // 縦中横
       );
       if (!o.ch_out_style) return;
-      const a = k.#B[o.ch_out_style];
+      const a = k.#I[o.ch_out_style];
       if (a) {
         if (a.wait === 0) {
           n.style.display = "none";
@@ -1167,7 +1167,7 @@ $1
   reNew() {
     this.#b();
     const t = new k(this.ctn, () => this.canFocus(), this.sys);
-    return t.#s = this.#s, t.#t.style.cssText = this.#t.style.cssText, t.#f = this.#f, t.name = this.name, t.#h(), t.#I = this.#I, t.#N = this.#N, t.#E = this.#E, this.#r.reNew(t.#r), this.destroy(), t;
+    return t.#s = this.#s, t.#t.style.cssText = this.#t.style.cssText, t.#f = this.#f, t.name = this.name, t.#h(), t.#B = this.#B, t.#N = this.#N, t.#E = this.#E, this.#r.reNew(t.#r), this.destroy(), t;
   }
   record() {
     return {
@@ -1175,14 +1175,14 @@ $1
       cssText: this.#t.style.cssText,
       left: this.#f,
       //		idc_hArg	: this.#idc.gethArg(),
-      ch_filter: this.#I,
+      ch_filter: this.#B,
       fi_easing: this.#N,
       fo_easing: this.#E,
       hyph: this.#r.record()
     };
   }
   playback(t) {
-    this.#s = t.infTL, this.position.set(this.#s.pad_left, this.#s.pad_top), this.#t.style.cssText = t.cssText, this.#f = t.left, this.#h(), this.#I = t.ch_filter, this.#N = t.fi_easing, this.#E = t.fo_easing, this.#r.playback(t.hyph);
+    this.#s = t.infTL, this.position.set(this.#s.pad_left, this.#s.pad_top), this.#t.style.cssText = t.cssText, this.#f = t.left, this.#h(), this.#B = t.ch_filter, this.#N = t.fi_easing, this.#E = t.fo_easing, this.#r.playback(t.hyph);
   }
   get cssText() {
     return this.#t.style.cssText;
@@ -1483,7 +1483,7 @@ class x extends V {
   // 背景画像無し（＝単色塗り）
   // 文字表示
   #l = new k(this.ctn, () => this.canFocus(), x.#m);
-  #I = new ht();
+  #B = new ht();
   #$ = document.createElement("span");
   // cssチェック・保存用
   static #x = {
@@ -1498,7 +1498,7 @@ class x extends V {
   };
   #a = new j();
   constructor() {
-    super(), this.ctn.addChild(this.#l), this.#I.init(this.#G), this.ctn.addChild(this.#a), this.#a.name = "cntBtn", this.lay({ style: `width: ${E.stageW}px; height: ${E.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: 16px;`, in_style: "default", out_style: "default", back_clear: "true" });
+    super(), this.ctn.addChild(this.#l), this.#B.init(this.#G), this.ctn.addChild(this.#a), this.#a.name = "cntBtn", this.lay({ style: `width: ${E.stageW}px; height: ${E.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: 16px;`, in_style: "default", out_style: "default", back_clear: "true" });
   }
   destroy() {
     this.#p && (this.ctn.removeChild(this.#p).destroy(), this.#p = void 0), x.#o.recPagebreak(), this.#l.destroy();
@@ -1570,7 +1570,7 @@ class x extends V {
     this.#D = e;
   }
   #D = "";
-  #B = new _();
+  #I = new _();
   #H(t, e) {
     if ("back_clear" in t)
       return S(t, "back_clear", !1) && (this.#h = 0, this.#f = 0, this.#u = !1, this.#w = ""), e(!1), !1;
@@ -1578,9 +1578,9 @@ class x extends V {
     const s = (this.#u ? 1 : Number(x.#e.getVal("sys:TextLayer.Back.Alpha"))) * this.#f;
     if (t.b_pic) {
       if (this.#w !== t.b_pic)
-        return this.#w = t.b_pic, this.#p && (this.ctn.removeChild(this.#p), this.#p.destroy()), this.#B = new _(this.#w, this.ctn, (i) => {
+        return this.#w = t.b_pic, this.#p && (this.ctn.removeChild(this.#p), this.#p.destroy()), this.#I = new _(this.#w, this.ctn, (i) => {
           this.#p = i, i.name = "back(pic)", i.visible = s > 0, i.alpha = s, this.#l.setMySize(i.width, i.height), this.ctn.setChildIndex(i, 0), e(!0);
-        }), this.#B.ret;
+        }), this.#I.ret;
     } else "b_color" in t && (this.#h = xt(t, "b_color", 0), this.#p && (this.ctn.removeChild(this.#p), this.#p.destroy()), this.#w = "", this.ctn.addChildAt(
       (this.#p = new z()).beginFill(this.#h).lineStyle(void 0).drawRect(0, 0, this.#l.getWidth, this.#l.getHeight).endFill(),
       0
@@ -1666,7 +1666,7 @@ class x extends V {
     return ` style='${o} ${i}'`;
   }
   tagCh(t) {
-    this.#I.putTxt(t);
+    this.#B.putTxt(t);
   }
   #O = !1;
   #G = (t, e) => {
@@ -1962,7 +1962,7 @@ class $ {
     if (this.val.getVal(`tmp:${l}`)) throw `frame【${e}】はすでにあります`;
     const c = S(t, "visible", !0), u = t.b_color ? ` background-color: ${t.b_color};` : "", h = this.#r(t);
     $.#n.cvs.insertAdjacentHTML("beforebegin", `<iframe id="${e}" style="opacity: ${i}; ${u} position: absolute; left:${$.#e.ofsLeft4elm + h.x * $.#e.cvsScale}px; top: ${$.#e.ofsTop4elm + h.y * $.#e.cvsScale}px; z-index: 1; border: 0px; overflow: hidden; display: ${c ? "inline" : "none"}; transform: scale(${n}, ${o}) rotate(${a}deg);" width="${h.width * $.#e.cvsScale}" height="${h.height * $.#e.cvsScale}"></iframe>`), X();
-    const m = $.#i.searchPath(s, G.HTML), f = new Y().add({ name: s, url: m, xhrType: B.XHR_RESPONSE_TYPE.TEXT });
+    const m = $.#i.searchPath(s, G.HTML), f = new Y().add({ name: s, url: m, xhrType: I.XHR_RESPONSE_TYPE.TEXT });
     return $.#e.arg.crypto && f.use(async (r, p) => {
       try {
         r.data = await $.#e.dec(r.extension, r.data);
@@ -2013,7 +2013,7 @@ class $ {
       return;
     }
     this.#y[t] = [e];
-    const [o = "", a = ""] = t.split("?"), l = $.#i.searchPath(o, G.SP_GSM), c = new Y().add({ name: t, url: l, xhrType: B.XHR_RESPONSE_TYPE.BUFFER });
+    const [o = "", a = ""] = t.split("?"), l = $.#i.searchPath(o, G.SP_GSM), c = new Y().add({ name: t, url: l, xhrType: I.XHR_RESPONSE_TYPE.BUFFER });
     $.#e.arg.crypto && l.endsWith(".bin") && c.use(async (u, h) => {
       try {
         const m = await $.#e.decAB(u.data);
@@ -2021,7 +2021,7 @@ class $ {
           h();
           return;
         }
-        u.data = m, m instanceof HTMLImageElement && (u.type = B.TYPE.IMAGE);
+        u.data = m, m instanceof HTMLImageElement && (u.type = I.TYPE.IMAGE);
       } catch (m) {
         $.#n.errScript(`FrameMng loadPic ロード失敗です fn:${u.name} ${m}`, !1);
       }
@@ -2166,7 +2166,7 @@ class J {
         }, 1e3 / 60 * 10));
       }, { passive: !0 });
     }
-    a.cvsResize(), x.init(t, e, i, this, (r) => this.#a[r.layname].fore === r, s), H.init(n, t, s, a, l, i), $.init(t, a, n), D.init(t), this.#o = new $(e, s, i), a.hFactoryCls.grp = () => new H(), a.hFactoryCls.txt = () => new x(), e.loadplugin = (r) => this.#$(r), e.snapshot = (r) => this.#p(r), this.#w = this.sys.isApp ? this.#l : this.#I, e.add_lay = (r) => this.#x(r), e.clear_lay = (r) => this.#B(r), e.finish_trans = () => F.finish_trans(), e.lay = (r) => this.#S(r), e.trans = (r) => this.#v(r), e.wt = (r) => F.wt(r), e.quake = (r) => this.#P(r), e.stop_quake = e.finish_trans, e.wq = (r) => e.wt(r), e.pause_tsy = (r) => F.pause_tsy(r), e.resume_tsy = (r) => F.resume_tsy(r), e.stop_tsy = (r) => F.stop_tsy(r), e.tsy = (r) => this.#A(r), e.wait_tsy = (r) => F.wait_tsy(r), e.add_filter = (r) => this.#O(r), e.clear_filter = (r) => this.#Q(r), e.enable_filter = (r) => this.#L(r), e.ch = (r) => this.#R(r), e.clear_text = (r) => this.#et(r), e.current = (r) => this.#K(r), e.endlink = (r) => this.#st(r), e.er = (r) => this.#it(r), e.graph = (r) => this.#nt(r), e.link = (r) => this.#at(r), e.r = (r) => this.#ot(r), e.rec_ch = (r) => this.#tt(r), e.rec_r = (r) => this.#lt(r), e.reset_rec = (r) => this.#rt(r), e.ruby2 = (r) => this.#ht(r), e.span = (r) => this.#ct(r), e.tcy = (r) => this.#dt(r), e.add_face = (r) => _.add_face(r), e.wv = (r) => _.wv(r), e.dump_lay = (r) => this.#ft(r), e.enable_event = (r) => this.#pt(r), e.button = (r) => this.#ut(r), t.existsBreakline && (this.breakLine = (r) => {
+    a.cvsResize(), x.init(t, e, i, this, (r) => this.#a[r.layname].fore === r, s), H.init(n, t, s, a, l, i), $.init(t, a, n), D.init(t), this.#o = new $(e, s, i), a.hFactoryCls.grp = () => new H(), a.hFactoryCls.txt = () => new x(), e.loadplugin = (r) => this.#$(r), e.snapshot = (r) => this.#p(r), this.#w = this.sys.isApp ? this.#l : this.#B, e.add_lay = (r) => this.#x(r), e.clear_lay = (r) => this.#I(r), e.finish_trans = () => F.finish_trans(), e.lay = (r) => this.#S(r), e.trans = (r) => this.#v(r), e.wt = (r) => F.wt(r), e.quake = (r) => this.#P(r), e.stop_quake = e.finish_trans, e.wq = (r) => e.wt(r), e.pause_tsy = (r) => F.pause_tsy(r), e.resume_tsy = (r) => F.resume_tsy(r), e.stop_tsy = (r) => F.stop_tsy(r), e.tsy = (r) => this.#A(r), e.wait_tsy = (r) => F.wait_tsy(r), e.add_filter = (r) => this.#O(r), e.clear_filter = (r) => this.#Q(r), e.enable_filter = (r) => this.#L(r), e.ch = (r) => this.#R(r), e.clear_text = (r) => this.#et(r), e.current = (r) => this.#K(r), e.endlink = (r) => this.#st(r), e.er = (r) => this.#it(r), e.graph = (r) => this.#nt(r), e.link = (r) => this.#at(r), e.r = (r) => this.#ot(r), e.rec_ch = (r) => this.#tt(r), e.rec_r = (r) => this.#lt(r), e.reset_rec = (r) => this.#rt(r), e.ruby2 = (r) => this.#ht(r), e.span = (r) => this.#ct(r), e.tcy = (r) => this.#dt(r), e.add_face = (r) => _.add_face(r), e.wv = (r) => _.wv(r), e.dump_lay = (r) => this.#ft(r), e.enable_event = (r) => this.#pt(r), e.button = (r) => this.#ut(r), t.existsBreakline && (this.breakLine = (r) => {
       delete r.visible, r.id = "break", r.pic = "breakline";
       const p = encodeURIComponent(JSON.stringify(r));
       this.#u("grp｜" + p);
@@ -2279,9 +2279,9 @@ class J {
       this.#o.restoreAllFrame(), q();
     }), !0;
   }
-  #I(t, e, s, i) {
+  #B(t, e, s, i) {
     X();
-    const n = xt(t, "b_color", this.#t), o = It({
+    const n = xt(t, "b_color", this.#t), o = Bt({
       width: s,
       height: i,
       backgroundAlpha: n > 16777216 && e.endsWith(".png") ? 0 : 1,
@@ -2376,7 +2376,7 @@ class J {
     this.#C = this.#X();
   }
   //MARK: レイヤ設定の消去
-  #B(t) {
+  #I(t) {
     return this.#z(t, (e) => {
       const s = this.#a[this.#q({ layer: e })];
       if (t.page === "both") {
@@ -2454,8 +2454,8 @@ void main() {
           R.transPage(w);
           continue;
         }
-        const { fore: { ctn: T }, back: { ctn: P } } = R, I = this.#e.getChildIndex(P);
-        this.#e.removeChild(P), this.#n.removeChild(T), this.#e.addChildAt(T, I), this.#n.addChildAt(P, I);
+        const { fore: { ctn: T }, back: { ctn: P } } = R, B = this.#e.getChildIndex(P);
+        this.#e.removeChild(P), this.#n.removeChild(T), this.#e.addChildAt(T, B), this.#n.addChildAt(P, B);
       }
       await Promise.allSettled(w), this.#e.visible = !0, this.#n.visible = !1, this.#N.visible = !1, this.#b.visible = !1;
     };
@@ -2508,7 +2508,7 @@ void main() {
       vague: g(t, "vague", 0.04),
       tick: 0
     };
-    this.#b.filters = [new Bt(
+    this.#b.filters = [new It(
       void 0,
       p ?? J.#H,
       b
