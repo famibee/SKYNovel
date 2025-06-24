@@ -1,3 +1,10 @@
+## [1.61.20](https://github.com/famibee/SKYNovel/compare/v1.61.19...v1.61.20) (2025-06-24)
+
+
+### Bug Fixes
+
+* 一文中の[l]後〜次の[l]でクリック待ちが表示されず、ワンクリックして表示される場合がある件 ([161c1f4](https://github.com/famibee/SKYNovel/commit/161c1f4478d5191952b68ab3517abbec35988ba4))
+
 - fix: 一文中の[l]後〜次の[l]でクリック待ちが表示されず、ワンクリックして表示される場合がある件
 - fix: [ch_in_style][ch_out_style] に name属性に使えない文字を追加
 	- 正規表現は /[{\s\.,*\{]/
