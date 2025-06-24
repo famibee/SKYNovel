@@ -1,3 +1,13 @@
+- fix: 一文中の[l]後〜次の[l]でクリック待ちが表示されず、ワンクリックして表示される場合がある件
+- fix: [ch_in_style][ch_out_style] に name属性に使えない文字を追加
+	- 正規表現は /[{\s\.,*\{]/
+- perf: 正規表現見直し
+- perf: 文字表示時処理の見直し
+- fix: ライブラリ更新
+	- Electron 37.0.0 (Stable)
+	- vite v7.0.0
+
+
 ## [1.61.19](https://github.com/famibee/SKYNovel/compare/v1.61.18...v1.61.19) (2025-05-10)
 
 

@@ -7,7 +7,12 @@ function getAugmentedNamespace(a) {
   var e = a.default;
   if (typeof e == "function") {
     var t = function r() {
-      return this instanceof r ? Reflect.construct(e, arguments, this.constructor) : e.apply(this, arguments);
+      var s = !1;
+      try {
+        s = this instanceof r;
+      } catch {
+      }
+      return s ? Reflect.construct(e, arguments, this.constructor) : e.apply(this, arguments);
     };
     t.prototype = e.prototype;
   } else t = {};

@@ -542,10 +542,13 @@ export class TxtLayer extends Layer {
 						this.#aSpan.join('')
 						.replace(/^<ruby>&emsp;<rt>&emsp;<\/rt><\/ruby>(<br\/>)+/, '')
 							// 前方の空行をtrim
-						.replaceAll(/style='(anim\S+ \S+?;\s*)+/g, `style='`)
-						.replaceAll(/( style=''| data-(add|arg|cmd)='.+?'|\n+|\t+)/g, '')
-						.replaceAll(/class='sn_ch .+?'/g, `class='sn_ch'`)
+						.replaceAll(/style='(anim\S+ [^;]+;\s*)+/g, `style='`)
+							// 2 matches (40 step, 205µs) https://regex101.com/r/u1H6v2/1
+						.replaceAll(/( style=''| data-(add|arg|cmd)='[^']+'|\n+|\t+)/g, '')
+							// 2 matches (94 step, 175µs) https://regex101.com/r/5DFUmv/1
+						.replaceAll(/class='sn_ch[^']+/g, `class='sn_ch`)
 							// 不要情報削除
+							// 2 matches (28 step, 280µs) https://regex101.com/r/XhBbYo/1
 						.replaceAll(`display: none;`, '')	// 履歴情報可視化
 						.replaceAll(`class='offrec'`, `style='display: none;'`)
 							// 囲んだ領域は履歴で非表示
@@ -696,7 +699,7 @@ export class TxtLayer extends Layer {
 		const curpos = `data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
 
 		return {
-			cl	: ` class='sn_ch sn_ch_in_${this.#$ch_in_style}'`,	// TxtStage.goTxt()はこれ単位で文字出現させる
+			cl	: ` class='sn_ch sn_ch_yet sn_ch_in_${this.#$ch_in_style}'`,	// TxtStage.goTxt()はこれ単位で文字出現させる
 			sty	: `animation-delay: ${this.#cumDelay}ms;${
 				this.#stkASpan.at(-1)?.o.style ?? ''
 			}`,		// TxtStage.goTxt()はこれ単位で文字出現させる

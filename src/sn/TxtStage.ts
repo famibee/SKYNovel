@@ -563,14 +563,17 @@ export class TxtStage extends Container {
 		.catch(err=> DebugMng.myTrace(`goTxt() = ${err}`));
 	}
 
-	#ch_filter	: any[] | undefined = undefined;	// 文字にかけるフィルター
-	#aSpTw		: ISpTw[]	= [];
 
+	#aGoTxt	: (()=> void)[] = [];	// FIFO実行バッファ
+	goTxt(aSpan: string[], instant: boolean) {
+		const f = ()=> this.#goTxt_Proc(aSpan, instant);
+		if (this.#aGoTxt.push(f) === 1) f();	// len=1 で実行中を示す
+	}
 
 	#aRect		: IChRect[]	= [];
 	#lenHtmTxt = 0;
 	static	readonly	#SPAN_LAST = `<span class='sn_ch sn_ch_last'>&emsp;</span>`;
-	goTxt(aSpan: string[], instant: boolean) {
+	#goTxt_Proc(aSpan: string[], instant: boolean) {
 		TxtStage.#cntBreak.visible = false;
 
 		let begin = this.#aRect.length;
@@ -618,8 +621,8 @@ export class TxtStage extends Container {
 			bkHtm = this.#htmTxt.innerHTML;
 			// 末尾改行削除挙動対策
 			--begin;
-//console.log(`fn:TxtStage.ts begin:${begin} bkHtm=${bkHtm}=`);
-			this.#htmTxt.querySelector('.sn_ch_last')?.remove();
+//console.log(`fn:TxtStage.ts nm=${this.name} begin:${begin} bkHtm=${bkHtm}=`);
+			this.#htmTxt.getElementsByClassName('sn_ch_last').item(0)?.remove();
 				// 前回の末尾を削除
 
 			this.#htmTxt.querySelectorAll(':scope > br').forEach(e=> e.remove());	// 前回の禁則処理を一度削除
@@ -637,7 +640,7 @@ export class TxtStage extends Container {
 		this.#htmTxt.querySelectorAll('.sn_ch:has(> ruby)').forEach(v=> (v as HTMLElement).style.background = '');	// :has直前に空白厳禁
 
 		this.#lenHtmTxt = aSpan.length;
-//console.log(`fn:TxtStage.ts === ==${this.#htmTxt.innerHTML.slice(360)}==`);
+//console.log(`fn:TxtStage.ts nm=${this.name} === ==${this.#htmTxt.innerHTML.slice(360)}==`);
 
 		// this.#getChRects()使用準備
 		const cvsScale = this.sys.cvsScale;
@@ -747,16 +750,18 @@ export class TxtStage extends Container {
 		}
 
 		// 文字出現演出・開始〜終了
-		const chs = Array.from(this.#htmTxt.getElementsByClassName('sn_ch'));
+		const chs = Array.from(<HTMLCollectionOf<HTMLElement>>this.#htmTxt.getElementsByClassName('sn_ch_yet'));
+// console.log(`fn:TxtStage.ts nm=${this.name} StartChIn <==`);
 		this.#fncEndChIn = ()=> {
+// console.log(`fn:TxtStage.ts nm=${this.name} fncEndChIn ==> '${lastElm?.textContent}' cls:${lastElm?.className}:`);
+
 			this.#fncEndChIn = ()=> false;
-			for (const v of chs) v.className = v.className.replaceAll(/ go_ch_in_[^\s"]+/g, '');
+			for (const v of chs) v.className = 'sn_ch';
 			TxtStage.#cntBreak.position.set(
 				this.#hyph.break_fixed_left,
 				this.#hyph.break_fixed_top,
 			);
 			TxtStage.#cntBreak.visible = true;
-//console.log(`fn:TxtStage.ts // #fncEndChIn`);
 			/*
 				- これらはセットで確認すること。兼ね合いにより、いずれかが破綻する場合がある
 					- 末尾文字表示でカーソルが次行先頭に来てしまうことのないよう
@@ -765,10 +770,15 @@ export class TxtStage extends Container {
 			*/
 
 			this.noticeCompTxt();
+
+			const f = this.#aGoTxt.shift();	// 実行中の一個必ず入ってる（clearText注意）
+			if (this.#aGoTxt.length > 0) f!();	// まだあれば実行待ちなので実行
+
 			return true;
 		};
 
-		for (const v of chs) v.className = v.className.replaceAll(/sn_ch_in_([^\s"]+)/g, 'go_ch_in_$1');
+		// アニメ開始（sn_ch を置換しないよう注意）
+		for (const v of chs) v.className = v.className.replace('sn_ch_yet sn', 'go');
 		if (begin > 0) ++begin;	// 末尾改行削除挙動対策
 
 		// 文字表示に時間をかける最後の文字を探す。末尾はダミー（#SPAN_LAST）
@@ -777,17 +787,17 @@ export class TxtStage extends Container {
 			const {elm} = this.#aRect[i]!;
 			if (elm.tagName !== 'SPAN') continue;	// ルビ以外
 
-//console.log(`fn:TxtStage.ts txt:${elm.textContent}: i:${i} begin:${begin} len:${len} elm:%o`, elm);
+//console.log(`fn:TxtStage.ts nm=${this.name} txt:${elm.textContent}: i:${i} begin:${begin} len:${len} elm:%o`, elm);
 			lastElm = (elm.parentElement?.tagName === 'RUBY')
 				? elm.parentElement.parentElement ?? elm	// [tcy]も[graph]も
 				: elm;
 			break;
 		}
 		if (! lastElm || instant || begin === len) {this.#fncEndChIn(); return}
-			// 「animation-duration: 0ms;」だと animationend が発生しないので
-			// === は右クリック戻りで起こる
+			// 「animation-duration: 0ms;」だと animationend が発生しないので。
+			// if 三項目の === は右クリック戻りで起こる
 
-		lastElm.addEventListener('animationend', ()=> this.#fncEndChIn(), {once: true, passive: true});	// クリックキャンセル時は発生しない
+		lastElm.addEventListener('animationend', ()=> this.#fncEndChIn(), {once: true});	// クリックキャンセル時は発生しない
 			// 差し替えるので「()=> 」形式のままにすること
 	}
 	#fncEndChIn: ()=> boolean	= ()=> false;
@@ -825,6 +835,7 @@ export class TxtStage extends Container {
 		};
 		this.#aSpTw.push(st);
 	}
+	#aSpTw		: ISpTw[]	= [];
 
 	skipChIn(): boolean {	// true: 文字出現中だったので、停止する
 		let wasChInIng = this.#fncEndChIn();
@@ -836,7 +847,8 @@ export class TxtStage extends Container {
 	}
 
 	static	#hChInStyle	= Object.create(null);
-	static	readonly	#REG_NG_CHSTYLE_NAME_CHR	= /[\s\.,]/;
+	static	readonly	#REG_NG_CHSTYLE_NAME_CHR	= /[{\s\.,*\{]/;
+		// https://regex101.com/r/APC91I/1
 	static	initChStyle() {
 		TxtStage.#hChInStyle = Object.create(null);
 		TxtStage.#hChOutStyle = Object.create(null);
@@ -945,6 +957,7 @@ export class TxtStage extends Container {
 		this.#grpDbgMasume.clear();
 		this.#aRect = [];
 		this.#lenHtmTxt = 0;
+		this.#aGoTxt = [];
 
 		//utils.clearTextureCache();	// 改ページと思われるこのタイミングで
 		this.skipChIn();
@@ -955,11 +968,11 @@ export class TxtStage extends Container {
 		old.parentElement!.insertBefore(n, old);
 
 		let sum_wait = 0;
-		old.querySelectorAll<HTMLElement>('span.sn_ch').forEach(elm=> {
+		Array.from(<HTMLCollectionOf<HTMLElement>>old.getElementsByClassName('sn_ch')).forEach(elm =>{
 			const add = JSON.parse(
-				elm?.dataset.add ??				// 通常文字
-				elm?.children[0]?.getAttribute('data-add') ??	// ルビ
-				elm?.children[0]?.children[0]
+				elm.dataset.add ??				// 通常文字
+				elm.children[0]?.getAttribute('data-add') ??	// ルビ
+				elm.children[0]?.children[0]
 					?.getAttribute('data-add') ?? '{}'		// 縦中横
 			);
 			if (! add.ch_out_style) return;
@@ -981,7 +994,7 @@ export class TxtStage extends Container {
 			}
 		};
 		if (sum_wait === 0) {this.#htmTxt.textContent = ''; end()}
-		else old.lastElementChild?.addEventListener('animationend', end, {once: true, passive: true});
+		else old.lastElementChild?.addEventListener('animationend', end, {once: true});
 
 		this.#htmTxt = n;
 
@@ -1008,6 +1021,7 @@ export class TxtStage extends Container {
 
 		return to;
 	}
+	#ch_filter	: any[] | undefined = undefined;	// 文字にかけるフィルター
 
 
 	record() {return {
