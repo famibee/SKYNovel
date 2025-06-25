@@ -158,7 +158,7 @@ class _ {
       }, b = r === 0 ? e : (v) => {
         v.x = f, v.y = h, v.blendMode = p;
       };
-      if (o.push({ fn: d, fnc: b }), d in _.#r || d in ot || d in Y.shared.resources) break;
+      if (o.push({ fn: d, fnc: b }), d in _.#r || d in ot || d in Y.shared.resources) continue;
       n = !0;
       const y = _.#i.searchPath(d, G.SP_GSM), C = this.#n.arg.crypto ? { xhrType: y.slice(-5) === ".json" ? I.XHR_RESPONSE_TYPE.TEXT : I.XHR_RESPONSE_TYPE.BUFFER } : {};
       a.add({ ...C, name: d, url: y });

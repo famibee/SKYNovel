@@ -142,17 +142,17 @@ export class SpritesMng {
 			};
 			aComp.push({fn, fnc});
 
-			if (fn in SpritesMng.#hFn2ResAniSpr) break;
-			if (fn in utils.TextureCache) break;
-			//if (fn in utils.BaseTextureCache) break;		// 警告に変化なし
-			if (fn in Loader.shared.resources) break;
+			if (fn in SpritesMng.#hFn2ResAniSpr) continue;
+			if (fn in utils.TextureCache) continue;
+			//if (fn in utils.BaseTextureCache) continue;		// 警告に変化なし
+			if (fn in Loader.shared.resources) continue;
 			//if (fn in SpritesMng.#ldrHFn) {
 				// ここに来るという中途半端な状態がある。お陰で警告が出てしまう
 				// （警告を消そうとする）以下の試みは効かない。直前の if でそもそもここに来ない
 				//	Texture.removeFromCache(fn);
 				//	delete utils.TextureCache[fn];
 				//	delete Loader.shared.resources[fn];
-				// break;	// これは厳禁、御法度。
+				// continue;	// これは厳禁、御法度。
 					// 画像ボタンや文字ボタン背景で同じ画像を、間を置かずロードした場合に最初一つしか表示されなくなる。以下は確認用ギャラリー
 					// http://localhost:8082/index.html?cur=ch_button
 			//}
