@@ -1,3 +1,10 @@
+## [1.61.21](https://github.com/famibee/SKYNovel/compare/v1.61.20...v1.61.21) (2025-06-25)
+
+
+### Bug Fixes
+
+* 画像表示でキャッシュの掛かり方によって表示されなくなる件 ([84dd319](https://github.com/famibee/SKYNovel/commit/84dd319daf5e600ebbecd3cfb87bc29543db3a88))
+
 - fix: 画像表示でキャッシュの掛かり方によって表示されなくなる件
 	- 立ち絵の差分が一部表示されない事がある件
 	- 1.61.7 (2024-12-15) 付近でデグレード
