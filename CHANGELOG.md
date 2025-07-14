@@ -1,3 +1,10 @@
+## [1.61.22](https://github.com/famibee/SKYNovel/compare/v1.61.21...v1.61.22) (2025-07-14)
+
+
+### Bug Fixes
+
+* **src/appMain.ts:** win版でウインドウ右部分に空白ができてしまう件 ([27eade8](https://github.com/famibee/SKYNovel/commit/27eade8620f30fa50562632cde904932b75e973b))
+
 -fix(src/appMain.ts): win版でウインドウ右部分に空白ができてしまう件
 -fix(src/appMain.ts): 終了→再度アプリ起動でウインドウ位置とサイズが復帰しない件
 -fix(src/sn/CmnLib.ts, src/appMain.ts): mainプロセスで platform によるOS=windows判定が失敗するようになっていた件
