@@ -7,7 +7,6 @@
 
 import type {HINFO, TAG_WINDOW} from './preload';
 import type {T_CFG} from './sn/ConfigBase';
-import {CmnLib} from "./sn/CmnLib";
 
 import {app, BrowserWindow, dialog, ipcMain as ipc, screen, shell} from 'electron';
 import type {MessageBoxOptions, Size, OpenDialogOptions} from 'electron/main';
@@ -66,10 +65,13 @@ export class appMain {
 	};
 	#winX	= 0;
 	#winY	= 0;
-	#cvsW	= 0;
-	#cvsH	= 0;
+	#csW	= 0;
+	#csH	= 0;
 
+	readonly	#isWin;	// import {os} from 'platform'; は動作しない
 	private	constructor(private readonly bw: BrowserWindow, readonly version: string, readonly path_htm: string) {
+		this.#isWin = process.platform === 'win32';
+
 		// 以下コメントアウトなら【プロジェクト】のターミナルに出る
 		console.log = (arg: any)=> this.bw.webContents.send('log', arg);
 
@@ -80,10 +82,10 @@ export class appMain {
 		ipc.handle('getInfo', ()=> this.#hInfo);
 		ipc.handle('inited', (_, c: T_CFG, tagW: TAG_WINDOW)=> this.#inited(c, tagW));
 
-		ipc.handle('existsSync', (_, fn: string)=> existsSync(fn));
+		ipc.handle('existsSync', (_, path: string)=> existsSync(path));
 		ipc.handle('copySync', (_, path_from: string, path_to: string)=> copySync(path_from, path_to));
-		ipc.handle('removeSync', (_, fn: string)=> removeSync(fn));
-		ipc.handle('ensureFileSync', (_, fn: string)=> ensureFileSync(fn));
+		ipc.handle('removeSync', (_, path: string)=> removeSync(path));
+		ipc.handle('ensureFileSync', (_, path: string)=> ensureFileSync(path));
 		ipc.handle('writeFileSync', (_, path: string, data: string | NodeJS.ArrayBufferView, o?: WriteFileOptions)=> writeFileSync(path, data, o));
 		ipc.handle('appendFile', (_, path: string, data: string | Uint8Array)=> appendFile(path, data).catch(err=> console.log(err)));
 		ipc.handle('outputFile', (_, path: string, data: string | NodeJS.ArrayBufferView)=> outputFile(path, data).catch(err=> console.log(err)));
@@ -94,13 +96,13 @@ export class appMain {
 		ipc.handle('showMessageBox', (_, o: MessageBoxOptions)=> dialog.showMessageBox(bw, o));
 		ipc.handle('showOpenDialog', (_, o: OpenDialogOptions)=> dialog.showOpenDialog(bw, o));
 
-		ipc.handle('capturePage', (_, fn: string, width: number, height: number)=> bw.webContents.capturePage()
+		ipc.handle('capturePage', (_, path: string, width: number, height: number)=> bw.webContents.capturePage()
 		.then(ni=> {
-			ensureFileSync(fn);	// 【必須】ディレクトリ、なければ作る
+			ensureFileSync(path);	// 【必須】ディレクトリ、なければ作る
 
 			const c = ni.resize({width, height, quality: 'best'});
-			const d = (fn.endsWith('.png')) ?c.toPNG() :c.toJPEG(80);
-			writeFileSync(fn, d);
+			const d = (path.endsWith('.png')) ?c.toPNG() :c.toJPEG(80);
+			writeFileSync(path, d);
 		}));
 		ipc.handle('navigate_to', (_, url: string)=> shell.openExternal(url));
 
@@ -124,32 +126,31 @@ export class appMain {
 		});
 
 		ipc.handle('isSimpleFullScreen', ()=> bw.simpleFullScreen);
-		if (CmnLib.isWin) {
+		if (this.#isWin) {	// winでのみ必要な処理
 			ipc.handle('setSimpleFullScreen', (_, b: boolean)=> {
-				this.#isMovingWin = true;
+				this.#onMove = ()=> {};
 				bw.setSimpleFullScreen(b);	// これだけで #onMove 発生
 				if (! b) {
 					bw.setPosition(this.#winX, this.#winY);
-					bw.setContentSize(this.#cvsW, this.#cvsH);
+					bw.setContentSize(this.#csW, this.#csH);
 				}
-				this.#isMovingWin = false;
+				this.#onMove = this.#onMove_Proc;
 			});
-			// winでのみ必要な処理なので、winでのみ処理させる
 			// 以下のイベントは winで必ず、macでは「Command + Control + F」でのみ発生
 			bw.on('enter-full-screen', ()=> {
-				//this.#isMovingWin = true;	// 効かない
-				bw.setContentSize(this.#scrSize.width, this.#scrSize.height);	// メニュー高さぶん引く
-				//this.#isMovingWin = false;
+				this.#onMove = ()=> {};
+				bw.setContentSize(this.#scrSize.width, this.#scrSize.height);
+				this.#onMove = this.#onMove_Proc;
 			});
 			bw.on('leave-full-screen', ()=> {
-				this.#window(false, this.#winX, this.#winY, this.#cvsW, this.#cvsH);
+				this.#window(false, this.#winX, this.#winY, this.#csW, this.#csH);
 			});
 		}
 		else ipc.handle('setSimpleFullScreen', (_, b: boolean)=> {
 			bw.setSimpleFullScreen(b);
 			if (b) return;
 
-			bw.setContentSize(this.#cvsW, this.#cvsH);
+			bw.setContentSize(this.#csW, this.#csH);
 		});
 		ipc.handle('window', (_, c: boolean, x: number, y: number, w: number, h: number)=> this.#window(c, x, y, w, h));
 
@@ -165,11 +166,17 @@ export class appMain {
 	openDevTools	= ()=> {};
 	#evDevtoolsOpened = ()=> this.bw.webContents.closeDevTools();	// 開こうとしたら閉じる
 	#inited(oCfg: T_CFG, rctW: TAG_WINDOW) {
-		const {c, x, y, w, h} = rctW;
-		this.#numAspectRatio = w / h;
-		if (! CmnLib.isWin) this.bw.setAspectRatio(this.#numAspectRatio);
+		const {width, height} = oCfg.window;
+		const {c, x, y, w} = rctW;
+		this.#numAspectRatio = width / height;
+		const h = w === width ?height : w /this.#numAspectRatio;
+// console.log(`fn:appMain.ts #inited-0 `);
+		if (! this.#isWin) this.bw.setAspectRatio(this.#numAspectRatio);
 		this.#window(c, x, y, w, h);
 		this.bw.show();
+
+// console.log(`fn:appMain.ts #inited-9 [onMove 有効]`);
+		this.#onMove = this.#onMove_Proc;
 
 		if (oCfg.debug.devtool) {
 			this.#evDevtoolsOpened = ()=> {};
@@ -196,59 +203,57 @@ export class appMain {
 	}
 
 	#tid: NodeJS.Timeout | undefined = undefined;
-	#skipDelayWinPos	= false;
-	#isMovingWin		= false;
-	#onMove() {
-//console.log(`fn:appMain.ts #onMove #isMovingWin:${this.#isMovingWin}`);
+	#onMove = ()=> {};
+	#onMove_Proc() {
 		if (this.#tid) return;
 
-		if (this.#isMovingWin) return;
-		this.#isMovingWin = true;
-
+		this.#onMove = ()=> {};
 		const [ox, oy] = this.bw.getPosition();
 		const [ow, oh] = this.bw.getContentSize();
-//console.log(`fn:appMain.ts #onMove - ox:${ox} oy:${oy} ow:${ow} oh:${oh}`);
 		this.#tid = setTimeout(()=> {	// clearTimeout()不要と判断
 			this.#tid = undefined;
-			if (this.#skipDelayWinPos) {this.#skipDelayWinPos = false; return}
 
-			this.#isMovingWin = false;
+			// 変化があればやり直し（動きが止まるまで次に行かない）
 			const [nx=0, ny=0] = this.bw.getPosition();
 			const [nw=0, nh=0] = this.bw.getContentSize();
-//console.log(`fn:appMain.ts #onMove = ow:${ow} nw:${nw} oh:${oh} nh:${nh}`);
-			if (ox !== nx || oy !== ny || ow !== nw || oh !== nh) {this.#onMove(); return}
-			this.#window(false, nx, ny, nw, nh);
+			if (ox !== nx || oy !== ny || ow !== nw || oh !== nh) {this.#onMove_Proc(); return}
+// console.log(`fn:appMain.ts #onMove o(${ox},${oy},${ow},${oh}) n(${nx},${ny},${nw},${nh})`);
+
+			this.#onMove = this.#onMove_Proc;
+			//NOTE: Electron API 不具合の対処療法（後者はどうしようもない）
+			// ・ウインドウ右辺をクリックするだけで nh が縦に短くなる件
+			// ・ウインドウ下辺を変更しても、ContentSizeやSizeのhが変化しない件
+			let nw2 = nw;
+			let nh2 = nh;
+			if (this.#isWin) {
+				if (ow === nw) nh2 = nw /this.#numAspectRatio;
+				else nw2 = nh *this.#numAspectRatio;
+			}
+			this.#window(false, nx, ny, nw2, nh2);
 		}, 1000 /60 *10);
 	}
 
-	#window(centering: boolean, x: number, y: number, w: number, h: number) {
-		if (this.#isMovingWin) return;
-		this.#isMovingWin = true;
+	#window(c: boolean, x: number, y: number, w: number, h: number) {
 		if (this.bw.simpleFullScreen) return;
 			// 全画面時に無効にする意味合いと、
 			// winでのみ全画面移行時に【setContentSize】から発生
 
-//console.log(`fn:appMain.ts #window (${x}, ${y}, ${w}, ${h}) w/h=${w/h} scr(${this.#scrSize.width}, ${this.#scrSize.height})`);
-		if (centering) {
+// console.log(`fn:appMain.ts #window c:${c} (${x},${y},${w},${h}) scr(${this.#scrSize.width},${this.#scrSize.height})`);
+		this.#onMove = ()=> {};
+		if (c) {
 			this.#chgDsp();
 			x = (this.#scrSize.width - w) *0.5;
 			y = (this.#scrSize.height- h) *0.5;
 		}
-		this.#winX = x = Math.round(x);
+		this.#winX = x = Math.round(x);	// 小数値を渡すと例外？　ぽい（四捨五入でいく）
 		this.#winY = y = Math.round(y);
-		this.bw.setPosition(x, y);	// 小数値を渡すと例外？　ぽい（四捨五入でいく）
+		this.bw.setPosition(x, y);
+		this.#csW = w = Math.round(w);
+		this.#csH = h = Math.round(h);
+		this.bw.setContentSize(w, h);
 
-//console.log(`fn:appMain.ts #window - w:${w} h:${w /this.#numAspectRatio} cw:${this.#cvsW} ch:${this.#cvsH} +${(this.#cvsW !== w)}+${(this.#cvsW !== w) ?Math.round(w /this.#numAspectRatio) :Math.round(h *this.#numAspectRatio)}+`);
-		if (CmnLib.isWin) {
-			if (this.#cvsW !== w) h = w /this.#numAspectRatio;
-			else w = h *this.#numAspectRatio;
-		}
-		this.#cvsW = w = Math.round(w);
-		this.#cvsH = h = Math.round(h);
-		this.bw.setContentSize(w, h);	// 小数値を渡すと例外？　ぽい（四捨五入でいく）
-
-		this.bw.webContents.send('save_win_inf', {c: centering, x, y, w, h, scrw: this.#scrSize.width, scrh: this.#scrSize.height});
-		this.#isMovingWin = false;
+		this.bw.webContents.send('save_win_inf', {c, x, y, w, h, scrw: this.#scrSize.width, scrh: this.#scrSize.height});
+		this.#onMove = this.#onMove_Proc;
 	}
 
 }

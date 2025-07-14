@@ -19,7 +19,7 @@ export declare class SysWeb extends SysBase {
     protected readonly _import: ITag;
     protected readonly navigate_to: ITag;
     protected titleSub(txt: string): void;
-    savePic(fn: string, data_url: string): Promise<void>;
+    savePic(path: string, data_url: string): Promise<void>;
     appendFile(path: string, data: any): Promise<void>;
     outputFile(path: string, txt: string): Promise<void>;
 }

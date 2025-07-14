@@ -159,7 +159,6 @@ export class CmnLib {
 	static	readonly	isSafari	= name === 'Safari';
 	static	readonly	isFirefox	= name === 'Firefox';
 	static	readonly	isMac		= /OS X/.test(os?.family ?? '');
-	static	readonly	isWin		= /Windows/.test(os?.family ?? '');
 	static	readonly	isMobile	= ! /(Windows|OS X)/.test(os?.family ?? '');
 	static	hDip		: {[name: string]: string}	= {};
 	static	isDbg		= false;

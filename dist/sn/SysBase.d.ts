@@ -73,8 +73,8 @@ export declare class SysBase implements ISysRoots, ISysBase {
     get path_downloads(): string;
     protected $path_userdata: string;
     get path_userdata(): string;
-    capturePage(_fn: string, _w: number, _h: number, _fnc: () => void): void;
-    savePic(_fn: string, _data_url: string): Promise<void>;
+    capturePage(_path: string, _w: number, _h: number, _fnc: () => void): void;
+    savePic(_path: string, _data_url: string): Promise<void>;
     ensureFileSync(_path: string): Promise<void>;
     appendFile(_path: string, _data: string): Promise<void>;
     outputFile(_path: string, _data: string): Promise<void>;

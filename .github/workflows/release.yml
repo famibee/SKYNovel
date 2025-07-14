@@ -19,7 +19,7 @@ jobs:
       uses: actions/setup-node@v4
       with:
         registry-url: https://npm.pkg.github.com/
-        node-version: '22'
+        node-version: 'lts/*'
 
     - name: 📦 Install dependencies
       run: |
@@ -46,7 +46,7 @@ jobs:
       - name: 📜 Fetch the latest tag
         id: latest_tag
         run: |
-          export LATEST_TAG="$(curl -fsi "https://github.com/${GITHUB_REPOSITORY}/releases/latest" | awk -F/ '/^(L|l)ocation:/ {print $(NF)}')"
+          export LATEST_TAG="$(curl -fsi "https://github.com/famibee/${GITHUB_REPOSITORY}/releases/latest" | awk -F/ '/^(L|l)ocation:/ {print $(NF)}')"
           echo "::set-output name=latest_tag::${LATEST_TAG}"
       - uses: actions/checkout@v4
         with:

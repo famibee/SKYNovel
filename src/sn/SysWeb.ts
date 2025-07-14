@@ -268,10 +268,10 @@ export class SysWeb extends SysBase {
 	}
 
 
-	override async savePic(fn: string, data_url: string) {
+	override async savePic(path: string, data_url: string) {
 		const a = document.createElement('a');
 		a.href = data_url;
-		a.download = fn;
+		a.download = path;
 		a.click();
 		if (CmnLib.debugLog) console.log('画像ファイルをダウンロードします');
 	}

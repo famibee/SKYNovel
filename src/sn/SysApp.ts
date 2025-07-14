@@ -34,7 +34,7 @@ export class SysApp extends SysNode {
 
 		this.$path_downloads = this.#hInfo.downloads.replaceAll('\\', '/') +'/';
 
-		to_app.on('log', (_: IpcRendererEvent, arg: any)=> console.info(`[main log] %o`, arg));
+		to_app.on('log', (_: IpcRendererEvent, arg: any)=> console.info(`main: %o`, arg));
 
 		CmnLib.isDbg = Boolean(this.#hInfo.env['SKYNOVEL_DBG']) && ! CmnLib.isPackaged;	// 配布版では無効
 		if (CmnLib.isDbg) this.extPort = uint(this.#hInfo.env['SKYNOVEL_PORT'] ?? '3776');
@@ -100,9 +100,11 @@ export class SysApp extends SysNode {
 			const y = (this.data.sys as any)['const.sn.nativeWindow.y'] ?? 0;
 			const w = (this.data.sys as any)['const.sn.nativeWindow.w'] ?? CmnLib.stageW;
 			const h = (this.data.sys as any)['const.sn.nativeWindow.h'] ?? CmnLib.stageH;
+// console.log(`fn:SysApp.ts to_app.inited(${x},${y},${w},${h})`);
 			to_app.inited(this.cfg.oCfg, {c: first, x, y, w, h});
 
 			to_app.on('save_win_inf', (_e: IpcRendererEvent, {x, y, w, h, scrw, scrh}: SAVE_WIN_INF)=> {
+// console.log(`fn:SysApp.ts save_win_inf (${x},${y},${w},${h}) scrw:${scrw} scrh:${scrh}`);
 				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', x);
 				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', y);
 				this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.w', w);
@@ -276,7 +278,7 @@ export class SysApp extends SysNode {
 			else {
 				const resYml = await this.fetch(url +`latest${CmnLib.isMac ?'-mac' :''}.yml`);
 				if (! resYml.ok) {
-					if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] [update_check] .ymlが見つかりません`);
+					if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] .ymlが見つかりません`);
 					return;
 				}
 				if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] .ymlを取得しました`, 'D');
@@ -393,8 +395,8 @@ export class SysApp extends SysNode {
 		return false;
 	}
 
-	override capturePage(fn: string, w: number, h: number, fnc: ()=> void) {
-		to_app.capturePage(fn, w, h).then(()=> fnc());
+	override capturePage(path: string, w: number, h: number, fnc: ()=> void) {
+		to_app.capturePage(path, w, h).then(()=> fnc());
 	}
 
 }

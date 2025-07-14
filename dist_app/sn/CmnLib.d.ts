@@ -31,7 +31,6 @@ export declare class CmnLib {
     static readonly isSafari: boolean;
     static readonly isFirefox: boolean;
     static readonly isMac: boolean;
-    static readonly isWin: boolean;
     static readonly isMobile: boolean;
     static hDip: {
         [name: string]: string;

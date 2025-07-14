@@ -456,7 +456,6 @@ class CmnLib {
   static isSafari = platformExports.name === "Safari";
   static isFirefox = platformExports.name === "Firefox";
   static isMac = /OS X/.test(platformExports.os?.family ?? "");
-  static isWin = /Windows/.test(platformExports.os?.family ?? "");
   static isMobile = !/(Windows|OS X)/.test(platformExports.os?.family ?? "");
   static hDip = {};
   static isDbg = !1;

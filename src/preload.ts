@@ -50,7 +50,7 @@ export	type	HPROC	= {
 	showMessageBox	: (o: MessageBoxOptions)=> Promise<MessageBoxReturnValue>;
 	showOpenDialog	: (o: OpenDialogOptions)=> Promise<OpenDialogReturnValue>;
 
-	capturePage	: (fn: string, w: number, h: number)=> Promise<void>;
+	capturePage	: (path: string, w: number, h: number)=> Promise<void>;
 	navigate_to	: (url: string)=> void;
 
 	Store	: (o: object)=> Promise<void>;
@@ -103,7 +103,7 @@ export const	hProc	: HPROC = {
 	showMessageBox	: o=> ipcRenderer.invoke('showMessageBox', o).catch(fncE),
 	showOpenDialog	: o=> ipcRenderer.invoke('showOpenDialog', o).catch(fncE),
 
-	capturePage	: (fn, w, h)=>	ipcRenderer.invoke('capturePage', fn, w, h).catch(fncE),
+	capturePage	: (path, w, h)=>	ipcRenderer.invoke('capturePage', path, w, h).catch(fncE),
 	navigate_to	: url=> ipcRenderer.invoke('navigate_to', url).catch(fncE),
 
 	openDevTools	: ()=> ipcRenderer.invoke('openDevTools').catch(fncE),

@@ -487,8 +487,8 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	protected $path_userdata	= '';
 	get path_userdata() {return this.$path_userdata}
 
-	capturePage(_fn: string, _w: number, _h: number, _fnc: ()=> void) {}
-	async savePic(_fn: string, _data_url: string) {}
+	capturePage(_path: string, _w: number, _h: number, _fnc: ()=> void) {}
+	async savePic(_path: string, _data_url: string) {}
 	async ensureFileSync(_path: string) {}
 	async appendFile(_path: string, _data: string) {}
 	async outputFile(_path: string, _data: string) {}

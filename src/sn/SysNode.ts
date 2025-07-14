@@ -38,12 +38,12 @@ export class SysNode extends SysBase {
 
 	override readonly	isApp = true;
 
-	override async savePic(fn: string, data_url: string) {
+	override async savePic(path: string, data_url: string) {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
 		try {
-			this.ensureFileSync(fn);
-			await this.writeFileSync(fn, bs64);
-			if (CmnLib.debugLog) console.log(`画像ファイル ${fn} を保存しました`);
+			this.ensureFileSync(path);
+			await this.writeFileSync(path, bs64);
+			if (CmnLib.debugLog) console.log(`画像ファイル ${path} を保存しました`);
 		} catch (e) {throw e}
 	};
 

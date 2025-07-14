@@ -1,3 +1,12 @@
+-fix(src/appMain.ts): win版でウインドウ右部分に空白ができてしまう件
+-fix(src/appMain.ts): 終了→再度アプリ起動でウインドウ位置とサイズが復帰しない件
+-fix(src/sn/CmnLib.ts, src/appMain.ts): mainプロセスで platform によるOS=windows判定が失敗するようになっていた件
+-fix(src/appMain.ts): ウインドウイベント関係の初期化シーケンス処理を整理・修正
+-fix(src/appMain.ts): Electron API 不具合の対処療法（後者はどうしようもない）
+	- ウインドウ右辺をクリックするだけで nh が縦に短くなる件
+	- ウインドウ下辺を変更しても、ContentSizeやSizeのhが変化しない件
+
+
 ## [1.61.21](https://github.com/famibee/SKYNovel/compare/v1.61.20...v1.61.21) (2025-06-25)
 
 
