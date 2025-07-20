@@ -365,7 +365,7 @@ export class TxtLayer extends Layer {
 			this.#b_pic = '';	// 忘れずクリア
 			this.ctn.addChildAt(
 				(this.#b_do = new Graphics)
-				.beginFill(this.#b_color)
+				.beginFill(this.#b_color, alpha)
 				.lineStyle(undefined)
 				.drawRect(0, 0, this.#txs.getWidth, this.#txs.getHeight)
 				.endFill(), 0);
@@ -394,7 +394,7 @@ export class TxtLayer extends Layer {
 			}
 			this.ctn.addChildAt(
 				(this.#b_do = new Graphics)
-				.beginFill(this.#b_color)
+				.beginFill(this.#b_color, alpha)
 				.lineStyle(undefined)
 				.drawRect(0, 0, this.#txs.getWidth, this.#txs.getHeight)
 				.endFill(), 0);

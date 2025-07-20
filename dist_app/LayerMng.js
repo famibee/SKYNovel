@@ -1591,7 +1591,7 @@ class x extends V {
           this.#p = i, i.name = "back(pic)", i.visible = s > 0, i.alpha = s, this.#l.setMySize(i.width, i.height), this.ctn.setChildIndex(i, 0), e(!0);
         }), this.#L.ret;
     } else "b_color" in t && (this.#r = xt(t, "b_color", 0), this.#p && (this.ctn.removeChild(this.#p), this.#p.destroy()), this.#g = "", this.ctn.addChildAt(
-      (this.#p = new z()).beginFill(this.#r).lineStyle(void 0).drawRect(0, 0, this.#l.getWidth, this.#l.getHeight).endFill(),
+      (this.#p = new z()).beginFill(this.#r, s).lineStyle(void 0).drawRect(0, 0, this.#l.getWidth, this.#l.getHeight).endFill(),
       0
     ), this.#p.name = "back(color)");
     return this.#p && (this.#p.visible = s > 0, this.#p.alpha = s), e(!1), !1;
@@ -1599,7 +1599,7 @@ class x extends V {
   chgBackAlpha(t) {
     const e = this.#u ? this.#f : t * this.#f;
     this.#p instanceof z && (this.#p && (this.ctn.removeChild(this.#p), this.#p.destroy()), this.ctn.addChildAt(
-      (this.#p = new z()).beginFill(this.#r).lineStyle(void 0).drawRect(0, 0, this.#l.getWidth, this.#l.getHeight).endFill(),
+      (this.#p = new z()).beginFill(this.#r, e).lineStyle(void 0).drawRect(0, 0, this.#l.getWidth, this.#l.getHeight).endFill(),
       0
     ), this.#p.name = "back(color)"), this.#p && (this.#p.visible = e > 0, this.#p.alpha = e);
   }
@@ -2185,7 +2185,7 @@ class J {
       this.#u("grp｜" + p);
     }), this.#t = Ft(String(t.oCfg.init.bg_color));
     const r = new z();
-    r.beginFill(this.#t, 1).lineStyle(0, this.#t).drawRect(0, 0, E.stageW, E.stageH).endFill(), this.#e.addChild(r.clone()), this.#n.addChild(r), this.#n.visible = !1, this.#e.name = "page:A", this.#n.name = "page:B", this.#i = s.stage, this.#i.addChild(this.#n), this.#i.addChild(this.#e), this.#i.addChild(this.#O), this.#i.addChild(this.#b), this.#i.name = "stage";
+    r.beginFill(this.#t).lineStyle(0, this.#t).drawRect(0, 0, E.stageW, E.stageH).endFill(), this.#e.addChild(r.clone()), this.#n.addChild(r), this.#n.visible = !1, this.#e.name = "page:A", this.#n.name = "page:B", this.#i = s.stage, this.#i.addChild(this.#n), this.#i.addChild(this.#e), this.#i.addChild(this.#O), this.#i.addChild(this.#b), this.#i.name = "stage";
     const m = (h, p) => {
       this.#f(Number(p));
     };

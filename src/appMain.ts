@@ -69,6 +69,7 @@ export class appMain {
 	#csH	= 0;
 
 	readonly	#isWin;	// import {os} from 'platform'; は動作しない
+
 	private	constructor(private readonly bw: BrowserWindow, readonly version: string, readonly path_htm: string) {
 		this.#isWin = process.platform === 'win32';
 
@@ -252,7 +253,7 @@ export class appMain {
 		this.#csH = h = Math.round(h);
 		this.bw.setContentSize(w, h);
 
-		this.bw.webContents.send('save_win_inf', {c, x, y, w, h, scrw: this.#scrSize.width, scrh: this.#scrSize.height});
+		this.bw.webContents.send('save_win_inf', {x, y, w, h, scrw: this.#scrSize.width, scrh: this.#scrSize.height});
 		this.#onMove = this.#onMove_Proc;
 	}
 

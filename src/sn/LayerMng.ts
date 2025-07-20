@@ -170,7 +170,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		this.#bg_color = parseColor(String(cfg.oCfg.init.bg_color));
 		const grp = new Graphics;
 		grp
-		.beginFill(this.#bg_color, 1)	// イベントを受け取るためにも塗る
+		.beginFill(this.#bg_color)	// イベントを受け取るためにも塗る
 		.lineStyle(0, this.#bg_color)
 		.drawRect(0, 0, CmnLib.stageW, CmnLib.stageH)
 		.endFill();

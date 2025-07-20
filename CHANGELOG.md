@@ -1,3 +1,6 @@
+-fix(src/sn/TxtLayer.ts): 文字レイヤ背景の単色塗りに b_alpha が効かなかった件
+
+
 ## [1.61.22](https://github.com/famibee/SKYNovel/compare/v1.61.21...v1.61.22) (2025-07-14)
 
 
