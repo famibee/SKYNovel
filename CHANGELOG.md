@@ -1,3 +1,10 @@
+## [1.61.23](https://github.com/famibee/SKYNovel/compare/v1.61.22...v1.61.23) (2025-07-20)
+
+
+### Bug Fixes
+
+* **src/sn/TxtLayer.ts:** 文字レイヤ背景の単色塗りに b_alpha が効かなかった件 ([303f74e](https://github.com/famibee/SKYNovel/commit/303f74e378bd2755876089b4e03dedad55c6d2ab))
+
 -fix(src/sn/TxtLayer.ts): 文字レイヤ背景の単色塗りに b_alpha が効かなかった件
 
 
