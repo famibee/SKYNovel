@@ -1,3 +1,10 @@
+# [1.62.0](https://github.com/famibee/SKYNovel/compare/v1.61.23...v1.62.0) (2025-08-27)
+
+
+### Features
+
+* イベント処理の状態遷移を簡素化、整理 ([8d7224f](https://github.com/famibee/SKYNovel/commit/8d7224f3331bbc680c4e5b696f2bb5b533e313e7))
+
 - feat: イベント処理の状態遷移を簡素化、整理
 	- refactor(src/sn/ReadState.ts): 削除（ReadState に昇華）
 	- refactor(src/sn/ScriptIterator.ts): 文字表示町処理を、タグの処理直前に文字出現処理を終わらせる処理、として独立・抽出
