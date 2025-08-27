@@ -1,6 +1,7 @@
 import { IConfig } from './ConfigBase';
 export type HArg = {
     ':タグ名'?: string;
+    canskip?: boolean;
     layer?: string;
     class?: string;
     index?: number;
@@ -100,7 +101,6 @@ export type HArg = {
     key?: string;
     type?: string;
     camera_target?: string;
-    breakout?: Function;
     arg?: HArg;
     fnc?: () => void;
     filter?: string;
@@ -108,7 +108,6 @@ export type HArg = {
     clear_filter?: boolean;
     enable_filter?: boolean;
     ease?: string;
-    canskip?: boolean;
     centering?: boolean;
     x?: number | string;
     y?: number | string;
@@ -117,10 +116,6 @@ export type HArg = {
     var_name?: string;
     set_fnc?: string;
     break_fnc?: string;
-    swipe?: string;
-    f2tap?: string;
-    f2move?: string;
-    f3tap?: string;
     from?: number;
     to?: number | string;
     place?: number;

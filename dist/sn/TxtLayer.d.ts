@@ -27,6 +27,7 @@ export declare class TxtLayer extends Layer {
     static chgDoRec(doRec: boolean): void;
     isCur: boolean;
     tagCh(text: string): void;
+    get needGoTxt(): boolean;
     readonly click: () => boolean;
     clearText(): void;
     get pageText(): string;

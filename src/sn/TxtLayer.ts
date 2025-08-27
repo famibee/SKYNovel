@@ -18,7 +18,7 @@ import {LayerMng, type IMakeDesignCast} from './LayerMng';
 import type {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
-import {enableEvent, disableEvent} from './ReadState';
+import {Reading} from './Reading';
 import type {ScriptIterator} from './ScriptIterator';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer, Application} from 'pixi.js';
@@ -287,8 +287,11 @@ export class TxtLayer extends Layer {
 		this.#set_ch_in(hArg);
 		this.#set_ch_out(hArg);
 
-		const ret = this.#drawBack(hArg, isStop=> {if (isStop) enableEvent()});
-		if (ret) disableEvent();
+		const RPN_TXT_LAY = Reading.procID +`TxtLayer lay name:${this.name_}`;
+		const ret = this.#drawBack(hArg, isStop=> {
+			if (isStop) Reading.endProc(RPN_TXT_LAY);
+		});
+		if (ret) Reading.beginProc(RPN_TXT_LAY);
 		return ret;
 	}
 	#set_ch_in(hArg: HArg) {
@@ -495,6 +498,7 @@ export class TxtLayer extends Layer {
 
 	tagCh(text: string): void {this.#rbSpl.putTxt(text)}
 	#needGoTxt = false;
+	get needGoTxt() {return this.#needGoTxt}
 	readonly	#putCh	: IPutCh = (ch, ruby)=> {
 		if (TxtLayer.#cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\`(${ch.charCodeAt(0).toString(16)}) ruby:\`${ruby}\` name:\`${this.name_}\``);
 

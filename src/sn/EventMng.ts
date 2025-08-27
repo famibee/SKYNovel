@@ -7,7 +7,7 @@
 
 import {CmnLib, type IEvtMng, argChk_Boolean, addStyle, mesErrJSON} from './CmnLib';
 import type {IHTag, HArg} from './Grammar';
-import type {IVariable, IMain, IHEvt2Fnc} from './CmnInterface';
+import type {IVariable, IMain} from './CmnInterface';
 import type {LayerMng} from './LayerMng';
 import type {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
@@ -18,46 +18,63 @@ import type {SoundMng} from './SoundMng';
 import type {Config} from './Config';
 import {SysBase} from './SysBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
-import {ReadState} from './ReadState';
+import {Reading, ReadingState} from './Reading';
 
 import {Container, type Application, utils} from 'pixi.js';
 import {createPopper, type Instance as InsPop} from '@popperjs/core';
+import TinyGesture from 'tinygesture';
+
+
+const enum eDownKeys {
+	NO_PUSH = 0,
+	ONE_PUSH,
+	PUSH_REPEATING,
+};
+
+export const EVNM_BUTTON= 'pointerdown';
+export const EVNM_CLICK	= 'pointerdown';
+export const EVNM_KEY	= 'keydown';
+
 
 export class EventMng implements IEvtMng {
 	readonly	#elc		= new EventListenerCtn;
-
 	readonly	#fcs		= new FocusMng;
-
-	#rs	: ReadState;
+	readonly	#tg;
+	readonly	#setBtnNM	= new Map<number, string>([
+		[0, ''],
+		[1, 'middle'],
+		// [2, 'right'],
+	]);
 
 	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, sndMng: SoundMng, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
 		//	イベント
-		hTag.clear_event	= o=> ReadState.clear_event(o);	// イベントを全消去
+		hTag.clear_event	= o=> ReadingState.clear_event(o);// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
 		hTag.event			= o=> this.#event(o);	// イベントを予約
-		//hTag.gesture_event	（形式変更）			// ジェスチャイベントを予約
-		hTag.l				= o=> this.#rs.l(o);		// 行末クリック待ち
-		hTag.p				= o=> this.#rs.p(o);		// 改ページクリック待ち
-		hTag.s				= o=> this.#rs.s(o);		// 停止する
+		//hTag.gesture_event（形式変更）			// ジェスチャイベントを予約
+		// hTag.l			// Reading.ts内で定義		// 行末クリック待ち
+		// hTag.p			// Reading.ts内で定義		// 改ページクリック待ち
+		// hTag.s			// Reading.ts内で定義		// 停止する
 		hTag.set_cancel_skip= ()=> false;			// (2023/05/27 廃止)スキップ中断予約
 		hTag.set_focus		= o=> this.#set_focus(o);	// フォーカス移動
-		hTag.wait			= o=> this.#rs.wait(o);		// ウェイトを入れる
-		hTag.waitclick		= o=> this.#rs.waitclick(o);	// クリックを待つ
+		// hTag.wait		// Reading.ts内で定義		// ウェイトを入れる
+		// hTag.waitclick	// Reading.ts内で定義	// クリックを待つ
 
 		// ラベル・ジャンプ
-		hTag.page			= o=> this.#rs.page(o);		// ページ移動
+		// hTag.page		// Reading.ts内で定義		// ページ移動
 
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
 		TxtLayer.setEvtMng(this, sys, scrItr);
 		layMng.setEvtMng(this);
-		sys.setFire((KEY, e)=> this.#rs.fire(KEY, e));
+		Reading.setFcs(this.#fcs);
+		sys.setFire((KEY, e)=> Reading.fire(KEY, e));
 
 		if (CmnLib.isDbg) {
 			const hHook	: {[type: string]: ()=> void}	= {
 				pause	: ()=> {
 //					this.#isDbgBreak = true;
-					if (! this.#rs.isWait) return;
+					if (! Reading.isWait) return;
 
 					const hArg: HArg = {};
 					scrItr.recodeDesign(hArg);
@@ -113,7 +130,7 @@ export class EventMng implements IEvtMng {
 .sn_hint[data-popper-placement^='right']	> .sn_hint_ar {left: -4px;}
 `);
 
-		this.main.cvs.parentElement?.insertAdjacentHTML('beforeend', `
+		main.cvs.parentElement?.insertAdjacentHTML('beforeend', `
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>
@@ -124,25 +141,80 @@ export class EventMng implements IEvtMng {
 		this.#elmHint.hidden = true;
 
 
+		// マウスボタンやキーボードイベント登録
 		appPixi.stage.interactive = true;
-		if (CmnLib.isMobile) this.#elc.addC(appPixi.stage, 'pointerdown', e=> this.#rs.fire('click', e));
-		else this.#elc.addC(appPixi.stage, 'pointerdown', e=> {
-			switch (e.data.button) {
-				case 0:	this.#rs.fire('click', e);	break;
-				case 1:	this.#rs.fire('middleclick', e);	break;
-			}
+		this.#elc.add(document.body, EVNM_KEY, e=> this.#ev_keydown(e));
+		// 右クリックは contextmenu で処理。resvFlameEvent と合わせる
+		this.#elc.add(main.cvs, 'contextmenu', e=> {
+			const nmEvt = this.#modKey4MouseEvent(e) +'rightclick';
+			Reading.fire(nmEvt, e, true);
+			e.preventDefault();		// イベント未登録時、メニューが出てしまうので
 		});
-		this.#elc.add(window, 'keydown', e=> this.#ev_keydown(e));
-		this.#elc.add(this.main.cvs, 'contextmenu', e=> this.#ev_contextmenu(e));
+		// その他マウス（ポインターイベント）
+		// this.#elc.add(main.cvs, EVNM_KEY, e=> {	// 通常のクリックイベント
+		const w = cfg.oCfg.window.width;
+		const h = cfg.oCfg.window.height;
+		const TG_CHK_SPAN = Math.floor(w > h ?h/3 :w/3);	// だいたいの数字
+		this.#tg = new TinyGesture(main.cvs, {
+			velocityThreshold: 0, 
+			disregardVelocityThreshold: type=> Math.floor(TG_CHK_SPAN *(type === 'x' ?1 :0.5)),
+		});
+		let pressed = false;	// 長押しとクリックを排他的にする仕組み
+		this.#tg.on('tap', e=> {
+			if (pressed) return;
+
+			if (e instanceof TouchEvent) {
+				Reading.fire('click', e, true);
+				// tap は clickイベントでこのあと pointerup が発生しないので
+				ReadingState.resetFired();
+				return;
+			}
+			if (e.button > 1) return;	// 右クリックは contextmenu で
+
+			const nmEvt = this.#modKey4MouseEvent(e) +`${
+				this.#setBtnNM.get(e.button) ?? ''}click`;
+// console.log(`fn:EventMng.ts -tap- nmEvt:${nmEvt} e:%o`, e);
+			Reading.fire(nmEvt, e, true);
+			// tap は clickイベントでこのあと pointerup が発生しないので
+			ReadingState.resetFired();
+		});
+		this.#elc.add(window, 'pointerup', ()=> ReadingState.resetFired());
+		this.#elc.add(window, 'pointerout', ()=> ReadingState.resetFired());
+			// ポインターが要素の外に出た：押してフレームが横入りした場合など
+		// gesture.on('doubletap'	// 原理上 tap 反応が遅くなるので不使用
+		this.#tg.on('longpress', e=> {
+			pressed = true;
+			if (e instanceof TouchEvent) {Reading.fire('longpress', e, true); return}
+
+			const nmEvt = this.#modKey4MouseEvent(e) +`${
+				this.#setBtnNM.get(e.button) ?? ''}longpress`;
+// console.log(`fn:EventMng.ts -longpress- nmEvt:${nmEvt} e:%o`, e);
+			Reading.fire(nmEvt, e, true);
+		});
+		this.#tg.on('panend', ()=> {
+			if (pressed) queueMicrotask(()=> pressed = false);
+		});
+		['swiperight',
+		 'swipeleft',
+		 'swipeup',
+		 'swipedown'].forEach(en=> {
+			this.#tg.on(<any>en, e=> {
+				if (e instanceof TouchEvent) {Reading.fire(en, e, true); return}
+
+				const nmEvt = this.#modKey4MouseEvent(e) +en;
+// console.log(`fn:EventMng.ts -${en}- nmEvt:${nmEvt} e:%o`, e);
+				Reading.fire(nmEvt, e, true);
+			});
+		});
+
 
 		// 言語切り替え通知
 		const fncUpdNavLang = ()=> val.setVal_Nochk('tmp', 'const.sn.navigator.language', navigator.language);
 		// TODO: アプリ版で[event key=sn:chgNavLang]が発生しない件
-//		this.#elc.add(globalThis, 'languagechange', e=> {
-		this.#elc.add(window, 'languagechange', e=> {
+		this.#elc.add(globalThis, 'languagechange', e=> {
 //console.log(`fn:EventMng.ts languagechange `);
 			fncUpdNavLang();
-			this.#rs.fire('sn:chgNavLang', e);
+			Reading.fire('sn:chgNavLang', e);
 			utils.clearTextureCache();
 		});
 		fncUpdNavLang();
@@ -156,15 +228,16 @@ export class EventMng implements IEvtMng {
 		fncMql(mql);
 		this.#elc.add(mql, 'change', e=> {
 			fncMql(e);
-			this.#rs.fire('sn:chgDarkMode', e);
+			Reading.fire('sn:chgDarkMode', e);
 		});
 
+		//: 縦回転ホイール
 		let procWheel4wle = (_elc: EventListenerCtn, _onIntr: ()=> void)=> {};
-		if ('WheelEvent' in window) {
-			this.#elc.add(this.main.cvs, 'wheel', e=> this.#ev_wheel(e), {passive: true});
-			this.#resvFlameEvent4Wheel = win=> this.#elc.add(win, 'wheel', e=> this.#ev_wheel(e), {passive: true});
+		if ('WheelEvent' in globalThis) {
+			this.#elc.add(main.cvs, 'wheel', e=> this.#ev_wheel(e), {passive: true});
+			this.#resvFlameEvent4Wheel = body=> this.#elc.add(body, 'wheel', e=> this.#ev_wheel(e), {passive: true});
 
-			procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(this.main.cvs, 'wheel', e=> {
+			procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(main.cvs, 'wheel', e=> {
 				//if (! e.isTrusted) return;
 				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
 				if (e.deltaY <= 0) return;
@@ -173,7 +246,7 @@ export class EventMng implements IEvtMng {
 				fnc();
 			});
 		}
-		ReadState.init(rs=> {this.#rs?.destroy(); this.#rs = rs}, main, val, layMng, scrItr, sndMng, hTag, this.#fcs, procWheel4wle, this.#elmHint, cfg);
+		Reading.init(cfg, hTag, main, val, scrItr, layMng, this, sndMng, procWheel4wle);
 
 
 		import('gamepad.js').then(({GamepadListener})=> {
@@ -196,6 +269,7 @@ export class EventMng implements IEvtMng {
 			const stick_xy = [0, 0];
 			gamepad.on('gamepad:axis', (e: any)=> {
 				if (! document.hasFocus()) return;
+
 				stick_xy[e.detail.axis] = e.detail.value;
 				const [x=0, y=0] = stick_xy;
 				const s = (y +1)*3 + (x +1);
@@ -204,57 +278,68 @@ export class EventMng implements IEvtMng {
 				if (! s2) return;
 				const cmp = this.#fcs.getFocus();
 				((! cmp || cmp instanceof Container) ?globalThis :cmp)
-				.dispatchEvent(new KeyboardEvent('keydown', {key: s2, bubbles: true}));
+				.dispatchEvent(new KeyboardEvent(EVNM_KEY, {key: s2, bubbles: true}));
 
 				if (! cmp || cmp instanceof Container) return;
+
+				Reading.cancelAutoSkip();	// ユーザーアクションなので停止
 				if (cmp.getAttribute('type') === 'range') cmp.dispatchEvent(new InputEvent('input', {bubbles: true}));	// スライダー変更時、表示数字が変わらない対応
 			});
 			gamepad.on('gamepad:button', (e: any)=> {
 				if (! document.hasFocus()) return;
 //console.log(`fn:EventMng.ts 👺 'gamepad:button' detail:%o`, e.detail);
 				if (e.detail.button % 2 === 0) {
+					Reading.cancelAutoSkip();	// ユーザーアクションなので停止
 					const cmp = this.#fcs.getFocus();
-					((! cmp || cmp instanceof Container) ?globalThis :cmp)
-					.dispatchEvent(new KeyboardEvent('keydown', {key: 'Enter', bubbles: true}));
+					((! cmp || cmp instanceof Container) ?document.body :cmp)
+					.dispatchEvent(new KeyboardEvent(EVNM_KEY, {key: 'Enter', bubbles: true}));
 				}
-				else this.main.cvs.dispatchEvent(new Event('contextmenu'));
+				else Reading.fire('middleclick', e, true);
 			});
 			gamepad.start();
 
 		});
 
-		this.#elc.add(window, 'keyup', (e: any)=> {
+		this.#elc.add(document, 'keyup', (e: KeyboardEvent)=> {
 			if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
 
-			if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = 0;
+			if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = eDownKeys.NO_PUSH;
 		});
-		val.defTmp('const.sn.key.alternate', ()=> this.#hDownKeys.Alt! > 0);
-		val.defTmp('const.sn.key.command', ()=> this.#hDownKeys.Meta! > 0);
-		val.defTmp('const.sn.key.control', ()=> this.#hDownKeys.Control! > 0);
-		val.defTmp('const.sn.key.end', ()=> this.#hDownKeys.End! > 0);
-		val.defTmp('const.sn.key.escape', ()=> this.#hDownKeys.Escape! > 0);
-		val.defTmp('const.sn.key.back', ()=> this.#hDownKeys.GoBack! > 0);
+		val.defTmp('const.sn.key.alternate', ()=> this.#hDownKeys.Alt! > eDownKeys.NO_PUSH);
+		val.defTmp('const.sn.key.command', ()=> this.#hDownKeys.Meta! > eDownKeys.NO_PUSH);
+		val.defTmp('const.sn.key.control', ()=> this.#hDownKeys.Control! > eDownKeys.NO_PUSH);
+		val.defTmp('const.sn.key.end', ()=> this.#hDownKeys.End! > eDownKeys.NO_PUSH);
+		val.defTmp('const.sn.key.escape', ()=> this.#hDownKeys.Escape! > eDownKeys.NO_PUSH);
+		val.defTmp('const.sn.key.back', ()=> this.#hDownKeys.GoBack! > eDownKeys.NO_PUSH);
 	}
 
-	resvFlameEvent(win: Window) {
-		this.#elc.add(win, 'keydown', e=> this.#ev_keydown(e));
-		this.#elc.add(win, 'contextmenu', e=> this.#ev_contextmenu(e));
-		this.#resvFlameEvent4Wheel(win);
+	resvFlameEvent(body: HTMLBodyElement) {
+		this.#elc.add(body, EVNM_KEY, e=> this.#ev_keydown(e));
+		// 右クリックは contextmenu で処理。親と合わせる
+		this.#elc.add(body, 'contextmenu', (e: MouseEvent)=> {
+			Reading.fire(this.#modKey4MouseEvent(e) +'rightclick', e, true);
+			e.preventDefault();		// イベント未登録時、メニューが出てしまうので
+		});
+		this.#resvFlameEvent4Wheel(body);
+		this.#elc.add(body, EVNM_CLICK, (e: MouseEvent)=> {
+			if (e instanceof TouchEvent) {Reading.fire('click', e, true); return}
+			if (e.button > 1) return;	// 右クリックは contextmenu で
+
+			const nmEvt = this.#modKey4MouseEvent(e) +`${
+				this.#setBtnNM.get(e.button) ?? ''}click`;
+// console.log(`fn:EventMng.ts -Flame tap- nmEvt:${nmEvt} e:%o`, e);
+			Reading.fire(nmEvt, e, true);
+		});
+		this.#elc.add(body, 'pointerup', ()=> ReadingState.resetFired());
+		this.#elc.add(body, 'pointerout', ()=> ReadingState.resetFired());
+			// ポインターが要素の外に出た：押してフレームが横入りした場合など
 	}
-	#resvFlameEvent4Wheel = (_win: Window)=> {};
+	#resvFlameEvent4Wheel = (_body: HTMLBodyElement)=> {};
 	#ev_keydown(e: KeyboardEvent) {
-		//if (! e.isTrusted) return;
 		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
+		if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = e.repeat ?eDownKeys.PUSH_REPEATING :eDownKeys.ONE_PUSH;
 
-		if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = e.repeat ?2 :1;
-
-		this.#rs.fire(SysBase.modKey(e) + e.key, e);
-	}
-	#ev_contextmenu(e: MouseEvent) {
-		//if (! e.isTrusted) return;
-
-		this.#rs.fire(this.#modKey4MouseEvent(e) +'rightclick', e);
-		e.preventDefault();		// イベント未登録時、メニューが出てしまうので
+		Reading.fire(SysBase.modKey(e) + e.key, e, true);
 	}
 		#modKey4MouseEvent(e: MouseEvent) {
 			return (e.altKey ?'alt+' :'')
@@ -263,6 +348,7 @@ export class EventMng implements IEvtMng {
 			+	(e.shiftKey ?'shift+' :'');
 		}
 
+	// 縦回転ホイール
 	#ev_wheel(e: WheelEvent) {
 		//if (! e.isTrusted) return;
 
@@ -273,7 +359,7 @@ export class EventMng implements IEvtMng {
 		// 今のところ縦回転ホイールのみ想定
 		const key = this.#modKey4MouseEvent(e)
 		+	(e.deltaY > 0 ?'downwheel' :'upwheel');
-		this.#rs.fire(key, e);
+		Reading.fire(key, e, true);
 	}
 	#wheeling = false;
 	#extend_wheel = false;
@@ -291,29 +377,31 @@ export class EventMng implements IEvtMng {
 	destroy() {
 		for (const v of Array.from(document.getElementsByClassName('sn_hint'))) v.parentElement?.removeChild(v);	// ギャラリーリロード用初期化
 
-		this.#rs.destroy();
+		this.#tg.destroy();
+		ReadingState.destroy();
 		this.#fcs.destroy();
 		this.#elc.clear();
 	}
-
-	fire(KEY: string, e: Event) {this.#rs.fire(KEY, e)}
-
-	popLocalEvts(): IHEvt2Fnc {return ReadState.popLocalEvts()}
-	pushLocalEvts(h: IHEvt2Fnc) {ReadState.pushLocalEvts(h)}
 
 	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn)}
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
 		if (! hArg.fn && ! hArg.label && ! hArg.url) this.main.errScript('fnまたはlabelまたはurlは必須です');
 		hArg.fn ??= this.scrItr.scriptFn;
 
-		// クリックイベント
+		// クリックイベント予約
 		ctnBtn.interactive = true;
 		ctnBtn.cursor = 'pointer';
 		const key = hArg.key?.toLowerCase() ?? ' ';
 		const glb = argChk_Boolean(hArg, 'global', false);
-		ReadState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
-		ctnBtn.on('pointerdown', (e: any)=> this.#rs.fire(key, e));
+		ReadingState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
+		// 直後にも pointer〜 があるのでダブリに見えるが、こちらが fire 用
+		ctnBtn.on(EVNM_BUTTON, ({data})=> {
+			const e = data.originalEvent;
+			e.preventDefault();
+			if (ReadingState.isFirstFire()) Reading.fire(key, e, true);
+		});
 
+		// マウスイベント発生
 		// マウスカーソルを載せるとヒントをツールチップス表示する
 		const onHint = hArg.hint ?()=> this.#dispHint(hArg, ctnBtn) :()=> {};
 		// マウスオーバーでの見た目変化
@@ -361,15 +449,15 @@ export class EventMng implements IEvtMng {
 			// マウス重なり（フォーカス取得）時、ラベルコール。必ず[return]で戻ること
 			const k = key + hArg.onenter.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: k};
-			ReadState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
-			ctnBtn.on('pointerover', (e: any)=> this.#rs.fire(k, e));
+			ReadingState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
+			ctnBtn.on('pointerover', (e: any)=> Reading.fire(k, e));
 		}
 		if (hArg.onleave) {
 			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
 			const k = key + hArg.onleave.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: k};
-			ReadState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
-			ctnBtn.on('pointerout', (e: any)=> this.#rs.fire(k, e));
+			ReadingState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
+			ctnBtn.on('pointerout', (e: any)=> Reading.fire(k, e));
 		}
 	}
 	readonly	#elmV = {
@@ -430,33 +518,34 @@ export class EventMng implements IEvtMng {
 
 
 	#event(hArg: HArg): boolean {
-		const KeY = hArg.key;
-		if (! KeY) throw 'keyは必須です';
-		const key = KeY.toLowerCase();
+		const rawKeY = hArg.key;
+		if (! rawKeY) throw 'keyは必須です';
+		const key = rawKeY.toLowerCase();
 
 		const call = argChk_Boolean(hArg, 'call', false);
 		const glb = argChk_Boolean(hArg, 'global', false);
+		const {fn, label, url} = hArg;
 		if (argChk_Boolean(hArg, 'del', false)) {
-			if (hArg.fn || hArg.label || call || hArg.url) throw 'fn/label/callとdelは同時指定できません';
+			if (fn || label || call || url) throw 'fn/label/callとdelは同時指定できません';
 
-			ReadState.clear_eventer(KeY, glb, key);
+			ReadingState.clear_eventer(rawKeY, glb, key);
 
 			// その他・キーボードイベント
 			return false;
 		}
 
-		if (! hArg.fn && ! hArg.label && ! hArg.url) throw 'fn,label,url いずれかは必須です';
+		if (! fn && ! label && ! url) throw 'fn,label,url いずれかは必須です';
 		hArg.fn ??= this.scrItr.scriptFn;
 
 		// domイベント
-		if (KeY.startsWith('dom=')) {
-			const g = ReadState.getHtmlElmList(KeY);
+		if (rawKeY.startsWith('dom=')) {
+			const g = ReadingState.getHtmlElmList(rawKeY);
 			if (g.el.length === 0) {
 				if (argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 				return false;
 			}
 
-			let aEv = ['click', 'keydown'];	// ラジオボタンも
+			let aEv = ['click', EVNM_KEY];	// ラジオボタンも
 			const inp = g.el[0] as HTMLInputElement;
 			switch (inp.type ?? '') {
 		//	switch (g.el[0].getAttribute('type') ?? '') { textareaで''になる
@@ -471,12 +560,12 @@ export class EventMng implements IEvtMng {
 				const v = aEv[i]!;
 				g.el.forEach(elm=> {
 					this.#elc.add(elm, v, e=> {
-						if (! this.#rs.isWait || this.layMng.getFrmDisabled(g.id)) return;
-						if (v === 'keydown' && e.key !== 'Enter') return;
+						if (! Reading.isWait || this.layMng.getFrmDisabled(g.id)) return;
+						if (v === EVNM_KEY && e.key !== 'Enter') return;
 	
 						const d = elm.dataset;
 						for (const [k, v] of Object.entries(d)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${k}`, v);
-						this.#rs.fire(KeY, e);
+						Reading.fire(rawKeY, e);
 					});
 
 					// フォーカス処理対象として登録
@@ -496,7 +585,7 @@ export class EventMng implements IEvtMng {
 		}
 
 		// その他・キーボードイベント
-		ReadState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
+		ReadingState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
 
 		return false;
 	}
@@ -525,7 +614,7 @@ export class EventMng implements IEvtMng {
 	#set_focus(hArg: HArg) {
 		const {add, del, to} = hArg;
 		if (add?.startsWith('dom=')) {
-			const g = ReadState.getHtmlElmList(add);
+			const g = ReadingState.getHtmlElmList(add);
 			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 
 			g.el.forEach(elm=> this.#fcs.add(
@@ -541,7 +630,7 @@ export class EventMng implements IEvtMng {
 		}
 
 		if (del?.startsWith('dom=')) {
-			const g = ReadState.getHtmlElmList(del);
+			const g = ReadingState.getHtmlElmList(del);
 			if (g.el.length === 0 && argChk_Boolean(hArg, 'need_err', true)) throw `HTML内にセレクタ（${g.sel}）に対応する要素が見つかりません。存在しない場合を許容するなら、need_err=false と指定してください`;
 
 			g.el.forEach(elm=> this.#fcs.remove(elm));
@@ -558,28 +647,22 @@ export class EventMng implements IEvtMng {
 	}
 
 
-	// テキスト表示待ちと処理終了待ち（予約イベント受付しない）
-	//	waitEvent を使用する場合、通常 break 時は breakLimitedEvent() すること
-	readonly	waitEvent = (evnm: string, hArg: HArg, onIntr: ()=> void)=> this.#rs.waitEvent(evnm, hArg, onIntr);
-	breakEvent(evnm: string) {this.#rs.breakEvent(evnm)}
-
-
-	// キー押下によるスキップ中か
+	// キー押しっぱなしスキップ中か
 	get	isSkipping(): boolean {
-		if (this.#rs.isSkipping) return true;
-		return Object.keys(this.#hDownKeys).some(k=> this.#hDownKeys[k] === 2);
+		if (Reading.isSkipping) return true;
+		return Object.keys(this.#hDownKeys).some(k=> this.#hDownKeys[k] === eDownKeys.PUSH_REPEATING);
 	}
 	// 0:no push  1:one push  2:push repeating
 	readonly #hDownKeys	: {[key: string]: number}	= {
-		'Alt'		: 0,
-		'Meta'		: 0,	// COMMANDキー
-		'Control'	: 0,
-		'ArrowDown'	: 0,
-		'End'		: 0,
-		'Enter'		: 0,
-		'Escape'	: 0,
-		' '			: 0,
-		'GoBack'	: 0,	// AndroidのBackキーだと思う
+		'Alt'		: eDownKeys.NO_PUSH,
+		'Meta'		: eDownKeys.NO_PUSH,	// COMMANDキー
+		'Control'	: eDownKeys.NO_PUSH,
+		'ArrowDown'	: eDownKeys.NO_PUSH,
+		'End'		: eDownKeys.NO_PUSH,
+		'Enter'		: eDownKeys.NO_PUSH,
+		'Escape'	: eDownKeys.NO_PUSH,
+		' '			: eDownKeys.NO_PUSH,
+		'GoBack'	: eDownKeys.NO_PUSH,	// AndroidのBackキーだと思う
 	}
 
 }

@@ -79,7 +79,7 @@ export interface ISysRoots {
 export type HSysBaseArg = {
     cur: string;
     crypto: boolean;
-    dip: string;
+    dip?: string;
 };
 export declare class ConfigBase implements IConfig {
     #private;

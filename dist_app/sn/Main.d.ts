@@ -7,7 +7,6 @@ export declare class Main implements IMain {
     cvs: HTMLCanvasElement;
     constructor(sys: SysBase);
     destroy(): void;
-    readonly isDestroyed: () => boolean;
     errScript: (_mes: string, _isThrow?: boolean) => void;
     resumeByJumpOrCall(hArg: HArg): void;
     resume(): void;

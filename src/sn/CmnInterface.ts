@@ -31,7 +31,7 @@ export type T_PLUGIN_INFO = {
 		height	: number;
 	},
 }
-import type {T_SEARCHPATH} from './ConfigBase';
+import type {HSysBaseArg, T_SEARCHPATH} from './ConfigBase';
 export type IPluginInitArg = {
 	getInfo(): T_PLUGIN_INFO;
 	addTag(tag_name: string, tag_fnc: ITag): void;
@@ -58,11 +58,6 @@ export interface ILayerFactory {
 
 
 // =============== SysBase
-export type HSysBaseArg = {
-	cur		: string;
-	crypto	: boolean;
-	dip		: string;
-}
 export type T_SysBaseParams = [
 	hPlg	: HPlugin,
 	arg?	: HSysBaseArg,
@@ -102,7 +97,6 @@ export interface IMain {
 	resumeByJumpOrCall(hArg: HArg): void;
 	stop(): void;
 	setLoop(v: boolean, mes?: string): void;
-	isDestroyed(): boolean;
 	destroy(): void;
 }
 

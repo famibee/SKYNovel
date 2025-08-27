@@ -14,6 +14,7 @@ import type {SysBase} from './SysBase';
 import type {SoundMng} from './SoundMng';
 import type {HArg} from './Grammar';
 import {Layer} from './Layer';
+import {Reading} from './Reading';
 
 import {Sprite, Container, Texture, AnimatedSprite, LoaderResource, utils, Loader, Rectangle, BLEND_MODES} from 'pixi.js';
 
@@ -136,6 +137,7 @@ export class SpritesMng {
 				blendmode	: BLEND_MODES.NORMAL
 			};
 			const fnc = (i === 0) ?fncFirstComp :(sp: Sprite)=> {
+				if (sp.transform === null) return;	// エラー予防
 				sp.x = dx;
 				sp.y = dy;
 				sp.blendMode = blendmode;
@@ -191,7 +193,6 @@ export class SpritesMng {
 				} catch (e) {
 					const mes = `画像/動画ロード失敗です fn:${res.name} ${e}`;
 					if (SpritesMng.#evtMng.isSkipping) console.warn(mes); else console.error('%c'+ mes, 'color:#FF3300;');
-				//	if (SpritesMng.#evtMng.isSkipping) console.warn(mes); else this.#main.errScript(mes, false);
 				}
 			})
 			.load(fncLoaded);
@@ -334,15 +335,13 @@ export class SpritesMng {
 
 		if (SpritesMng.#evtMng.isSkipping || hve.ended) {SpritesMng.stopVideo(fn); return false}
 
-		const fncBreak = ()=> SpritesMng.#evtMng.breakEvent('wv fn:'+ fn);	// waitEvent 使用者の通常 break 時義務
-		hve.addEventListener('ended', fncBreak, {once: true, passive: true});
-
+		const RPN_WV = 'wv fn:'+ fn;
 		const stop = argChk_Boolean(hArg, 'stop', true);
-		return SpritesMng.#evtMng.waitEvent('wv fn:'+ fn, hArg, ()=> {
-			hve.removeEventListener('ended', fncBreak);
-			if (stop) SpritesMng.stopVideo(fn);
-			fncBreak()
-		});
+		const fnc = ()=> {if (stop) SpritesMng.stopVideo(fn)};
+		Reading.beginProc(RPN_WV, fnc, true, fnc);
+		hve.addEventListener('ended', ()=> Reading.notifyEndProc(RPN_WV), {once: true, passive: true});
+
+		return true;
 	}
 
 	static	stopVideo(fn: string) {

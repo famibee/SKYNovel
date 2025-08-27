@@ -11,7 +11,7 @@ import type {IVariable, ISetVal, typeProcVal, ISysBase, IData4Vari, IMark, IFncH
 import type {Config} from './Config';
 import {Areas} from './Areas';
 import {PropParser} from './PropParser';
-import {INI_STYPAGE, playbackPage} from './ReadState';
+import {ReadingState} from './Reading';
 
 import platform from 'platform';
 
@@ -190,9 +190,9 @@ export class Variable implements IVariable {
 			this.#saPageLog();
 		});
 	}
-	#saPageLog() {playbackPage(
+	#saPageLog() {ReadingState.playbackPage(
 		this.getVal('sys:const.sn.aPageLog') ?? '[]',
-		this.getVal('save:const.sn.styPaging') ?? INI_STYPAGE,
+		this.getVal('save:const.sn.styPaging') ?? ReadingState.INI_STYPAGE,
 	)}
 	readonly	#hProcDbgRes
 	: {[type: string]: (type: string, o: any)=> void}	= {
@@ -484,7 +484,7 @@ export class Variable implements IVariable {
 		const mesLayer	= this.#hSave['const.sn.mesLayer'] ?? '';
 		const doRecLog	= this.#hSave['sn.doRecLog'] ?? false;
 		const sLog		= this.#hSave['const.sn.sLog'] ?? '[]';
-		const styPaging	= this.#hSave['const.sn.styPaging'] ?? INI_STYPAGE;
+		const styPaging	= this.#hSave['const.sn.styPaging'] ?? ReadingState.INI_STYPAGE;
 
 		this.#hSave = this.#hScopes.save = {};
 

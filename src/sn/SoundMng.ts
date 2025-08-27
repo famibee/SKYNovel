@@ -106,7 +106,7 @@ export class SoundMng {
 		this.#stopse({buf});
 		if (! fn) throw `fnは必須です buf:${buf}`;
 
-		// isSkipKeyDown()は此処のみとする。タイミングによって変わる
+		// isSkipping()は此処のみとする。タイミングによって変わる
 		if (argChk_Boolean(hArg, 'canskip', true) && this.#evtMng.isSkipping) return false;
 
 		const sb = this.#hSndBuf[buf] = new SndBuf(hArg, buf, fn);

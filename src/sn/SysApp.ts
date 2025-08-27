@@ -15,7 +15,7 @@ import {DebugMng} from './DebugMng';
 import {Application} from 'pixi.js';
 import type {HINFO, HPROC, SAVE_WIN_INF} from '../preload';
 import type {IpcRendererEvent, MessageBoxOptions} from 'electron/renderer';
-const to_app: HPROC = (window as any).to_app;
+const to_app: HPROC = (globalThis as any).to_app;
 //const {to_app} = window;
 
 
@@ -141,7 +141,7 @@ export class SysApp extends SysNode {
 
 		to_app.on('shutdown', (_e: IpcRendererEvent)=> main.destroy());
 
-		const ev = new Event('click');
+		const ev = new MouseEvent('click');
 		to_app.on('fire', (_e: IpcRendererEvent, KEY: string)=> this.fire(KEY, ev));
 		//to_app.on('call', (_e: IpcRendererEvent, fn: string, label: string)=> main.resumeByJumpOrCall({fn, label}));	// 実験・保留コード。セキュリティ懸念
 
@@ -198,7 +198,7 @@ export class SysApp extends SysNode {
 			+ this.cfg.getNs() + getDateStr('-', '_', '') +'.spd',
 		).then(()=> {
 			if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
-			this.fire('sn:exported', new Event('click'));	// 末尾に処理
+			this.fire('sn:exported', new MouseEvent('click'));	// 末尾に処理
 		});
 
 		return false;
@@ -231,7 +231,7 @@ export class SysApp extends SysNode {
 			this.val.updateData(o);
 
 			if (CmnLib.debugLog) console.log('プレイデータをインポートしました');
-			this.fire('sn:imported', new Event('click'));
+			this.fire('sn:imported', new MouseEvent('click'));
 		})
 		.catch(e=> console.log(`[import] err: ${e}`));
 

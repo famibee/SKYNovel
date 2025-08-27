@@ -7,6 +7,7 @@
 
 import {CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
+import {EVNM_KEY} from './EventMng';
 
 import {Container} from 'pixi.js';
 
@@ -31,8 +32,7 @@ export class FocusMng {
 			// フレーム部品に【 if (btn instanceof HTMLElement) 】が上手く使えない
 			cmp.on('pointerdown', ()=> {
 				for (let i=this.#aBtn.length -1; i>=0; --i) {
-					const b = this.#aBtn[i]!;
-					if (b.btn === cmp) {this.#idx = i; return}
+					if (this.#aBtn[i]!.btn === cmp) {this.#idx = i; return}
 				}
 				this.#idx = -1;
 			});
@@ -43,8 +43,7 @@ export class FocusMng {
 
 		this.#elc.add(cmp, 'focus', ()=> {
 			for (let i=this.#aBtn.length -1; i>=0; --i) {
-				const b = this.#aBtn[i]!;
-				if (b.btn === cmp) {this.#idx = i; return}
+				if (this.#aBtn[i]!.btn === cmp) {this.#idx = i; return}
 			}
 			this.#idx = -1;
 		});
@@ -83,11 +82,11 @@ export class FocusMng {
 				};
 				break;
 		}
-		this.#elc.add(cmp, 'keydown', (e: KeyboardEvent)=> {
+		this.#elc.add(cmp, EVNM_KEY, (e: KeyboardEvent)=> {
 			if (e.key !== 'ArrowUp' && e.key !== 'ArrowDown'
 			&& e.key !== 'Enter') return;
 
-			e.stopPropagation(); e.stopImmediatePropagation();
+			e.stopImmediatePropagation();
 			if (fnc4EnterSwitch(e)) {
 				cmp.dispatchEvent(new MouseEvent('click'));
 				return;

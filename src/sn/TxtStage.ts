@@ -15,8 +15,8 @@ import type {IMakeDesignCast} from './LayerMng';
 //import {TxtLayDesignCast, TxtLayPadDesignCast} from './DesignCast';
 import type {SysBase} from './SysBase';
 import {Hyphenation, type IChRect} from './Hyphenation';
-import type {ScriptIterator} from './ScriptIterator';
-import {ReadState} from './ReadState';
+import {ScriptIterator, RPN_COMP_CHIN} from './ScriptIterator';
+import {Reading} from './Reading';
 
 import {Container, Texture, Sprite, Graphics, Rectangle, Renderer, Application} from 'pixi.js';
 import {Tween} from '@tweenjs/tween.js'
@@ -77,6 +77,10 @@ export class TxtStage extends Container {
 
 	#hyph	= new Hyphenation;
 	noticeCompTxt	= ()=> {};
+
+	#fncMasume;
+
+
 	constructor(private readonly ctn: Sprite, private readonly canFocus: ()=> boolean, private readonly sys: SysBase) {
 		super();
 
@@ -88,13 +92,28 @@ export class TxtStage extends Container {
 
 		this.addChild(this.#grpDbgMasume);
 		this.#grpDbgMasume.name = 'grpDbgMasume';
+		const fncMasumeLog = CmnLib.debugLog
+			? ({ch, rect: {x, y, width, height}}: IChRect)=> console.log(`🍌 masume ch:${ch} x:${x} y:${y} w:${width} h:${height}`)
+			: ()=> {};
+		this.#fncMasume = TxtStage.#cfg.oCfg.debug.masume
+			? (cr: IChRect)=> {
+				fncMasumeLog(cr);
+
+				const {x, y, width, height} = cr.rect;
+				this.#grpDbgMasume
+				.beginFill(0x66CCFF, 0.5)
+				.lineStyle(2, 0xFF3300, 1)
+				.drawRect(x, y, width, height)
+				.endFill();
+			}
+			: ()=> {};
 
 //		this.#idc = new TxtLayDesignCast(ctn, this);
 //		this.#idc.adopt(this.#idcCh);
 
 		this.noticeCompTxt = sys.isApp && TxtStage.#cfg.oCfg.debug.dumpHtm
 		? ()=> {
-			ReadState.noticeCompTxt();
+			Reading.notifyEndProc(RPN_COMP_CHIN);
 
 			const htm = this.#htmTxt.innerHTML;
 			if (htm === '') return;
@@ -115,7 +134,7 @@ export class TxtStage extends Container {
 }`,
 			);
 		}
-		: ()=> ReadState.noticeCompTxt();
+		: ()=> Reading.notifyEndProc(RPN_COMP_CHIN);
 	}
 
 //	readonly	#idc	:TxtLayDesignCast;
@@ -570,7 +589,7 @@ export class TxtStage extends Container {
 		if (this.#aGoTxt.push(f) === 1) f();	// len=1 で実行中を示す
 	}
 
-	#aRect		: IChRect[]	= [];
+	#aRect	: IChRect[]	= [];
 	#lenHtmTxt = 0;
 	static	readonly	#SPAN_LAST = `<span class='sn_ch sn_ch_last'>&emsp;</span>`;
 	#goTxt_Proc(aSpan: string[], instant: boolean) {
@@ -676,45 +695,31 @@ export class TxtStage extends Container {
 		const [a, len] = this.#hyph.hyph(this.#htmTxt, cnvRect, this.#isTategaki, begin, bkHtm);
 		this.#aRect = a;
 
-
-		const fncMasumeLog = CmnLib.debugLog
-			? ({ch}: IChRect, {x, y, width, height}: Rectangle)=> console.log(`🍌 masume ch:${ch} x:${x} y:${y} w:${width} h:${height}`)
-			: ()=> {};
-		const fncMasume = TxtStage.#cfg.oCfg.debug.masume
-			? (v: IChRect, rct: Rectangle)=> {
-				fncMasumeLog(v, rct);
-				this.#grpDbgMasume
-				.beginFill(0x66CCFF, 0.5)
-				.lineStyle(2, 0xFF3300, 1)
-				.drawRect(rct.x, rct.y, rct.width, rct.height)
-				.endFill();
-			}
-			: ()=> {};
 		const ease = CmnTween.ease(this.#fi_easing);
 
 		for (let i=begin; i<len; ++i) {
-			const c = this.#aRect[i]!;
-			const rct = c.rect;
-			const arg = JSON.parse(c.elm.dataset.arg ?? '{"delay": 0}');
-			const add = JSON.parse(c.elm.dataset.add ?? '{}');
+			const cr = this.#aRect[i]!;
+			const {elm: {dataset, parentElement}, rect} = cr;
+			const arg = JSON.parse(dataset.arg ?? '{"delay": 0}');
+			const add = JSON.parse(dataset.add ?? '{}');
 			const cis = TxtStage.#hChInStyle[add.ch_in_style];
-			fncMasume(c, rct);
+			this.#fncMasume(cr);
 
-			if (c.elm.dataset.cmd === 'grp') {
+			if (dataset.cmd === 'grp') {
 				const cnt = new Container;	// 親コンテナかまし、即spWork()
 				this.#cntTxt.addChild(cnt);
 					// 次のcsv2Spritesが即終わる場合もあるので先に行なう
 				new SpritesMng(arg.pic, cnt, sp=> {
-					this.#spWork(cnt, arg, add, rct, ease, cis ?? {});
+					this.#spWork(cnt, arg, add, rect, ease, cis ?? {});
 					if (! cnt.parent) cnt.removeChild(sp);
 				});
 			}
-			if (c.elm.dataset.lnk) {
-				const eCh = c.elm.parentElement!.closest('[data-arg]')! as HTMLElement;
+			if (dataset.lnk) {
+				const eCh = parentElement!.closest('[data-arg]')! as HTMLElement;
 				const aLnk = JSON.parse(eCh.dataset.arg ?? '{}');
 				aLnk.key = `lnk=[${i}] `+ this.name;
 				const sp = new Sprite;
-				this.#spWork(sp, aLnk, add, rct, ease, cis ?? {});
+				this.#spWork(sp, aLnk, add, rect, ease, cis ?? {});
 
 				const st_normal = aLnk.style ?? '';
 				const st_hover = st_normal +(aLnk.style_hover ?? '');
@@ -763,12 +768,11 @@ export class TxtStage extends Container {
 			);
 			TxtStage.#cntBreak.visible = true;
 			/*
-				- これらはセットで確認すること。兼ね合いにより、いずれかが破綻する場合がある
+				これらはセットで確認すること。兼ね合いにより、いずれかが破綻する場合がある
 					- 末尾文字表示でカーソルが次行先頭に来てしまうことのないよう
 					- 改行→クリック待ち、の後で改行が消えないよう
 					- 冒頭クリック待ち＋改行での表示確認
 			*/
-
 			this.noticeCompTxt();
 
 			const f = this.#aGoTxt.shift();	// 実行中の一個必ず入ってる（clearText注意）
@@ -789,7 +793,7 @@ export class TxtStage extends Container {
 
 //console.log(`fn:TxtStage.ts nm=${this.name} txt:${elm.textContent}: i:${i} begin:${begin} len:${len} elm:%o`, elm);
 			lastElm = (elm.parentElement?.tagName === 'RUBY')
-				? elm.parentElement.parentElement ?? elm	// [tcy]も[graph]も
+				? elm.parentElement.parentElement ?? elm // [tcy]も[graph]も
 				: elm;
 			break;
 		}
@@ -965,10 +969,11 @@ export class TxtStage extends Container {
 		//this.htmTxt.innerHTML = '';		以下の方が早いらしい
 		n.textContent = '';
 		const old = this.#htmTxt;
+		const a = Array.from(<HTMLCollectionOf<HTMLElement>>old.getElementsByClassName('sn_ch'));
 		old.parentElement!.insertBefore(n, old);
 
 		let sum_wait = 0;
-		Array.from(<HTMLCollectionOf<HTMLElement>>old.getElementsByClassName('sn_ch')).forEach(elm =>{
+		a.forEach(elm=> {
 			const add = JSON.parse(
 				elm.dataset.add ??				// 通常文字
 				elm.children[0]?.getAttribute('data-add') ??	// ルビ

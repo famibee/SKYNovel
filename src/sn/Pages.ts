@@ -33,6 +33,7 @@ export class Pages {
 		argChk_Boolean(hArg, 'visible', true);// SKYNovelではデフォルトはtrueとする
 		ret.isWait = f.lay(hArg) || b.lay(hArg);
 		this.#pg = {fore: f, back: b};
+		back.visible = false;
 
 		// 組み込み変数
 		const valnm = `const.sn.lay.${layname}`;

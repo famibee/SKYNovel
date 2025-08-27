@@ -12,7 +12,7 @@ import type {Config} from './Config';
 import type {SysBase} from './SysBase';
 import type {HArg} from './Grammar';
 import {CmnTween} from './CmnTween';
-import {disableEvent, enableEvent} from './ReadState';
+import {Reading} from './Reading';
 
 import {Loader, LoaderResource} from 'pixi.js';
 import {sound, Sound, Options, filters} from '@pixi/sound';
@@ -24,6 +24,9 @@ class SndInf {
 	stt		: ISndState;
 	loop	: boolean 	= false;
 
+	readonly	#proc_id;
+	get procID() {return this.#proc_id}
+
 	constructor(
 			readonly	fn		: string,
 			readonly	buf		: string,
@@ -32,9 +35,10 @@ class SndInf {
 			readonly	ret_ms	: number,
 	private	readonly	volume	: number,
 			readonly	pan		: number,
-						snd?	: Sound,
+			readonly	snd		: Sound,
 	) {
-		this.stt = snd ?new SsPlaying :new SsLoading;
+		this.stt = snd ?new SsPlaying(this) :new SsLoading;
+		this.#proc_id = Reading.procID;
 		if (snd) this.addSnd(snd);
 	}
 	addSnd(snd: Sound) {
@@ -293,19 +297,20 @@ export class SndBuf {
 					url		: snd.options.url,
 					source	: ab,
 				}));
-				if (pan !== 0) snd.filters = [new filters.StereoFilter(pan)];
 			}
+			if (pan !== 0) snd.filters = [new filters.StereoFilter(pan)];
 			this.needLoad = false;
 			return;
 		}
 
 		const join = this.needLoad = argChk_Boolean(hArg, 'join', true);
 		if (join) {
-			disableEvent();
+			const RPN_LOADED = this.#si.procID +`loaded buf:${buf} fn:${fn}`;
+			Reading.beginProc(RPN_LOADED);
 			const old = o.loaded!;
 			o.loaded = (e, s2)=> {
-				if (! this.#si.stt.isDestroy) old(e, s2);
-				enableEvent();
+				old(e, s2);
+				Reading.endProc(RPN_LOADED);
 			};
 		}
 		this.#playseSub(fn, o);
@@ -358,9 +363,6 @@ function stop2var({loop}: SndInf, buf: string) {
 	val.flush();
 }
 
-
-function stopfadese(tw: Tween<Sound>) {tw.stop().end()}	// stop()とend()は別
-
 // =================================================
 
 
@@ -377,7 +379,7 @@ interface ISndState {
 }
 
 class SsLoading implements ISndState {
-	onLoad(si: SndInf)	{si.stt = new SsPlaying}
+	onLoad(si: SndInf)	{si.stt = new SsPlaying(si)}
 	stopse(si: SndInf)	{si.stt = new SsStop(si, false)}
 	ws =()=> false;
 	onPlayEnd() {}		// ok
@@ -389,25 +391,29 @@ class SsLoading implements ISndState {
 }
 
 class SsPlaying implements ISndState {
+	constructor(readonly si: SndInf) {}
 	onLoad() {}			// ok
 	stopse(si: SndInf)	{si.stt = new SsStop(si)}
 	ws(si: SndInf, hArg: HArg) {
 		if (si.loop) return false;
 
-		const {buf = BUF_SE} = hArg;
+		si.stt = new SsWaitingStop(si);
+		const canskip = argChk_Boolean(hArg, 'canskip', false);
 		const stop = argChk_Boolean(hArg, 'stop', true);
-		argChk_Boolean(hArg, 'canskip', false);	// waitEvent() のデフォルトと違うので先行上書き
-		if (evtMng.waitEvent('buf:'+ buf, hArg, ()=> {	// 順番固定
+		if (canskip && evtMng.isSkipping) {
+			if (stop) si.stt.stopse(si); else si.stt.onPlayEnd = ()=> {};
+			return false;
+		}
+
+		const {buf = BUF_SE} = hArg;
+		const fin = ()=> {
 			stop2var(si, buf);
 			si.onPlayEnd();	// まず一回やる
 			if (stop) si.stt.stopse(si); else si.stt.onPlayEnd = ()=> {};
 				// else後は SsWaitingStop か SsStop の想定
-		})) {
-			si.stt = new SsWaitingStop;
-			return true;
-		}
-
-		return false;
+		};
+		Reading.beginProc(si.procID +'ws', fin, true, canskip ?fin :undefined);
+		return true;
 	}
 	onPlayEnd() {}		// ok
 	fade(si: SndInf, hArg: HArg) {
@@ -427,7 +433,7 @@ class SsPlaying implements ISndState {
 		const delay = argChk_Num(hArg, 'delay', 0);
 		if ((time === 0 && delay === 0) || evtMng.isSkipping) {
 			si.setVol(vol);
-			si.stt = stop ? new SsStop(si) : new SsPlaying;
+			si.stt = stop ? new SsStop(si) : new SsPlaying(si);
 			return;
 		}
 
@@ -439,11 +445,11 @@ class SsPlaying implements ISndState {
 		.onComplete(()=> {
 			remove(tw);
 			si.stt.compFade(buf);
-			si.stt = stop ? new SsStop(si) : new SsPlaying;
+			si.stt = stop ? new SsStop(si) : new SsPlaying(si);
 		})
 		.start();
 
-		si.stt = new SsFade(tw);
+		si.stt = new SsFade(tw, si);
 	}
 	wf =()=> false;		// ok
 	compFade() {}		// ok
@@ -452,10 +458,11 @@ class SsPlaying implements ISndState {
 }
 
 class SsWaitingStop implements ISndState {
+	constructor(readonly si: SndInf) {}
 	onLoad() {}			// ok
 	stopse(si: SndInf)	{si.stt = new SsStop(si)}
 	ws =()=> false;		// ok
-	onPlayEnd(buf: string)	{evtMng.breakEvent('buf:'+ buf)}
+	onPlayEnd()	{Reading.notifyEndProc(this.si.procID +'ws')}
 	fade() {}			// ok
 	wf =()=> false;		// ok
 	compFade() {}		// ok
@@ -464,37 +471,36 @@ class SsWaitingStop implements ISndState {
 }
 
 class SsFade implements ISndState {
-	constructor(readonly tw: Tween<Sound>) {}
+	constructor(readonly tw: Tween<Sound>, private readonly si: SndInf) {}
 	onLoad() {}			// ok
-	stopse(si: SndInf)	{stopfadese(this.tw); si.stt = new SsStop(si)}	// 順番厳守
+	stopse(si: SndInf)	{this.stopfadese(); si.stt = new SsStop(si)}	// 順番厳守
 	ws =()=> false;		// ok ?
 	onPlayEnd() {}		// ok
 	fade() {}			// ok
 	wf(si: SndInf, hArg: HArg) {
-		const {buf = BUF_SE} = hArg;
-		argChk_Boolean(hArg, 'canskip', false);	// waitEvent() のデフォルトと違うので先行上書き
-		if (evtMng.waitEvent('buf:'+ buf, hArg, ()=> stopfadese(this.tw))) {
-			si.stt = new SsWaitingFade(this.tw);
-			return true;
-		}
+		si.stt = new SsWaitingFade(si);
+		const canskip = argChk_Boolean(hArg, 'canskip', false);
+		if (canskip && evtMng.isSkipping) {this.stopfadese(); return false}
 
-		return false;
+		const fin = ()=> this.stopfadese();
+		Reading.beginProc(si.procID +'wf', fin, true, canskip ?fin :undefined);
+		return true;
 	}
 	compFade() {}		// ok
-	stopfadese =()=> stopfadese(this.tw);
+	stopfadese =()=> this.si.stop();
 	readonly	isDestroy	= false;
 }
 
 class SsWaitingFade implements ISndState {
-	constructor(readonly tw: Tween<Sound>) {}
+	constructor(private readonly si: SndInf) {}
 	onLoad() {}			// ok
-	stopse(si: SndInf)	{stopfadese(this.tw); si.stt = new SsStop(si)}
+	stopse(si: SndInf)	{this.stopfadese(); si.stt = new SsStop(si)}
 	ws =()=> false;		// ok
 	onPlayEnd() {}		// ok
 	fade() {}			// ok
 	wf =()=> false;		// ok
-	compFade(buf: string) {evtMng.breakEvent('buf:'+ buf)}
-	stopfadese =()=> stopfadese(this.tw);
+	compFade() {Reading.notifyEndProc(this.si.procID +'wf')}
+	stopfadese =()=> this.si.stop();
 	readonly	isDestroy	= false;
 }
 

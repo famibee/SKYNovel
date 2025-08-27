@@ -10,6 +10,7 @@ declare const enum SndProcOnLoad {
     NO_TOUCH = 1,
     ALL_STOP_AND_PLAY = 2
 }
+export declare const RPN_COMP_CHIN = "compChIn";
 export declare class ScriptIterator {
     #private;
     private readonly cfg;
@@ -20,6 +21,7 @@ export declare class ScriptIterator {
     private readonly sndMng;
     private readonly sys;
     get scriptFn(): string;
+    get idxToken(): number;
     subIdxToken(): void;
     get lineNum(): number;
     readonly addLineNum: (len: number) => number;
@@ -29,7 +31,7 @@ export declare class ScriptIterator {
     destroy(): void;
     cnvPath4Dbg: (fn: string) => string;
     isBreak: (_token: string) => boolean;
-    タグ解析(tagToken: string): boolean;
+    タグ解析(tag_name: string, args: string): Promise<boolean>;
     setOtherObj(evtMng: EventMng, layMng: LayerMng): void;
     noticeBreak: (_goto: boolean) => void;
     dumpErrForeLine(): void;

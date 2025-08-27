@@ -1,6 +1,6 @@
 import { HArg, ITag } from './Grammar';
 import { DisplayObject, RenderTexture } from 'pixi.js';
-import { T_SEARCHPATH } from './ConfigBase';
+import { HSysBaseArg, T_SEARCHPATH } from './ConfigBase';
 import { Layer } from './Layer';
 export interface IMyTrace {
     (txt: string, lvl?: string, fnline?: boolean, adjust_line?: number): void;
@@ -42,11 +42,6 @@ export interface HPlugin {
 export interface ILayerFactory {
     (): Layer;
 }
-export type HSysBaseArg = {
-    cur: string;
-    crypto: boolean;
-    dip: string;
-};
 export type T_SysBaseParams = [
     hPlg: HPlugin,
     arg?: HSysBaseArg
@@ -81,7 +76,6 @@ export interface IMain {
     resumeByJumpOrCall(hArg: HArg): void;
     stop(): void;
     setLoop(v: boolean, mes?: string): void;
-    isDestroyed(): boolean;
     destroy(): void;
 }
 export interface IAreas {

@@ -11,11 +11,13 @@ import type {IMain, Scope} from './CmnInterface';
 import type {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 import {Config} from './Config';
-import {tagToken2Name, splitAmpersand} from './Grammar';
+import {splitAmpersand, tagToken2Name_Args} from './Grammar';
 import type {ScriptIterator} from './ScriptIterator';
 import type {LayerMng} from './LayerMng';
+import type {EventMng} from './EventMng';
 
 import {Application, type IApplicationOptions, utils} from 'pixi.js';
+
 
 const	SN_ID	= 'skynovel';
 
@@ -26,6 +28,7 @@ export class Main implements IMain {
 
 	#scrItr		: ScriptIterator;
 	#layMng		: LayerMng;
+	#evtMng		: EventMng;
 
 
 	constructor(private readonly sys: SysBase) {
@@ -122,32 +125,27 @@ export class Main implements IMain {
 			this.#aDest.unshift(()=> this.#layMng.destroy());
 
 			// イベント
-			const evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, val, sndMng, this.#scrItr, this.sys);
-			this.#aDest.unshift(()=> evtMng.destroy());
+			this.#evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, val, sndMng, this.#scrItr, this.sys);
+			this.#aDest.unshift(()=> this.#evtMng.destroy());
 
 			this.#aDest.unshift(()=> {
 				this.stop();
 				this.#isLoop = false;
 
-				this.#hTag = {};
+				const fncDummy = ()=> true;
+				for (const key in this.#hTag) this.#hTag[key] = fncDummy;
 			});
-
-			this.#hTag.jump!({fn: 'main'});
-			this.stop();
 		});
 	}
 
 
 	destroy() {
-		if (this.#destroyed) return;	// destroy()連打対策
-		this.#destroyed = true;
+		this.resume = this.destroy = ()=> {};	// destroy()連打対策
 
 		this.cvs.parentElement?.removeChild(this.cvs);	// remove canvas from DOM
 		for (const f of this.#aDest) f();
 		this.#aDest = [];
 	}
-	#destroyed = false;
-	readonly isDestroyed = ()=> this.#destroyed;
 
 
 	errScript = (_mes: string, _isThrow = true)=> {}
@@ -162,30 +160,30 @@ export class Main implements IMain {
 
 		this.#setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
 		this.#setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
-//console.log(`%cfn:Main.ts resumeByJumpOrCall:%o`, 'color:#3B0;', hArg);
+// console.log(`📜 %cresumeByJumpOrCall:%o`, 'color:#3B0;', hArg);
 		if (argChk_Boolean(hArg, 'call', false)) {
 			this.#scrItr.subIdxToken();	// 「コール元の次」に進めず、「コール元」に戻す
-			this.#hTag.call!(hArg);
+			if (this.#hTag.call!(hArg)) return;
 		}
 		else {
 			this.#hTag.clear_event!({});
-			this.#hTag.jump!(hArg);
+			if (this.#hTag.jump!(hArg)) return;
 		}
 		this.resume();
 	}
 		#setVal_Nochk = (_scope: Scope, _nm: string, _val: any, _autocast = false)=> {}
 
 	resume() {
-//console.log(`-- resume!`);
-		if (this.#destroyed) return;	// destroy()連打対策
-
-		this.#layMng.clearBreak();	// スクリプトが動くとき、ブレイクマーク消去
+// console.log(`📜🟢 resume!`);
+		// スクリプトが動くとき、ブレイクマークなど消去
+		this.#layMng.clearBreak();
 		this.#scrItr.noticeBreak(false);
+		this.#evtMng.hideHint();
 
 		queueMicrotask(()=> this.#main());
 	}
 	readonly stop = ()=> {
-//console.log(`-- stop!`);
+// console.log(`📜🔴 stop!`);
 		this.#scrItr.noticeBreak(true);
 	};
 
@@ -197,36 +195,38 @@ export class Main implements IMain {
 	#isLoop = true;
 
 	//MARK: メイン処理（シナリオ解析）
-	#main() {
-		while (this.#isLoop) {
-			let token = this.#scrItr.nextToken();
-			if (! token) return;	// 初期化前に終了した場合向け
+	async #main() {
+		let errHd = '';
+		try {
+			while (this.#isLoop) {
+				let token = this.#scrItr.nextToken();
+				if (! token) return;	// 初期化前に終了した場合向け
 
-			const uc = token.charCodeAt(0);	// TokenTopUnicode
-			// \t タブ
-			if (uc === 9) continue;
-			// \n 改行
-			if (uc === 10) {this.#scrItr.addLineNum(token.length); continue}
-			// [ タグ開始
-			if (uc === 91) {
-				if (this.#scrItr.isBreak(token)) return;
-				try {
+				const uc = token.charCodeAt(0);	// TokenTopUnicode
+				// \t タブ
+				if (uc === 9) continue;
+				// \n 改行
+				if (uc === 10) {this.#scrItr.addLineNum(token.length); continue}
+				// [ タグ開始
+				if (uc === 91) {
+					errHd = 'タグ開始';
+					if (this.#scrItr.isBreak(token)) return;
+
+					const [tag_name, args] = tagToken2Name_Args(token);
+					errHd = `[${tag_name}]例外`;
+
 					const cl = (token.match(/\n/g) ?? []).length;
 					if (cl > 0) this.#scrItr.addLineNum(cl);
-					if (this.#scrItr.タグ解析(token)) {this.stop(); return}
+					if (await this.#scrItr.タグ解析(tag_name, args)) {
+						this.stop();
+						return;
+					}
 					continue;
 				}
-				catch (e) {
-					if (e instanceof Error) this.errScript(`[${tagToken2Name(token)}]タグ解析中例外 mes=${e.message}(${e.name})`, false);
-					else this.errScript(String(e), false);
-					return;
-				}
-			}
-			// & 変数操作・変数表示
-			if (uc === 38) {
-				try {
-					if (! token.endsWith('&')) {	//変数操作
-						// 変数計算
+				// & 変数操作・変数表示
+				if (uc === 38) {
+					if (! token.endsWith('&')) {
+						errHd = '変数計算';
 						if (this.#scrItr.isBreak(token)) return;
 						const o = splitAmpersand(token.slice(1));
 						o.name = this.#getValAmpersand(o.name);
@@ -235,39 +235,26 @@ export class Main implements IMain {
 						continue;
 					}
 
+					errHd = '変数操作';
 					if (token.charAt(1) === '&') throw new Error('「&表示&」書式では「&」指定が不要です');
 					token = String(this.#parse( token.slice(1, -1) ));
+						// -> 文字表示 へ
 				}
-				catch (err) {
-					this.errScript(
-						err instanceof Error
-							? `& 変数操作・表示 mes=${err.message}(${err.name})`
-							: String(err),
-						false
-					);
-					return;
-				}
-			}
-			// ; コメント
-			else if (uc === 59) continue;
-			// * ラベル
-			else if (uc === 42 && token.length > 1) continue;
+				// ; コメント
+				else if (uc === 59) continue;
+				// * ラベル
+				else if (uc === 42 && token.length > 1) continue;
 
-			// 文字表示
-			try {
+				// 文字表示
+				errHd = '文字表示';
 				this.#layMng.setNormalChWait();
 				const tl = this.#layMng.currentTxtlayForeNeedErr;
 				tl.tagCh(token);
 			}
-			catch (err) {
-				this.errScript(
-					err instanceof Error
-						? `文字表示 mes=${err.message}(${err.name})`
-						: String(err),
-					false
-				);
-				return;
-			}
+		} catch (e) {
+			this.errScript(`${errHd} ${
+				e instanceof Error ?`mes=${e.message}(${e.name})` :e
+			}`, false);
 		}
 	}
 		#getValAmpersand	= (_v: string)=> '';

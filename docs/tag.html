@@ -166,9 +166,9 @@
 	<p>文字・文字レイヤ</p>
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#autowc">[autowc] 文字ごとのウェイト</a></li>
+		<li class="mb1"><a href="#ch">[ch] 文字を追加する</a></li>
 		<li class="mb1"><a href="#ch_in_style">[ch_in_style] 文字出現演出定義</a></li>
 		<li class="mb1"><a href="#ch_out_style">[ch_out_style] 文字消去演出定義</a></li>
-		<li class="mb1"><a href="#ch">[ch] 文字を追加する</a></li>
 		<li class="mb1"><a href="#clear_text">[clear_text] 文字消去</a></li>
 		<li class="mb1"><a href="#current">[current] デフォルト文字レイヤ設定</a></li>
 		<li class="mb1"><a href="#endlink">[endlink] ハイパーリンクの終了</a></li>
@@ -283,7 +283,7 @@
 	<ul class="anchors list-reset m0 p0 px1">
 		<li class="mb1"><a href="#dump_lay">[dump_lay] 外部へスクリプトを表示</a></li>
 <!--
-		<li class="mb1"><a href="#dump_script">[dump_script] スクリプトのダンプ</a></li>
+		<li class="mb1"><a href="#dump_script">[dump_script] 外部へスクリプトを表示</a></li>
 -->
 		<li class="mb1"><a href="#dump_stack">[dump_stack] スタックのダンプ</a></li>
 		<li class="mb1"><a href="#dump_val">[dump_val] 変数のダンプ</a></li>
@@ -1113,6 +1113,48 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	;x [autowc text="" time=""]</p>
 
 </p>
+<h2 id="ch" class="w-heading">[ch]文字を追加する</h2>
+<h4>文字レイヤに文字を出力する</h4>
+<p class="mb2 px1">
+
+<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
+<tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
+<tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
+<tr class="y"><td>text</td><td>y</td><td></td><td>表示したい文字列</td><td>ルビ文法（《》）も解析する。改行も [r] で出来る</td></tr>
+<tr><td>record</td><td></td><td>true</td><td>true、false</td><td>履歴に保存するか</td></tr>
+<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>0〜；ミリ秒</td><td>一時的な文字表示速度。0で瞬時</td></tr>
+<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
+	文字の CSS Style を指定する。<br/>
+	このタグによる表示のみに適用、以降は元に戻る。<br/>
+	※[ch]でのみ、背景styleなどを一塊とする。<br/>
+	例）以下は表示が異なる<br/>
+	[span style='background-image: linear-gradient(70deg, tomato 0%, lightskyblue 100%); border-radius: 8px;']SPAN[span]<br/>
+	[ch text='CH' style='background-image: linear-gradient(70deg, tomato 0%, lightskyblue 100%); border-radius: 8px;']
+</td></tr>
+<tr><td>r_style</td><td></td><td>何もしない</td><td>CSS style</td><td>
+	ルビの CSS Style を指定する。<br/>
+	このタグによる表示のみに適用、以降は元に戻る
+</td></tr>
+<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.html#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
+<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.html#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
+</table>
+<p>[ch]を使わない、より簡潔な記述文法があります。<br/>
+	以下の記述は、<br/>
+	[ch text=&amp;test]<br/>
+	[ch text=test]<br/>
+	[ch text="&amp;a + b"]<br/>
+	<br/>
+	以下のようにも書けます。&amp;から&amp;までを[ch]文と解釈します。<br/>
+	&amp;test&amp;<br/>
+	&amp;'test'&amp;<br/>
+	&amp;a + b&amp;<br/>
+	<br/>
+	では「&（半角）」を表示するには？（これらの文法のせいで普通に書けない）<br/>
+	[ch text="&'&'"]として下さい。
+
+</p>
+
+</p>
 <h2 id="ch_in_style" class="w-heading">[ch_in_style]文字出現演出定義</h2>
 <h4>文字出現演出アニメを定義する</h4>
 <p class="mb2 px1">
@@ -1168,47 +1210,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 	<a href="https://developer.mozilla.org/ja/docs/Web/CSS/animation-timing-function" target="_blank" rel="noopener">CSSのanimation-timing-function プロパティ</a>
 </td></tr>
 </table>
-
-</p>
-<h2 id="ch" class="w-heading">[ch]文字を追加する</h2>
-<h4>文字レイヤに文字を出力する</h4>
-<p class="mb2 px1">
-
-<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
-<tr><td>layer</td><td></td><td>デフォルト文字レイヤ</td><td>文字レイヤ名</td><td>文字を表示するレイヤ</td></tr>
-<tr><td>page</td><td></td><td>fore</td><td>fore、back</td><td>ページの裏表</td></tr>
-<tr class="y"><td>text</td><td>y</td><td></td><td>表示したい文字列</td><td>ルビ文法（《》）も解析する。改行も [r] で出来る</td></tr>
-<tr><td>record</td><td></td><td>true</td><td>true、false</td><td>履歴に保存するか</td></tr>
-<tr><td>wait</td><td></td><td>現在の文字表示速度</td><td>0〜；ミリ秒</td><td>一時的な文字表示速度。0で瞬時</td></tr>
-<tr><td>style</td><td></td><td>何もしない</td><td>CSS style</td><td>
-	文字の CSS Style を指定する。<br/>
-	このタグによる表示のみに適用、以降は元に戻る。<br/>
-	※[ch]でのみ、背景styleなどを一塊とする。<br/>
-	例）以下は表示が異なる<br/>
-	[span style='background-image: linear-gradient(70deg, tomato 0%, lightskyblue 100%); border-radius: 8px;']SPAN[span]<br/>
-	[ch text='CH' style='background-image: linear-gradient(70deg, tomato 0%, lightskyblue 100%); border-radius: 8px;']
-</td></tr>
-<tr><td>r_style</td><td></td><td>何もしない</td><td>CSS style</td><td>
-	ルビの CSS Style を指定する。<br/>
-	このタグによる表示のみに適用、以降は元に戻る
-</td></tr>
-<tr><td>ch_in_style</td><td></td><td>何もしない</td><td>文字出現演出名</td><td><a href="tag.html#ch_in_style" target="_blank" rel="noopener">[ch_in_style]</a>で定義した文字出現演出名</td></tr>
-<tr><td>ch_out_style</td><td></td><td>何もしない</td><td>文字消去演出名</td><td><a href="tag.html#ch_out_style" target="_blank" rel="noopener">[ch_out_style]</a>で定義した文字消去演出名</td></tr>
-</table>
-<p>[ch]を使わない、より簡潔な記述文法があります。<br/>
-	以下の記述は、<br/>
-	[ch text=&amp;test]<br/>
-	[ch text=test]<br/>
-	[ch text="&amp;a + b"]<br/>
-	<br/>
-	以下のようにも書けます。&amp;から&amp;までを[ch]文と解釈します。<br/>
-	&amp;test&amp;<br/>
-	&amp;'test'&amp;<br/>
-	&amp;a + b&amp;<br/>
-	<br/>
-	では「&（半角）」を表示するには？（これらの文法のせいで普通に書けない）<br/>
-	[ch text="&'&'"]として下さい。
-</p>
 
 </p>
 <h2 id="clear_text" class="w-heading">[clear_text]文字消去</h2>
@@ -1680,7 +1681,7 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 	※1 イベント名は以下の表を参考に。<br/>
 	<br/>
-	技術的の話をすると、値は JavaScriptでの keydownイベントの <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key" target="_blank" rel="noopener">keyプロパティの値</a>（<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" target="_blank" rel="noopener">Key Values - Web APIs | MDN</a>）を基本とする。<br/>
+	技術的な話をすると、値は JavaScriptでの keydownイベントの <a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key" target="_blank" rel="noopener">keyプロパティの値</a>（<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values" target="_blank" rel="noopener">Key Values - Web APIs | MDN</a>）を基本とする。<br/>
 	（keyCode（<a href="https://qiita.com/ledsun/items/fb2570cc1542039f4516" target="_blank" rel="noopener">非推奨</a>）・codeプロパティとは違うので注意）<br/>
 	<span style="color:ff0000;background-color:#FFCACA;">重要な点として、「key属性の値」は大文字小文字区別無し、どちらでもよい。<br/>
 	ただし【dom=【フレーム名】:【ボタン系 HTML要素の id名】】系はHTML要素名なども含むので、大小区別あり。</span><br/>
@@ -2277,28 +2278,31 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 
 </p>
 <h2 id="page" class="w-heading">[page]ページ移動</h2>
-<h4>ページ遷移状態に入り、[p]停止位置を一つ移動する</h4>
+<h4>ページ移動状態に入り、[p]停止位置を一つ移動する</h4>
 <p class="mb2 px1">
 	[p]などの停止位置を「ページ」とみなし、既読ページを戻ったり進んだりできる。<br/>
 	（レイヤの .page とページ移動の [page] の言葉混乱注意）<br/>
-	・save:sn.doRecLog の影響を受け、true の状態でのみ、[p][s]など。（[l][waitclick][wait][wv][wait_tsy][wf][ws]は対象外）で停止した際にそのページ状態の記録を行う。<br/>
+	・save:sn.doRecLog の影響を受け、true の状態でのみページ移動履歴が記録される。<br/>
+	[l][p][s]など（[wait]は対象外）で停止した際にそのページ状態の記録を行う。<br/>
 	・save変数も復元する。<br/>
 	　　・前述二項の理由により、冒頭ページに &save:sn.doRecLog = true と [record_place]が必須。<br/>
 	　　　（save変数復元で &save:sn.doRecLog = false になるケースがある）<br/>
 	<br/>
-	ページ遷移状態かは tmp:const.sn.isPaging（Boolean値）でわかる。<br/>
+	ページ移動状態かは tmp:const.sn.isPaging（Boolean値）でわかる。<br/>
 
 <table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr>
 <tr><td>clear</td><td rowspan="3">いずれかを指定</td><td>なにもしない</td><td>true、false</td><td>trueでページ状態記録をクリアする</td></tr>
-<tr><td>to</td><td>なにもしない</td><td>prev、next、exit、load</td><td>
+<tr><td>to</td><td>なにもしない</td><td>oldest、prev、next、newest、exit、load</td><td>
+	oldest：最古のページに移動<br/>
 	prev：ひとつ前のページに戻る<br/>
 	next：ひとつ次のページに進める<br/>
-	exit：ページ遷移状態から抜ける<br/>
-	load：ページ遷移状態で表示中ページからロードする<br/>
+	newest：最新のページに移動<br/>
+	exit：ページ移動状態から抜ける<br/>
+	load：（ページ移動状態から）表示中ページからロードする<br/>
 </td></tr>
 <tr><td>style</td><td>なにもしない</td><td>CSS style</td><td>ページ移動中の既読文字に適用する CSS スタイル。初期値は【color: yellow; text-shadow: 1px 1px 0 #000, -1px 1px 0 #000, 1px -1px 0 #000, -1px -1px 0 #000;】</td></tr>
 <tr><td>key</td><td>なにもしない</td><td>なにもしない</td><td>イベント名（カンマ区切りで複数可）</td><td>
-	ページ遷移状態中に有効にするグローバルイベントを限定できる。<br/>
+	ページ移動状態中に有効にするグローバルイベントを限定できる。<br/>
 	空白時は全て有効。
 </td></tr>
 </table>
@@ -2556,8 +2560,6 @@ Sinusoidal.In、Sinusoidal.InOut、Sinusoidal.Out<br/>
 <h2 id="stop_quake" class="w-heading">[stop_quake]画面揺らし中断</h2>
 <h4>画面揺らしを中断する</h4>
 <p class="mb2 px1">
-
-	<table><tr><th>属性</th><th>必須</th><th>省略時</th><th>値域・型</th><th>コメント</th></tr><tr><td>canskip</td><td></td><td>true</td><td>true、false</td><td>クリックなど（→詳細は<a href="tag.html#waitclick" target="_blank" rel="noopener">[waitclick]</a>）でウエイトをキャンセルできるか</td></tr></table>
 
 </p>
 <h2 id="wq" class="w-heading">[wq]画面揺らし終了待ち</h2>

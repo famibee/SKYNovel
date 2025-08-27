@@ -2,6 +2,8 @@ import { IEvtMng } from './CmnLib';
 import { HArg } from './Grammar';
 import { Tween } from '@tweenjs/tween.js';
 import { Application } from 'pixi.js';
+export declare const TW_INT_TRANS = "trans\n";
+export declare const TMP_TSY_NM = "tsy nm:";
 export declare class CmnTween {
     #private;
     static init(evtMng: IEvtMng, appPixi: Application): void;
@@ -23,9 +25,8 @@ export declare class CmnTween {
     static cnvTweenArg(hArg: HArg, lay: any): {};
     static stopAllTw(): void;
     static tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: () => void, onComplete: () => void, onEnd: () => void, start?: boolean): Tween<any>;
-    static wt(hArg: HArg): boolean;
-    static readonly TW_INT_TRANS = "trans\n";
-    static finish_trans(): boolean;
+    static wt(_hArg: HArg): boolean;
+    static closeTrans(): Promise<void>;
     static wait_tsy(hArg: HArg): boolean;
     static stop_tsy(hArg: HArg): boolean;
     static pause_tsy(hArg: HArg): boolean;

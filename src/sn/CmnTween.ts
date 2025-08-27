@@ -7,14 +7,20 @@
 
 import {type IEvtMng, CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
 import type {HArg} from './Grammar';
+import {Reading} from './Reading';
 
 import {Tween, Easing, removeAll, update} from '@tweenjs/tween.js'
 import {Application} from 'pixi.js';
+
 
 interface ITwInf {
 	tw		: Tween<any> | undefined;
 	onEnd?	: ()=> void;
 }
+
+export const TW_INT_TRANS = 'trans\n';	// 改行でスクリプトから絶対指定できない値に
+export const TMP_TSY_NM	= 'tsy nm:';
+
 
 export class CmnTween {
 	static	#hTwInf	: {[tw_nm: string]: ITwInf}	= {};
@@ -22,22 +28,22 @@ export class CmnTween {
 	static	#evtMng	: IEvtMng;
 	static	#appPixi: Application;
 	static	init(evtMng: IEvtMng, appPixi: Application) {
-		CmnTween.#hTwInf = {};
-		CmnTween.#evtMng = evtMng;
-		CmnTween.#appPixi = appPixi;
+		this.#hTwInf = {};
+		this.#evtMng = evtMng;
+		this.#appPixi = appPixi;
 
-		CmnTween.#appPixi.ticker.add(CmnTween.#fncTicker);	// TWEEN 更新
+		this.#appPixi.ticker.add(this.#fncTicker);	// TWEEN 更新
 	}
 	static	#fncTicker = ()=> update();
 	static	destroy() {
-		CmnTween.stopAllTw();
-		CmnTween.#appPixi.ticker.remove(CmnTween.#fncTicker);
+		this.stopAllTw();
+		this.#appPixi.ticker.remove(this.#fncTicker);
 	}
 
 	static	setTwProp(tw: Tween<any>, hArg: HArg): Tween<any> {
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		return tw.delay(argChk_Num(hArg, 'delay', 0))
-		.easing(CmnTween.ease(hArg.ease))
+		.easing(this.ease(hArg.ease))
 		.repeat(repeat > 0 ?repeat -1 :Infinity)	// 一度リピート→計二回なので
 		.yoyo(argChk_Boolean(hArg, 'yoyo', false));
 	}
@@ -77,7 +83,7 @@ export class CmnTween {
 	static	ease(nm: string | undefined): (k: number)=> number {
 		if (! nm) return k=> Easing.Linear.None(k);
 
-		const es = CmnTween.#hEase[nm];
+		const es = this.#hEase[nm];
 		if (! es) throw '異常なease指定です';
 		return es;
 	}
@@ -96,7 +102,7 @@ export class CmnTween {
 	};
 	static cnvTweenArg(hArg: HArg, lay: any): {} {
 		const hTo: any = {};
-		for (const nm of Object.keys(CmnTween.hMemberCnt)) {
+		for (const nm of Object.keys(this.hMemberCnt)) {
 			const arg = (hArg as any)[nm];
 			if (! arg) continue;
 	
@@ -123,7 +129,7 @@ export class CmnTween {
 
 
 	// トゥイーン全停止
-	static	stopAllTw() {CmnTween.#hTwInf = {}; removeAll()}
+	static	stopAllTw() {this.#hTwInf = {}; removeAll()}
 
 
 	static	tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween<any> {
@@ -131,14 +137,14 @@ export class CmnTween {
 		const tw = new Tween(hNow)
 		.to(hTo, time)
 		.onUpdate(onUpdate);
-		CmnTween.setTwProp(tw, hArg);
-		CmnTween.#hTwInf[tw_nm] = {tw, onEnd};
+		this.setTwProp(tw, hArg);
+		this.#hTwInf[tw_nm] = {tw, onEnd};
 
 		const {path} = hArg;
 		let twLast = tw;
 		if (path) {
 			if (CmnLib.debugLog) console.group(`🍝 [${hArg[':タグ名']}] path=${path}= start(${hNow.x},${hNow.y},${hNow.alpha})`);
-			for (const {groups} of path.matchAll(CmnTween.#REG_TSY_PATH)) {
+			for (const {groups} of path.matchAll(this.#REG_TSY_PATH)) {
 				const {x, x2, y, y2, o, o2, json} = groups!;
 				let hArg2: any = {};
 				if (json) try {hArg2 = JSON.parse(json)} catch (e) {
@@ -151,14 +157,14 @@ export class CmnTween {
 					if (o ?? o2) hArg2.alpha = o ?? o2;
 				}
 
-				const hTo2 = CmnTween.cnvTweenArg(hArg2, hNow);
+				const hTo2 = this.cnvTweenArg(hArg2, hNow);
 				if (CmnLib.debugLog) console.info(`🍝 ${
 					json ?? `{x:${x} y:${y} o:${o}}`
 				} => hTo:${JSON.stringify(hTo2)}`);
 
 				const twNew = new Tween(hNow)
 				.to(hTo2, time);
-				CmnTween.setTwProp(twNew, hArg);
+				this.setTwProp(twNew, hArg);
 				twLast.chain(twNew);
 
 				twLast = twNew;
@@ -166,21 +172,21 @@ export class CmnTween {
 			if (CmnLib.debugLog) console.groupEnd();
 		}
 		twLast.onComplete(()=> {
-			const ti = CmnTween.#hTwInf[tw_nm];
-			if (! ti) return;
-			delete CmnTween.#hTwInf[tw_nm];
+			const ti = this.#hTwInf[tw_nm];
+			if (! ti?.tw) return;
+			delete this.#hTwInf[tw_nm];
 
 			ti.tw = undefined;
 			tw.stop();
-			CmnTween.#evtMng.breakEvent('tsy nm:'+ tw_nm);	// waitEvent 使用者の通常 break 時義務
 			ti.onEnd?.();
 
 			onComplete();
+			Reading.notifyEndProc(TMP_TSY_NM + tw_nm);	// ラストに
 		});
 
 		const {chain} = hArg;
 		if (chain) {	// 指定レイヤのアニメ終了に、このトゥイーンを続ける
-			const twFrom = CmnTween.#hTwInf[chain];
+			const twFrom = this.#hTwInf[chain];
 			if (! twFrom?.tw) throw `${chain}は存在しない・または終了したトゥイーンです`;
 			delete twFrom.onEnd;
 			twFrom.tw.chain(tw);
@@ -209,65 +215,72 @@ export class CmnTween {
 	static	readonly	#REG_TSY_PATH	= /\(\s*(?:(?<x>[-=\d\.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d\.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d\.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
 
 	// トランス終了待ち
-	static	wt(hArg: HArg) {
-		const ti = CmnTween.#hTwInf[CmnTween.TW_INT_TRANS];
+	static	wt(_hArg: HArg) {
+		const ti = this.#hTwInf[TW_INT_TRANS];
 		if (! ti?.tw) return false;
 
-		return CmnTween.#evtMng.waitEvent('tsy nm:'+ CmnTween.TW_INT_TRANS, hArg, ()=> CmnTween.finish_trans());
+		const fnc = ()=> this.#stopEndTrans();
+		Reading.beginProc(TMP_TSY_NM + TW_INT_TRANS, fnc, true, fnc);
+		return true;
 	}
-	static	readonly	TW_INT_TRANS = 'trans\n';	// 改行でスクリプトから絶対指定できない値に
 
 	// レイヤのトランジションの停止
-	static	finish_trans(): boolean {CmnTween.#hTwInf[CmnTween.TW_INT_TRANS]?.tw?.stop().end(); return false}	// stop()とend()は別
+	static	#stopEndTrans() {this.#hTwInf[TW_INT_TRANS]?.tw?.stop().end()}
+		// stop()とend()は別
+	static	async	closeTrans() {
+		const ti = this.#hTwInf[TW_INT_TRANS];
+		if (! ti?.tw) return;
+
+		const {promise, resolve} = Promise.withResolvers<void>();
+		Reading.beginProc(TMP_TSY_NM + TW_INT_TRANS, resolve, false, resolve);
+		this.#stopEndTrans();	// beginProc後に
+		await promise;
+	}
 
 
 	// トゥイーン終了待ち
 	static	wait_tsy(hArg: HArg) {
-		const {layer='', id, name} = hArg;
-		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
-		if (! tw_nm) throw 'トゥイーンが指定されていません';
-		const ti = CmnTween.#hTwInf[tw_nm];
+		const tw_nm = this.#tw_nm(hArg);
+		const ti = this.#hTwInf[tw_nm];
 		if (! ti?.tw) {
+			const {layer='', id, name} = hArg;
 			if (argChk_Boolean(hArg, 'chk_exist_tw', false)) throw id
-			?`フレームトゥイーン ${id} が見つかりません。`
-			:`トゥイーン ${tw_nm} が見つかりません。(layer:${layer} name:${name})`;
+			? `フレームトゥイーン ${id} が見つかりません。`
+			: `トゥイーン ${tw_nm} が見つかりません。(layer:${layer} name:${name})`;
 
 			return false;
 		}
 
-		return CmnTween.#evtMng.waitEvent('tsy nm:'+ tw_nm, hArg, ()=> ti.tw?.end());	// stop()とend()は別
+		const fnc = ()=> ti.tw?.end();	// stop()とend()は別
+		Reading.beginProc(TMP_TSY_NM + tw_nm, fnc, true, fnc);
+		return true;
 	}
+		static	#tw_nm(hArg: HArg) {
+			const {layer='', id, name} = hArg;
+			const tw_nm = id ?`frm\n${id}` :(name ?? layer);
+			if (! tw_nm) throw 'トゥイーンが指定されていません';
+
+			return tw_nm;
+		}
 
 	// トゥイーン中断
 	static	stop_tsy(hArg: HArg) {
-		const {layer='', id, name} = hArg;
-		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
-		if (! tw_nm) throw 'トゥイーンが指定されていません';
-
-		CmnTween.#hTwInf[tw_nm]?.tw?.stop().end();	// stop()とend()は別
-
+		const tw_nm = this.#tw_nm(hArg);
+		this.#hTwInf[tw_nm]?.tw?.stop().end();	// stop()とend()は別
 		return false;
 	}
 
 	// 一時停止
 	static	pause_tsy(hArg: HArg) {
-		const {layer='', id, name} = hArg;
-		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
-		if (! tw_nm) throw 'トゥイーンが指定されていません';
-
-		CmnTween.#hTwInf[tw_nm]?.tw?.pause();
-
+		const tw_nm = this.#tw_nm(hArg);
+		this.#hTwInf[tw_nm]?.tw?.pause();
 		return false;
 	}
 
 	// 一時停止再開
 	static	resume_tsy(hArg: HArg) {
-		const {layer='', id, name} = hArg;
-		const tw_nm = id ?`frm\n${id}` :(name ?? layer);
-		if (! tw_nm) throw 'トゥイーンが指定されていません';
-
-		CmnTween.#hTwInf[tw_nm]?.tw?.resume();
-
+		const tw_nm = this.#tw_nm(hArg);
+		this.#hTwInf[tw_nm]?.tw?.resume();
 		return false;
 	}
 

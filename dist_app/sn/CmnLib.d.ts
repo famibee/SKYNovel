@@ -1,5 +1,4 @@
 import { HArg } from './Grammar';
-import { IHEvt2Fnc } from './CmnInterface';
 import { Container } from 'pixi.js';
 export declare function int(o: any): number;
 export declare function uint(o: any): number;
@@ -10,13 +9,9 @@ export interface IEvtMng {
     button(hArg: HArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     unButton(em: Container): void;
     get isSkipping(): boolean;
-    popLocalEvts(): IHEvt2Fnc;
-    pushLocalEvts(a: IHEvt2Fnc): void;
-    waitEvent(evnm: string, hArg: HArg, onFire: () => void): boolean;
-    breakEvent(evnm: string): void;
     hideHint(): void;
     cvsResize(): void;
-    resvFlameEvent(win: Window): void;
+    resvFlameEvent(body: HTMLBodyElement): void;
 }
 export declare function argChk_Num(hash: any, name: string, def: number): number;
 export declare function argChk_Boolean(hash: any, name: string, def: boolean): boolean;

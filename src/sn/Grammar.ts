@@ -12,6 +12,7 @@ import {type IConfig, SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 export type HArg = {
 	':タグ名'?	: string;
+	canskip?	: boolean;
 
 	layer?	: string;	// レイヤ系
 	class?	: string;
@@ -124,7 +125,6 @@ export type HArg = {
 	type?	: string;	// 3Dレイヤで使用
 	camera_target?	: string;
 
-	breakout?	: Function;
 	arg?	: HArg;
 	fnc?	: ()=> void;
 
@@ -134,7 +134,6 @@ export type HArg = {
 	enable_filter?	: boolean;
 
 	ease?	: string;
-	canskip?	:boolean;
 
 	centering?	:boolean;
 	x?		: number | string;
@@ -145,11 +144,6 @@ export type HArg = {
 	var_name?	: string;
 	set_fnc?	: string;
 	break_fnc?	: string;
-
-	swipe?	: string;
-	f2tap?	: string;
-	f2move?	: string;
-	f3tap?	: string;
 
 	from?	: number;
 	to?		: number | string;

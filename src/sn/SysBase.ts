@@ -6,11 +6,12 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import type {IHTag, ITag} from './Grammar';
-import type {IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, HPlugin, HSysBaseArg} from './CmnInterface';
+import type {IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, HPlugin} from './CmnInterface';
 import {argChk_Boolean, CmnLib} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
-import type {IConfig, IFn2Path, ISysRoots} from './ConfigBase';
+import type {IConfig, IFn2Path, ISysRoots, HSysBaseArg} from './ConfigBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import {EVNM_KEY} from './EventMng';
 
 import type {Application, DisplayObject, RenderTexture} from 'pixi.js';
 import {io, Socket} from 'socket.io-client';
@@ -407,7 +408,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		if (! hArg.key) {this.tglFlscr_sub(); return false}
 
 		const key = hArg.key.toLowerCase();
-		this.elc.add(document, 'keydown', (e: KeyboardEvent)=> {
+		this.elc.add(document, EVNM_KEY, (e: KeyboardEvent)=> {
 			const key2 = SysBase.modKey(e) + e.key.toLowerCase();
 			if (key2 !== key) return;
 

@@ -17,7 +17,7 @@ import type {SoundMng} from './SoundMng';
 import type {IMakeDesignCast} from './LayerMng';
 import {GrpLayDesignCast} from './DesignCast';
 import {SpritesMng} from './SpritesMng';
-import {enableEvent, disableEvent} from './ReadState';
+import {Reading} from './Reading';
 
 import {Sprite, AnimatedSprite, RenderTexture, Application} from 'pixi.js';
 
@@ -46,10 +46,11 @@ export class GrpLayer extends Layer {
 	#sBkFn		= '';
 	#sBkFace	= '';
 	override readonly	lay = (hArg: HArg)=> {
+		const RPN_GRP_LAY = Reading.procID +`GrpLayer lay name:${this.name_}`;
 		const ret = this.#laySub(hArg, isStop=> {
-			if (isStop) enableEvent();
+			if (isStop) Reading.endProc(RPN_GRP_LAY);
 		});
-		if (ret) disableEvent();
+		if (ret) Reading.beginProc(RPN_GRP_LAY);
 		return ret;
 	}
 	#laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {

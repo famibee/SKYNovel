@@ -1,3 +1,84 @@
+- feat: イベント処理の状態遷移を簡素化、整理
+	- refactor(src/sn/ReadState.ts): 削除（ReadState に昇華）
+	- refactor(src/sn/ScriptIterator.ts): 文字表示町処理を、タグの処理直前に文字出現処理を終わらせる処理、として独立・抽出
+	- refactor(src/sn/Reading.ts): 新規追加
+		- ReadState.ts の機能を吸収、総ざらえ
+	- 結果挙動が微妙に変わるものあるかも
+	- ほぼ同じ処理のハズだが内部構造がかなり変わる [l][p][s][wait][waitclick][page]
+	- fix: [quake time=1000][wq] で画面真っ暗になる件
+	- fix(src/sn/LayerMng.ts): オートリードを文字表示中のクリックで止めづらい・止まってなかった件
+	- fix: イベントリスナー元が window / main.cvs / appPixi.stage とバラバラだったのを整理
+		- キーボードイベントは document.body
+		- マウス（ポインター）は main.cvs
+		- 右クリックは main.cvs
+		- flame 右クリックなどはその contentDocument.body
+		- ダークモード切り替え検知などは globalThis.matchMedia()
+- feat: [page] の to 属性に最古（oldest）・最新（newest）のページに移動する値を追加
+- feat: [page] の to 属性が oldest、newest、prev のどれかならページ移動状態に移行するように
+- feat(src/sn/EventMng.ts): [event key=〜] でシンプルなジェスチャーイベントをサポート。以下が使える。
+	longpress
+	swiperight
+	swipeleft
+	swipeup
+	swipedown
+	- （tinygesture https://github.com/sciactive/tinygesture による）
+- fix(src/sn/CmnInterface.ts): HSysBaseArg の定義が重複していたので ConfigBase へ統一
+- fix(src/sn/ConfigBase.ts): HSysBaseArg.dip 定義を省略可能に修正
+- fix(src/sn/Main.ts): スクリプトロードとその走査の非同期処理のミスを修正
+- refactor: 大リファクタリング大会
+- doc: [stop_quake] に canskip 属性があるのは無意味なので削除
+- doc: [page] 記述更新
+	- ページ遷移状態 -> ページ移動状態に表現変更
+- test: ギャラリーで一通り動作確認
+- test: 既読スキップ (?cur=mul_ev) も全組み合わせ動作確認
+
+| ?cur=*** | 説明 | 確認 |
+| ---- | ---- | ---- |
+|| (レイヤアニメ) ||
+| ext_fg	|			クロスフェードや動き | ✅ |
+| tag_quake	|		画面を揺らす | ✅ |
+| tag_tsy	|			トゥイーンアニメを行なう | ✅ @tweenjs/tween.js のクセが…… |
+| ext_fg2	|			立ち絵を簡単に扱う | ✅ |
+| glsl_slide	|		シェーダで画像切り替え | ✅ |
+|| (画像・動画) ||
+| tag_lay_face	|	画像も動画も重ねて表示 | ✅ |
+| anime_png	|		アニメpng | ✅ |
+| tag_lay_mov	|		mp4, webp動画再生 | ✅ |
+| blendmode	|		ブレンドモード | ？✅ |
+| filter	|			フィルター | ✅ |
+| 3d_efk	|			Effekseerエフェクト | ✅ |
+| 3d_base	|			３Ｄレイヤ（仕様策定中） | ✅ |
+| 3d_gltf	|			glTF表示 | ✅ |
+| emote_layer	|		えもふりレイヤ | ✅ |
+| 3d_theta	|		天球表示 | ✅ |
+|| (文字表示) ||
+| ruby	|			直感的なルビ記法 | ✅ |
+| ch_in_out	|		文字出現演出 | ✅ |
+| font	|			フォント利用 | ✅ |
+| txt_back	|		メッセージウインドウ | ✅ |
+| txt_back2	|		複数メッセージウインドウ | ✅ |
+| ch_button	|		文字ボタン・リンク | ✅ |
+| kidoku	|			既読スキップ | ✅ |
+| log_and_play	|	履歴と機能追加 | ✅ |
+| line_breaking_rules	|		禁則処理と文字詰め | ✅ |
+|| (スクリプト) ||
+| debug	|			デバッグ機能 | ✅ |
+| tag_if	|			if文を使える | ✅ |
+| multiline	|		複数行タグやマクロ | ✅ |
+| ext_for_call	|	for文を使える | ✅ |
+| let_zenkaku	|		変数名に全角文字 | ✅ |
+| anon_label	|		無名ラベル | ✅ |
+| escape	|			エスケープ文字 | ✅ |
+|| (サウンド) ||
+| sound	|			サウンド再生 | ✅ |
+|| (その他) ||
+| frame	|			HTMLフレーム | ✅ |
+| import	|			プレイデータ | 🔵🔵 |
+| tag_page	|		ページ移動 | ✅ |
+| mul_ev	|			複数イベント待ち | ✅ |
+| 77slide	|			SKYNovel発表スライド | 🔵 |
+
+
 ## [1.61.23](https://github.com/famibee/SKYNovel/compare/v1.61.22...v1.61.23) (2025-07-20)
 
 

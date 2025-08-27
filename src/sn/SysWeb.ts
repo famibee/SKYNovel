@@ -169,7 +169,7 @@ export class SysWeb extends SysBase {
 			this.elc.add(document, 'fullscreenchange', ()=> this.isFullScr = Boolean(doc.webkitFullscreenElement));	// Escの場合もあるので
 		}
 
-		if (! this.cfg.oCfg.debug.devtool) this.elc.add(window, 'devtoolschange', e=> {
+		if (! this.cfg.oCfg.debug.devtool) this.elc.add(globalThis, 'devtoolschange', e=> {
 			if (! e.detail.isOpen) return;
 			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
 			main.destroy();
@@ -208,7 +208,7 @@ export class SysWeb extends SysBase {
 			a.click();
 
 			if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
-			setTimeout(()=> this.fire('sn:exported', new Event('click')), 10);
+			setTimeout(()=> this.fire('sn:exported', new MouseEvent('click')), 10);
 				// clearTimeout()不要と判断
 		})();
 
@@ -243,7 +243,7 @@ export class SysWeb extends SysBase {
 			this.val.updateData(o);
 
 			if (CmnLib.debugLog) console.log('プレイデータをインポートしました');
-			this.fire('sn:imported', new Event('click'));
+			this.fire('sn:imported', new MouseEvent('click'));
 		})
 		.catch(e=> console.error(`異常なプレイデータです ${e.message}`));
 

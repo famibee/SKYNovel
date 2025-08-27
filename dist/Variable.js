@@ -1,6 +1,5 @@
-import { g as b, p as v, a as _, u as w, b as r, i as m } from "./web2.js";
+import { g as b, p as v, R as _, a as g, u as w, b as r, i as d } from "./web2.js";
 import { PropParser as p } from "./PropParser.js";
-import { p as S, I as d } from "./ReadState.js";
 class y {
   hAreas = /* @__PURE__ */ Object.create(null);
   clear() {
@@ -53,7 +52,7 @@ class y {
 }
 class k {
   constructor(t, s) {
-    if (this.cfg = t, s.let = (i) => this.#o(i), s.let_abs = (i) => this.#P(i), s.let_char_at = (i) => this.#L(i), s.let_index_of = (i) => this.#F(i), s.let_length = (i) => this.#K(i), s.let_replace = (i) => this.#R(i), s.let_round = (i) => this.#M(i), s.let_search = (i) => this.#x(i), s.let_substr = (i) => this.#D(i), s.clearsysvar = () => this.#c(), s.clearvar = () => this.#v(), s.dump_val = () => this.#B(), s.copybookmark = (i) => this.#O(i), s.erasebookmark = (i) => this.#j(i), this.#i["sn.userFnTail"] = "", this.defTmp("const.sn.bookmark.json", () => {
+    if (this.cfg = t, s.let = (i) => this.#o(i), s.let_abs = (i) => this.#P(i), s.let_char_at = (i) => this.#L(i), s.let_index_of = (i) => this.#F(i), s.let_length = (i) => this.#K(i), s.let_replace = (i) => this.#R(i), s.let_round = (i) => this.#M(i), s.let_search = (i) => this.#x(i), s.let_substr = (i) => this.#I(i), s.clearsysvar = () => this.#c(), s.clearvar = () => this.#v(), s.dump_val = () => this.#B(), s.copybookmark = (i) => this.#O(i), s.erasebookmark = (i) => this.#j(i), this.#i["sn.userFnTail"] = "", this.defTmp("const.sn.bookmark.json", () => {
       const i = [];
       for (const o of Object.keys(this.#e.mark).sort()) {
         const c = { ...this.#e.mark[o].json };
@@ -103,17 +102,17 @@ class k {
         sessionStorage[e + "kidoku"] = JSON.stringify(f), t.flush();
       } : () => t.flush(), this.#m = (i, o) => t.callHook(i, o), t.addHook((i, o) => this.#W[i]?.(i, o));
       const a = this.getVal("sys:sn.tagCh.msecWait", -1);
-      (this.#t["const.sn.isFirstBoot"] || a === -1) && this.#c(!0), this.#f = this.getVal("sys:sn.tagCh.doWait"), this.#u = this.getVal("sys:sn.tagCh.doWait_Kidoku"), this.#k = this.getVal("sys:sn.tagCh.msecWait"), this.#_ = this.getVal("sys:sn.tagCh.msecWait_Kidoku"), this.#p();
+      (this.#t["const.sn.isFirstBoot"] || a === -1) && this.#c(!0), this.#f = this.getVal("sys:sn.tagCh.doWait"), this.#u = this.getVal("sys:sn.tagCh.doWait_Kidoku"), this.#k = this.getVal("sys:sn.tagCh.msecWait"), this.#_ = this.getVal("sys:sn.tagCh.msecWait_Kidoku"), this.#d();
     });
   }
-  #p() {
-    S(
+  #d() {
+    _.playbackPage(
       this.getVal("sys:const.sn.aPageLog") ?? "[]",
-      this.getVal("save:const.sn.styPaging") ?? d
+      this.getVal("save:const.sn.styPaging") ?? _.INI_STYPAGE
     );
   }
   #W = {
-    auth: (t, s) => this.#d(s.hBreakpoint.aData),
+    auth: (t, s) => this.#p(s.hBreakpoint.aData),
     var: (t, s) => this.#n.send2Dbg(s.ri, { v: this.#s[s.scope] ?? {} }),
     set_var: (t, s) => {
       try {
@@ -122,11 +121,11 @@ class k {
       }
     },
     set_data_break: (t, s) => {
-      this.#d(s.a), this.#n.send2Dbg(s.ri, {});
+      this.#p(s.a), this.#n.send2Dbg(s.ri, {});
     },
     disconnect: (t) => k.#r = {}
   };
-  #d(t) {
+  #p(t) {
     k.#r = {};
     for (const s of t) k.#r[s.dataId] = 1;
   }
@@ -213,13 +212,13 @@ class k {
           r(t, "text", NaN);
           break;
         case "int":
-          t.text = String(m(r(t, "text", NaN)));
+          t.text = String(d(r(t, "text", NaN)));
           break;
         case "uint":
           t.text = String(w(r(t, "text", NaN)));
           break;
         case "bool":
-          _(t, "text", !1);
+          g(t, "text", !1);
           break;
         case "str":
           s = !1;
@@ -267,9 +266,9 @@ class k {
     return t.text = String((t.text ?? "").search(e)), this.#o(t), !1;
   }
   // 文字列から抜きだし
-  #D(t) {
+  #I(t) {
     const s = r(t, "pos", 0);
-    return t.text = t.len !== "all" ? (t.text ?? "").slice(s, s + m(r(t, "len", 1))) : (t.text ?? "").slice(s), this.#o(t), !1;
+    return t.text = t.len !== "all" ? (t.text ?? "").slice(s, s + d(r(t, "len", 1))) : (t.text ?? "").slice(s), this.#o(t), !1;
   }
   //	// デバッグ・その他
   // システム変数の全消去
@@ -278,11 +277,11 @@ class k {
     typeof process < "u" || (this.setVal_Nochk("sys", "const.sn.window.x", 0), this.setVal_Nochk("sys", "const.sn.window.y", 0)), this.setVal_Nochk("sys", "sn.tagCh.doWait", !0), this.setVal_Nochk("sys", "sn.tagCh.doWait_Kidoku", !0), this.setVal_Nochk("sys", "sn.tagCh.msecWait", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.tagCh.msecWait_Kidoku", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.tagCh.canskip", !0), this.setVal_Nochk("sys", "sn.skip.mode", "s"), this.setVal_Nochk("sys", "sn.auto.msecPageWait", r(s, "sn.auto.msecPageWait", this.cfg.oCfg.init.auto_msecpagewait ?? 3500)), this.setVal_Nochk("sys", "sn.auto.msecPageWait_Kidoku", r(s, "sn.auto.msecPageWait", this.cfg.oCfg.init.auto_msecpagewait ?? 3500)), this.setVal_Nochk("sys", "sn.auto.msecLineWait", 500), this.setVal_Nochk("sys", "sn.auto.msecLineWait_Kidoku", 500), this.setVal_Nochk("sys", "sn.sound.BGM.vol_mul_talking", 1), this.setVal_Nochk("sys", "const.sn.sound.BGM.volume", 1), this.setVal_Nochk("sys", "const.sn.sound.SE.volume", 1), this.setVal_Nochk("sys", "const.sn.sound.SYS.volume", 1);
     for (const [a, i] of Object.entries(this.#e.kidoku))
       i.hAreas = {}, this.#h[a]?.clear();
-    return this.setVal_Nochk("sys", "TextLayer.Back.Alpha", 0.5), this.#s.mark = this.#e.mark = {}, this.setVal_Nochk("sys", "const.sn.save.place", 1), this.setVal_Nochk("sys", "const.sn.aPageLog", "[]"), t || this.#p(), this.flush(), !1;
+    return this.setVal_Nochk("sys", "TextLayer.Back.Alpha", 0.5), this.#s.mark = this.#e.mark = {}, this.setVal_Nochk("sys", "const.sn.save.place", 1), this.setVal_Nochk("sys", "const.sn.aPageLog", "[]"), t || this.#d(), this.flush(), !1;
   }
   // ゲーム変数の全消去
   #v() {
-    const t = this.#i["const.sn.mesLayer"] ?? "", s = this.#i["sn.doRecLog"] ?? !1, e = this.#i["const.sn.sLog"] ?? "[]", a = this.#i["const.sn.styPaging"] ?? d;
+    const t = this.#i["const.sn.mesLayer"] ?? "", s = this.#i["sn.doRecLog"] ?? !1, e = this.#i["const.sn.sLog"] ?? "[]", a = this.#i["const.sn.styPaging"] ?? _.INI_STYPAGE;
     return this.#i = this.#s.save = {}, this.setVal_Nochk("save", "const.sn.mesLayer", t), this.setVal_Nochk("save", "sn.doRecLog", s), this.setVal_Nochk("save", "const.sn.sLog", e), this.setVal_Nochk("save", "const.sn.styPaging", a), !1;
   }
   #w = (t, s, e = !0) => {
@@ -337,12 +336,12 @@ class k {
         }
         let n = f;
         for (; ++n < u; ) {
-          const g = l[n];
-          if (!(g in h)) {
+          const m = l[n];
+          if (!(m in h)) {
             o = s;
             break;
           }
-          if (h = h[g], Object.prototype.toString.call(h) !== "[object Object]" || n + 1 === u) {
+          if (h = h[m], Object.prototype.toString.call(h) !== "[object Object]" || n + 1 === u) {
             o = h;
             break;
           }
@@ -359,9 +358,9 @@ class k {
     if (s === "false") return !1;
     if (s === "null") return null;
     if (s !== "undefined")
-      return this.#I.test(s) ? parseFloat(s) : t;
+      return this.#D.test(s) ? parseFloat(s) : t;
   }
-  #I = /^-?[\d\.]+$/;
+  #D = /^-?[\d\.]+$/;
   // 変数のダンプ
   #B = () => {
     const t = { tmp: {}, sys: {}, save: {}, mp: {} };
@@ -428,7 +427,7 @@ class k {
   defValTrg(t, s) {
     this.#N[t] = s;
   }
-  #g = (t) => _(this.#a, t, !0);
+  #g = (t) => g(this.#a, t, !0);
   #E = (t) => r(this.#a, t, 10);
   #J = (t) => r(
     this.#a,
@@ -442,7 +441,7 @@ class k {
   );
   #V = (t) => r(this.#a, t, 500);
   #G(t) {
-    return _(this.#i, t, !0);
+    return g(this.#i, t, !0);
   }
 }
 export {

@@ -1,7 +1,7 @@
 import { IHTag, ITag } from './Grammar';
-import { IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, T_SysBaseLoadedParams, HPlugin, HSysBaseArg } from './CmnInterface';
+import { IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, T_SysBaseLoadedParams, HPlugin } from './CmnInterface';
 import { EventListenerCtn } from './EventListenerCtn';
-import { IConfig, IFn2Path, ISysRoots } from './ConfigBase';
+import { IConfig, IFn2Path, ISysRoots, HSysBaseArg } from './ConfigBase';
 import { Application } from 'pixi.js';
 export declare class SysBase implements ISysRoots, ISysBase {
     #private;
