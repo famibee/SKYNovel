@@ -21351,7 +21351,7 @@ class pt {
       m.srcdoc = String(_[i]?.data).replace("sn_repRes();", "").replaceAll(
         /\s(?:src|href)=(["'])(\S+?)\1/g,
         // 【\s】が大事、data-src弾く
-        (x, T, I) => I.startsWith("../") ? x.replace("../", P) : x.replace("./", "").replace(T, T + b)
+        (x, T, I) => I.startsWith("../") ? P + x.slice(3) : x.replace("./", "").replace(T, T + b)
       ), m.srcdoc.includes("true/*WEBP*/;") && (m.srcdoc = m.srcdoc.replaceAll(
         /data-src="(.+?\.)(?:jpe?g|png)/g,
         (x, T) => `data-src="${T}webp`
@@ -23954,7 +23954,7 @@ class gg {
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>
-</div>`), this.#v = document.querySelector(".sn_hint"), this.#_ = this.#v.querySelector("span"), this.#p = yg(this.#c, this.#v), this.#v.hidden = !0, i.stage.interactive = !0, this.#e.add(document.body, Ie, (y) => this.#a(y)), this.#e.add(n.cvs, "contextmenu", (y) => {
+</div>`), this.#v = document.querySelector(".sn_hint"), this.#_ = this.#v.querySelector("span"), this.#p = yg(this.#c, this.#v), this.#v.hidden = !0, i.stage.interactive = !0, this.#e.add(document.body, Ie, (y) => this.#a(y)), this.#e.add(document.body, "keyup", () => j.resetFired()), this.#e.add(n.cvs, "contextmenu", (y) => {
       const b = this.#h(y) + "rightclick";
       D.fire(b, y, !0), y.preventDefault();
     });
@@ -24098,7 +24098,7 @@ class gg {
   #r = (t) => {
   };
   #a(t) {
-    t.isComposing || (t.key in this.#o && (this.#o[t.key] = t.repeat ? 2 : 1), D.fire(Ui.modKey(t) + t.key, t, !0));
+    t.isComposing || (t.key in this.#o && (this.#o[t.key] = t.repeat ? 2 : 1), t.preventDefault(), D.fire(Ui.modKey(t) + t.key, t, !0));
   }
   #h(t) {
     return (t.altKey ? "alt+" : "") + (t.ctrlKey ? "ctrl+" : "") + (t.metaKey ? "meta+" : "") + (t.shiftKey ? "shift+" : "");

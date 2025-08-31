@@ -376,7 +376,7 @@ export class SysApp extends SysNode {
 		if (CmnLib.debugLog) DebugMng.myTrace(`[update_check] pathDL=${pathDL}`, 'D');
 
 		const ab = await o.arrayBuffer();
-		await this.writeFileSync(pathDL, new DataView(ab));	//o
+		await this.writeFileSync(pathDL, new DataView(ab));
 	}
 
 	// アプリウインドウ設定

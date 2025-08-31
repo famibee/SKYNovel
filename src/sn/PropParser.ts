@@ -85,6 +85,7 @@ export class PropParser implements IPropParser {
 		.map(b=> ['!bool!', b === 'true'])
 		.desc('boolean');
 
+		// (new RegExp("~")) の場合は、バックスラッシュは２つ必要
 		const StringLiteral = regex(new RegExp(`(?:"(?:\\${ce}["'#\\n]|[^"])*"|'(?:\\${ce}["'#\\n]|[^'])*'|\\#(?:\\${ce}["'#\\n]|[^#])*\\#)`))
 			// https://regex101.com/r/Fs5wL3/1
 			// 15 matches (279 steps, 0.1ms) by PCRE2

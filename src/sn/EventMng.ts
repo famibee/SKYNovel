@@ -144,6 +144,7 @@ export class EventMng implements IEvtMng {
 		// マウスボタンやキーボードイベント登録
 		appPixi.stage.interactive = true;
 		this.#elc.add(document.body, EVNM_KEY, e=> this.#ev_keydown(e));
+		this.#elc.add(document.body, 'keyup', ()=> ReadingState.resetFired());
 		// 右クリックは contextmenu で処理。resvFlameEvent と合わせる
 		this.#elc.add(main.cvs, 'contextmenu', e=> {
 			const nmEvt = this.#modKey4MouseEvent(e) +'rightclick';
@@ -339,6 +340,7 @@ export class EventMng implements IEvtMng {
 		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
 		if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = e.repeat ?eDownKeys.PUSH_REPEATING :eDownKeys.ONE_PUSH;
 
+		e.preventDefault();
 		Reading.fire(SysBase.modKey(e) + e.key, e, true);
 	}
 		#modKey4MouseEvent(e: MouseEvent) {

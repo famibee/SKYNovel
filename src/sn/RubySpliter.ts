@@ -56,6 +56,7 @@ export class RubySpliter {
 |	[^｜《》]+?
 |	.)
 		*/
+		// (new RegExp("~")) の場合は、バックスラッシュは２つ必要
 		RubySpliter.#REG_RUBY = new RegExp(
 			`${ce ?`(?<ce>\\${ce}\\S)|` :''}`+
 			`｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》`+

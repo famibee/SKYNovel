@@ -1,3 +1,8 @@
+- fix(src/sn/EventMng.ts): 下矢印キーでの読み進めで一度しか効かず、読み進められない件
+	- イベントダブリ弾き機構のミス。
+- fix(src/sn/EventMng.ts): 矢印キー押下時にページが移動するので preventDefault() を行うように
+
+
 # [1.62.0](https://github.com/famibee/SKYNovel/compare/v1.61.23...v1.62.0) (2025-08-27)
 
 

@@ -1138,6 +1138,7 @@ export class ScriptIterator {
 
 		// ラベルジャンプ
 		ln = 1;
+		// (new RegExp("~")) の場合は、バックスラッシュは２つ必要
 		const reLabel = new RegExp(
 			'^'+ skipLabel.replaceAll('*', '\\*') +'(?=\\s|;|\\[|\\||$)');
 		let in_let_ml = false;
@@ -1317,6 +1318,7 @@ export class ScriptIterator {
 		const ln = this.#lineNum;
 		const cs = new CallStack(this.#scriptFn, this.#idxToken);
 		this.#strStepin += '|'+ name;
+		// (new RegExp("~")) の場合は、バックスラッシュは２つ必要
 		this.#REGSTEPIN = new RegExp(`\\[(${this.#strStepin})\\b`);
 		this.hTag[name] = hArgM=> {
 			hArgM.design_unit = hArg.design_unit;

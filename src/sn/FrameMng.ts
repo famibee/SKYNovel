@@ -111,7 +111,7 @@ export class FrameMng implements IGetFrm {
 			.replaceAll(
 				/\s(?:src|href)=(["'])(\S+?)\1/g,	// 【\s】が大事、data-src弾く
 				(m, br, v)=> v.startsWith('../')
-				? m.replace('../', path_pa_pa)
+				? path_pa_pa + m.slice(3)
 				: m.replace('./', '')	// 「./」は無視
 					.replace(br, br + path_parent)
 			);

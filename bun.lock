@@ -32,7 +32,7 @@
         "@types/parsimmon": "^1.10.9",
         "@types/platform": "^1.3.6",
         "@types/store": "^2.0.5",
-        "electron": "^37.3.1",
+        "electron": "^37.4.0",
         "semantic-release": "^24.2.7",
         "typescript": "^5.9.2",
         "vite": "^7.1.3",
@@ -519,7 +519,7 @@
 
     "earcut": ["earcut@2.2.4", "", {}, "sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ=="],
 
-    "electron": ["electron@37.3.1", "", { "dependencies": { "@electron/get": "^2.0.0", "@types/node": "^22.7.7", "extract-zip": "^2.0.1" }, "bin": { "electron": "cli.js" } }, "sha512-7DhktRLqhe6OJh/Bo75bTI0puUYEmIwSzMinocgO63mx3MVjtIn2tYMzLmAleNIlud2htkjpsMG2zT4PiTCloA=="],
+    "electron": ["electron@37.4.0", "", { "dependencies": { "@electron/get": "^2.0.0", "@types/node": "^22.7.7", "extract-zip": "^2.0.1" }, "bin": { "electron": "cli.js" } }, "sha512-HhsSdWowE5ODOeWNc/323Ug2C52mq/TqNBG+4uMeOA3G2dMXNc/nfyi0RYu1rJEgiaJLEjtHveeZZaYRYFsFCQ=="],
 
     "electron-store": ["electron-store@8.2.0", "", { "dependencies": { "conf": "^10.2.0", "type-fest": "^2.17.0" } }, "sha512-ukLL5Bevdil6oieAOXz3CMy+OgaItMiVBg701MNlG6W5RaC0AHN7rvlqTCmeb6O7jP0Qa1KKYTE0xV0xbhF4Hw=="],
 
