@@ -6,6 +6,7 @@
 * クラス import に影響が出ていた定数の記述を EventMng -> CmnLib に変更 ([a52e596](https://github.com/famibee/SKYNovel/commit/a52e5961295ddb62ca0e79a8508ee0117c9dedac))
 
 - fix: クラス import に影響が出ていた定数の記述を EventMng -> CmnLib に変更
+- fix: プラグイン初期化時に await が抜けていたのを修正
 
 
 ## [1.62.1](https://github.com/famibee/SKYNovel/compare/v1.62.0...v1.62.1) (2025-08-31)
