@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, type IEvtMng, argChk_Boolean, addStyle, mesErrJSON} from './CmnLib';
+import {CmnLib, type IEvtMng, argChk_Boolean, addStyle, mesErrJSON, EVNM_BUTTON, EVNM_CLICK, EVNM_KEY} from './CmnLib';
 import type {IHTag, HArg} from './Grammar';
 import type {IVariable, IMain} from './CmnInterface';
 import type {LayerMng} from './LayerMng';
@@ -30,10 +30,6 @@ const enum eDownKeys {
 	ONE_PUSH,
 	PUSH_REPEATING,
 };
-
-export const EVNM_BUTTON= 'pointerdown';
-export const EVNM_CLICK	= 'pointerdown';
-export const EVNM_KEY	= 'keydown';
 
 
 export class EventMng implements IEvtMng {

@@ -1,7 +1,8 @@
-import { I as b, S as f, c as r, B as l, b as v, d as u, a as m } from "./app2.js";
-class _ {
+import { b, a as h } from "./app2.js";
+import { I as v, S as f, R as r, B as l, a as u } from "./SndBuf.js";
+class V {
   constructor(s, t, o, i, n) {
-    this.val = o, t.volume = (e) => this.#c(e), t.fadebgm = (e) => this.#l(e), t.fadeoutbgm = (e) => this.#m(e), t.fadeoutse = (e) => this.#b(e), t.fadese = (e) => this.#t(e), t.playbgm = (e) => this.#u(e), t.playse = (e) => this.#i(e), t.stop_allse = () => this.#e(), t.stopbgm = (e) => this.#v(e), t.stopse = (e) => this.#o(e), t.wb = (e) => this.#d(e), t.wf = (e) => this.#a(e), t.stopfadese = (e) => this.#f(e), t.wl = (e) => this.#p(e), t.ws = (e) => this.#r(e), t.xchgbuf = (e) => this.#_(e), o.setVal_Nochk("save", "const.sn.loopPlaying", "{}"), o.setVal_Nochk("tmp", "const.sn.sound.codecs", JSON.stringify(b.supported)), f.init(s, o, i, n, this.#s), r.disableAutoPause = !0;
+    this.val = o, t.volume = (e) => this.#m(e), t.fadebgm = (e) => this.#l(e), t.fadeoutbgm = (e) => this.#h(e), t.fadeoutse = (e) => this.#b(e), t.fadese = (e) => this.#t(e), t.playbgm = (e) => this.#u(e), t.playse = (e) => this.#i(e), t.stop_allse = () => this.#e(), t.stopbgm = (e) => this.#v(e), t.stopse = (e) => this.#o(e), t.wb = (e) => this.#d(e), t.wf = (e) => this.#a(e), t.stopfadese = (e) => this.#f(e), t.wl = (e) => this.#p(e), t.ws = (e) => this.#r(e), t.xchgbuf = (e) => this.#_(e), o.setVal_Nochk("save", "const.sn.loopPlaying", "{}"), o.setVal_Nochk("tmp", "const.sn.sound.codecs", JSON.stringify(v.supported)), f.init(s, o, i, n, this.#s), r.disableAutoPause = !0;
   }
   #s = {};
   #n;
@@ -12,16 +13,16 @@ class _ {
     this.val.defValTrg("sys:sn.sound.global_volume", (o, i) => s(r.volumeAll = Number(i))), this.val.defValTrg("sys:sn.sound.movie_volume", (o, i) => t(Number(i))), this.val.setVal_Nochk("sys", "sn.sound.global_volume", this.val.getVal("sys:sn.sound.global_volume", 1)), this.val.setVal_Nochk("sys", "sn.sound.movie_volume", this.val.getVal("sys:sn.sound.movie_volume", 1));
   }
   //MARK: 音量設定（独自拡張）
-  #c(s) {
-    const { buf: t = l } = s, o = "const.sn.sound." + t + ".volume", i = this.#h(s, 1);
+  #m(s) {
+    const { buf: t = l } = s, o = "const.sn.sound." + t + ".volume", i = this.#c(s, 1);
     return Number(this.val.getVal("sys:" + o)) === i ? !1 : (this.val.setVal_Nochk("sys", o, i), this.val.flush(), s.time = 0, s.volume = Number(this.val.getVal("save:" + o)), this.#t(s));
   }
-  #h(s, t) {
-    const o = v(s, "volume", t);
+  #c(s, t) {
+    const o = b(s, "volume", t);
     return o < 0 ? 0 : o > 1 ? 1 : o;
   }
   //MARK: BGM/効果音のフェードアウト（loadから使うのでマクロ化禁止）
-  #m(s) {
+  #h(s) {
     return s.volume = 0, this.#l(s);
   }
   //MARK: 効果音のフェードアウト（loadから使うのでマクロ化禁止）
@@ -39,13 +40,13 @@ class _ {
   }
   //MARK: BGM の演奏
   #u(s) {
-    return s.buf = u, s.canskip = !1, m(s, "loop", !0), this.#i(s);
+    return s.buf = u, s.canskip = !1, h(s, "loop", !0), this.#i(s);
   }
   //MARK: 効果音の再生
   #i(s) {
     const { buf: t = l, fn: o } = s;
     if (this.#o({ buf: t }), !o) throw `fnは必須です buf:${t}`;
-    return m(s, "canskip", !0) && this.#n.isSkipping ? !1 : (this.#s[t] = new f(s, t, o)).needLoad;
+    return h(s, "canskip", !0) && this.#n.isSkipping ? !1 : (this.#s[t] = new f(s, t, o)).needLoad;
   }
   clearCache() {
     r.removeAll();
@@ -105,12 +106,12 @@ class _ {
     else for (const [i, n] of Object.entries(this.#s))
       i in o || n?.stopse({ buf: i });
     return Object.entries(o).map(([i, n]) => new Promise((e) => {
-      const h = this.#s[i];
-      if (!s && h && h.fn === n) {
+      const c = this.#s[i];
+      if (!s && c && c.fn === n) {
         e();
         return;
       }
-      const a = "save:const.sn.sound." + i + ".", c = {
+      const a = "save:const.sn.sound." + i + ".", m = {
         fn: n,
         buf: i,
         join: !1,
@@ -122,7 +123,7 @@ class _ {
         fnc: e
         // loaded
       };
-      c.buf === u ? this.#u(c) : this.#i(c);
+      m.buf === u ? this.#u(m) : this.#i(m);
     }));
   }
   destroy() {
@@ -130,6 +131,6 @@ class _ {
   }
 }
 export {
-  _ as SoundMng
+  V as SoundMng
 };
 //# sourceMappingURL=SoundMng.js.map

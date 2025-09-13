@@ -1,5 +1,6 @@
-import { g as b, p as v, R as _, a as g, u as w, b as r, i as d } from "./app2.js";
+import { g as b, p as v, a as _, u as w, b as r, i as d } from "./app2.js";
 import { PropParser as p } from "./PropParser.js";
+import { R as g } from "./Reading.js";
 class y {
   hAreas = /* @__PURE__ */ Object.create(null);
   clear() {
@@ -106,9 +107,9 @@ class k {
     });
   }
   #d() {
-    _.playbackPage(
+    g.playbackPage(
       this.getVal("sys:const.sn.aPageLog") ?? "[]",
-      this.getVal("save:const.sn.styPaging") ?? _.INI_STYPAGE
+      this.getVal("save:const.sn.styPaging") ?? g.INI_STYPAGE
     );
   }
   #W = {
@@ -218,7 +219,7 @@ class k {
           t.text = String(w(r(t, "text", NaN)));
           break;
         case "bool":
-          g(t, "text", !1);
+          _(t, "text", !1);
           break;
         case "str":
           s = !1;
@@ -281,7 +282,7 @@ class k {
   }
   // ゲーム変数の全消去
   #v() {
-    const t = this.#i["const.sn.mesLayer"] ?? "", s = this.#i["sn.doRecLog"] ?? !1, e = this.#i["const.sn.sLog"] ?? "[]", a = this.#i["const.sn.styPaging"] ?? _.INI_STYPAGE;
+    const t = this.#i["const.sn.mesLayer"] ?? "", s = this.#i["sn.doRecLog"] ?? !1, e = this.#i["const.sn.sLog"] ?? "[]", a = this.#i["const.sn.styPaging"] ?? g.INI_STYPAGE;
     return this.#i = this.#s.save = {}, this.setVal_Nochk("save", "const.sn.mesLayer", t), this.setVal_Nochk("save", "sn.doRecLog", s), this.setVal_Nochk("save", "const.sn.sLog", e), this.setVal_Nochk("save", "const.sn.styPaging", a), !1;
   }
   #w = (t, s, e = !0) => {
@@ -427,7 +428,7 @@ class k {
   defValTrg(t, s) {
     this.#N[t] = s;
   }
-  #g = (t) => g(this.#a, t, !0);
+  #g = (t) => _(this.#a, t, !0);
   #E = (t) => r(this.#a, t, 10);
   #J = (t) => r(
     this.#a,
@@ -441,7 +442,7 @@ class k {
   );
   #V = (t) => r(this.#a, t, 500);
   #G(t) {
-    return g(this.#i, t, !0);
+    return _(this.#i, t, !0);
   }
 }
 export {

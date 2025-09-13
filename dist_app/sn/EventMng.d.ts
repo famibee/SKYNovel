@@ -7,9 +7,6 @@ import { SoundMng } from './SoundMng';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
 import { Container, Application } from 'pixi.js';
-export declare const EVNM_BUTTON = "pointerdown";
-export declare const EVNM_CLICK = "pointerdown";
-export declare const EVNM_KEY = "keydown";
 export declare class EventMng implements IEvtMng {
     #private;
     private readonly cfg;

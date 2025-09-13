@@ -1,4 +1,4 @@
-import { y as P, c as w, z as B, f as T, H as y, k as x, a as m, I as S, L as D, D as g, b as I } from "./app2.js";
+import { I as P, d as w, J as B, k as T, K as y, o as S, a as d, M as x, L as D, D as g, b as I } from "./app2.js";
 import { C as $, a as O } from "./SndBuf.js";
 import { a as v, R as N } from "./Reading.js";
 class E {
@@ -7,16 +7,16 @@ class E {
   }
   toString = () => `[fn:${this.fn}, idx:${this.idx}, csArg:${this.csArg}]`;
 }
-class d {
+class m {
   static #s = "ヽ";
   static setting(t) {
-    t.sesame && (d.#s = t.sesame);
+    t.sesame && (m.#s = t.sesame);
   }
   static getSesame() {
-    return d.#s;
+    return m.#s;
   }
   static destroy() {
-    d.#s = "ヽ";
+    m.#s = "ヽ";
   }
   #i = () => {
   };
@@ -48,13 +48,13 @@ class d {
   */
   static #t;
   static setEscape(t) {
-    d.#t = new RegExp(
+    m.#t = new RegExp(
       `${t ? `(?<ce>\\${t}\\S)|` : ""}｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])《(?<kan_ruby>[^》\\n]+)》)|(?<txt>[\uD800-\uDBFF][\uDC00-\uDFFF]|[^｜《》]+?|.)`,
       "gs"
     );
   }
   putTxt(t) {
-    for (const { groups: s } of t.matchAll(d.#t)) {
+    for (const { groups: s } of t.matchAll(m.#t)) {
       const { ruby: i, kan_ruby: e, kan: h = "", ce: a, txt: l = "", str: r = "" } = s;
       if (i) {
         this.putTxtRb(decodeURIComponent(r), i);
@@ -78,7 +78,7 @@ class d {
     }
     const i = Array.from(t), e = i.length;
     if (/^\*.?$/.test(s)) {
-      const r = "center｜" + (s === "*" ? d.#s : s.charAt(1));
+      const r = "center｜" + (s === "*" ? m.#s : s.charAt(1));
       for (let n = 0; n < e; ++n) this.#i(i[n], r);
       return;
     }
@@ -97,13 +97,13 @@ const L = "compChIn";
 class p {
   //MARK: コンストラクタ
   constructor(t, s, i, e, h, a, l) {
-    this.cfg = t, this.hTag = s, this.main = i, this.val = e, this.prpPrs = h, this.sndMng = a, this.sys = l, s.let_ml = (n) => this.#Z(n), s.endlet_ml = () => !1, s.dump_stack = () => this.#tt(), s.dump_script = (n) => this.#st(n), s.else = // その他ifブロック開始
+    this.cfg = t, this.hTag = s, this.main = i, this.val = e, this.prpPrs = h, this.sndMng = a, this.sys = l, s.let_ml = (n) => this.#tt(n), s.endlet_ml = () => !1, s.dump_stack = () => this.#st(), s.dump_script = (n) => this.#it(n), s.else = // その他ifブロック開始
     s.elsif = // 別条件のifブロック開始
-    s.endif = () => this.#et(), s.if = (n) => this.#nt(n), s.call = (n) => this.#ht(n), s.jump = (n) => this.#at(n), s.pop_stack = (n) => this.#ot(n), s.return = (n) => this.#j(n), s.bracket2macro = (n) => this.#kt(n), s.char2macro = (n) => this.#gt(n), s.endmacro = (n) => this.#j(n), s.macro = (n) => this.#vt(n), s.load = (n) => this.#bt(n), s.reload_script = (n) => this.#wt(n), s.record_place = () => this.#U(), s.save = (n) => this.#Tt(n), t.oCfg.debug.token && (this.#W = (n) => {
+    s.endif = () => this.#nt(), s.if = (n) => this.#ht(n), s.call = (n) => this.#at(n), s.jump = (n) => this.#ot(n), s.pop_stack = (n) => this.#rt(n), s.return = (n) => this.#j(n), s.bracket2macro = (n) => this.#gt(n), s.char2macro = (n) => this.#_t(n), s.endmacro = (n) => this.#j(n), s.macro = (n) => this.#bt(n), s.load = (n) => this.#wt(n), s.reload_script = (n) => this.#Tt(n), s.record_place = () => this.#q(), s.save = (n) => this.#yt(n), t.oCfg.debug.token && (this.#W = (n) => {
       n.trim() !== "" && console.log(`🌱 トークン ${this.#i}:${this.#e} (i:${this.#t} cs:${this.#n.length}) %c【${n}】`, "background-color:#350;");
-    }), t.oCfg.debug.tag && (this.#B = (n) => console.log(`🌲 タグ解析 ${this.#i}:${this.#e} (i:${this.#t} cs:${this.#n.length}) %c[${n} %o]`, "background-color:#30B;", this.#r.hPrm)), e.defTmp("const.sn.aIfStk.length", () => this.#o.length), e.defTmp("const.sn.vctCallStk.length", () => this.#n.length), this.#c = new P(t);
+    }), t.oCfg.debug.tag && (this.#D = (n) => console.log(`🌲 タグ解析 ${this.#i}:${this.#e} (i:${this.#t} cs:${this.#n.length}) %c[${n} %o]`, "background-color:#30B;", this.#r.hPrm)), e.defTmp("const.sn.aIfStk.length", () => this.#o.length), e.defTmp("const.sn.vctCallStk.length", () => this.#n.length), this.#c = new P(t);
     const r = t.oCfg.init.escape;
-    if (this.#c.setEscape(r), d.setEscape(r), w.isDbg) {
+    if (this.#c.setEscape(r), m.setEscape(r), w.isDbg) {
       l.addHook((o, c) => this.#b[o]?.(c)), this.isBreak = this.#A;
       const n = this.analyzeInit;
       this.analyzeInit = () => {
@@ -111,7 +111,7 @@ class p {
         }, this.sys.send2Dbg("hi", {});
       }, this.#b.auth = (o) => {
         const c = o.hBreakpoint.hFn2hLineBP;
-        for (const [f, u] of Object.entries(c)) this.#E(f, u);
+        for (const [f, u] of Object.entries(c)) this.#L(f, u);
         p.#p = {};
         for (const f of o.hBreakpoint.aFunc)
           p.#p[f.name] = 1;
@@ -160,11 +160,11 @@ class p {
   #r = new B();
   noticeWait = () => {
   };
-  #E(t, s) {
+  #L(t, s) {
     p.#T[this.#g(t)] = s;
   }
   destroy() {
-    this.isBreak = this.#U = () => !1;
+    this.isBreak = this.#q = () => !1;
   }
   #b = {
     //auth: // constructorで
@@ -174,7 +174,7 @@ class p {
     },
     restart: () => this.isBreak = () => !1,
     // ブレークポイント登録
-    add_break: (t) => this.#E(t.fn, t.o),
+    add_break: (t) => this.#L(t.fn, t.o),
     data_break: (t) => {
       this.#h === 0 && (this.#h = 1, this.main.setLoop(!1, `変数 ${t.dataId}【${t.old_v}】→【${t.new_v}】データブレーク`), this.sys.callHook("stopOnDataBreakpoint", {}), this.sys.send2Dbg("stopOnDataBreakpoint", {}));
     },
@@ -192,14 +192,14 @@ class p {
     continue: () => {
       this.#w() || (this.#t -= this.#_, this.#h = 3, this.main.setLoop(!0), this.main.resume());
     },
-    stepover: (t) => this.#L(t),
+    stepover: (t) => this.#C(t),
     stepin: () => {
       if (this.#w()) return;
       const t = this.#s.aToken[this.#t - this.#_];
-      this.sys.callHook(`stopOnStep${this.#N.test(t ?? "") ? "In" : ""}`, {}), this.#t -= this.#_, this.#h = this.#h === 1 ? 4 : 5, this.main.setLoop(!0), this.main.resume();
+      this.sys.callHook(`stopOnStep${this.#E.test(t ?? "") ? "In" : ""}`, {}), this.#t -= this.#_, this.#h = this.#h === 1 ? 4 : 5, this.main.setLoop(!0), this.main.resume();
     },
     stepout: (t) => {
-      this.#w() || (this.#n.length > 0 ? this.#C(!0) : this.#L(t));
+      this.#w() || (this.#n.length > 0 ? this.#P(!0) : this.#C(t));
     },
     pause: () => {
       this.#h = 4, this.main.setLoop(!1, "一時停止"), this.sys.send2Dbg("stopOnStep", {});
@@ -209,19 +209,19 @@ class p {
     }
   };
   #k = (t) => this.cfg.searchPath(t, T.SCRIPT);
-  static #q = /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/;
+  static #U = /(.+)\/crypto_prj\/([^\/]+)\/[^\.]+(\.\w+)/;
   // https://regex101.com/r/Km54EK/1 141 steps (~0ms)
-  #g = (t) => (this.sys.pathBaseCnvSnPath4Dbg + this.#k(t)).replace(p.#q, `$1/prj/$2/${this.#i}$3`);
+  #g = (t) => (this.sys.pathBaseCnvSnPath4Dbg + this.#k(t)).replace(p.#U, `$1/prj/$2/${this.#i}$3`);
   cnvPath4Dbg = (t) => this.sys.pathBaseCnvSnPath4Dbg + t.replace("/crypto_prj/", "/prj/");
-  #L(t) {
+  #C(t) {
     if (this.#w()) return;
     const s = this.#s.aToken[this.#t - this.#_];
-    this.#N.test(s ?? "") ? this.#C(!1) : (this.sys.callHook("stopOnStep", {}), this.#b.stepin(t));
+    this.#E.test(s ?? "") ? this.#P(!1) : (this.sys.callHook("stopOnStep", {}), this.#b.stepin(t));
   }
-  #C(t) {
-    this.sys.callHook(`stopOnStep${t ? "Out" : ""}`, {}), this.#P = this.#n.length - (t ? 1 : 0), this.#t -= this.#_, this.#h = t ? 7 : 6, this.main.setLoop(!0), this.main.resume();
+  #P(t) {
+    this.sys.callHook(`stopOnStep${t ? "Out" : ""}`, {}), this.#B = this.#n.length - (t ? 1 : 0), this.#t -= this.#_, this.#h = t ? 7 : 6, this.main.setLoop(!0), this.main.resume();
   }
-  #P = 0;
+  #B = 0;
   get #_() {
     return this.#h === 2 || this.#h === 4 ? 1 : 0;
   }
@@ -240,7 +240,7 @@ class p {
         this.#y(), this.#h = 7;
         break;
       case 7:
-        if (this.#n.length !== this.#P) break;
+        if (this.#n.length !== this.#B) break;
         return this.#h = 4, this.main.setLoop(!1, "ステップ実行"), this.sys.send2Dbg("stopOnStep", {}), !0;
       // タグを実行せず、直前停止
       case 5:
@@ -273,7 +273,7 @@ class p {
     return !1;
   }
   #y() {
-    const t = p.#T[x(this.#i)]?.[this.#e];
+    const t = p.#T[S(this.#i)]?.[this.#e];
     t?.hitCondition && --t.hitCondition;
   }
   #J() {
@@ -298,13 +298,13 @@ class p {
     return r;
   }
   // result = true : waitする  resume()で再開
-  #B = (t) => {
+  #D = (t) => {
   };
   //MARK: タグ解析
   async タグ解析(t, s) {
     const i = this.hTag[t];
     if (!i) throw `未定義のタグ【${t}】です`;
-    this.#r.parse(s), this.#B(t);
+    this.#r.parse(s), this.#D(t);
     const e = this.#r.hPrm;
     if (e.cond) {
       const n = e.cond.val;
@@ -339,10 +339,11 @@ class p {
     }
     if (v.needGoTxt && this.#X.has(t)) {
       const { promise: n, resolve: o } = Promise.withResolvers();
-      v.beginProc(L, o, !1), v.goTxt(), this.val.saveKidoku(), await n;
+      v.beginProc(L, o, !1, o), v.goTxt(), this.val.saveKidoku(), await n;
     }
-    const r = this.#Y[t];
-    return r && m(h, "canskip", this.#Q[t] ?? !0) && this.#D.isSkipping ? r(e) : i(h);
+    this.#Y.has(t) && (this.#N.hideHint(), await $.closeTrans());
+    const r = this.#Q[t];
+    return r && d(h, "canskip", this.#Z[t] ?? !0) && this.#N.isSkipping ? r(e) : i(h);
   }
   // 文字出現演出を待つタグ
   //	ここで列挙せずタグ処理で文字表示を始めたい場合、goTxt()すること
@@ -493,9 +494,21 @@ class p {
     // 'log',		// ログ出力
     // 'trace',		// デバッグ表示へ出力
   ]);
+  #Y = /* @__PURE__ */ new Set([
+    "finish_trans",
+    // トランス強制終了
+    "trans",
+    // ページ裏表を交換
+    "quake",
+    // 画面を揺らす
+    "stop_quake",
+    // 画面揺らし中断
+    "add_filter"
+    // フィルター追加
+  ]);
   // キー押しっぱなしスキップで処理せずスルーするタグ
-  #Y = {
-    wt: () => $.finish_trans(),
+  #Q = {
+    wt: () => !1,
     // トランス終了待ち
     wait_tsy: (t) => this.hTag.stop_tsy(t),
     // トゥイーン終了待ち
@@ -506,7 +519,8 @@ class p {
     // 'playse',	：タグ内部で処理	// 効果音の再生
     wb: () => this.hTag.stopfadese({ buf: O }),
     // BGM フェードの終了待ち
-    // 'wf'		：タグ内部で処理	// 効果音フェードの終了待ち
+    wf: (t) => this.hTag.stopfadese(t),
+    // 効果音フェードの終了待ち
     // 'ws'		：タグ内部で処理	// 効果音再生の終了待ち
     wq: () => this.hTag.stop_quake({}),
     // 画面揺らし終了待ち
@@ -518,7 +532,7 @@ class p {
     // 画面を揺らす
   };
   // タグ処理中にクリックなどで即終わらせられるタグ（canskip 属性がある）
-  #Q = {
+  #Z = {
     // デフォルト値
     wt: !0,
     // [wt]トランス終了待ち
@@ -541,13 +555,13 @@ class p {
     wq: !0
     // [wq]画面揺らし終了待ち
   };
-  #D;
-  #m;
+  #N;
+  #d;
   setOtherObj(t, s) {
-    this.#D = t, this.#m = s;
+    this.#N = t, this.#d = s;
   }
   //MARK: インラインテキスト代入
-  #Z(t) {
+  #tt(t) {
     const { name: s } = t;
     if (!s) throw "nameは必須です";
     let i = "";
@@ -557,7 +571,7 @@ class p {
     return t.text = i, t.cast = "str", this.hTag.let(t), this.#t += 2, this.#e += (i.match(/\n/g) ?? []).length, !1;
   }
   //MARK: スタックのダンプ
-  #tt() {
+  #st() {
     if (this.#t === 0)
       return console.group(`🥟 [dump_stack] スクリプト現在地 fn:${this.#i} line:1 col:0`), console.groupEnd(), !1;
     const t = this.#l(this.#s, this.#t), s = `スクリプト現在地 fn:${this.#i} line:${t.ln} col:${t.col_s + 1}`;
@@ -590,32 +604,32 @@ class p {
     return i;
   }
   //MARK: 外部へスクリプトを表示
-  #st(t) {
+  #it(t) {
     const { set_fnc: s, break_fnc: i } = t;
     if (!s) throw "set_fncは必須です";
-    if (this.#x = globalThis[s], !this.#x) {
-      if (m(t, "need_err", !0)) throw `HTML内に関数${s}が見つかりません`;
-      return this.#x = () => {
+    if (this.#S = globalThis[s], !this.#S) {
+      if (d(t, "need_err", !0)) throw `HTML内に関数${s}が見つかりません`;
+      return this.#S = () => {
       }, !1;
     }
     if (this.noticeBreak = (e) => {
-      this.#I !== this.#i && (this.#I = this.#i, this.#x(
-        this.#it[this.#i] ??= this.#s.aToken.join("")
-      )), this.#S(this.#e, e);
+      this.#I !== this.#i && (this.#I = this.#i, this.#S(
+        this.#et[this.#i] ??= this.#s.aToken.join("")
+      )), this.#x(this.#e, e);
     }, this.noticeBreak(!0), !i) return !1;
-    if (this.#S = globalThis[i], !this.#S) {
-      if (m(t, "need_err", !0)) throw `HTML内に関数${i}が見つかりません`;
-      this.#S = () => {
+    if (this.#x = globalThis[i], !this.#x) {
+      if (d(t, "need_err", !0)) throw `HTML内に関数${i}が見つかりません`;
+      this.#x = () => {
       };
     }
     return !1;
   }
-  #x = () => {
-  };
   #S = () => {
   };
+  #x = () => {
+  };
   #I = "";
-  #it = {};
+  #et = {};
   noticeBreak = (t) => {
   };
   #O = 5;
@@ -644,14 +658,14 @@ class p {
   #o = [-1];
   // 先頭に積む FIFOバッファ（unshift / shift）
   //MARK: ifブロックの終端
-  #et() {
+  #nt() {
     const t = this.#o[0];
     if (!t) throw "this.#aIfStk が異常です";
     if (t === -1) throw "ifブロック内ではありません";
     return this.#t = t, this.#o.shift(), !1;
   }
   //MARK: ifブロックの開始
-  #nt(t) {
+  #ht(t) {
     const { exp: s } = t;
     if (!s) throw "expは必須です";
     if (s.startsWith("&")) throw "属性expは「&」が不要です";
@@ -670,7 +684,7 @@ class p {
         continue;
       }
       if (o !== 91) continue;
-      const [c, f] = S(n);
+      const [c, f] = x(n);
       if (!(c in this.hTag)) throw `未定義のタグ[${c}]です`;
       switch (this.#r.parse(f), c) {
         case "if":
@@ -698,22 +712,22 @@ class p {
     throw "[endif]がないままスクリプト終端です";
   }
   //MARK: サブルーチンコール
-  #ht(t) {
-    m(t, "count", !1) || this.#G();
+  #at(t) {
+    d(t, "count", !1) || this.#G();
     const { fn: s } = t;
-    return s && this.#k(s), this.#M({ ...t, ":hEvt1Time": N.popLocalEvts() }), m(t, "clear_local_event", !1) && this.hTag.clear_event({}), this.#f(s, t.label);
+    return s && this.#k(s), this.#M({ ...t, ":hEvt1Time": N.popLocalEvts() }), d(t, "clear_local_event", !1) && this.hTag.clear_event({}), this.#f(s, t.label);
   }
   #M(t) {
     const s = { ...t, ":hMp": this.val.cloneMp(), ":lenIfStk": this.#o.length };
     this.#s.aLNum[this.#t] = this.#e, this.#R || (s[":resvToken"] = "", this.#$()), this.#n.push(new E(this.#i, this.#t, s)), this.#o.unshift(-1);
   }
   //MARK: シナリオジャンプ
-  #at(t) {
-    return m(t, "count", !0) || this.#G(), this.#o[0] = -1, this.#f(t.fn, t.label);
+  #ot(t) {
+    return d(t, "count", !0) || this.#G(), this.#o[0] = -1, this.#f(t.fn, t.label);
   }
   //MARK: コールスタック破棄
-  #ot(t) {
-    if (m(t, "clear", !1)) this.#n = [];
+  #rt(t) {
+    if (d(t, "clear", !1)) this.#n = [];
     else if (!this.#n.pop()) throw "スタックが空です";
     return this.#$(), this.#o = [-1], this.val.setMp({}), !1;
   }
@@ -728,7 +742,7 @@ class p {
     const h = i[":resvToken"];
     h ? this.nextToken = () => (this.#$(), h) : this.#$(), i[":hEvt1Time"] && N.pushLocalEvts(i[":hEvt1Time"]);
     const { fn: a, label: l } = t;
-    return a || l ? this.#f(a, l) : s.fn in this.#a ? (this.#K(s), !1) : this.#f(s.fn, "", s.idx);
+    return a || l ? this.#f(a, l) : s.fn in this.#a ? (this.#z(s), !1) : this.#f(s.fn, "", s.idx);
   }
   #R = "";
   #$() {
@@ -771,35 +785,35 @@ class p {
         o[t].data = k.join(`
 `), delete o[t + ":base"];
       }
-      this.nextToken = this.#F, this.#e = 1, this.#ft(o[t].data), this.hTag.record_place({}), this.analyzeInit();
+      this.nextToken = this.#F, this.#e = 1, this.#ut(o[t].data), this.hTag.record_place({}), this.analyzeInit();
     }), !0;
   }
   analyzeInit() {
     w.debugLog && console.log(`📜 %c9:analyzeInit%c fn:${this.#i} lbl:${this.#v} idx:${this.#t}`, "color:#3B0;", "");
-    const t = this.#lt(this.#s, !!this.val.getVal("mp:const.sn.macro.name"), this.#e, this.#v, this.#t);
+    const t = this.#ft(this.#s, !!this.val.getVal("mp:const.sn.macro.name"), this.#e, this.#v, this.#t);
     this.#t = t.idx, this.#e = t.ln;
   }
   // シナリオ解析処理ループ・冒頭処理
   nextToken = () => "";
   // 初期化前に終了した場合向け
   #F() {
-    if (this.#z()) return "";
-    this.#dt(), this.#s.aLNum[this.#t] ||= this.#e;
+    if (this.#H()) return "";
+    this.#kt(), this.#s.aLNum[this.#t] ||= this.#e;
     const t = this.#s.aToken[this.#t];
     return this.#W(t), ++this.#t, t;
   }
   #W = (t) => {
   };
-  #z() {
+  #H() {
     return this.#t < this.#s.len ? !1 : (this.main.errScript("スクリプト終端です errOverScr"), !0);
   }
-  #rt = /(\*{2,})([^\|]*)/;
-  #ct = /^\[macro\s/;
-  #H = /^\[endmacro[\s\]]/;
-  #lt(t, s, i, e, h) {
+  #ct = /(\*{2,})([^\|]*)/;
+  #lt = /^\[macro\s/;
+  #K = /^\[endmacro[\s\]]/;
+  #ft(t, s, i, e, h) {
     const a = t.aToken.length;
     if (!e) {
-      if (this.#z()) return { idx: h, ln: i };
+      if (this.#H()) return { idx: h, ln: i };
       if (t.aLNum[h])
         i = t.aLNum[h];
       else {
@@ -815,19 +829,19 @@ class p {
       return { idx: h, ln: i };
     }
     t.aLNum[0] = 1;
-    const l = e.match(this.#rt);
+    const l = e.match(this.#ct);
     if (l) {
       e = l[1];
       let o = h;
       switch (l[2]) {
         case "before":
           for (; t.aToken[--o] !== e; )
-            o === 0 && g.myTrace("[jump系 無名ラベルbefore] " + i + "行目以前で" + (s ? "マクロ内に" : "") + "ラベル【" + e + "】がありません", "ET"), s && t.aToken[o].search(this.#ct) > -1 && g.myTrace("[jump系 無名ラベルbefore] マクロ内にラベル【" + e + "】がありません", "ET");
+            o === 0 && g.myTrace("[jump系 無名ラベルbefore] " + i + "行目以前で" + (s ? "マクロ内に" : "") + "ラベル【" + e + "】がありません", "ET"), s && t.aToken[o].search(this.#lt) > -1 && g.myTrace("[jump系 無名ラベルbefore] マクロ内にラベル【" + e + "】がありません", "ET");
           return { idx: o + 1, ln: t.aLNum[o] };
         //	break;
         case "after":
           for (; t.aToken[++o] !== e; )
-            o === a && g.myTrace("[jump系 無名ラベルafter] " + i + "行目以後でマクロ内にラベル【" + e + "】がありません", "ET"), t.aToken[o].search(this.#H) > -1 && g.myTrace("[jump系 無名ラベルafter] " + i + "行目以後でマクロ内にラベル【" + e + "】がありません", "ET");
+            o === a && g.myTrace("[jump系 無名ラベルafter] " + i + "行目以後でマクロ内にラベル【" + e + "】がありません", "ET"), t.aToken[o].search(this.#K) > -1 && g.myTrace("[jump系 無名ラベルafter] " + i + "行目以後でマクロ内にラベル【" + e + "】がありません", "ET");
           return { idx: o + 1, ln: t.aLNum[o] };
         //	break;
         default:
@@ -861,7 +875,7 @@ class p {
   }
   #a = /* @__PURE__ */ Object.create(null);
   //{} シナリオキャッシュ
-  #ft(t) {
+  #ut(t) {
     let s = "";
     try {
       s = "ScriptIterator.resolveScript";
@@ -872,18 +886,18 @@ class p {
     }
     this.val.touchAreaKidoku(this.#i);
   }
-  #K(t) {
+  #z(t) {
     this.#i = t.fn, this.#t = t.idx;
     const s = this.#a[this.#i];
     s && (this.#s = s), this.#e = this.#s.aLNum[t.idx];
   }
-  #ut = /^\[(call|loadplugin)\s/;
-  #pt = /\bfn\s*=\s*[^\s\]]+/;
+  #pt = /^\[(call|loadplugin)\s/;
+  #dt = /\bfn\s*=\s*[^\s\]]+/;
   #mt(t) {
     for (let s = t.len - 1; s >= 0; --s) {
       const i = t.aToken[s];
-      if (!this.#ut.test(i)) continue;
-      const [e, h] = S(i);
+      if (!this.#pt.test(i)) continue;
+      const [e, h] = x(i);
       this.#r.parse(h);
       const a = this.#r.hPrm.fn;
       if (!a) continue;
@@ -893,28 +907,28 @@ class p {
       const r = e === "loadplugin" ? T.CSS : T.SN, n = this.cfg.matchPath("^" + l.slice(0, -1) + ".*", r);
       for (const o of n) {
         const c = i.replace(
-          this.#pt,
-          "fn=" + decodeURIComponent(x(o[r]))
+          this.#dt,
+          "fn=" + decodeURIComponent(S(o[r]))
         );
         t.aToken.splice(s, 0, c), t.aLNum.splice(s, 0, NaN);
       }
     }
     t.len = t.aToken.length;
   }
-  #dt() {
+  #kt() {
     const t = this.val.touchAreaKidoku(this.#i);
     if (this.#n.length > 0) {
       t.record(this.#t);
       return;
     }
-    this.#d = t.search(this.#t), this.val.setVal_Nochk("tmp", "const.sn.isKidoku", this.#d), !this.#d && t.record(this.#t);
+    this.#m = t.search(this.#t), this.val.setVal_Nochk("tmp", "const.sn.isKidoku", this.#m), !this.#m && t.record(this.#t);
   }
-  #d = !1;
+  #m = !1;
   get isKidoku() {
-    return this.#d;
+    return this.#m;
   }
   #G() {
-    this.val.getAreaKidoku(this.#i)?.erase(this.#t), this.#d = !1;
+    this.val.getAreaKidoku(this.#i)?.erase(this.#t), this.#m = !1;
   }
   get isNextKidoku() {
     let t = this.#i, s = this.#t, i = this.#s.len;
@@ -928,30 +942,30 @@ class p {
     return s === i ? !1 : e.search(s);
   }
   get normalWait() {
-    return this.#d ? this.val.tagCh_doWait_Kidoku ? this.val.tagCh_msecWait_Kidoku : 0 : this.val.tagCh_doWait ? this.val.tagCh_msecWait : 0;
+    return this.#m ? this.val.tagCh_doWait_Kidoku ? this.val.tagCh_msecWait_Kidoku : 0 : this.val.tagCh_doWait ? this.val.tagCh_msecWait : 0;
   }
   //MARK: 括弧マクロの定義
-  #kt(t) {
+  #gt(t) {
     return this.#c.bracket2macro(t, this.hTag, this.#s, this.#t), !1;
   }
   //MARK: 一文字マクロの定義
-  #gt(t) {
+  #_t(t) {
     return this.#c.char2macro(t, this.hTag, this.#s, this.#t), !1;
   }
   //MARK: マクロ定義の開始
-  #_t = /["'#;\\]　]+/;
-  #vt(t) {
+  #vt = /["'#;\\]　]+/;
+  #bt(t) {
     const { name: s } = t;
     if (!s) throw "nameは必須です";
     if (s in this.hTag) throw `[${s}]はタグかすでに定義済みのマクロです`;
-    if (this.#_t.test(s)) throw `[${s}]はマクロ名として異常です`;
+    if (this.#vt.test(s)) throw `[${s}]はマクロ名として異常です`;
     const i = this.#e, e = new E(this.#i, this.#t);
-    for (this.#V += "|" + s, this.#N = new RegExp(`\\[(${this.#V})\\b`), this.hTag[s] = (h) => (h.design_unit = t.design_unit, this.#M(h), this.val.setMp(h), this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify({
+    for (this.#V += "|" + s, this.#E = new RegExp(`\\[(${this.#V})\\b`), this.hTag[s] = (h) => (h.design_unit = t.design_unit, this.#M(h), this.val.setMp(h), this.val.setVal_Nochk("mp", "const.sn.macro", JSON.stringify({
       name: t.name
-    })), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", this.#i), this.#e = i, this.#K(e), !1); this.#t < this.#s.len; ++this.#t) {
+    })), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", this.#i), this.#e = i, this.#z(e), !1); this.#t < this.#s.len; ++this.#t) {
       this.#s.aLNum[this.#t] ||= this.#e;
       const h = this.#s.aToken[this.#t];
-      if (h.search(this.#H) > -1)
+      if (h.search(this.#K) > -1)
         return ++this.#t, !1;
       const a = h.charCodeAt(0);
       a === 10 ? this.#e += h.length : a === 91 && (this.#e += (h.match(/\n/g) ?? []).length);
@@ -959,10 +973,10 @@ class p {
     throw `マクロ[${s}]定義の終端・[endmacro]がありません`;
   }
   #V = "call";
-  #N = /\[(call)\b/;
+  #E = /\[(call)\b/;
   // https://regex101.com/r/Lk9ASK/1
   //MARK: しおりの読込
-  #bt(t) {
+  #wt(t) {
     if ("fn" in t != "label" in t) throw "fnとlabelはセットで指定して下さい";
     const s = I(t, "place", 0), i = this.val.getMark(s);
     return this.loadFromMark(
@@ -973,12 +987,12 @@ class p {
     );
   }
   loadFromMark(t, s, i = 0) {
-    this.hTag.clear_event({}), this.val.mark2save(s), this.val.setMp({}), this.#m.recPagebreak();
+    this.hTag.clear_event({}), this.val.mark2save(s), this.val.setMp({}), this.#d.recPagebreak();
     let e = [];
     i !== 1 && (e = this.sndMng.playLoopFromSaveObj(
       i === 2
       /* ALL_STOP_AND_PLAY */
-    )), m(t, "do_rec", !0) && (this.#u = {
+    )), d(t, "do_rec", !0) && (this.#u = {
       hSave: this.val.cloneSave(),
       hPages: { ...s.hPages },
       aIfStk: [...s.aIfStk]
@@ -989,12 +1003,12 @@ class p {
       time: Number(this.val.getVal("save:const.sn.autowc.time"))
     };
     this.hTag.autowc(h), this.#o = [...this.#u.aIfStk], this.#n = [], $.stopAllTw();
-    const a = Promise.allSettled([...e, ...this.#m.playback(this.#u.hPages)]).then(() => this.#m.cover(!1)).catch((f) => console.error("loadFromMark e:%o", f)), { index: l, fn: r } = t;
+    const a = Promise.allSettled([...e, ...this.#d.playback(this.#u.hPages)]).then(() => this.#d.cover(!1)).catch((f) => console.error("loadFromMark e:%o", f)), { index: l, fn: r } = t;
     if (l)
       return w.debugLog && console.log(`📜 %cloadFromMark index:${l} move!%c fn:${r}`, "color:#3B0;", ""), a.then(() => {
         this.#f(r, "", l) || this.main.resume();
       }), !0;
-    this.#m.cover(!0);
+    this.#d.cover(!0);
     const n = String(this.val.getVal("save:const.sn.scriptFn")), o = Number(this.val.getVal("save:const.sn.scriptIdx"));
     delete this.#a[n];
     const { label: c } = t;
@@ -1005,9 +1019,9 @@ class p {
     }), !0;
   }
   //MARK: スクリプト再読込
-  #wt(t) {
+  #Tt(t) {
     const s = this.val.getMark(0);
-    delete this.#a[x(s.hSave["const.sn.scriptFn"])];
+    delete this.#a[S(s.hSave["const.sn.scriptFn"])];
     const i = {};
     for (const e in this.#a)
       try {
@@ -1028,11 +1042,11 @@ class p {
     hPages: {},
     aIfStk: [-1]
   };
-  #U = () => {
+  #q = () => {
     const { fn: t, idx: s } = this.nowScrIdx();
     return this.val.setVal_Nochk("save", "const.sn.scriptFn", t), this.val.setVal_Nochk("save", "const.sn.scriptIdx", s), this.#u = {
       hSave: this.val.cloneSave(),
-      hPages: this.#m.record(),
+      hPages: this.#d.record(),
       aIfStk: this.#o.slice(this.#n.length)
     }, !1;
   };
@@ -1056,7 +1070,7 @@ class p {
     return { fn: t, ...e };
   }
   //MARK: しおりの保存
-  #Tt(t) {
+  #yt(t) {
     if (!("place" in t)) throw "placeは必須です";
     const s = Number(t.place);
     delete t[":タグ名"], delete t.place, t.text = t.text ?? "", this.#u.json = t, this.val.setMark(s, this.#u);
@@ -1089,6 +1103,6 @@ const W = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.defineProperty({
 export {
   L as R,
   W as S,
-  d as a
+  m as a
 };
 //# sourceMappingURL=ScriptIterator.js.map

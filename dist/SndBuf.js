@@ -1,7 +1,7 @@
-import { b as S, a as T, c as X, J as K, h as j, K as B, M as dt, f as _t, L as yt } from "./web2.js";
-import { u as mt, E as f, r as gt, T as Z, a as F, b as bt } from "./Reading.js";
-const W = `trans
-`, Y = "tsy nm:";
+import { b as S, a as T, d as Y, N as U, l as j, O as B, Q as dt, k as _t, L as yt } from "./web2.js";
+import { u as mt, E as f, r as gt, T as Z, a as k, b as bt } from "./Reading.js";
+const $ = `trans
+`, Q = "tsy nm:";
 class vt {
   static #t = {};
   static #s;
@@ -95,9 +95,9 @@ class vt {
     const { path: _ } = e;
     let m = l;
     if (_) {
-      X.debugLog && console.group(`🍝 [${e[":タグ名"]}] path=${_}= start(${s.x},${s.y},${s.alpha})`);
-      for (const { groups: h } of _.matchAll(this.#r)) {
-        const { x: v, x2: A, y: p, y2: P, o: k, o2: O, json: L } = h;
+      Y.debugLog && console.group(`🍝 [${e[":タグ名"]}] path=${_}= start(${s.x},${s.y},${s.alpha})`);
+      for (const { groups: h } of _.matchAll(this.#a)) {
+        const { x: v, x2: A, y: p, y2: P, o: F, o2: O, json: L } = h;
         let E = {};
         if (L) try {
           E = JSON.parse(L);
@@ -105,22 +105,23 @@ class vt {
           console.error(`🍝 json=${L} ` + ft);
           continue;
         }
-        (v ?? A) && (E.x = v ?? A), (p ?? P) && (E.y = p ?? P), (k ?? O) && (E.alpha = k ?? O);
-        const U = this.cnvTweenArg(E, s);
-        X.debugLog && console.info(`🍝 ${L ?? `{x:${v} y:${p} o:${k}}`} => hTo:${JSON.stringify(U)}`);
-        const H = new Z(s).to(U, c);
-        this.setTwProp(H, e), m.chain(H), m = H;
+        else
+          (v ?? A) && (E.x = v ?? A), (p ?? P) && (E.y = p ?? P), (F ?? O) && (E.alpha = F ?? O);
+        const K = this.cnvTweenArg(E, s);
+        Y.debugLog && console.info(`🍝 ${L ?? `{x:${v} y:${p} o:${F}}`} => hTo:${JSON.stringify(K)}`);
+        const W = new Z(s).to(K, c);
+        this.setTwProp(W, e), m.chain(W), m = W;
       }
-      X.debugLog && console.groupEnd();
+      Y.debugLog && console.groupEnd();
     }
     m.onComplete(() => {
       const h = this.#t[t];
-      h && (delete this.#t[t], h.tw = void 0, l.stop(), F.notifyEndProc(Y + t), h.onEnd?.(), r());
+      h?.tw && (delete this.#t[t], h.tw = void 0, l.stop(), h.onEnd?.(), r(), k.notifyEndProc(Q + t));
     });
-    const { chain: g } = e;
-    if (g) {
-      const h = this.#t[g];
-      if (!h?.tw) throw `${g}は存在しない・または終了したトゥイーンです`;
+    const { chain: b } = e;
+    if (b) {
+      const h = this.#t[b];
+      if (!h?.tw) throw `${b}は存在しない・または終了したトゥイーンです`;
       delete h.onEnd, h.tw.chain(l);
     } else u && l.start();
     return l;
@@ -142,18 +143,23 @@ class vt {
   |
   (?<json>\{[^{}]*})
   */
-  static #r = /\(\s*(?:(?<x>[-=\d\.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d\.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d\.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
+  static #a = /\(\s*(?:(?<x>[-=\d\.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d\.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d\.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
   // トランス終了待ち
   static wt(t) {
-    if (!this.#t[W]?.tw) return !1;
-    const s = () => this.finish_trans();
-    return F.beginProc(Y + W, s, !0, s), !0;
+    if (!this.#t[$]?.tw) return !1;
+    const s = () => this.#r();
+    return k.beginProc(Q + $, s, !0, s), !0;
   }
   // レイヤのトランジションの停止
-  static finish_trans() {
-    return this.#t[W]?.tw?.stop().end(), !1;
+  static #r() {
+    this.#t[$]?.tw?.stop().end();
   }
   // stop()とend()は別
+  static async closeTrans() {
+    if (!this.#t[$]?.tw) return;
+    const { promise: e, resolve: s } = Promise.withResolvers();
+    k.beginProc(Q + $, s, !1, s), this.#r(), await e;
+  }
   // トゥイーン終了待ち
   static wait_tsy(t) {
     const e = this.#i(t), s = this.#t[e];
@@ -163,7 +169,7 @@ class vt {
       return !1;
     }
     const o = () => s.tw?.end();
-    return F.beginProc(Y + e, o, !0, o), !0;
+    return k.beginProc(Q + e, o, !0, o), !0;
   }
   static #i(t) {
     const { layer: e = "", id: s, name: o } = t, i = s ? `frm
@@ -196,7 +202,7 @@ ${s}` : o ?? e;
  * http://www.opensource.org/licenses/mit-license
  */
 var at;
-function b() {
+function g() {
   return at;
 }
 var ut = function(n, t) {
@@ -218,13 +224,13 @@ var N = function() {
     for (var t, e = 1, s = arguments.length; e < s; e++) for (var o in t = arguments[e]) Object.prototype.hasOwnProperty.call(t, o) && (n[o] = t[o]);
     return n;
   }).apply(this, arguments);
-}, ct = ["mp3", "ogg", "oga", "opus", "mpeg", "wav", "m4a", "aiff", "wma", "mid", "caf"], q = {};
+}, ct = ["mp3", "ogg", "oga", "opus", "mpeg", "wav", "m4a", "aiff", "wma", "mid", "caf"], X = {};
 function Pt(n) {
   var t = N({ m4a: "audio/mp4", oga: "audio/ogg", opus: 'audio/ogg; codecs="opus"', caf: 'audio/x-caf; codecs="opus"' }, n || {}), e = document.createElement("audio"), s = {}, o = /^no$/;
   ct.forEach(function(i) {
     var r = e.canPlayType("audio/".concat(i)).replace(o, ""), a = t[i] ? e.canPlayType(t[i]).replace(o, "") : "";
     s[i] = !!r || !!a;
-  }), Object.assign(q, s);
+  }), Object.assign(X, s);
 }
 Pt();
 var xt = /\.(\{([^\}]+)\})(\?.*)?$/;
@@ -233,7 +239,7 @@ function lt(n) {
   if (!t.test(e)) return e;
   for (var s = t.exec(e), o = s[2].split(","), i = o[o.length - 1], r = 0, a = o.length; r < a; r++) {
     var u = o[r];
-    if (q[u]) {
+    if (X[u]) {
       i = u;
       break;
     }
@@ -246,12 +252,12 @@ function lt(n) {
   return c;
 }
 var J = ct.filter(function(n) {
-  return q[n];
+  return X[n];
 }), pt = function() {
   function n() {
   }
   return n.add = function() {
-    n.setLegacy(b().useLegacy);
+    n.setLegacy(g().useLegacy);
   }, n.setLegacy = function(t) {
     t ? J.forEach(function(e) {
       j.setExtensionXhrType(e, j.XHR_RESPONSE_TYPE.DEFAULT), j.setExtensionLoadType(e, j.LOAD_TYPE.AUDIO);
@@ -261,7 +267,7 @@ var J = ct.filter(function(n) {
   }, n.pre = function(t, e) {
     lt(t), e();
   }, n.use = function(t, e) {
-    t.data && J.indexOf(t.extension) > -1 ? t.sound = b().add(t.name, { loaded: e, preload: !0, url: t.url, source: t.data }) : e();
+    t.data && J.indexOf(t.extension) > -1 ? t.sound = g().add(t.name, { loaded: e, preload: !0, url: t.url, source: t.data }) : e();
   }, n.extension = "loader", n;
 }(), wt = 0, Ot = function(n) {
   function t(e) {
@@ -348,7 +354,7 @@ var J = ct.filter(function(n) {
   }, t.prototype.toString = function() {
     return "[HTMLAudioInstance id=".concat(this.id, "]");
   }, t.PADDING = 0.1, t;
-}(K), Et = function(n) {
+}(U), Et = function(n) {
   function t() {
     return n !== null && n.apply(this, arguments) || this;
   }
@@ -396,7 +402,7 @@ var J = ct.filter(function(n) {
       }, 0);
     }
   }, t;
-}(K), St = function() {
+}(U), St = function() {
   function n(t, e) {
     this.parent = t, Object.assign(this, e), this.duration = this.end - this.start;
   }
@@ -410,7 +416,7 @@ var J = ct.filter(function(n) {
   }
   return n.setParamValue = function(t, e) {
     if (t.setValueAtTime) {
-      var s = b().context;
+      var s = g().context;
       t.setValueAtTime(e, s.audioContext.currentTime);
     } else t.value = e;
     return e;
@@ -490,8 +496,8 @@ var J = ct.filter(function(n) {
     this._paused = !1;
     var l = this._media.nodes.cloneBufferSource(), _ = l.source, m = l.gain;
     this._source = _, this._gain = m, this._speed = i, this._volume = a, this._loop = !!r, this._muted = u, this._filters = c, this.refresh();
-    var g = this._source.buffer.duration;
-    this._duration = g, this._end = o, this._lastUpdate = this._now(), this._elapsed = s, this._source.onended = this._onComplete.bind(this), this._loop ? (this._source.loopEnd = o, this._source.loopStart = s, this._source.start(0, s)) : o ? this._source.start(0, s, o - s) : this._source.start(0, s), this.emit("start"), this._update(!0), this.enableTicker(!0);
+    var b = this._source.buffer.duration;
+    this._duration = b, this._end = o, this._lastUpdate = this._now(), this._elapsed = s, this._source.onended = this._onComplete.bind(this), this._loop ? (this._source.loopEnd = o, this._source.loopStart = s, this._source.start(0, s)) : o ? this._source.start(0, s, o - s) : this._source.start(0, s), this.emit("start"), this._update(!0), this.enableTicker(!0);
   }, t.prototype.enableTicker = function(e) {
     B.shared.remove(this._updateListener, this), e && B.shared.add(this._updateListener, this);
   }, Object.defineProperty(t.prototype, "progress", { get: function() {
@@ -546,7 +552,7 @@ var J = ct.filter(function(n) {
     }
     this._source = null, this._progress = 1, this.emit("progress", 1, this._duration), this.emit("end", this);
   }, t;
-}(K), ht = function() {
+}(U), ht = function() {
   function n(t, e) {
     this._output = e, this._input = t;
   }
@@ -641,9 +647,9 @@ var J = ct.filter(function(n) {
   }
   return n.from = function(t) {
     var e = {};
-    return typeof t == "string" ? e.url = t : t instanceof ArrayBuffer || t instanceof AudioBuffer || t instanceof HTMLAudioElement ? e.source = t : e = t, (e = N({ autoPlay: !1, singleInstance: !1, url: null, source: null, preload: !1, volume: 1, speed: 1, complete: null, loaded: null, loop: !1 }, e)).url && (e.url = lt(e.url)), Object.freeze(e), new n(b().useLegacy ? new Et() : new jt(), e);
+    return typeof t == "string" ? e.url = t : t instanceof ArrayBuffer || t instanceof AudioBuffer || t instanceof HTMLAudioElement ? e.source = t : e = t, (e = N({ autoPlay: !1, singleInstance: !1, url: null, source: null, preload: !1, volume: 1, speed: 1, complete: null, loaded: null, loop: !1 }, e)).url && (e.url = lt(e.url)), Object.freeze(e), new n(g().useLegacy ? new Et() : new jt(), e);
   }, Object.defineProperty(n.prototype, "context", { get: function() {
-    return b().context;
+    return g().context;
   }, enumerable: !1, configurable: !0 }), n.prototype.pause = function() {
     return this.isPlaying = !1, this.paused = !0, this;
   }, n.prototype.resume = function() {
@@ -767,12 +773,12 @@ var J = ct.filter(function(n) {
   }, t.prototype.destroy = function() {
     this.removeAllListeners();
   }, t;
-}(K), st = function(n) {
+}(U), st = function(n) {
   function t() {
     var e = n.call(this, null, null) || this;
     e.autoPause = !0;
     var s = window, o = new t.AudioContext(), i = o.createDynamicsCompressor(), r = o.createAnalyser();
-    return r.connect(i), i.connect(o.destination), e._input = r, e._output = o.destination, e._ctx = o, e._offlineCtx = new t.OfflineAudioContext(1, 2, s.OfflineAudioContext ? Math.max(8e3, Math.min(96e3, o.sampleRate)) : 44100), e.compressor = i, e.analyser = r, e.events = new K(), e.volume = 1, e.speed = 1, e.muted = !1, e.paused = !1, e._locked = o.state === "suspended" && ("ontouchstart" in globalThis || "onclick" in globalThis), e._locked && (e._unlock(), e._unlock = e._unlock.bind(e), document.addEventListener("mousedown", e._unlock, !0), document.addEventListener("touchstart", e._unlock, !0), document.addEventListener("touchend", e._unlock, !0)), e.onFocus = e.onFocus.bind(e), e.onBlur = e.onBlur.bind(e), globalThis.addEventListener("focus", e.onFocus), globalThis.addEventListener("blur", e.onBlur), e;
+    return r.connect(i), i.connect(o.destination), e._input = r, e._output = o.destination, e._ctx = o, e._offlineCtx = new t.OfflineAudioContext(1, 2, s.OfflineAudioContext ? Math.max(8e3, Math.min(96e3, o.sampleRate)) : 44100), e.compressor = i, e.analyser = r, e.events = new U(), e.volume = 1, e.speed = 1, e.muted = !1, e.paused = !1, e._locked = o.state === "suspended" && ("ontouchstart" in globalThis || "onclick" in globalThis), e._locked && (e._unlock(), e._unlock = e._unlock.bind(e), document.addEventListener("mousedown", e._unlock, !0), document.addEventListener("touchstart", e._unlock, !0), document.addEventListener("touchend", e._unlock, !0)), e.onFocus = e.onFocus.bind(e), e.onBlur = e.onBlur.bind(e), globalThis.addEventListener("focus", e.onFocus), globalThis.addEventListener("blur", e.onBlur), e;
   }
   return x(t, n), t.prototype.onFocus = function() {
     if (this.autoPause) {
@@ -921,16 +927,16 @@ var J = ct.filter(function(n) {
   }, n.prototype.destroy = function() {
     this.disconnect(), this.destination = null, this.source = null;
   }, n;
-}(), $ = { __proto__: null, EqualizerFilter: function(n) {
+}(), q = { __proto__: null, EqualizerFilter: function(n) {
   function t(e, s, o, i, r, a, u, c, l, _) {
     e === void 0 && (e = 0), s === void 0 && (s = 0), o === void 0 && (o = 0), i === void 0 && (i = 0), r === void 0 && (r = 0), a === void 0 && (a = 0), u === void 0 && (u = 0), c === void 0 && (c = 0), l === void 0 && (l = 0), _ === void 0 && (_ = 0);
     var m = this;
-    if (!b().useLegacy) {
-      var g = [{ f: t.F32, type: "lowshelf", gain: e }, { f: t.F64, type: "peaking", gain: s }, { f: t.F125, type: "peaking", gain: o }, { f: t.F250, type: "peaking", gain: i }, { f: t.F500, type: "peaking", gain: r }, { f: t.F1K, type: "peaking", gain: a }, { f: t.F2K, type: "peaking", gain: u }, { f: t.F4K, type: "peaking", gain: c }, { f: t.F8K, type: "peaking", gain: l }, { f: t.F16K, type: "highshelf", gain: _ }].map(function(A) {
-        var p = b().context.audioContext.createBiquadFilter();
+    if (!g().useLegacy) {
+      var b = [{ f: t.F32, type: "lowshelf", gain: e }, { f: t.F64, type: "peaking", gain: s }, { f: t.F125, type: "peaking", gain: o }, { f: t.F250, type: "peaking", gain: i }, { f: t.F500, type: "peaking", gain: r }, { f: t.F1K, type: "peaking", gain: a }, { f: t.F2K, type: "peaking", gain: u }, { f: t.F4K, type: "peaking", gain: c }, { f: t.F8K, type: "peaking", gain: l }, { f: t.F16K, type: "highshelf", gain: _ }].map(function(A) {
+        var p = g().context.audioContext.createBiquadFilter();
         return p.type = A.type, w.setParamValue(p.Q, 1), p.frequency.value = A.f, w.setParamValue(p.gain, A.gain), p;
       });
-      (m = n.call(this, g[0], g[g.length - 1]) || this).bands = g, m.bandsMap = {};
+      (m = n.call(this, b[0], b[b.length - 1]) || this).bands = b, m.bandsMap = {};
       for (var h = 0; h < m.bands.length; h++) {
         var v = m.bands[h];
         h > 0 && m.bands[h - 1].connect(v), m.bandsMap[v.frequency.value] = v;
@@ -998,8 +1004,8 @@ var J = ct.filter(function(n) {
   function t(e) {
     e === void 0 && (e = 0);
     var s = this;
-    if (!b().useLegacy) {
-      var o = b().context.audioContext.createWaveShaper();
+    if (!g().useLegacy) {
+      var o = g().context.audioContext.createWaveShaper();
       return (s = n.call(this, o) || this)._distortion = o, s.amount = e, s;
     }
     s = n.call(this, null) || this;
@@ -1017,8 +1023,8 @@ var J = ct.filter(function(n) {
   function t(e) {
     e === void 0 && (e = 0);
     var s = this;
-    if (!b().useLegacy) {
-      var o, i, r, a = b().context.audioContext;
+    if (!g().useLegacy) {
+      var o, i, r, a = g().context.audioContext;
       return a.createStereoPanner ? r = o = a.createStereoPanner() : ((i = a.createPanner()).panningModel = "equalpower", r = i), (s = n.call(this, r) || this)._stereo = o, s._panner = i, s.pan = e, s;
     }
     s = n.call(this, null) || this;
@@ -1034,7 +1040,7 @@ var J = ct.filter(function(n) {
   function t(e, s, o) {
     e === void 0 && (e = 3), s === void 0 && (s = 2), o === void 0 && (o = !1);
     var i = this;
-    if (!b().useLegacy) return (i = n.call(this, null) || this)._seconds = i._clamp(e, 1, 50), i._decay = i._clamp(s, 0, 100), i._reverse = o, i._rebuild(), i;
+    if (!g().useLegacy) return (i = n.call(this, null) || this)._seconds = i._clamp(e, 1, 50), i._decay = i._clamp(s, 0, 100), i._reverse = o, i._rebuild(), i;
     i = n.call(this, null) || this;
   }
   return x(t, n), t.prototype._clamp = function(e, s, o) {
@@ -1052,15 +1058,15 @@ var J = ct.filter(function(n) {
   }, set: function(e) {
     this._reverse = e, this._rebuild();
   }, enumerable: !1, configurable: !0 }), t.prototype._rebuild = function() {
-    for (var e, s = b().context.audioContext, o = s.sampleRate, i = o * this._seconds, r = s.createBuffer(2, i, o), a = r.getChannelData(0), u = r.getChannelData(1), c = 0; c < i; c++) e = this._reverse ? i - c : c, a[c] = (2 * Math.random() - 1) * Math.pow(1 - e / i, this._decay), u[c] = (2 * Math.random() - 1) * Math.pow(1 - e / i, this._decay);
-    var l = b().context.audioContext.createConvolver();
+    for (var e, s = g().context.audioContext, o = s.sampleRate, i = o * this._seconds, r = s.createBuffer(2, i, o), a = r.getChannelData(0), u = r.getChannelData(1), c = 0; c < i; c++) e = this._reverse ? i - c : c, a[c] = (2 * Math.random() - 1) * Math.pow(1 - e / i, this._decay), u[c] = (2 * Math.random() - 1) * Math.pow(1 - e / i, this._decay);
+    var l = g().context.audioContext.createConvolver();
     l.buffer = r, this.init(l);
   }, t;
 }(V), MonoFilter: function(n) {
   function t() {
     var e = this;
-    if (!b().useLegacy) {
-      var s = b().context.audioContext, o = s.createChannelSplitter(), i = s.createChannelMerger();
+    if (!g().useLegacy) {
+      var s = g().context.audioContext, o = s.createChannelSplitter(), i = s.createChannelMerger();
       return i.connect(o), (e = n.call(this, i, o) || this)._merger = i, e;
     }
     e = n.call(this, null) || this;
@@ -1071,8 +1077,8 @@ var J = ct.filter(function(n) {
 }(V), StreamFilter: function(n) {
   function t() {
     var e = this;
-    if (!b().useLegacy) {
-      var s = b().context.audioContext, o = s.createMediaStreamDestination(), i = s.createMediaStreamSource(o.stream);
+    if (!g().useLegacy) {
+      var s = g().context.audioContext, o = s.createMediaStreamDestination(), i = s.createMediaStreamSource(o.stream);
       return (e = n.call(this, o, i) || this)._stream = o.stream, e;
     }
     e = n.call(this, null) || this;
@@ -1084,20 +1090,20 @@ var J = ct.filter(function(n) {
   }, t;
 }(V), TelephoneFilter: function(n) {
   function t() {
-    if (!b().useLegacy) {
-      var e = b().context.audioContext, s = e.createBiquadFilter(), o = e.createBiquadFilter(), i = e.createBiquadFilter(), r = e.createBiquadFilter();
+    if (!g().useLegacy) {
+      var e = g().context.audioContext, s = e.createBiquadFilter(), o = e.createBiquadFilter(), i = e.createBiquadFilter(), r = e.createBiquadFilter();
       return s.type = "lowpass", w.setParamValue(s.frequency, 2e3), o.type = "lowpass", w.setParamValue(o.frequency, 2e3), i.type = "highpass", w.setParamValue(i.frequency, 500), r.type = "highpass", w.setParamValue(r.frequency, 500), s.connect(o), o.connect(i), i.connect(r), n.call(this, s, r) || this;
     }
     n.call(this, null);
   }
   return x(t, n), t;
-}(V) }, Bt = { __proto__: null, supported: q }, nt = function(n) {
+}(V) }, Bt = { __proto__: null, supported: X }, nt = function(n) {
   return at = n, n;
 }(new It());
 dt.add(pt);
 class I {
   constructor(t, e, s, o, i, r, a, u) {
-    this.fn = t, this.buf = e, this.start_ms = s, this.end_ms = o, this.ret_ms = i, this.volume = r, this.pan = a, this.snd = u, this.stt = u ? new G(this) : new Tt(), this.#s = F.procID, u && this.addSnd(u);
+    this.fn = t, this.buf = e, this.start_ms = s, this.end_ms = o, this.ret_ms = i, this.volume = r, this.pan = a, this.snd = u, this.stt = u ? new G(this) : new Tt(), this.#s = k.procID, u && this.addSnd(u);
   }
   static #t = 1;
   stt;
@@ -1107,7 +1113,7 @@ class I {
     return this.#s;
   }
   addSnd(t) {
-    switch (this.loop = t.loop, this.stt.onLoad(this), this.pan !== 0 && (t.filters = [new $.StereoFilter(this.pan)]), this.setVol = (e) => t.volume = e, this.tw = () => new Z(t), this.onPlayEnd = () => {
+    switch (this.loop = t.loop, this.stt.onLoad(this), this.pan !== 0 && (t.filters = [new q.StereoFilter(this.pan)]), this.setVol = (e) => t.volume = e, this.tw = () => new Z(t), this.onPlayEnd = () => {
       this.stt.onPlayEnd(this.buf), this.#e();
     }, this.stop = () => {
       t.stop(), this.#e();
@@ -1143,7 +1149,7 @@ class I {
   destroy() {
   }
 }
-let ot, d, C, it, tt, Q;
+let ot, d, C, it, tt, H;
 const z = "BGM", R = "SE", rt = "VOICE";
 class y {
   constructor(t, e, s) {
@@ -1161,7 +1167,7 @@ class y {
     d.setVal_Nochk("save", c + "volume", l);
     const _ = l * Number(d.getVal("sys:" + c + "volume", 1)), m = T(t, "loop", !1);
     m ? (y.#t[e] = s, d.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(y.#t))) : y.delLoopPlay(e), d.setVal_Nochk("save", c + "start_ms", o), d.setVal_Nochk("save", c + "end_ms", i), d.setVal_Nochk("save", c + "ret_ms", r), d.setVal_Nochk("tmp", c + "playing", !0), d.flush();
-    const g = nt.find(s);
+    const b = nt.find(s);
     this.#e = new I(
       s,
       e,
@@ -1170,7 +1176,7 @@ class y {
       r,
       _,
       a,
-      g
+      b
     );
     const h = {
       loop: m,
@@ -1182,7 +1188,7 @@ class y {
             C.errScript(`ロード失敗です SndBuf fn:${s} ${p}`, !1);
             return;
           }
-          P && (this.#e.addSnd(P), a !== 0 && (P.filters = [new $.StereoFilter(a)]), t.fnc?.());
+          P && (this.#e.addSnd(P), a !== 0 && (P.filters = [new q.StereoFilter(a)]), t.fnc?.());
         }
       }
     };
@@ -1195,52 +1201,51 @@ class y {
       };
       h.preload = !0;
       const P = h.loaded;
-      h.loaded = (k, O) => {
+      h.loaded = (F, O) => {
         if (this.#e.stt.isDestroy) return;
-        P(k, O);
+        P(F, O);
         const L = O, E = L.duration;
-        p.end < 0 && (p.end += E, L.removeSprites(v), L.addSprites(v, p)), p.end <= p.start && C.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) >= start_ms:${o} は異常値です`), p.end * 1e3 <= r && C.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) <= ret_ms:${r} は異常値です`), E <= p.start && C.errScript(`[playse] 音声ファイル再生時間:${E * 1e3} <= start_ms:${o} は異常値です`), i !== y.#s && E <= p.end && C.errScript(`[playse] 音声ファイル再生時間:${E * 1e3} <= end_ms:${i} は異常値です`), L.play(v, (U) => h.complete?.(U));
+        p.end < 0 && (p.end += E, L.removeSprites(v), L.addSprites(v, p)), p.end <= p.start && C.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) >= start_ms:${o} は異常値です`), p.end * 1e3 <= r && C.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) <= ret_ms:${r} は異常値です`), E <= p.start && C.errScript(`[playse] 音声ファイル再生時間:${E * 1e3} <= start_ms:${o} は異常値です`), i !== y.#s && E <= p.end && C.errScript(`[playse] 音声ファイル再生時間:${E * 1e3} <= end_ms:${i} は異常値です`), L.play(v, (K) => h.complete?.(K));
       };
     } else h.autoPlay = !0;
     if (m ? r !== 0 && (h.loop = !1, h.complete = async (p) => {
-      const P = p.duration, k = r / 1e3, O = i / 1e3;
-      P <= k && C.errScript(`[playse] 音声ファイル再生時間:${P * 1e3} <=  ret_ms:${r} は異常値です`), await p.play({
+      const P = p.duration, F = r / 1e3, O = i / 1e3;
+      P <= F && C.errScript(`[playse] 音声ファイル再生時間:${P * 1e3} <=  ret_ms:${r} は異常値です`), await p.play({
         // 一周目はループなし、なのでキャッシュされてる
         ...h,
-        start: k,
+        start: F,
         end: O < 0 ? O + P : O,
         // 負の値は末尾から
         //	speed,		// 重複
         loop: !0,
         //	volume,		// 重複
         //-	muted?: boolean;
-        filters: a !== 0 ? [new $.StereoFilter(a)] : []
+        filters: a !== 0 ? [new q.StereoFilter(a)] : []
         //-	complete?: CompleteCallback;
         //-	loaded?: LoadedCallback;
         //-	singleInstance?: boolean;
       });
     }) : h.complete = () => {
       et(this.#e, e), this.#e.onPlayEnd();
-    }, this.#n(), g) {
-      if (g.volume = _, v)
-        this.#o(s, h), a !== 0 && (g.filters = [new $.StereoFilter(a)]);
-      else if (g.isPlayable) {
-        const p = g.options.source;
-        !(p instanceof ArrayBuffer) || p.byteLength === 0 ? (g.play(h), a !== 0 && (g.filters = [new $.StereoFilter(a)])) : this.#e.addSnd(D.from({
+    }, this.#n(), b) {
+      if (b.volume = _, v) this.#o(s, h);
+      else if (b.isPlayable) {
+        const p = b.options.source;
+        !(p instanceof ArrayBuffer) || p.byteLength === 0 ? b.play(h) : this.#e.addSnd(D.from({
           ...h,
-          url: g.options.url,
+          url: b.options.url,
           source: p
         }));
       }
-      this.needLoad = !1;
+      a !== 0 && (b.filters = [new q.StereoFilter(a)]), this.needLoad = !1;
       return;
     }
     if (this.needLoad = T(t, "join", !0)) {
       const p = this.#e.procID + `loaded buf:${e} fn:${s}`;
-      F.beginProc(p);
+      k.beginProc(p);
       const P = h.loaded;
-      h.loaded = (k, O) => {
-        P(k, O), F.endProc(p);
+      h.loaded = (F, O) => {
+        P(F, O), k.endProc(p);
       };
     }
     this.#o(s, h);
@@ -1250,7 +1255,7 @@ class y {
     y.#t = {}, ot = t, d = e, C = s, it = o, tt = i;
   }
   static setEvtMng(t) {
-    Q = t;
+    H = t;
   }
   static delLoopPlay(t) {
     delete y.#t[t];
@@ -1347,14 +1352,14 @@ class G {
     if (t.loop) return !1;
     t.stt = new At(t);
     const s = T(e, "canskip", !1), o = T(e, "stop", !0);
-    if (s && Q.isSkipping)
+    if (s && H.isSkipping)
       return o ? t.stt.stopse(t) : t.stt.onPlayEnd = () => {
       }, !1;
     const { buf: i = R } = e, r = () => {
       et(t, i), t.onPlayEnd(), o ? t.stt.stopse(t) : t.stt.onPlayEnd = () => {
       };
     };
-    return F.beginProc(t.procID + "ws", r, !0, s ? r : void 0), !0;
+    return k.beginProc(t.procID + "ws", r, !0, s ? r : void 0), !0;
   }
   onPlayEnd() {
   }
@@ -1365,7 +1370,7 @@ class G {
     const a = r * Number(d.getVal("sys:" + i, 1)), u = T(e, "stop", r === 0);
     u && y.delLoopPlay(s), d.flush();
     const c = S(e, "time", NaN), l = S(e, "delay", 0);
-    if (c === 0 && l === 0 || Q.isSkipping) {
+    if (c === 0 && l === 0 || H.isSkipping) {
       t.setVol(a), t.stt = u ? new M(t) : new G(t);
       return;
     }
@@ -1397,7 +1402,7 @@ class At {
   ws = () => !1;
   // ok
   onPlayEnd() {
-    F.notifyEndProc(this.si.procID + "ws");
+    k.notifyEndProc(this.si.procID + "ws");
   }
   fade() {
   }
@@ -1434,10 +1439,10 @@ class Vt {
   wf(t, e) {
     t.stt = new Mt(t);
     const s = T(e, "canskip", !1);
-    if (s && Q.isSkipping)
+    if (s && H.isSkipping)
       return this.stopfadese(), !1;
     const o = () => this.stopfadese();
-    return F.beginProc(t.procID + "wf", o, !0, s ? o : void 0), !0;
+    return k.beginProc(t.procID + "wf", o, !0, s ? o : void 0), !0;
   }
   compFade() {
   }
@@ -1466,7 +1471,7 @@ class Mt {
   wf = () => !1;
   // ok
   compFade() {
-    F.notifyEndProc(this.si.procID + "wf");
+    k.notifyEndProc(this.si.procID + "wf");
   }
   stopfadese = () => this.si.stop();
   isDestroy = !1;
@@ -1506,8 +1511,8 @@ export {
   Bt as I,
   nt as R,
   y as S,
-  W as T,
+  Q as T,
   z as a,
-  Y as b
+  $ as b
 };
 //# sourceMappingURL=SndBuf.js.map

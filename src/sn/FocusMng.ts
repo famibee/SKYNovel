@@ -5,9 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib} from './CmnLib';
+import {CmnLib, EVNM_KEY} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
-import {EVNM_KEY} from './EventMng';
 
 import {Container} from 'pixi.js';
 

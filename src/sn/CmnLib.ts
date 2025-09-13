@@ -54,6 +54,10 @@ export function addStyle(style: string) {
 
 
 // =============== EventMng
+export const EVNM_BUTTON= 'pointerdown';
+export const EVNM_CLICK	= 'pointerdown';
+export const EVNM_KEY	= 'keydown';
+
 import {Container} from 'pixi.js';
 export interface IEvtMng {
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void): void;
@@ -64,6 +68,8 @@ export interface IEvtMng {
 
 	resvFlameEvent(body: HTMLBodyElement): void;
 }
+
+
 
 export	function argChk_Num(hash: any, name: string, def: number): number {
 	const v = hash[name];

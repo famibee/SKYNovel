@@ -7,11 +7,10 @@
 
 import type {IHTag, ITag} from './Grammar';
 import type {IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, HPlugin} from './CmnInterface';
-import {argChk_Boolean, CmnLib} from './CmnLib';
+import {argChk_Boolean, CmnLib, EVNM_KEY} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
 import type {IConfig, IFn2Path, ISysRoots, HSysBaseArg} from './ConfigBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
-import {EVNM_KEY} from './EventMng';
 
 import type {Application, DisplayObject, RenderTexture} from 'pixi.js';
 import {io, Socket} from 'socket.io-client';
@@ -26,7 +25,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	protected async loaded(...[hPlg,]: T_SysBaseLoadedParams) {
 		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
 		delete hPlg.snsys_pre;
-		return fncPre?.init({
+		return await fncPre?.init({
 			getInfo: this.#getInfo,
 			addTag: ()=> {},
 			addLayCls: ()=> {},

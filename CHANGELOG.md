@@ -1,3 +1,6 @@
+- fix: クラス import に影響が出ていた定数の記述を EventMng -> CmnLib に変更
+
+
 ## [1.62.1](https://github.com/famibee/SKYNovel/compare/v1.62.0...v1.62.1) (2025-08-31)
 
 

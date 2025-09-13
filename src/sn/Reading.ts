@@ -7,11 +7,11 @@
 
 import type {HArg, IHTag} from './Grammar';
 import type {IEvt2Fnc, IHEvt2Fnc, IMain, IMark, IVariable} from './CmnInterface';
-import {argChk_Boolean, argChk_Num, CmnLib} from './CmnLib';
+import {argChk_Boolean, argChk_Num, CmnLib, EVNM_CLICK, EVNM_KEY} from './CmnLib';
 import type {Config} from './Config';
 import type {ScriptIterator} from './ScriptIterator';
 import type {LayerMng} from './LayerMng';
-import {EVNM_CLICK, EVNM_KEY, type EventMng} from './EventMng';
+import type {EventMng} from './EventMng';
 import type {FocusMng} from './FocusMng';
 import type {SoundMng} from './SoundMng';
 import {EventListenerCtn} from './EventListenerCtn';
