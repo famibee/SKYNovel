@@ -1,3 +1,10 @@
+## [1.62.3](https://github.com/famibee/SKYNovel/compare/v1.62.2...v1.62.3) (2025-09-20)
+
+
+### Bug Fixes
+
+* [wait_tsy] の chk_exist_tw 属性を廃止 ([2a2394d](https://github.com/famibee/SKYNovel/commit/2a2394d004b396b325b9da6ab7e1404faa33b533))
+
 - fix: [wait_tsy] の chk_exist_tw 属性を廃止
 	- [tsy]〜文字表示＆待ち＋[wait_tsy chk_exist_tw=true] という状況で、[tsy]のアニメが先に終り文字表示がゆっくり終了した場合、必ずエラーになってしまうため。
 
