@@ -242,14 +242,7 @@ export class CmnTween {
 	static	wait_tsy(hArg: HArg) {
 		const tw_nm = this.#tw_nm(hArg);
 		const ti = this.#hTwInf[tw_nm];
-		if (! ti?.tw) {
-			const {layer='', id, name} = hArg;
-			if (argChk_Boolean(hArg, 'chk_exist_tw', false)) throw id
-			? `フレームトゥイーン ${id} が見つかりません。`
-			: `トゥイーン ${tw_nm} が見つかりません。(layer:${layer} name:${name})`;
-
-			return false;
-		}
+		if (! ti?.tw) return false;
 
 		const fnc = ()=> ti.tw?.end();	// stop()とend()は別
 		Reading.beginProc(TMP_TSY_NM + tw_nm, fnc, true, fnc);

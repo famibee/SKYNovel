@@ -1,4 +1,4 @@
-import { b as S, a as T, d as Y, N as U, l as j, O as B, Q as dt, k as _t, L as yt } from "./app2.js";
+import { b as S, a as V, d as Y, N as U, l as j, O as B, Q as dt, k as _t, L as yt } from "./app2.js";
 import { u as mt, E as f, r as gt, T as Z, a as k, b as bt } from "./Reading.js";
 const $ = `trans
 `, Q = "tsy nm:";
@@ -15,7 +15,7 @@ class vt {
   }
   static setTwProp(t, e) {
     const s = S(e, "repeat", 1);
-    return t.delay(S(e, "delay", 0)).easing(this.ease(e.ease)).repeat(s > 0 ? s - 1 : 1 / 0).yoyo(T(e, "yoyo", !1));
+    return t.delay(S(e, "delay", 0)).easing(this.ease(e.ease)).repeat(s > 0 ? s - 1 : 1 / 0).yoyo(V(e, "yoyo", !1));
   }
   static #o = {
     "Back.In": (t) => f.Back.In(t),
@@ -97,7 +97,7 @@ class vt {
     if (_) {
       Y.debugLog && console.group(`🍝 [${e[":タグ名"]}] path=${_}= start(${s.x},${s.y},${s.alpha})`);
       for (const { groups: h } of _.matchAll(this.#a)) {
-        const { x: v, x2: A, y: p, y2: P, o: F, o2: O, json: L } = h;
+        const { x: v, x2: T, y: p, y2: P, o: F, o2: O, json: L } = h;
         let E = {};
         if (L) try {
           E = JSON.parse(L);
@@ -106,7 +106,7 @@ class vt {
           continue;
         }
         else
-          (v ?? A) && (E.x = v ?? A), (p ?? P) && (E.y = p ?? P), (F ?? O) && (E.alpha = F ?? O);
+          (v ?? T) && (E.x = v ?? T), (p ?? P) && (E.y = p ?? P), (F ?? O) && (E.alpha = F ?? O);
         const K = this.cnvTweenArg(E, s);
         Y.debugLog && console.info(`🍝 ${L ?? `{x:${v} y:${p} o:${F}}`} => hTo:${JSON.stringify(K)}`);
         const W = new Z(s).to(K, c);
@@ -163,11 +163,7 @@ class vt {
   // トゥイーン終了待ち
   static wait_tsy(t) {
     const e = this.#i(t), s = this.#t[e];
-    if (!s?.tw) {
-      const { layer: i = "", id: r, name: a } = t;
-      if (T(t, "chk_exist_tw", !1)) throw r ? `フレームトゥイーン ${r} が見つかりません。` : `トゥイーン ${e} が見つかりません。(layer:${i} name:${a})`;
-      return !1;
-    }
+    if (!s?.tw) return !1;
     const o = () => s.tw?.end();
     return k.beginProc(Q + e, o, !0, o), !0;
   }
@@ -914,7 +910,7 @@ var J = ct.filter(function(n) {
   }, n.prototype.close = function() {
     return this.removeAll(), this._sounds = null, this._webAudioContext && (this._webAudioContext.destroy(), this._webAudioContext = null), this._htmlAudioContext && (this._htmlAudioContext.destroy(), this._htmlAudioContext = null), this._context = null, this;
   }, n;
-}(), V = function() {
+}(), A = function() {
   function n(t, e) {
     this.init(t, e);
   }
@@ -932,9 +928,9 @@ var J = ct.filter(function(n) {
     e === void 0 && (e = 0), s === void 0 && (s = 0), o === void 0 && (o = 0), i === void 0 && (i = 0), r === void 0 && (r = 0), a === void 0 && (a = 0), u === void 0 && (u = 0), c === void 0 && (c = 0), l === void 0 && (l = 0), _ === void 0 && (_ = 0);
     var m = this;
     if (!g().useLegacy) {
-      var b = [{ f: t.F32, type: "lowshelf", gain: e }, { f: t.F64, type: "peaking", gain: s }, { f: t.F125, type: "peaking", gain: o }, { f: t.F250, type: "peaking", gain: i }, { f: t.F500, type: "peaking", gain: r }, { f: t.F1K, type: "peaking", gain: a }, { f: t.F2K, type: "peaking", gain: u }, { f: t.F4K, type: "peaking", gain: c }, { f: t.F8K, type: "peaking", gain: l }, { f: t.F16K, type: "highshelf", gain: _ }].map(function(A) {
+      var b = [{ f: t.F32, type: "lowshelf", gain: e }, { f: t.F64, type: "peaking", gain: s }, { f: t.F125, type: "peaking", gain: o }, { f: t.F250, type: "peaking", gain: i }, { f: t.F500, type: "peaking", gain: r }, { f: t.F1K, type: "peaking", gain: a }, { f: t.F2K, type: "peaking", gain: u }, { f: t.F4K, type: "peaking", gain: c }, { f: t.F8K, type: "peaking", gain: l }, { f: t.F16K, type: "highshelf", gain: _ }].map(function(T) {
         var p = g().context.audioContext.createBiquadFilter();
-        return p.type = A.type, w.setParamValue(p.Q, 1), p.frequency.value = A.f, w.setParamValue(p.gain, A.gain), p;
+        return p.type = T.type, w.setParamValue(p.Q, 1), p.frequency.value = T.f, w.setParamValue(p.gain, T.gain), p;
       });
       (m = n.call(this, b[0], b[b.length - 1]) || this).bands = b, m.bandsMap = {};
       for (var h = 0; h < m.bands.length; h++) {
@@ -1000,7 +996,7 @@ var J = ct.filter(function(n) {
       e.disconnect();
     }), this.bands = null, this.bandsMap = null;
   }, t.F32 = 32, t.F64 = 64, t.F125 = 125, t.F250 = 250, t.F500 = 500, t.F1K = 1e3, t.F2K = 2e3, t.F4K = 4e3, t.F8K = 8e3, t.F16K = 16e3, t;
-}(V), DistortionFilter: function(n) {
+}(A), DistortionFilter: function(n) {
   function t(e) {
     e === void 0 && (e = 0);
     var s = this;
@@ -1019,7 +1015,7 @@ var J = ct.filter(function(n) {
   }, enumerable: !1, configurable: !0 }), t.prototype.destroy = function() {
     this._distortion = null, n.prototype.destroy.call(this);
   }, t;
-}(V), StereoFilter: function(n) {
+}(A), StereoFilter: function(n) {
   function t(e) {
     e === void 0 && (e = 0);
     var s = this;
@@ -1036,7 +1032,7 @@ var J = ct.filter(function(n) {
   }, enumerable: !1, configurable: !0 }), t.prototype.destroy = function() {
     n.prototype.destroy.call(this), this._stereo = null, this._panner = null;
   }, t;
-}(V), ReverbFilter: function(n) {
+}(A), ReverbFilter: function(n) {
   function t(e, s, o) {
     e === void 0 && (e = 3), s === void 0 && (s = 2), o === void 0 && (o = !1);
     var i = this;
@@ -1062,7 +1058,7 @@ var J = ct.filter(function(n) {
     var l = g().context.audioContext.createConvolver();
     l.buffer = r, this.init(l);
   }, t;
-}(V), MonoFilter: function(n) {
+}(A), MonoFilter: function(n) {
   function t() {
     var e = this;
     if (!g().useLegacy) {
@@ -1074,7 +1070,7 @@ var J = ct.filter(function(n) {
   return x(t, n), t.prototype.destroy = function() {
     this._merger.disconnect(), this._merger = null, n.prototype.destroy.call(this);
   }, t;
-}(V), StreamFilter: function(n) {
+}(A), StreamFilter: function(n) {
   function t() {
     var e = this;
     if (!g().useLegacy) {
@@ -1088,7 +1084,7 @@ var J = ct.filter(function(n) {
   }, enumerable: !1, configurable: !0 }), t.prototype.destroy = function() {
     this._stream = null, n.prototype.destroy.call(this);
   }, t;
-}(V), TelephoneFilter: function(n) {
+}(A), TelephoneFilter: function(n) {
   function t() {
     if (!g().useLegacy) {
       var e = g().context.audioContext, s = e.createBiquadFilter(), o = e.createBiquadFilter(), i = e.createBiquadFilter(), r = e.createBiquadFilter();
@@ -1097,7 +1093,7 @@ var J = ct.filter(function(n) {
     n.call(this, null);
   }
   return x(t, n), t;
-}(V) }, Bt = { __proto__: null, supported: X }, nt = function(n) {
+}(A) }, Bt = { __proto__: null, supported: X }, nt = function(n) {
   return at = n, n;
 }(new It());
 dt.add(pt);
@@ -1165,7 +1161,7 @@ class y {
     d.setVal_Nochk("save", c + "fn", s);
     const l = y.getVol(t, 1);
     d.setVal_Nochk("save", c + "volume", l);
-    const _ = l * Number(d.getVal("sys:" + c + "volume", 1)), m = T(t, "loop", !1);
+    const _ = l * Number(d.getVal("sys:" + c + "volume", 1)), m = V(t, "loop", !1);
     m ? (y.#t[e] = s, d.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(y.#t))) : y.delLoopPlay(e), d.setVal_Nochk("save", c + "start_ms", o), d.setVal_Nochk("save", c + "end_ms", i), d.setVal_Nochk("save", c + "ret_ms", r), d.setVal_Nochk("tmp", c + "playing", !0), d.flush();
     const b = nt.find(s);
     this.#e = new I(
@@ -1240,7 +1236,7 @@ class y {
       a !== 0 && (b.filters = [new q.StereoFilter(a)]), this.needLoad = !1;
       return;
     }
-    if (this.needLoad = T(t, "join", !0)) {
+    if (this.needLoad = V(t, "join", !0)) {
       const p = this.#e.procID + `loaded buf:${e} fn:${s}`;
       k.beginProc(p);
       const P = h.loaded;
@@ -1351,7 +1347,7 @@ class G {
   ws(t, e) {
     if (t.loop) return !1;
     t.stt = new At(t);
-    const s = T(e, "canskip", !1), o = T(e, "stop", !0);
+    const s = V(e, "canskip", !1), o = V(e, "stop", !0);
     if (s && H.isSkipping)
       return o ? t.stt.stopse(t) : t.stt.onPlayEnd = () => {
       }, !1;
@@ -1367,7 +1363,7 @@ class G {
   fade(t, e) {
     const { buf: s = R } = e, i = "const.sn.sound." + s + "." + "volume", r = y.getVol(e, NaN);
     d.setVal_Nochk("save", i, r);
-    const a = r * Number(d.getVal("sys:" + i, 1)), u = T(e, "stop", r === 0);
+    const a = r * Number(d.getVal("sys:" + i, 1)), u = V(e, "stop", r === 0);
     u && y.delLoopPlay(s), d.flush();
     const c = S(e, "time", NaN), l = S(e, "delay", 0);
     if (c === 0 && l === 0 || H.isSkipping) {
@@ -1438,7 +1434,7 @@ class Vt {
   // ok
   wf(t, e) {
     t.stt = new Mt(t);
-    const s = T(e, "canskip", !1);
+    const s = V(e, "canskip", !1);
     if (s && H.isSkipping)
       return this.stopfadese(), !1;
     const o = () => this.stopfadese();
