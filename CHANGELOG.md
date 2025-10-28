@@ -1,3 +1,10 @@
+# [1.63.0](https://github.com/famibee/SKYNovel/compare/v1.62.3...v1.63.0) (2025-10-28)
+
+
+### Features
+
+* ESLint 導入、一部指摘無効化しつつも全ソースクリンナップ完了 ([5b6621a](https://github.com/famibee/SKYNovel/commit/5b6621a57d3e69e3984950861cd82790c453bf72))
+
 - feat: ESLint 導入、一部指摘無効化しつつも全ソースクリンナップ完了
 	- @eslint/js: configs.recommended
 	- typescript-eslint: configs.strictTypeChecked
