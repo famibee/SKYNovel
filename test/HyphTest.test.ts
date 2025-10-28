@@ -9,8 +9,8 @@ import {Hyphenation, type IChRect} from '../src/sn/Hyphenation';
 
 import {Rectangle} from 'pixi.js';
 import {GlobalRegistrator} from '@happy-dom/global-registrator';
-
-GlobalRegistrator.register();
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+if (! globalThis.document) GlobalRegistrator.register();
 
 let	hyph	: Hyphenation;
 	const sx = 11;
