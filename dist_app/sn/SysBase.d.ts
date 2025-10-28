@@ -1,8 +1,8 @@
 import { IHTag, ITag } from './Grammar';
-import { IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, T_SysBaseLoadedParams, HPlugin } from './CmnInterface';
+import { IVariable, ISysBase, T_Data4Vari, ILayerFactory, IMain, IFire, IFncHook, T_SysBaseLoadedParams, HPlugin, T_H_TMP_DATA } from './CmnInterface';
 import { EventListenerCtn } from './EventListenerCtn';
 import { IConfig, IFn2Path, ISysRoots, HSysBaseArg } from './ConfigBase';
-import { Application } from 'pixi.js';
+import { Application, Loader } from 'pixi.js';
 export declare class SysBase implements ISysRoots, ISysBase {
     #private;
     readonly hPlg: HPlugin;
@@ -18,19 +18,15 @@ export declare class SysBase implements ISysRoots, ISysBase {
     resolution: number;
     protected cfg: IConfig;
     loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
-    protected readonly data: {
-        sys: {};
-        mark: {};
-        kidoku: {};
-    };
-    initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari) => void): Promise<void>;
+    protected readonly data: T_Data4Vari;
+    initVal(_data: T_Data4Vari, _hTmp: T_H_TMP_DATA, _comp: (data: T_Data4Vari) => void): Promise<void>;
     flush(): void;
     protected flushSub(): void;
+    use4ViteElectron(_src: string, _path: string, _ld: Loader, _main: IMain): boolean;
     protected run(): Promise<void>;
     protected val: IVariable;
     protected main: IMain;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
-    protected static readonly VALNM_CFG_NS = "const.sn.cfg.ns";
     get cvsWidth(): number;
     get cvsHeight(): number;
     get cvsScale(): number;
@@ -58,8 +54,9 @@ export declare class SysBase implements ISysRoots, ISysBase {
     protected readonly navigate_to: ITag;
     protected readonly title: ITag;
     protected titleSub(_txt: string): void;
+    static tglFlscr_HdrErr(e: unknown): void;
     static modKey(e: KeyboardEvent): string;
-    protected tglFlscr_sub(): void;
+    protected tglFlscr_sub(): Promise<void>;
     protected readonly update_check: ITag;
     protected readonly window: ITag;
     setTitleInfo(txt: string): void;
@@ -75,7 +72,7 @@ export declare class SysBase implements ISysRoots, ISysBase {
     get path_userdata(): string;
     capturePage(_path: string, _w: number, _h: number, _fnc: () => void): void;
     savePic(_path: string, _data_url: string): Promise<void>;
-    ensureFileSync(_path: string): Promise<void>;
+    ensureFile(_path: string): Promise<void>;
     appendFile(_path: string, _data: string): Promise<void>;
     outputFile(_path: string, _data: string): Promise<void>;
 }

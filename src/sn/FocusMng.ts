@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2020-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -10,11 +11,11 @@ import {EventListenerCtn} from './EventListenerCtn';
 
 import {Container} from 'pixi.js';
 
-interface IFocusBtn {
+type IFocusBtn = {
 	btn	: Container | HTMLElement;
 	on	: ()=> boolean;
 	off	: ()=> void;
-};
+}
 
 export class FocusMng {
 	#aBtn	: IFocusBtn[]	= [];
@@ -36,7 +37,7 @@ export class FocusMng {
 				this.#idx = -1;
 			});
 
-			this.#aBtn.push({btn: cmp, on: on, off: off});
+			this.#aBtn.push({btn: cmp, on, off});
 			return;
 		}
 
@@ -47,16 +48,17 @@ export class FocusMng {
 			this.#idx = -1;
 		});
 
-		let fnc = (_: KeyboardEvent)=> {};
+		let fnc = (_: KeyboardEvent)=> { /* empty */ };
 		let fnc4EnterSwitch: (e: KeyboardEvent)=> boolean
-		= (cmp.localName === 'button' || cmp.localName === 'a')
+		= cmp.localName === 'button' || cmp.localName === 'a'
 			? e=> ! e.isTrusted && e.key === 'Enter'
 			: e=> e.key === 'Enter';
 			// Enterで全画面スイッチは切り替わるが画面が全画面化しない対応
-		const inp = cmp as HTMLInputElement;
+		const inp = <HTMLInputElement>cmp;
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		switch (inp.type ?? '') {
 	//	switch (btn.getAttribute('type') ?? '') {	// textareaで''になる
-			case 'checkbox':	fnc = ()=> inp.checked = ! inp.checked;	break;
+			case 'checkbox':	fnc = ()=> {inp.checked = ! inp.checked};	break;
 			case '':
 				// ラジオボタン
 				if (cmp.querySelectorAll('input[type]').length > 0) {
@@ -96,7 +98,7 @@ export class FocusMng {
 		// spanなどでもフォーカスを持つように
 		if (! cmp.hasAttribute('tabindex')) cmp.tabIndex = 0;
 
-		this.#aBtn.push({btn: cmp, on: on, off: off});
+		this.#aBtn.push({btn: cmp, on, off});
 	}
 	remove(cmp: Container | HTMLElement) {
 		const idx = this.#aBtn.findIndex(b=> b.btn === cmp);
@@ -106,12 +108,12 @@ export class FocusMng {
 		else if (idx <= this.#idx) --this.#idx;	// -1 でもOK
 	}
 	#radio_next(elm: HTMLElement, key: string) {
-		const op = elm.querySelectorAll('input[type]') as NodeListOf<HTMLInputElement>;
+		const op = elm.querySelectorAll('input[type]');
 		const len = op.length;
 		for (let i=0; i<len; ++i) {
-			if (! op[i]!.checked) continue;
+			if (! (<HTMLInputElement>op[i]!).checked) continue;
 
-			op[(i +len +(key === 'ArrowUp' ?-1 :1)) %len]!.checked = true;
+			(<HTMLInputElement>op[(i +len +(key === 'ArrowUp' ?-1 :1)) %len]!).checked = true;
 			break;
 		}
 	}
@@ -146,8 +148,8 @@ export class FocusMng {
 		this.#idx = -1;
 	}
 	readonly	#logFocus = CmnLib.debugLog
-		? (i: number)=> console.log(`👾 <FocusMng idx:${i} btn:%o`, this.#aBtn[i]!.btn)
-		: ()=> {};
+		? (i: number)=> console.log(`👾 <FocusMng idx:${String(i)} btn:%o`, this.#aBtn[i]!.btn)
+		: ()=> { /* empty */ };
 	getFocus(): Container | HTMLElement | null {
 		if (this.#idx < 0) return null;
 
@@ -161,6 +163,7 @@ export class FocusMng {
 	#allOff() {
 		for (let i=this.#aBtn.length -1; i>=0; --i) {
 			const b = this.#aBtn[i]!;
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			if (! (b.btn instanceof Container) || b.btn.parent) b.off();
 			else this.#aBtn.splice(i, 1);
 		}

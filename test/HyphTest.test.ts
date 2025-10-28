@@ -30,6 +30,7 @@ beforeEach(()=> {
 	hyph = new Hyphenation;
 });
 
+
 //MARK: ぶら下げなし
 it.each(<{
 	a	: IChRect[];
@@ -156,7 +157,7 @@ it.each(<{
 		{ch: '〉',	elm, rect: new Rectangle(sx -1 *w, sy +0 *h, w, h)},
 	], p_i: 2, p_ch: 'ル', i: 4, ch: '〉', ret: {cont: false, ins: 1 +1,},},
 
-])(`$ret`, ({a, i, ch, p_i, p_ch, ret})=> {
+])('$ret', ({a, i, ch, p_i, p_ch, ret})=> {
 	expect(hyph.hyph_alg(a, p_i, p_ch, i, ch)).toStrictEqual(ret);
 });
 
@@ -455,7 +456,7 @@ it.each(<{
 	], p_i: 6, p_ch: 'の', i: 7, ch: '春', ret: {cont: false, ins: 2 +1,},},
 
 
-])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch: _, p_i, p_ch, ret})=> {
+])('p_i:$p_i:$p_ch i:$i:$ch $ret', ({a, i, ch: _, p_i, p_ch, ret})=> {
 	expect(hyph.hyph_alg_bura(a, p_i, p_ch, i)).toStrictEqual(ret);
 });
 
@@ -611,7 +612,7 @@ it.each(<{
 	], p_i: 6, p_ch: '末', i: 7, ch: '頭', ret: {cont: false, ins: 1 +1,},},
 */
 
-])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch: _, p_i, p_ch, ret})=> {
+])('p_i:$p_i:$p_ch i:$i:$ch $ret', ({a, i, ch: _, p_i, p_ch, ret})=> {
 	expect(hyph.hyph_alg_bura(a, p_i, p_ch, i)).toStrictEqual(ret);
 });
 
@@ -724,7 +725,7 @@ it.each(<{
 		{ch: '☀',	elm, rect: new Rectangle(sx -1 *w, sy +3 *h, w, h)},
 	], p_i: 3, p_ch: '春', i: 4, ch: 'ゞ', ret: {cont: false, ins: 1 +1,},},
 
-])(`p_i:$p_i:$p_ch i:$i:$ch $ret`, ({a, i, ch: _, p_i, p_ch, ret})=> {
+])('p_i:$p_i:$p_ch i:$i:$ch $ret', ({a, i, ch: _, p_i, p_ch, ret})=> {
 	hyph.lay({kinsoku_bura: 'ぁぃぅぇぉ'});
 	expect(hyph.ぶら下げ).toBe('ぁぃぅぇぉ');
 
@@ -740,8 +741,7 @@ it('ぶら下げと行末禁則の重複1', ()=> {	// 禁則の競合（ぶら�
 	expect(hyph.行末禁則).toBe('【');
 
 	expect(()=> hyph.lay({kinsoku_eol: '】'}))
-	.toThrow(`禁則の競合があります。文字 】 がぶら下げ と 行末禁則 の両方に含まれます`);
-	
+	.toThrow('禁則の競合があります。文字 】 がぶら下げ と 行末禁則 の両方に含まれます');
 });
 it('ぶら下げと行末禁則の重複2', ()=> {	// 禁則の競合（ぶら下げ と 行末禁則 の両方に含まれる文字があってはならない）
 	hyph.lay({kinsoku_dns: '☂'});
@@ -751,8 +751,7 @@ it('ぶら下げと行末禁則の重複2', ()=> {	// 禁則の競合（ぶら�
 	expect(hyph.ぶら下げ).toBe('】');
 
 	expect(()=> hyph.lay({kinsoku_bura: '【'}))
-	.toThrow(`禁則の競合があります。文字 【 がぶら下げ と 行末禁則 の両方に含まれます`);
-	
+	.toThrow('禁則の競合があります。文字 【 がぶら下げ と 行末禁則 の両方に含まれます');
 });
 
 it('ぶら下げと分割禁止の重複1', ()=> {	// 禁則の競合（ぶら下げ と 分割禁止 の両方に含まれる文字があってはならない）
@@ -760,14 +759,12 @@ it('ぶら下げと分割禁止の重複1', ()=> {	// 禁則の競合（ぶら�
 	expect(hyph.分割禁止).toBe('☀');
 
 	expect(()=> hyph.lay({kinsoku_dns: '】'}))
-	.toThrow(`禁則の競合があります。文字 】 がぶら下げ と 分割禁止 の両方に含まれます`);
-	
+	.toThrow('禁則の競合があります。文字 】 がぶら下げ と 分割禁止 の両方に含まれます');
 });
 it('ぶら下げと分割禁止の重複2', ()=> {	// 禁則の競合（ぶら下げ と 分割禁止 の両方に含まれる文字があってはならない）
 	hyph.lay({kinsoku_bura: '☂'});
 	expect(hyph.ぶら下げ).toBe('☂');
 
 	expect(()=> hyph.lay({kinsoku_bura: '─'}))
-	.toThrow(`禁則の競合があります。文字 ─ がぶら下げ と 分割禁止 の両方に含まれます`);
-	
+	.toThrow('禁則の競合があります。文字 ─ がぶら下げ と 分割禁止 の両方に含まれます');
 });

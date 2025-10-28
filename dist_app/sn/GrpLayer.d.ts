@@ -1,4 +1,4 @@
-import { Layer } from './Layer';
+import { Layer, T_RecordPlayBack_lay } from './Layer';
 import { HArg } from './Grammar';
 import { IMain, IVariable } from './CmnInterface';
 import { Config } from './Config';
@@ -6,6 +6,10 @@ import { SysBase } from './SysBase';
 import { SoundMng } from './SoundMng';
 import { IMakeDesignCast } from './LayerMng';
 import { Application } from 'pixi.js';
+export type T_RP_layGrp = T_RecordPlayBack_lay & {
+    sBkFn: string;
+    sBkFace: string;
+};
 export declare class GrpLayer extends Layer {
     #private;
     static init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: IVariable): void;
@@ -36,7 +40,7 @@ export declare class GrpLayer extends Layer {
         visible: boolean;
         aFltHArg: HArg[];
     };
-    playback(hLay: any, aPrm: Promise<void>[]): void;
+    playback(hLay: T_RP_layGrp, aPrm: Promise<void>[]): void;
     makeDesignCast(gdc: IMakeDesignCast): void;
     cvsResize(): void;
     showDesignCast(): void;

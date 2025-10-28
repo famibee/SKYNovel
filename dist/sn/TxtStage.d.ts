@@ -3,9 +3,10 @@ import { HArg } from './Grammar';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';
+import { T_RP_Hyphenation } from './Hyphenation';
 import { ScriptIterator } from './ScriptIterator';
 import { Container, Sprite, Renderer, Application } from 'pixi.js';
-interface IInfTxLay {
+export type T_InfTxLay = {
     fontsize: number;
     $width: number;
     $height: number;
@@ -13,7 +14,32 @@ interface IInfTxLay {
     pad_right: number;
     pad_top: number;
     pad_bottom: number;
-}
+};
+export type T_RP_layTxtStage = {
+    infTL: T_InfTxLay;
+    cssText: string;
+    left: number;
+    ch_filter: any[];
+    fi_easing: string;
+    fo_easing: string;
+    hyph: T_RP_Hyphenation;
+};
+type T_ChInOutStyle = {
+    wait: number;
+    alpha: number;
+    x: string;
+    y: string;
+    width?: string;
+    height?: string;
+    nx: number;
+    ny: number;
+    scale_x: number;
+    scale_y: number;
+    rotate: number;
+    join: boolean;
+    ease: string;
+    delay?: number;
+};
 export declare class TxtStage extends Container {
     #private;
     private readonly ctn;
@@ -27,42 +53,30 @@ export declare class TxtStage extends Container {
     lay(hArg: HArg): void;
     cvsResize(): void;
     get tategaki(): boolean;
-    get infTL(): IInfTxLay;
+    get infTL(): T_InfTxLay;
     get getWidth(): number;
     get getHeight(): number;
     setMySize(width: number, height: number): void;
     goTxt(aSpan: string[], instant: boolean): void;
     skipChIn(): boolean;
     static initChStyle(): void;
-    static getChInStyle(name: string): any;
-    static ch_in_style(hArg: HArg): any;
-    static getChOutStyle(name: string): {
-        wait: number;
-        alpha: number;
-        x: string;
-        y: string;
-        nx: number;
-        ny: number;
-        scale_x: number;
-        scale_y: number;
-        rotate: number;
-        join: boolean;
-        ease: string;
-    } | undefined;
-    static ch_out_style(hArg: HArg): any;
+    static getChInStyle(name: string): T_ChInOutStyle | undefined;
+    static ch_in_style(hArg: HArg): T_ChInOutStyle;
+    static getChOutStyle(name: string): T_ChInOutStyle | undefined;
+    static ch_out_style(hArg: HArg): T_ChInOutStyle;
     dispBreak(o: HArg): void;
     static delBreak(): void;
     reNew(): TxtStage;
     record(): {
-        infTL: IInfTxLay;
+        infTL: T_InfTxLay;
         cssText: string;
         left: number;
         ch_filter: any[] | undefined;
         fi_easing: string;
         fo_easing: string;
-        hyph: any;
+        hyph: T_RP_Hyphenation;
     };
-    playback(hLay: any): void;
+    playback(hLay: T_RP_layTxtStage): void;
     get cssText(): string;
     set cssText(ct: string);
     snapshot(rnd: Renderer, re: () => void): void;

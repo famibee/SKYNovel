@@ -1,3 +1,6 @@
+/* eslint-disable no-irregular-whitespace */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2024-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -10,11 +13,24 @@ import type {HArg} from './Grammar';
 
 import type {Rectangle} from 'pixi.js';
 
-export interface IChRect {
+
+export type IChRect = {
 	ch		: string;
 	rect	: Rectangle;
 	elm		: HTMLElement;
 }
+
+export type T_RP_Hyphenation = {
+	行頭禁則?		: string;
+	行末禁則?		: string;
+	分割禁止?		: string;
+	ぶら下げ?		: string;
+	break_fixed		: boolean;
+	break_fixed_left: number;
+	break_fixed_top	: number;
+	bura			: boolean;
+}
+
 
 const def行頭禁則	= '、。，．）］｝〉」』】〕”〟ぁぃぅぇぉっゃゅょゎァィゥェォッャュョヮヵヶ！？!?‼⁉・ーゝゞヽヾ々';
 const def行末禁則	= '［（｛〈「『【〔“〝';
@@ -119,25 +135,25 @@ export class Hyphenation {
 		to.bura				= this.bura;
 	}
 		#genKinsoku(s行頭禁則: string, s行末禁則: string, s分割禁止: string, sぶら下げ: string) {
-			if (this.#s行頭禁則	!= s行頭禁則) {
+			if (this.#s行頭禁則	!== s行頭禁則) {
 				this.#s行頭禁則	= s行頭禁則;
 				this.#reg行頭禁則 = new RegExp(`[${s行頭禁則}]`);
 			}
-			if (this.#s行末禁則	!= s行末禁則) {
+			if (this.#s行末禁則	!== s行末禁則) {
 				this.#s行末禁則	= s行末禁則;
 				this.#reg行末禁則 = new RegExp(`[${s行末禁則}]`);
 			}
-			if (this.#s分割禁止	!= s分割禁止) {
+			if (this.#s分割禁止	!== s分割禁止) {
 				this.#s分割禁止	= s分割禁止;
 				this.#reg分割禁止 = new RegExp(`[${s分割禁止}]`);
 			}
-			if (this.#sぶら下げ	!= sぶら下げ) {
+			if (this.#sぶら下げ	!== sぶら下げ) {
 				this.#sぶら下げ	= sぶら下げ;
 				this.#regぶら下げ = new RegExp(`[${sぶら下げ}]`);
 			}
 		}
 	record() {
-		const o: any = {
+		const o: T_RP_Hyphenation = {
 			break_fixed			: this.break_fixed,
 			break_fixed_left	: this.break_fixed_left,
 			break_fixed_top		: this.break_fixed_top,
@@ -150,7 +166,7 @@ export class Hyphenation {
 			// デフォルト値と同じならJSONで省略
 		return o;
 	}
-	playback(hLay: any) {
+	playback(hLay?: T_RP_Hyphenation) {
 		if (! hLay) return;		// 途中追加なので
 
 		this.#genKinsoku(
@@ -197,11 +213,13 @@ export class Hyphenation {
 //console.log(`🎴 sl_xy:${sl_xy.toFixed(2)} xy:${xy.toFixed(2)} i:${i} ch:${ch}: rect:(${rect.left.toFixed(2)}, ${rect.top.toFixed(2)}, ${rect.width.toFixed(2)}, ${rect.height.toFixed(2)})`);
 				if (sl_xy <= xy	// 【 < 】では[tcy]二文字目を誤判定する
 				// [r]による改行後は追い出し処理をしないように
-				|| (elm.previousElementSibling?.tagName === 'SPAN'
-				&&	elm.previousElementSibling?.innerHTML.includes('<br>'))
+				|| elm.previousElementSibling?.tagName === 'SPAN'
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+				&&	elm.previousElementSibling?.innerHTML.includes('<br>')
 				// <span class="offrec"> 〜 </span> 外し
-				|| (elm.parentElement?.previousElementSibling?.tagName === 'SPAN'
-				&&	elm.parentElement?.previousElementSibling?.innerHTML.includes('<br>'))) {
+				|| elm.parentElement?.previousElementSibling?.tagName === 'SPAN'
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+				&&	elm.parentElement?.previousElementSibling?.innerHTML.includes('<br>')) {
 					sl_xy = xy;
 					if (! this.break_fixed) {
 						this.break_fixed_left = rect.x;
@@ -211,9 +229,9 @@ export class Hyphenation {
 				}
 /*
 	// [r]などの改行はこう。TxtLayer.#tagCh_sub()により <span> に入れられる
-	<span class=​"sn_ch" style=​"display:​ inline;​animation-delay:​ 10ms;​">​
+	<span class=​"sn_ch" style=​"display:​ inline;​animation-delay:​ 10ms;​">
 		<br>
-	​</span>​
+	​</span>
 
 	// 上記が下記に囲まれている場合もある。previousElementSibling 使用時は注意
 	<span class="offrec"> 〜 </span>
@@ -271,11 +289,11 @@ export class Hyphenation {
 			const {elm} = a[p_i]!;
 			if (elm.tagName !== 'RT') return p_i -(
 				elm.style.textCombineUpright === 'all'
-				? Array.from(elm.textContent ?? '').length -1
+				? Array.from(elm.textContent).length -1
 				: 0
 			);
 
-			return p_i -Array.from(elm.textContent ?? '').length;
+			return p_i -Array.from(elm.textContent).length;
 				// サロゲートペア対策
 		}
 
@@ -321,17 +339,18 @@ export class Hyphenation {
 		a	: IChRect[],
 		p_i	: number,
 		p_ch: string,
-		i	: number,	// i >= 2
+		ii	: number,	// i >= 2
 		ch	: string,
 	): {cont: boolean, ins: number} {
 		// 追い出し走査
-		if (this.#reg行末禁則.test(p_ch)) {}	// 一つ前
+		let i = ii;
+		if (this.#reg行末禁則.test(p_ch)) { /* empty */ }	// 一つ前
 		else if (this.#reg行頭禁則.test(ch)) {	//（現在地 -> 前方走査）
 			while ((i = this.#i2pi(a, i)) >= 0) {
 				if (! this.#reg行頭禁則.test(a[i]!.ch)) break;// 行頭禁則はスキップ
 			}
 		}
-		else if (p_ch === ch && this.#reg分割禁止.test(p_ch)) {}// 一つ前＆現在地
+		else if (p_ch === ch && this.#reg分割禁止.test(p_ch)) { /* empty */ }// 一つ前＆現在地
 		else return {cont: true, ins: i +1};	// 追い出しなし
 
 		// 追い出しによる新行末二次判定（一つ前 -> 前方走査）

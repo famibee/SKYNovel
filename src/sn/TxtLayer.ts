@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -5,11 +7,11 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Layer} from './Layer';
+import {Layer, type T_RecordPlayBack_lay} from './Layer';
 import {uint, CmnLib, type IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
 import type {IHTag, HArg} from './Grammar';
-import type {IVariable, IPutCh, IRecorder} from './CmnInterface';
-import {TxtStage} from './TxtStage';
+import type {IVariable, IPutCh} from './CmnInterface';
+import {type T_RP_layTxtStage, TxtStage} from './TxtStage';
 import type {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {SpritesMng} from './SpritesMng';
@@ -20,28 +22,74 @@ import {DebugMng} from './DebugMng';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {Reading} from './Reading';
 import type {ScriptIterator} from './ScriptIterator';
+import type {T_LOG} from './Log';
 
 import {Sprite, DisplayObject, Graphics, Container, Renderer, Application} from 'pixi.js';
+
+
+export type T_RP_layTxt = T_RecordPlayBack_lay & {
+	enabled		: boolean;
+	r_cssText	: string;
+	r_align		: string;
+	txs			: T_RP_layTxtStage;
+	b_alpha		: number;
+	b_alpha_isfixed	: boolean;
+	b_do		: string;
+	b_pic		: string;
+	b_color		: string;
+	btns		: string[];
+}
+
+export type T_cmdTxt_JSON = {
+	id?			: string;
+
+	':link'?	: string;
+	text?		: string;	// 4 ch
+	wait?		: string;	// 4 ch
+		// JSON.stringify は数字でも文字にする（HArg と相違）
+	record?		: boolean;	// 4 ch
+
+	pic?		: string;	// 4 graph
+
+	fn?			: string;	// 4 link
+	label?		: string;	// 4 link
+	url?		: string;	// 4 link
+
+	style?		: string;	// 4 tcy, link
+	r_style?	: string;
+	style_hover		: string;	// 4 link
+	style_clicked	: string;	// 4 link
+	r_align?	: string;	// 4 pushSpan(), mergePushSpan()
+
+	t?	: string;	// 4 tcy
+	r?	: string;	// 4 tcy
+
+	in_style?	: string;	// 4 set_ch_in
+	out_style?	: string;	// 4 set_ch_out
+
+
+	delay?	: number;	// JSON 受け渡し後なので number でもいい
+}
 
 
 export class TxtLayer extends Layer {
 	static	#cfg		: Config;
 	static	#val		: IVariable;
 	static	#isPageFore	: (me: TxtLayer)=> boolean;
-	static	#recorder	: IRecorder;
-	static	init(cfg: Config, hTag: IHTag, val: IVariable, recorder: IRecorder, isPageFore: (me: TxtLayer)=> boolean, appPixi: Application): void {
-		TxtLayer.#cfg = cfg;
+	static	#log		: T_LOG;
+	static	init(cfg: Config, hTag: IHTag, val: IVariable, log: T_LOG, isPageFore: (me: TxtLayer)=> boolean, appPixi: Application): void {
+		this.#cfg = cfg;
 		TxtStage.init(cfg, appPixi);
-		TxtLayer.#val = val;
-		TxtLayer.#recorder = recorder;
-		TxtLayer.#isPageFore = isPageFore;
+		this.#val = val;
+		this.#log = log;
+		this.#isPageFore = isPageFore;
 
-		val.setDoRecProc(TxtLayer.chgDoRec);
+		val.setDoRecProc(doRec=> this.chgDoRec(doRec));
 
-		hTag.autowc			= o=> TxtLayer.#autowc(o);	// 文字を追加する
+		hTag.autowc			= o=> this.#autowc(o);	// 文字を追加する
 		hTag.autowc({enabled: false, text: '', time: 0});
-		hTag.ch_in_style	= o=> TxtLayer.#ch_in_style(o);	// 文字出現演出
-		hTag.ch_out_style	= o=> TxtLayer.#ch_out_style(o);	// 文字消去演出
+		hTag.ch_in_style	= o=> this.#ch_in_style(o);	// 文字出現演出
+		hTag.ch_out_style	= o=> this.#ch_out_style(o);	// 文字消去演出
 
 		// ギャラリーリロード用初期化
 		TxtStage.initChStyle();
@@ -52,7 +100,7 @@ export class TxtLayer extends Layer {
 			.flatMap(o=> Object.values(o).map(v=> `
 @font-face {
 	font-family: '${v}';
-	src: url('${this.#cfg.searchPath(v, SEARCH_PATH_ARG_EXT.FONT)}');
+	src: url('${this.#cfg.searchPath(String(v), SEARCH_PATH_ARG_EXT.FONT)}');
 }
 `)).join('')
 
@@ -71,7 +119,7 @@ export class TxtLayer extends Layer {
 `	// 「sn_ch」と「sn_ch_in_〜」の中身が重複しているが、これは必須
 		);
 
-		TxtLayer.#ch_in_style({
+		this.#ch_in_style({
 			name	: 'default',
 			wait	: 500,
 			alpha	: 0,
@@ -83,7 +131,7 @@ export class TxtLayer extends Layer {
 			join	: true,
 			ease	: 'ease-out',
 		});
-		TxtLayer.#ch_out_style({
+		this.#ch_out_style({
 			name	: 'default',
 			wait	: 0,
 			alpha	: 0,
@@ -148,8 +196,8 @@ export class TxtLayer extends Layer {
 	static	#evtMng	: IEvtMng;
 	static	#sys	: SysBase;
 	static setEvtMng(evtMng: IEvtMng, sys: SysBase, scrItr: ScriptIterator) {
-		TxtLayer.#evtMng = evtMng;
-		TxtLayer.#sys = sys;
+		this.#evtMng = evtMng;
+		this.#sys = sys;
 		TxtStage.setEvtMng(evtMng, scrItr);
 	}
 
@@ -157,25 +205,26 @@ export class TxtLayer extends Layer {
 	static #doAutoWc	= false;
 	static #hAutoWc	: {[ch: string]: number}	= {};
 	static #autowc(hArg: HArg) {
-		TxtLayer.#doAutoWc = argChk_Boolean(hArg, 'enabled', TxtLayer.#doAutoWc);
-		TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.enabled', TxtLayer.#doAutoWc);
+		this.#doAutoWc = argChk_Boolean(hArg, 'enabled', this.#doAutoWc);
+		this.#val.setVal_Nochk('save', 'const.sn.autowc.enabled', this.#doAutoWc);
 
 		const {text} = hArg;
-		if (('text' in hArg) !== ('time' in hArg)) throw '[autowc] textとtimeは同時指定必須です';
-		TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.text', text);
+		if ('text' in hArg !== 'time' in hArg) throw '[autowc] textとtimeは同時指定必須です';
+		this.#val.setVal_Nochk('save', 'const.sn.autowc.text', text);
 		if (! text) {
-			TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.time', '');
+			this.#val.setVal_Nochk('save', 'const.sn.autowc.time', '');
 			return false;
 		}
 
 		const len = text.length;
-		if (TxtLayer.#doAutoWc && len === 0) throw '[autowc] enabled === false かつ text === "" は許されません';
+		if (this.#doAutoWc && len === 0) throw '[autowc] enabled === false かつ text === "" は許されません';
 
 		const a = String(hArg.time).split(',');
 		if (a.length !== len) throw '[autowc] text文字数とtimeに記述された待ち時間（コンマ区切り）は同数にして下さい';
-		TxtLayer.#hAutoWc = {};	// 毎回クリアを仕様とする
-		for (let i=0; i<len; ++i) TxtLayer.#hAutoWc[text[i]!] = uint(a[i]);
-		TxtLayer.#val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
+		this.#hAutoWc = {};	// 毎回クリアを仕様とする
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		for (let i=0; i<len; ++i) this.#hAutoWc[text[i]!] = uint(a[i]);
+		this.#val.setVal_Nochk('save', 'const.sn.autowc.time', hArg.time);
 
 		return false;
 	}
@@ -204,7 +253,7 @@ export class TxtLayer extends Layer {
 		'padding-bottom'	: 0,
 	};
 
-	readonly	#cntBtn: Container<Button>	= new Container;
+	readonly	#cntBtn	= new Container<Button>;
 
 	constructor() {
 		super();
@@ -222,14 +271,14 @@ export class TxtLayer extends Layer {
 	override destroy() {
 		if (this.#b_do) {this.ctn.removeChild(this.#b_do).destroy(); this.#b_do = undefined}
 
-		TxtLayer.#recorder.recPagebreak();
+		TxtLayer.#log.pagebreak();
 		this.#txs.destroy();
 	}
 	static	destroy() {
-		TxtLayer.#doAutoWc = false;
-		TxtLayer.#hAutoWc = {};
+		this.#doAutoWc = false;
+		this.#hAutoWc = {};
 
-		TxtLayer.#rec = tx=> tx;
+		this.#rec = tx=> tx;
 	}
 	override set name(nm: string) {this.name_ = nm; this.#txs.name = nm}
 	override get name() {return this.name_}	// getは継承しないらしい
@@ -260,6 +309,7 @@ export class TxtLayer extends Layer {
 		: this.#txs.tategaki
 			? v=> `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
 			: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
+		// eslint-disable-next-line @typescript-eslint/unbound-method
 		if (CmnLib.isFirefox) this.#mkStyle_r_align = this.#mkStyle_r_align4ff;
 
 		if ('r_style' in hArg) {
@@ -269,7 +319,8 @@ export class TxtLayer extends Layer {
 				const len = cln.style.length;
 				const s = this.#htmRb.style;
 				for (let i=0; i<len; ++i) {
-					const key: any = cln.style[i];
+					// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+					const key = <any>cln.style[i];
 					if (key in TxtLayer.#hWarnR_Style) {
 						DebugMng.myTrace(`${key}は指定できません`, 'W');
 						continue;
@@ -294,7 +345,7 @@ export class TxtLayer extends Layer {
 		if (ret) Reading.beginProc(RPN_TXT_LAY);
 		return ret;
 	}
-	#set_ch_in(hArg: HArg) {
+	#set_ch_in(hArg: T_cmdTxt_JSON | HArg) {
 		const {in_style} = hArg;
 		if (! in_style) return;
 		const cis = TxtStage.getChInStyle(in_style);
@@ -308,7 +359,7 @@ export class TxtLayer extends Layer {
 	override get	width() {return this.#txs.getWidth}
 	override get	height() {return this.#txs.getHeight}
 
-	#set_ch_out(hArg: HArg) {
+	#set_ch_out(hArg: T_cmdTxt_JSON | HArg) {
 		const {out_style} = hArg;
 		if (! out_style) return;
 		const cos = TxtStage.getChOutStyle(out_style);
@@ -347,7 +398,7 @@ export class TxtLayer extends Layer {
 				this.#sps = new SpritesMng(this.#b_pic, this.ctn, sp=> {
 					this.#b_do = sp;
 					sp.name = 'back(pic)';
-					sp.visible = (alpha > 0);
+					sp.visible = alpha > 0;
 					sp.alpha = alpha;
 					//CmnLib.adjustRetinaSize(this.b_pic, sp);
 					this.#txs.setMySize(sp.width, sp.height);
@@ -377,7 +428,7 @@ export class TxtLayer extends Layer {
 		}
 
 		if (this.#b_do) {
-			this.#b_do.visible = (alpha > 0);
+			this.#b_do.visible = alpha > 0;
 				// 透明の時は表示しない。こうしないと透明テキストレイヤ下のボタンが
 				// 押せなくなる（透明だが塗りがあるという扱いなので）
 			this.#b_do.alpha = alpha;
@@ -391,6 +442,7 @@ export class TxtLayer extends Layer {
 			? this.#b_alpha
 			: g_alpha * this.#b_alpha;
 		if (this.#b_do instanceof Graphics) {
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			if (this.#b_do) {
 				this.ctn.removeChild(this.#b_do);
 				this.#b_do.destroy();
@@ -405,7 +457,7 @@ export class TxtLayer extends Layer {
 			//cacheAsBitmap = true;	// これを有効にするとスナップショットが撮れない？？
 		}
 		if (this.#b_do) {
-			this.#b_do.visible = (alpha > 0);
+			this.#b_do.visible = alpha > 0;
 				// 透明の時は表示しない。こうしないと透明テキストレイヤ下のボタンが
 				// 押せなくなる（透明だが塗りがあるという扱いなので）
 			this.#b_do.alpha = alpha;
@@ -415,12 +467,14 @@ export class TxtLayer extends Layer {
 	#setFfs(hArg: HArg) {
 		if ('noffs' in hArg) {
 			this.#strNoFFS = hArg.noffs ?? '';
+			// eslint-disable-next-line no-irregular-whitespace
 			this.#regNoFFS = new RegExp(`[　${this.#strNoFFS}]`);
 		}
 		if (! ('ffs' in hArg)) return;
 
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		this.#ffs ??= '';
-		this.#fncFFSStyle = (this.#ffs === '')
+		this.#fncFFSStyle = this.#ffs === ''
 			? ()=> ''
 			: ch=> this.#regNoFFS.test(ch)
 				? ''
@@ -429,12 +483,13 @@ export class TxtLayer extends Layer {
 	#ffs	= '';
 	#fncFFSStyle	= (_ch: string)=> '';
 	#strNoFFS	= '';
+	// eslint-disable-next-line no-irregular-whitespace
 	#regNoFFS	= /[　]/;
 	// Safariが全体に「font-feature-settings」した後、特定文字の「font-feature-settings: initial;」を受け付けてくれないのでわざわざ一つずつ指定
 
 
 	static	chgDoRec(doRec: boolean) {
-		TxtLayer.#rec = doRec
+		this.#rec = doRec
 			? tx=> tx
 			: tx=> `<span class='offrec'>${tx}</span>`;
 				// 囲んだ領域は履歴で非表示
@@ -473,23 +528,23 @@ export class TxtLayer extends Layer {
 
 		let st = '';
 		switch (r_align) {
-			case 'left':	st = `ruby-align: start;`;	break;
-			case 'center':	st = `ruby-align: center;`;	break;
+			case 'left':	st = 'ruby-align: start;';	break;
+			case 'center':	st = 'ruby-align: center;';	break;
 			case 'right':	// エレガントにサポートできていない
-				st = `ruby-align: start;`;	break;
-			case 'justify':	st = `ruby-align: space-between;`;	break;
-			case '121':		st = `ruby-align: space-around;`;	break;
-			case 'even':
+				st = 'ruby-align: start;';	break;
+			case 'justify':	st = 'ruby-align: space-between;';	break;
+			case '121':		st = 'ruby-align: space-around;';	break;
+			case 'even':{
 				const ev = (len -rb.length) /(rb.length +1);
-				st = `ruby-align: space-between; `+
+				st = 'ruby-align: space-between; '+
 				(this.#txs.tategaki
 					? `padding-top: ${ev}em; padding-bottom: ${ev}em;`
 					: `padding-left: ${ev}em; padding-right: ${ev}em;`);
-				break;
-			case '1ruby':	st = `ruby-align: space-between; `+
+			}	break;
+			case '1ruby':	st = 'ruby-align: space-between; '+
 				(this.#txs.tategaki
-					? `padding-top: 1em; padding-bottom: 1em;`
-					: `padding-left: 1em; padding-right: 1em;`);
+					? 'padding-top: 1em; padding-bottom: 1em;'
+					: 'padding-left: 1em; padding-right: 1em;');
 				break;
 			default:		st = `text-align: ${r_align};`;
 		}
@@ -499,7 +554,8 @@ export class TxtLayer extends Layer {
 	tagCh(text: string): void {this.#rbSpl.putTxt(text)}
 	#needGoTxt = false;
 	get needGoTxt() {return this.#needGoTxt}
-	readonly	#putCh	: IPutCh = (ch, ruby)=> {
+	readonly	#putCh	: IPutCh = (ch, iruby)=> {
+		let ruby = iruby;
 		if (TxtLayer.#cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\`(${ch.charCodeAt(0).toString(16)}) ruby:\`${ruby}\` name:\`${this.name_}\``);
 
 		const a_ruby = ruby.split('｜');
@@ -539,37 +595,36 @@ export class TxtLayer extends Layer {
 				add_htm = this.#tagCh_sub(ch, a1, a0);
 				break;
 
-			case 'gotxt':{
+			case 'gotxt':
 				this.#popSpan();
 				if (this.#needGoTxt) {
-					if (this.isCur) TxtLayer.#recorder.recText(
+					if (this.isCur) TxtLayer.#log.recText(
 						this.#aSpan.join('')
 						.replace(/^<ruby>&emsp;<rt>&emsp;<\/rt><\/ruby>(<br\/>)+/, '')
 							// 前方の空行をtrim
-						.replaceAll(/style='(anim\S+ [^;]+;\s*)+/g, `style='`)
+						.replaceAll(/style='(anim\S+ [^;]+;\s*)+/g, 'style=\'')
 							// 2 matches (40 step, 205µs) https://regex101.com/r/u1H6v2/1
 						.replaceAll(/( style=''| data-(add|arg|cmd)='[^']+'|\n+|\t+)/g, '')
 							// 2 matches (94 step, 175µs) https://regex101.com/r/5DFUmv/1
-						.replaceAll(/class='sn_ch[^']+/g, `class='sn_ch`)
+						.replaceAll(/class='sn_ch[^']+/g, 'class=\'sn_ch')
 							// 不要情報削除
 							// 2 matches (28 step, 280µs) https://regex101.com/r/XhBbYo/1
-						.replaceAll(`display: none;`, '')	// 履歴情報可視化
-						.replaceAll(`class='offrec'`, `style='display: none;'`)
-							// 囲んだ領域は履歴で非表示
-					);
+						.replaceAll('display: none;', '')	// 履歴情報可視化
+						.replaceAll('class=\'offrec\'', 'style=\'display: none;\'')
+					);		// 囲んだ領域は履歴で非表示
 
 					this.#txs.goTxt(this.#aSpan, this.#cumDelay === 0);
 					this.#needGoTxt = false;
 					this.#cumDelay = 0;
 				}
 				else if (this.isCur) this.#txs.noticeCompTxt();
-			}	return;	// breakではない
+				return;	// breakではない
 
 			case 'add':{	// 文字幅を持たない汎用的な命令（必ずadd_closeすること）
-				const o = JSON.parse(a1);
+				const o = <T_cmdTxt_JSON>JSON.parse(a1);
 
 				const {style='', wait=null} = o;// wait=0にすると背景が最初から出る
-				const {cl, sty} = this.#o2domArg(true, wait);
+				const {cl, sty} = this.#o2domArg(true, wait ?uint(wait): null);
 				this.#aSpan.push(`<span${cl} style='${sty} display: inline; ${style}'>`);	// display: inline; がないと前の改行が改行しなくなる
 				delete o.style;	// 背景styleなどを[ch]で一塊とする
 				this.#pushSpan(o);
@@ -582,23 +637,29 @@ export class TxtLayer extends Layer {
 			case 'grp':	//	画像など 《grp｜{"id":"break","pic":"breakline"}》
 				this.#needGoTxt = true;
 			{
-				const o = JSON.parse(a1);
-				o.id ??= this.#aSpan.length;
-				if (o.id === 'break') {this.#txs.dispBreak(o); return}	// breakではない
+				const o = <T_cmdTxt_JSON>JSON.parse(a1);
+				// 直後の dispBreak() のため oを更新
+				o.id ??= String(this.#aSpan.length);
+				if (o.id === 'break') {
+					this.#txs.dispBreak(<HArg>o);
+					return;	// breakではない
+				}
 
 				this.#firstCh = false;
+				// 直後の JSON.stringify() のため oを更新
 				o.delay = this.#cumDelay;	// 画像のスライドインで使う
 				o.r ??= '';
 				o.style ??= '';
 				o.r_style ??= '';
-				const {cl, sty, lnk} = this.#o2domArg(true, o.wait);
+				const {r, wait=null, r_style} = o;
+				const {cl, sty, lnk} = this.#o2domArg(true, wait ?uint(wait): null);
 				add_htm = `<span${cl} style='${sty} ${o.style
 				}'><ruby><span data-cmd='grp' data-arg='${JSON.stringify(o)
 				}'${lnk} style='${sty} display: inline;'>&emsp;</span><rt${lnk}${
-					this.#mkStyle_r_align('　', o.r, this.#r_align,
+					this.#mkStyle_r_align('　', r, this.#r_align,
 					this.#htmRb.style.cssText	// この並びで上書きされていく
 					+ (this.#stkASpan.at(-1)?.o.r_style ?? '')
-					+ o.r_style)
+					+ r_style)
 				}>${o.r}</rt></ruby></span>`;
 			}
 				break;
@@ -607,10 +668,7 @@ export class TxtLayer extends Layer {
 				this.#firstCh = false;
 				this.#needGoTxt = true;
 			{
-				const {t, r='', wait=null, style='', r_style=''} = <{
-					t: string, r?: string, wait? :number,
-					style? :string, r_style? :string,
-				}>JSON.parse(a1);
+				const {t='', r='', wait=null, style='', r_style=''} = <T_cmdTxt_JSON>JSON.parse(a1);
 				if (TxtLayer.#val.doRecLog()) {
 					this.#page_text += ch +(ruby ?`《${ruby}》` :'');
 					this.#page_plain_text += t;
@@ -621,7 +679,7 @@ export class TxtLayer extends Layer {
 						// 英数字を全角に(Safariで縦中横ルビが半角文字だと、
 						// 選択矩形が横倒しになる不具合対策)
 					: r;
-				const {cl, sty, lnk} = this.#o2domArg(true, wait);
+				const {cl, sty, lnk} = this.#o2domArg(true, wait ?uint(wait): null);
 				add_htm = `<span${cl} style='${sty}${this.#fncFFSStyle(t)} ${style}'><ruby><span${lnk} style='${sty} display: inline; text-combine-upright: all;'>${t}</span><rt${lnk}${
 					this.#mkStyle_r_align(t, rb, this.#r_align,
 					this.#htmRb.style.cssText	// この並びで上書きされていく
@@ -637,15 +695,15 @@ export class TxtLayer extends Layer {
 
 			case 'span':
 				this.#needGoTxt = true;
-				this.#mergePushSpan(JSON.parse(a1));
+				this.#mergePushSpan(<T_cmdTxt_JSON>JSON.parse(a1));
 				return;	// breakではない
 
 			case 'link':
 				this.#needGoTxt = true;
 			{
-				const o = JSON.parse(a1);
-				o[':link'] = ` data-lnk='@'`;
-				const {cl, sty, curpos} = this.#o2domArg(false, o.wait);
+				const o = <T_cmdTxt_JSON>JSON.parse(a1);
+				o[':link'] = ' data-lnk=\'@\'';
+				const {cl, sty, curpos} = this.#o2domArg(false, o.wait ?uint(o.wait): null);
 				this.#aSpan.push(`<span${cl} style='${sty} display: inline; ${o.style ?? ''}' ${curpos} data-arg='${a1}'>`);
 					// display: inline; を削除するとルビもリンク背景に含まれる
 					// ただし当たり判定は文字・ルビ上のみ
@@ -692,14 +750,14 @@ export class TxtLayer extends Layer {
 		return `<span${cl} style='${sty} ${this.#fncFFSStyle(ch)}'${lnk}>${ht}</span>`;
 	}
 	#o2domArg(isAddWait: boolean, argWait: number | null, ch = '\n') {
-		const wait = this.#ch_in_join ?(argWait
+		const wait = this.#ch_in_join ?argWait
 			?? this.#stkASpan.at(0)?.o.wait	// 親要素
 			?? (TxtLayer.#doAutoWc	// ()は必要
 				? TxtLayer.#hAutoWc[ch.at(0) ?? ''] ?? 0
-				: LayerMng.msecChWait)) :0;
+				: LayerMng.msecChWait) :0;
 		if (TxtLayer.#evtMng.isSkipping) this.#cumDelay = 0;
-	//	else if (isAddWait && this.#ch_in_join) this.#cumDelay += Number(wait)*5;	// 出現視認テスト用
-		else if (isAddWait && this.#ch_in_join) this.#cumDelay += Number(wait);
+		else if (isAddWait && this.#ch_in_join) this.#cumDelay += uint(wait);
+			// ... += uint(wait)*5	// こうすると出現視認テストができる
 		const curpos = `data-add='{"ch_in_style":"${this.#$ch_in_style}", "ch_out_style":"${this.#$ch_out_style}"}'`;
 
 		return {
@@ -715,25 +773,20 @@ export class TxtLayer extends Layer {
 	#firstCh	= true;
 	#aSpan		: string[]	= [];
 	#stkASpan	: {
-		o		: {
-			style?		: string;
-			r_style?	: string;
-			':link'?	: string;
-			wait?		: number;
-		};
+		o		: T_cmdTxt_JSON;
 		r_align			: string;
 		ch_in_style		: string;
 		ch_out_style	: string;
 	}[] = [];
 
-	#pushSpan(o :any) {
+	#pushSpan(o :T_cmdTxt_JSON) {
 		this.#stkASpan.push({
 			o,
 			r_align			: this.#r_align,
 			ch_in_style		: this.#$ch_in_style,
 			ch_out_style	: this.#$ch_out_style,
 		});
-		if ('r_align' in o) this.#r_align = o.r_align;
+		if (o.r_align) this.#r_align = o.r_align;
 		this.#set_ch_in(o);
 		this.#set_ch_out(o);
 	}
@@ -745,14 +798,14 @@ export class TxtLayer extends Layer {
 		this.#set_ch_in({in_style: stk.ch_in_style});
 		this.#set_ch_out({out_style: stk.ch_out_style});
 	}
-	#mergePushSpan(o :any) {
+	#mergePushSpan(o :T_cmdTxt_JSON) {
 		const stk = this.#stkASpan.at(-1);
 		if (! stk) {this.#pushSpan(o); return}
 
 		stk.o = {...stk.o, ...o};
 		if (! o.style && ! o.r_style) {stk.o.style = ''; stk.o.r_style = ''}
 			// どちらも指定されてなければクリア
-		if ('r_align' in o) this.#r_align = o.r_align;
+		if (o.r_align) this.#r_align = o.r_align;
 		this.#set_ch_in(o);
 		this.#set_ch_out(o);
 	}
@@ -770,7 +823,7 @@ export class TxtLayer extends Layer {
 		this.#aSpan = [];
 		this.#page_text = '';
 		this.#page_plain_text = '';
-		TxtLayer.#recorder.recPagebreak();
+		TxtLayer.#log.pagebreak();
 	}
 	#page_text			= '';
 	#page_plain_text	= '';
@@ -781,14 +834,16 @@ export class TxtLayer extends Layer {
 	set enabled(e) {this.ctn.interactiveChildren = e}
 
 	readonly	addButton = (hArg: HArg)=> new Promise<void>(re=> {
+		// 直後の JSON.stringify() のため hArg を更新
 		hArg.key = `btn=[${this.#cntBtn.children.length}] `+ this.name_;
 		hArg[':id_tag'] = hArg.key.slice(0, -7);	// Design用
 		argChk_Boolean(hArg, 'hint_tate', this.#txs.tategaki);	// hint用
 		const btn = new Button(hArg, TxtLayer.#evtMng, ()=> re(), ()=> this.canFocus());
-		btn.name = JSON.stringify(hArg).replaceAll('"', "'");// playback時に使用
+		btn.name = JSON.stringify(hArg).replaceAll('"', '\'');// playback時に使用
 		this.#cntBtn.addChild(btn);
 	});
 	canFocus(): boolean {
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		return (this.ctn.interactiveChildren ?? false)
 		&& this.ctn.visible
 		&& TxtLayer.#isPageFore(this);
@@ -802,16 +857,16 @@ export class TxtLayer extends Layer {
 		// 上で呼ばれる this.#evtMng.escapeHint();	// Hintごとdestroyされるのを回避
 		for (const b of this.#cntBtn.removeChildren()) b.destroy();
 	}
-	override readonly record = ()=> {return <any>{...super.record(),
+	override readonly record = ()=> {return {...super.record(),
 		enabled	: this.enabled,
 
 		r_cssText	: this.#htmRb.style.cssText,
 		r_align		: this.#r_align,
 
 		// バック
-		b_do	: (this.#b_do === undefined)
+		b_do	: this.#b_do === undefined
 					? undefined
-					: (this.#b_do instanceof Sprite ?'Sprite' :'Graphics'),
+					: this.#b_do instanceof Sprite ?'Sprite' :'Graphics',
 		b_pic	: this.#b_pic,
 		b_color	: this.#b_color,
 		b_alpha	: this.#b_alpha,
@@ -823,7 +878,7 @@ export class TxtLayer extends Layer {
 
 		btns	: this.#cntBtn.children.map(b=> b.name),
 	}};
-	override playback(hLay: any, aPrm: Promise<void>[]): void {
+	override playback(hLay: T_RP_layTxt, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 
 		this.enabled	= hLay.enabled;
@@ -838,22 +893,19 @@ export class TxtLayer extends Layer {
 		this.#b_alpha			= hLay.b_alpha;
 		this.#b_alpha_isfixed	= hLay.b_alpha_isfixed;
 
-		aPrm = [
-			aPrm,
+		aPrm.push(
 			new Promise<void>(re=> {
-				const h: HArg = (hLay.b_do)
-					? (hLay.b_do === 'Sprite'
+				const h: HArg = hLay.b_do
+					? hLay.b_do === 'Sprite'
 						? {b_pic: hLay.b_pic}
-						: {b_color: hLay.b_color})
+						: {b_color: hLay.b_color}
 					: {b_pic: ''};
 				h.b_alpha = hLay.b_alpha;
 				h.b_alpha_isfixed = hLay.b_alpha_isfixed;
 				if (! this.#drawBack(h, isStop=> {if (isStop) re()})) re();
 			}),
-			(hLay.btns as string[]).map(b=> new Promise<void>(re=> {
-				this.addButton(JSON.parse(b.replaceAll(`'`, '"'))); re()
-			})),
-		].flat();
+			...hLay.btns.map(b=> this.addButton(<HArg>JSON.parse(b.replaceAll('\'', '"')))).flat(),
+		);
 	}
 
 	get cssText() {return this.#txs.cssText}
@@ -888,11 +940,9 @@ export class TxtLayer extends Layer {
 		}", "width":${this.#txs.getWidth}, "height":${this.#txs.getHeight
 		}, "pixi_obj":[${
 			this.ctn.children.map(e=> `{"class":"${
-				(e instanceof Sprite) ?'Sprite' :(
-					(e instanceof Graphics) ?'Graphics' :(
-						(e instanceof Container) ?'Container' :'?'
-					)
-				)
+				e instanceof Sprite ?'Sprite' :
+					e instanceof Graphics ?'Graphics' :
+						e instanceof Container ?'Container' :'?'
 			}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')
 		}], "button":[${
 			this.#cntBtn.children.map(b=> b.children[0]?.name ?? '{}').join(',')

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2023-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -15,14 +16,14 @@ import {CmnTween} from './CmnTween';
 import {Reading} from './Reading';
 
 import {Loader, LoaderResource} from 'pixi.js';
-import {sound, Sound, Options, filters} from '@pixi/sound';
+import {sound, Sound, type Options, filters} from '@pixi/sound';
 import {Tween, remove} from '@tweenjs/tween.js'
 
 class SndInf {
 	static	 #vol_mul_talking = 1;
 
 	stt		: ISndState;
-	loop	: boolean 	= false;
+	loop	= false;
 
 	readonly	#proc_id;
 	get procID() {return this.#proc_id}
@@ -35,7 +36,7 @@ class SndInf {
 			readonly	ret_ms	: number,
 	private	readonly	volume	: number,
 			readonly	pan		: number,
-			readonly	snd		: Sound,
+			readonly	snd		: Sound | null,
 	) {
 		this.stt = snd ?new SsPlaying(this) :new SsLoading;
 		this.#proc_id = Reading.procID;
@@ -48,21 +49,21 @@ class SndInf {
 		this.stt.onLoad(this);
 		if (this.pan !== 0) snd.filters = [new filters.StereoFilter(this.pan)];
 
-		this.setVol = vol=> snd.volume = vol;
+		this.setVol = vol=> {snd.volume = vol};
 		this.tw = ()=> new Tween(snd);
 		this.onPlayEnd = ()=> {this.stt.onPlayEnd(this.buf); this.#onStop()};
 		this.stop = ()=> {snd.stop(); this.#onStop()};
 		this.destroy = ()=> snd.destroy();
 
 		switch (this.buf) {		// セリフ再生中はBGM音量を絞る
-			case BUF_VOICE:
+			case BUF_VOICE:{
 				const v = Number(val.getVal('sys:sn.sound.BGM.vol_mul_talking') ?? 1);		// 歴史的経緯で ??
 				if (v === 1) break;
 
 				SndInf.#vol_mul_talking = v;
 				const b = hSndBuf[BUF_BGM];
 				if (b) b.setVol(this.volume * SndInf.#vol_mul_talking);
-				break;
+			}	break;
 
 			case BUF_BGM:
 				snd.volume = this.volume * SndInf.#vol_mul_talking;
@@ -70,7 +71,7 @@ class SndInf {
 		}
 	}
 		#onStop = ()=> {
-			this.#onStop = ()=> {};
+			this.#onStop = ()=> { /* empty */ };
 			if (SndInf.#vol_mul_talking === 1 || this.buf !== BUF_VOICE) return;
 
 			// ボリュームを戻す
@@ -79,11 +80,11 @@ class SndInf {
 			if (b) b.setVol(this.volume * SndInf.#vol_mul_talking);
 		}
 
-	setVol(_vol: number) {}
+	setVol(_vol: number) { /* empty */ }
 	tw(): Tween<Sound> | undefined {return undefined}
-	onPlayEnd() {}
-	stop() {}
-	destroy() {}
+	onPlayEnd() { /* empty */ }
+	stop() { /* empty */ }
+	destroy() { /* empty */ }
 }
 
 
@@ -95,7 +96,7 @@ let hSndBuf	: HSndBuf;
 
 let evtMng	: IEvtMng;
 
-export interface HSndBuf {[buf: string]: SndBuf}
+export type HSndBuf = {[buf: string]: SndBuf}
 export	const	BUF_BGM		= 'BGM';
 export	const	BUF_SE		= 'SE';
 		const	BUF_VOICE	= 'VOICE';
@@ -113,6 +114,7 @@ export class SndBuf {
 	}
 	static	setEvtMng($evtMng: IEvtMng) {evtMng = $evtMng}
 	static	delLoopPlay(buf: string): void {
+		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 		delete SndBuf.#hLP[buf];
 		const vn = 'const.sn.sound.'+ buf +'.';
 		val.setVal_Nochk('save', vn +'fn', '');
@@ -141,7 +143,9 @@ export class SndBuf {
 
 		if (buf1 in SndBuf.#hLP !== buf2 in SndBuf.#hLP) {	// 演算子の優先順位確認済
 			if (buf1 in SndBuf.#hLP)
+					// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 					{delete SndBuf.#hLP[buf1]; SndBuf.#hLP[buf2] = f1}
+			// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 			else	{delete SndBuf.#hLP[buf2]; SndBuf.#hLP[buf1] = f2}
 			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
 		}
@@ -179,7 +183,7 @@ export class SndBuf {
 		val.setVal_Nochk('save', vn +'fn', fn);
 		const savevol = SndBuf.getVol(hArg, 1);
 		val.setVal_Nochk('save', vn +'volume', savevol);// 目標音量（save:）
-		const volume = savevol * Number(val.getVal('sys:'+ vn +'volume', 1));
+		const volume = savevol * Number(val.getVal('sys:'+ vn +'volume', 1, true));
 
 		const loop = argChk_Boolean(hArg, 'loop', false);
 		if (loop) {
@@ -193,7 +197,7 @@ export class SndBuf {
 		val.setVal_Nochk('tmp', vn +'playing', true);
 		val.flush();
 
-		const snd = sound.find(fn);	// キャッシュにあるか
+		const snd = <Sound | null>sound.find(fn);	// キャッシュにあるか
 		this.#si = new SndInf(
 			fn,
 			buf,
@@ -209,9 +213,10 @@ export class SndBuf {
 			loop,
 			speed,
 			volume,
-			loaded	: (e, s2)=> {
+			loaded	: (e: unknown, s2)=> {
 				if (this.#si.stt.isDestroy) return;
-				if (e) {main.errScript(`ロード失敗です SndBuf fn:${fn} ${e}`, false); return}
+				// eslint-disable-next-line @typescript-eslint/no-base-to-string
+				if (e) {main.errScript(`ロード失敗です SndBuf fn:${fn} ${String(e)}`, false); return}
 				if (! s2) return;
 
 				this.#si.addSnd(s2);
@@ -230,11 +235,13 @@ export class SndBuf {
 				end		: end_ms /1000,
 			};
 			o.preload = true;		// loaded発生用、トラブルの元なので使用を控えたい
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const old = o.loaded!;
 			o.loaded = (e, s0)=> {
 				if (this.#si.stt.isDestroy) return;
 
 				old(e, s0);
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const s2 = s0!;
 				const d = s2.duration;
 				if (os.end < 0) {	// 負の値は末尾から
@@ -247,7 +254,7 @@ export class SndBuf {
 				if (d <= os.start) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <= start_ms:${start_ms} は異常値です`);
 				if (end_ms !== SndBuf.#MAX_END_MS && d <= os.end) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <= end_ms:${end_ms} は異常値です`);
 
-				s2.play(sp_nm, snd=> o.complete?.(snd));
+				void s2.play(sp_nm, snd=> o.complete?.(snd));
 					// 流れ的にはすぐ下の「ループなし/あり」を呼ぶ
 			};
 		}
@@ -261,16 +268,16 @@ export class SndBuf {
 		// ループあり ... ret_ms処理
 		else if (ret_ms !== 0) {
 			o.loop = false;	// 一周目はループなしとする
-			o.complete = async snd=> {
+			o.complete = snd=> {
 				const d = snd.duration;
 				const start	= ret_ms /1000;
 				const end	= end_ms /1000;
 				if (d <= start) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <=  ret_ms:${ret_ms} は異常値です`);
 
-				await snd.play({	// 一周目はループなし、なのでキャッシュされてる
+				void snd.play({	// 一周目はループなし、なのでキャッシュされてる
 					...o,
 					start,
-					end		: (end < 0) ?end +d :end,// 負の値は末尾から
+					end		: end < 0 ?end +d :end,// 負の値は末尾から
 				//	speed,		// 重複
 					loop	: true,
 				//	volume,		// 重複
@@ -291,7 +298,7 @@ export class SndBuf {
 			else if (snd.isPlayable) {
 				const ab = snd.options.source;
 				if (! (ab instanceof ArrayBuffer)
-					|| ab.byteLength === 0) snd.play(o);
+					|| ab.byteLength === 0) void snd.play(o);
 				else this.#si.addSnd(Sound.from({
 					...o,
 					url		: snd.options.url,
@@ -307,6 +314,7 @@ export class SndBuf {
 		if (join) {
 			const RPN_LOADED = this.#si.procID +`loaded buf:${buf} fn:${fn}`;
 			Reading.beginProc(RPN_LOADED);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const old = o.loaded!;
 			o.loaded = (e, s2)=> {
 				old(e, s2);
@@ -317,22 +325,21 @@ export class SndBuf {
 	}
 	#initVol = ()=> {
 		sound.volumeAll = Number(val.getVal('sys:sn.sound.global_volume', 1));
-		this.#initVol = ()=> {};
+		this.#initVol = ()=> { /* empty */ };
 	};
 	#playseSub(fn: string, o: Options) {
 		const src = cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SOUND);
 		if (! src.endsWith('.bin')) {o.url = src; Sound.from(o); return}
 
 		(new Loader).add({name: fn, url: src, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
-		.use(async (res, next)=> {
-			try {
-				res.data = await sys.decAB(res.data);
-			} catch (e) {
-				main.errScript(`Sound ロード失敗ですc fn:${res.name} ${e}`, false);
-			}
-			next();
+		.use((res, next)=> {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			void sys.decAB(res.data).then(y=> {res.data = y})
+			.catch((e: unknown)=> main.errScript(`Sound ロード失敗ですc fn:${res.name} ${e}`, false))
+			.finally(()=> next());
 		})
 		.load((_ldr, hRes)=> {	// このあと o.loaded() もコールされる
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			o.source = hRes[fn]?.data;
 			Sound.from(o);
 		});
@@ -366,7 +373,8 @@ function stop2var({loop}: SndInf, buf: string) {
 // =================================================
 
 
-interface ISndState {
+type ISndState = {
+	// type も class に implements できるらしい！ https://qiita.com/tkrkt/items/d01b96363e58a7df830e
 	onLoad(si: SndInf)	: void;
 	stopse(si: SndInf)	: void;
 	ws(si: SndInf, hArg: HArg): boolean;
@@ -382,17 +390,17 @@ class SsLoading implements ISndState {
 	onLoad(si: SndInf)	{si.stt = new SsPlaying(si)}
 	stopse(si: SndInf)	{si.stt = new SsStop(si, false)}
 	ws =()=> false;
-	onPlayEnd() {}		// ok
-	fade() {}			// ok
-	wf =()=> false;		// ok
-	compFade() {}		// ok
-	stopfadese() {}		// ok
+	onPlayEnd() { /* empty */ }		// ok
+	fade() { /* empty */ }			// ok
+	wf =()=> false;					// ok
+	compFade() { /* empty */ }		// ok
+	stopfadese() { /* empty */ }	// ok
 	readonly	isDestroy	= false;
 }
 
 class SsPlaying implements ISndState {
 	constructor(readonly si: SndInf) {}
-	onLoad() {}			// ok
+	onLoad() { /* empty */ }		// ok
 	stopse(si: SndInf)	{si.stt = new SsStop(si)}
 	ws(si: SndInf, hArg: HArg) {
 		if (si.loop) return false;
@@ -401,7 +409,7 @@ class SsPlaying implements ISndState {
 		const canskip = argChk_Boolean(hArg, 'canskip', false);
 		const stop = argChk_Boolean(hArg, 'stop', true);
 		if (canskip && evtMng.isSkipping) {
-			if (stop) si.stt.stopse(si); else si.stt.onPlayEnd = ()=> {};
+			if (stop) si.stt.stopse(si); else si.stt.onPlayEnd = ()=> { /* empty */ };
 			return false;
 		}
 
@@ -409,13 +417,13 @@ class SsPlaying implements ISndState {
 		const fin = ()=> {
 			stop2var(si, buf);
 			si.onPlayEnd();	// まず一回やる
-			if (stop) si.stt.stopse(si); else si.stt.onPlayEnd = ()=> {};
+			if (stop) si.stt.stopse(si); else si.stt.onPlayEnd = ()=> { /* empty */ };
 				// else後は SsWaitingStop か SsStop の想定
 		};
 		Reading.beginProc(si.procID +'ws', fin, true, canskip ?fin :undefined);
 		return true;
 	}
-	onPlayEnd() {}		// ok
+	onPlayEnd() { /* empty */ }		// ok
 	fade(si: SndInf, hArg: HArg) {
 		const {buf = BUF_SE} = hArg;
 
@@ -424,14 +432,14 @@ class SsPlaying implements ISndState {
 		const savevol = SndBuf.getVol(hArg, NaN);
 		val.setVal_Nochk('save', bnV, savevol);	// 目標音量（save:）
 		const vol = savevol * Number(val.getVal('sys:'+ bnV, 1))
-		const stop = argChk_Boolean(hArg, 'stop', (savevol === 0));
+		const stop = argChk_Boolean(hArg, 'stop', savevol === 0);
 			// this.getVol() により savevol = hArg.volume
 		if (stop) SndBuf.delLoopPlay(buf);	// fade中reloadなど、できるだけ早く情報更新か
 		val.flush();
 
 		const time = argChk_Num(hArg, 'time', NaN);
 		const delay = argChk_Num(hArg, 'delay', 0);
-		if ((time === 0 && delay === 0) || evtMng.isSkipping) {
+		if (time === 0 && delay === 0 || evtMng.isSkipping) {
 			si.setVol(vol);
 			si.stt = stop ? new SsStop(si) : new SsPlaying(si);
 			return;
@@ -451,32 +459,32 @@ class SsPlaying implements ISndState {
 
 		si.stt = new SsFade(tw, si);
 	}
-	wf =()=> false;		// ok
-	compFade() {}		// ok
-	stopfadese() {}		// ok
+	wf =()=> false;					// ok
+	compFade() { /* empty */ }		// ok
+	stopfadese() { /* empty */ }	// ok
 	readonly	isDestroy	= false;
 }
 
 class SsWaitingStop implements ISndState {
 	constructor(readonly si: SndInf) {}
-	onLoad() {}			// ok
+	onLoad() { /* empty */ }		// ok
 	stopse(si: SndInf)	{si.stt = new SsStop(si)}
-	ws =()=> false;		// ok
+	ws =()=> false;					// ok
 	onPlayEnd()	{Reading.notifyEndProc(this.si.procID +'ws')}
-	fade() {}			// ok
-	wf =()=> false;		// ok
-	compFade() {}		// ok
-	stopfadese() {}		// ok
+	fade() { /* empty */ }			// ok
+	wf =()=> false;					// ok
+	compFade() { /* empty */ }		// ok
+	stopfadese() { /* empty */ }	// ok
 	readonly	isDestroy	= false;
 }
 
 class SsFade implements ISndState {
 	constructor(readonly tw: Tween<Sound>, private readonly si: SndInf) {}
-	onLoad() {}			// ok
+	onLoad() { /* empty */ }		// ok
 	stopse(si: SndInf)	{this.stopfadese(); si.stt = new SsStop(si)}	// 順番厳守
-	ws =()=> false;		// ok ?
-	onPlayEnd() {}		// ok
-	fade() {}			// ok
+	ws =()=> false;					// ok ?
+	onPlayEnd() { /* empty */ }		// ok
+	fade() { /* empty */ }			// ok
 	wf(si: SndInf, hArg: HArg) {
 		si.stt = new SsWaitingFade(si);
 		const canskip = argChk_Boolean(hArg, 'canskip', false);
@@ -486,19 +494,19 @@ class SsFade implements ISndState {
 		Reading.beginProc(si.procID +'wf', fin, true, canskip ?fin :undefined);
 		return true;
 	}
-	compFade() {}		// ok
+	compFade() { /* empty */ }		// ok
 	stopfadese =()=> this.si.stop();
 	readonly	isDestroy	= false;
 }
 
 class SsWaitingFade implements ISndState {
 	constructor(private readonly si: SndInf) {}
-	onLoad() {}			// ok
+	onLoad() { /* empty */ }		// ok
 	stopse(si: SndInf)	{this.stopfadese(); si.stt = new SsStop(si)}
 	ws =()=> false;		// ok
-	onPlayEnd() {}		// ok
-	fade() {}			// ok
-	wf =()=> false;		// ok
+	onPlayEnd() { /* empty */ }		// ok
+	fade() { /* empty */ }			// ok
+	wf =()=> false;					// ok
 	compFade() {Reading.notifyEndProc(this.si.procID +'wf')}
 	stopfadese =()=> this.si.stop();
 	readonly	isDestroy	= false;
@@ -512,15 +520,15 @@ class SsStop implements ISndState {
 		if (! si.loop) return;	// destroy がないと再生が残るケースが。効果音だと破棄が激しいのでループモノ(BGM)だけにする
 
 		si.destroy();
-		si.destroy = ()=> {};	// 再度コール時エラー対策
+		si.destroy = ()=> { /* empty */ };	// 再度コール時エラー対策
 	}
-	onLoad() {}			// ok
-	stopse() {}			// ok
+	onLoad() { /* empty */ }		// ok
+	stopse() { /* empty */ }		// ok
 	ws =()=> false;		// ok
-	onPlayEnd() {}		// ok
-	fade() {}			// ok
+	onPlayEnd() { /* empty */ }		// ok
+	fade() { /* empty */ }			// ok
 	wf =()=> false;		// ok
-	compFade() {}		// ok
-	stopfadese() {}		// ok
+	compFade() { /* empty */ }		// ok
+	stopfadese() { /* empty */ }	// ok
 	readonly	isDestroy	= true;
 }

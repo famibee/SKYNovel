@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2019-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -5,16 +6,17 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Grammar, REG_TAG, splitAmpersand} from '../src/sn/Grammar';
-import {type IConfig, type IExts, SEARCH_PATH_ARG_EXT, type T_CFG, type T_SEARCHPATH} from '../src/sn/ConfigBase';
+import {Grammar, type IHTag, REG_TAG, splitAmpersand} from '../src/sn/Grammar';
+import type {IConfig, IExts, T_SEARCHPATH} from '../src/sn/ConfigBase';
+import {creCFG, SEARCH_PATH_ARG_EXT} from '../src/sn/ConfigBase';
 
 //===== Test Class =====
 class CfgTest implements IConfig {
-	oCfg	: T_CFG;
-	getNs = ()=> '';
-	searchPath: T_SEARCHPATH;
-	matchPath = (fnptn: string, extptn?: SEARCH_PATH_ARG_EXT): ReadonlyArray<IExts>=> [];
-	addPath(fn: string, h_exts: IExts) {}
+	oCfg	= creCFG();
+	headNs	= '';
+	searchPath: T_SEARCHPATH = _fn=> '';
+	matchPath = (_fnptn: string, _extptn?: SEARCH_PATH_ARG_EXT): readonly IExts[]=> [];
+	addPath(_fn: string, _h_exts: IExts) { /* empty */ }
 }
 //===== Test Class =====
 
@@ -68,7 +70,7 @@ it('testAnalyzeScript_n3t2n5', ()=> {
 });
 
 it('testAnalyzeScript_ans', ()=> {
-	const sScr = `\t[add_lay layer=mes class=txt]\n\t[add_lay layer=upd class=grp]\n\t[lay layer="mes" visible=true b_alpha=0 r_size=12 r_align="121" layout='blockProgression="rl" lineHeight="36" paddingTop="15" paddingRight="15" fontSize="24" color="0xffffff"']\n\n\t[title text="&tmp:const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.filename +'  ver '+ tmp:const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.version"]\n\n\t空気《え あ》小説《のべる》[r]\n\tばい　ふぁみべぇ[r]\n[r]\n\tクリックで更新確認[r]\n\tするよー[p][er]\n\n\t[lay layer=upd fn="update" visible=true left=86 top=86]\n[update_check url="http://ugainovel.ddo.jp/ans/ver.xml" config_fn="update.xml"]\n\t何かあれば[r]\n\t通知します。[r]\n[r][r][r][r]\n\t数秒経っても無反応なら更新はありません。\n*loop\n[l]\n[jump label=*loop]\n`;
+	const sScr = '\t[add_lay layer=mes class=txt]\n\t[add_lay layer=upd class=grp]\n\t[lay layer="mes" visible=true b_alpha=0 r_size=12 r_align="121" layout=\'blockProgression="rl" lineHeight="36" paddingTop="15" paddingRight="15" fontSize="24" color="0xffffff"\']\n\n\t[title text="&tmp:const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.filename +\'  ver \'+ tmp:const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.version"]\n\n\t空気《え あ》小説《のべる》[r]\n\tばい　ふぁみべぇ[r]\n[r]\n\tクリックで更新確認[r]\n\tするよー[p][er]\n\n\t[lay layer=upd fn="update" visible=true left=86 top=86]\n[update_check url="http://ugainovel.ddo.jp/ans/ver.xml" config_fn="update.xml"]\n\t何かあれば[r]\n\t通知します。[r]\n[r][r][r][r]\n\t数秒経っても無反応なら更新はありません。\n*loop\n[l]\n[jump label=*loop]\n';
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(58);
@@ -79,9 +81,9 @@ it('testAnalyzeScript_ans', ()=> {
 	expect(aToken[4]).toBe('[add_lay layer=upd class=grp]');
 	expect(aToken[5]).toBe('\n');
 	expect(aToken[6]).toBe('\t');
-	expect(aToken[7]).toBe(`[lay layer="mes" visible=true b_alpha=0 r_size=12 r_align="121" layout='blockProgression="rl" lineHeight="36" paddingTop="15" paddingRight="15" fontSize="24" color="0xffffff"']`);
-	expect(aToken[8]).toBe("\n\n");
-	expect(aToken[9]).toBe("\t");
+	expect(aToken[7]).toBe('[lay layer="mes" visible=true b_alpha=0 r_size=12 r_align="121" layout=\'blockProgression="rl" lineHeight="36" paddingTop="15" paddingRight="15" fontSize="24" color="0xffffff"\']');
+	expect(aToken[8]).toBe('\n\n');
+	expect(aToken[9]).toBe('\t');
 	expect(aToken[10]).toBe('[title text="&tmp:const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.filename +\'  ver \'+ tmp:const.flash.desktop.NativeApplication.nativeApplication.applicationDescriptor.version"]');
 	expect(aToken[11]).toBe('\n\n');
 	expect(aToken[12]).toBe('\t');
@@ -106,7 +108,7 @@ it('testAnalyzeScript_ans', ()=> {
 	expect(aToken[31]).toBe('\t');
 	expect(aToken[32]).toBe('[lay layer=upd fn="update" visible=true left=86 top=86]');
 	expect(aToken[33]).toBe('\n');
-	expect(aToken[34]).toBe(`[update_check url="http://ugainovel.ddo.jp/ans/ver.xml" config_fn="update.xml"]`);
+	expect(aToken[34]).toBe('[update_check url="http://ugainovel.ddo.jp/ans/ver.xml" config_fn="update.xml"]');
 	expect(aToken[35]).toBe('\n');
 	expect(aToken[36]).toBe('\t');
 	expect(aToken[37]).toBe('何かあれば');
@@ -137,17 +139,17 @@ it('testAnalyzeScript_tag_in_string', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('[lay layer="mes" chk_overrow=false over_ins_tag="[plc]"]');
-	expect(aToken[1]).toBe("\n");
+	expect(aToken[1]).toBe('\n');
 });
 it('testAnalyzeScript_bug120904', ()=> {
 	const sScr = '; [hoge\n[s]\n[trace text="error"]';
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(5);
-	expect(aToken[0]).toBe("; [hoge");
-	expect(aToken[1]).toBe("\n");
-	expect(aToken[2]).toBe("[s]");
-	expect(aToken[3]).toBe("\n");
+	expect(aToken[0]).toBe('; [hoge');
+	expect(aToken[1]).toBe('\n');
+	expect(aToken[2]).toBe('[s]');
+	expect(aToken[3]).toBe('\n');
 	expect(aToken[4]).toBe('[trace text="error"]');
 });
 it('testAnalyzeScript_bug120904_2', ()=> {
@@ -155,10 +157,10 @@ it('testAnalyzeScript_bug120904_2', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(5);
-	expect(aToken[0]).toBe("; [hoge");
-	expect(aToken[1]).toBe("\n");
-	expect(aToken[2]).toBe("[s]");
-	expect(aToken[3]).toBe("\n");
+	expect(aToken[0]).toBe('; [hoge');
+	expect(aToken[1]).toBe('\n');
+	expect(aToken[2]).toBe('[s]');
+	expect(aToken[3]).toBe('\n');
 	expect(aToken[4]).toBe('[trace text="["]');
 });
 it('testAnalyzeScript_bug120904_3', ()=> {
@@ -166,10 +168,10 @@ it('testAnalyzeScript_bug120904_3', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(5);
-	expect(aToken[0]).toBe("; [hoge");
-	expect(aToken[1]).toBe("\n");
-	expect(aToken[2]).toBe("[s]");
-	expect(aToken[3]).toBe("\n");
+	expect(aToken[0]).toBe('; [hoge');
+	expect(aToken[1]).toBe('\n');
+	expect(aToken[2]).toBe('[s]');
+	expect(aToken[3]).toBe('\n');
 	expect(aToken[4]).toBe('[trace text="]"]');
 });
 it('testAnalyzeScript_bug140108', ()=> {
@@ -192,66 +194,66 @@ it('testAnalyzeScript_bug150603_0', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(4);
-	expect(aToken[0]).toBe("[a]");
-	expect(aToken[1]).toBe("[ab]");
-	expect(aToken[2]).toBe("[あ]");
-	expect(aToken[3]).toBe("[あい]");
+	expect(aToken[0]).toBe('[a]');
+	expect(aToken[1]).toBe('[ab]');
+	expect(aToken[2]).toBe('[あ]');
+	expect(aToken[3]).toBe('[あい]');
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) throw new Error("Error:bug150603_0");
+	if (a_tag === null) throw new Error('Error:bug150603_0');
 });
 it('testAnalyzeScript_bug150603_1', ()=> {
 	const sScr = '[あ]';
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(1);
-	expect(aToken[0]).toBe("[あ]");
+	expect(aToken[0]).toBe('[あ]');
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) throw new Error("Error:bug150603_1");
+	if (a_tag === null) throw new Error('Error:bug150603_1');
 });
 it('testAnalyzeScript_bug150603_2', ()=> {
 	const sScr = '[あい]';
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(1);
-	expect(aToken[0]).toBe("[あい]");
+	expect(aToken[0]).toBe('[あい]');
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) throw new Error("Error:bug150603_2");
+	if (a_tag === null) throw new Error('Error:bug150603_2');
 });
 it('testAnalyzeScript_bug150603_3', ()=> {
 	const sScr = '[あ a=0]';
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(1);
-	expect(aToken[0]).toBe("[あ a=0]");
+	expect(aToken[0]).toBe('[あ a=0]');
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) throw new Error("Error:bug150603_3");
+	if (a_tag === null) throw new Error('Error:bug150603_3');
 });
 it('testAnalyzeScript_bug150603_4', ()=> {
 	const sScr = '[あい a=0]';
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(1);
-	expect(aToken[0]).toBe("[あい a=0]");
+	expect(aToken[0]).toBe('[あい a=0]');
 
 	const a_tag = REG_TAG.exec(sScr);
-	if (a_tag == null) throw new Error("Error:bug150603_4");
+	if (a_tag === null) throw new Error('Error:bug150603_4');
 });
 
 it('test_let_expansion_0_cr', ()=> {
 	const sScr = '&text=1+2=int\n[tcy t="!!"] あ。/\nあ。/';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(6);
 	expect(aToken[0]).toBe('&text=1+2=int');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\n");
+	expect(aToken[1]).toBe('\n');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -259,22 +261,22 @@ it('test_let_expansion_0_cr', ()=> {
 	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[3]).toBe(" あ。/");
+	expect(aToken[3]).toBe(' あ。/');
 	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
-	expect(aToken[4]).toBe("\n");
+	expect(aToken[4]).toBe('\n');
 	ch = aToken[4]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[5]).toBe("あ。/");
+	expect(aToken[5]).toBe('あ。/');
 	ch = aToken[5]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 });
 it('test_let_expansion_0_cr_spc', ()=> {
 	const sScr = '&text = 1 + 2 = int\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text = 1 + 2 = int\t');
@@ -288,7 +290,7 @@ it('test_let_expansion_0_cr_spc', ()=> {
 it('test_let_expansion_0_cr_spc_var', ()=> {
 	const sScr = '&text = hA[#ar$BB#]\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text = hA[#ar$BB#]\t');
@@ -302,7 +304,7 @@ it('test_let_expansion_0_cr_spc_var', ()=> {
 it('test_let_expansion_1_tab', ()=> {
 	const sScr = '&text=1+2=int\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int\t');
@@ -316,7 +318,7 @@ it('test_let_expansion_1_tab', ()=> {
 it('test_let_expansion_1_tab_spc', ()=> {
 	const sScr = '&text = 1 + 2 = int\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text = 1 + 2 = int\t');
@@ -330,7 +332,7 @@ it('test_let_expansion_1_tab_spc', ()=> {
 it('test_let_expansion_1_tab_spc_var', ()=> {
 	const sScr = '&text = hA[#ar$BB#]\t;';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text = hA[#ar$BB#]\t');
@@ -344,7 +346,7 @@ it('test_let_expansion_1_tab_spc_var', ()=> {
 	it('test_let_expansion_1_tab_spc_var2', ()=> {
 		const sScr = '&text = hA[#a;r$BB#]\t;';
 		const {aToken, len} = grm.resolveScript(sScr);
-		let ch: string = '';
+		let ch = '';
 
 		expect(len).toBe(2);
 		expect(aToken[0]).toBe('&text = hA[#a;r$BB#]\t');
@@ -358,7 +360,7 @@ it('test_let_expansion_1_tab_spc_var', ()=> {
 it('test_let_expansion_2_spc', ()=> {
 	const sScr = '&text=1+2=int ;';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int ');
@@ -372,7 +374,7 @@ it('test_let_expansion_2_spc', ()=> {
 it('test_let_expansion_2_spc2', ()=> {
 	const sScr = '&text=1+2=int  ;';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int  ');
@@ -386,7 +388,7 @@ it('test_let_expansion_2_spc2', ()=> {
 it('test_let_expansion_3_comment', ()=> {
 	const sScr = '&text=1+2=int\t; [tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int\t');
@@ -400,7 +402,7 @@ it('test_let_expansion_3_comment', ()=> {
 it('test_let_expansion_3_comment2', ()=> {
 	const sScr = '&text=1+2=int\t\t; [tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2=int\t\t');
@@ -414,7 +416,7 @@ it('test_let_expansion_3_comment2', ()=> {
 it('test_let_expansion_4_OperatorEq', ()=> {
 	const sScr = '&text=1+2 == null\t\t; [tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2 == null\t\t');
@@ -428,7 +430,7 @@ it('test_let_expansion_4_OperatorEq', ()=> {
 it('test_let_expansion_4_OperatorNotEq', ()=> {
 	const sScr = '&text=1+2 != null\t\t; [tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('&text=1+2 != null\t\t');
@@ -440,16 +442,16 @@ it('test_let_expansion_4_OperatorNotEq', ()=> {
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
 it('test_let_bug_20120321s_aira', ()=> {
-	const sScr = "&&'tex'+0 = 1+2\t;[tcy t='!!']";
+	const sScr = '&&\'tex\'+0 = 1+2\t;[tcy t=\'!!\']';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
-	expect(aToken[0]).toBe("&&'tex'+0 = 1+2\t");
+	expect(aToken[0]).toBe('&&\'tex\'+0 = 1+2\t');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe(";[tcy t='!!']");
+	expect(aToken[1]).toBe(';[tcy t=\'!!\']');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
@@ -457,14 +459,14 @@ it('test_let_bug_20120321s_aira', ()=> {
 it('test_ch_expansion_0_cr', ()=> {
 	const sScr = '&test&\n[tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\n");
+	expect(aToken[1]).toBe('\n');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -475,14 +477,14 @@ it('test_ch_expansion_0_cr', ()=> {
 it('test_ch_expansion_0_cr_spc', ()=> {
 	const sScr = '&test cr spc&\n[tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test cr spc&');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\n");
+	expect(aToken[1]).toBe('\n');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -493,14 +495,14 @@ it('test_ch_expansion_0_cr_spc', ()=> {
 it('test_ch_expansion_0_cr_spc_var', ()=> {
 	const sScr = '&test hA[#ar$BB#]&\n[tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test hA[#ar$BB#]&');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\n");
+	expect(aToken[1]).toBe('\n');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -511,14 +513,14 @@ it('test_ch_expansion_0_cr_spc_var', ()=> {
 it('test_ch_expansion_1_tab', ()=> {
 	const sScr = '&test&\t[tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe('\t');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -529,14 +531,14 @@ it('test_ch_expansion_1_tab', ()=> {
 it('test_ch_expansion_1_tab_spc', ()=> {
 	const sScr = '&test tab spc&\t[tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test tab spc&');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe('\t');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -547,14 +549,14 @@ it('test_ch_expansion_1_tab_spc', ()=> {
 it('test_ch_expansion_1_tab_spc_var', ()=> {
 	const sScr = '&test hA[#ar$BB#]&\t[tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test hA[#ar$BB#]&');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe('\t');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -565,14 +567,14 @@ it('test_ch_expansion_1_tab_spc_var', ()=> {
 it('test_ch_expansion_2_spc', ()=> {
 	const sScr = '&test& [tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe(" ");
+	expect(aToken[1]).toBe(' ');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
@@ -583,14 +585,14 @@ it('test_ch_expansion_2_spc', ()=> {
 it('test_ch_expansion_2_spc2', ()=> {
 	const sScr = '&test&  [tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("  ");
+	expect(aToken[1]).toBe('  ');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
@@ -601,14 +603,14 @@ it('test_ch_expansion_2_spc2', ()=> {
 it('test_ch_expansion_2_comment', ()=> {
 	const sScr = '&test&\t; [tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(3);
 	expect(aToken[0]).toBe('&test&');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\t");
+	expect(aToken[1]).toBe('\t');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -619,22 +621,22 @@ it('test_ch_expansion_2_comment', ()=> {
 it('test_ch_expansion_miss_0', ()=> {
 	const sScr = '&te\nst&\n[tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(5);
 	expect(aToken[0]).toBe('&te');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\n");
+	expect(aToken[1]).toBe('\n');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[2]).toBe("st&");
+	expect(aToken[2]).toBe('st&');
 	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
-	expect(aToken[3]).toBe("\n");
+	expect(aToken[3]).toBe('\n');
 	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -645,14 +647,14 @@ it('test_ch_expansion_miss_0', ()=> {
 it('test_ch_expansion_miss_1', ()=> {
 	const sScr = '&te\n\tst&\n[tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(6);
 	expect(aToken[0]).toBe('&te');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe("\n");
+	expect(aToken[1]).toBe('\n');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -664,7 +666,7 @@ it('test_ch_expansion_miss_1', ()=> {
 	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
-	expect(aToken[4]).toBe("\n");
+	expect(aToken[4]).toBe('\n');
 	ch = aToken[4]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -674,12 +676,12 @@ it('test_ch_expansion_miss_1', ()=> {
 });
 
 it('test_let_bug_20140606_comment_in_str', ()=> {
-	const sScr = `&st_hv='back;'\t\t; [tcy t="!!"]`;
+	const sScr = '&st_hv=\'back;\'\t\t; [tcy t="!!"]';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(2);
-	expect(aToken[0]).toBe(`&st_hv='back;'\t\t`);
+	expect(aToken[0]).toBe('&st_hv=\'back;\'\t\t');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
@@ -693,22 +695,22 @@ it('test_let_bug_20140606_comment_in_str', ()=> {
 it('test_char2macro_0', ()=> {
 	const sScr = '[tcy t="!!"] あ。/\nあ。/';
 	const {aToken, len} = grm.resolveScript(sScr);
-	let ch: string = '';
+	let ch = '';
 
 	expect(len).toBe(4);
 	expect(aToken[0]).toBe('[tcy t="!!"]');
 	ch = aToken[0]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[1]).toBe(" あ。/");
+	expect(aToken[1]).toBe(' あ。/');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 
-	expect(aToken[2]).toBe("\n");
+	expect(aToken[2]).toBe('\n');
 	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[3]).toBe("あ。/");
+	expect(aToken[3]).toBe('あ。/');
 	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(false);
 });
@@ -788,9 +790,9 @@ text=""]`;
 	expect(aToken[1]).toBe('あ');
 	expect(aToken[2]).toBe(`[r
 a= 0]`);
-	expect(aToken[3]).toBe(`ん`);
-	expect(aToken[4]).toBe(`[r]`);
-	expect(aToken[5]).toBe(`こ`);
+	expect(aToken[3]).toBe('ん');
+	expect(aToken[4]).toBe('[r]');
+	expect(aToken[5]).toBe('こ');
 	expect(aToken[6]).toBe(
 `[ch
 ;===
@@ -804,7 +806,7 @@ text=""]`;
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(2);
-	expect(aToken[0]).toBe(`こ`);
+	expect(aToken[0]).toBe('こ');
 	expect(aToken[1]).toBe(
 `[ch
 page=fore\t;===
@@ -818,11 +820,11 @@ it('test_multiline_tag_bug120904', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(5);
-	expect(aToken[0]).toBe(`; [hoge`);
+	expect(aToken[0]).toBe('; [hoge');
 	expect(aToken[1]).toBe('\n');
-	expect(aToken[2]).toBe(`[s]`);
+	expect(aToken[2]).toBe('[s]');
 	expect(aToken[3]).toBe('\n');
-	expect(aToken[4]).toBe(`[trace text="error"]`);
+	expect(aToken[4]).toBe('[trace text="error"]');
 });
 it('test_multiline_tag_bug120904_2', ()=> {
 	const sScr =
@@ -832,7 +834,7 @@ text="["]`;
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(2);
-	expect(aToken[0]).toBe(`め`);
+	expect(aToken[0]).toBe('め');
 	expect(aToken[1]).toBe(
 `[ch
 page=fore\t;===
@@ -846,7 +848,7 @@ text="]"]`;
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(2);
-	expect(aToken[0]).toBe(`め`);
+	expect(aToken[0]).toBe('め');
 	expect(aToken[1]).toBe(
 `[ch
 page=fore\t;===
@@ -864,7 +866,7 @@ it('test_multiline_tag_bug140108', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(9);
-	expect(aToken[0]).toBe(`[let name="sysse_ok1" text="BurstB_11"]`);
+	expect(aToken[0]).toBe('[let name="sysse_ok1" text="BurstB_11"]');
 	expect(aToken[1]).toBe('\n\n\n');
 	expect(aToken[2]).toBe('; 立ち絵配置位置定数');
 	expect(aToken[3]).toBe('\n');
@@ -1037,7 +1039,7 @@ void main(void) {
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(3);
-	expect(aToken[0]).toBe(`[let_ml name=ml]`);
+	expect(aToken[0]).toBe('[let_ml name=ml]');
 	expect(aToken[1]).toBe(`
 precision mediump float;
 
@@ -1051,30 +1053,34 @@ void main(void) {
 	pos.x = pos.x + tick;
 	gl_FragColor = texture2D(uSampler).toBe(pos);
 }
-`);		
-	expect(aToken[2]).toBe(`[endlet_ml]`);
+`);
+	expect(aToken[2]).toBe('[endlet_ml]');
 });
 it('test_let_ml_1', ()=> {
 	const sScr =
 `[let_ml name=ml]
 [
-	{"fn": "../bgimage/yun_1317.jpg").toBe("dt": "2018/12/18 11:44").toBe("txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
+	{"fn": "../bgimage/yun_1317.jpg").toBe("dt": "2018/12/18 11:44")`
+// eslint-disable-next-line no-irregular-whitespace
++`.toBe("txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
 ]
 [endlet_ml]`;
 	const {aToken, len} = grm.resolveScript(sScr);
 	let ch = '';
 
 	expect(len).toBe(3);
-	expect(aToken[0]).toBe(`[let_ml name=ml]`);
+	expect(aToken[0]).toBe('[let_ml name=ml]');
 	expect(aToken[1]).toBe(`
 [
-	{"fn": "../bgimage/yun_1317.jpg").toBe("dt": "2018/12/18 11:44").toBe("txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
+	{"fn": "../bgimage/yun_1317.jpg").toBe("dt": "2018/12/18 11:44")`
+// eslint-disable-next-line no-irregular-whitespace
++`.toBe("txt": "　ああ、桜の樹の下には屍体が埋まつてゐる！"},
 ]
 `);
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[2]).toBe(`[endlet_ml]`);
+	expect(aToken[2]).toBe('[endlet_ml]');
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
@@ -1096,7 +1102,7 @@ it('test_let_ml_2', ()=> {
 	let ch = '';
 
 	expect(len).toBe(3);
-	expect(aToken[0]).toBe(`[let_ml name=const.db]`);
+	expect(aToken[0]).toBe('[let_ml name=const.db]');
 	expect(aToken[1]).toBe(`
 {
 	"紀子": {
@@ -1112,7 +1118,7 @@ it('test_let_ml_2', ()=> {
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[2]).toBe(`[endlet_ml]`);
+	expect(aToken[2]).toBe('[endlet_ml]');
 	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
@@ -1129,10 +1135,10 @@ it('test_let_ml_2022/10/15_0', ()=> {
 	name=ml]`);
 	expect(aToken[1]).toBe(`
 	`);
-	expect(aToken[2]).toBe(`[endlet_ml]`);
+	expect(aToken[2]).toBe('[endlet_ml]');
 	expect(aToken[3]).toBe(`
 `);
-	expect(aToken[4]).toBe(`[endlet_ml]`);
+	expect(aToken[4]).toBe('[endlet_ml]');
 });
 it('test_let_ml_2022/10/15_1', ()=> {
 	const sScr =
@@ -1142,11 +1148,11 @@ it('test_let_ml_2022/10/15_1', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(5);
-	expect(aToken[0]).toBe(`let_ml name=ml`);// [ が飛ばされるのは正規表現のくせ
+	expect(aToken[0]).toBe('let_ml name=ml');// [ が飛ばされるのは正規表現のくせ
 	expect(aToken[1]).toBe(`
 `);
-	expect(aToken[2]).toBe(`	`);
-	expect(aToken[3]).toBe(`aaa`);
+	expect(aToken[2]).toBe('	');
+	expect(aToken[3]).toBe('aaa');
 	expect(aToken[4]).toBe(`
 `);
 });
@@ -1157,7 +1163,7 @@ it('test_let_ml_2022/10/15_2_負荷100%', ()=> {
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(2);
-	expect(aToken[0]).toBe(`let_ml name=aa`);
+	expect(aToken[0]).toBe('let_ml name=aa');
 		// [ が飛ばされるのは正規表現のくせ
 	expect(aToken[1]).toBe(`
 `);
@@ -1179,7 +1185,7 @@ it('test_let_ml_2023/04/06 [let_ml]の[if]はさまない', ()=> {
 	let ch = '';
 
 	expect(len).toBe(3);
-	expect(aToken[0]).toBe(`[let_ml name=dicUI]`);
+	expect(aToken[0]).toBe('[let_ml name=dicUI]');
 	expect(aToken[1]).toBe(`
 	{
 		"ja": {
@@ -1193,7 +1199,7 @@ it('test_let_ml_2023/04/06 [let_ml]の[if]はさまない', ()=> {
 	ch = aToken[1]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[2]).toBe(`[endlet_ml]`);
+	expect(aToken[2]).toBe('[endlet_ml]');
 	ch = aToken[2]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 });
@@ -1217,7 +1223,7 @@ it('test_let_ml_2023/04/06 [let_ml]の[if]はさみ', ()=> {
 	expect(len).toBe(8);
 	expect(aToken[0]).toBe('[if exp=true]');
 	expect(aToken[1]).toBe('\n');
-	expect(aToken[2]).toBe(`[let_ml name=dicUI]`);
+	expect(aToken[2]).toBe('[let_ml name=dicUI]');
 	expect(aToken[3]).toBe(`
 	{
 		"ja": {
@@ -1231,18 +1237,18 @@ it('test_let_ml_2023/04/06 [let_ml]の[if]はさみ', ()=> {
 	ch = aToken[3]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
-	expect(aToken[4]).toBe(`[endlet_ml]`);
+	expect(aToken[4]).toBe('[endlet_ml]');
 	ch = aToken[4]!.charAt(0);
 	expect(grm.testNoTxt(ch)).toBe(true);
 
 	expect(aToken[5]).toBe('\n');
 	expect(aToken[6]).toBe('\t');
-	expect(aToken[7]).toBe(`[endif]`);
+	expect(aToken[7]).toBe('[endif]');
 });
 
 
 // [char2macro char=@ name=zzz]
-it('test_char2macro_0', ()=> {
+it('test_char2macro_1', ()=> {
 	const sScr = '[ab]@[あ]@@[aa]';
 	const scr = grm.resolveScript(sScr);
 	const {aToken, len} = scr;
@@ -1254,7 +1260,7 @@ it('test_char2macro_0', ()=> {
 	expect(aToken[3]).toBe('@@');
 	expect(aToken[4]).toBe('[aa]');
 
-	grm.char2macro({char: `@`, name: `zzz`,}, {
+	grm.char2macro({char: '@', name: 'zzz',}, <IHTag><unknown>{
 		zzz: ()=> false,
 	}, scr, 0);
 	expect(aToken).toHaveLength(6);
@@ -1265,7 +1271,7 @@ it('test_char2macro_0', ()=> {
 	expect(aToken[4]).toBe('[zzz]');
 	expect(aToken[5]).toBe('[aa]');
 });
-it('test_char2macro_1', ()=> {
+it('test_char2macro_2', ()=> {
 	const sScr = '@[ab]@[あ]@@[aa]';
 	const scr = grm.resolveScript(sScr);
 	const {aToken, len} = scr;
@@ -1278,7 +1284,7 @@ it('test_char2macro_1', ()=> {
 	expect(aToken[4]).toBe('@@');
 	expect(aToken[5]).toBe('[aa]');
 
-	grm.char2macro({char: `@`, name: `zzz`,}, {
+	grm.char2macro({char: '@', name: 'zzz',}, <IHTag><unknown>{
 		zzz: ()=> false,
 	}, scr, 1);
 	expect(aToken).toHaveLength(7);
@@ -1305,16 +1311,16 @@ it('test_bracket2macro_0', ()=> {
 	expect(aToken[4]).toBe('〔黒柳〕〔梨香〕');
 	expect(aToken[5]).toBe('[zzz]');
 
-	grm.bracket2macro({text: `〔〕`, name: `セリフ`,}, {
+	grm.bracket2macro({text: '〔〕', name: 'セリフ',}, <IHTag><unknown>{
 		セリフ: ()=> false,
 	}, scr, 1);
 	expect(aToken).toHaveLength(7);
 	expect(aToken[0]).toBe('〔黒柳〕');
 	expect(aToken[1]).toBe('[ab]');
-	expect(aToken[2]).toBe(`[セリフ text='梨香']`);
+	expect(aToken[2]).toBe('[セリフ text=\'梨香\']');
 	expect(aToken[3]).toBe('[あ]');
-	expect(aToken[4]).toBe(`[セリフ text='黒柳']`);
-	expect(aToken[5]).toBe(`[セリフ text='梨香']`);
+	expect(aToken[4]).toBe('[セリフ text=\'黒柳\']');
+	expect(aToken[5]).toBe('[セリフ text=\'梨香\']');
 	expect(aToken[6]).toBe('[zzz]');
 });
 it('test_bracket2macro_1', ()=> {
@@ -1329,15 +1335,15 @@ it('test_bracket2macro_1', ()=> {
 	expect(aToken[3]).toBe('〔黒柳〕〔梨香〕');
 	expect(aToken[4]).toBe('[zzz]');
 
-	grm.bracket2macro({text: `〔〕`, name: `セリフ`,}, {
+	grm.bracket2macro({text: '〔〕', name: 'セリフ',}, <IHTag><unknown>{
 		セリフ: ()=> false,
 	}, scr, 0);
 	expect(aToken).toHaveLength(6);
 	expect(aToken[0]).toBe('[ab]');
-	expect(aToken[1]).toBe(`[セリフ text='梨香']`);
+	expect(aToken[1]).toBe('[セリフ text=\'梨香\']');
 	expect(aToken[2]).toBe('[あ]');
-	expect(aToken[3]).toBe(`[セリフ text='黒柳']`);
-	expect(aToken[4]).toBe(`[セリフ text='梨香']`);
+	expect(aToken[3]).toBe('[セリフ text=\'黒柳\']');
+	expect(aToken[4]).toBe('[セリフ text=\'梨香\']');
 	expect(aToken[5]).toBe('[zzz]');
 });
 
@@ -1345,55 +1351,57 @@ it('test_bracket2macro_1', ()=> {
 
 // Main.splitAmpersand
 it('test_mth_splitAmpersand0', ()=> {
-	const o = splitAmpersand("pl = 70");
-	expect(o['name']).toBe("pl ");
-	expect(o['text']).toBe(" 70");
-	expect(o['cast']).toBeUndefined();
+	const o = splitAmpersand('pl = 70');
+	expect(o.name).toBe('pl ');
+	expect(o.text).toBe(' 70');
+	expect(o.cast).toBeUndefined();
 });
 it('test_mth_splitAmpersand1', ()=> {
-	const o = splitAmpersand("text=1+2=int");
-	expect(o['name']).toBe("text");
-	expect(o['text']).toBe("1+2");
-	expect(o['cast']).toBe("int");
+	const o = splitAmpersand('text=1+2=int');
+	expect(o.name).toBe('text');
+	expect(o.text).toBe('1+2');
+	expect(o.cast).toBe('int');
 });
 it('test_mth_splitAmpersand2', ()=> {
 	const o = splitAmpersand(
-		"buf_page.0 = -999");
-	expect(o['name']).toBe("buf_page.0 ");
-	expect(o['text']).toBe(" -999");
-	expect(o['cast']).toBeUndefined();
+		'buf_page.0 = -999');
+	expect(o.name).toBe('buf_page.0 ');
+	expect(o.text).toBe(' -999');
+	expect(o.cast).toBeUndefined();
 });
 it('test_mth_splitAmpersand3', ()=> {
 	const o = splitAmpersand(
-		"b = (1 == 0) = uint");
-	expect(o['name']).toBe("b ");
-	expect(o['text']).toBe(" (1 == 0) ");
-	expect(o['cast']).toBe("uint");
+		'b = (1 == 0) = uint');
+	expect(o.name).toBe('b ');
+	expect(o.text).toBe(' (1 == 0) ');
+	expect(o.cast).toBe('uint');
 });
 it('test_mth_splitAmpersand4', ()=> {
 	const o = splitAmpersand(
-		"b = (1 != 0) = int");
-	expect(o['name']).toBe("b ");
-	expect(o['text']).toBe(" (1 != 0) ");
-	expect(o['cast']).toBe("int");
+		'b = (1 != 0) = int');
+	expect(o.name).toBe('b ');
+	expect(o.text).toBe(' (1 != 0) ');
+	expect(o.cast).toBe('int');
 });
 
 it('test_mth_splitAmpersand_err0', ()=> {
 	try {
-		splitAmpersand("b=1=0=uint");
-		throw new Error("Error:ccc");
+		splitAmpersand('b=1=0=uint');
+		throw new Error('Error:ccc');
 	}
 	catch (s) {
-		expect(s).toBe("「&計算」書式では「=」指定が一つか二つ必要です");
+		// eslint-disable-next-line jest/no-conditional-expect
+		expect(s).toBe('「&計算」書式では「=」指定が一つか二つ必要です');
 	}
 });
 it('test_mth_splitAmpersand_err1', ()=> {
 	try {
-		splitAmpersand("text=&1+2=int");
-		throw new Error("Error:ccc");
+		splitAmpersand('text=&1+2=int');
+		throw new Error('Error:ccc');
 	}
 	catch (s) {
-		expect(s).toBe("「&計算」書式では「&」指定が不要です");
+		// eslint-disable-next-line jest/no-conditional-expect
+		expect(s).toBe('「&計算」書式では「&」指定が不要です');
 	}
 });
 
@@ -1411,7 +1419,7 @@ it('testAnalyzeScript_escetc', ()=> {
 	expect(aToken[5]).toBe('\\《');
 	expect(aToken[6]).toBe('\\\\');
 });
-it('testAnalyzeScript_esc¥etc', ()=> {
+it('testAnalyzeScript_esc¥etc1', ()=> {
 	grm.setEscape('¥');
 	const sScr = '¥&¥[¥;¥*¥｜¥《¥¥';
 	const {aToken, len} = grm.resolveScript(sScr);
@@ -1425,7 +1433,7 @@ it('testAnalyzeScript_esc¥etc', ()=> {
 	expect(aToken[5]).toBe('¥《');
 	expect(aToken[6]).toBe('¥¥');
 });
-it('testAnalyzeScript_esc¥etc', ()=> {
+it('testAnalyzeScript_esc¥etc2', ()=> {
 	grm.setEscape('\\');
 	const sScr = '\\｜｜　論語《ろんごに》\\｜　曰《いはく》';
 	const {aToken, len} = grm.resolveScript(sScr);
@@ -1444,7 +1452,7 @@ it('testAnalyzeScript_tag_in_string_esc', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('[lay layer="mes" chk_overrow=false over_ins_tag="\\"\\\'\\#\\\n"]');
-	expect(aToken[1]).toBe("\n");
+	expect(aToken[1]).toBe('\n');
 });
 it('testAnalyzeScript_tag_in_string_esc¥', ()=> {
 	grm.setEscape('¥');
@@ -1453,12 +1461,12 @@ it('testAnalyzeScript_tag_in_string_esc¥', ()=> {
 
 	expect(len).toBe(2);
 	expect(aToken[0]).toBe('[lay layer="mes" chk_overrow=false over_ins_tag="¥"¥\'¥#¥\n"]');
-	expect(aToken[1]).toBe("\n");
+	expect(aToken[1]).toBe('\n');
 });
 
 it('20221003_test_multilang_token', ()=> {
 	const sScr =
-`[싱글룸][单人间][單人房][¿Como_esta?][أهلا][𣛠𩙻]`;
+'[싱글룸][单人间][單人房][¿Como_esta?][أهلا][𣛠𩙻]';
 	const {aToken, len} = grm.resolveScript(sScr);
 
 	expect(len).toBe(6);

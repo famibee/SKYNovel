@@ -27,7 +27,7 @@ export declare class DesignCast {
     static leaveMode(): void;
     cvsResize(): void;
     make(): void;
-    static replaceToken(_o: any): void;
+    static replaceToken(_o: unknown): void;
 }
 export declare class GrpLayDesignCast extends DesignCast {
     constructor(_ctn: Sprite, _gl: GrpLayer);
@@ -48,7 +48,6 @@ export declare class TxtBtnDesignCast extends BtnDesignCast {
     constructor(btn: Button, hArg: HArg, _txt: Text);
 }
 export declare class PicBtnDesignCast extends BtnDesignCast {
-    constructor(btn: Button, hArg: HArg);
     setSp(_sp: Sprite): void;
 }
 //# sourceMappingURL=DesignCast.d.ts.map

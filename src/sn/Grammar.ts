@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2019-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -179,8 +180,154 @@ export type HArg = {
 //	stepin?		: boolean;		// 拡張機能のみ使用：false指定でステップインしない
 //	nowarn_unused?	: boolean;	// 拡張機能のみ使用：未使用警告を出さない
 }
-export interface ITag { (hArg: HArg): boolean; }
-export interface IHTag { [name: string]: ITag; }
+export type ITag = (hArg: HArg) => boolean;
+export type IHTag = {
+// 変数操作
+	clearsysvar			: ITag;	// システム変数の全消去
+	clearvar			: ITag;	// ゲーム変数の全消去
+	let_abs				: ITag;	// 絶対値
+	let_char_at			: ITag;	// 文字列から一字取りだし
+	let_index_of		: ITag;	// 文字列で検索
+	let_length			: ITag;	// 文字列の長さ
+	let_ml				: ITag;	// インラインテキスト代入
+	let_replace			: ITag;	// 正規表現で置換
+	let_round			: ITag;	// 四捨五入
+	let_search			: ITag;	// 正規表現で検索
+	let_substr			: ITag;	// 文字列から抜きだし
+	let					: ITag;	// 変数代入・演算
+
+// レイヤ共通
+	add_lay				: ITag;	// レイヤを追加する
+	clear_lay			: ITag;	// レイヤ設定の消去
+	finish_trans		: ITag;	// トランス強制終了
+	lay					: ITag;	// レイヤ設定
+	trans				: ITag;	// ページ裏表を交換
+	wt					: ITag;	// トランス終了待ち
+	add_filter			: ITag;	// フィルター追加
+	clear_filter		: ITag;	// フィルター全削除
+	enable_filter		: ITag;	// フィルター個別切替
+
+// トゥイーンアニメ
+	pause_tsy			: ITag;	// 一時停止
+	resume_tsy			: ITag;	// 一時停止再開
+	stop_tsy			: ITag;	// トゥイーン中断
+	tsy					: ITag;	// トゥイーン開始
+	wait_tsy			: ITag;	// トゥイーン終了待ち
+
+// 文字・文字レイヤ
+	autowc				: ITag;	// 文字ごとのウェイト
+	ch					: ITag;	// 文字を追加する
+	ch_in_style			: ITag;	// 文字出現演出定義
+	ch_out_style		: ITag;	// 文字消去演出定義
+	clear_text			: ITag;	// 文字消去
+	current				: ITag;	// デフォルト文字レイヤ設定
+	endlet_ml			: ITag;	// インラインテキスト代入の終端
+	endlink				: ITag;	// ハイパーリンクの終了
+	er					: ITag;	// ページ両面の文字消去
+	graph				: ITag;	// インライン画像表示
+	link				: ITag;	// ハイパーリンク
+	r					: ITag;	// 改行
+	rec_ch				: ITag;	// 履歴書き込み
+	rec_r				: ITag;	// 履歴改行
+	reset_rec			: ITag;	// 履歴リセット
+	ruby2				: ITag;	// 文字列と複数ルビの追加
+	set_focus			: ITag;	// フォーカス移動
+	span				: ITag;	// インラインスタイル設定
+	tcy					: ITag;	// 縦中横を表示する
+
+// 画像・画像レイヤ
+	add_face			: ITag;	// 差分名称の定義
+	wv					: ITag;	// 動画再生終了待ち
+
+// HTMLフレーム
+	add_frame			: ITag;	// フレーム追加
+	frame				: ITag;	// フレームに設定
+	let_frame			: ITag;	// フレーム変数を取得
+	set_frame			: ITag;	// フレーム変数に設定
+	tsy_frame			: ITag;	// フレームをトゥイーン開始
+
+// イベント
+	clear_event			: ITag;	// イベントを全消去
+	enable_event		: ITag;	// イベント有無の切替
+	event				: ITag;	// イベントを予約
+	l					: ITag;	// 行末クリック待ち
+	p					: ITag;	// 改ページクリック待ち
+	s					: ITag;	// 停止する
+	set_cancel_skip		: ITag;	// スキップ中断予約
+	wait				: ITag;	// ウェイトを入れる
+	waitclick			: ITag;	// クリックを待つ
+
+// ＢＧＭ・効果音
+	fadebgm				: ITag;	// BGMのフェード
+	fadeoutbgm			: ITag;	// BGMのフェードアウト
+	fadeoutse			: ITag;	// 効果音のフェードアウト
+	fadese				: ITag;	// 効果音のフェード
+	playbgm				: ITag;	// BGM の演奏
+	playse				: ITag;	// 効果音の再生
+	stop_allse			: ITag;	// 全効果音再生の停止
+	stopbgm				: ITag;	// BGM 演奏の停止
+	stopfadese			: ITag;	// 音声フェードの停止
+	stopse				: ITag;	// 効果音再生の停止
+	volume				: ITag;	// BGMや効果音の音量を指定
+	wb					: ITag;	// BGM フェードの終了待ち
+	wf					: ITag;	// 効果音フェードの終了待ち
+	wl					: ITag;	// BGM 再生の終了待ち
+	ws					: ITag;	// 効果音再生の終了待ち
+	xchgbuf				: ITag;		// サウンドバッファの交換
+
+// 条件分岐
+	else				: ITag;	// その他ifブロック開始
+	elsif				: ITag;	// 別条件のifブロック開始
+	endif				: ITag;	// ifブロックの終端
+	if					: ITag;	// ifブロックの開始
+
+// ラベル・ジャンプ
+	button				: ITag;	// ボタンを表示
+	call				: ITag;	// サブルーチンコール
+	jump				: ITag;	// シナリオジャンプ
+	page				: ITag;	// ページ移動
+	pop_stack			: ITag;	// コールスタック破棄
+	return				: ITag;	// サブルーチンから戻る
+
+// マクロ
+	bracket2macro		: ITag;	// 括弧マクロの定義
+	char2macro			: ITag;	// 一文字マクロの定義
+	endmacro			: ITag;	// マクロ定義の終了
+	macro				: ITag;	// マクロ定義の開始
+
+// しおり
+	copybookmark		: ITag;	// しおりの複写
+	erasebookmark		: ITag;	// しおりの消去
+	load				: ITag;	// しおりの読込
+	record_place		: ITag;	// セーブポイント指定
+	reload_script		: ITag;	// スクリプト再読込
+	save				: ITag;	// しおりの保存
+
+// 画面揺らし
+	quake				: ITag;	// 画面を揺らす
+	stop_quake			: ITag;	// 画面揺らし中断
+	wq					: ITag;	// 画面揺らし終了待ち
+
+// システム
+	close				: ITag;	// アプリの終了
+	export				: ITag;	// プレイデータをエクスポート
+	import				: ITag;	// プレイデータをインポート
+	loadplugin			: ITag;	// プラグインの読み込み
+	navigate_to			: ITag;	// ＵＲＬを開く
+	snapshot			: ITag;	// スナップショット
+	title				: ITag;	// タイトル指定
+	toggle_full_screen	: ITag;	// 全画面状態切替
+	update_check		: ITag;	// 更新チェック機能
+	window				: ITag;	// アプリウインドウ設定
+
+// デバッグ・その他
+	dump_lay			: ITag;	// レイヤのダンプ
+	dump_script			: ITag;	// 外部へスクリプトを表示
+	dump_stack			: ITag;	// スタックのダンプ
+	dump_val			: ITag;	// 変数のダンプ
+	log					: ITag;	// ログ出力
+	trace				: ITag;	// デバッグ表示へ出力
+}
 
 
 export type Script = {
@@ -216,12 +363,13 @@ export function	splitAmpersand(token: string): {
 		// != を弾けないので中途半端ではある
 	const cnt_equa = equa.length;
 	if (cnt_equa < 2 || cnt_equa > 3) throw '「&計算」書式では「=」指定が一つか二つ必要です';
+
 	const [e0, e1, e2] = equa;
 	if (e1!.startsWith('&')) throw '「&計算」書式では「&」指定が不要です';
 	return {
 		name: e0!.replaceAll('＝', '==').replaceAll('≠', '!='),
 		text: e1!.replaceAll('＝', '==').replaceAll('≠', '!='),
-		cast: (cnt_equa === 3 ?e2!.trim() :undefined)
+		cast: cnt_equa === 3 ?e2!.trim() :undefined
 	};
 }
 
@@ -231,7 +379,7 @@ export class Grammar {
 
 	#REG_TOKEN	: RegExp;
 	setEscape(ce: string) {
-		if (this.#hC2M && (ce in this.#hC2M)) throw '[エスケープ文字] char【'+ ce +'】が登録済みの括弧マクロまたは一文字マクロです';
+		if (this.#hC2M && ce in this.#hC2M) throw '[エスケープ文字] char【'+ ce +'】が登録済みの括弧マクロまたは一文字マクロです';
 
 		// 1083 matches (14577 step, 9.9ms) https://regex101.com/r/dP0tAY/1
 		/*
@@ -255,21 +403,22 @@ export class Grammar {
 			++ にしたいところだが、jsは未サポートらしい（2022/10/16）
 */
 		// (new RegExp("~")) の場合は、バックスラッシュは２つ必要
+			// https://qiita.com/ue5963/items/bd8e32ac9e6b12aa7fab
 		this.#REG_TOKEN = new RegExp(
 		(ce	?`\\${ce}\\S|` :'')+	// エスケープシーケンス
 		'\\n+'+				// 改行
 		'|\\t+'+			// タブ文字
-		`|\\[let_ml\\s+[^\\]]+\\]`+
-			`.+?`+			// [let_ml]〜[endlet_ml]間のテキスト
-		`(?=\\[endlet_ml[\\]\\s])`+
-		`|\\[(?:`+
-			`[^"'#;\\]]+|`+	// タグ
-			`(["'#]).*?\\1` +
+		'|\\[let_ml\\s+[^\\]]+\\]'+
+			'.+?'+			// [let_ml]〜[endlet_ml]間のテキスト
+		'(?=\\[endlet_ml[\\]\\s])'+
+		'|\\[(?:'+
+			'[^"\'#;\\]]+|'+	// タグ
+			'(["\'#]).*?\\1' +
 				// . は (?:\\${ ce??'\\' }.|[^\\1]) でなくてよさげ
-		`|;[^\\n]*)*?]`+
+		'|;[^\\n]*)*?]'+
 		'|;[^\\n]*'+		// コメント
 		'|&[^&\\n]+&'+		// ＆表示＆
-		`|&&?(?:[^"'#;\\n&]+|(["'#]).*?\\2)+`+	// ＆代入
+		'|&&?(?:[^"\'#;\\n&]+|(["\'#]).*?\\2)+'+	// ＆代入
 		'|^\\*[^\\s\\[&;\\\\]+'+	// ラベル
 		`|[^\\n\\t\\[;${ce ?`\\${ce}` :''}]+`,		// 本文
 		'gs');
@@ -325,14 +474,14 @@ export class Grammar {
 	#regStrC2M4not	= '';
 	addC2M(a: string, b: string) {
 		this.#regStrC2M += `${a}|`;
-		this.#regStrC2M4not += `${b}`;
+		this.#regStrC2M4not += b;
 		this.#REGC2M = new RegExp(
 			`(${this.#regStrC2M}[^${this.#regStrC2M4not}]+)`, 'g');
 	}
 
 
 	resolveScript(txt: string): Script {
-		const a = txt
+		const a: string[] = txt
 		.replaceAll(/\r\n?/g, '\n')
 		.match(this.#REG_TOKEN)
 		?.flatMap(tkn=> {
@@ -341,10 +490,10 @@ export class Grammar {
 			const r = /^([^\]]+?])(.*)$/s.exec(tkn);
 			if (! r) return tkn;
 			const [, a, b] = r;
-			return [a, b];
+			return [a!, b!];
 		}) ?? [];
 
-		const scr = {aToken: a as string[], len: a.length, aLNum: []};
+		const scr = {aToken: a, len: a.length, aLNum: []};
 		this.#replaceScr_C2M(scr);
 
 		this.#replaceScript_Wildcard(scr);
@@ -366,7 +515,7 @@ export class Grammar {
 			const p_fn = this.#alzTagArg.hPrm.fn;
 			if (! p_fn) continue;
 			const {val: fn} = p_fn;
-			if (! fn || ! fn.endsWith('*')) continue;
+			if (! fn.endsWith('*')) continue;
 
 			scr.aToken.splice(i, 1, '\t', '; '+ token);
 			scr.aLNum.splice(i, 1, NaN, NaN);
@@ -390,16 +539,11 @@ export class Grammar {
 		readonly	#alzTagArg	= new AnalyzeTagArg;
 
 
-	testTagLetml(tkn: string): boolean {return /^\[let_ml\s/.test(tkn)};
-	testTagEndLetml(tkn: string): boolean {return /^\[endlet_ml\s*]/.test(tkn)};
-
-	analyzToken(token: string): RegExpExecArray | null {	// 4LspWs
-		this.#REG_TOKEN.lastIndex = 0;	// /gなので必要
-		return this.#REG_TOKEN.exec(token);
-	}
+	testTagLetml(tkn: string): boolean {return /^\[let_ml\s/.test(tkn)}
+	testTagEndLetml(tkn: string): boolean {return /^\[endlet_ml\s*]/.test(tkn)}
 
 
-	#hC2M	: {[char: string]: string};
+	#hC2M	: {[char: string]: string} | undefined = undefined;
 	#REG_TOKEN_NOTXT	: RegExp;
 	#replaceScr_C2M(scr: Script, start_idx = 0): void {
 		if (! this.#hC2M) return;
@@ -420,7 +564,7 @@ export class Grammar {
 				if (macro) {
 					ch = macro +(macro.endsWith(']')
 						? ''
-						: (`'${ch.slice(1, -1)}']`));
+						: `'${ch.slice(1, -1)}']`);
 					// 文字列は半角空白を意識して''で囲むが、いずれ変えたい場合がある？
 				}
 				scr.aToken.splice(i, del, ch);
@@ -431,6 +575,6 @@ export class Grammar {
 		}
 		scr.len = scr.aToken.length;
 	}
-	testNoTxt(ch: string): boolean {return this.#REG_TOKEN_NOTXT.test(ch)};	//4tst
+	testNoTxt(ch: string): boolean {return this.#REG_TOKEN_NOTXT.test(ch)}	//4tst
 
 }

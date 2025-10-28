@@ -1,5 +1,5 @@
 import { HArg, IHTag } from './Grammar';
-import { IEvt2Fnc, IHEvt2Fnc, IMain, IMark, IVariable } from './CmnInterface';
+import { T_Evt2Fnc, T_HEvt2Fnc, IMain, T_Mark, IVariable } from './CmnInterface';
 import { Config } from './Config';
 import { ScriptIterator } from './ScriptIterator';
 import { LayerMng } from './LayerMng';
@@ -7,22 +7,22 @@ import { EventMng } from './EventMng';
 import { FocusMng } from './FocusMng';
 import { SoundMng } from './SoundMng';
 import { EventListenerCtn } from './EventListenerCtn';
-interface IPageLog {
+type IPageLog = {
     key: string;
     fn: string;
     index: number;
-    mark: IMark;
+    mark: T_Mark;
     week: boolean;
-}
+};
 export declare class ReadingState {
     #private;
     static get rs(): ReadingState;
     constructor();
-    static setEvt2Fnc(glb: boolean, key: string, fnc: IEvt2Fnc): void;
-    static getEvt2Fnc: (key: string) => IEvt2Fnc | undefined;
+    static setEvt2Fnc(glb: boolean, key: string, fnc: T_Evt2Fnc): void;
+    static getEvt2Fnc: (key: string) => T_Evt2Fnc | undefined;
     static clear_eventer(rawKeY: string, glb: boolean, key: string): void;
-    static popLocalEvts(): IHEvt2Fnc;
-    static pushLocalEvts(h: IHEvt2Fnc): void;
+    static popLocalEvts(): T_HEvt2Fnc;
+    static pushLocalEvts(h: T_HEvt2Fnc): void;
     static clear_event(hArg: HArg): boolean;
     static getHtmlElmList(KeY: string): {
         el: NodeListOf<HTMLElement>;

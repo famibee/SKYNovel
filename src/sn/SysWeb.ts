@@ -6,14 +6,15 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {SysBase} from './SysBase';
-import {CmnLib, getDateStr, argChk_Boolean, argChk_Num} from './CmnLib';
+import {CmnLib, getDateStr, argChk_Boolean, argChk_Num, T_DIP} from './CmnLib';
 import type {IHTag, ITag} from './Grammar';
-import type {IVariable, IMain, IData4Vari, T_SysBaseParams, T_SysBaseLoadedParams} from './CmnInterface';
+import type {IVariable, IMain, T_Data4Vari, T_SysBaseParams, T_SysBaseLoadedParams, T_H_TMP_DATA, T_H_VAL_KIDOKU, T_H_VAL_MARK, T_H_SYS_DATA} from './CmnInterface';
 import {Main} from './Main';
 import type {IFn2Path, IConfig} from './ConfigBase';
 
-import {Application} from 'pixi.js';
+import type {Application} from 'pixi.js';
 import store from 'store';
+import type {DevToolsEvent} from 'devtools-detect';
 import 'devtools-detect';
 
 
@@ -23,29 +24,29 @@ export class SysWeb extends SysBase {
 		super(hPlg, arg);
 
 		const a = arg.cur.split('/');
-		this.#path_base = (a.length > 2) ? a.slice(0, -2).join('/') +'/' :'';
+		this.#path_base = a.length > 2 ? a.slice(0, -2).join('/') +'/' :'';
 
-		queueMicrotask(async ()=> this.loaded(hPlg, arg));
+		void this.loaded(hPlg, arg);
 	}
 	protected override async loaded(...[hPlg, arg]: T_SysBaseLoadedParams) {
 		await super.loaded(hPlg, arg);
 
 		document.querySelectorAll('[data-prj]').forEach(v=> {
 			const elm = v.attributes.getNamedItem('data-prj');
-			if (elm) v.addEventListener('click', async ()=> this.runSN(elm.value), {passive: true});
+			if (elm) v.addEventListener('click', ()=> {void this.runSN(elm.value)}, {passive: true});
 			//if (elm) this.elc.add(v, 'click', ()=> this.runSN(elm.value), {passive: true});
 				// ギャラリーであっても、ここには一度しか来ないので
 		});
 		document.querySelectorAll('[data-reload]').forEach(v=>
-			v.addEventListener('click', async ()=> this.run(), {passive: true})
-			//this.elc.add(v, 'click', ()=> this.run(), {passive: true})
+			v.addEventListener('click', ()=> {void this.run()}, {passive: true})
+			//this.elc.add(v, 'click', ()=> {void this.run()}, {passive: true})
 				// ギャラリーであっても、ここには一度しか来ないので
 		);
-		if (arg.dip) CmnLib.hDip = JSON.parse(arg.dip);
+		if (arg.dip) CmnLib.hDip = <T_DIP>JSON.parse(arg.dip);
 
 		const sp = new URLSearchParams(location.search);
 		const dip = sp.get('dip');	// ディップスイッチ
-		if (dip) CmnLib.hDip = {...CmnLib.hDip, ...JSON.parse(dip.replaceAll(`%2C`, ','))};
+		if (dip) CmnLib.hDip = <T_DIP>{...CmnLib.hDip, ...JSON.parse(dip.replaceAll('%2C', ','))};
 		if (! argChk_Boolean(CmnLib.hDip, 'oninit_run', true)) return;
 
 		if (argChk_Boolean(CmnLib.hDip, 'dbg', false)) {
@@ -67,13 +68,13 @@ export class SysWeb extends SysBase {
 		this.#now_prj = this.arg.cur;
 		await this.run();
 	}
+	// eslint-disable-next-line @typescript-eslint/require-await
 	protected	override run = async ()=> {
-		if (this.#main) this.#main.destroy();
+		this.#main?.destroy();
 		this.#main = new Main(this);
 	}
 	stop() {
-		if (! this.#main) return;
-		this.#main.destroy();
+		this.#main?.destroy();
 		this.#main = undefined;
 	}
 	#main: Main | undefined = undefined;
@@ -87,21 +88,21 @@ export class SysWeb extends SysBase {
 		if (! res.ok) throw Error(res.statusText);
 
 		const src = await res.text();
-		const oJs = JSON.parse(await this.dec(fn, src));
+		const oJs = <IFn2Path>JSON.parse(await this.dec(fn, src));
 		for (const [nm, v] of Object.entries(oJs)) {
-			const h = hPathFn2Exts[nm] = <any>v;
+			const h = hPathFn2Exts[nm] = v;
 			for (const [ext, w] of Object.entries(h)) {
-				if (ext !== ':cnt') h[ext] = this.arg.cur + w;
+				if (ext !== ':cnt') h[ext] = this.arg.cur + <string>w;
 			}
 		}
 	}
 
-	override async	initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari)=> void) {
+	override async	initVal(data: T_Data4Vari, hTmp: T_H_TMP_DATA, comp: (data: T_Data4Vari)=> void) {
 		// システム情報
 		const hn = encodeURIComponent(document.location.hostname);
-		hTmp['const.sn.isDebugger'] = (hn === 'localhost' || hn ==='127.0.0.1');
+		hTmp['const.sn.isDebugger'] = hn === 'localhost' || hn ==='127.0.0.1';
 
-		const ns = this.cfg.getNs();
+		const ns = this.cfg.headNs;
 		this.flushSub = this.arg.crypto
 		? async ()=> {
 			store.set(ns +'sys_', await this.enc(JSON.stringify(this.data.sys)));
@@ -114,7 +115,8 @@ export class SysWeb extends SysBase {
 			store.set(ns +'kidoku', this.data.kidoku);
 		};
 		const nm = ns +(this.arg.crypto ?'sys_' :'sys');
-		if (hTmp['const.sn.isFirstBoot'] = (store.get(nm) === undefined)) {
+		// eslint-disable-next-line no-cond-assign
+		if (hTmp['const.sn.isFirstBoot'] = store.get(nm) === undefined) {
 			// データがない（初回起動）場合の処理
 			this.data.sys = data.sys;
 			this.data.mark = data.mark;
@@ -126,9 +128,9 @@ export class SysWeb extends SysBase {
 
 		// データがある場合の処理
 		if (! this.arg.crypto) {
-			this.data.sys = store.get(ns +'sys');
-			this.data.mark = store.get(ns +'mark');
-			this.data.kidoku = store.get(ns +'kidoku');
+			this.data.sys = <T_H_SYS_DATA>store.get(ns +'sys');
+			this.data.mark = <T_H_VAL_MARK>store.get(ns +'mark');
+			this.data.kidoku = <T_H_VAL_KIDOKU>store.get(ns +'kidoku');
 			comp(this.data);
 			return;
 		}
@@ -136,45 +138,56 @@ export class SysWeb extends SysBase {
 		let mes = '';
 		try {
 			mes = 'sys';	// tst sys
-			this.data.sys = JSON.parse(await this.dec('json', store.get(ns +'sys_')));
-			mes += Number(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			this.data.sys = <T_H_SYS_DATA>JSON.parse(await this.dec('json', store.get(ns +'sys_')));
+			mes += String(this.val.getVal('sys:TextLayer.Back.Alpha', 1));
 			mes = 'mark';	// tst mark
-			this.data.mark = JSON.parse(await this.dec('json', store.get(ns +'mark_')));
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			this.data.mark = <T_H_VAL_MARK>JSON.parse(await this.dec('json', store.get(ns +'mark_')));
 			mes = 'kidoku';	// tst kidoku
-			this.data.kidoku = JSON.parse(await this.dec('json', store.get(ns +'kidoku_')));
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			this.data.kidoku = <T_H_VAL_KIDOKU>JSON.parse(await this.dec('json', store.get(ns +'kidoku_')));
 		} catch (e) {
 			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります(a) %o`, e);
 		}
 		comp(this.data);
 	}
 
-	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
-		super.init(hTag, appPixi, val, main);
+	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
+		const aP = super.init(hTag, appPixi, val, main);
 
 		// 全画面状態切替
-		const pCvs: any = appPixi.view.parentElement!;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		const pCvs = appPixi.view.parentElement!;
 		if ('requestFullscreen' in document.body) {
-			this.tglFlscr_sub = ()=> this.isFullScr
-				? document.exitFullscreen()
-				: pCvs.requestFullscreen();
+			this.tglFlscr_sub = this.isFullScr
+				? ()=> document.exitFullscreen()
+				: ()=> pCvs.requestFullscreen();
 
-			this.elc.add(document, 'fullscreenchange', ()=> this.isFullScr = Boolean(document.fullscreenElement));	// Escの場合もあるので
+			this.elc.add(document, 'fullscreenchange', ()=> {this.isFullScr = Boolean(document.fullscreenElement)});	// Escの場合もあるので
 		}
 		else {
-			const doc: any = document;	// Safariなど
-			this.tglFlscr_sub = ()=> this.isFullScr
-				? doc.webkitCancelFullScreen()
-				: pCvs.webkitRequestFullscreen();
+			const doc = <{
+				webkitCancelFullScreen	: ()=> Promise<void>;
+				webkitRequestFullscreen	: ()=> Promise<void>;
+				webkitFullscreenElement	: HTMLElement | undefined;
+			}><unknown>document;	// Safariなど
+			this.tglFlscr_sub = this.isFullScr
+				? ()=> doc.webkitCancelFullScreen()
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+				: ()=> (<any>pCvs).webkitRequestFullscreen();
 
-			this.elc.add(document, 'fullscreenchange', ()=> this.isFullScr = Boolean(doc.webkitFullscreenElement));	// Escの場合もあるので
+			this.elc.add(document, 'fullscreenchange', ()=> {this.isFullScr = Boolean(doc.webkitFullscreenElement)});	// Escの場合もあるので
 		}
 
-		if (! this.cfg.oCfg.debug.devtool) this.elc.add(globalThis, 'devtoolschange', e=> {
+		// window.addEventListener('devtoolschange', event => {});
+		if (! this.cfg.oCfg.debug.devtool) this.elc.add(globalThis, 'devtoolschange', (e: DevToolsEvent)=> {
 			if (! e.detail.isOpen) return;
-			console.error(`DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。`);
+			console.error('DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。');
 			main.destroy();
 		}, {once: true, passive: true});
-		return [];
+
+		return aP;
 	}
 
 
@@ -204,7 +217,7 @@ export class SysWeb extends SysBase {
 			const a = document.createElement('a');
 			a.href = URL.createObjectURL(blob);
 			a.download = (this.arg.crypto ?'' :'no_crypto_')
-				+ this.cfg.getNs() + getDateStr('-', '_', '') +'.swpd';
+				+ this.cfg.headNs + getDateStr('-', '_', '') +'.swpd';
 			a.click();
 
 			if (CmnLib.debugLog) console.log('プレイデータをエクスポートしました');
@@ -223,16 +236,15 @@ export class SysWeb extends SysBase {
 			inp.accept = '.swpd, text/plain';
 			inp.onchange = ()=> {
 				const f = inp.files?.[0];
-				if (f) rs(f); else rj()
+				if (f) rs(f); else rj(new Error('ファイル選択に失敗しました'))
 			};
 			inp.click();
 		})
 		.then(async blob=> {
 			const s = await blob.text();
-			const o = JSON.parse(this.arg.crypto ?await this.dec('json', s) :s);
-			if (! o.sys || ! o.mark || ! o.kidoku) throw new Error('異常なプレイデータです');
-			if (o.sys[SysBase.VALNM_CFG_NS] !== this.cfg.oCfg.save_ns) {
-				console.error(`別のゲーム【プロジェクト名=${o.sys[SysBase.VALNM_CFG_NS]}】のプレイデータです`);
+			const o = <T_Data4Vari>JSON.parse(this.arg.crypto ?await this.dec('json', s) :s);
+			if (o.sys['const.sn.cfg.ns'] !== this.cfg.oCfg.save_ns) {
+				console.error(`別のゲーム【プロジェクト名=${o.sys['const.sn.cfg.ns']}】のプレイデータです`);
 				return;
 			}
 
@@ -245,7 +257,7 @@ export class SysWeb extends SysBase {
 			if (CmnLib.debugLog) console.log('プレイデータをインポートしました');
 			this.fire('sn:imported', new MouseEvent('click'));
 		})
-		.catch(e=> console.error(`異常なプレイデータです ${e.message}`));
+		.catch((e: unknown)=> console.error(`異常なプレイデータです ${String(e)}`));
 
 		return false;
 	}
@@ -264,10 +276,11 @@ export class SysWeb extends SysBase {
 	// タイトル指定
 	protected override titleSub(txt: string) {
 		document.title = txt;
-		document.querySelectorAll('[data-title]').forEach(v=> v.textContent = txt);
+		document.querySelectorAll('[data-title]').forEach(v=> {v.textContent = txt});
 	}
 
 
+	// eslint-disable-next-line @typescript-eslint/require-await
 	override async savePic(path: string, data_url: string) {
 		const a = document.createElement('a');
 		a.href = data_url;
@@ -277,14 +290,15 @@ export class SysWeb extends SysBase {
 	}
 
 	readonly	#hAppendFile: {[path: string]: string} = {};
-	override async appendFile(path: string, data: any) {
+	override async appendFile(path: string, data: string) {
 		const txt = (this.#hAppendFile[path] ?? '') + data;
 		this.#hAppendFile[path] = txt;
 
 		await this.outputFile(path, txt);
 	}
-	override async outputFile(path: string, txt: string) {
-		const blob = new Blob([txt], {'type':'text/json'});
+	// eslint-disable-next-line @typescript-eslint/require-await
+	override async outputFile(path: string, data: string) {
+		const blob = new Blob([data], {'type':'text/json'});
 		const a = document.createElement('a');
 		a.href = URL.createObjectURL(blob);
 		a.download = path;

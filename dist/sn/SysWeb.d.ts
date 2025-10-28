@@ -1,6 +1,6 @@
 import { SysBase } from './SysBase';
 import { IHTag, ITag } from './Grammar';
-import { IVariable, IMain, IData4Vari, T_SysBaseParams, T_SysBaseLoadedParams } from './CmnInterface';
+import { IVariable, IMain, T_Data4Vari, T_SysBaseParams, T_SysBaseLoadedParams, T_H_TMP_DATA } from './CmnInterface';
 import { IFn2Path, IConfig } from './ConfigBase';
 import { Application } from 'pixi.js';
 export declare class SysWeb extends SysBase {
@@ -11,7 +11,7 @@ export declare class SysWeb extends SysBase {
     protected run: () => Promise<void>;
     stop(): void;
     loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
-    initVal(data: IData4Vari, hTmp: any, comp: (data: IData4Vari) => void): Promise<void>;
+    initVal(data: T_Data4Vari, hTmp: T_H_TMP_DATA, comp: (data: T_Data4Vari) => void): Promise<void>;
     init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[];
     cvsResize(): void;
     pathBaseCnvSnPath4Dbg: string;
@@ -20,7 +20,7 @@ export declare class SysWeb extends SysBase {
     protected readonly navigate_to: ITag;
     protected titleSub(txt: string): void;
     savePic(path: string, data_url: string): Promise<void>;
-    appendFile(path: string, data: any): Promise<void>;
-    outputFile(path: string, txt: string): Promise<void>;
+    appendFile(path: string, data: string): Promise<void>;
+    outputFile(path: string, data: string): Promise<void>;
 }
 //# sourceMappingURL=SysWeb.d.ts.map

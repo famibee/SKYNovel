@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2025-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -6,7 +7,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import type {HArg, IHTag} from './Grammar';
-import type {IEvt2Fnc, IHEvt2Fnc, IMain, IMark, IVariable} from './CmnInterface';
+import type {T_Evt2Fnc, T_HEvt2Fnc, IMain, T_Mark, IVariable} from './CmnInterface';
 import {argChk_Boolean, argChk_Num, CmnLib, EVNM_CLICK, EVNM_KEY} from './CmnLib';
 import type {Config} from './Config';
 import type {ScriptIterator} from './ScriptIterator';
@@ -15,18 +16,20 @@ import type {EventMng} from './EventMng';
 import type {FocusMng} from './FocusMng';
 import type {SoundMng} from './SoundMng';
 import {EventListenerCtn} from './EventListenerCtn';
+import type {T_RP_layGrp} from './GrpLayer';
+import type {T_RP_layTxt} from './TxtLayer';
 
 import {Container} from 'pixi.js';
 import {Tween, remove} from '@tweenjs/tween.js'
 
 
-interface IPageLog {
+type IPageLog = {
 	key		: string;
 	fn		: string;
 	index	: number;
-	mark	: IMark;
+	mark	: T_Mark;
 	week	: boolean;
-};
+}
 
 
 export class ReadingState {
@@ -34,29 +37,31 @@ export class ReadingState {
 	static	get rs() {return this.#rs}
 	constructor() {ReadingState.#rs = this}
 
-	static	#hLocalEvt2Fnc	: IHEvt2Fnc = {};
-	static	#hGlobalEvt2Fnc	: IHEvt2Fnc = {};
-	static	setEvt2Fnc(glb: boolean, key: string, fnc: IEvt2Fnc) {
+	static	#hLocalEvt2Fnc	: T_HEvt2Fnc = {};
+	static	#hGlobalEvt2Fnc	: T_HEvt2Fnc = {};
+	static	setEvt2Fnc(glb: boolean, key: string, fnc: T_Evt2Fnc) {
 		if (glb)
 			this.#hGlobalEvt2Fnc[key] = fnc;
 		else this.#hLocalEvt2Fnc[key] = fnc;
 	}
-	static	getEvt2Fnc = (key: string): IEvt2Fnc | undefined => this.#hLocalEvt2Fnc[key] ?? this.#hGlobalEvt2Fnc[key];
+	static	getEvt2Fnc = (key: string): T_Evt2Fnc | undefined => this.#hLocalEvt2Fnc[key] ?? this.#hGlobalEvt2Fnc[key];
 	static	clear_eventer(rawKeY: string, glb: boolean, key: string) {
 		if (! rawKeY.startsWith('dom=')) return;
 
 		const e2f = glb ? this.#hGlobalEvt2Fnc[key] : this.#hLocalEvt2Fnc[key];
 		if (e2f) this.getHtmlElmList(rawKeY).el.forEach(v=> v.removeEventListener('click', e2f));
+		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 		if (glb) delete this.#hGlobalEvt2Fnc[key];
+		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 		else	delete this.#hLocalEvt2Fnc[key];
 	}
 
-	static	popLocalEvts(): IHEvt2Fnc {
+	static	popLocalEvts(): T_HEvt2Fnc {
 		const ret = this.#hLocalEvt2Fnc;
 		this.#hLocalEvt2Fnc = {};
 		return ret;
 	}
-	static	pushLocalEvts(h: IHEvt2Fnc) {this.#hLocalEvt2Fnc = h}
+	static	pushLocalEvts(h: T_HEvt2Fnc) {this.#hLocalEvt2Fnc = h}
 
 	static	clear_event(hArg: HArg): boolean {
 		const glb = argChk_Boolean(hArg, 'global', false);
@@ -78,7 +83,9 @@ export class ReadingState {
 				const frmnm = `const.sn.frm.${id}`;
 				if (! Reading.val.getVal(`tmp:${frmnm}`, 0)) throw `HTML【${id}】が読み込まれていません`;
 
-				const ifrm = document.getElementById(id) as HTMLIFrameElement;
+				const ifrm = <HTMLIFrameElement | null>document.getElementById(id);
+				if (! ifrm) throw `HTML【${id}】の要素(id=${id})がありません`;
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const win = ifrm.contentWindow!;
 				sel = KeY.slice(idx +1);
 				return {el: win.document.querySelectorAll(sel), id, sel};
@@ -96,17 +103,17 @@ export class ReadingState {
 			//hTag.event({key:'click', breakout: fnc});
 			//hTag.event({key:'middleclick', breakout: fnc});
 			//	hTag.event()は内部で使わず、こうする
-			this.#hLocalEvt2Fnc['click'] =
-			this.#hLocalEvt2Fnc['enter'] =
-			this.#hLocalEvt2Fnc['arrowdown'] =
+			this.#hLocalEvt2Fnc.click =
+			this.#hLocalEvt2Fnc.enter =
+			this.#hLocalEvt2Fnc.arrowdown =
 
 			// hTag.event({key:'downwheel', breakout: fnc});
 			this.#hLocalEvt2Fnc['wheel.y>0'] = ()=> onUserAct();
 		}
 		else {
-			delete this.#hLocalEvt2Fnc['click'];
-			delete this.#hLocalEvt2Fnc['enter'];
-			delete this.#hLocalEvt2Fnc['arrowdown'];
+			delete this.#hLocalEvt2Fnc.click;
+			delete this.#hLocalEvt2Fnc.enter;
+			delete this.#hLocalEvt2Fnc.arrowdown;
 			delete this.#hLocalEvt2Fnc['wheel.y>0'];
 		}
 		this.getEvt2Fnc = glb
@@ -115,12 +122,10 @@ export class ReadingState {
 			: key=> this.#hLocalEvt2Fnc[key];
 
 		Reading.scrItr.noticeWait();
-		if (CmnLib.debugLog) {
-			const o = Object.create(null);
-			o.local = Object.keys(this.#hLocalEvt2Fnc);
-			o.global= Object.keys(this.#hGlobalEvt2Fnc);
-			console.log(`🎍 wait event... %o`, o);
-		}
+		if (CmnLib.debugLog) console.log('🎍 wait event... %o', {
+			local	: Object.keys(this.#hLocalEvt2Fnc),
+			global	: Object.keys(this.#hGlobalEvt2Fnc),
+		});
 	}
 
 	static	waitRsvEvent4Paging() {
@@ -133,7 +138,7 @@ export class ReadingState {
 			return;
 		}
 
-		const hGlb: IHEvt2Fnc = {};
+		const hGlb: T_HEvt2Fnc = {};
 		for (const k of this.aKeysAtPaging) {
 			const v = this.#hGlobalEvt2Fnc[k];
 			if (v) hGlb[k] = v;
@@ -147,7 +152,7 @@ export class ReadingState {
 
 		// 予約実行
 		const key = rawKeY.toLowerCase();
-		// if (CmnLib.debugLog) console.log(`👺 fire<(key:\`${key}\` type:${e.type} e:%o)`, {...e});
+		// if (CmnLib.debugLog) console.log(`👺 fire<(key:\`${key}\` type:${e.type} e:${JSON.stringify(e)})`);
 
 		switch (key) {
 			case 'click':
@@ -203,27 +208,28 @@ export class ReadingState {
 		const key = `${idx -1}:`+ fn;	// 検索時の都合で -1
 		if (this.aPage.findIndex(p=> p.key === key) > -1) return;	// 保存済
 
-		if (CmnLib.debugLog) console.log(`📜 %crecodePage === week:${week} lenPage:${this.lenPage} len:${this.aPage.length} POP:${!! this.aPage.at(-1)?.week}`, 'color:#3B0;');
+		if (CmnLib.debugLog) console.log(`📜 %crecodePage === week:${week} lenPage:${this.lenPage} len:${this.aPage.length} POP:${this.aPage.at(-1)?.week}`, 'color:#3B0;');
 
 		if (this.aPage.at(-1)?.week) this.aPage.pop();
 		const {max_len} = Reading.cfg.oCfg.log;	// 一定数を保つ
 		if (this.aPage.push({key, week,
-			fn		: Reading.val.getVal('save:const.sn.scriptFn', fn),
-			index	: Reading.val.getVal('save:const.sn.scriptIdx', 0),
+			fn		: <string>Reading.val.getVal('save:const.sn.scriptFn', fn),
+			index	: <number>Reading.val.getVal('save:const.sn.scriptIdx', 0),
 			mark	: Reading.scrItr.nowMark(),
 		}) > max_len) this.aPage = this.aPage.slice(-max_len);
 		this.lenPage = this.aPage.length;
 
 		if (CmnLib.debugLog) {
 			const m = Reading.scrItr.nowMark();
-			console.log(`   %clenPage:${this.lenPage} (base=${m.hPages.base!.fore.sBkFn} 0=${m.hPages['0']!.fore.sBkFn} mes=${m.hPages.mes!.fore.txs.cssText.match(/color: \w+;/)})%c mark:%o`, 'color:#3B0;', '', m);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			console.log(`   %clenPage:${this.lenPage} (base=${(<T_RP_layGrp>m.hPages.base!.fore).sBkFn} 0=${(<T_RP_layGrp>m.hPages['0']!.fore).sBkFn} mes=${/color: \w+;/.exec((<T_RP_layTxt>m.hPages.mes!.fore).txs.cssText)})%c mark:%o`, 'color:#3B0;', '', m);
 			console.table(this.aPage);
 		}
 
 		Reading.val.setVal_Nochk('sys', 'const.sn.aPageLog', JSON.stringify(this.aPage));
 	}
 	static	playbackPage(saPageLog: string, $styPaging: string) {
-		this.aPage = JSON.parse(saPageLog);
+		this.aPage = <IPageLog[]>JSON.parse(saPageLog);
 		this.lenPage = this.aPage.length;
 		if (this.posPage >= this.lenPage) this.posPage = this.lenPage -1;
 		this.styPaging = $styPaging;
@@ -248,7 +254,7 @@ export class ReadingState {
 			if (! Reading.skip_all && ! Reading.scrItr.isNextKidoku) {
 				Reading.cancelAutoSkip();	// 未読で停止
 			}
-			else if ('ps'.includes(Reading.val.getVal('sys:sn.skip.mode'))) {
+			else if ('ps'.includes(String(Reading.val.getVal('sys:sn.skip.mode')))) {
 				hArg.time = 50;	// 改行待ち=しない	// 魔法数字、見えるぐらい少し待つ
 				return this.wait(hArg);
 			}
@@ -274,7 +280,7 @@ export class ReadingState {
 			if (! Reading.skip_all && ! Reading.scrItr.isNextKidoku) {
 				Reading.cancelAutoSkip();	// 未読で停止
 			}
-			else if ('s' == Reading.val.getVal('sys:sn.skip.mode')) {
+			else if ('s' === String(Reading.val.getVal('sys:sn.skip.mode'))) {
 				hArg.time = 50;	// 改行待ち=しない	// 魔法数字、見えるぐらい少し待つ
 				return this.wait(hArg);
 			}
@@ -318,7 +324,7 @@ export class ReadingState {
 
 		// ページ移動状態中に有効にするグローバルイベントを限定
 		const {key, style} = hArg;
-		if (key) ReadingState.aKeysAtPaging = key.split((','));
+		if (key) ReadingState.aKeysAtPaging = key.split(',');
 
 		if (style) {
 			ReadingState.styPaging = style;
@@ -354,11 +360,11 @@ export class ReadingState {
 class ReadingState_go extends ReadingState {
 	constructor() {
 		super();
-		if (CmnLib.debugLog) console.log(`📖 => %cReadingState_go`, 'color:#3B0;');
+		if (CmnLib.debugLog) console.log('📖 => %cReadingState_go', 'color:#3B0;');
 
 		Reading.main.resume();
 	}
-	override	fire(_KeY: string, _e: Event) {}	// システムボタンなど無効化
+	override	fire(_KeY: string, _e: Event) { /* empty */ }	// システムボタンなど無効化
 }
 
 // proc 状態
@@ -366,9 +372,9 @@ class ReadingState_go extends ReadingState {
 class ReadingState_proc extends ReadingState {
 	constructor() {
 		super();
-		if (CmnLib.debugLog) console.log(`📖 => %cReadingState_proc`, 'color:#3B0;');
+		if (CmnLib.debugLog) console.log('📖 => %cReadingState_proc', 'color:#3B0;');
 	}
-	override	fire(_KeY: string, _e: Event) {}	// システムボタンなど無効化
+	override	fire(_KeY: string, _e: Event) { /* empty */ }	// システムボタンなど無効化
 }
 
 // wait 状態
@@ -376,11 +382,11 @@ class ReadingState_proc extends ReadingState {
 class ReadingState_wait4Tag extends ReadingState {
 	constructor(hArg: HArg) {
 		super();
-		if (CmnLib.debugLog) console.log(`📖 => %cReadingState_wait`, 'color:#3B0;');
+		if (CmnLib.debugLog) console.log('📖 => %cReadingState_wait', 'color:#3B0;');
 
 		// Reading.scrItr.noticeBreak(true);
 
-		let onUserAct = ()=> {};
+		let onUserAct = ()=> { /* empty */ };
 		const glb = argChk_Boolean(hArg, 'global', true);
 		switch (hArg[':タグ名']) {
 			case 'wait':	return;	// 予約イベント待ち【しない】
@@ -391,7 +397,7 @@ class ReadingState_wait4Tag extends ReadingState {
 
 			case 'p':
 				onUserAct = ()=> {
-					if (argChk_Boolean(hArg, 'er', false)) Reading.hTag.er!(hArg);
+					if (argChk_Boolean(hArg, 'er', false)) Reading.hTag.er(hArg);
 
 					Reading.sndMng.clearCache();
 					//scrItr.turnPage();
@@ -439,7 +445,7 @@ class ReadingState_wait4Tag extends ReadingState {
 class ReadingState_page extends ReadingState {
 	private	constructor() {
 		super();
-		if (CmnLib.debugLog) console.log(`📖 => %cReadingState_page`, 'color:#3B0;');
+		if (CmnLib.debugLog) console.log('📖 => %cReadingState_page', 'color:#3B0;');
 		Reading.val.setVal_Nochk('tmp', 'const.sn.isPaging', true);
 	}
 	static	go(hArg: HArg) {return new ReadingState_page().page(hArg)}
@@ -539,7 +545,8 @@ class ReadingState_page extends ReadingState {
 		if (CmnLib.debugLog) {
 			const m = Reading.scrItr.nowMark();
 			const {week} = ReadingState.aPage[ReadingState.posPage] ?? {week: false};
-			console.log(`   -- fn:${fn} i:${index} pos:${ReadingState.posPage} (base=%c${m.hPages.base!.fore.sBkFn}%c 0=%c${m.hPages['0']!.fore.sBkFn}%c mes=%c${m.hPages.mes!.fore.txs.cssText.match(/color: \w+;/)}%c) week:${week} A:${ReadingState.posPage === ReadingState.lenPage -1}\n   styPaging=%c${ReadingState.styPaging}%c\n   mark:%o`, 'background-color:#3B0; color:#000;', '', 'background-color:#B4F; color:#000;', '', 'color:#B68;', '', ReadingState.styPaging, '', mark);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			console.log(`   -- fn:${fn} i:${index} pos:${ReadingState.posPage} (base=%c${(<T_RP_layGrp>m.hPages.base!.fore).sBkFn}%c 0=%c${(<T_RP_layGrp>m.hPages['0']!.fore).sBkFn}%c mes=%c${/color: \w+;/.exec((<T_RP_layTxt>m.hPages.mes!.fore).txs.cssText)}%c) week:${week} A:${ReadingState.posPage === ReadingState.lenPage -1}\n   styPaging=%c${ReadingState.styPaging}%c\n   mark:%o`, 'background-color:#3B0; color:#000;', '', 'background-color:#B4F; color:#000;', '', 'color:#B68;', '', ReadingState.styPaging, '', mark);
 		}
 		return Reading.scrItr.loadFromMark({fn, index}, mark);
 	}
@@ -552,9 +559,10 @@ class ReadingState_page extends ReadingState {
 
 
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Reading {
 	static	beginProc(proc_id: string, onNotify?: ()=> void, endProc = true, onClickSkip?: ()=> void) {
-		if (CmnLib.debugLog) console.log(`📖.beginProc id:%c${proc_id}%c onNotify:${(!! onNotify)} endProc:${endProc} onClickSkip:${!! onClickSkip}`, 'color:#3B0;', '');
+		if (CmnLib.debugLog) console.log(`📖.beginProc id:%c${proc_id}%c onNotify:${onNotify} endProc:${endProc} onClickSkip:${onClickSkip}`, 'color:#3B0;', '');
 		this.#clearProc();
 		this.#procID = proc_id;
 
@@ -563,7 +571,7 @@ export class Reading {
 			// notifyEndProc()を呼べば callBack & EndProc する機能
 			// 使用者は、処理終了時に notifyEndProc()を呼ぶ義務がある
 			const {promise, resolve} = Promise.withResolvers<string>();
-			promise.then((proc_id: string)=> {
+			void promise.then((proc_id: string)=> {
 				if (CmnLib.debugLog) console.log(`📖.callBack id:%c${proc_id}%c`, 'color:#3B0;', '');
 				onNotify();
 				if (endProc) this.endProc(proc_id); else this.#clearProc();
@@ -583,7 +591,7 @@ export class Reading {
 				fnc();
 			});
 			this.#elc.add(document, EVNM_KEY, (e: KeyboardEvent)=> {
-				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
+				if (e.isComposing) return; // サポートしてない環境でもいける書き方
 				e.stopPropagation();
 				fnc();
 			});
@@ -595,12 +603,12 @@ export class Reading {
 	}
 		static	#clearProc() {
 			this.#procID = '';
-			this.#rsNotify = ()=> {};
+			this.#rsNotify = ()=> { /* empty */ };
 			this.#elc.clear();
 		}
 		static	readonly	#elc = new EventListenerCtn;
 
-	static	#rsNotify	: (proc_id: string)=> void	= ()=> {};
+	static	#rsNotify	: (proc_id: string)=> void	= ()=> { /* empty */ };
 	static	notifyEndProc(proc_id: string) {
 		if (CmnLib.debugLog) console.log(`📖.notifyEndProc id:%c${proc_id}%c=${this.#procID === proc_id}`, 'color:#3B0;', '');
 		if (this.#procID !== proc_id) return;
@@ -640,7 +648,7 @@ export class Reading {
 	static	val		: IVariable;
 	static	scrItr	: ScriptIterator;
 	static	layMng	: LayerMng;
-	static	goTxt = ()=> {};
+	static	goTxt = ()=> { /* empty */ };
 	static	get needGoTxt() {return this.layMng.needGoTxt}
 	static	evtMng	: EventMng;
 	static	sndMng	: SoundMng;
@@ -661,13 +669,13 @@ export class Reading {
 		this.procWheel4wle = procWheel4wle;
 
 		val.defTmp('sn.tagL.enabled', ()=> this.tagL_enabled);
-		val.defValTrg('tmp:sn.tagL.enabled', (_name: string, v: any)=> this.tagL_enabled = String(v) !== 'false');
+		val.defValTrg('tmp:sn.tagL.enabled', (_, v)=> {this.tagL_enabled = String(v) !== 'false'});
 		val.defTmp('sn.skip.all', ()=> this.skip_all);
-		val.defValTrg('tmp:sn.skip.all', (_name: string, v: any)=> this.skip_all = String(v) !== 'false');
+		val.defValTrg('tmp:sn.skip.all', (_, v)=> {this.skip_all = String(v) !== 'false'});
 		val.defTmp('sn.skip.enabled', ()=> this.skip_enabled);
-		val.defValTrg('tmp:sn.skip.enabled', (_name: string, v: any)=> this.skip_enabled = String(v) !== 'false');
+		val.defValTrg('tmp:sn.skip.enabled', (_, v)=> {this.skip_enabled = String(v) !== 'false'});
 		val.defTmp('sn.auto.enabled', ()=> this.auto_enabled);
-		val.defValTrg('tmp:sn.auto.enabled', (_name: string, v: any)=> this.auto_enabled = String(v) !== 'false');
+		val.defValTrg('tmp:sn.auto.enabled', (_, v)=> {this.auto_enabled = String(v) !== 'false'});
 
 		hTag.l			= o=> ReadingState.rs.l(o);		// 行末クリック待ち
 		hTag.p			= o=> ReadingState.rs.p(o);		// 改ページクリック待ち
@@ -677,7 +685,7 @@ export class Reading {
 		hTag.page		= o=> ReadingState.rs.page(o);		// ページ移動
 
 		new ReadingState_proc;
-		hTag.jump!({fn: 'main'});
+		hTag.jump({fn: 'main'});
 	}
 	static	setFcs(fcs: FocusMng) {this.fcs = fcs}
 

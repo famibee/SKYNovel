@@ -1,8 +1,6 @@
 import { HArg } from './Grammar';
 import { IPutCh } from './CmnInterface';
-export interface IAutoPage {
-    (idx: number, str: string): void;
-}
+export type IAutoPage = (idx: number, str: string) => void;
 export declare class RubySpliter {
     #private;
     static setting(hArg: HArg): void;

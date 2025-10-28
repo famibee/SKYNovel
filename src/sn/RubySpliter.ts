@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable no-irregular-whitespace */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -8,7 +10,8 @@
 import type {HArg} from './Grammar';
 import type {IPutCh} from './CmnInterface';
 
-export interface IAutoPage { (idx: number, str: string): void; }
+export type IAutoPage = (idx: number, str: string) => void;
+
 
 export class RubySpliter {
 	static	#sesame		= 'ヽ';
@@ -17,7 +20,7 @@ export class RubySpliter {
 
 	static	destroy() {RubySpliter.#sesame = 'ヽ'}
 
-	#putCh	: IPutCh	= ()=> {};
+	#putCh	: IPutCh	= ()=> { /* empty */ };
 	init(putCh: IPutCh) {this.#putCh = putCh}
 
 /*
@@ -40,7 +43,7 @@ export class RubySpliter {
 		【2022/10/03】ruby正規表現のUnicode プロパティ(とPOSIX文字クラス) - Qiita https://qiita.com/Takayuki_Nakano/items/8d38beaddb84b488d683
 			> このHiraganaプロパティ、長音記号は含まれていません。
 			> \p{Han}…簡体字や繁体字、韓国語の漢字…ベトナム語の漢字にもマッチ
-		
+
 		・Unicode文字一覧表 - instant tools https://tools.m-bsys.com/ex/unicode_table.php
 */
 	static	#REG_RUBY	: RegExp;
@@ -58,14 +61,14 @@ export class RubySpliter {
 		*/
 		// (new RegExp("~")) の場合は、バックスラッシュは２つ必要
 		RubySpliter.#REG_RUBY = new RegExp(
-			`${ce ?`(?<ce>\\${ce}\\S)|` :''}`+
-			`｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》`+
-			`|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])`+
-			`《(?<kan_ruby>[^》\\n]+)》)`+
-			`|(?<txt>`+
-			`[\uD800-\uDBFF][\uDC00-\uDFFF]`+	// 上位 + 下位サロゲート
-			`|[^｜《》]+?`+		// 不要だが細切れにしないほうが後々効率で有利
-			`|.)`,
+			(ce ?`(?<ce>\\${ce}\\S)|` :'')+
+			'｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》'+
+			'|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])'+
+			'《(?<kan_ruby>[^》\\n]+)》)'+
+			'|(?<txt>'+
+			'[\uD800-\uDBFF][\uDC00-\uDFFF]'+	// 上位 + 下位サロゲート
+			'|[^｜《》]+?'+		// 不要だが細切れにしないほうが後々効率で有利
+			'|.)',
 			'gs'
 		);
 	}
@@ -104,10 +107,10 @@ export class RubySpliter {
 		// 空白がある場合はユーザが区切りを指定しているものと見なす
 		const aR = ruby.split(' ');
 		const lenR = aR.length;
-		const len_max = (lenR > len) ?lenR :len;
+		const len_max = lenR > len ?lenR :len;
 		for (let i=0; i<len_max; ++i) this.#putCh(
-			(i < len) ? a[i]! : '',
-			(i < lenR) ? decodeURIComponent(aR[i]!) : ''
+			i < len ? a[i]! : '',
+			i < lenR ? decodeURIComponent(aR[i]!) : ''
 		);
 	}
 

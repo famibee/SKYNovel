@@ -5,21 +5,19 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {type Container, utils} from 'pixi.js';
+import {utils} from 'pixi.js';
 
 type IEmitter = utils.EventEmitter | {
 	addEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | AddEventListenerOptions): void;
 	removeEventListener(type: string, listener: EventListenerOrEventListenerObject, options?: boolean | EventListenerOptions): void;
 }
 
-export class EventListenerCtn {	// リソースリーク対策
-	#aOffEvt	: {(): void}[]	= [];
 
-	addC(ed: Container, type: string, fnc: (e: any)=> void, ctx: any = {}): void {
-		ed.on(type, fnc, ctx);
-		this.#aOffEvt.push(()=> ed.off(type, fnc, ctx));
-	}
-	add(ed: IEmitter, type: string, fnc: (e: any)=> void, ctx: any = {}): void {
+export class EventListenerCtn {	// リソースリーク対策
+	#aOffEvt: (()=> void)[]	= [];
+
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	add(ed: IEmitter, type: string, fnc: (e: any)=> void, ctx: AddEventListenerOptions = {}): void {
 		if (ed instanceof utils.EventEmitter) {
 			ed.on(type, fnc, ctx);
 			this.#aOffEvt.push(()=> ed.off(type, fnc, ctx));

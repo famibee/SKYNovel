@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -22,21 +24,21 @@ import {Reading, ReadingState} from './Reading';
 
 import {Container, type Application, utils} from 'pixi.js';
 import {createPopper, type Instance as InsPop} from '@popperjs/core';
-import TinyGesture from 'tinygesture';
+import TinyGesture, {type Events} from 'tinygesture';
 
 
 const enum eDownKeys {
 	NO_PUSH = 0,
 	ONE_PUSH,
 	PUSH_REPEATING,
-};
+}
 
 
 export class EventMng implements IEvtMng {
 	readonly	#elc		= new EventListenerCtn;
 	readonly	#fcs		= new FocusMng;
 	readonly	#tg;
-	readonly	#setBtnNM	= new Map<number, string>([
+	readonly	#setBtnNM	= new Map<eDownKeys, string>([
 		[0, ''],
 		[1, 'middle'],
 		// [2, 'right'],
@@ -131,7 +133,7 @@ export class EventMng implements IEvtMng {
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>
 </div>`);
-		this.#elmHint = document.querySelector('.sn_hint') as HTMLElement;
+		this.#elmHint = document.querySelector('.sn_hint')!;
 		this.#spanHint = this.#elmHint.querySelector('span')!;
 		this.#popper = createPopper(this.#elmV, this.#elmHint);
 		this.#elmHint.hidden = true;
@@ -139,21 +141,20 @@ export class EventMng implements IEvtMng {
 
 		// マウスボタンやキーボードイベント登録
 		appPixi.stage.interactive = true;
-		this.#elc.add(document.body, EVNM_KEY, e=> this.#ev_keydown(e));
+		this.#elc.add(document.body, EVNM_KEY, (e: KeyboardEvent)=> this.#ev_keydown(e));
 		this.#elc.add(document.body, 'keyup', ()=> ReadingState.resetFired());
 		// 右クリックは contextmenu で処理。resvFlameEvent と合わせる
-		this.#elc.add(main.cvs, 'contextmenu', e=> {
+		this.#elc.add(main.cvs, 'contextmenu', (e: MouseEvent)=> {
 			const nmEvt = this.#modKey4MouseEvent(e) +'rightclick';
 			Reading.fire(nmEvt, e, true);
 			e.preventDefault();		// イベント未登録時、メニューが出てしまうので
 		});
 		// その他マウス（ポインターイベント）
 		// this.#elc.add(main.cvs, EVNM_KEY, e=> {	// 通常のクリックイベント
-		const w = cfg.oCfg.window.width;
-		const h = cfg.oCfg.window.height;
+		const {width: w, height: h} = cfg.oCfg.window;
 		const TG_CHK_SPAN = Math.floor(w > h ?h/3 :w/3);	// だいたいの数字
 		this.#tg = new TinyGesture(main.cvs, {
-			velocityThreshold: 0, 
+			velocityThreshold: 0,
 			disregardVelocityThreshold: type=> Math.floor(TG_CHK_SPAN *(type === 'x' ?1 :0.5)),
 		});
 		let pressed = false;	// 長押しとクリックを排他的にする仕組み
@@ -189,13 +190,15 @@ export class EventMng implements IEvtMng {
 			Reading.fire(nmEvt, e, true);
 		});
 		this.#tg.on('panend', ()=> {
-			if (pressed) queueMicrotask(()=> pressed = false);
+			if (pressed) queueMicrotask(()=> {pressed = false});
 		});
-		['swiperight',
-		 'swipeleft',
-		 'swipeup',
-		 'swipedown'].forEach(en=> {
-			this.#tg.on(<any>en, e=> {
+		(<(keyof Events)[]>[
+			'swiperight',
+			'swipeleft',
+			'swipeup',
+			'swipedown'
+		]).forEach(en=> {
+			this.#tg.on(en, (e: TouchEvent | MouseEvent)=> {
 				if (e instanceof TouchEvent) {Reading.fire(en, e, true); return}
 
 				const nmEvt = this.#modKey4MouseEvent(e) +en;
@@ -207,9 +210,10 @@ export class EventMng implements IEvtMng {
 
 		// 言語切り替え通知
 		const fncUpdNavLang = ()=> val.setVal_Nochk('tmp', 'const.sn.navigator.language', navigator.language);
-		// TODO: アプリ版で[event key=sn:chgNavLang]が発生しない件
-		this.#elc.add(globalThis, 'languagechange', e=> {
-//console.log(`fn:EventMng.ts languagechange `);
+		// アプリ版で[event key=sn:chgNavLang]が発生しない
+// console.log(`fn:EventMng.ts lang:${navigator.language} ... ${JSON.stringify(navigator.languages)}`);
+		this.#elc.add(globalThis, 'languagechange', (e: Event)=> {
+// console.log(`fn:EventMng.ts languagechange lang:${navigator.language} ... ${JSON.stringify(navigator.languages)}`);
 			fncUpdNavLang();
 			Reading.fire('sn:chgNavLang', e);
 			utils.clearTextureCache();
@@ -223,20 +227,19 @@ export class EventMng implements IEvtMng {
 		};
 		const mql = globalThis.matchMedia('(prefers-color-scheme: dark)');
 		fncMql(mql);
-		this.#elc.add(mql, 'change', e=> {
+		this.#elc.add(mql, 'change', (e: MediaQueryListEvent)=> {
 			fncMql(e);
 			Reading.fire('sn:chgDarkMode', e);
 		});
 
 		//: 縦回転ホイール
-		let procWheel4wle = (_elc: EventListenerCtn, _onIntr: ()=> void)=> {};
+		let procWheel4wle = (_elc: EventListenerCtn, _onIntr: ()=> void)=> { /* empty */ };
 		if ('WheelEvent' in globalThis) {
-			this.#elc.add(main.cvs, 'wheel', e=> this.#ev_wheel(e), {passive: true});
-			this.#resvFlameEvent4Wheel = body=> this.#elc.add(body, 'wheel', e=> this.#ev_wheel(e), {passive: true});
+			this.#elc.add(main.cvs, 'wheel', (e: WheelEvent)=> this.#ev_wheel(e), {passive: true});
+			this.#resvFlameEvent4Wheel = body=> this.#elc.add(body, 'wheel', (e: WheelEvent)=> this.#ev_wheel(e), {passive: true});
 
-			procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(main.cvs, 'wheel', e=> {
+			procWheel4wle = (elc: EventListenerCtn, fnc: ()=> void)=> elc.add(main.cvs, 'wheel', (e: WheelEvent)=> {
 				//if (! e.isTrusted) return;
-				if (e['isComposing']) return; // サポートしてない環境でもいける書き方
 				if (e.deltaY <= 0) return;
 
 				e.stopPropagation();
@@ -246,17 +249,31 @@ export class EventMng implements IEvtMng {
 		Reading.init(cfg, hTag, main, val, scrItr, layMng, this, sndMng, procWheel4wle);
 
 
-		import('gamepad.js').then(({GamepadListener})=> {
-			const gamepad = new GamepadListener({
+		void import('gamepad.js').then(({GamepadListener})=> {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+			const gamepad: {
+				on		: (evt_nm: string, hand: (e: {
+					detail: {
+	index	: number;// Gamepad index: Number [0-3].
+	axis?	: number;
+	button?	: number; // Button index: Number [0-N].
+	value	: number; // Current value: Number between 0 and 1. Float in analog mode, integer otherwise.
+	pressed	: boolean; // Native GamepadButton pressed value: Boolean.
+	gamepad	: Gamepad; // Native Gamepad object
+					};
+				})=> void)=> void;
+				start	: ()=> void;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call
+			} = new GamepadListener({
 				analog	: false,
 				deadZone: 0.3,
 			});
 			if (CmnLib.debugLog) {
 				// コネクタを挿した時ではなく、ボタンなどを押した時に発生
 				// ただ一度抜き→差しするとすぐ発生するようになる
-				gamepad.on('gamepad:connected', (e: any)=> console.log(`👺<'gamepad:connected' index:${e.detail.index} id:${e.detail.gamepad.id}`));
+				gamepad.on('gamepad:connected', ({detail})=> console.log(`👺<'gamepad:connected' index:${detail.index} id:${detail.gamepad.id}`));
 				// コネクタを抜いた時に発生
-				gamepad.on('gamepad:disconnected', (e: any)=> console.log(`👺<'gamepad:disconnected' index:${e.detail.index} id:${e.detail.gamepad?.id}`));	// e.detail.gamepad = undefined
+				gamepad.on('gamepad:disconnected', ({detail})=> console.log(`👺<'gamepad:disconnected' index:${detail.index} id:${detail.gamepad.id}`));	// e.detail.gamepad = undefined
 			}
 			const aStick: string[] = [
 				'',			'ArrowUp',	'',				// '7', '8', '9',
@@ -264,17 +281,17 @@ export class EventMng implements IEvtMng {
 				'',			'ArrowDown', '',			// '1', '2', '3',
 			];
 			const stick_xy = [0, 0];
-			gamepad.on('gamepad:axis', (e: any)=> {
+			gamepad.on('gamepad:axis', ({detail})=> {
 				if (! document.hasFocus()) return;
 
-				stick_xy[e.detail.axis] = e.detail.value;
+				stick_xy[detail.axis!] = detail.value;
 				const [x=0, y=0] = stick_xy;
 				const s = (y +1)*3 + (x +1);
-//console.log(`fn:EventMng.ts 👺 'gamepad:axis' detail:%o`, e.detail);
+//console.log(`fn:EventMng.ts 👺 'gamepad:axis' detail:%o`, detail);
 				const s2 = aStick[s];
 				if (! s2) return;
 				const cmp = this.#fcs.getFocus();
-				((! cmp || cmp instanceof Container) ?globalThis :cmp)
+				(! cmp || cmp instanceof Container ?globalThis :cmp)
 				.dispatchEvent(new KeyboardEvent(EVNM_KEY, {key: s2, bubbles: true}));
 
 				if (! cmp || cmp instanceof Container) return;
@@ -282,23 +299,22 @@ export class EventMng implements IEvtMng {
 				Reading.cancelAutoSkip();	// ユーザーアクションなので停止
 				if (cmp.getAttribute('type') === 'range') cmp.dispatchEvent(new InputEvent('input', {bubbles: true}));	// スライダー変更時、表示数字が変わらない対応
 			});
-			gamepad.on('gamepad:button', (e: any)=> {
+			gamepad.on('gamepad:button', e=> {
 				if (! document.hasFocus()) return;
 //console.log(`fn:EventMng.ts 👺 'gamepad:button' detail:%o`, e.detail);
-				if (e.detail.button % 2 === 0) {
+				if (e.detail.button! % 2 === 0) {
 					Reading.cancelAutoSkip();	// ユーザーアクションなので停止
 					const cmp = this.#fcs.getFocus();
-					((! cmp || cmp instanceof Container) ?document.body :cmp)
+					(! cmp || cmp instanceof Container ?document.body :cmp)
 					.dispatchEvent(new KeyboardEvent(EVNM_KEY, {key: 'Enter', bubbles: true}));
 				}
-				else Reading.fire('middleclick', e, true);
+				else Reading.fire('middleclick', <Event><unknown>e, true);
 			});
 			gamepad.start();
-
 		});
 
 		this.#elc.add(document, 'keyup', (e: KeyboardEvent)=> {
-			if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
+			if (e.isComposing) return;	// サポートしてない環境でもいける書き方
 
 			if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = eDownKeys.NO_PUSH;
 		});
@@ -311,7 +327,7 @@ export class EventMng implements IEvtMng {
 	}
 
 	resvFlameEvent(body: HTMLBodyElement) {
-		this.#elc.add(body, EVNM_KEY, e=> this.#ev_keydown(e));
+		this.#elc.add(body, EVNM_KEY, (e: KeyboardEvent)=> this.#ev_keydown(e));
 		// 右クリックは contextmenu で処理。親と合わせる
 		this.#elc.add(body, 'contextmenu', (e: MouseEvent)=> {
 			Reading.fire(this.#modKey4MouseEvent(e) +'rightclick', e, true);
@@ -331,9 +347,9 @@ export class EventMng implements IEvtMng {
 		this.#elc.add(body, 'pointerout', ()=> ReadingState.resetFired());
 			// ポインターが要素の外に出た：押してフレームが横入りした場合など
 	}
-	#resvFlameEvent4Wheel = (_body: HTMLBodyElement)=> {};
+	#resvFlameEvent4Wheel = (_body: HTMLBodyElement)=> { /* empty */ };
 	#ev_keydown(e: KeyboardEvent) {
-		if (e['isComposing']) return;	// サポートしてない環境でもいける書き方
+		if (e.isComposing) return;	// サポートしてない環境でもいける書き方
 		if (e.key in this.#hDownKeys) this.#hDownKeys[e.key] = e.repeat ?eDownKeys.PUSH_REPEATING :eDownKeys.ONE_PUSH;
 
 		e.preventDefault();
@@ -382,6 +398,7 @@ export class EventMng implements IEvtMng {
 	}
 
 	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn)}
+
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
 		if (! hArg.fn && ! hArg.label && ! hArg.url) this.main.errScript('fnまたはlabelまたはurlは必須です');
 		hArg.fn ??= this.scrItr.scriptFn;
@@ -394,14 +411,17 @@ export class EventMng implements IEvtMng {
 		ReadingState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
 		// 直後にも pointer〜 があるのでダブリに見えるが、こちらが fire 用
 		ctnBtn.on(EVNM_BUTTON, ({data})=> {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
 			const e = data.originalEvent;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 			e.preventDefault();
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			if (ReadingState.isFirstFire()) Reading.fire(key, e, true);
 		});
 
 		// マウスイベント発生
 		// マウスカーソルを載せるとヒントをツールチップス表示する
-		const onHint = hArg.hint ?()=> this.#dispHint(hArg, ctnBtn) :()=> {};
+		const onHint = hArg.hint ?()=> this.#dispHint(hArg, ctnBtn) :()=> { /* empty */ };
 		// マウスオーバーでの見た目変化
 		const nr = ()=> {normal(); this.#elmHint.hidden = true};
 		const hv = ()=> {onHint(); return hover()};
@@ -425,21 +445,21 @@ export class EventMng implements IEvtMng {
 			hArg.clicksebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.clickse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerdown', ()=> {
-				this.hTag.playse!({fn: hArg.clickse, buf: hArg.clicksebuf, join: false});
+				this.hTag.playse({fn: hArg.clickse, buf: hArg.clicksebuf, join: false});
 			});
 		}
 		if (hArg.enterse) {	//	enterse	ボタン上にマウスカーソルが載った時に効果音
 			hArg.entersebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.enterse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerover', ()=> {
-				this.hTag.playse!({fn: hArg.enterse, buf: hArg.entersebuf, join: false});
+				this.hTag.playse({fn: hArg.enterse, buf: hArg.entersebuf, join: false});
 			});
 		}
 		if (hArg.leavese) {	//	leavese	ボタン上からマウスカーソルが外れた時に効果音
 			hArg.leavesebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.leavese, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
 			ctnBtn.on('pointerout', ()=> {
-				this.hTag.playse!({fn: hArg.leavese, buf: hArg.leavesebuf, join: false});
+				this.hTag.playse({fn: hArg.leavese, buf: hArg.leavesebuf, join: false});
 			});
 		}
 
@@ -448,14 +468,16 @@ export class EventMng implements IEvtMng {
 			const k = key + hArg.onenter.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: k};
 			ReadingState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
-			ctnBtn.on('pointerover', (e: any)=> Reading.fire(k, e));
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			ctnBtn.on('pointerover', e=> Reading.fire(k, e));
 		}
 		if (hArg.onleave) {
 			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
 			const k = key + hArg.onleave.toLowerCase();
 			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: k};
 			ReadingState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
-			ctnBtn.on('pointerout', (e: any)=> Reading.fire(k, e));
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			ctnBtn.on('pointerout', e=> Reading.fire(k, e));
 		}
 	}
 	readonly	#elmV = {
@@ -479,7 +501,7 @@ export class EventMng implements IEvtMng {
 		const rctBtn = ctnBtn instanceof Button
 			? ctnBtn.getBtnBounds()
 			: ctnBtn.getBounds();
-		const isLink = (hArg[':タグ名'] === 'link');
+		const isLink = hArg[':タグ名'] === 'link';
 		if (! isLink) {
 			const cpp = ctnBtn.parent.parent;
 			rctBtn.x += cpp.x;	// レイヤ位置を加算
@@ -491,25 +513,28 @@ export class EventMng implements IEvtMng {
 		this.#spanHint.style.cssText = '';
 		this.#spanHint.textContent = hArg.hint ?? '';
 
-		try {
-			const o = hArg.hint_opt ?{...this.#oHintOpt, ...JSON.parse(hArg.hint_opt)}: this.#oHintOpt;
-			this.#popper.setOptions(o);
-		} catch (e) {console.error(mesErrJSON(
-			hArg,
-			'hint_opt', 
-			`dispHint 引数 hint_opt エラー ${
-				e instanceof SyntaxError ?e.message :''
-			}`,
-		))}
-
 		this.#elmV.getBoundingClientRect = ()=> DOMRect.fromRect({
 			x: this.sys.ofsLeft4elm +rctBtn.x *this.sys.cvsScale,
 			y: this.sys.ofsTop4elm  +rctBtn.y *this.sys.cvsScale,
 			width: rctBtn.width, height: rctBtn.height,
 		});
-		this.#popper.update();
-
-		this.#elmHint.hidden = false;
+		void this.#popper.setOptions(
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			hArg.hint_opt
+			? {...this.#oHintOpt, ...JSON.parse(hArg.hint_opt)}
+			: this.#oHintOpt
+		)
+		.then(async ()=> {
+			await this.#popper.update();
+			this.#elmHint.hidden = false;
+		})
+		.catch((e: unknown)=> console.error(mesErrJSON(
+			hArg,
+			'hint_opt',
+			`dispHint 引数 hint_opt エラー ${
+				e instanceof SyntaxError ?e.message :''
+			}`,
+		)));
 	}
 	hideHint() {this.#elmHint.hidden = true}
 	cvsResize() {this.hideHint()}
@@ -544,7 +569,8 @@ export class EventMng implements IEvtMng {
 			}
 
 			let aEv = ['click', EVNM_KEY];	// ラジオボタンも
-			const inp = g.el[0] as HTMLInputElement;
+			const inp = <HTMLInputElement>g.el[0];
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			switch (inp.type ?? '') {
 		//	switch (g.el[0].getAttribute('type') ?? '') { textareaで''になる
 				case 'checkbox':	aEv = ['input'];	break;
@@ -557,10 +583,10 @@ export class EventMng implements IEvtMng {
 			for (let i=0; i<len; ++i) {
 				const v = aEv[i]!;
 				g.el.forEach(elm=> {
-					this.#elc.add(elm, v, e=> {
+					this.#elc.add(elm, v, (e: KeyboardEvent)=> {
 						if (! Reading.isWait || this.layMng.getFrmDisabled(g.id)) return;
 						if (v === EVNM_KEY && e.key !== 'Enter') return;
-	
+
 						const d = elm.dataset;
 						for (const [k, v] of Object.entries(d)) this.val.setVal_Nochk('tmp', `sn.event.domdata.${k}`, v);
 						Reading.fire(rawKeY, e);
@@ -574,7 +600,7 @@ export class EventMng implements IEvtMng {
 							elm.focus();
 							return true;
 						},
-						()=> {},
+						()=> { /* empty */ },
 					);
 				});
 			}
@@ -587,23 +613,25 @@ export class EventMng implements IEvtMng {
 
 		return false;
 	}
-	#canFocus(elm: HTMLElement): boolean {
+	#canFocus(elm: HTMLElement | null): boolean {
+		if (! elm) return false;
 		if (elm.offsetParent === null) return false;
 
-		let el: HTMLElement | null = elm;
+		let e: HTMLElement | null = elm;
 		do {
-			const style = getComputedStyle(el);
+			const style = getComputedStyle(e);
 			if (style.display === 'none'
-			|| el.dataset.focus === 'false'
+			|| e.dataset.focus === 'false'
 		//	|| style.visibility !== 'visible'
-			|| (el as any)?.disabled
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+			|| (<any>e)?.disabled
 		//	|| parseFloat(style.opacity ?? '') <= 0.0
 		//	|| parseInt(style.height ?? '', 10) <= 0
 		//	|| parseInt(style.width ?? '', 10) <= 0
 			) return false;
-			el = el.parentElement;
+			e = e.parentElement;
 		}
-		while (el !== null);
+		while (e);
 
 		return true;
 	}
@@ -622,7 +650,7 @@ export class EventMng implements IEvtMng {
 					elm.focus();
 					return true;
 				},
-				()=> {},
+				()=> { /* empty */ },
 			));
 			return false;
 		}
@@ -651,7 +679,8 @@ export class EventMng implements IEvtMng {
 		return Object.keys(this.#hDownKeys).some(k=> this.#hDownKeys[k] === eDownKeys.PUSH_REPEATING);
 	}
 	// 0:no push  1:one push  2:push repeating
-	readonly #hDownKeys	: {[key: string]: number}	= {
+	// eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+	readonly #hDownKeys	: {[key: string]: eDownKeys}	= {
 		'Alt'		: eDownKeys.NO_PUSH,
 		'Meta'		: eDownKeys.NO_PUSH,	// COMMANDキー
 		'Control'	: eDownKeys.NO_PUSH,
@@ -661,6 +690,6 @@ export class EventMng implements IEvtMng {
 		'Escape'	: eDownKeys.NO_PUSH,
 		' '			: eDownKeys.NO_PUSH,
 		'GoBack'	: eDownKeys.NO_PUSH,	// AndroidのBackキーだと思う
-	}
+	} as const;
 
 }

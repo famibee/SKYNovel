@@ -47,12 +47,12 @@ export class SoundMng {
 	#evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng; SndBuf.setEvtMng(evtMng)}
 	setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume) {
-		this.val.defValTrg('sys:sn.sound.global_volume', (_name: string, val: any)=> setGlbVol(sound.volumeAll = Number(val)));
-		this.val.defValTrg('sys:sn.sound.movie_volume', (_name: string, val: any)=> setMovVol(Number(val)));
+		this.val.defValTrg('sys:sn.sound.global_volume', (_, val)=> setGlbVol(sound.volumeAll = Number(val)));
+		this.val.defValTrg('sys:sn.sound.movie_volume', (_, val)=> setMovVol(Number(val)));
 
 		// 起動時初期値セット
-		this.val.setVal_Nochk('sys', 'sn.sound.global_volume', this.val.getVal('sys:sn.sound.global_volume', 1));
-		this.val.setVal_Nochk('sys', 'sn.sound.movie_volume', this.val.getVal('sys:sn.sound.movie_volume', 1));
+		this.val.setVal_Nochk('sys', 'sn.sound.global_volume', <number>this.val.getVal('sys:sn.sound.global_volume', 1));
+		this.val.setVal_Nochk('sys', 'sn.sound.movie_volume', <number>this.val.getVal('sys:sn.sound.movie_volume', 1));
 	}
 
 	//MARK: 音量設定（独自拡張）
@@ -140,7 +140,7 @@ export class SoundMng {
 	//MARK: 効果音フェードの終了待ち
 	#wf(hArg: HArg) {
 		const {buf = BUF_SE} = hArg;
-		return this.#hSndBuf[buf]?.wf(hArg) as boolean;
+		return this.#hSndBuf[buf]?.wf(hArg) ?? false;
 	}
 
 	//MARK: 音声フェードの停止
@@ -156,7 +156,7 @@ export class SoundMng {
 	//MARK: 効果音再生の終了待ち
 	#ws(hArg: HArg) {
 		const {buf = BUF_SE} = hArg;
-		return this.#hSndBuf[buf]?.ws(hArg) as boolean;
+		return this.#hSndBuf[buf]?.ws(hArg) ?? false;
 	}
 
 	//MARK: 再生トラックの交換
@@ -166,7 +166,9 @@ export class SoundMng {
 
 		const a = this.#hSndBuf[buf1];	// 分割代入の変数交換だと noUncheckedIndexedAccess エラーになるので
 		const b = this.#hSndBuf[buf2];
+		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 		if (a) this.#hSndBuf[buf2] = a; else delete this.#hSndBuf[buf2];
+		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 		if (b) this.#hSndBuf[buf1] = b; else delete this.#hSndBuf[buf1];
 
 		SndBuf.xchgbuf(hArg);
@@ -185,11 +187,11 @@ export class SoundMng {
 	(to)	play	play	stop/play	--[2]
 			eq play	play	-			--[2]
 */
-		const hSaveLP: {[buf: string]: string} = JSON.parse(lp);
+		const hSaveLP = <{[buf: string]: string}>JSON.parse(lp);
 		if (all_stop_and_play) {this.#stop_allse(); this.clearCache()}
 		else for (const [buf, sb] of Object.entries(this.#hSndBuf)) {
 			// [1] #hSndBuf（再生中）だが hSaveLP（再生予定） にない buf -> stop
-			if (! (buf in hSaveLP)) sb?.stopse({buf});
+			if (! (buf in hSaveLP)) sb.stopse({buf});
 		}
 
 		// [2] hSaveLP（再生予定）を再生。だが#hSndBuf（再生中）の状況で処理変更

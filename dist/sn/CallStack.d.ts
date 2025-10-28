@@ -1,11 +1,18 @@
-import { IHEvt2Fnc, IValMp } from './CmnInterface';
-export interface ICallStackArg {
+import { T_HEvt2Fnc } from './CmnInterface';
+import { HArg } from './Grammar';
+export type T_H_VAL_MP = {
+    'const.sn.macro': string;
+    'const.sn.me_call_scriptFn': string;
+};
+export declare function creMP(): T_H_VAL_MP;
+export type ICallStackArg = HArg & {
     ':resvToken'?: string;
-    ':hEvt1Time': IHEvt2Fnc;
-    ':hMp': IValMp;
+    ':hEvt1Time'?: T_HEvt2Fnc;
+    ':hMp': T_H_VAL_MP;
     ':タグ名'?: string;
     ':lenIfStk': number;
-}
+};
+export declare function creCSArg(): ICallStackArg;
 export declare class CallStack {
     readonly fn: string;
     readonly idx: number;

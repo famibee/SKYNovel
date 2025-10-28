@@ -7,7 +7,7 @@
 
 import {CmnLib, argChk_Boolean, parseColor} from './CmnLib';
 import type {IHTag, HArg} from './Grammar';
-import type {IMain, Scope} from './CmnInterface';
+import type {IMain, Scope, T_VAL_BSNU, T_VAL_DATA} from './CmnInterface';
 import type {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 import {Config} from './Config';
@@ -24,6 +24,7 @@ const	SN_ID	= 'skynovel';
 export class Main implements IMain {
 	cvs			: HTMLCanvasElement;
 
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	#hTag		: IHTag		= Object.create(null);	// タグ処理辞書
 
 	#scrItr		: ScriptIterator;
@@ -36,10 +37,10 @@ export class Main implements IMain {
 
 		Config.generate(sys)
 		.then(c=> this.#init(c))
-		.catch(e=> console.error(`load err fn:prj.json e:%o`, e));
+		.catch((e: unknown)=> console.error('load err fn:prj.json e:%o', e));
 	}
 
-	#aDest: {(): void}[]	= [];
+	#aDest: (()=> void)[]	= [];
 	async #init(cfg: Config) {
 		const hApp: IApplicationOptions = {
 			width			: cfg.oCfg.window.width,
@@ -47,14 +48,15 @@ export class Main implements IMain {
 			backgroundColor	: parseColor(String(cfg.oCfg.init.bg_color)),
 				// このString()は後方互換性のため必須
 		//	resolution		: sys.resolution,
-			resolution		: globalThis.devicePixelRatio ?? 1,	// 理想
+			resolution		: globalThis.devicePixelRatio,
 		};
 
-		const cvs = <HTMLCanvasElement>document.getElementById(SN_ID);
+		const cvs = <HTMLCanvasElement | null>document.getElementById(SN_ID);
 		if (cvs) {
 			const clone_cvs = <HTMLCanvasElement>cvs.cloneNode(true);
 			clone_cvs.id = SN_ID;
 			hApp.view = cvs;
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const p = cvs.parentNode!;
 			this.#aDest.unshift(()=> p.appendChild(clone_cvs));
 		}
@@ -78,100 +80,101 @@ export class Main implements IMain {
 		if (! cvs) document.body.appendChild(this.cvs);
 
 
-		const cc = document.createElement('canvas')?.getContext('2d');
+		const cc = document.createElement('canvas').getContext('2d');
 		if (! cc) throw '#init cc err';
 		CmnLib.cc4ColorName = cc;
 
-		await Promise.all([
+		const [{Variable}, {PropParser}, {SoundMng}, {ScriptIterator}, {LayerMng}, {EventMng}] = await Promise.all([
 			import('./Variable'),
 			import('./PropParser'),
 			import('./SoundMng'),
 			import('./ScriptIterator'),
 			import('./LayerMng'),
 			import('./EventMng'),
-		]).then(async ([{Variable}, {PropParser}, {SoundMng},
-		{ScriptIterator}, {LayerMng}, {EventMng}])=> {
-			// 変数
-			const val = new Variable(cfg, this.#hTag);
-			const prpPrs = new PropParser(val, cfg.oCfg.init.escape ?? '\\');
-			this.#setVal_Nochk = (scope, nm, v, autocast)=> val.setVal_Nochk(scope, nm, v, autocast);
-			this.#getValAmpersand = v=> prpPrs.getValAmpersand(v);
-			this.#parse = s=> prpPrs.parse(s);
+		]);
 
-			// システム
-			await Promise.allSettled(this.sys.init(this.#hTag, app, val,this));	// 変数準備完了
-			this.#hTag.title!({text: cfg.oCfg.book.title || 'SKYNovel'});
+		// 変数
+		const val = new Variable(cfg, this.#hTag);
+		const prpPrs = new PropParser(val, cfg.oCfg.init.escape);
+		this.#setVal_Nochk = (scope, nm, v, autocast)=> val.setVal_Nochk(scope, nm, v, autocast);
+		this.#getValAmpersand = v=> prpPrs.getValAmpersand(v);
+		this.#parse = s=> prpPrs.parse(s);
 
-			// ＢＧＭ・効果音
-			const sndMng = new SoundMng(cfg, this.#hTag, val, this, this.sys);
-			this.#aDest.unshift(()=> sndMng.destroy());
+		// システム
+		await Promise.allSettled(this.sys.init(this.#hTag, app, val, this));	// 変数準備完了
+		this.#hTag.title({text: cfg.oCfg.book.title || 'SKYNovel'});
 
-			// 条件分岐、ラベル・ジャンプ、マクロ、しおり
-			this.#scrItr = new ScriptIterator(cfg, this.#hTag, this, val, prpPrs, sndMng, this.sys);
-			this.#aDest.unshift(()=> this.#scrItr.destroy());
+		// ＢＧＭ・効果音
+		const sndMng = new SoundMng(cfg, this.#hTag, val, this, this.sys);
+		this.#aDest.unshift(()=> sndMng.destroy());
 
-			// デバッグ・その他
-			const dbgMng = new DebugMng(this.sys, this.#hTag, this.#scrItr);
-			this.#aDest.unshift(()=> dbgMng.destroy());
-			this.errScript = (mes: string, isThrow = true)=> {
-				this.stop();
-				DebugMng.myTrace(mes);
-				if (CmnLib.debugLog) console.log('🍜 SKYNovel err!');
-				if (isThrow) throw mes;
-			}
+		// 条件分岐、ラベル・ジャンプ、マクロ、しおり
+		this.#scrItr = new ScriptIterator(cfg, this.#hTag, this, val, prpPrs, sndMng, this.sys);
+		this.#aDest.unshift(()=> this.#scrItr.destroy());
 
-			// レイヤ共通、文字レイヤ、画像レイヤ
-			this.#layMng = new LayerMng(cfg, this.#hTag, app, val, this, this.#scrItr, this.sys, sndMng, prpPrs);
-			this.#aDest.unshift(()=> this.#layMng.destroy());
+		// デバッグ・その他
+		const dbgMng = new DebugMng(this.sys, this.#hTag, this.#scrItr);
+		this.#aDest.unshift(()=> dbgMng.destroy());
+		this.errScript = (mes: string, isThrow = true)=> {
+			this.stop();
+			DebugMng.myTrace(mes);
+			if (CmnLib.debugLog) console.log('🍜 SKYNovel err!');
+			if (isThrow) throw mes;
+		}
 
-			// イベント
-			this.#evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, val, sndMng, this.#scrItr, this.sys);
-			this.#aDest.unshift(()=> this.#evtMng.destroy());
+		// レイヤ共通、文字レイヤ、画像レイヤ
+		this.#layMng = new LayerMng(cfg, this.#hTag, app, val, this, this.#scrItr, this.sys, sndMng, prpPrs);
+		this.#aDest.unshift(()=> this.#layMng.destroy());
 
-			this.#aDest.unshift(()=> {
-				this.stop();
-				this.#isLoop = false;
+		// イベント
+		this.#evtMng = new EventMng(cfg, this.#hTag, app, this, this.#layMng, val, sndMng, this.#scrItr, this.sys);
+		this.#aDest.unshift(()=> this.#evtMng.destroy());
 
-				const fncDummy = ()=> true;
-				for (const key in this.#hTag) this.#hTag[key] = fncDummy;
-			});
+		this.#aDest.unshift(()=> {
+			this.stop();
+			this.#isLoop = false;
+
+			const fncDummy = ()=> true;
+			for (const key in this.#hTag) this.#hTag[<keyof IHTag>key] = fncDummy;
 		});
 	}
 
 
 	destroy() {
-		this.resume = this.destroy = ()=> {};	// destroy()連打対策
+		this.resume = this.destroy = ()=> { /* empty */ };	// destroy()連打対策
 
-		this.cvs.parentElement?.removeChild(this.cvs);	// remove canvas from DOM
+		this.cvs.parentElement?.removeChild(this.cvs);
+			// （ギャラリーで）document.body はエラーになる
 		for (const f of this.#aDest) f();
 		this.#aDest = [];
 	}
 
 
-	errScript = (_mes: string, _isThrow = true)=> {}
+	errScript = (_mes: string, _isThrow = true)=> { /* empty */ }
 
 
 	resumeByJumpOrCall(hArg: HArg) {
 		if (hArg.url) {
-			this.#hTag.navigate_to!(hArg);
+			this.#hTag.navigate_to(hArg);
 			this.#scrItr.jumpJustBefore();
 			return;
 		}
 
-		this.#setVal_Nochk('tmp', 'sn.eventArg', hArg.arg ?? '');
+		// eslint-disable-next-line @typescript-eslint/no-base-to-string
+		this.#setVal_Nochk('tmp', 'sn.eventArg', String(hArg.arg ?? ''));
 		this.#setVal_Nochk('tmp', 'sn.eventLabel', hArg.label ?? '');
 // console.log(`📜 %cresumeByJumpOrCall:%o`, 'color:#3B0;', hArg);
 		if (argChk_Boolean(hArg, 'call', false)) {
 			this.#scrItr.subIdxToken();	// 「コール元の次」に進めず、「コール元」に戻す
-			if (this.#hTag.call!(hArg)) return;
+			if (this.#hTag.call(hArg)) return;
 		}
 		else {
-			this.#hTag.clear_event!({});
-			if (this.#hTag.jump!(hArg)) return;
+			this.#hTag.clear_event({});
+			if (this.#hTag.jump(hArg)) return;
 		}
 		this.resume();
 	}
-		#setVal_Nochk = (_scope: Scope, _nm: string, _val: any, _autocast = false)=> {}
+		#setVal_Nochk = (_scope: Scope, _nm: string, _val: T_VAL_BSNU, _autocast = false)=> { /* empty */ }
 
 	resume() {
 // console.log(`📜🟢 resume!`);
@@ -180,7 +183,7 @@ export class Main implements IMain {
 		this.#scrItr.noticeBreak(false);
 		this.#evtMng.hideHint();
 
-		queueMicrotask(()=> this.#main());
+		queueMicrotask(()=> {void this.#main()});
 	}
 	readonly stop = ()=> {
 // console.log(`📜🔴 stop!`);
@@ -189,9 +192,11 @@ export class Main implements IMain {
 
 	setLoop(isLoop: boolean, mes = '') {
 		///console.log('setLoop:'+ (isLoop ?'resume!' :'stop!') +' mes:'+ mes);
+		// eslint-disable-next-line no-cond-assign
 		if (this.#isLoop = isLoop) this.resume(); else this.stop();
 		this.sys.setTitleInfo(mes ?` -- ${mes}中` :'');
 	}
+	// oxlint-disable-next-line no-unused-private-class-members
 	#isLoop = true;
 
 	//MARK: メイン処理（シナリオ解析）
@@ -217,10 +222,9 @@ export class Main implements IMain {
 
 					const cl = (token.match(/\n/g) ?? []).length;
 					if (cl > 0) this.#scrItr.addLineNum(cl);
-					if (await this.#scrItr.タグ解析(tag_name, args)) {
-						this.stop();
-						return;
-					}
+					if (await this.#scrItr.タグ解析(
+						<keyof IHTag>tag_name, args
+					)) {this.stop(); return}
 					continue;
 				}
 				// & 変数操作・変数表示
@@ -231,7 +235,7 @@ export class Main implements IMain {
 						const o = splitAmpersand(token.slice(1));
 						o.name = this.#getValAmpersand(o.name);
 						o.text = String(this.#parse(o.text));
-						this.#hTag.let!(o);
+						this.#hTag.let(o);
 						continue;
 					}
 
@@ -253,11 +257,11 @@ export class Main implements IMain {
 			}
 		} catch (e) {
 			this.errScript(`${errHd} ${
-				e instanceof Error ?`mes=${e.message}(${e.name})` :e
+				e instanceof Error ?`mes=${e.message}(${e.name})` :String(e)
 			}`, false);
 		}
 	}
 		#getValAmpersand	= (_v: string)=> '';
-		#parse				= (_s: string): any => {};
+		#parse				: (_s: string)=> T_VAL_DATA;
 
 }

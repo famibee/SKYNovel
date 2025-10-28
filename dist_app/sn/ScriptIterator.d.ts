@@ -1,5 +1,5 @@
 import { IHTag, HArg } from './Grammar';
-import { IMain, IVariable, IMark, IPropParser } from './CmnInterface';
+import { IMain, IVariable, T_Mark, IPropParser } from './CmnInterface';
 import { Config } from './Config';
 import { EventMng } from './EventMng';
 import { LayerMng } from './LayerMng';
@@ -24,12 +24,11 @@ export declare class ScriptIterator {
     get idxToken(): number;
     subIdxToken(): void;
     get lineNum(): number;
-    readonly addLineNum: (len: number) => number;
+    readonly addLineNum: (len: number) => void;
     jumpJustBefore(): void;
     constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
     noticeWait: () => void;
     destroy(): void;
-    cnvPath4Dbg: (fn: string) => string;
     isBreak: (_token: string) => boolean;
     タグ解析(tag_name: string, args: string): Promise<boolean>;
     setOtherObj(evtMng: EventMng, layMng: LayerMng): void;
@@ -40,12 +39,12 @@ export declare class ScriptIterator {
     get isKidoku(): boolean;
     get isNextKidoku(): boolean;
     get normalWait(): number;
-    loadFromMark(hArg: HArg, mark: IMark, snd?: SndProcOnLoad): boolean;
+    loadFromMark(hArg: HArg, mark: T_Mark, snd?: SndProcOnLoad): boolean;
     nowScrIdx(): {
         fn: string;
         idx: number;
     };
-    nowMark(): IMark;
+    nowMark(): T_Mark;
     nowScrFnLn(): {
         fn: string;
         ln: number;

@@ -5,13 +5,13 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {DEF_CFG} from '../src/sn/ConfigBase';
+import {creCFG} from '../src/sn/ConfigBase';
 import {SysNode} from '../src/sn/SysNode';
 import hPath from './path.json';
 
 
 export class SysTest extends SysNode {
 	override	fetch = (url: string)=> Promise.resolve(new Response(
-		JSON.stringify( url === 'test/prj.json' ? DEF_CFG : hPath )
+		JSON.stringify( url === 'test/prj.json' ? creCFG() : hPath )
 	));
 }

@@ -7,7 +7,7 @@
 
 import {CmnLib} from './CmnLib';
 import type {SysBase} from './SysBase';
-import {ConfigBase, SEARCH_PATH_ARG_EXT, type T_CFG} from './ConfigBase';
+import {ConfigBase, SEARCH_PATH_ARG_EXT, type T_CFG_RAW} from './ConfigBase';
 
 export const PROTOCOL_USERDATA	= 'userdata:/';
 export const PROTOCOL_DL		= 'downloads:/';
@@ -21,16 +21,18 @@ export class Config extends ConfigBase {
 		if (! res.ok) throw Error(res.statusText);
 
 		const dec = await sys.dec(fn, await res.text());
-		await c.load(JSON.parse(dec));
+		await c.load(<T_CFG_RAW>JSON.parse(dec));
 		return c;
 	}
 
 	protected	constructor(override readonly sys: SysBase) {super(sys)}
-	protected	override	async load(oCfg: T_CFG) {
+	protected	override	async load(oCfg: T_CFG_RAW) {
 		await super.load(oCfg);
 
-		CmnLib.stageW = oCfg.window.width;
-		CmnLib.stageH = oCfg.window.height;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		CmnLib.stageW = oCfg.window!.width;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		CmnLib.stageH = oCfg.window!.height;
 		CmnLib.debugLog = oCfg.debug.debugLog;
 	}
 

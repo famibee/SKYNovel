@@ -3,9 +3,9 @@ import { IVariable, IMain } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
 import { HArg } from './Grammar';
-export interface HSndBuf {
+export type HSndBuf = {
     [buf: string]: SndBuf;
-}
+};
 export declare const BUF_BGM = "BGM";
 export declare const BUF_SE = "SE";
 export declare class SndBuf {

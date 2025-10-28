@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -8,12 +9,12 @@
 import {CmnLib, getDateStr, uint, type IEvtMng, argChk_Boolean, argChk_Num, addStyle, argChk_Color, parseColor} from './CmnLib';
 import {CmnTween, TMP_TSY_NM, TW_INT_TRANS} from './CmnTween';
 import type {IHTag, HArg} from './Grammar';
-import type {IVariable, IMain, HIPage, IGetFrm, IPropParser, IRecorder} from './CmnInterface';
+import type {IVariable, IMain, HIPage, IGetFrm, IPropParser} from './CmnInterface';
 import {Pages} from './Pages';
 import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';
 import {SpritesMng} from './SpritesMng';
-import {TxtLayer} from './TxtLayer';
+import {type T_cmdTxt_JSON, TxtLayer} from './TxtLayer';
 import {RubySpliter} from './RubySpliter';
 import {TxtStage} from './TxtStage';
 import {PROTOCOL_DL, PROTOCOL_USERDATA, type Config} from './Config';
@@ -25,19 +26,22 @@ import type {SoundMng} from './SoundMng';
 import {DesignCast} from './DesignCast';
 import {EventListenerCtn} from './EventListenerCtn';
 import {Reading} from './Reading';
+import {Log} from './Log';
 
-import {Container, Application, Graphics, Filter, RenderTexture, Sprite, autoDetectRenderer, Texture} from 'pixi.js';
-
-export interface IMakeDesignCast { (idc	: DesignCast): void; };
-
-export interface HPage {[ln: string]: Pages};
-
-type T_LOG = HArg & {
-	text	: string;	// 履歴文字列
-};
+import {Container, type Application, Graphics, Filter, RenderTexture, Sprite, autoDetectRenderer, Texture} from 'pixi.js';
 
 
-export class LayerMng implements IGetFrm, IRecorder {
+export type IMakeDesignCast = (idc: DesignCast)=> void;
+
+export type HPage = {[ln: string]: Pages};
+
+function cnvSArg(o: T_cmdTxt_JSON) {
+		// わざと使う側で <T_cmdTxt_JSON> させる。そっちで不具合を見つけてもらう
+	return encodeURIComponent(JSON.stringify(o));
+}
+
+
+export class LayerMng implements IGetFrm {
 	readonly	#stage	: Container;
 				#fore	= new Container;
 				#back	= new Container;
@@ -45,10 +49,12 @@ export class LayerMng implements IGetFrm, IRecorder {
 	readonly	#frmMng		: FrameMng;
 	readonly	#bg_color	: number;
 
+	readonly	#log;
+
 	readonly	#elc		= new EventListenerCtn;
 
 	//MARK: コンストラクタ
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, readonly sndMng: SoundMng, readonly prpPrs: IPropParser) {
+	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, sndMng: SoundMng, prpPrs: IPropParser) {
 		// レスポンシブや回転・全画面切り替え・DevTools 表示切り替えの対応
 		const fncResizeLay = ()=> {
 			sys.cvsResize();
@@ -75,7 +81,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 		}
 		sys.cvsResize();
 
-		TxtLayer.init(cfg, hTag, val, this, me=> this.#hPages[me.layname]!.fore === me, appPixi);
+		this.#log = new Log(this.cfg.oCfg, hTag, val);
+		TxtLayer.init(cfg, hTag, val, this.#log, me=> this.#hPages[me.layname]!.fore === me, appPixi);
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng, val);
 		FrameMng.init(cfg, sys, main);
 		Button.init(cfg);
@@ -89,8 +96,8 @@ export class LayerMng implements IGetFrm, IRecorder {
 		//hTag.set_focus	// EventMng.tsで定義	 	// フォーカス移動
 		hTag.snapshot		= o=> this.#snapshot(o);	// スナップショット
 		this.#snapshot4proc = this.sys.isApp
-			? this.#snapshot4app
-			: this.#snapshot4web;
+			? (hArg, url, width, height, RPN_SNAPSHOT)=> this.#snapshot4app(hArg, url, width, height, RPN_SNAPSHOT)
+			: (hArg, url, width, height, RPN_SNAPSHOT)=> this.#snapshot4web(hArg, url, width, height, RPN_SNAPSHOT);
 
 		//	レイヤ共通
 		hTag.add_lay		= o=> this.#add_lay(o);		// レイヤを追加する
@@ -127,9 +134,9 @@ export class LayerMng implements IGetFrm, IRecorder {
 		hTag.graph			= o=> this.#graph(o);		// インライン画像表示
 		hTag.link			= o=> this.#link(o);		// ハイパーリンク
 		hTag.r				= o=> this.#r(o);			// 改行
-		hTag.rec_ch			= o=> this.#rec_ch(o);		// 履歴書き込み
-		hTag.rec_r			= o=> this.#rec_r(o);		// 履歴改行
-		hTag.reset_rec		= o=> this.#reset_rec(o);	// 履歴リセット
+		// hTag.rec_ch		// Log.ts で定義			// 履歴書き込み
+		// hTag.rec_r		// Log.ts で定義			// 履歴改行
+		// hTag.reset_rec	// Log.ts で定義			// 履歴リセット
 		//hTag.ruby			= o=> this.ruby(o);			// 直前一文字のルビ（廃止
 			// タグでは無く、「｜＠《》」というスクリプト書き換えで良い
 		hTag.ruby2			= o=> this.#ruby2(o);		// 文字列と複数ルビの追加
@@ -156,15 +163,13 @@ export class LayerMng implements IGetFrm, IRecorder {
 			delete hArg.visible;
 			hArg.id = 'break';
 			hArg.pic= 'breakline';
-			const sArg = encodeURIComponent(JSON.stringify(hArg));
-			this.#cmdTxt('grp｜'+ sArg);
+			this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON>hArg));
 		};
 		if (cfg.existsBreakpage) this.breakPage = (hArg: HArg)=> {
 			delete hArg.visible;
 			hArg.id = 'break';
 			hArg.pic= 'breakpage';
-			const sArg = encodeURIComponent(JSON.stringify(hArg));
-			this.#cmdTxt('grp｜'+ sArg);
+			this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON>hArg));
 		};
 
 		this.#bg_color = parseColor(String(cfg.oCfg.init.bg_color));
@@ -195,21 +200,18 @@ export class LayerMng implements IGetFrm, IRecorder {
 		console.info('w:%O: h:%O:', CmnLib.stageW, CmnLib.stageH);
 		console.groupEnd();
 */
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const fncTxt_b_alpha = (_name: string, val: any)=> {
 			this.#foreachRedrawTxtLayBack(Number(val))
 		};
 		fncTxt_b_alpha('', val.getVal('sys:TextLayer.Back.Alpha', 1));
 		val.defValTrg('sys:TextLayer.Back.Alpha', fncTxt_b_alpha);
 
-		const fncBtnFont = (_name: string, val: any)=> Button.fontFamily = val;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
+		const fncBtnFont = (_name: string, val: any)=> {Button.fontFamily = val};
 		fncBtnFont('', val.getVal('tmp:sn.button.fontFamily', Button.fontFamily));
 		val.defValTrg('tmp:sn.button.fontFamily', fncBtnFont);
 
-		val.defTmp('const.sn.log.json', ()=> JSON.stringify(
-			(this.#oLastPage.text = this.#oLastPage.text?.replaceAll(`<\/span><span class='sn_ch'>`, '') ?? '')
-				? [...this.#aTxtLog, this.#oLastPage]
-				: this.#aTxtLog
-		));
 		val.defTmp('const.sn.last_page_text', ()=> this.currentTxtlayFore?.pageText ?? '');
 		val.defTmp('const.sn.last_page_plain_text', ()=> this.currentTxtlayFore?.pagePlainText ?? '');
 		if (CmnLib.isDbg) {
@@ -217,14 +219,16 @@ export class LayerMng implements IGetFrm, IRecorder {
 			this.cvsResizeDesign = ()=> DesignCast.cvsResizeDesign();
 			sys.addHook((type, o)=> {
 				if (! this.#hProcDbgRes[type]?.(type, o)) return;
+				// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 				delete this.#hProcDbgRes[type];
 			});
 		}
 	}
-	private	cvsResizeDesign() {}
+	private	cvsResizeDesign() { /* empty */ }
 
 
 	readonly	#hProcDbgRes
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	: {[type: string]: (type: string, o: any)=> boolean}	= {
 		attach		: _=> {DesignCast.leaveMode();	return false},
 		continue	: _=> {DesignCast.leaveMode();	return false},
@@ -243,6 +247,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 				// 制作中は普通画像レイヤをいじるのが主なので、これがいい
 		},
 		_replaceToken: (_, o)=> {DesignCast.replaceToken(o); return false},
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 		_selectNode	: (_, o)=> {this.#selectNode(o.node); return false},
 	}
 	#modeLn		= '';
@@ -311,10 +316,10 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 
 	#cmdTxt = (cmd: string, tl = this.currentTxtlayForeNeedErr, _record = true)=> tl.tagCh('｜&emsp;《'+ cmd +'》');
-	goTxt = ()=> {};
+	goTxt = ()=> { /* empty */ };
 	get needGoTxt() {return this.currentTxtlayFore?.needGoTxt ?? false;}
-	breakLine = (_hArg: HArg)=> {};
-	breakPage = (_hArg: HArg)=> {};
+	breakLine = (_hArg: HArg)=> { /* empty */ };
+	breakPage = (_hArg: HArg)=> { /* empty */ };
 	clearBreak() {
 		if (! this.currentTxtlayFore) return;
 
@@ -388,7 +393,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 		});
 		const pg = hArg.page !== 'back' ?'fore' :'back';
 		const {layer} = hArg;
-		Promise.allSettled(
+		void Promise.allSettled(
 			this.#getLayers(layer).map(ln=> new Promise<void>(
 				re=> this.#hPages[ln]![pg].snapshot(rnd, re)
 			))
@@ -397,6 +402,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 			rnd.render(this.#stage, {renderTexture: renTx});
 			await this.sys.savePic(
 				url,
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
 				rnd.plugins.extract.base64(renTx),
 			);
 			renTx.destroy();
@@ -445,10 +451,10 @@ export class LayerMng implements IGetFrm, IRecorder {
 		switch (cls) {
 		case 'txt':
 			if (! this.#curTxtlay) {
-				this.#chkTxtLay = ()=> {};
-				this.#getTxtLayer = this.#$getTxtLayer;
-				this.#current = this.#$current;
-				this.hTag.current!({layer});	// hPages更新後でないと呼べない
+				this.#chkTxtLay = ()=> { /* empty */ };
+				this.#getTxtLayer = o=> this.#$getTxtLayer(o);
+				this.#current = o=> this.#$current(o);
+				this.hTag.current({layer});	// hPages更新後でないと呼べない
 				this.goTxt = ()=> {
 					if (this.#evtMng.isSkipping) LayerMng.#msecChWait = 0;
 					else this.setNormalChWait();
@@ -459,11 +465,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 				}
 			}
 
-			this.val.setVal_Nochk(
-				'save',
-				'const.sn.layer.'+ (layer ?? this.#curTxtlay) +'.enabled',
-				true,
-			);
+			this.val.setVal_Nochk('save', 'const.sn.layer.'+ layer +'.enabled', true);
 			break;
 
 		case 'grp':
@@ -476,7 +478,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 
 		return ret.isWait;
 	}
-	#hPages		: HPage		= {};	// しおりLoad時再読込
+	#hPages		: HPage		= { /* empty */ };	// しおりLoad時再読込
 	#aLayName	: string[]	= [];	// 最適化用・重なり順つき全レイヤ名
 	#curTxtlay		= '';
 	#firstGrplay	= '';
@@ -510,7 +512,7 @@ export class LayerMng implements IGetFrm, IRecorder {
 			const fore_dive = pg_dive.fore;
 			const idx_back_dive = this.#back.getChildIndex(back_dive.ctn);
 			const idx_fore_dive = this.#fore.getChildIndex(fore_dive.ctn);
-			idx_dive = (idx_back_dive < idx_fore_dive) ?idx_back_dive :idx_fore_dive;
+			idx_dive = idx_back_dive < idx_fore_dive ?idx_back_dive :idx_fore_dive;
 			if (idx_dive > this.#back.getChildIndex(back)) --idx_dive;	//自分が無くなって下がる分下げる
 
 			this.#fore.setChildIndex(fore, idx_dive);
@@ -607,7 +609,7 @@ void main() {
 			return this.#hPages[ln]!.fore;
 		});
 
-		const comp = async ()=> {
+		const comp = ()=> {
 			[this.#fore, this.#back] = [this.#back, this.#fore];
 			const aPrm: Promise<void>[] = [];
 			for (const [ln, pg] of Object.entries(this.#hPages)) {
@@ -621,14 +623,14 @@ void main() {
 				this.#fore.addChildAt(f, idx);
 				this.#back.addChildAt(b, idx);
 			}
-			await Promise.allSettled(aPrm);
+			void Promise.allSettled(aPrm).then(()=> {
+				this.#fore.visible = true;
+				this.#back.visible = false;	// 再び非表示の裏方に（直前までforeだった）
+				this.#spTransBack.visible = false;
+				this.#spTransFore.visible = false;
 
-			this.#fore.visible = true;
-			this.#back.visible = false;	// 再び非表示の裏方に（直前までforeだった）
-			this.#spTransBack.visible = false;
-			this.#spTransFore.visible = false;
-
-			Reading.notifyEndProc(TMP_TSY_NM + TW_INT_TRANS);
+				Reading.notifyEndProc(TMP_TSY_NM + TW_INT_TRANS);
+			});
 		};
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
@@ -638,7 +640,7 @@ void main() {
 		// 一瞬切り替え
 		const time = argChk_Num(hArg, 'time', 0);
 		if (time === 0 || this.#evtMng.isSkipping) {
-			Reading.beginProc(TMP_TSY_NM + TW_INT_TRANS, ()=> {});
+			Reading.beginProc(TMP_TSY_NM + TW_INT_TRANS, ()=> { /* empty */ });
 			queueMicrotask(()=> comp());	// 下で止めてからにしたい
 			return true;
 		}
@@ -662,7 +664,7 @@ void main() {
 		};
 		if (! aBack.some(lay=> lay.containMovement)) {
 			const oldFnc = fncRenderBack;	// 動きがないなら最初に一度
-			fncRenderBack = ()=> {fncRenderBack = ()=> {}; oldFnc()};
+			fncRenderBack = ()=> {fncRenderBack = ()=> { /* empty */ }; oldFnc()};
 		}
 
 		const render = ()=> renderer.render(this.#fore, {renderTexture: this.#rtTransFore});	// clear: true
@@ -674,7 +676,7 @@ void main() {
 		};
 		if (! aLayFore.some(lay=> lay.containMovement)) {
 			const oldFnc = fncRenderFore;	// 動きがないなら最初に一度
-			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc()};
+			fncRenderFore = ()=> {fncRenderFore = ()=> { /* empty */ }; oldFnc()};
 		}
 		const fncRender = ()=> {
 			fncRenderBack();
@@ -687,9 +689,9 @@ void main() {
 
 		// クロスフェード
 		const {glsl, rule} = hArg;
-		const comp2 = async ()=> {ticker.remove(fncRender); await comp()};
+		const comp2 = ()=> {ticker.remove(fncRender); comp()};
 		if (! glsl && ! rule) {
-			CmnTween.tween(TW_INT_TRANS, hArg, this.#spTransFore, {alpha: 0}, ()=> {}, comp2, ()=> {});
+			CmnTween.tween(TW_INT_TRANS, hArg, this.#spTransFore, {alpha: 0}, ()=> { /* empty */ }, comp2, ()=> { /* empty */ });
 			ticker.add(fncRender);
 			return false;
 		}
@@ -705,7 +707,7 @@ void main() {
 			glsl ?? LayerMng.#srcRuleTransFragment,
 			uniforms,
 		)];
-		const tw = CmnTween.tween(TW_INT_TRANS, hArg, uniforms, {tick: 1}, ()=> {}, comp2, ()=> {}, ! rule);
+		const tw = CmnTween.tween(TW_INT_TRANS, hArg, uniforms, {tick: 1}, ()=> { /* empty */ }, comp2, ()=> { /* empty */ }, ! rule);
 		if (! rule) {
 			ticker.add(fncRender);
 			return false;
@@ -723,7 +725,7 @@ void main() {
 	}
 
 	#getLayers(layer = ''): string[] {return layer ?layer.split(',') :this.#aLayName}
-	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): ReadonlyArray<string> {
+	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): readonly string[] {
 		const aLn = this.#getLayers(hArg.layer);
 		for (const ln of aLn) {
 			const pg = this.#hPages[ln];
@@ -773,12 +775,12 @@ void main() {
 
 		const h = uint(argChk_Num(hArg, 'hmax', 10));
 		const v = uint(argChk_Num(hArg, 'vmax', 10));
-		const fncH = (h === 0)
-			? ()=> {}
-			: ()=> this.#spTransFore.x = Math.round(Math.random()* h*2) -h;
-		const fncV = (v === 0)
-			? ()=> {}
-			: ()=> this.#spTransFore.y = Math.round(Math.random()* v*2) -v;
+		const fncH = h === 0
+			? ()=> { /* empty */ }
+			: ()=> {this.#spTransFore.x = Math.round(Math.random()* h*2) -h};
+		const fncV = v === 0
+			? ()=> { /* empty */ }
+			: ()=> {this.#spTransFore.y = Math.round(Math.random()* v*2) -v};
 		this.#spTransFore.filters = [];
 
 		CmnTween.tween(TW_INT_TRANS, hArg, this.#spTransFore, {x: 0, y: 0}, ()=> {fncH(); fncV()}, ()=> {
@@ -788,7 +790,7 @@ void main() {
 			this.#spTransFore.visible = false;
 			this.#spTransFore.x = 0;	// 必須、onUpdate は toの値にしてくれない
 			this.#spTransFore.y = 0;
-		}, ()=> {});
+		}, ()=> { /* empty */ });
 		ticker.add(fncRender);
 
 		return false;
@@ -803,7 +805,7 @@ void main() {
 		const pg = this.#hPages[this.#argChk_layer(hArg)]!;
 		const lay = pg.fore;
 
-		let finishBlendLayer = ()=> {};
+		let finishBlendLayer = ()=> { /* empty */ };
 		if (render && ! this.#evtMng.isSkipping) {
 			lay.renderStart();
 			finishBlendLayer = ()=> lay.renderEnd();
@@ -812,10 +814,11 @@ void main() {
 		const hTo = CmnTween.cnvTweenArg(hArg, lay);
 		const arrive = argChk_Boolean(hArg, 'arrive', false);
 		const backlay = argChk_Boolean(hArg, 'backlay', false);
-		const spBack: any = pg.back.ctn;	// fore, back が変わる恐れで外へ
-		CmnTween.tween(name ?? layer, hArg, lay, CmnTween.cnvTweenArg(hArg, lay), ()=> {}, finishBlendLayer, ()=> {
+		const spBack = pg.back.ctn;	// fore, back が変わる恐れで外へ
+		CmnTween.tween(name ?? layer, hArg, lay, CmnTween.cnvTweenArg(hArg, lay), ()=> { /* empty */ }, finishBlendLayer, ()=> {
 			if (arrive) Object.assign(lay, hTo);
-			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) spBack[nm] = (lay as any)[nm];
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) (<any>spBack)[nm] = (<any>lay)[nm];
 		});
 //		hArg[':id'] = pg.fore.name.slice(0, -7);
 //		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
@@ -893,7 +896,7 @@ void main() {
 
 		const i = uint(argChk_Num(hArg, 'index', 0));
 		const len = s.filters.length;
-		if (len <= i) throw `フィルターの個数（${len}）を越えています`;
+		if (len <= i) throw `フィルターの個数（${String(len)}）を越えています`;
 
 		l.aFltHArg[i]!.enabled =
 		s.filters[i]!.enabled = argChk_Boolean(hArg, 'enabled', true);
@@ -914,8 +917,8 @@ void main() {
 		if (this.#evtMng.isSkipping) hArg.wait = 0;
 		else if ('wait' in hArg) argChk_Num(hArg, 'wait', NaN);
 
-		const sArg = encodeURIComponent(JSON.stringify(hArg));
-		this.#cmdTxt('add｜'+ sArg, tl);	// [ch style]用
+		this.#cmdTxt('add｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), tl);
+			// [ch style]用
 
 		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
@@ -923,7 +926,7 @@ void main() {
 		tl.tagCh(text.replaceAll('[r]', '\n'));
 		this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);
 
-		this.#cmdTxt(`add_close｜`, tl);	// [ch style]用
+		this.#cmdTxt('add_close｜', tl);	// [ch style]用
 
 		return false;
 	}
@@ -950,7 +953,7 @@ void main() {
 		if (! lay || ! (lay.getPage(hArg) instanceof TxtLayer)) throw `${layer}はTxtLayerではありません`;
 		this.#pgTxtlay = lay;
 
-		this.recPagebreak();	// カレント変更前に現在の履歴を保存
+		this.#log.pagebreak();	// カレント変更前に現在の履歴を保存
 		this.#curTxtlay = layer;
 		this.val.setVal_Nochk('save', 'const.sn.mesLayer', layer);
 		for (const ln of this.#aLayName) {
@@ -968,41 +971,28 @@ void main() {
 	get currentTxtlayFore(): TxtLayer | null {
 		if (! this.#pgTxtlay) return null;
 
-		return this.#pgTxtlay.fore as TxtLayer;
+		return <TxtLayer>this.#pgTxtlay.fore;
 	}
-	#pgTxtlay	: Pages;	// カレントテキストレイヤ
+	#pgTxtlay	: Pages | undefined	= undefined;	// カレントテキストレイヤ
 	#chkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'};
 
-	#argChk_layer(hash: any, def = ''): string {
-		const ln = hash.layer ?? def;
+	#argChk_layer(hArg: HArg, def = ''): string {
+		const ln = hArg.layer ?? def;
 		if (ln.includes(',')) throw 'layer名に「,」は使えません';
 		if (! (ln in this.#hPages)) throw '属性 layer【'+ ln +'】が不正です。レイヤーがありません';
 
-		return hash.layer = ln;
+		hArg.layer = ln;
+		return ln;
 	}
 
 
-	#oLastPage	: T_LOG	= {text: ''};
-	#aTxtLog	: {[name: string]: number | string}[]	= [];
-	recText(text: string) {
-		this.#oLastPage = {text};
-		this.val.setVal_Nochk('save', 'const.sn.sLog',
-			String(this.val.getVal('const.sn.log.json'))	// これを起動したい
-		);
-	}
-	recPagebreak() {
-		if (! this.#oLastPage.text) return;
-
-		this.#oLastPage.text = this.#oLastPage.text.replaceAll(`<\/span><span class='sn_ch'>`, '');
-		if (this.#aTxtLog.push(this.#oLastPage as {[name: string]: any}) > this.cfg.oCfg.log.max_len) this.#aTxtLog = this.#aTxtLog.slice(-this.cfg.oCfg.log.max_len);
-		this.#oLastPage = {text: ''};
-	}
+	recPagebreak() {this.#log.pagebreak()}
 
 
 	//MARK: 文字消去
 	#clear_text(hArg: HArg) {
 		const tf = this.#getTxtLayer(hArg);
-		if (hArg.layer === this.#curTxtlay && hArg.page === 'fore') this.recPagebreak();	// 改ページ、クリア前に
+		if (hArg.layer === this.#curTxtlay && hArg.page === 'fore') this.#log.pagebreak();	// 改ページ、クリア前に
 		tf.clearText();
 		return false;
 	}
@@ -1013,7 +1003,7 @@ void main() {
 
 	//MARK: ページ両面の文字消去
 	#er(hArg: HArg) {
-		if (argChk_Boolean(hArg, 'rec_page_break', true)) this.recPagebreak();	// 改ページ、クリア前に
+		if (argChk_Boolean(hArg, 'rec_page_break', true)) this.#log.pagebreak();	// 改ページ、クリア前に
 
 		if (this.#pgTxtlay) {
 			this.#pgTxtlay.fore.clearLay(hArg);
@@ -1027,8 +1017,7 @@ void main() {
 	#graph(hArg: HArg) {
 		if (! hArg.pic) throw '[graph] picは必須です';
 
-		const sArg = encodeURIComponent(JSON.stringify(hArg));
-		this.#cmdTxt('grp｜'+ sArg, this.#getTxtLayer(hArg));
+		this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
 		return false;
 	}
 
@@ -1040,39 +1029,12 @@ void main() {
 		hArg.style ??= 'background-color: rgba(255,0,0,0.5);';
 		hArg.style_hover ??= 'background-color: rgba(255,0,0,0.9);';
 		hArg.style_clicked ??= hArg.style;
-		const sArg = encodeURIComponent(JSON.stringify(hArg));
-		this.#cmdTxt('link｜'+ sArg, this.#getTxtLayer(hArg));
+		this.#cmdTxt('link｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
 		return false;
 	}
 
 	//MARK: 改行
-	#r(hArg: HArg) {hArg.text = '\n'; return this.#ch(hArg)}
-
-	//MARK: 履歴改行
-	#rec_r(hArg: HArg) {return this.#rec_ch({...hArg, text: '[r]'})};
-
-	//MARK: 履歴書き込み
-	#rec_ch(hArg: HArg) {
-		this.#oLastPage = {...hArg, text: this.#oLastPage.text};	// text 以外を先に更新
-		if (! hArg.text) return false;
-
-		hArg.record = true;
-		hArg.style ??= '';
-		hArg.style += 'display: none;';	// gotxt内で削除し履歴に表示
-		hArg.wait = 0;
-		return this.#ch(hArg);	// この先は text, style, r_style 以外破棄されてしまうので注意
-	};
-
-	//MARK: 履歴リセット
-	#reset_rec(hArg: HArg) {
-		this.#aTxtLog = [];
-		this.#oLastPage = {text: hArg.text ?? ''};
-		this.val.setVal_Nochk('save', 'const.sn.sLog', 
-			hArg.text ?`[{text:"${hArg.text}"}]` : '[]'
-		);
-
-		return false;
-	}
+	#r(hArg: HArg) {return this.#ch({...hArg, text: '\n'})}
 
 	//MARK: 文字列と複数ルビの追加
 	#ruby2(hArg: HArg) {
@@ -1089,8 +1051,7 @@ void main() {
 
 	//MARK: インラインスタイル設定
 	#span(hArg: HArg) {
-		const sArg = encodeURIComponent(JSON.stringify(hArg));
-		this.#cmdTxt('span｜'+ sArg, this.#getTxtLayer(hArg));
+		this.#cmdTxt('span｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
 		return false;
 	}
 
@@ -1098,8 +1059,7 @@ void main() {
 	#tcy(hArg: HArg) {
 		if (! hArg.t) throw '[tcy] tは必須です';
 
-		const sArg = encodeURIComponent(JSON.stringify(hArg));
-		this.#cmdTxt('tcy｜'+ sArg, this.#getTxtLayer(hArg));
+		this.#cmdTxt('tcy｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
 		return false;
 	}
 
@@ -1113,7 +1073,7 @@ void main() {
 				console.info(`%c${fore.name.slice(0, -7)} %o`, `color:#${CmnLib.isDarkMode ?'49F' :'05A'};`,
 				JSON.parse(`{"back":{${back.dump()}}, "fore":{${fore.dump()}}}`));
 			} catch (e) {
-				console.error(`dump_lay err:%o`, e);
+				console.error('dump_lay err:%o', e);
 				console.error(`   back:${back.dump()}`);
 				console.error(`   fore:${fore.dump()}`);
 			}
@@ -1141,7 +1101,7 @@ void main() {
 		hArg.fn ??= this.scrItr.scriptFn;	// ここで指定する必要がある
 			// fn省略時、画像ボタンはロード後という後のタイミングで scrItr.scriptFn を
 			// 参照してしまうので
-		this.#getTxtLayer(hArg).addButton(hArg);	// hArg[':id_tag'] も設定
+		void this.#getTxtLayer(hArg).addButton(hArg);	// hArg[':id_tag'] も設定
 
 		this.scrItr.recodeDesign(hArg);	// 必ず[':id_tag'] を設定すること
 
@@ -1149,10 +1109,13 @@ void main() {
 	}
 
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	record(): any {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const o: any = {};
 		for (const ln of this.#aLayName) {
 			const pg = this.#hPages[ln]!;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			o[ln] = {
 				cls: pg.cls,
 				fore: pg.fore.record(),
@@ -1163,8 +1126,7 @@ void main() {
 	}
 	playback($hPages: HIPage): Promise<void>[] {
 		// これを先に。save:const.sn.sLog がクリアされてしまう
-		this.#aTxtLog = JSON.parse(String(this.val.getVal('save:const.sn.sLog')));
-		this.#oLastPage = {text: ''};
+		this.#log.playback();
 
 		const aPrm: Promise<void>[] = [];
 		const aSort: {ln: string, idx: number}[] = [];
@@ -1177,12 +1139,12 @@ void main() {
 
 		const len = this.#fore.children.length;
 		aPrm.push(new Promise(re=> {	// 若い順にsetChildIndex()
-			for (const {ln, idx} of
-				aSort.sort(({idx: a}, {idx: b})=> a === b ?0 :a < b ?-1 :1)) {
-				const {fore, back} = this.#hPages[ln]!;
-				if (! fore) continue;
+			for (const {ln, idx} of aSort.sort(({idx: a}, {idx: b})=> a === b ?0 :a < b ?-1 :1)) {
+				const pg = this.#hPages[ln];
+				if (! pg) continue;
 
 				const i = len > idx ?idx :len -1;
+				const {fore, back} = pg;
 				this.#fore.setChildIndex(fore.ctn, i);
 				this.#back.setChildIndex(back.ctn, i);
 			}

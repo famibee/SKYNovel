@@ -1,4 +1,4 @@
-import { a as _, d as p, C as N, h as C, b as R, c as j, E as B } from "./app2.js";
+import { e as _, g as d, C as N, k as x, d as R, f as B, E as j } from "./app2.js";
 var E = Object.freeze({
   Linear: Object.freeze({
     None: function(e) {
@@ -175,9 +175,9 @@ var E = Object.freeze({
       return !0;
     }, e;
   }()
-), x = {
+), C = {
   Linear: function(e, t) {
-    var i = e.length - 1, s = i * t, r = Math.floor(s), o = x.Utils.Linear;
+    var i = e.length - 1, s = i * t, r = Math.floor(s), o = C.Utils.Linear;
     return t < 0 ? o(e[0], e[1], s) : t > 1 ? o(e[i], e[i - 1], i - s) : o(e[r], e[r + 1 > i ? i : r + 1], s - r);
   },
   Utils: {
@@ -194,11 +194,11 @@ var E = Object.freeze({
       return e._nextId++;
     }, e._nextId = 0, e;
   }()
-), L = new W(), m = (
+), L = new W(), D = (
   /** @class */
   function() {
     function e(t, i) {
-      i === void 0 && (i = L), this._object = t, this._group = i, this._isPaused = !1, this._pauseStart = 0, this._valuesStart = {}, this._valuesEnd = {}, this._valuesStartRepeat = {}, this._duration = 1e3, this._isDynamic = !1, this._initialRepeat = 0, this._repeat = 0, this._yoyo = !1, this._isPlaying = !1, this._reversed = !1, this._delayTime = 0, this._startTime = 0, this._easingFunction = E.Linear.None, this._interpolationFunction = x.Linear, this._chainedTweens = [], this._onStartCallbackFired = !1, this._onEveryStartCallbackFired = !1, this._id = F.nextId(), this._isChainStopped = !1, this._propertiesAreSetUp = !1, this._goToEnd = !1;
+      i === void 0 && (i = L), this._object = t, this._group = i, this._isPaused = !1, this._pauseStart = 0, this._valuesStart = {}, this._valuesEnd = {}, this._valuesStartRepeat = {}, this._duration = 1e3, this._isDynamic = !1, this._initialRepeat = 0, this._repeat = 0, this._yoyo = !1, this._isPlaying = !1, this._reversed = !1, this._delayTime = 0, this._startTime = 0, this._easingFunction = E.Linear.None, this._interpolationFunction = C.Linear, this._chainedTweens = [], this._onStartCallbackFired = !1, this._onEveryStartCallbackFired = !1, this._id = F.nextId(), this._isChainStopped = !1, this._propertiesAreSetUp = !1, this._goToEnd = !1;
     }
     return e.prototype.getId = function() {
       return this._id;
@@ -297,7 +297,7 @@ var E = Object.freeze({
     }, e.prototype.easing = function(t) {
       return t === void 0 && (t = E.Linear.None), this._easingFunction = t, this;
     }, e.prototype.interpolation = function(t) {
-      return t === void 0 && (t = x.Linear), this._interpolationFunction = t, this;
+      return t === void 0 && (t = C.Linear), this._interpolationFunction = t, this;
     }, e.prototype.chain = function() {
       for (var t = [], i = 0; i < arguments.length; i++)
         t[i] = arguments[i];
@@ -364,11 +364,11 @@ var E = Object.freeze({
   }()
 );
 F.nextId;
-var d = L;
-d.getAll.bind(d);
-var V = d.removeAll.bind(d);
-d.add.bind(d);
-var D = d.remove.bind(d), K = d.update.bind(d);
+var p = L;
+p.getAll.bind(p);
+var K = p.removeAll.bind(p);
+p.add.bind(p);
+var U = p.remove.bind(p), z = p.update.bind(p);
 class n {
   static #i;
   static get rs() {
@@ -407,18 +407,20 @@ class n {
     if (i >= 0) {
       const r = t.slice(4, i), o = `const.sn.frm.${r}`;
       if (!a.val.getVal(`tmp:${o}`, 0)) throw `HTML【${r}】が読み込まれていません`;
-      const c = document.getElementById(r).contentWindow;
+      const l = document.getElementById(r);
+      if (!l) throw `HTML【${r}】の要素(id=${r})がありません`;
+      const c = l.contentWindow;
       return s = t.slice(i + 1), { el: c.document.querySelectorAll(s), id: r, sel: s };
     }
     return s = t.slice(4), { el: document.querySelectorAll(s), id: "", sel: s };
   }
   // 予約イベントの発生待ち
   static waitRsvEvent(t, i) {
-    if (a.val.saveKidoku(), i ? this.#t.click = this.#t.enter = this.#t.arrowdown = // hTag.event({key:'downwheel', breakout: fnc});
-    this.#t["wheel.y>0"] = () => i() : (delete this.#t.click, delete this.#t.enter, delete this.#t.arrowdown, delete this.#t["wheel.y>0"]), this.getEvt2Fnc = t ? (s) => this.#t[s] ?? this.#e[s] : (s) => this.#t[s], a.scrItr.noticeWait(), p.debugLog) {
-      const s = /* @__PURE__ */ Object.create(null);
-      s.local = Object.keys(this.#t), s.global = Object.keys(this.#e), console.log("🎍 wait event... %o", s);
-    }
+    a.val.saveKidoku(), i ? this.#t.click = this.#t.enter = this.#t.arrowdown = // hTag.event({key:'downwheel', breakout: fnc});
+    this.#t["wheel.y>0"] = () => i() : (delete this.#t.click, delete this.#t.enter, delete this.#t.arrowdown, delete this.#t["wheel.y>0"]), this.getEvt2Fnc = t ? (s) => this.#t[s] ?? this.#e[s] : (s) => this.#t[s], a.scrItr.noticeWait(), d.debugLog && console.log("🎍 wait event... %o", {
+      local: Object.keys(this.#t),
+      global: Object.keys(this.#e)
+    });
   }
   static waitRsvEvent4Paging() {
     if (this.waitRsvEvent(!0), this.aKeysAtPaging.length === 0) {
@@ -448,7 +450,7 @@ class n {
     if (s === "enter") {
       const o = a.fcs.getFocus();
       if (o instanceof N) {
-        o.emit(C, new PointerEvent(C));
+        o.emit(x, new PointerEvent(x));
         return;
       }
     }
@@ -477,7 +479,7 @@ class n {
     if (!a.val.getVal("save:sn.doRecLog")) return;
     const { fn: i, idx: s } = a.scrItr.nowScrIdx(), r = `${s - 1}:` + i;
     if (this.aPage.findIndex((l) => l.key === r) > -1) return;
-    p.debugLog && console.log(`📜 %crecodePage === week:${t} lenPage:${this.lenPage} len:${this.aPage.length} POP:${!!this.aPage.at(-1)?.week}`, "color:#3B0;"), this.aPage.at(-1)?.week && this.aPage.pop();
+    d.debugLog && console.log(`📜 %crecodePage === week:${t} lenPage:${this.lenPage} len:${this.aPage.length} POP:${this.aPage.at(-1)?.week}`, "color:#3B0;"), this.aPage.at(-1)?.week && this.aPage.pop();
     const { max_len: o } = a.cfg.oCfg.log;
     if (this.aPage.push({
       key: r,
@@ -485,9 +487,9 @@ class n {
       fn: a.val.getVal("save:const.sn.scriptFn", i),
       index: a.val.getVal("save:const.sn.scriptIdx", 0),
       mark: a.scrItr.nowMark()
-    }) > o && (this.aPage = this.aPage.slice(-o)), this.lenPage = this.aPage.length, p.debugLog) {
+    }) > o && (this.aPage = this.aPage.slice(-o)), this.lenPage = this.aPage.length, d.debugLog) {
       const l = a.scrItr.nowMark();
-      console.log(`   %clenPage:${this.lenPage} (base=${l.hPages.base.fore.sBkFn} 0=${l.hPages[0].fore.sBkFn} mes=${l.hPages.mes.fore.txs.cssText.match(/color: \w+;/)})%c mark:%o`, "color:#3B0;", "", l), console.table(this.aPage);
+      console.log(`   %clenPage:${this.lenPage} (base=${l.hPages.base.fore.sBkFn} 0=${l.hPages[0].fore.sBkFn} mes=${/color: \w+;/.exec(l.hPages.mes.fore.txs.cssText)})%c mark:%o`, "color:#3B0;", "", l), console.table(this.aPage);
     }
     a.val.setVal_Nochk("sys", "const.sn.aPageLog", JSON.stringify(this.aPage));
   }
@@ -508,7 +510,7 @@ class n {
     if (a.skip_enabled) {
       if (!a.skip_all && !a.scrItr.isNextKidoku)
         a.cancelAutoSkip();
-      else if ("ps".includes(a.val.getVal("sys:sn.skip.mode")))
+      else if ("ps".includes(String(a.val.getVal("sys:sn.skip.mode"))))
         return t.time = 50, this.wait(t);
     }
     return _(t, "visible", !0) && (a.layMng.breakLine(t), a.goTxt()), new M(t), !0;
@@ -519,7 +521,7 @@ class n {
     if (a.skip_enabled) {
       if (!a.skip_all && !a.scrItr.isNextKidoku)
         a.cancelAutoSkip();
-      else if (a.val.getVal("sys:sn.skip.mode") == "s")
+      else if (String(a.val.getVal("sys:sn.skip.mode")) === "s")
         return t.time = 50, this.wait(t);
     }
     return _(t, "visible", !0) && (a.layMng.breakPage(t), a.goTxt()), new M(t), !0;
@@ -531,8 +533,8 @@ class n {
     const i = R(t, "time", NaN);
     if (a.skip_enabled)
       return !a.skip_all && !a.scrItr.isNextKidoku && a.cancelAutoSkip(), !1;
-    const s = new m({}), r = "wait", o = () => {
-      D(s), a.notifyEndProc(r);
+    const s = new D({}), r = "wait", o = () => {
+      U(s), a.notifyEndProc(r);
     };
     s.to({}, i).onComplete(o).start();
     const l = _(t, "canskip", !0);
@@ -549,7 +551,7 @@ class n {
 }
 class I extends n {
   constructor() {
-    super(), p.debugLog && console.log("📖 => %cReadingState_go", "color:#3B0;"), a.main.resume();
+    super(), d.debugLog && console.log("📖 => %cReadingState_go", "color:#3B0;"), a.main.resume();
   }
   fire(t, i) {
   }
@@ -557,7 +559,7 @@ class I extends n {
 }
 class $ extends n {
   constructor() {
-    super(), p.debugLog && console.log("📖 => %cReadingState_proc", "color:#3B0;");
+    super(), d.debugLog && console.log("📖 => %cReadingState_proc", "color:#3B0;");
   }
   fire(t, i) {
   }
@@ -565,7 +567,7 @@ class $ extends n {
 }
 class M extends n {
   constructor(t) {
-    super(), p.debugLog && console.log("📖 => %cReadingState_wait", "color:#3B0;");
+    super(), d.debugLog && console.log("📖 => %cReadingState_wait", "color:#3B0;");
     let i = () => {
     };
     const s = _(t, "global", !0);
@@ -608,7 +610,7 @@ class M extends n {
 }
 class O extends n {
   constructor() {
-    super(), p.debugLog && console.log("📖 => %cReadingState_page", "color:#3B0;"), a.val.setVal_Nochk("tmp", "const.sn.isPaging", !0);
+    super(), d.debugLog && console.log("📖 => %cReadingState_page", "color:#3B0;"), a.val.setVal_Nochk("tmp", "const.sn.isPaging", !0);
   }
   static go(t) {
     return new O().page(t);
@@ -640,7 +642,7 @@ class O extends n {
   page(t) {
     const { to: i, style: s, clear: r } = t;
     if (s || r) return !1;
-    switch (p.debugLog && console.log(`📜 %cpage() pos:${n.posPage}%c len:${n.lenPage} to:${i}`, "color:#3B0;", ""), i) {
+    switch (d.debugLog && console.log(`📜 %cpage() pos:${n.posPage}%c len:${n.lenPage} to:${i}`, "color:#3B0;", ""), i) {
       case "oldest":
         if (n.posPage === 0) return !1;
         n.posPage = 0;
@@ -670,9 +672,9 @@ class O extends n {
     const o = n.aPage[n.posPage];
     if (!o) throw `posPage異常:${n.posPage}`;
     const { fn: l, index: c, mark: f } = o;
-    if (p.debugLog) {
+    if (d.debugLog) {
       const g = a.scrItr.nowMark(), { week: h } = n.aPage[n.posPage] ?? { week: !1 };
-      console.log(`   -- fn:${l} i:${c} pos:${n.posPage} (base=%c${g.hPages.base.fore.sBkFn}%c 0=%c${g.hPages[0].fore.sBkFn}%c mes=%c${g.hPages.mes.fore.txs.cssText.match(/color: \w+;/)}%c) week:${h} A:${n.posPage === n.lenPage - 1}
+      console.log(`   -- fn:${l} i:${c} pos:${n.posPage} (base=%c${g.hPages.base.fore.sBkFn}%c 0=%c${g.hPages[0].fore.sBkFn}%c mes=%c${/color: \w+;/.exec(g.hPages.mes.fore.txs.cssText)}%c) week:${h} A:${n.posPage === n.lenPage - 1}
    styPaging=%c${n.styPaging}%c
    mark:%o`, "background-color:#3B0; color:#000;", "", "background-color:#B4F; color:#000;", "", "color:#B68;", "", n.styPaging, "", f);
     }
@@ -684,19 +686,19 @@ class O extends n {
 }
 class a {
   static beginProc(t, i, s = !0, r) {
-    if (p.debugLog && console.log(`📖.beginProc id:%c${t}%c onNotify:${!!i} endProc:${s} onClickSkip:${!!r}`, "color:#3B0;", ""), this.#i(), this.#s = t, i) {
+    if (d.debugLog && console.log(`📖.beginProc id:%c${t}%c onNotify:${i} endProc:${s} onClickSkip:${r}`, "color:#3B0;", ""), this.#i(), this.#s = t, i) {
       const { promise: o, resolve: l } = Promise.withResolvers();
       o.then((c) => {
-        p.debugLog && console.log(`📖.callBack id:%c${c}%c`, "color:#3B0;", ""), i(), s ? this.endProc(c) : this.#i();
+        d.debugLog && console.log(`📖.callBack id:%c${c}%c`, "color:#3B0;", ""), i(), s ? this.endProc(c) : this.#i();
       }), this.#e = l;
     }
     if (r) {
       const o = () => {
         this.cancelAutoSkip(), r(), s && this.endProc(t);
       };
-      this.#t.add(this.main.cvs, C, (l) => {
+      this.#t.add(this.main.cvs, x, (l) => {
         l.stopPropagation(), o();
-      }), this.#t.add(document, j, (l) => {
+      }), this.#t.add(document, B, (l) => {
         l.isComposing || (l.stopPropagation(), o());
       }), this.procWheel4wle(this.#t, o);
     }
@@ -706,14 +708,14 @@ class a {
     this.#s = "", this.#e = () => {
     }, this.#t.clear();
   }
-  static #t = new B();
+  static #t = new j();
   static #e = () => {
   };
   static notifyEndProc(t) {
-    p.debugLog && console.log(`📖.notifyEndProc id:%c${t}%c=${this.#s === t}`, "color:#3B0;", ""), this.#s === t && this.#e(t);
+    d.debugLog && console.log(`📖.notifyEndProc id:%c${t}%c=${this.#s === t}`, "color:#3B0;", ""), this.#s === t && this.#e(t);
   }
   static endProc(t) {
-    p.debugLog && console.log(`📖.endProc id:%c${t}%c=${this.#s === t}`, "color:#3B0;", ""), this.#s === t && (n.rs.endProc(), this.#i());
+    d.debugLog && console.log(`📖.endProc id:%c${t}%c=${this.#s === t}`, "color:#3B0;", ""), this.#s === t && (n.rs.endProc(), this.#i());
   }
   static #s = "";
   static get procID() {
@@ -753,7 +755,15 @@ class a {
   static procWheel4wle;
   static fcs;
   static init(t, i, s, r, o, l, c, f, g) {
-    this.cfg = t, this.hTag = i, this.main = s, this.val = r, this.scrItr = o, this.layMng = l, this.goTxt = () => l.goTxt(), this.evtMng = c, this.sndMng = f, this.procWheel4wle = g, r.defTmp("sn.tagL.enabled", () => this.tagL_enabled), r.defValTrg("tmp:sn.tagL.enabled", (h, u) => this.tagL_enabled = String(u) !== "false"), r.defTmp("sn.skip.all", () => this.skip_all), r.defValTrg("tmp:sn.skip.all", (h, u) => this.skip_all = String(u) !== "false"), r.defTmp("sn.skip.enabled", () => this.skip_enabled), r.defValTrg("tmp:sn.skip.enabled", (h, u) => this.skip_enabled = String(u) !== "false"), r.defTmp("sn.auto.enabled", () => this.auto_enabled), r.defValTrg("tmp:sn.auto.enabled", (h, u) => this.auto_enabled = String(u) !== "false"), i.l = (h) => n.rs.l(h), i.p = (h) => n.rs.p(h), i.s = (h) => n.rs.s(h), i.wait = (h) => n.rs.wait(h), i.waitclick = (h) => n.rs.s(h), i.page = (h) => n.rs.page(h), new $(), i.jump({ fn: "main" });
+    this.cfg = t, this.hTag = i, this.main = s, this.val = r, this.scrItr = o, this.layMng = l, this.goTxt = () => l.goTxt(), this.evtMng = c, this.sndMng = f, this.procWheel4wle = g, r.defTmp("sn.tagL.enabled", () => this.tagL_enabled), r.defValTrg("tmp:sn.tagL.enabled", (h, u) => {
+      this.tagL_enabled = String(u) !== "false";
+    }), r.defTmp("sn.skip.all", () => this.skip_all), r.defValTrg("tmp:sn.skip.all", (h, u) => {
+      this.skip_all = String(u) !== "false";
+    }), r.defTmp("sn.skip.enabled", () => this.skip_enabled), r.defValTrg("tmp:sn.skip.enabled", (h, u) => {
+      this.skip_enabled = String(u) !== "false";
+    }), r.defTmp("sn.auto.enabled", () => this.auto_enabled), r.defValTrg("tmp:sn.auto.enabled", (h, u) => {
+      this.auto_enabled = String(u) !== "false";
+    }), i.l = (h) => n.rs.l(h), i.p = (h) => n.rs.p(h), i.s = (h) => n.rs.s(h), i.wait = (h) => n.rs.wait(h), i.waitclick = (h) => n.rs.s(h), i.page = (h) => n.rs.page(h), new $(), i.jump({ fn: "main" });
   }
   static setFcs(t) {
     this.fcs = t;
@@ -765,10 +775,10 @@ class a {
 export {
   E,
   n as R,
-  m as T,
+  D as T,
   a,
-  D as b,
-  V as r,
-  K as u
+  U as b,
+  K as r,
+  z as u
 };
 //# sourceMappingURL=Reading.js.map

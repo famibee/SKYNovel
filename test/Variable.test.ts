@@ -5,9 +5,13 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
+import type {IHTag} from '../src/sn/Grammar';
 import {Variable} from '../src/sn/Variable';
-import {Config} from '../src/sn/Config';
 import {SysTest} from './SysTest';
+import {Config} from '../src/sn/Config';
+import {GlobalRegistrator} from '@happy-dom/global-registrator';
+// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+if (! globalThis.document) GlobalRegistrator.register();
 
 
 let	val	: Variable;
@@ -15,7 +19,11 @@ beforeEach(async ()=> {
 	const sys = new SysTest({}, {cur: 'test/', crypto: false, dip: ''});
 	const cfg = await Config.generate(sys);
 
-	val = new Variable(cfg, {});
+	val = new Variable(cfg, <IHTag><unknown>{});
+});
+
+it('getVal_-1', ()=> {
+	expect(val.getVal('mp:fn')).toBe(undefined);
 });
 
 it('getVal_0', ()=> {
@@ -37,9 +45,19 @@ it('getVal_4', ()=> {
 	val.setVal_Nochk('tmp', 'one_n', 1);
 	expect(val.getVal('tmp:one_n', 'def')).toBe(1);
 });
-it('getVal_4', ()=> {
+it('getVal_5', ()=> {
 	val.setVal_Nochk('sys', '_album.img.渡り廊下・桜昼', true);
 	expect(val.getVal('sys:_album.img.渡り廊下・桜昼', 'def')).toBe(true);
+});
+
+it('getVal_6_touch', ()=> {
+	expect(val.getVal('sys:存在しない')).toBe(undefined);
+
+	expect(val.getVal('sys:存在しない', '♨')).toBe('♨');
+	expect(val.getVal('sys:存在しない')).toBe(undefined);
+
+	expect(val.getVal('sys:存在しない', '♨', true)).toBe('♨');
+	expect(val.getVal('sys:存在しない')).toBe('♨');
 });
 
 it('getVal_10_fnc', ()=> {
@@ -84,8 +102,8 @@ it('getVal_21_json', ()=> {
 	}
 }
 `);
-	expect(val.getVal('tmp:const.db.紀子', 'def')).toBe(`{"fn":"nori","col":"lightskyblue"}`);
-	expect(val.getVal('tmp:const.db["紀子"]', 'def')).toBe(`{"fn":"nori","col":"lightskyblue"}`);
+	expect(val.getVal('tmp:const.db.紀子', 'def')).toBe('{"fn":"nori","col":"lightskyblue"}');
+	expect(val.getVal('tmp:const.db["紀子"]', 'def')).toBe('{"fn":"nori","col":"lightskyblue"}');
 	expect(val.getVal('tmp:const.db.紀子0', 'def')).toBe('def');
 	expect(val.getVal('tmp:const.db.梨香', 'def')).toBe('def');
 	expect(val.getVal('tmp:const.db.紀子.fn', 'def')).toBe('nori');

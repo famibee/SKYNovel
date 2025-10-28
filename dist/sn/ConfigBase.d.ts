@@ -13,7 +13,7 @@ export declare const enum SEARCH_PATH_ARG_EXT {
     TST_GGG = "ggg",
     TST_PNGXML = "png|xml"
 }
-export type T_CFG = {
+export type T_CFG_RAW = {
     book: {
         title: string;
         creator: string;
@@ -23,16 +23,16 @@ export type T_CFG = {
         detail: string;
         version: string;
     };
-    save_ns: string;
-    window: {
+    save_ns?: string;
+    window?: {
         width: number;
         height: number;
     };
-    log: {
+    log?: {
         max_len: number;
     };
     init: {
-        bg_color: string;
+        bg_color: string | number;
         tagch_msecwait: number;
         auto_msecpagewait: number;
         escape: string;
@@ -53,21 +53,33 @@ export type T_CFG = {
     };
     debuger_token: string;
 };
-export declare const DEF_CFG: T_CFG;
-export interface IExts {
+export type T_CFG = T_CFG_RAW & {
+    save_ns: string;
+    window: {
+        width: number;
+        height: number;
+    };
+    log: {
+        max_len: number;
+    };
+};
+export declare function creCFG(): T_CFG;
+export type IExts = {
+    ':cnt'?: number;
+} & {
     [ext: string]: string;
-}
-export interface IFn2Path {
+};
+export type IFn2Path = {
     [fn: string]: IExts;
-}
+};
 export type T_SEARCHPATH = (fn: string, extptn?: SEARCH_PATH_ARG_EXT) => string;
-export interface IConfig {
+export type IConfig = {
     oCfg: T_CFG;
-    getNs(): string;
+    headNs: string;
     searchPath: T_SEARCHPATH;
-    matchPath(fnptn: string, extptn?: SEARCH_PATH_ARG_EXT): ReadonlyArray<IExts>;
-    addPath(fn: string, h_exts: IExts): void;
-}
+    matchPath: (fnptn: string, extptn?: SEARCH_PATH_ARG_EXT) => readonly IExts[];
+    addPath: (fn: string, h_exts: IExts) => void;
+};
 export interface ISysRoots {
     loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
     dec(ext: string, tx: string): Promise<string>;
@@ -88,12 +100,12 @@ export declare class ConfigBase implements IConfig {
     userFnTail: string;
     protected hPathFn2Exts: IFn2Path;
     protected constructor(sys: ISysRoots);
-    protected load(oCfg: T_CFG): Promise<void>;
+    protected load(oCfg: T_CFG_RAW): Promise<void>;
     get existsBreakline(): boolean;
     get existsBreakpage(): boolean;
-    getNs(): string;
+    get headNs(): string;
     searchPath(fn: string, extptn?: SEARCH_PATH_ARG_EXT): string;
-    matchPath(fnptn: string, extptn?: SEARCH_PATH_ARG_EXT): ReadonlyArray<IExts>;
+    matchPath(fnptn: string, extptn?: SEARCH_PATH_ARG_EXT): readonly IExts[];
     addPath(fn: string, h_exts: IExts): void;
 }
 //# sourceMappingURL=ConfigBase.d.ts.map

@@ -1,6 +1,21 @@
 import { HArg } from './Grammar';
 import { IMakeDesignCast } from './LayerMng';
-import { BLEND_MODES, DisplayObject, Container, Sprite, AbstractRenderer, Filter } from 'pixi.js';
+import { DisplayObject, Container, AbstractRenderer, Filter, BLEND_MODES, Sprite } from 'pixi.js';
+export type T_RecordPlayBack_lay = {
+    name: string;
+    idx: number;
+    alpha: number;
+    blendMode: BLEND_MODES;
+    rotation: number;
+    scale_x: number;
+    scale_y: number;
+    pivot_x: number;
+    pivot_y: number;
+    x: number;
+    y: number;
+    visible: boolean;
+    aFltHArg?: HArg[];
+};
 export declare class Layer {
     #private;
     layname: string;
@@ -54,7 +69,7 @@ export declare class Layer {
         visible: boolean;
         aFltHArg: HArg[];
     };
-    playback(hLay: any, _aPrm: Promise<void>[]): void;
+    playback(hLay: T_RecordPlayBack_lay, _aPrm: Promise<void>[]): void;
     snapshot(rnd: AbstractRenderer, re: () => void): void;
     snapshot_end(): void;
     makeDesignCast(_gdc: IMakeDesignCast): void;

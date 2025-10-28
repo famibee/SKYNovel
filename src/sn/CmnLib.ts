@@ -8,16 +8,18 @@
 import type {HArg} from './Grammar';
 
 // =============== Global
-export function int(o: any): number {return parseInt(String(o), 10)}
-export function uint(o: any): number {
+export function int(o: unknown): number {return parseInt(String(o), 10)}
+export function uint(o: unknown): number {
 	const v = parseInt(String(o), 10);
 	return v < 0 ? -v : v;
 }
 if (! ('toInt' in String.prototype)) {
-	(String.prototype as any).toInt = function () { return int(this); };
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+	(<any>String.prototype).toInt = function() { return int(this); };
 }
 if (! ('toUint' in String.prototype)) {
-	(String.prototype as any).toUint = function () {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+	(<any>String.prototype).toUint = function() {
 		const v = int(this);
 		return v < 0 ? -v : v;
 	};
@@ -25,7 +27,7 @@ if (! ('toUint' in String.prototype)) {
 
 export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''): string {
 	const now = new Date;
-	return now.getFullYear()
+	return String(now.getFullYear())
 		+ spl_dd+ String(100 +now.getMonth() +1).slice(1, 3)
 		+ spl_dd+ String(100 +now.getDate()).slice(1, 3)
 		+ spl_dt+ String(100 +now.getHours()).slice(1, 3)
@@ -36,6 +38,7 @@ export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''
 
 const	css_key4del	= '/* SKYNovel */';
 export function initStyle() {
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	const he = document.getElementsByTagName('head')[0]!;
 	const len = he.children.length;
 	for (let i=len -1; i>=0; --i) {
@@ -48,6 +51,7 @@ export function initStyle() {
 export function addStyle(style: string) {
 	const gs = document.createElement('style');
 	gs.innerHTML = css_key4del + style;
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	document.getElementsByTagName('head')[0]!.appendChild(gs);
 }
 
@@ -58,8 +62,8 @@ export const EVNM_BUTTON= 'pointerdown';
 export const EVNM_CLICK	= 'pointerdown';
 export const EVNM_KEY	= 'keydown';
 
-import {Container} from 'pixi.js';
-export interface IEvtMng {
+import type {Container} from 'pixi.js';
+export type IEvtMng = {
 	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void): void;
 	unButton(em: Container): void;
 	get	isSkipping(): boolean;
@@ -70,10 +74,14 @@ export interface IEvtMng {
 }
 
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type T_HASH_Arg = {[name: string]: any};
 
-export	function argChk_Num(hash: any, name: string, def: number): number {
+export	function argChk_Num(hash: T_HASH_Arg, name: string, def: number): number {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const v = hash[name];
 	if (! (name in hash)) {
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		if (isNaN(def)) throw `[${hash[':タグ名']}]属性 ${name} は必須です`;
 
 		hash[name] = def;
@@ -81,11 +89,15 @@ export	function argChk_Num(hash: any, name: string, def: number): number {
 	}
 
 	const n = String(v).startsWith('0x')
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		? parseInt(v)
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		: parseFloat(v);
+	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 	if (isNaN(n)) throw `[${hash[':タグ名']}]属性 ${name} の値【${v}】が数値ではありません`;
 
-	return hash[name] = n;
+	hash[name] = n;
+	return n;
 }
 
 /*
@@ -98,7 +110,7 @@ export	function argChk_Num(hash: any, name: string, def: number): number {
 	String 		空文字列は false  それ以外の値は true
 	Object 		true
 */
-export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
+export	function argChk_Boolean(hash: T_HASH_Arg, name: string, def: boolean): boolean {
 	//	t-r-a-c-e(Boolean(null),Boolean(""),Boolean(undefined),Boolean("0"),Boolean("1"),Boolean("true"),Boolean("false"),Boolean("あい"));
 	//	[exec] false false false true true true true true
 	/*console.log('%o %o %o %o %o %o %o %o',
@@ -107,13 +119,15 @@ export	function argChk_Boolean(hash: any, name: string, def: boolean): boolean {
 	*/
 
 	//if (! hArg[name]) return hArg[name] = def;
-	if (! (name in hash)) return hash[name] = def;
+	if (! (name in hash)) {hash[name] = def; return def;}
 
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const v = hash[name];
 	if (v === null) return false;
 
 	const v2 = String(v);
-	return hash[name] = (v2 === 'false')? false : Boolean(v2);
+	const ret = hash[name] = v2 === 'false'? false : Boolean(v2);
+	return ret;
 }
 
 
@@ -129,39 +143,48 @@ export function parseColor(v: string): number {
 
 	return parseInt(cc.slice(1), 16);
 }
-export	function argChk_Color(hash: any, name: string, def: number): number {
+export	function argChk_Color(hash: T_HASH_Arg, name: string, def: number): number {
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const v = hash[name];
-	if (! v) return hash[name] = def;
+	if (! v) {hash[name] = def; return def;}
 
-	return hash[name] = parseColor(String(v));
+	const ret = hash[name] = parseColor(String(v));
+	return ret;
 }
 
 
 const REG_ERRMES_JSON = /JSON at position (\d+)$/;
-	// Unexpected number in JSON at position 
+	// Unexpected number in JSON at position
 export	function mesErrJSON(hArg: HArg, nm = '', mes = ''): string {
-	const col = (mes.match(REG_ERRMES_JSON) ?? ['',''])[1];
+	const col = (REG_ERRMES_JSON.exec(mes) ?? ['',''])[1];
+	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 	return `[${hArg[':タグ名']}] ${nm} 属性の解析エラー : ${mes}
-${(hArg as any)[nm]}${col ?`
-${'^'.padStart(Number(col))}` :``}`;
+${
+	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+	(<any>hArg)[nm]
+}${col ?`
+${'^'.padStart(Number(col))}` :''}`;
 }
 
 
-const REG_FN	= /^[^\/\.]+$|[^\/]+(?=\.)/;
+const REG_FN	= /^[^/.]+$|[^/]+(?=\.)/;
 	// https://regex101.com/r/8sltIm/1
-export	function getFn(p: string) {return (p.match(REG_FN) ?? [''])[0]}
+export	function getFn(p: string) {return (REG_FN.exec(p) ?? [''])[0]}
+
+export type T_DIP = {[name: string]: string};
 
 import {name, os} from 'platform';
 //import {isMobile} from 'pixi.js';		// 使い物にならないことを確認済み
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class CmnLib {
 	static	stageW		= 0;
 	static	stageH		= 0;
 	static	debugLog	= false;
 	static	readonly	isSafari	= name === 'Safari';
 	static	readonly	isFirefox	= name === 'Firefox';
-	static	readonly	isMac		= /OS X/.test(os?.family ?? '');
+	static	readonly	isMac		= (os?.family ?? '').includes('OS X');
 	static	readonly	isMobile	= ! /(Windows|OS X)/.test(os?.family ?? '');
-	static	hDip		: {[name: string]: string}	= {};
+	static	hDip		: T_DIP	= {};
 	static	isDbg		= false;
 	static	isPackaged	= false;
 

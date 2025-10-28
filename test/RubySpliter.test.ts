@@ -18,7 +18,7 @@ beforeEach(()=> {
 	retText	= '';
 	retRuby	= '';
 });
-	let putCh : IPutCh = (ch, ruby)=> {
+	const putCh : IPutCh = (ch, ruby)=> {
 		retText = retText + '.'+ ch;
 		retRuby = retRuby + '.'+ ruby;
 	}
@@ -474,15 +474,6 @@ r: '..ゆめまぼろし'},
 		t: '.ケセラセラ',
 		r: '.Que Sera, Sera'},
 
-/*
-it('test_putTxt_sp_grp13', ()=> {
-	rs.putTxt('｜未知の無生物だけに作用する力《unrecognized\\ physical\\ power\\ able\\ to\\ effect\\ inanimate\\ bodies》');
-	expect(retText).toBe('.未知の無生物だけに作用する力');
-	expect(retRuby).toBe('.unrecognized physical power able to effect inanimate bodies');
-});
-// まぁいらんか、やめとこ。特殊な文字が増えるし
-*/
-
 	{i: '　一期一会《いち ご%20 いち %20え》',
 		t: '.　.一.期.一.会',
 		r: '..いち.ご .いち. え'},
@@ -500,9 +491,9 @@ it('test_putTxt_sp_grp13', ()=> {
 		r: '.[& ]'},
 
 
-		{i: `｜　《link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}》`,
+		{i: '｜　《link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}》',
 		t: '.　',
-		r: `.link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}`},
+		r: '.link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}'},
 
 
 	{i: '｜剃刀《かみそり》',
@@ -512,7 +503,7 @@ it('test_putTxt_sp_grp13', ()=> {
 	{i: '剃刀', ir: 'かみそり',
 		t: '.剃刀',
 		r: '.かみそり'},
-	
+
 		{i: '安全｜剃刀《かみそり》を',
 	t: '.安.全.剃刀.を',
 	r: '...かみそり.'},
@@ -525,7 +516,7 @@ it('test_putTxt_sp_grp13', ()=> {
 	{i: '雷の指', ir: 'ひげこがし',
 		t: '.雷の指',
 		r: '.ひげこがし'},
-	
+
 		{i: '彼は｜雷の指《ひげこがし》を',
 	t: '.彼.は.雷の指.を',
 	r: '...ひげこがし.'},
@@ -543,7 +534,7 @@ it('test_putTxt_sp_grp13', ()=> {
 	{i: '　剃刀', ir: 'かみそり',
 		t: '.　剃刀',
 		r: '.かみそり'},
-	
+
 		{i: '｜剃　刀《かみそり》',
 	t: '.剃　刀',
 	r: '.かみそり'},
@@ -551,7 +542,7 @@ it('test_putTxt_sp_grp13', ()=> {
 	{i: '剃　刀', ir: 'かみそり',
 		t: '.剃　刀',
 		r: '.かみそり'},
-	
+
 		{i: '｜剃刀　《かみそり》',
 	t: '.剃刀　',
 	r: '.かみそり'},
@@ -559,7 +550,7 @@ it('test_putTxt_sp_grp13', ()=> {
 	{i: '剃刀　', ir: 'かみそり',
 		t: '.剃刀　',
 		r: '.かみそり'},
-	
+
 		{i: '　安全｜剃刀《かみそり》を',
 	t: '.　.安.全.剃刀.を',
 	r: '....かみそり.'},
@@ -567,15 +558,15 @@ it('test_putTxt_sp_grp13', ()=> {
 	{i: '安　全｜剃刀《かみそり》を',
 	t: '.安.　.全.剃刀.を',
 	r: '....かみそり.'},
-		
+
 	{i: 'あ安　全い｜剃刀《かみそり》を',
 		t: '.あ.安.　.全.い.剃刀.を',
 		r: '......かみそり.'},
-			
+
 		{i: 'あ「とある科学　超電磁砲《121｜レールガン》」',
 		t: '.あ.「.と.あ.る.科.学.　.超電磁砲.」',
 		r: '.........121｜レールガン.'},
-	
+
 		{i: '安全　｜剃刀《かみそり》を',
 	t: '.安.全.　.剃刀.を',
 	r: '....かみそり.'},
@@ -604,7 +595,7 @@ it('test_putTxt_sp_grp13', ()=> {
 	{i: '　雷の指', ir: 'ひげこがし',
 		t: '.　雷の指',
 		r: '.ひげこがし'},
-	
+
 		{i: '　彼は｜雷の指《ひげこがし》を',
 	t: '.　.彼.は.雷の指.を',
 	r: '....ひげこがし.'},
@@ -704,7 +695,7 @@ it('test_putTxt_sp_grp13', ()=> {
 	{i: '「はい輪島御児《わ じま み こ》神社でございます。はい。｜初宮参り《はつ みや まい 》のご予約ですね」',
 	t: '.「.は.い.輪.島.御.児.神.社.で.ご.ざ.い.ま.す.。.は.い.。.初.宮.参.り.の.ご.予.約.で.す.ね.」',
 	r: '....わ.じま.み.こ.............はつ.みや.まい.........'},
-	
+
 	// test_不具合20140103_2_ng
 	{i: '「初宮参り《はつ みや まい 》」',
 	t: '.「.初.宮.参.り.」',
@@ -979,7 +970,7 @@ it('test_putTxt_sp_grp13', ()=> {
 	r: '...ひげこがし.'},
 
 
-])(`$i`, ({i, t, r, ir, sesame, esc})=> {
+])('$i', ({i, t, r, ir, sesame, esc})=> {
 	if (sesame) RubySpliter.setting({sesame});
 	if (esc) RubySpliter.setEscape(esc);
 

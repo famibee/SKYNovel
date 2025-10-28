@@ -10,10 +10,11 @@ import type {HArg} from './Grammar';
 import {Reading} from './Reading';
 
 import {Tween, Easing, removeAll, update} from '@tweenjs/tween.js'
-import {Application} from 'pixi.js';
+import type {Application} from 'pixi.js';
 
 
-interface ITwInf {
+type ITwInf = {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	tw		: Tween<any> | undefined;
 	onEnd?	: ()=> void;
 }
@@ -22,6 +23,7 @@ export const TW_INT_TRANS = 'trans\n';	// 改行でスクリプトから絶対�
 export const TMP_TSY_NM	= 'tsy nm:';
 
 
+// eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class CmnTween {
 	static	#hTwInf	: {[tw_nm: string]: ITwInf}	= {};
 
@@ -40,6 +42,7 @@ export class CmnTween {
 		this.#appPixi.ticker.remove(this.#fncTicker);
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static	setTwProp(tw: Tween<any>, hArg: HArg): Tween<any> {
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		return tw.delay(argChk_Num(hArg, 'delay', 0))
@@ -100,12 +103,14 @@ export class CmnTween {
 		x			: 0,
 		y			: 0,
 	};
-	static cnvTweenArg(hArg: HArg, lay: any): {} {
-		const hTo: any = {};
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static cnvTweenArg(hArg: HArg, lay: any): HArg {
+		const hTo: {[val_name: string]: number} = {};
 		for (const nm of Object.keys(this.hMemberCnt)) {
-			const arg = (hArg as any)[nm];
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+			const arg = (<any>hArg)[nm];
 			if (! arg) continue;
-	
+
 			// {x:500}			X位置を500に
 			// {x:'=500'}		現在のX位置に+500加算した位置
 			// {x:'=-500'}		現在のX位置に-500加算した位置
@@ -117,11 +122,13 @@ export class CmnTween {
 			if (! vx) continue;
 
 			const [v0, v1] = vx.split(',');
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const a0 = hTo[nm] = parseFloat(v0!);
 
 			if (v1) hTo[nm] += Math.round(
 				Math.random() * (parseFloat(v1) -a0 +1)
 			);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 			if (hdeq) hTo[nm] += parseFloat(lay[nm]);	// 相対に
 		}
 		return hTo;
@@ -132,9 +139,11 @@ export class CmnTween {
 	static	stopAllTw() {this.#hTwInf = {}; removeAll()}
 
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static	tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween<any> {
 		const time = this.#evtMng.isSkipping ?0 :argChk_Num(hArg, 'time', NaN);
 		const tw = new Tween(hNow)
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		.to(hTo, time)
 		.onUpdate(onUpdate);
 		this.setTwProp(tw, hArg);
@@ -143,22 +152,25 @@ export class CmnTween {
 		const {path} = hArg;
 		let twLast = tw;
 		if (path) {
+			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
 			if (CmnLib.debugLog) console.group(`🍝 [${hArg[':タグ名']}] path=${path}= start(${hNow.x},${hNow.y},${hNow.alpha})`);
 			for (const {groups} of path.matchAll(this.#REG_TSY_PATH)) {
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const {x, x2, y, y2, o, o2, json} = groups!;
-				let hArg2: any = {};
-				if (json) try {hArg2 = JSON.parse(json)} catch (e) {
-					console.error(`🍝 json=${json} `+ e);
+				let hArg2: HArg = {};
+				if (json) try {hArg2 = <HArg>JSON.parse(json)} catch (e) {
+					console.error(`🍝 json=${json} `+ String(e));
 					continue;
 				}
 				else {
 					if (x ?? x2) hArg2.x = x ?? x2;
 					if (y ?? y2) hArg2.y = y ?? y2;
-					if (o ?? o2) hArg2.alpha = o ?? o2;
+					if (o ?? o2) hArg2.alpha = Number(o ?? o2);
 				}
 
 				const hTo2 = this.cnvTweenArg(hArg2, hNow);
 				if (CmnLib.debugLog) console.info(`🍝 ${
+					// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 					json ?? `{x:${x} y:${y} o:${o}}`
 				} => hTo:${JSON.stringify(hTo2)}`);
 
@@ -174,6 +186,7 @@ export class CmnTween {
 		twLast.onComplete(()=> {
 			const ti = this.#hTwInf[tw_nm];
 			if (! ti?.tw) return;
+			// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 			delete this.#hTwInf[tw_nm];
 
 			ti.tw = undefined;
@@ -212,7 +225,7 @@ export class CmnTween {
 |
 (?<json>\{[^{}]*})
 */
-	static	readonly	#REG_TSY_PATH	= /\(\s*(?:(?<x>[-=\d\.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d\.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d\.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
+	static	readonly	#REG_TSY_PATH	= /\(\s*(?:(?<x>[-=\d.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
 
 	// トランス終了待ち
 	static	wt(_hArg: HArg) {
@@ -231,6 +244,7 @@ export class CmnTween {
 		const ti = this.#hTwInf[TW_INT_TRANS];
 		if (! ti?.tw) return;
 
+		// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
 		const {promise, resolve} = Promise.withResolvers<void>();
 		Reading.beginProc(TMP_TSY_NM + TW_INT_TRANS, resolve, false, resolve);
 		this.#stopEndTrans();	// beginProc後に
@@ -250,7 +264,7 @@ export class CmnTween {
 	}
 		static	#tw_nm(hArg: HArg) {
 			const {layer='', id, name} = hArg;
-			const tw_nm = id ?`frm\n${id}` :(name ?? layer);
+			const tw_nm = id ?`frm\n${id}` :name ?? layer;
 			if (! tw_nm) throw 'トゥイーンが指定されていません';
 
 			return tw_nm;

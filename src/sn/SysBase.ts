@@ -6,14 +6,15 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import type {IHTag, ITag} from './Grammar';
-import type {IVariable, ISysBase, IData4Vari, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, HPlugin} from './CmnInterface';
+import type {IVariable, ISysBase, T_Data4Vari, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, HPlugin, T_H_TMP_DATA} from './CmnInterface';
+import {creSYS_DATA} from './CmnInterface';
 import {argChk_Boolean, CmnLib, EVNM_KEY} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
 import type {IConfig, IFn2Path, ISysRoots, HSysBaseArg} from './ConfigBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
-import type {Application, DisplayObject, RenderTexture} from 'pixi.js';
-import {io, Socket} from 'socket.io-client';
+import type {Application, DisplayObject, Loader, RenderTexture} from 'pixi.js';
+import {io, type Socket} from 'socket.io-client';
 
 
 export class SysBase implements ISysRoots, ISysBase {
@@ -27,17 +28,17 @@ export class SysBase implements ISysRoots, ISysBase {
 		delete hPlg.snsys_pre;
 		return await fncPre?.init({
 			getInfo: this.#getInfo,
-			addTag: ()=> {},
-			addLayCls: ()=> {},
+			addTag: ()=> { /* empty */ },
+			addLayCls: ()=> { /* empty */ },
 			searchPath: ()=> '',
 			getVal: ()=> ({}),
-			resume: ()=> {},
-			render: ()=> {},
-			setDec: fnc=> this.dec = fnc,
-			setDecAB: fnc=> this.#plgDecAB = fnc,
-			setEnc: fnc=> this.enc = fnc,
-			getStK: fnc=> this.stk = fnc,
-			getHash: fnc=> this.hash = fnc,
+			resume: ()=> { /* empty */ },
+			render: ()=> { /* empty */ },
+			setDec: fnc=> {this.dec = fnc},
+			setDecAB: fnc=> {this.#plgDecAB = fnc},
+			setEnc: fnc=> {this.enc = fnc},
+			getStK: fnc=> {this.stk = fnc},
+			getHash: fnc=> {this.hash = fnc},
 		});
 	}
 	fetch = (url: string, init?: RequestInit)=> fetch(url, init);
@@ -47,10 +48,15 @@ export class SysBase implements ISysRoots, ISysBase {
 	resolution	= 1;
 
 	protected	cfg: IConfig;
+	// eslint-disable-next-line @typescript-eslint/require-await
 	async loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig) {this.cfg = cfg}
 
-	protected	readonly	data	= {sys:{}, mark:{}, kidoku:{}};
-	async	initVal(_data: IData4Vari, _hTmp: any, _comp: (data: IData4Vari)=> void) {}
+	protected	readonly	data: T_Data4Vari = {
+		sys		: creSYS_DATA(),
+		mark	: {},
+		kidoku	: {},
+	};
+	async	initVal(_data: T_Data4Vari, _hTmp: T_H_TMP_DATA, _comp: (data: T_Data4Vari)=> void) { /* empty */ }
 	flush() {
 		// 立て続きの保存を回避し最短 500ms の間隔を開ける
 		if (this.#tidFlush) {this.#rsvFlush = true; return}	// 次の Timeout 時に予約
@@ -65,32 +71,38 @@ export class SysBase implements ISysRoots, ISysBase {
 		}, 500);
 	}
 	#tidFlush	: NodeJS.Timeout | undefined = undefined;
-	#rsvFlush	: boolean = false;
-	protected	flushSub() {}
+	#rsvFlush	 = false;
+	protected	flushSub() { /* empty */ }
 
 
-	protected async run() {}
+	// === vite-electron 用コード ===
+	use4ViteElectron(_src: string, _path: string, _ld: Loader, _main: IMain): boolean {return false}
+
+
+	protected async run() { /* empty */ }
 
 
 	protected	val		: IVariable;
 	protected	main	: IMain;
-	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain): Promise<void>[] {
+	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
+		const aP: Promise<void>[] = [];
+
 		this.val = val;
 		this.main = main;
 		let mes = '';
-		try {
-			val.setSys(this);
-
-			//l = String(val.getVal('save:const.sn.sLog'));
-			mes = 'sys';	// tst sys
-			mes += Number(val.getVal('sys:TextLayer.Back.Alpha', 1));
-			mes = 'kidoku';	// tst kidoku
-			val.saveKidoku();
-		//	mes = 'save';	// tst save
-		//	mes += String(val.getVal('save:sn.doRecLog', 'false'));
-		} catch (e) {
-			console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります(b) %o`, e);
-		}
+		aP.push(
+			val.setSys(this)
+			.then(()=> {
+				//l = String(val.getVal('save:const.sn.sLog'));
+				mes = 'sys';	// tst sys
+				mes += String(val.getVal('sys:TextLayer.Back.Alpha', 1));
+				mes = 'kidoku';	// tst kidoku
+				val.saveKidoku();
+			//	mes = 'save';	// tst save
+			//	mes += String(val.getVal('save:sn.doRecLog', 'false'));
+			})
+			.catch((e: unknown)=> console.error(`セーブデータ（${mes}）が壊れています。一度クリアする必要があります(b) %o`, e))
+		);
 
 		//	システム
 		hTag.close			= o=> this.close(o);	// アプリの終了
@@ -108,42 +120,44 @@ export class SysBase implements ISysRoots, ISysBase {
 		hTag.update_check	= o=> this.update_check(o);	// 更新チェック
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 
-		val.setVal_Nochk('tmp', 'const.sn.isApp', ()=> this.isApp);
-		val.setVal_Nochk('tmp', 'const.sn.isDbg', ()=> CmnLib.isDbg);
-		val.setVal_Nochk('tmp', 'const.sn.isPackaged', ()=> CmnLib.isPackaged);
+		val.defTmp('const.sn.isApp', ()=> this.isApp);
+		val.defTmp('const.sn.isDbg', ()=> CmnLib.isDbg);
+		val.defTmp('const.sn.isPackaged', ()=> CmnLib.isPackaged);
 
 		val.defTmp('const.sn.displayState', ()=> this.isFullScr);
 
-		val.setVal_Nochk('sys', SysBase.VALNM_CFG_NS, this.cfg.oCfg.save_ns);
-			// [import]時のチェック用
+		val.setVal_Nochk('sys', 'const.sn.cfg.ns', this.cfg.oCfg.save_ns);
+
 		val.flush();
 
 		if (CmnLib.isDbg) this.attach_debug(main);
 
 		this.hFactoryCls = {};	// ギャラリーなどで何度も初期化される対策
 		// プラグイン初期化
-		return Object.values(this.hPlg).map(v=> v.init({
-			getInfo: this.#getInfo,
-			addTag: (name: string, tag_fnc: ITag)=> {
-				if (hTag[name]) throw `すでに定義済みのタグ[${name}]です`;
-				hTag[name] = tag_fnc;
-			},
-			addLayCls: (cls: string, fnc: ILayerFactory)=> {
-				if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
-				this.hFactoryCls[cls] = fnc;
-			},
-			searchPath: (fn, extptn = SEARCH_PATH_ARG_EXT.DEFAULT)=>	this.cfg.searchPath(fn, extptn),
-			getVal: val.getVal,
-			resume: ()=> main.resume(),
-			render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> appPixi.renderer.render(dsp, {renderTexture, clear}),
-			setDec: ()=> {},
-			setDecAB: ()=> {},
-			setEnc: ()=> {},
-			getStK: ()=> {},
-			getHash: ()=> {},
-		}));
+		return [
+			...aP,
+			...Object.values(this.hPlg).map(v=> v.init({
+				getInfo: this.#getInfo,
+				addTag: (name: string, tag_fnc: ITag)=> {
+					if (name in hTag) throw `すでに定義済みのタグ[${name}]です`;
+					hTag[<keyof IHTag>name] = tag_fnc;
+				},
+				addLayCls: (cls: string, fnc: ILayerFactory)=> {
+					if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
+					this.hFactoryCls[cls] = fnc;
+				},
+				searchPath: (fn, extptn = SEARCH_PATH_ARG_EXT.DEFAULT)=>	this.cfg.searchPath(fn, extptn),
+				getVal: (arg_name: string, def?: number | string)=> val.getVal(arg_name, def),
+				resume: ()=> main.resume(),
+				render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> appPixi.renderer.render(dsp, {renderTexture, clear}),
+				setDec: ()=> { /* empty */ },
+				setDecAB: ()=> { /* empty */ },
+				setEnc: ()=> { /* empty */ },
+				getStK: ()=> { /* empty */ },
+				getHash: ()=> { /* empty */ },
+			})),
+		];
 	}
-	protected	static	readonly	VALNM_CFG_NS = 'const.sn.cfg.ns';
 	#getInfo: ()=> T_PLUGIN_INFO	= ()=> ({
 		window: {
 			width	: CmnLib.stageW,
@@ -159,13 +173,13 @@ export class SysBase implements ISysRoots, ISysBase {
 	#ofsTop4elm  = 0;
 	#ofsPadLeft_Dom2PIXI	= 0;
 	#ofsPadTop_Dom2PIXI		= 0;
-	get	cvsWidth(): number {return this.#cvsWidth};
-	get	cvsHeight(): number {return this.#cvsHeight};
-	get	cvsScale(): number {return this.#cvsScale};
-	get	ofsLeft4elm(): number {return this.#ofsLeft4elm};
-	get	ofsTop4elm(): number {return this.#ofsTop4elm};
-	get	ofsPadLeft_Dom2PIXI(): number {return this.#ofsPadLeft_Dom2PIXI};
-	get	ofsPadTop_Dom2PIXI(): number {return this.#ofsPadTop_Dom2PIXI};
+	get	cvsWidth(): number {return this.#cvsWidth}
+	get	cvsHeight(): number {return this.#cvsHeight}
+	get	cvsScale(): number {return this.#cvsScale}
+	get	ofsLeft4elm(): number {return this.#ofsLeft4elm}
+	get	ofsTop4elm(): number {return this.#ofsTop4elm}
+	get	ofsPadLeft_Dom2PIXI(): number {return this.#ofsPadLeft_Dom2PIXI}
+	get	ofsPadTop_Dom2PIXI(): number {return this.#ofsPadTop_Dom2PIXI}
 	protected	isFullScr	= false;
 	cvsResize() {
 		let w = globalThis.innerWidth;
@@ -178,7 +192,7 @@ export class SysBase implements ISysRoots, ISysBase {
 			h = parseFloat(st.height);
 		}
 		if (CmnLib.isMobile) {
-			const angle = screen.orientation?.angle ?? 0;
+			const angle = screen.orientation.angle;
 				// const {angle=0} = screen.orientation;
 				// この記法は、Safari で以下のエラーになる
 				// TypeError: Right side of assignment cannot be destructured
@@ -226,11 +240,12 @@ export class SysBase implements ISysRoots, ISysBase {
 			this.#ofsPadTop_Dom2PIXI	= 0;
 		}
 
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const ps = cvs.parentElement!.style;
 		if (! isGallery) {
 			ps.position = 'relative';
-			ps.width = `${this.#cvsWidth}px`;
-			ps.height= `${this.#cvsHeight}px`;
+			ps.width = `${String(this.#cvsWidth)}px`;
+			ps.height= `${String(this.#cvsHeight)}px`;
 		}
 		const s = cvs.style;
 		s.width = ps.width;
@@ -253,7 +268,7 @@ export class SysBase implements ISysRoots, ISysBase {
 
 	// デバッガ接続
 	attach_debug(main: IMain) {
-		this.attach_debug = ()=> {};
+		this.attach_debug = ()=> { /* empty */ };
 
 		const gs = document.createElement('style');
 		gs.innerHTML = `/* SKYNovel Dbg */
@@ -282,14 +297,15 @@ export class SysBase implements ISysRoots, ISysBase {
 75% {transform:	translate(0px,  -5px);}
 100%{transform:	translate(0px,   0px);}
 }`;
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		document.getElementsByTagName('head')[0]!.appendChild(gs);
 
 
 		this.addHook((type, o)=> this.#hHook[type]?.(o));
 
-		this.#sk = io(`http://localhost:${this.extPort}`);
+		this.#sk = io(`http://localhost:${String(this.extPort)}`);
 		this.#sk
-		.on('data', (type: string, o: any)=> {
+		.on('data', (type: string, o: unknown)=> {
 //console.log(`fn:SysBase.ts RSV dbg -> sn type:${type} o:${JSON.stringify(o).slice(0, 150)}`);
 			this.callHook(type, o);
 		})
@@ -308,20 +324,23 @@ export class SysBase implements ISysRoots, ISysBase {
 		this.#sk = undefined;
 	}
 	#sk: Socket | undefined = undefined;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	readonly	#hHook: {[type: string]: (o: any)=> void}	= {
 		auth		: o=> {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 			if (o.t !== this.cfg.oCfg.debuger_token) {this.end(); return}
 
 			this.toast('接続');
 		},
 		continue	: ()=> this.toast('再生'),
 		disconnect	: ()=> this.toast('切断'),
-		restart		: async o=> {
+		restart		: o=> {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 			this.send2Dbg(o?.ri ?? '', {});
 			this.end();
 			// これ以前の this は旧Main。以後は this必須
 			// 以後は新Mainによる本メソッドinit()→launch接続待ち
-			await this.run();
+			void this.run();
 		},
 		pause			: ()=> this.toast('一時停止'),
 		stopOnEntry		: ()=> this.toast('一時停止'),
@@ -332,6 +351,7 @@ export class SysBase implements ISysRoots, ISysBase {
 		stopOnStepOut		: ()=> this.toast('ステップアウト'),
 		stopOnBackstep		: ()=> this.toast('一歩戻る'),
 
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 		_addPath		: o=> this.cfg.addPath(o.fn, o.o),
 	};
 	protected toast(nm: string) {
@@ -349,14 +369,18 @@ export class SysBase implements ISysRoots, ISysBase {
 		img.width = img.height = size;
 		img.style.cssText =
 `position: absolute;
-left: ${(CmnLib.stageW -size) /2 *this.#cvsScale +size *(td.dx ?? 0)}px;
-top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
+left: ${String(
+	(CmnLib.stageW -size) /2 *this.#cvsScale +size *(td.dx ?? 0)
+)}px;
+top: ${String(
+	(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)
+)}px;`;
 		img.classList.add('sn_toast', td.ease ?? 'sn_BounceInOut');
 		if (! td.ease) img.addEventListener('animationend', ()=> p.removeChild(img), {once: true, passive: true});
 		p.insertBefore(img, this.main.cvs);
 	}
 	static	readonly	#hToastDat
-	: {[nm: string] :{dat: string, dx?: number, dy?: number, ease?: string}}	= {	// Thanks ICOOON MONO https://icooon-mono.com/ 、 https://vectr.com/ で 640x640化、ImageOptim経由、Base64エンコーダー https://lab.syncer.jp/Tool/Base64-encode/ 
+	: {[nm: string] :{dat: string, dx?: number, dy?: number, ease?: string}}	= {	// Thanks ICOOON MONO https://icooon-mono.com/ 、 https://vectr.com/ で 640x640化、ImageOptim経由、Base64エンコーダー https://lab.syncer.jp/Tool/Base64-encode/
 		'接続'	: {dx: -1, dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMCAyOTJ2NTUuODhoMTI3LjEzYzEyLjM3IDQ2IDU0LjEyIDc5Ljg3IDEwNCA3OS44N2g3Ny44N3YtMjE1LjYyYy00Ni43MyAwLTcyLjY4IDAtNzcuODggMC00OS43NCAwLTkxLjYyIDMzLjg3LTEwMy45OSA3OS44Ny0xNi45NSAwLTU5LjMzIDAtMTI3LjEzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im01MTIuODggMjkyYy0xMi4zOC00Ni01NC4xMy03OS44Ny0xMDQtNzkuODctNS4yMSAwLTMxLjIxIDAtNzggMHYyMTUuNzRoNzcuODdjNDkuODggMCA5MS43NS0zMy44NyAxMDQtNzkuODdoMTI3LjI1di01NmMtNzYuMjcgMC0xMTguNjUgMC0xMjcuMTIgMHoiLz48L2RlZnM+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48dXNlIGZpbGw9IiMzYWFiZDIiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYiIvPjx1c2UgZmlsbD0iIzNhYWJkMiIgeGxpbms6aHJlZj0iI2MiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNjIi8+PC9zdmc+'},
 		'切断'	: {dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtNjQwIDMyMGMwIDE3Ni43My0xNDMuMjcgMzIwLTMyMCAzMjBzLTMyMC0xNDMuMjctMzIwLTMyMCAxNDMuMjctMzIwIDMyMC0zMjAgMzIwIDE0My4yNyAzMjAgMzIweiIvPjxwYXRoIGlkPSJiIiBkPSJtMTkxLjUzIDIyMS4yNGMtNDUuNjggMC04NC4wMSAzMS4wNC05NS4zIDczLjE2LTYuNDEgMC0zOC40OSAwLTk2LjIzIDB2NTEuMjFoOTYuMjNjMTEuMyA0Mi4xMSA0OS42MyA3My4xNiA5NS4zIDczLjE2aDcxLjMzdi00OC4yNGg1My43OHYtMTAxLjA1aC01My43OHYtNDguMjRjLTQyLjggMC02Ni41NyAwLTcxLjMzIDB6Ii8+PHBhdGggaWQ9ImMiIGQ9Im00NDguNDcgMjIxLjIzYy00Ljc2IDAtMjguNTMgMC03MS4zMyAwdjE5Ny41M2g3MS4zM2M0NS42OCAwIDgzLjk5LTMxLjA0IDk1LjI5LTczLjE1aDk2LjI0di01MS4yMWgtOTYuMjRjLTMzLjA4LTQ4Ljc4LTY0Ljg0LTczLjE3LTk1LjI5LTczLjE3eiIvPjwvZGVmcz48dXNlIGZpbGw9IiMyZTJlMmUiIHhsaW5rOmhyZWY9IiNhIi8+PHVzZSBmaWxsPSJub25lIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0iI2RmNTY1NiIgeGxpbms6aHJlZj0iI2IiLz48dXNlIGZpbGw9Im5vbmUiIHhsaW5rOmhyZWY9IiNiIi8+PHVzZSBmaWxsPSIjZGY1NjU2IiB4bGluazpocmVmPSIjYyIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2MiLz48L3N2Zz4='},
 		'再生'	: {dat: 'PHN2ZyBoZWlnaHQ9IjY0MCIgcHJlc2VydmVBc3BlY3RSYXRpbz0ieE1pZFlNaWQgbWVldCIgdmlld0JveD0iMCAwIDY0MCA2NDAiIHdpZHRoPSI2NDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiPjxkZWZzPjxwYXRoIGlkPSJhIiBkPSJtMCAzMjBjMCAxNzYuNzIgMTQzLjI4IDMyMCAzMjAgMzIwczMyMC0xNDMuMjggMzIwLTMyMC0xNDMuMjgtMzIwLTMyMC0zMjAtMzIwIDE0My4yOC0zMjAgMzIwem0yNTguODMgMTExLjA1Yy0xLjI5Ljc5LTIuOTMuODMtNC4yNi4wNC0xLjI5LS43NC0yLjExLTIuMTItMi4xMS0zLjY3IDAtNy4xNiAwLTQyLjk3IDAtMTA3LjQzczAtMTAwLjI3IDAtMTA3LjQzYzAtMS41My44Mi0yLjkzIDIuMTEtMy42OCAxLjMzLS43NiAyLjk3LS43MiA0LjI2LjA0IDE4IDEwLjc1IDE2MiA5Ni43MSAxODAgMTA3LjQ2IDEuMjkuNzMgMi4wNSAyLjE0IDIuMDUgMy42MSAwIDEuNDktLjc2IDIuODgtMi4wNSAzLjYzLTM2IDIxLjQ5LTE2MiA5Ni42OS0xODAgMTA3LjQzeiIvPjwvZGVmcz48cGF0aCBkPSJtMTU0LjU3IDE3MC4xOWgzNDYuMTV2MzA3LjY5aC0zNDYuMTV6IiBmaWxsPSIjZmZmIi8+PHVzZSBmaWxsPSIjMmUyZTJlIiB4bGluazpocmVmPSIjYSIvPjx1c2UgZmlsbD0ibm9uZSIgeGxpbms6aHJlZj0iI2EiLz48L3N2Zz4='},
@@ -375,7 +399,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 
 	#aFncHook: IFncHook[]	= [];
 	addHook(fnc: IFncHook) {this.#aFncHook.push(fnc)}
-	callHook: IFncHook = (_type, _o)=> {};
+	callHook: IFncHook = (_type, _o)=> { /* empty */ };
 
 	send2Dbg: IFncHook = (type, o)=> {
 //console.log(`fn:SysBase.ts 新SND isBuf:${!(this.sk)} type:${type} o:${JSON.stringify(o)}`);
@@ -383,8 +407,8 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	}
 
 
-	copyBMFolder = (_from: number, _to: number)=> {};
-	eraseBMFolder = (_place: number)=> {};
+	copyBMFolder = (_from: number, _to: number)=> { /* empty */ };
+	eraseBMFolder = (_place: number)=> { /* empty */ };
 
 
 	protected readonly	close			: ITag = ()=> false;
@@ -401,10 +425,14 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		return false;
 	};
 		#main_title	= '';
-		protected titleSub(_txt: string) {}
+		protected titleSub(_txt: string) { /* empty */ }
 
-	#tglFlscr: ITag = hArg=> {
-		if (! hArg.key) {this.tglFlscr_sub(); return false}
+	readonly	#tglFlscr: ITag = hArg=> {
+		if (! hArg.key) {
+			this.tglFlscr_sub()
+			.catch((e: unknown)=> SysBase.tglFlscr_HdrErr(e));
+			return false;
+		}
 
 		const key = hArg.key.toLowerCase();
 		this.elc.add(document, EVNM_KEY, (e: KeyboardEvent)=> {
@@ -412,18 +440,25 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 			if (key2 !== key) return;
 
 			e.stopPropagation();
-			this.tglFlscr_sub();
+			this.tglFlscr_sub()
+			.catch((e: unknown)=> SysBase.tglFlscr_HdrErr(e));
 		}, {passive: true});
 
 		return false;
 	};
-		static	modKey(e: KeyboardEvent): string {
-			return  (e.altKey ?(e.key === 'Alt' ?'' :'alt+') :'')
-			+	(e.ctrlKey ?(e.key === 'Control' ?'' :'ctrl+') :'')
-			+	(e.metaKey ?(e.key === 'Meta' ?'' :'meta+') :'')
-			+	(e.shiftKey ?(e.key === 'Shift' ?'' :'shift+') :'')
+		static	tglFlscr_HdrErr(e: unknown) {
+			if (e instanceof TypeError) {
+				console.error('フルスクリーン化でエラーです。ブラウザ環境でキー入力きっかけでないと発生します');
+			}
+			console.error(`fn:SysBase.ts tglFlscr ${String(e)}`);
 		}
-		protected	tglFlscr_sub() {}
+		static	modKey(e: KeyboardEvent): string {
+			return  (e.altKey ?e.key === 'Alt' ?'' :'alt+' :'')
+			+	(e.ctrlKey ?e.key === 'Control' ?'' :'ctrl+' :'')
+			+	(e.metaKey ?e.key === 'Meta' ?'' :'meta+' :'')
+			+	(e.shiftKey ?e.key === 'Shift' ?'' :'shift+' :'')
+		}
+		protected	async	tglFlscr_sub() { /* empty */ }
 
 	protected readonly	update_check	: ITag = ()=> false;
 	protected readonly	window			: ITag = ()=> false;
@@ -445,7 +480,7 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	}
 	readonly #hN2Ext: {[id: number]: {
 		ext	: string;
-		fnc	: {(ab: ArrayBuffer): Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer>};	// サウンドファイル用
+		fnc	: (ab: ArrayBuffer)=> Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer>;	// サウンドファイル用
 	}} = {
 		1	: {ext: 'jpeg', fnc: ab=> this.#genImage(ab, 'image/jpeg')},
 		2	: {ext: 'png', fnc: ab=> this.#genImage(ab, 'image/png')},
@@ -465,18 +500,19 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 		const bl = new Blob([ab], {type});
 		const img = new Image;
 		img.onload = ()=> rs(img);
-		img.onerror = e=> rj(e);
+		img.onerror = e=> rj(new Error(e instanceof Event ?e.type :e));
 		img.src = URL.createObjectURL(bl);
 	});
 	#genVideo = (ab: ArrayBuffer, type: string): Promise<HTMLVideoElement> => new Promise((rs, rj)=> {
 		const bl = new Blob([ab], {type});
 		const v = document.createElement('video');
 	//	this.elc.add(v, 'loadedmetadata', ()=> console.log(`loadedmetadata duration:${v.duration}`));
-		this.elc.add(v, 'error', ()=> rj(v?.error?.message ?? ''));
+		this.elc.add(v, 'error', ()=> rj(new Error(v.error?.message ?? '')));
 		this.elc.add(v, 'canplay', ()=> rs(v));
 		v.src = URL.createObjectURL(bl);
 	});
 
+	// eslint-disable-next-line @typescript-eslint/require-await
 	protected enc = async (tx: string)=> tx;
 	protected stk = ()=> '';
 	hash = (_str: string)=> '';
@@ -487,10 +523,10 @@ top: ${(CmnLib.stageH -size) /2 *this.#cvsScale +size *(td.dy ?? 0)}px;`;
 	protected $path_userdata	= '';
 	get path_userdata() {return this.$path_userdata}
 
-	capturePage(_path: string, _w: number, _h: number, _fnc: ()=> void) {}
-	async savePic(_path: string, _data_url: string) {}
-	async ensureFileSync(_path: string) {}
-	async appendFile(_path: string, _data: string) {}
-	async outputFile(_path: string, _data: string) {}
+	capturePage(_path: string, _w: number, _h: number, _fnc: ()=> void) { /* empty */ }
+	async savePic(_path: string, _data_url: string) { /* empty */ }
+	async ensureFile(_path: string) { /* empty */ }
+	async appendFile(_path: string, _data: string) { /* empty */ }
+	async outputFile(_path: string, _data: string) { /* empty */ }
 
 }

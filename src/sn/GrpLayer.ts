@@ -5,12 +5,12 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Layer} from './Layer';
+import {Layer, type T_RecordPlayBack_lay} from './Layer';
 
 import {CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
 import type {HArg} from './Grammar';
 import type {IMain, IVariable} from './CmnInterface';
-import {Config} from './Config';
+import type {Config} from './Config';
 import type {SysBase} from './SysBase';
 import {EventListenerCtn} from './EventListenerCtn';
 import type {SoundMng} from './SoundMng';
@@ -19,7 +19,13 @@ import {GrpLayDesignCast} from './DesignCast';
 import {SpritesMng} from './SpritesMng';
 import {Reading} from './Reading';
 
-import {Sprite, AnimatedSprite, RenderTexture, Application} from 'pixi.js';
+import {Sprite, AnimatedSprite, RenderTexture, type Application} from 'pixi.js';
+
+
+export type T_RP_layGrp = T_RecordPlayBack_lay & {
+	sBkFn	: string;
+	sBkFace	: string;
+}
 
 
 export class GrpLayer extends Layer {
@@ -40,7 +46,7 @@ export class GrpLayer extends Layer {
 			this.cvsResize = ()=> {super.cvsResize(); this.#idc.cvsResize()}
 		}
 	}
-	#setIdcSp	: (sp: Sprite)=> void	= ()=> {};
+	#setIdcSp	: (sp: Sprite)=> void	= ()=> { /* empty */ };
 
 	#csvFn		= '';
 	#sBkFn		= '';
@@ -121,8 +127,8 @@ export class GrpLayer extends Layer {
 			for (const s of this.ctn.children) s.visible = false;
 		}
 		if (! this.containMovement) {
-			let oldFnc = fncRenderFore;	// 動きがないなら最初に一度
-			fncRenderFore = ()=> {fncRenderFore = ()=> {}; oldFnc()};
+			const oldFnc = fncRenderFore;	// 動きがないなら最初に一度
+			fncRenderFore = ()=> {fncRenderFore = ()=> { /* empty */ }; oldFnc()};
 		}
 		this.#fncRender = ()=> {
 			fncRenderFore();
@@ -135,7 +141,7 @@ export class GrpLayer extends Layer {
 		height	: CmnLib.stageH,
 	});
 	#spTsy	= new Sprite;
-	#fncRender = ()=> {};
+	#fncRender = ()=> { /* empty */ };
 	override	renderEnd() {
 		GrpLayer.#appPixi.ticker.remove(this.#fncRender);
 		this.ctn.removeChild(this.#spTsy);
@@ -159,7 +165,7 @@ export class GrpLayer extends Layer {
 	}
 
 	// アニメ・動画を含むか
-	override get containMovement(): boolean {
+	override get containMovement() {
 		if (this.#csvFn === '') return false;
 
 		const c = this.ctn.children;
@@ -180,7 +186,7 @@ export class GrpLayer extends Layer {
 		sBkFace		: this.#sBkFace,
 //		idc_hArg	: this.#idc.gethArg(),
 	});
-	override playback(hLay: any, aPrm: Promise<void>[]): void {
+	override playback(hLay: T_RP_layGrp, aPrm: Promise<void>[]): void {
 		super.playback(hLay, aPrm);
 		if (hLay.sBkFn === '' && hLay.sBkFace === '') {
 			this.#sBkFn		= '';

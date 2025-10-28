@@ -7,98 +7,13 @@
 
 import {PropParser} from '../src/sn/PropParser';
 
-import type {IVariable, ISysBase, typeProcVal, ISetVal, IMark, IData4Vari} from '../src/sn/CmnInterface';
-import {Areas} from '../src/sn/Areas';
-
-//===== Test Class =====
-class MyVal implements IVariable {
-	#hGetVal: {[nm: string]: any} = {
-		"mp:fn"			: "うひひ",
-		"mp:lay"		: "もきゅ",
-		"mp:pos"		: "うひひ",
-		"ぎょへー"		: "もきゅ",
-		"春夏"		: "秋冬",
-		"から"		: "",
-		"ひきす"		: "args",
-		"hA.args"		: "めけ",
-		"hB.5"			: "ニョホ",
-		"hC.5reg"		: "ニョホ2",
-		"hC.args9"		: "ニョホ3",
-		"hA.秋冬.args"	: "よいと",
-		"hD.数値"			: "1.20",
-		"tmp:zero_n"	: 0,
-		"tmp:one_n"		: 1,
-		"tmp:zero_s"	: "0",
-		"tmp:one_s"		: "1",
-		"tmp:null_n"	: null,
-		"tmp:null_s"	: "null",
-		"tmp:nan"		: NaN,
-		"sys:_album.img.渡り廊下・桜昼"	: true,
-		"、〇〰〽ぁヿ㐂一豈！￥"			: true,
-//			"true ? tmp:sys:zero_s"	: "",	// どうなる、どうすべき
-	};
-
-	setSys(_sys: ISysBase): Promise<void> {return Promise.resolve()};
-	flush(): void {};
-	setDoRecProc(_doRecProc: (doRec: boolean)=> void): void {}
-
-	getVal(arg_name: string): any {return this.#hGetVal[arg_name]}
-	setVal_Nochk = (_sc: string, _nm: string, _v: any, _ac?: boolean)=> {};
-
-	defTmp = (_name: string, _fnc: typeProcVal)=> {};
-	cloneMp = ()=> ({});
-	setMp = ()=> {};
-	setMark = (_place: number, _mark: IMark)=> {};
-	getMark = (_place: number)=> ({
-		hSave	: {},
-		hPages	: {},
-		aIfStk	: [],
-	});
-	cloneSave = ()=> ({});
-	mark2save(_mark: IMark) {};
-
-	touchAreaKidoku = (_fn: string)=> new Areas;
-	getAreaKidoku = (_fn: string)=> new Areas;
-	saveKidoku(): void {};
-	updateData(_data: IData4Vari): void {};
-
-	defValTrg(_name: string, _fnc: ISetVal): void {};
-
-	doRecLog = ()=> false;
-
-	get tagCh_doWait() {return false}
-	get tagCh_doWait_Kidoku() {return false}
-	get tagCh_msecWait() {return 0}
-	get tagCh_msecWait_Kidoku() {return 0}
-};
-//===== Test Class =====
+import {ValTest} from './ValTest';
 
 
 let parser: PropParser;
 beforeEach(()=> {
-	parser = new PropParser(new MyVal);
+	parser = new PropParser(new ValTest);
 });
-
-/*
-	describe('⏰ Time', ()=> {
-		it('console.time', ()=> {
-			for (let j=0; j<5; ++j) {
-				console.time('PropParser.getValName');
-//				for (let i=0; i<10000; ++i) {
-					PropParser.getValName('hA["args"]["rrr"]');
-//				}
-				console.timeEnd('PropParser.getValName');
-			}
-/ *	一万回やらなくても傾向が見えるみたい
-PropParser.getValName: 0.408ms
-PropParser.getValName: 0.065ms
-PropParser.getValName: 0.017ms
-PropParser.getValName: 0.017ms
-PropParser.getValName: 0.016ms
-* /
-		});
-	})
-*/
 
 // 数値計算
 it.each([
@@ -213,12 +128,12 @@ it.each([
 	// Num_int2
 	{i: 'int(10 / 4)', o: 2},
 	// Num_int2b
-	{i: `int('10 / 4')`,
+	{i: 'int(\'10 / 4\')',
 		toThrowError: '(PropParser)引数【10 / 4】が数値ではありません'},
 	// Num_int2c
-	{i: `parseInt('10 / 4')`, o: 2},
+	{i: 'parseInt(\'10 / 4\')', o: 2},
 		// Num_Num2c
-		{i: `Number('10 / 4')`, o: 2.5},
+		{i: 'Number(\'10 / 4\')', o: 2.5},
 	// Num_int2d
 	{i: 'parseInt(10 / 4)', o: 2},
 	// Num_ceil
@@ -291,6 +206,37 @@ it.each([
 
 
 	// Num40
+	{i: '5 * (hD.数値1 + 2)<16', o: false},
+	// Num41
+	{i: '5 * (hD.数値1 + 2)<=16', o: true},
+	// Num42
+	{i: '5 * (hD.数値1 + 2)==16', o: true},
+	// Num42_
+	{i: '5 * (hD.数値1 + 2)!=16', o: false},
+	// Num43
+	{i: '5 * (hD.数値1 + 2)>=16', o: true},
+	// Num44
+	{i: '5 * (hD.数値1 + 2)>16', o: false},
+	// Num49
+	{i: 'hD.数値1 > 0', o: true},
+
+	// Num50
+	{i: '5 * (hD.数値2 + 2)<25', o: false},
+	// Num51
+	{i: '5 * (hD.数値2 + 2)<=25', o: true},
+	// Num52
+	{i: '5 * (hD.数値2 + 2)==25', o: true},
+	// Num52_
+	{i: '5 * (hD.数値2 + 2)!=25', o: false},
+	// Num53
+	{i: '5 * (hD.数値2 + 2)>=25', o: true},
+	// Num54
+	{i: '5 * (hD.数値2 + 2)>25', o: false},
+	// Num59
+	{i: 'hD.数値2 > 0', o: true},
+
+
+	// Num40
 	{i: '5 * (1 + 2)==15 == true', o: true},
 	// Num40_
 	{i: '5 * (1 + 2)==15 != true', o: false},
@@ -303,7 +249,7 @@ it.each([
 	// Num42_
 	{i: '5 * (1 + 2)==15 !== true', o: false},
 	// Num42_2
-	{i: `5 * (1 + 2)==15 === 'true'`, o: false},
+	{i: '5 * (1 + 2)==15 === \'true\'', o: false},
 	// Num43
 	{i: '5 * (1 + 2)==15 === false', o: false},
 	// Num43_
@@ -370,35 +316,35 @@ it.each([
 
 // 文字列
 	// Str0
-	{i: `'@@'`, o: '@@'},
+	{i: '\'@@\'', o: '@@'},
 	// Str1
-	{i: `''`, o: ''},
+	{i: '\'\'', o: ''},
 	// Str2
-	{i: `'(´ω⊂'`, o: '(´ω⊂'},
+	{i: '\'(´ω⊂\'', o: '(´ω⊂'},
 	// Str3
-	{i: `'(´Д⊂'`, o: '(´Д⊂'},
+	{i: '\'(´Д⊂\'', o: '(´Д⊂'},
 	// Str4
-	{i: `'0<5'`, o: '0<5'},
+	{i: '\'0<5\'', o: '0<5'},
 
 	// Str5
-	{i: `' @+@ '`, o: ' @+@ '},
+	{i: '\' @+@ \'', o: ' @+@ '},
 	// Str6
-	{i: `'@ + @'`, o: '@ + @'},
+	{i: '\'@ + @\'', o: '@ + @'},
 	// Str7
-	{i: `'いろは' + 'にほへ'`, o: 'いろはにほへ'},
+	{i: '\'いろは\' + \'にほへ\'', o: 'いろはにほへ'},
 		// Str7_2
-		{i: `'いろは' + 55`, o: 'いろは55'},
+		{i: '\'いろは\' + 55', o: 'いろは55'},
 		// Str7_3
-		{i: `74 + 'にほへ'`, o: '74にほへ'},
+		{i: '74 + \'にほへ\'', o: '74にほへ'},
 	// Str8	// 2018/07/12
-	{i: `'05'`, o: '05'},
+	{i: '\'05\'', o: '05'},
 	// Str9	// 2018/07/12
-	{i: `' 05　'`, o: ' 05　'},
+	{i: '\' 05　\'', o: ' 05　'},
 	// Str10	// 2021/09/29 エスケープシーケンス導入
-	{i: `'\\''`, o: `'`},
-	{i: `'\\''`, o: `'`},
-	{i: `#\\##`, o: `#`},
-	{i: `#\\\n#`, o: `\n`},
+	{i: '\'\\\'\'', o: '\''},
+	{i: '\'\\\'\'', o: '\''},
+	{i: '#\\##', o: '#'},
+	{i: '#\\\n#', o: '\n'},
 
 // 変数
 	// Var0	// からまーぞふ、は未定義リテラル
@@ -412,7 +358,7 @@ it.each([
 	// Var1
 	{i: 'から', o: ''},
 	// Var2
-	{i: `'いろ' + 春夏 + 'は'`, o: 'いろ秋冬は'},
+	{i: '\'いろ\' + 春夏 + \'は\'', o: 'いろ秋冬は'},
 
 	// Var10
 	{i: 'mp:fn', o: 'うひひ'},
@@ -449,7 +395,7 @@ it.each([
 	// Var13
 	{i: '春夏', o: '秋冬'},
 	// Var14
-	{i: `春夏 == '秋冬'`, o: true},
+	{i: '春夏 == \'秋冬\'', o: true},
 
 
 	// Var20
@@ -457,9 +403,9 @@ it.each([
 	// Var21
 	{i: 'ぎょへー == mp:lay', o: true},
 	// Var22
-	{i: `ぎょへー == 'もきゅ'`, o: true},
+	{i: 'ぎょへー == \'もきゅ\'', o: true},
 	// Var23
-	{i: `ぎょへー != 'きゅ'`, o: true},
+	{i: 'ぎょへー != \'きゅ\'', o: true},
 
 	// Var30	// うきょ、は未定義リテラル
 	{i: 'うきょ == null', o: true},
@@ -474,16 +420,16 @@ it.each([
 
 
 	// Var35	// うきょ、は未定義リテラル
-	{i: `うきょ == 'null'`, o: false},
+	{i: 'うきょ == \'null\'', o: false},
 	// Var36
-	{i: `うきょ != 'null'`, o: true},
+	{i: 'うきょ != \'null\'', o: true},
 	// Var37
-	{i: `うきょ === 'null'`, o: false},
+	{i: 'うきょ === \'null\'', o: false},
 	// Var38
-	{i: `うきょ !== 'null'`, o: true},
+	{i: 'うきょ !== \'null\'', o: true},
 	// Var39
 //	{i: `null == 'null'`, o: false},
-	{i: `null == 'null'`, o: true},	// SKYNovelから
+	{i: 'null == \'null\'', o: true},	// SKYNovelから
 	// Var40
 	{i: 'null == tmp:null_n', o: true},
 	// Var41
@@ -514,16 +460,16 @@ it.each([
 //	{i: 'true == 'true'', o: false},
 	// テストが間違ってる気がする
 	// SKYNovelから
-	{i: `true == 'true'`, o: true},
+	{i: 'true == \'true\'', o: true},
 	// VarLogic07_
-	{i: `true === 'true'`, o: false},
+	{i: 'true === \'true\'', o: false},
 	// VarLogic08
 //	{i: 'false == 'false'', o: false},
 	// テストが間違ってる気がする
 	// SKYNovelから
-	{i: `false == 'false'`, o: true},
+	{i: 'false == \'false\'', o: true},
 	// VarLogic08_
-	{i: `false === 'false'`, o: false},
+	{i: 'false === \'false\'', o: false},
 	// VarLogic10
 	{i: 'undefined', toBeUndefined: true},
 	// VarLogic10_2	// JavaScriptでは undefined == null。==がポイント
@@ -546,17 +492,17 @@ it.each([
 	// Hash-1
 	{i: 'hA.args', o: 'めけ'},
 	// Hash0
-	{i: `hA['args']`, o: 'めけ'},
+	{i: 'hA[\'args\']', o: 'めけ'},
 	// Hash0b
-	{i: `hA['args']`, o: 'めけ'},
+	{i: 'hA[\'args\']', o: 'めけ'},
 	// Hash1
 	{i: 'hA[ひきす]', o: 'めけ'},
 	// Hash2
 	{i: 'hB[1 + 4]', o: 'ニョホ'},
 	// Hash3
-	{i: `hC[5 + 'reg']`, o: 'ニョホ2'},
+	{i: 'hC[5 + \'reg\']', o: 'ニョホ2'},
 	// Hash4
-	{i: `hC['args'+ 9]`, o: 'ニョホ3'},
+	{i: 'hC[\'args\'+ 9]', o: 'ニョホ3'},
 
 	// Hash5
 	{i: 'hC[ひきす + 9]', o: 'ニョホ3'},
@@ -565,26 +511,26 @@ it.each([
 	// Hash7
 	{i: 'hA[春夏].args', o: 'よいと'},
 	// Hash8
-	{i: `hA['秋冬']['args']`, o: 'よいと'},
+	{i: 'hA[\'秋冬\'][\'args\']', o: 'よいと'},
 
 	// Hash10_err
-	{i: `hA['秋冬err']['args']`, toBeUndefined: true},
+	{i: 'hA[\'秋冬err\'][\'args\']', toBeUndefined: true},
 	// Hash11_err
-	{i: `hA['秋冬']['argsERR']`, toBeUndefined: true},
+	{i: 'hA[\'秋冬\'][\'argsERR\']', toBeUndefined: true},
 	// Hash12_err
-	{i: `hAerr['秋冬']['args']`, toBeUndefined: true},
+	{i: 'hAerr[\'秋冬\'][\'args\']', toBeUndefined: true},
 
 // 変数埋め込み
 	// EmbedPerl0
-	{i: `'せを$春夏 はやみ'`, o: 'せを秋冬 はやみ'},
+	{i: '\'せを$春夏 はやみ\'', o: 'せを秋冬 はやみ'},
 	// EmbedPerl1
-	{i: `'せを$春夏'+'はやみ'`, o: 'せを秋冬はやみ'},
+	{i: '\'せを$春夏\'+\'はやみ\'', o: 'せを秋冬はやみ'},
 	// EmbedPerl2
-	{i: `'せを$春夏$mp:pos'+'はや'`, o: 'せを秋冬うひひはや'},
+	{i: '\'せを$春夏$mp:pos\'+\'はや\'', o: 'せを秋冬うひひはや'},
 	// EmbedPerl3
-	{i: `'せ$hC.5reg は'`, o: 'せニョホ2 は'},
+	{i: '\'せ$hC.5reg は\'', o: 'せニョホ2 は'},
 	// EmbedPerl4
-	{i: `'$hD.数値'`, o: '1.20'},
+	{i: '\'$hD.数値\'', o: '1.20'},
 
 	// EmbedPerl5
 	{i: 'tmp:zero_s + tmp:one_s', o: '01'},
@@ -625,60 +571,62 @@ it.each([
 //	{i: '-true', toThrowError: '(PropParser)数値以外に-符号がついています'},
 
 	// EmbedPer20
-	{i: `'を$春夏,は'`, o: 'を秋冬,は'},
+	{i: '\'を$春夏,は\'', o: 'を秋冬,は'},
 	// EmbedPer21
-	{i: `'を$春夏{は'`, o: 'を秋冬{は'},
+	{i: '\'を$春夏{は\'', o: 'を秋冬{は'},
 	// EmbedPer22
-	{i: `'を$春夏}は'`, o: 'を秋冬}は'},
+	{i: '\'を$春夏}は\'', o: 'を秋冬}は'},
 	// EmbedPer23
-	{i: `'を$春夏[は'`, o: 'を秋冬[は'},
+	{i: '\'を$春夏[は\'', o: 'を秋冬[は'},
 	// EmbedPer24
-	{i: `'を$春夏]は'`, o: 'を秋冬]は'},
+	{i: '\'を$春夏]は\'', o: 'を秋冬]は'},
 	// EmbedPer25
-	{i: `'を$春夏(は'`, o: 'を秋冬(は'},
+	{i: '\'を$春夏(は\'', o: 'を秋冬(は'},
 	// EmbedPer26
-	{i: `'を$春夏)は'`, o: 'を秋冬)は'},
+	{i: '\'を$春夏)は\'', o: 'を秋冬)は'},
 	// EmbedPer27
-	{i: `'を$春夏<は'`, o: 'を秋冬<は'},
+	{i: '\'を$春夏<は\'', o: 'を秋冬<は'},
 	// EmbedPer28
-	{i: `'を$春夏>は'`, o: 'を秋冬>は'},
+	{i: '\'を$春夏>は\'', o: 'を秋冬>は'},
 	// EmbedPer29
-	{i: `'を$春夏/は'`, o: 'を秋冬/は'},
+	{i: '\'を$春夏/は\'', o: 'を秋冬/は'},
 //	// EmbedPer30	// エスケープシーケンス導入で不可に
 //	{i: `'を$春夏\\は'`, o: 'を秋冬\\は'},
 
 
 	// EmbedRuby0
-	{i: `'せを#{春夏} はやみ'`, o: 'せを秋冬 はやみ'},
+	{i: '\'せを#{春夏} はやみ\'', o: 'せを秋冬 はやみ'},
 	// EmbedRuby1
-	{i: `'せを#{春夏}'+'はやみ'`, o: 'せを秋冬はやみ'},
+	{i: '\'せを#{春夏}\'+\'はやみ\'', o: 'せを秋冬はやみ'},
 	// EmbedRuby2
-	{i: `'せを#{春夏}はやみ'`, o: 'せを秋冬はやみ'},
+	{i: '\'せを#{春夏}はやみ\'', o: 'せを秋冬はやみ'},
 	// EmbedRuby3
-	{i: `'せを#{10 / 4}やみ'`, o: 'せを2.5やみ'},
+	{i: '\'せを#{10 / 4}やみ\'', o: 'せを2.5やみ'},
 //	{i: `'せを#{10 / 4}やみ'`, o: 'せをnullやみ'},
 
 	// EmbedPerlRuby0
-	{i: `'せを$春夏$mp:pos#{hB.5}は'`, o: 'せを秋冬うひひニョホは'},
+	{i: '\'せを$春夏$mp:pos#{hB.5}は\'', o: 'せを秋冬うひひニョホは'},
 
 
 	// 不具合
 		// Var170109_0
-		{i: "true && ( 1080 > 1440 || 1920 > 2560 )", o: false},
-		{i: "true && ( false || false )", o: false},
-		{i: "( false || false )", o: false},
+		{i: 'true && ( 1080 > 1440 || 1920 > 2560 )', o: false},
+		{i: 'true && ( false || false )', o: false},
+		{i: '( false || false )', o: false},
 
 	// あとで直す
 		// Var170109_1
-		{i: "true && ( 1441 > 1440 || 1920 > 2560 )", o: true},
-		{i: "true && ( true || false )", o: true},
-		{i: "( true || false )", o: true},
+		{i: 'true && ( 1441 > 1440 || 1920 > 2560 )', o: true},
+		{i: 'true && ( true || false )', o: true},
+		{i: '( true || false )', o: true},
 			// Error: No match for )
 
 
-])(`$i`, ({i, o, toBeNull, toBeNaN, toBeUndefined, toBeTruthy, toThrowError})=> {
-	if (toThrowError) {expect(()=> parser.parse(i)).toThrowError(); return}
+])('$i', ({i, o, toBeNull, toBeNaN, toBeUndefined, toBeTruthy, toThrowError})=> {
+	// eslint-disable-next-line jest/no-conditional-expect
+	if (toThrowError) {expect(()=> parser.parse(i)).toThrow(); return}
 
+	// eslint-disable-next-line jest/valid-expect
 	const ex = expect(parser.parse(i));
 	if (toBeNull) {ex.toBeNull(); return}
 	if (toBeNaN) {ex.toBeNaN(); return}
@@ -722,7 +670,7 @@ it.each([
 		at: ''}},
 
 	// _getValName10
-	{i: "hA['args']", h: {
+	{i: 'hA[\'args\']', h: {
 		scope: 'tmp',
 		name: 'hA.args',
 		at: ''}},
@@ -737,7 +685,7 @@ it.each([
 		name: 'hA.args.rrr',
 		at: ''}},
 
-])(`$i`, ({i, h})=> {
+])('$i', ({i, h})=> {
 	const o = PropParser.getValName(i);
 	for (const [k, v] of Object.entries(h)) expect(o?.[k]).toBe(v);
 });

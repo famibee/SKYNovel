@@ -16,17 +16,17 @@ import type {Button} from './Button';
 import type {GrpLayer} from './GrpLayer';
 import type {Config} from './Config';
 
-import {Application, Text, Sprite} from 'pixi.js';
+import type {Application, Text, Sprite} from 'pixi.js';
 
 
 export class DesignCast {
-	static	init(_appPixi: Application, _sys: SysBase, _scrItr: ScriptIterator, _prpPrs: IPropParser, _cfg: Config, _hPages: HPage) {}
-	static	cvsResizeDesign() {}
+	static	init(_appPixi: Application, _sys: SysBase, _scrItr: ScriptIterator, _prpPrs: IPropParser, _cfg: Config, _hPages: HPage) { /* empty */ }
+	static	cvsResizeDesign() { /* empty */ }
 //	static	readonly	#alzTagArg	= new AnalyzeTagArg;
 
 
 	constructor(readonly bg_col: string, readonly isLay = false) {}
-	destroy() {}
+	destroy() { /* empty */ }
 
 	gethArg(): HArg {return this.hArg}
 	protected	hArg	: HArg	= {};
@@ -34,20 +34,20 @@ export class DesignCast {
 		this.hArg = hArg;
 	}
 
-	setOther(_hPrm: HPRM) {}
+	setOther(_hPrm: HPRM) { /* empty */ }
 
 	adopt(_idcCh: DesignCast) {	// 養子縁組
 	}
 
-	static	enterMode() {}
-	static	allHide() {}
-	set visible(_v: boolean) {}
-	static	leaveMode() {}
+	static	enterMode() { /* empty */ }
+	static	allHide() { /* empty */ }
+	set visible(_v: boolean) { /* empty */ }
+	static	leaveMode() { /* empty */ }
 
 
-	cvsResize() {}
-	make() {}
-	static replaceToken(_o: any) {}
+	cvsResize() { /* empty */ }
+	make() { /* empty */ }
+	static replaceToken(_o: unknown) { /* empty */ }
 
 }
 
@@ -55,7 +55,7 @@ export class DesignCast {
 // 画像レイヤ
 export class GrpLayDesignCast extends DesignCast {
 	constructor(_ctn: Sprite, _gl: GrpLayer) {super('#29e', true)}
-	setSp(_sp: Sprite) {}
+	setSp(_sp: Sprite) { /* empty */ }
 }
 
 // 文字レイヤ
@@ -84,6 +84,5 @@ export class TxtBtnDesignCast extends BtnDesignCast {
 
 // 文字レイヤ・画像ボタン
 export class PicBtnDesignCast extends BtnDesignCast {
-	constructor(btn: Button, hArg: HArg) {super(btn, hArg)}
-	setSp(_sp: Sprite) {}
+	setSp(_sp: Sprite) { /* empty */ }
 }

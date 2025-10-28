@@ -1,4 +1,3 @@
-import { HPROC } from './preload';
 export * from './sn/AnalyzeTagArg';
 export * from './sn/Areas';
 export * from './sn/Button';
@@ -31,9 +30,4 @@ export * from './sn/Variable';
 export * from './app';
 export * from './appMain';
 export * from './web';
-declare global {
-    interface Window {
-        to_app: HPROC;
-    }
-}
 //# sourceMappingURL=index.d.ts.map

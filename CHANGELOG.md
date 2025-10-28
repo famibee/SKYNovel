@@ -1,3 +1,21 @@
+- feat: ESLint 導入、一部指摘無効化しつつも全ソースクリンナップ完了
+	- @eslint/js: configs.recommended
+	- typescript-eslint: configs.strictTypeChecked
+	- typescript-eslint: configs.stylisticTypeChecked
+	- jest.configs['flat/recommended']
+	- plgImport.flatConfigs.recommended
+	- plgImport.flatConfigs.typescript
+- fix: セーブデータ関連の処理を手直し。型宣言厳密化、修正
+- fix: 使い回す定数オブジェクトはファクトリメソッドで
+	- なんらかの理由で定数が変更されたりディープコピーに弱かったりするため
+- fix: async / await 関連の手直し
+- feat: 再生開始時に sys:const.sn.sound.【buf】.volume（サウンドバッファの目標音量）がなければデフォルト値 1 で追加するように
+- fix: src/appMain.ts の csj/ESM 共通点を src/appMain_cmn.ts に抽出
+- fix: 履歴関係の手直し、src/sn/Log.ts に抽出
+- fix: その他細かい手直し
+- test: ギャラリーで一通り動作確認
+
+
 ## [1.62.3](https://github.com/famibee/SKYNovel/compare/v1.62.2...v1.62.3) (2025-09-20)
 
 

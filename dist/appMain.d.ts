@@ -1,11 +1,9 @@
+import { appMain_cmn } from './appMain_cmn';
+import { SAVE_WIN_INF } from './preload';
 import { BrowserWindow } from 'electron';
-export declare class appMain {
-    #private;
-    private readonly bw;
-    readonly version: string;
-    readonly path_htm: string;
+export declare class appMain extends appMain_cmn {
     static initRenderer(path_htm: string, version: string, _o: object): BrowserWindow;
-    private constructor();
-    openDevTools: () => void;
+    protected sendShutdown(): void;
+    protected sendSaveWinInf(arg: SAVE_WIN_INF): void;
 }
 //# sourceMappingURL=appMain.d.ts.map

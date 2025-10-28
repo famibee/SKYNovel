@@ -58,13 +58,12 @@ export class Pages {
 
 	readonly lay = (hArg: HArg)=> this.getPage(hArg).lay(hArg);
 	readonly getPage = (hArg: HArg)=>
-		(Pages.argChk_page(hArg, 'fore') !== 'back')
+		Pages.argChk_page(hArg, 'fore') !== 'back'
 			? this.#pg.fore
 			: this.#pg.back;
 	static	argChk_page(hash: HArg, def: string): string {
 		const v = hash.page ?? def;
-		if (v === 'fore') return hash.page = v;
-		if (v === 'back') return hash.page = v;
+		if (v === 'fore' || v === 'back') {hash.page = v; return v}
 
 		throw Error('属性 page【'+ v +'】が不正です');
 	}

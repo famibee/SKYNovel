@@ -24,7 +24,7 @@ export class DebugMng {
 	constructor(private readonly sys: SysBase, hTag: IHTag, scrItr: ScriptIterator) {
 		DebugMng.#scrItr = scrItr;
 		DebugMng.#hTag = hTag;
-		DebugMng.#title = hTag.title!;
+		DebugMng.#title = hTag.title;
 		DebugMng.myTrace = DebugMng.#st_trace;
 
 		//	デバッグ・その他
@@ -41,7 +41,7 @@ export class DebugMng {
 		DebugMng.#spnDbg.hidden = true;
 		DebugMng.#spnDbg.textContent = '';
 		DebugMng.#spnDbg.style.cssText =
-		`	z-index: ${Number.MAX_SAFE_INTEGER};
+		`	z-index: ${String(Number.MAX_SAFE_INTEGER)};
 			position: absolute; left: 0; top: 0;
 			color: black;
 			background-color: rgba(255, 255, 255, 0.7);`
@@ -60,13 +60,14 @@ export class DebugMng {
 		let dat = '';
 		if (this.#first) {
 			this.#first = false;
-			dat = `== ${platform.description} ==\n`;
+			dat = `== ${platform.description ?? ''} ==\n`;
 		}
-		this.sys.appendFile(
+		void this.sys.appendFile(
 			this.sys.path_downloads +'log.txt',
 			`${dat}--- ${getDateStr('-', '_', '')
-			} [fn:${DebugMng.#scrItr.scriptFn} line:${DebugMng.#scrItr.lineNum
+			} [fn:${DebugMng.#scrItr.scriptFn} line:${String(DebugMng.#scrItr.lineNum)
 			}] prj:${this.sys.arg.cur
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing, @typescript-eslint/restrict-template-expressions
 			}\n${hArg.text || `(text is ${hArg.text})`}\n`,
 		);
 
@@ -74,6 +75,7 @@ export class DebugMng {
 	}
 
 	#trace(hArg: HArg) {
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing, @typescript-eslint/restrict-template-expressions
 		DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
 
 		return false;
@@ -95,7 +97,7 @@ export class DebugMng {
 	}
 	static myTrace = DebugMng.trace_beforeNew;
 	static strPos = ()=> DebugMng.#scrItr.lineNum > 0
-		? `(fn:${DebugMng.#scrItr.scriptFn} line:${DebugMng.#scrItr.lineNum}) `
+		? `(fn:${DebugMng.#scrItr.scriptFn} line:${String(DebugMng.#scrItr.lineNum)}) `
 		: '';
 	static readonly	#st_trace: T_TRACE = (txt, lvl = 'E')=> {
 		let mes = `{${lvl}} `+ DebugMng.strPos() + txt;
@@ -115,10 +117,10 @@ export class DebugMng {
 						+ "※一部記号は全角表示しています。";
 					flash.net.navigateToURL(new URLRequest(buf));
 				}*/
-				this.#hTag.dump_lay!({});
-				this.#hTag.dump_val!({});
+				this.#hTag.dump_lay({});
+				this.#hTag.dump_val({});
 				DebugMng.#scrItr.dumpErrForeLine();
-				this.#hTag.dump_stack!({});
+				this.#hTag.dump_stack({});
 
 				if (lvl === 'ET') throw mes;
 				console.error('%c'+ mes, 'color:#F30;');	return;

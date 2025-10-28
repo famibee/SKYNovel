@@ -12,6 +12,7 @@ import type {IVariable, IMain} from './CmnInterface';
 import type {IHTag} from './Grammar';
 
 import type {Application} from 'pixi.js';
+import {readFile} from 'fs-extra';
 
 
 export class SysNode extends SysBase {
@@ -20,10 +21,11 @@ export class SysNode extends SysBase {
 
 		const fn = this.arg.cur +'path.json';
 		const src = await (await this.fetch(fn)).text();
-		const oJs = JSON.parse(await this.dec(fn, src));
+		const oJs = <IFn2Path>JSON.parse(await this.dec(fn, src));
 		for (const [nm, v] of Object.entries(oJs)) {
-			const h = hPathFn2Exts[nm] = <any>v;
+			const h = hPathFn2Exts[nm] = v;
 			for (const [ext, w] of Object.entries(h)) {
+				// eslint-disable-next-line @typescript-eslint/restrict-plus-operands
 				if (ext !== ':cnt') h[ext] = this.arg.cur + w;
 			}
 		}
@@ -40,13 +42,14 @@ export class SysNode extends SysBase {
 
 	override async savePic(path: string, data_url: string) {
 		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
-		try {
-			this.ensureFileSync(path);
-			await this.writeFileSync(path, bs64);
-			if (CmnLib.debugLog) console.log(`画像ファイル ${path} を保存しました`);
-		} catch (e) {throw e}
-	};
+		await this.ensureFile(path);
+		await this.writeFile(path, bs64);
+		if (CmnLib.debugLog) console.log(`画像ファイル ${path} を保存しました`);
+	}
 
-	protected	async writeFileSync(_path: string, _data: string | NodeJS.ArrayBufferView, _o?: object) {}
+	// === vite-electron 用コード ===
+	// eslint-disable-next-line @typescript-eslint/require-await
+	protected	async readFile(_path: string, _encoding: Parameters<typeof readFile>[1]): Promise<string> {return ''}
+	protected	async writeFile(_path: string, _data: string | NodeJS.ArrayBufferView, _o?: object) { /* empty */ }
 
 }

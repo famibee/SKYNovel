@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2023-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -16,19 +17,19 @@ import type {HArg} from './Grammar';
 import {Layer} from './Layer';
 import {Reading} from './Reading';
 
-import {Sprite, Container, Texture, AnimatedSprite, LoaderResource, utils, Loader, Rectangle, BLEND_MODES} from 'pixi.js';
+import {Sprite, type Container, Texture, AnimatedSprite, LoaderResource, utils, Loader, Rectangle, BLEND_MODES} from 'pixi.js';
 
 type IFncCompSpr = (sp: Sprite)=> void;
 
-interface Iface {
+type Iface = {
 	fn			: string;
 	dx			: number;
 	dy			: number;
 	blendmode	: number;
-};
-interface Ihface { [name: string]: Iface; };
+}
+type Ihface = { [name: string]: Iface; }
 
-interface IResAniSpr {
+type IResAniSpr = {
 	aTex	: Texture[];
 	meta	: {
 		animationSpeed? :number;
@@ -47,8 +48,8 @@ export class SpritesMng {
 		SpritesMng.#sys = sys;
 		SpritesMng.#main = main;
 		if (sys.arg.crypto) {
-			SpritesMng.#cachePicMov = SpritesMng.#dec2cachePicMov;
-			SpritesMng.#cacheAniSpr = SpritesMng.#dec2cacheAniSpr;
+			SpritesMng.#cachePicMov = (r, res, next)=> SpritesMng.#dec2cachePicMov(r, res, next);
+			SpritesMng.#cacheAniSpr = (r, res, next)=> SpritesMng.#dec2cacheAniSpr(r, res, next);
 		}
 
 		const fnc = ()=> {
@@ -67,10 +68,10 @@ export class SpritesMng {
 	static	setEvtMng(evtMng: IEvtMng) {SpritesMng.#evtMng = evtMng}
 
 
-	constructor(readonly csvFn = '', readonly ctn?: Container, private fncFirstComp: IFncCompSpr = ()=> {}, private fncAllComp: (isStop: boolean)=> void = ()=> {}) {
+	constructor(readonly csvFn = '', readonly ctn?: Container, private fncFirstComp: IFncCompSpr = ()=> { /* empty */ }, private fncAllComp: (isStop: boolean)=> void = ()=> { /* empty */ }) {
 		if (! csvFn) return;
 
-		this.#addChild = ctn ? sp=> {ctn.addChild(sp); this.#aSp.push(sp)} : ()=> {};
+		this.#addChild = ctn ? sp=> {ctn.addChild(sp); this.#aSp.push(sp)} : ()=> { /* empty */ };
 		this.ret = SpritesMng.#csv2Sprites(
 			csvFn,
 			sp=> this.fncFirstComp(sp),			// 差し替え考慮
@@ -83,12 +84,13 @@ export class SpritesMng {
 	#aSp		: Container[]	= [];
 
 	destroy() {		// これをやるためのクラス、とすら云える
-		this.fncFirstComp	= ()=> {};
-		this.fncAllComp		= ()=> {};
+		this.fncFirstComp	= ()=> { /* empty */ };
+		this.fncAllComp		= ()=> { /* empty */ };
 		this.#addChild		= sp=> sp.destroy();
 
 		for (const sp of this.#aSp) {
 			SpritesMng.stopVideo(sp.name);
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 			sp.parent?.removeChild(sp);
 			sp.destroy();
 		}
@@ -130,14 +132,15 @@ export class SpritesMng {
 			if (! fn0) throw 'face属性に空要素が含まれます';
 
 			// 差分絵を重ねる
-			const {dx, dy, blendmode, fn} = SpritesMng.#hFace[fn0] || {
+			const {dx, dy, blendmode, fn} = SpritesMng.#hFace[fn0] ?? {
 				fn	: fn0,
 				dx	: 0,
 				dy	: 0,
 				blendmode	: BLEND_MODES.NORMAL
 			};
-			const fnc = (i === 0) ?fncFirstComp :(sp: Sprite)=> {
-				if (sp.transform === null) return;	// エラー予防
+			const fnc = i === 0 ?fncFirstComp :(sp: Sprite)=> {
+				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+				if (! sp.transform) return;	// エラー予防
 				sp.x = dx;
 				sp.y = dy;
 				sp.blendMode = blendmode;
@@ -163,13 +166,14 @@ export class SpritesMng {
 			needLoad = true;
 			const url = SpritesMng.#cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SP_GSM);
 			const xt = this.#sys.arg.crypto
-			? {xhrType: (url.slice(-5) === '.json')
+			? {xhrType: url.endsWith('.json')
 				? LoaderResource.XHR_RESPONSE_TYPE.TEXT
 				: LoaderResource.XHR_RESPONSE_TYPE.BUFFER}
 			: {};
 			ldr.add({...xt, name: fn, url});
 		}
 
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const fncLoaded = (_: any, hRes: {[fn: string]: LoaderResource})=> {
 			for (const {fn, fnc} of aComp) {
 				const sp = SpritesMng.#mkSprite(fn, hRes);
@@ -180,18 +184,19 @@ export class SpritesMng {
 			fncAllComp(needLoad);
 		}
 		if (needLoad) {
-			ldr.use(async (res, next)=> {
+			ldr.use((res, next)=> {
 				try {
 					if (res.extension === 'json') {
-						const str = await this.#sys.dec('json', res.data);
-						SpritesMng.#cacheAniSpr(str, res, next);
+						// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+						void this.#sys.dec('json', res.data)
+						.then(str=> SpritesMng.#cacheAniSpr(str, res, next));
 						return;
 					}
 
-					const aiv = await this.#sys.decAB(res.data);
-					SpritesMng.#cachePicMov(aiv, res, next);
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+					void this.#sys.decAB(res.data).then(aiv=> SpritesMng.#cachePicMov(aiv, res, next));
 				} catch (e) {
-					const mes = `画像/動画ロード失敗です fn:${res.name} ${e}`;
+					const mes = `画像/動画ロード失敗です fn:${res.name} ${String(e)}`;
 					if (SpritesMng.#evtMng.isSkipping) console.warn(mes); else console.error('%c'+ mes, 'color:#FF3300;');
 				}
 			})
@@ -205,12 +210,14 @@ export class SpritesMng {
 	static	#hFn2ResAniSpr	: {[fn: string]: IResAniSpr} = {};
 
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static #cachePicMov = (_r: SYS_DEC_RET, {type, name, data}: any, next: ()=> void)=> {
 		switch (type) {
-			case LoaderResource.TYPE.VIDEO:
-				const hve = data as HTMLVideoElement;
+			case LoaderResource.TYPE.VIDEO:{
+				const hve = <HTMLVideoElement>data;
 				hve.volume = SpritesMng.#glbVol;
 				SpritesMng.#hFn2hve[name] = SpritesMng.#charmVideoElm(hve);
+			}
 		}
 		next();
 	}
@@ -218,24 +225,32 @@ export class SpritesMng {
 		const a_base_name = /([^\d]+)\d+\.(\w+)/.exec(aFn[0] ?? '');
 		if (! a_base_name) return [];
 
-		const is = a_base_name[1]!.length;
-		const ie = -a_base_name[2]!.length -1;
+		const [, d1='', d2=''] = a_base_name;
+		const is = d1.length;
+		const ie = -d2.length -1;
 		return aFn.sort((a, b)=> int(a.slice(is, ie)) > int(b.slice(is, ie)) ?1 :-1);
 	}
 
-	static async #dec2cachePicMov(r: SYS_DEC_RET, res: any, next: ()=> void) {
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	static #dec2cachePicMov(r: SYS_DEC_RET, res: any, next: ()=> void) {
 		res.data = r;
 		if (res.extension !== 'bin') next();
 
 		if (r instanceof HTMLImageElement) {
-			res.texture = await Texture.fromLoader(r, res.url, res.name);
-			//Texture.addToCache(Texture.from(r), res.name);
-			// res.texture = Texture.from(r);
-				// でも良いが、キャッシュ追加と、それでcsv2Sprites()内で使用するので
-			res.type = LoaderResource.TYPE.IMAGE;
-//			URL.revokeObjectURL(r.src);	// TODO: キャッシュ破棄
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			void Texture.fromLoader(r, res.url, res.name).then(r=> {
+				res.texture = r;
+				//Texture.addToCache(Texture.from(r), res.name);
+				// res.texture = Texture.from(r);
+					// でも良いが、キャッシュ追加と、それでcsv2Sprites()内で使用するので
+				res.type = LoaderResource.TYPE.IMAGE;
+	//			URL.revokeObjectURL(r.src);	// TODO: キャッシュ破棄
+
+			});
+			return;
 		}
-		else if (r instanceof HTMLVideoElement) {
+
+		if (r instanceof HTMLVideoElement) {
 			r.volume = SpritesMng.#glbVol;
 			SpritesMng.#hFn2hve[res.name] = SpritesMng.#charmVideoElm(r);
 
@@ -255,28 +270,34 @@ export class SpritesMng {
 		return hve;
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static #cacheAniSpr = (_r: string, {type, spritesheet, name, data}: any, next: ()=> void)=> {
 		switch (type) {
-			case LoaderResource.TYPE.JSON:	// switchは必須
-				const aFn: string[] = spritesheet._frameKeys;
+			case LoaderResource.TYPE.JSON:{	// switchは必須
+				const aFn = <string[]>spritesheet._frameKeys;
 				SpritesMng.#sortAFrameName(aFn);
 				SpritesMng.#hFn2ResAniSpr[name] = {
 					aTex: aFn.map(fn=> Texture.from(fn)),
-					meta: data.meta,
+					meta: <IResAniSpr['meta']>data.meta,
 				};
+			}
 		}
 		next();
 	}
 
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static #dec2cacheAniSpr(r: string, res: any, next: ()=> void) {
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		const {meta, frames} = res.data = JSON.parse(r);
 		res.type = LoaderResource.TYPE.JSON;
 		if (! meta?.image) {next(); return}
 
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		const fn = getFn(meta.image);
 		const url = SpritesMng.#cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SP_GSM);
 		(new Loader)
 		.use((res2, next2)=> {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			this.#sys.decAB(res2.data)
 			.then(r2=> {
 				res2.data = r2;
@@ -286,11 +307,12 @@ export class SpritesMng {
 				}
 				next2();
 			})
-			.catch(e=> this.#main.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${res2.name} ${e}`, false));
+			.catch((e: unknown)=> this.#main.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${res2.name} ${String(e)}`, false));
 		})
 		.add({name: fn, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER})
 		.load((ldr, _hRes)=> {
 			for (const {data} of Object.values(ldr.resources)) {
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 				const {baseTexture} = Texture.from(data);
 				const aFr = Object.values(<{[nm: string]: {
 					frame: {x: number; y: number; w: number; h: number;}
@@ -300,6 +322,7 @@ export class SpritesMng {
 						baseTexture,
 						new Rectangle(x, y, w, h),
 					)),
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 					meta,
 				};
 			}
@@ -348,6 +371,7 @@ export class SpritesMng {
 		const hve = SpritesMng.#hFn2hve[fn];
 		if (! hve) return;
 
+		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 		delete SpritesMng.#hFn2hve[fn];
 		hve.pause();
 		hve.currentTime = hve.duration;
@@ -364,7 +388,7 @@ export class SpritesMng {
 			fn,
 			dx: argChk_Num(hArg, 'dx', 0),
 			dy: argChk_Num(hArg, 'dy', 0),
-			blendmode: Layer.getBlendmodeNum(hArg.blendmode || '')
+			blendmode: Layer.getBlendmodeNum(hArg.blendmode ?? '')
 		};
 
 		return false;

@@ -5,19 +5,21 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Container, Text, Rectangle, Texture, TextStyle, Sprite, Graphics} from 'pixi.js';
 import {uint, type IEvtMng, argChk_Boolean, argChk_Num, mesErrJSON} from './CmnLib';
 import type {HArg} from './Grammar';
 import {SpritesMng} from './SpritesMng';
 import {Layer} from './Layer';
-import {Config} from './Config';
+import type {Config} from './Config';
 import type {IMakeDesignCast} from './LayerMng';
 //import {DesignCast, TxtBtnDesignCast, PicBtnDesignCast} from './DesignCast';
 
+import {Container, Text, Rectangle, Texture, TextStyle, type Sprite, Graphics} from 'pixi.js';
+
+
 export class Button extends Container {
-	static	fontFamily	= "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
-	static	#procMasume4txt = (_me: Button, _txt: Text)=> {};
-	static	#procMasume4pic = (_me: Button, _sp: Sprite, _w3: number, _h: number)=> {};
+	static	fontFamily	= '\'Hiragino Sans\', \'Hiragino Kaku Gothic ProN\', \'游ゴシック Medium\', meiryo, sans-serif';
+	static	#procMasume4txt = (_me: Button, _txt: Text)=> { /* empty */ };
+	static	#procMasume4pic = (_me: Button, _sp: Sprite, _w3: number, _h: number)=> { /* empty */ };
 	static	init(cfg: Config) {
 		if (! cfg.oCfg.debug.masume) return;
 
@@ -37,7 +39,7 @@ export class Button extends Container {
 		);
 	}
 
-	setText(_text: string) {}
+	setText(_text: string) { /* empty */ }
 	getBtnBounds = ()=> this.#rctBtnTxt;
 		// 文字ボタンは背景画像を含まない位置指定なので、その当たり判定用
 	#rctBtnTxt	= new Rectangle;
@@ -132,21 +134,24 @@ export class Button extends Container {
 			padding		: 5,
 		});
 		if (hArg.style) try {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const o = JSON.parse(hArg.style);
-			for (const [nm, v] of Object.entries(o)) (style as any)[nm] = v;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
+			for (const [nm, v] of Object.entries(o)) (<any>style)[nm] = v;
 		//	style = {...style, ...JSON.parse(hArg.style)};	// 上手くいかない
 
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			this.#o = {...this.#o, ...o};
 		} catch (e) {
 			if (e instanceof SyntaxError) throw new Error(mesErrJSON(hArg, 'style', e.message));
-			else throw `fn:Button.ts style`;
+			else throw 'fn:Button.ts style';
 		}
 
 		const txt = new Text(hArg.text ?? '', style);
 		txt.alpha = argChk_Num(hArg, 'alpha', txt.alpha);	// 上にまとめない
 		txt.width = argChk_Num(hArg, 'width', 100);
 		txt.height = hArg.height = height;
-		this.setText = text=> txt.text = text;
+		this.setText = text=> {txt.text = text};
 
 		this.#o = {...this.#o,
 			type	: 'text',	// dump用
@@ -191,31 +196,35 @@ export class Button extends Container {
 
 		const style_hover = style.clone();
 		if (hArg.style_hover) try {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const o = JSON.parse(hArg.style_hover);
-			for (const [nm, v] of Object.entries(o)) (style_hover as any)[nm] = v;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+			for (const [nm, v] of Object.entries(o)) (<any>style_hover)[nm] = v;
 		} catch (e) {
 			if (e instanceof SyntaxError) throw new Error(mesErrJSON(hArg, 'style_hover', e.message));
-			else throw `fn:Button.ts style_hover`;
+			else throw 'fn:Button.ts style_hover';
 		}
 		else style_hover.fill = 'white';
 
 		const style_clicked = style_hover.clone();
 		if (hArg.style_clicked) try {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 			const o = JSON.parse(hArg.style_clicked);
-			for (const [nm, v] of Object.entries(o)) (style_clicked as any)[nm] = v;
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+			for (const [nm, v] of Object.entries(o)) (<any>style_clicked)[nm] = v;
 		} catch (e) {
 			if (e instanceof SyntaxError) throw new Error(mesErrJSON(hArg, 'style_clicked', e.message));
-			else throw `fn:Button.ts style_clicked`;
+			else throw 'fn:Button.ts style_clicked';
 		}
 		else style_clicked.dropShadow = false;
 
-		this.normal = ()=> txt.style = style;
+		this.normal = ()=> {txt.style = style};
 		this.#hover = ()=> {
 			if (! canFocus()) return false;
 			txt.style = style_hover;
 			return true;
 		};
-		this.#clicked = ()=> txt.style = style_clicked;
+		this.#clicked = ()=> {txt.style = style_clicked};
 
 		if (! isStop) resolve();
 	}
@@ -226,10 +235,10 @@ export class Button extends Container {
 		super.destroy();
 	}
 
-	makeDesignCast(_gdc: IMakeDesignCast) {}
-	showDesignCast() {}
+	makeDesignCast(_gdc: IMakeDesignCast) { /* empty */ }
+	showDesignCast() { /* empty */ }
 //	showDesignCast() {this.#idc.visible = true}
-	cvsResize() {}
+	cvsResize() { /* empty */ }
 
 	#loaded_b_pic(sp: Sprite, txt: Text) {
 		this.setChildIndex(sp, 0);
@@ -244,9 +253,9 @@ export class Button extends Container {
 		sp.name = txt.name;
 	}
 
-	normal		: ()=> void		= ()=> {};
+	normal		: ()=> void		= ()=> { /* empty */ };
 	#hover		: ()=> boolean	= ()=> false;
-	#clicked	: ()=> void		= ()=> {};
+	#clicked	: ()=> void		= ()=> { /* empty */ };
 	#loaded_pic(sp: Sprite) {
 		this.#o.alpha = sp.alpha = argChk_Num(this.hArg, 'alpha', sp.alpha);
 //		(this.#idc as PicBtnDesignCast).setSp(sp);
@@ -258,7 +267,7 @@ export class Button extends Container {
 		const txNormal = new Texture(tx, new Rectangle(0, 0, w_3, h));
 		const txClicked = new Texture(tx, new Rectangle(w_3, 0, w_3, h));
 		const txHover = new Texture(tx, new Rectangle(w_3 *2, 0, w_3, h));
-		const normal = ()=> sp.texture = txNormal;
+		const normal = ()=> {sp.texture = txNormal};
 		if (this.#o.enabled) normal();
 
 		this.normal	= normal;
@@ -267,7 +276,7 @@ export class Button extends Container {
 			sp.texture = txHover;
 			return true;
 		};
-		this.#clicked	= ()=> sp.texture = txClicked;
+		this.#clicked	= ()=> {sp.texture = txClicked};
 
 		if ('width' in this.hArg) {
 			this.#o.width = uint(this.hArg.width);

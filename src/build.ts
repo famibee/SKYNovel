@@ -34,9 +34,12 @@ const oDts: PluginOptions = {
 	}),
 };
 
+
+const aP = [];
+
 // === ブラウザ用 ===
 if (! app)
-build({
+aP.push(build({
 	build: {
 		...oBuild,
 		lib: {
@@ -47,11 +50,11 @@ build({
 		rollupOptions: {output},
 	},
 	plugins: [dts(oDts)],
-});
+}));
 
 // === アプリ用 ===
 if (! web)
-build({
+aP.push(build({
 	build: {
 		...oBuild,
 		lib: {
@@ -61,17 +64,15 @@ build({
 		},
 		outDir	: 'dist_app',
 		rollupOptions: {
-			external: [
-				...builtinModules.flatMap(p=> [p, `node:${p}`]),
-			],
+			external: builtinModules.flatMap(p=> [p, `node:${p}`]),
 			output,
 		},
 	},
 	plugins: [dts(oDts)],
-});
+}));
 
 if (! web && ! app) {
-build({
+aP.push(build({
 	build: {
 		...oBuild,
 		lib: {
@@ -90,9 +91,9 @@ build({
 		},
 	},
 	plugins: [dts(oDts)],
-});
+}));
 
-build({
+aP.push(build({
 	build: {
 		...oBuild,
 		lib: {
@@ -110,6 +111,8 @@ build({
 		},
 	},
 	plugins: [dts(oDts)],
-});
+}));
 
 }
+
+void Promise.allSettled(aP);

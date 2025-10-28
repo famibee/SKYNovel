@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -39,9 +40,12 @@ export class FrameMng implements IGetFrm {
 	#evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng}
 
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	#hIfrm	: {[id: string]: HTMLIFrameElement} = Object.create(null);
 	destroy() {
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		for (const f of Object.values(this.#hIfrm)) f.parentElement!.removeChild(f);
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		this.#hIfrm = Object.create(null);
 	}
 
@@ -51,12 +55,14 @@ export class FrameMng implements IGetFrm {
 			style.display = 'none';
 		}
 	}
+	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	#hIfrmVisibleBk: {[id: string]: boolean} = Object.create(null);
 	restoreAllFrame() {	// 保存していた表示・非表示を回復
 		for (const [id, v] of Object.entries(this.#hIfrmVisibleBk)) {
 			const f = this.#hIfrm[id];
 			if (f) f.style.display = v ?'inline' :'none';
 		}
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		this.#hIfrmVisibleBk = Object.create(null);
 	}
 
@@ -90,16 +96,20 @@ export class FrameMng implements IGetFrm {
 		const url = FrameMng.#cfg.searchPath(src, SEARCH_PATH_ARG_EXT.HTML);
 		const ld = (new Loader)
 		.add({name: src, url, xhrType: LoaderResource.XHR_RESPONSE_TYPE.TEXT});
-		if (FrameMng.#sys.arg.crypto) ld.use(async (res, next)=> {
-			try {
-				res.data = await FrameMng.#sys.dec(res.extension, res.data);
-			} catch (e) {
+		if (FrameMng.#sys.arg.crypto) ld.use(
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			(res, next)=> void FrameMng.#sys.dec(res.extension, res.data)
+			.then(r=> {
+				res.data = r;
+				next();
+			})
+			.catch((e: unknown)=> {
 				FrameMng.#main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false);
-			}
-			next();
-		});
+				next();
+			})
+		);
 		ld.load((_ldr, hRes)=> {
-			const f = document.getElementById(id) as HTMLIFrameElement;
+			const f = <HTMLIFrameElement>document.getElementById(id);
 			this.#hIfrm[id] = f;
 			this.#hDisabled[id] = false;
 
@@ -110,7 +120,7 @@ export class FrameMng implements IGetFrm {
 			.replace('sn_repRes();', '')	// これはいずれやめる
 			.replaceAll(
 				/\s(?:src|href)=(["'])(\S+?)\1/g,	// 【\s】が大事、data-src弾く
-				(m, br, v)=> v.startsWith('../')
+				(m, br: string, v: string)=> v.startsWith('../')
 				? path_pa_pa + m.slice(3)
 				: m.replace('./', '')	// 「./」は無視
 					.replace(br, br + path_parent)
@@ -118,7 +128,7 @@ export class FrameMng implements IGetFrm {
 
 			if (f.srcdoc.includes('true/*WEBP*/;')) f.srcdoc = f.srcdoc.replaceAll(
 				/data-src="(.+?\.)(?:jpe?g|png)/g,
-				(_, p1)=> `data-src="${p1}webp`
+				(_, p1: string)=> `data-src="${p1}webp`
 			);
 
 			f.onload = ()=> {	// 一度変数に入れてここで設定するのはFirefox対応。ifrm.onloadが二度呼ばれる！
@@ -136,16 +146,19 @@ export class FrameMng implements IGetFrm {
 				this.val.setVal_Nochk('tmp', vn +'.height', rct.height);
 				this.val.setVal_Nochk('tmp', vn +'.visible', v);
 
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const win = f.contentWindow!;
 				this.#evtMng.resvFlameEvent(<HTMLBodyElement>win.document.body);
 				// sn_repRes()をコール。引数は画像ロード処理差し替えメソッド
-				((win as any).sn_repRes)?.((i: HTMLImageElement)=> FrameMng.#loadPic2Img(i.dataset.src ?? '', i));
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+				(<any>win).sn_repRes?.((i: HTMLImageElement)=> FrameMng.#loadPic2Img(i.dataset.src ?? '', i));
 			};
 		});
 		return true;
 	}
 	#hDisabled	: {[id: string]: boolean}	= {};
-	getFrmDisabled(id: string): boolean {return this.#hDisabled[id] as boolean}
+	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+	getFrmDisabled(id: string): boolean {return this.#hDisabled[id]!}
 	#rect(hArg: HArg): DOMRect {
 		const a = {...hArg};
 		const re = FrameMng.#sys.resolution;
@@ -173,27 +186,39 @@ export class FrameMng implements IGetFrm {
 		const path = FrameMng.#cfg.searchPath(srcNoPrm, SEARCH_PATH_ARG_EXT.SP_GSM);
 		const ld2 = (new Loader)
 		.add({name: src, url: path, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,});
-		if (FrameMng.#sys.arg.crypto && path.endsWith('.bin')) ld2.use(async (res, next)=> {
-			try {
-				const r = await FrameMng.#sys.decAB(res.data);
-				if (res.extension !== 'bin') {next(); return}
 
+		// === vite-electron 用コード ===
+		if (FrameMng.#sys.use4ViteElectron(src, path, ld2, FrameMng.#main)) { /* empty */ }
+		else
+		if (FrameMng.#sys.arg.crypto && path.endsWith('.bin')) ld2.use((res, next)=> {
+			if (res.extension !== 'bin') {next(); return}
+
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			void FrameMng.#sys.decAB(res.data)
+			.then(r=> {
 				res.data = r;
 				if (r instanceof HTMLImageElement) res.type = LoaderResource.TYPE.IMAGE;
-			} catch (e) {
+				next();
+			})
+			.catch((e: unknown)=> {
 				FrameMng.#main.errScript(`FrameMng loadPic ロード失敗です fn:${res.name} ${e}`, false)
-			}
-			next();
+				next();
+			});
 		});
 		ld2.load((_ldr, hRes)=> {
 			for (const [s2, {data: {src}}] of Object.entries(hRes)) {
-				const u2 = this.#hEncImgOUrl[s2] = src
-				+ (src.startsWith('blob:') || src.startsWith('data:') ?'' :(Prm ? '?'+ Prm: ''));
+				// eslint-disable-next-line @typescript-eslint/restrict-plus-operands
+				const u2 = this.#hEncImgOUrl[s2] = src + (
+					// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
+					src.startsWith('blob:') || src.startsWith('data:')
+					?'' :Prm ? '?'+ Prm: ''
+				);
 				const ri = this.#hARetImg[s2];
 				if (ri) for (const i of ri) {
 					i.src = u2;
 					if (onload) i.onload = ()=> onload(i);
 				}
+				// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 				delete this.#hARetImg[s2];
 			//	URL.revokeObjectURL(u2);// 画面遷移で毎回再生成するので
 			}
@@ -221,20 +246,23 @@ export class FrameMng implements IGetFrm {
 	#let_frame(hArg: HArg) {
 		const {id, var_name} = hArg;
 		if (! id) throw 'idは必須です';
-		const f = document.getElementById(id) as HTMLIFrameElement;
+		const f = <HTMLIFrameElement | null>document.getElementById(id);
 		if (! f) throw `id【${id}】はフレームではありません`;
 		const vn = 'const.sn.frm.'+ id;
 		if (! this.val.getVal(`tmp:${vn}`)) throw `frame【${id}】が読み込まれていません`;
 		if (! var_name) throw 'var_nameは必須です';
 
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		const win = f.contentWindow!;
 		if (! Object.hasOwn(win, var_name)) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
-		const v = (win as any)[var_name];
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+		const v = (<any>win)[var_name];
 		// var変数 / 関数実行の戻り値 -> 組み込み変数
 		this.val.setVal_Nochk(
 			'tmp',
 			vn +'.'+ var_name,
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-call
 			argChk_Boolean(hArg, 'function', false) ?v() :v
 		);
 
@@ -245,7 +273,7 @@ export class FrameMng implements IGetFrm {
 	#set_frame(hArg: HArg) {
 		const {id, var_name, text} = hArg;
 		if (! id) throw 'idは必須です';
-		const f = document.getElementById(id) as HTMLIFrameElement;
+		const f = <HTMLIFrameElement | null>document.getElementById(id);
 		if (! f) throw `id【${id}】はフレームではありません`;
 		const vn = 'const.sn.frm.'+ id;
 		if (! this.val.getVal(`tmp:${vn}`)) throw `frame【${id}】が読み込まれていません`;
@@ -256,7 +284,9 @@ export class FrameMng implements IGetFrm {
 		this.val.setVal_Nochk('tmp', vn +'.'+ var_name, text);
 
 		// -> var変数に設定
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-non-null-assertion
 		const win: any = f.contentWindow!;
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
 		win[var_name] = text;
 
 		return false;
@@ -267,7 +297,7 @@ export class FrameMng implements IGetFrm {
 	#frame(hArg: HArg) {
 		const {id} = hArg;
 		if (! id) throw 'idは必須です';
-		const f = document.getElementById(id) as HTMLIFrameElement;
+		const f = <HTMLIFrameElement | null>document.getElementById(id);
 		if (! f) throw `id【${id}】はフレームではありません`;
 		const vn = 'const.sn.frm.'+ id;
 		if (! this.val.getVal('tmp:'+ vn)) throw `frame【${id}】が読み込まれていません`;
@@ -310,9 +340,11 @@ export class FrameMng implements IGetFrm {
 			s.display = v ?'inline' :'none';
 			this.val.setVal_Nochk('tmp', vn +'.visible', v);
 		}
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		if ('b_color' in hArg) s.backgroundColor = hArg.b_color!;
 		if ('disabled' in hArg) {
 			const d = this.#hDisabled[id] = argChk_Boolean(hArg, 'disabled', true);
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			const b = f.contentDocument!.body;
 			for (const e of [
 				...Array.from(b.getElementsByTagName('input')),
@@ -327,13 +359,13 @@ export class FrameMng implements IGetFrm {
 	#tsy_frame(hArg: HArg) {
 		const {id, alpha, x, y, scale_x, scale_y, rotate, width, height} = hArg;
 		if (! id) throw 'idは必須です';
-		const f = document.getElementById(id) as HTMLIFrameElement;
+		const f = <HTMLIFrameElement | null>document.getElementById(id);
 		if (! f) throw `id【${id}】はフレームではありません`;
-		const vn = `const.sn.frm.`+ id;
+		const vn = 'const.sn.frm.'+ id;
 		if (! this.val.getVal(`tmp:${vn}`, 0)) throw `frame【${id}】が読み込まれていません`;
 
-		const hNow: any = {};
-		if (alpha) hNow.a = f.style.opacity;
+		const hNow: {[val_name: string]: number} = {};
+		if (alpha) hNow.a = Number(f.style.opacity);
 		if (x || y || scale_x || scale_y || rotate) {
 			hNow.x = Number(this.val.getVal(`tmp:${vn}.x`));
 			hNow.y = Number(this.val.getVal(`tmp:${vn}.y`));
@@ -341,20 +373,20 @@ export class FrameMng implements IGetFrm {
 			hNow.sy = Number(this.val.getVal(`tmp:${vn}.scale_y`));
 			hNow.r = Number(this.val.getVal(`tmp:${vn}.rotate`));
 		}
-		if (width) hNow.w = this.val.getVal(`tmp:${vn}.width`);
-		if (height) hNow.h = this.val.getVal(`tmp:${vn}.height`);
+		if (width) hNow.w = Number(this.val.getVal(`tmp:${vn}.width`));
+		if (height) hNow.h = Number(this.val.getVal(`tmp:${vn}.height`));
 		const hArg2 = CmnTween.cnvTweenArg(hArg, hNow);
 
-		const hTo: any = {};
-		let fncA = ()=> {};
+		const hTo: {[val_name: string]: number} = {};
+		let fncA = ()=> { /* empty */ };
 		if (alpha) {
 			hTo.a = argChk_Num(hArg2, 'alpha', 0);
 			fncA = ()=> {
-				f.style.opacity = hNow.a;
+				f.style.opacity = String(hNow.a);
 				this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
 			};
 		}
-		let fncXYSR = ()=> {};
+		let fncXYSR = ()=> { /* empty */ };
 		const rct = this.#rect(hArg2);
 		if (x || y || scale_x || scale_y || rotate) {
 			hTo.x = rct.x;
@@ -363,8 +395,14 @@ export class FrameMng implements IGetFrm {
 			hTo.sy = argChk_Num(hArg2, 'scale_y', 1);
 			hTo.r = argChk_Num(hArg2, 'rotate', 0);
 			fncXYSR = ()=> {
-				f.style.left = FrameMng.#sys.ofsLeft4elm +hNow.x *FrameMng.#sys.cvsScale +'px';
-				f.style.top  = FrameMng.#sys.ofsTop4elm  +hNow.y *FrameMng.#sys.cvsScale +'px';
+				f.style.left = `${
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					FrameMng.#sys.ofsLeft4elm +hNow.x! *FrameMng.#sys.cvsScale
+				} px`;
+				f.style.top  = `${
+					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+					FrameMng.#sys.ofsTop4elm  +hNow.y! *FrameMng.#sys.cvsScale
+				} px`;
 				f.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
 				this.val.setVal_Nochk('tmp', vn +'.x', hNow.x);
 				this.val.setVal_Nochk('tmp', vn +'.y', hNow.y);
@@ -373,19 +411,21 @@ export class FrameMng implements IGetFrm {
 				this.val.setVal_Nochk('tmp', vn +'.rotate', hNow.r);
 			};
 		}
-		let fncW = ()=> {};
+		let fncW = ()=> { /* empty */ };
 		if (width) {
 			hTo.w = rct.width;
 			fncW = ()=> {
-				f.width = hNow.w *FrameMng.#sys.cvsScale +'px';
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				f.width = `${hNow.w! *FrameMng.#sys.cvsScale} px`;
 				this.val.setVal_Nochk('tmp', vn +'.width', hNow.w);
 			};
 		}
-		let fncH = ()=> {};
+		let fncH = ()=> { /* empty */ };
 		if (height) {
 			hTo.h = rct.height;
 			fncH = ()=> {
-				f.height = hNow.h *FrameMng.#sys.cvsScale +'px';
+				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+				f.height = `${hNow.h! *FrameMng.#sys.cvsScale} px`;
 				this.val.setVal_Nochk('tmp', vn +'.height', hNow.h);
 			};
 		}
@@ -393,7 +433,7 @@ export class FrameMng implements IGetFrm {
 		this.appPixi.stage.interactive = false;
 		CmnTween.tween(`frm\n${id}`, hArg, hNow, CmnTween.cnvTweenArg(hArg, hNow), ()=> {
 			fncA(); fncXYSR(); fncW(); fncH();
-		}, ()=> this.appPixi.stage.interactive = true, ()=> {});
+		}, ()=> {this.appPixi.stage.interactive = true}, ()=> { /* empty */ });
 
 		return false;
 	}

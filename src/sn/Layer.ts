@@ -9,8 +9,27 @@ import {CmnLib, int, argChk_Boolean, argChk_Num, uint} from './CmnLib';
 import type {HArg} from './Grammar';
 import type {IMakeDesignCast} from './LayerMng';
 
-import {BLEND_MODES, DisplayObject, Container, Sprite, Texture, AbstractRenderer, filters, Filter} from 'pixi.js';
+import type {DisplayObject, Container, AbstractRenderer, Filter} from 'pixi.js';
+import {BLEND_MODES, Sprite, Texture, filters} from 'pixi.js';
 const {BlurFilter, ColorMatrixFilter, NoiseFilter} = filters;
+
+
+export type T_RecordPlayBack_lay = {
+	name		: string;
+	idx			: number;
+	alpha		: number;
+	blendMode	: BLEND_MODES;
+	rotation	: number;
+	scale_x		: number;
+	scale_y		: number;
+	pivot_x		: number;
+	pivot_y		: number;
+	x			: number;
+	y			: number;
+	visible		: boolean;
+	aFltHArg?	: HArg[];
+}
+
 
 export class Layer {
 				layname	= '';
@@ -32,12 +51,12 @@ export class Layer {
 	get	width() {return this.ctn.width}
 	get	x() {return this.ctn.x}
 	set x(v) {this.procSetX(v); this.ctn.x = v}
-		protected	procSetX(_x: number) {}	// set を override できないので
+		protected	procSetX(_x: number) { /* empty */ }	// set を override できないので
 	get	y() {return this.ctn.y}
 	set y(v) {this.procSetY(v); this.ctn.y = v}
-		protected	procSetY(_y: number) {}	// set を override できないので
+		protected	procSetY(_y: number) { /* empty */ }	// set を override できないので
 
-	destroy() {}
+	destroy() { /* empty */ }
 
 	lay(hArg: HArg): boolean {
 		const c = this.ctn;
@@ -121,12 +140,11 @@ export class Layer {
 				// displayObject 上のすべてのピクセルの RGBA カラーとアルファ値に 5x4 マトリックス変換を適用して、新しい RGBA カラーとアルファ値のセットを含む結果を生成できます。 かなり強力ですよ！
 			const f = new ColorMatrixFilter;
 			f.alpha = uint(argChk_Num(hArg, 'alpha', 1));
-			
 			const {matrix=''} = hArg;
 			if (matrix) {
 				const m = matrix.split(',');
 				const len = m.length;
-				if (len !== 20) throw `matrix の個数（${len}）が 20 ではありません`;
+				if (len !== 20) throw `matrix の個数（${String(len)}）が 20 ではありません`;
 				for (let i=0; i<len; ++i) f.matrix[i] = uint(m[i]);
 			}
 			else {
@@ -393,10 +411,11 @@ export class Layer {
 	}
 
 	// アニメ・動画があるか
+	// eslint-disable-next-line @typescript-eslint/class-literal-property-style
 	get containMovement(): boolean {return false}
 
-	renderStart() {}
-	renderEnd() {}
+	renderStart() { /* empty */ }
+	renderEnd() { /* empty */ }
 
 	clearLay(hArg: HArg): void {
 		this.ctn.alpha = 1;
@@ -431,7 +450,7 @@ export class Layer {
 		visible	: this.ctn.visible,
 		aFltHArg: this.aFltHArg,
 	}}
-	playback(hLay: any, _aPrm: Promise<void>[]): void {
+	playback(hLay: T_RecordPlayBack_lay, _aPrm: Promise<void>[]): void {
 		this.name = hLay.name;
 		//idx	// コール順に意味があるので LayerMng でやる
 
@@ -445,7 +464,7 @@ export class Layer {
 		this.ctn.visible = hLay.visible;
 
 		this.aFltHArg = hLay.aFltHArg ?? [];
-		this.ctn.filters = (this.aFltHArg.length === 0)
+		this.ctn.filters = this.aFltHArg.length === 0
 			? null
 			: this.aFltHArg.map(f=> Layer.bldFilters(f));
 	}
@@ -454,99 +473,105 @@ export class Layer {
 		rnd.render(this.ctn, {clear: false});
 		re();
 	}
-	snapshot_end() {}
+	snapshot_end() { /* empty */ }
 
-	makeDesignCast(_gdc: IMakeDesignCast) {}
-	makeDesignCastChildren(_gdc: IMakeDesignCast) {}
+	makeDesignCast(_gdc: IMakeDesignCast) { /* empty */ }
+	makeDesignCastChildren(_gdc: IMakeDesignCast) { /* empty */ }
 
-	showDesignCast() {}
-	showDesignCastChildren() {}
+	showDesignCast() { /* empty */ }
+	showDesignCastChildren() { /* empty */ }
 
-	cvsResize() {}
-	cvsResizeChildren() {}
+	cvsResize() { /* empty */ }
+	cvsResizeChildren() { /* empty */ }
 
 	dump(): string {
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		return ` "idx":${this.ctn.parent.getChildIndex(this.ctn)
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		}, "visible":"${this.ctn.visible
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		}", "left":${this.ctn.x}, "top":${this.ctn.y
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		}, "alpha":${this.ctn.alpha}, "rotation":${this.ctn.angle
 //		}, "blendMode":${this.ctn.blendMode
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		}, "name":"${this.name_}", "scale_x":${this.ctn.scale.x
+		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 		}, "scale_y":${this.ctn.scale.y
-		}, "filters": [${this.aFltHArg.map(f=> `"${f.filter}"`).join(',')}]`;
+		}, "filters": [${this.aFltHArg.map(f=> `"${f.filter ?? ''}"`).join(',')}]`;
 	}
 
 	static	setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp = false, isButton = false): void {
 		if (hArg.pos) {Layer.setXYByPos(base, hArg.pos, ret); return}
 
 		const rct_base = base.getBounds();
-		const r_absclX	= (ret.scale.x < 0)? -ret.scale.x : ret.scale.x;
-		const b_width	= (r_absclX === 1)
+		const r_absclX	= ret.scale.x < 0? -ret.scale.x : ret.scale.x;
+		const b_width	= r_absclX === 1
 						? rct_base.width : rct_base.width *r_absclX;
-		const r_absclY	= (ret.scale.y < 0)? -ret.scale.y : ret.scale.y;
-		const b_height	= (r_absclY === 1)
+		const r_absclY	= ret.scale.y < 0? -ret.scale.y : ret.scale.y;
+		const b_height	= r_absclY === 1
 						? rct_base.height: rct_base.height*r_absclY;
 
 		// 横位置計算
 		let x = ret.x;	// AIRNovelでは 0
 		if ('left' in hArg) {
 			x = argChk_Num(hArg, 'left', 0);
-			if ((x > -1) && (x < 1)) x *= CmnLib.stageW;
+			if (x > -1 && x < 1) x *= CmnLib.stageW;
 		}
 		else if ('center' in hArg) {
 			x = argChk_Num(hArg, 'center', 0);
-			if ((x > -1) && (x < 1)) x *= CmnLib.stageW;
-			x = x - (isButton ?b_width/3 :b_width)/2;
+			if (x > -1 && x < 1) x *= CmnLib.stageW;
+			x -= (isButton ?b_width/3 :b_width)/2;
 		}
 		else if ('right' in hArg) {
 			x = argChk_Num(hArg, 'right', 0);
-			if ((x > -1) && (x < 1)) x *= CmnLib.stageW;
-			x = x - (isButton ?b_width/3 :b_width);
+			if (x > -1 && x < 1) x *= CmnLib.stageW;
+			x -= isButton ?b_width/3 :b_width;
 		}
 		else if ('s_right' in hArg) {
 			x = argChk_Num(hArg, 's_right', 0);
-			if ((x > -1) && (x < 1)) x *= CmnLib.stageW;
+			if (x > -1 && x < 1) x *= CmnLib.stageW;
 			x = CmnLib.stageW - x
 				- (isButton ?b_width/3 :b_width);
 		}
-		ret.x = int( ((ret.scale.x < 0)
+		ret.x = int( ret.scale.x < 0
 			? x +(isButton ?b_width/3 :b_width)
-			: x) );
+			: x );
 
 		// 縦位置計算
 		let y = ret.y;	// AIRNovelでは 0
 		if ('top' in hArg) {
 			y = argChk_Num(hArg, 'top', 0);
-			if ((y > -1) && (y < 1)) y *= CmnLib.stageH;
+			if (y > -1 && y < 1) y *= CmnLib.stageH;
 		}
 		else if ('middle' in hArg) {
 			y = argChk_Num(hArg, 'middle', 0);
-			if ((y > -1) && (y < 1)) y *= CmnLib.stageH;
-			y = y - b_height/2;
+			if (y > -1 && y < 1) y *= CmnLib.stageH;
+			y -= b_height/2;
 		}
 		else if ('bottom' in hArg) {
 			y = argChk_Num(hArg, 'bottom', 0);
-			if ((y > -1) && (y < 1)) y *= CmnLib.stageH;
-			y = y - b_height;
+			if (y > -1 && y < 1) y *= CmnLib.stageH;
+			y -= b_height;
 		}
 		else if ('s_bottom' in hArg) {
 			y = argChk_Num(hArg, 's_bottom', 0);
-			if ((y > -1) && (y < 1)) y *= CmnLib.stageH;
+			if (y > -1 && y < 1) y *= CmnLib.stageH;
 			y = CmnLib.stageH - y - b_height;
 		}
-		ret.y = int( ((ret.scale.y < 0) ?y +b_height :y) );
+		ret.y = int( ret.scale.y < 0 ?y +b_height :y );
 
 		if (isGrp) {	// これを上の方に持っていってはいけない。
 						// iPhone6など中途半端な画面サイズの際に
 						// 縦位置が異常になる（素材が画面外下に）
-			if (!('left' in hArg)
-			&& !('center' in hArg)
-			&& !('right' in hArg)
-			&& !('s_right' in hArg)
-			&& !('top' in hArg)
-			&& !('middle' in hArg)
-			&& !('bottom' in hArg)
-			&& !('s_bottom' in hArg)) {
+			if (! ('left' in hArg)
+			&& ! ('center' in hArg)
+			&& ! ('right' in hArg)
+			&& ! ('s_right' in hArg)
+			&& ! ('top' in hArg)
+			&& ! ('middle' in hArg)
+			&& ! ('bottom' in hArg)
+			&& ! ('s_bottom' in hArg)) {
 				Layer.setXYByPos(base, 'c', ret);
 			}
 		}
@@ -554,14 +579,12 @@ export class Layer {
 
 	static	setXYByPos(base: DisplayObject, pos: string, ret: DisplayObject): void {
 		if (pos === 'stay') return;
-		if (base === undefined) throw 'setXYByPos base === undefined';
-		if (ret === undefined) throw 'setXYByPos result === undefined';
 
 		const rct_base = base.getBounds();
-		const r_absclX = (ret.scale.x < 0)? -ret.scale.x : ret.scale.x;
-		const b_width = (r_absclX === 1)? rct_base.width : rct_base.width *r_absclX;
-		const r_absclY = (ret.scale.y < 0)? -ret.scale.y : ret.scale.y;
-		const b_height = (r_absclY === 1)? rct_base.height: rct_base.height*r_absclY;
+		const r_absclX = ret.scale.x < 0? -ret.scale.x : ret.scale.x;
+		const b_width = r_absclX === 1? rct_base.width : rct_base.width *r_absclX;
+		const r_absclY = ret.scale.y < 0? -ret.scale.y : ret.scale.y;
+		const b_height = r_absclY === 1? rct_base.height: rct_base.height*r_absclY;
 
 		let c = 0;	// 忘れたけど、プルプルするからintなんだっけ
 		if (! pos || pos === 'c') {c = CmnLib.stageW *0.5}

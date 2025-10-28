@@ -1,4 +1,4 @@
-import { b as S, a as V, d as Y, N as U, l as j, O as B, Q as dt, k as _t, L as yt } from "./web2.js";
+import { d as S, e as V, g as Y, Q as U, o as j, U as B, V as dt, m as _t, L as yt } from "./web2.js";
 import { u as mt, E as f, r as gt, T as Z, a as k, b as bt } from "./Reading.js";
 const $ = `trans
 `, Q = "tsy nm:";
@@ -13,6 +13,7 @@ class vt {
   static destroy() {
     this.stopAllTw(), this.#e.ticker.remove(this.#n);
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static setTwProp(t, e) {
     const s = S(e, "repeat", 1);
     return t.delay(S(e, "delay", 0)).easing(this.ease(e.ease)).repeat(s > 0 ? s - 1 : 1 / 0).yoyo(V(e, "yoyo", !1));
@@ -71,6 +72,7 @@ class vt {
     x: 0,
     y: 0
   };
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static cnvTweenArg(t, e) {
     const s = {};
     for (const o of Object.keys(this.hMemberCnt)) {
@@ -89,6 +91,7 @@ class vt {
   static stopAllTw() {
     this.#t = {}, gt();
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static tween(t, e, s, o, i, r, a, u = !0) {
     const c = this.#s.isSkipping ? 0 : S(e, "time", NaN), l = new Z(s).to(o, c).onUpdate(i);
     this.setTwProp(l, e), this.#t[t] = { tw: l, onEnd: a };
@@ -102,13 +105,14 @@ class vt {
         if (L) try {
           E = JSON.parse(L);
         } catch (ft) {
-          console.error(`🍝 json=${L} ` + ft);
+          console.error(`🍝 json=${L} ` + String(ft));
           continue;
         }
         else
-          (v ?? T) && (E.x = v ?? T), (p ?? P) && (E.y = p ?? P), (F ?? O) && (E.alpha = F ?? O);
+          (v ?? T) && (E.x = v ?? T), (p ?? P) && (E.y = p ?? P), (F ?? O) && (E.alpha = Number(F ?? O));
         const K = this.cnvTweenArg(E, s);
-        Y.debugLog && console.info(`🍝 ${L ?? `{x:${v} y:${p} o:${F}}`} => hTo:${JSON.stringify(K)}`);
+        Y.debugLog && console.info(`🍝 ${// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+        L ?? `{x:${v} y:${p} o:${F}}`} => hTo:${JSON.stringify(K)}`);
         const W = new Z(s).to(K, c);
         this.setTwProp(W, e), m.chain(W), m = W;
       }
@@ -143,7 +147,7 @@ class vt {
   |
   (?<json>\{[^{}]*})
   */
-  static #a = /\(\s*(?:(?<x>[-=\d\.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d\.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d\.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
+  static #a = /\(\s*(?:(?<x>[-=\d.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
   // トランス終了待ち
   static wt(t) {
     if (!this.#t[$]?.tw) return !1;
@@ -1109,18 +1113,22 @@ class I {
     return this.#s;
   }
   addSnd(t) {
-    switch (this.loop = t.loop, this.stt.onLoad(this), this.pan !== 0 && (t.filters = [new q.StereoFilter(this.pan)]), this.setVol = (e) => t.volume = e, this.tw = () => new Z(t), this.onPlayEnd = () => {
+    switch (this.loop = t.loop, this.stt.onLoad(this), this.pan !== 0 && (t.filters = [new q.StereoFilter(this.pan)]), this.setVol = (e) => {
+      t.volume = e;
+    }, this.tw = () => new Z(t), this.onPlayEnd = () => {
       this.stt.onPlayEnd(this.buf), this.#e();
     }, this.stop = () => {
       t.stop(), this.#e();
     }, this.destroy = () => t.destroy(), this.buf) {
       // セリフ再生中はBGM音量を絞る
       case rt:
-        const e = Number(d.getVal("sys:sn.sound.BGM.vol_mul_talking") ?? 1);
-        if (e === 1) break;
-        I.#t = e;
-        const s = tt[z];
-        s && s.setVol(this.volume * I.#t);
+        {
+          const e = Number(d.getVal("sys:sn.sound.BGM.vol_mul_talking") ?? 1);
+          if (e === 1) break;
+          I.#t = e;
+          const s = tt[z];
+          s && s.setVol(this.volume * I.#t);
+        }
         break;
       case z:
         t.volume = this.volume * I.#t;
@@ -1161,7 +1169,7 @@ class y {
     d.setVal_Nochk("save", c + "fn", s);
     const l = y.getVol(t, 1);
     d.setVal_Nochk("save", c + "volume", l);
-    const _ = l * Number(d.getVal("sys:" + c + "volume", 1)), m = V(t, "loop", !1);
+    const _ = l * Number(d.getVal("sys:" + c + "volume", 1, !0)), m = V(t, "loop", !1);
     m ? (y.#t[e] = s, d.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(y.#t))) : y.delLoopPlay(e), d.setVal_Nochk("save", c + "start_ms", o), d.setVal_Nochk("save", c + "end_ms", i), d.setVal_Nochk("save", c + "ret_ms", r), d.setVal_Nochk("tmp", c + "playing", !0), d.flush();
     const b = nt.find(s);
     this.#e = new I(
@@ -1181,7 +1189,7 @@ class y {
       loaded: (p, P) => {
         if (!this.#e.stt.isDestroy) {
           if (p) {
-            C.errScript(`ロード失敗です SndBuf fn:${s} ${p}`, !1);
+            C.errScript(`ロード失敗です SndBuf fn:${s} ${String(p)}`, !1);
             return;
           }
           P && (this.#e.addSnd(P), a !== 0 && (P.filters = [new q.StereoFilter(a)]), t.fnc?.());
@@ -1204,9 +1212,9 @@ class y {
         p.end < 0 && (p.end += E, L.removeSprites(v), L.addSprites(v, p)), p.end <= p.start && C.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) >= start_ms:${o} は異常値です`), p.end * 1e3 <= r && C.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) <= ret_ms:${r} は異常値です`), E <= p.start && C.errScript(`[playse] 音声ファイル再生時間:${E * 1e3} <= start_ms:${o} は異常値です`), i !== y.#s && E <= p.end && C.errScript(`[playse] 音声ファイル再生時間:${E * 1e3} <= end_ms:${i} は異常値です`), L.play(v, (K) => h.complete?.(K));
       };
     } else h.autoPlay = !0;
-    if (m ? r !== 0 && (h.loop = !1, h.complete = async (p) => {
+    if (m ? r !== 0 && (h.loop = !1, h.complete = (p) => {
       const P = p.duration, F = r / 1e3, O = i / 1e3;
-      P <= F && C.errScript(`[playse] 音声ファイル再生時間:${P * 1e3} <=  ret_ms:${r} は異常値です`), await p.play({
+      P <= F && C.errScript(`[playse] 音声ファイル再生時間:${P * 1e3} <=  ret_ms:${r} は異常値です`), p.play({
         // 一周目はループなし、なのでキャッシュされてる
         ...h,
         start: F,
@@ -1280,13 +1288,10 @@ class y {
       e.url = s, D.from(e);
       return;
     }
-    new yt().add({ name: t, url: s, xhrType: j.XHR_RESPONSE_TYPE.BUFFER }).use(async (o, i) => {
-      try {
-        o.data = await it.decAB(o.data);
-      } catch (r) {
-        C.errScript(`Sound ロード失敗ですc fn:${o.name} ${r}`, !1);
-      }
-      i();
+    new yt().add({ name: t, url: s, xhrType: j.XHR_RESPONSE_TYPE.BUFFER }).use((o, i) => {
+      it.decAB(o.data).then((r) => {
+        o.data = r;
+      }).catch((r) => C.errScript(`Sound ロード失敗ですc fn:${o.name} ${r}`, !1)).finally(() => i());
     }).load((o, i) => {
       e.source = i[t]?.data, D.from(e);
     });

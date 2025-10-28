@@ -1,3 +1,12 @@
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+/* eslint-disable @typescript-eslint/no-base-to-string */
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-argument */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -7,10 +16,10 @@
 
 import {alt, lazy, of, optWhitespace, regex, seq, seqMap, string} from 'parsimmon';
 import {int} from './CmnLib';
-import type {IPropParser, IVariable} from './CmnInterface';
+import type {IPropParser, IVariable, T_VAL_DATA} from './CmnInterface';
 
-interface IFncCalc { (a: any[]): any;}
-interface IHFncCalc { [key: string]: IFncCalc; }
+type IFncCalc = (a: any[]) => any
+type IHFncCalc = { [key: string]: IFncCalc; }
 
 export class PropParser implements IPropParser {
 	#parser: any = null;
@@ -19,20 +28,20 @@ export class PropParser implements IPropParser {
 		function ope(a: (string | RegExp)[]) {
 			const ps: any = [];
 			for (const v of a) ps.push(
-				((typeof v === 'string') ?string(v) :regex(v))
+				(typeof v === 'string' ?string(v) :regex(v))
 				.trim(optWhitespace)
 			);
-			return alt.apply(null, ps);
+			return alt(...ps);
 		}
 		function opeH(ops: {[name: string]: string | RegExp}) {
-			let keys = Object.keys(ops).sort();
-			let ps = keys.map(k=>
-				((typeof ops[k] === 'string')
+			const keys = Object.keys(ops).sort();
+			const ps = keys.map(k=>
+				(typeof ops[k] === 'string'
 					? string(ops[k]) :regex(ops[k]!))
 				.trim(optWhitespace)
 				.result(k)
 			);
-			return alt.apply(null, ps);
+			return alt(...ps);
 		}
 
 		function PREFIX(operatorsParser: any, nextParser: any) {
@@ -45,7 +54,7 @@ export class PropParser implements IPropParser {
 
 		// right. (e.g. 1^2^3 is 1^(2^3) not (1^2)^3)
 		function BINARY_RIGHT(operatorsParser: any, nextParser: any) {
-			let parser = lazy(
+			const parser = lazy(
 				()=> nextParser.chain(
 					(next: any)=> seq(
 						operatorsParser,
@@ -93,24 +102,25 @@ export class PropParser implements IPropParser {
 		.desc('string');
 
 		const REG_BRACKETS = /\[[^\]]+\]/g;
-		const VarLiteral = regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-\/:-@[-^`{-~]+(?:\.[^\s!-\/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/)
+		const VarLiteral = regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-/:-@[-^`{-~]+(?:\.[^\s!-/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/)
 		.map(b=> {
 			//console.log('   👺 VarLiteral:0 b:%O:', b);
-			const s = String(b).replaceAll(REG_BRACKETS, v=>
+			const s = b.replaceAll(REG_BRACKETS, v=>
+				// eslint-disable-next-line @typescript-eslint/restrict-plus-operands
 				'.'+ this.parse(v.slice(1, -1))
 			);
-			const val = this.val.getVal(s);
+			const v = this.val.getVal(s);
 			//console.log('      👹 s:%O: val:%O:', s, val);
-			if (val == null) return ['!str!', val];		// undefined も
-			if (typeof val === 'boolean') return ['!bool!', val];
+			if (v === null || v === undefined) return ['!str!', v];	// v == null は eqeqeq違反
+			if (typeof v === 'boolean') return ['!bool!', v];
 
-			return (Object.prototype.toString.call(val) === '[object String]')
-				? ['!str!', String(val)]
-				: ['!num!', Number(val)];
+			return Object.prototype.toString.call(v) === '[object String]'
+				? ['!str!', String(v)]
+				: ['!num!', Number(v)];
 		})
 		.desc('string');
 
-		const Basic = lazy(()=> 
+		const Basic = lazy(()=>
 			string('(').then(this.#parser).skip(string(')'))
 			.or(Num)
 			.or(NullLiteral)
@@ -160,7 +170,7 @@ export class PropParser implements IPropParser {
 		this.#parser = tableParser.trim(optWhitespace);
 	}
 
-	parse(s: string): any {
+	parse(s: string): T_VAL_DATA {
 		//console.log("🌱 Parsimmon'%s'", s);
 		const p = this.#parser.parse(s);
 		if (! p.status) throw Error('(PropParser)文法エラー【'+ s +'】');
@@ -170,13 +180,13 @@ export class PropParser implements IPropParser {
 
 		return this.#calc(a);
 	}
-	#calc(a: any[]): object {
+	#calc(a: any[]): T_VAL_DATA {
 		//console.log('🌷 calc%O', {...a});
 		const elm = a.shift();
 		if (elm instanceof Array) return this.#calc(elm);
 
 		const fnc = this.#hFnc[elm];
-		return (fnc) ?fnc(a) :Object(null);
+		return fnc ?fnc(a) :Object(null);
 	}
 	#hFnc: IHFncCalc = {
 		'!num!': a=> a.shift(),
@@ -189,12 +199,12 @@ export class PropParser implements IPropParser {
 		PrefixDec:	_=> {throw Error('(PropParser)前置デクリメントは未サポートです')},
 
 		// 論理 NOT
-		'!':	a=> ! this.#hFnc['Boolean']!(a),
+		'!':	a=> ! this.#hFnc.Boolean!(a),
 		// チルダ演算子（ビット反転）
 		'~':	a=> ~ Number(this.#calc(a.shift())),
 
-//		UnaryNegate:	a=> - Number(this.#calc(a.shift())),
-		UnaryNegate:	a=> - this.#hFnc['Number']!(a),
+//		UnaryNegate:	a=> -Number(this.#calc(a.shift())),
+		UnaryNegate:	a=> -this.#hFnc.Number!(a),
 	//	Unaryplus:		a=> this.#hFnc['Number'](a),
 
 		// 乗算、除算、剰余
@@ -212,8 +222,8 @@ export class PropParser implements IPropParser {
 		'+':	a=> {
 			const b = this.#calc(a.shift());
 			const c = this.#calc(a.shift());
-			return (Object.prototype.toString.call(b) === '[object String]'
-				|| Object.prototype.toString.call(c) === '[object String]')
+			return Object.prototype.toString.call(b) === '[object String]'
+				|| Object.prototype.toString.call(c) === '[object String]'
 					? String(b) + String(c) : Number(b) + Number(c);
 		},
 		'-':	a=> Number(this.#calc(a.shift())) -
@@ -221,7 +231,7 @@ export class PropParser implements IPropParser {
 
 		// 関数
 		'int':		a=> int(this.#fncSub_ChkNum(a.shift())),
-		'parseInt':	a=> int(this.#hFnc['Number']!(a)),
+		'parseInt':	a=> int(this.#hFnc.Number!(a)),
 		'Number':	a=> {
 			const b = this.#calc(a.shift());
 			return Object.prototype.toString.call(b) === '[object String]'
@@ -230,7 +240,7 @@ export class PropParser implements IPropParser {
 		},
 		'Boolean':	a=> {
 			const b = a.shift();
-			return (b[0] === '!bool!')
+			return b[0] === '!bool!'
 				? Boolean( b[1] )
 				: Boolean(this.#calc(b));
 		},
@@ -261,15 +271,18 @@ export class PropParser implements IPropParser {
 		'==':	a=> {
 			const b = this.#calc(a.shift());
 			const c = this.#calc(a.shift());
-			return ((b == null) && (c == null) && (!b || !c))
-				? (b == c) : String(b) === String(c);
+			// eslint-disable-next-line eqeqeq
+			return b == null && c == null && (! b || ! c)
+				// eslint-disable-next-line eqeqeq
+				? b == c : String(b) === String(c);
 		},
 		'!=':	a=> ! this.#hFnc['==']!(a),
 		'===':	a=> {
 			const b = this.#calc(a.shift());
 			const c = this.#calc(a.shift());
-			return (Object.prototype.toString.call(b) !=
-					Object.prototype.toString.call(c))
+			// eslint-disable-next-line eqeqeq
+			return Object.prototype.toString.call(b) !=
+					Object.prototype.toString.call(c)
 					? false : String(b) === String(c);
 		},
 		'!==':	a=> ! this.#hFnc['===']!(a),
@@ -283,14 +296,14 @@ export class PropParser implements IPropParser {
 					Number(this.#calc(a.shift())),
 
 		// 論理 AND,OR
-		'&&':	a=> (String(this.#calc(a.shift())) === 'true') &&
-					(String(this.#calc(a.shift())) === 'true'),
-		'||':	a=> (String(this.#calc(a.shift())) === 'true') ||
-					(String(this.#calc(a.shift())) === 'true'),
+		'&&':	a=> String(this.#calc(a.shift())) === 'true' &&
+					String(this.#calc(a.shift())) === 'true',
+		'||':	a=> String(this.#calc(a.shift())) === 'true' ||
+					String(this.#calc(a.shift())) === 'true',
 
 		// 条件
 		'?':	a=> {
-			const cond = this.#hFnc['Boolean']!(a);
+			const cond = this.#hFnc.Boolean!(a);
 			const elm2 = a.shift();
 			if (elm2[0] !== ':') throw Error('(PropParser)三項演算子の文法エラーです。: が見つかりません');
 
@@ -300,20 +313,21 @@ export class PropParser implements IPropParser {
 	}
 	#fncSub_ChkNum(v: any[]): number {
 		const b = this.#calc(v);
-		if (Object.prototype.toString.call(b) !== '[object Number]') throw Error('(PropParser)引数【'+ b +'】が数値ではありません');
+		if (Object.prototype.toString.call(b) !== '[object Number]') throw Error('(PropParser)引数【'+ String(b) +'】が数値ではありません');
 		return Number(b);
 	}
 
 	readonly #REG_EMBEDVAR
-		= /(\$((tmp|sys|save|mp):)?[^\s!--\/:-@[-^`{-~]+|\#\{[^\}]+})/g;
+		= /(\$((tmp|sys|save|mp):)?[^\s!--/:-@[-^`{-~]+|#\{[^}]+})/g;
 	#procEmbedVar(b: object): any {
-		if (b == null) return b;	// undefined も
+		if (b === null || b === undefined) return b;
+			// b == null は eqeqeq違反
 
 		return String(b).replaceAll(
 			this.#REG_EMBEDVAR,
-			v=> v.startsWith('$')
+			v=> String(v.startsWith('$')
 				? this.val.getVal(v.slice(1))
-				: this.parse(v.slice(2, -1))
+				: this.parse(v.slice(2, -1)))
 		);
 	}
 
@@ -324,7 +338,7 @@ export class PropParser implements IPropParser {
 
 
 	static	readonly	#REG_VAL
-		= /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>\@str)?$/;
+		= /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>@str)?$/;
 		// 522 match 18413 step(~10ms) https://regex101.com/r/tmCKuE/1
 			// →これは改良しようがない。いい意味で改善の余地なし
 	static	getValName(arg_name: string): {[name: string]: string} | null {
@@ -341,26 +355,26 @@ export class PropParser implements IPropParser {
 	}
 
 	static	#getValName_B2D(str: string): string {
-		let i = 0, e = 0;
+		let i = 0, e = 0, s = str;
 		while (true) {
-			i = str.indexOf('["');
+			i = s.indexOf('["');
 			if (i < 0) {
-				i = str.indexOf("['");
+				i = s.indexOf('[\'');
 				if (i < 0) break;
 
-				e = str.indexOf("']", i+2);
+				e = s.indexOf('\']', i+2);
 			}
 			else {
-				e = str.indexOf('"]', i+2);
+				e = s.indexOf('"]', i+2);
 			}
 			if (e < 0) break;
 
-			str = str.slice(0, i) +'.'+ str.slice(i+2, e)
-				+ str.slice(e+2);
+			s = s.slice(0, i) +'.'+ s.slice(i+2, e)
+				+ s.slice(e+2);
 			i = e-2;	// -3+1
 		}
 
-		return str;
+		return s;
 	}
 
 }
