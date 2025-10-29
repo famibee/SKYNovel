@@ -98,7 +98,7 @@
 		]
 	},
 	"publishConfig": {
-		"registry": "https://npm.pkg.github.com/",
+		"registry": "http://npm.pkg.github.com/",
 		"tag": "latest",
 		"access": "public",
 		"provenance": true
