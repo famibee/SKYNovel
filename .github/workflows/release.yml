@@ -5,7 +5,7 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  publish-npm:
     runs-on: ubuntu-latest
     permissions:
       id-token: write  # Required for OIDC
@@ -32,6 +32,7 @@ jobs:
         bun install
         bun test
 
+  # in Gihhub
     - name: 📜 Semantic Release
       run: bun run semantic-release
       env:
@@ -43,14 +44,7 @@ jobs:
       env:
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-  # publish-npm:
-  #   needs: build
-
-  #   runs-on: ubuntu-latest
-  #   permissions:
-  #     id-token: write  # Required for OIDC
-  #     contents: read
-  #   steps:
+  # in npmjs
     - name: 📜 Fetch the latest tag
       id: latest_tag
       run: |
@@ -61,20 +55,21 @@ jobs:
         ref: ${{steps.latest_tag.outputs.latest_tag}}
     - run: git log
 
-    - name: 🔧 Setup node 4 Semantic Release
-      uses: actions/setup-node@v6
-      with:
-        registry-url: https://registry.npmjs.org/
-        scope: '@famibee'
-        node-version: 'lts/*'
-    - name: 🔧 Setup
-      uses: oven-sh/setup-bun@v2
-      with:
-        registry-url: https://registry.npmjs.org/
-        scope: '@famibee'
+    # - name: 🔧 Setup node 4 Semantic Release
+    #   uses: actions/setup-node@v6
+    #   with:
+    #     registry-url: https://registry.npmjs.org/
+    #     scope: '@famibee'
+    #     node-version: 'lts/*'
+    # - name: 🔧 Setup
+    #   uses: oven-sh/setup-bun@v2
+    #   with:
+    #     registry-url: https://registry.npmjs.org/
+    #     scope: '@famibee'
 
-    - name: 📦 Install dependencies
-      run: bun install
+    # - name: 📦 Install dependencies
+    #   run: bun install
 
-    - name: 📦 Publish to NPM Registry (bunx, bun不可)
-      run: npx can-npm-publish --verbose && npm publish || echo "❌️ Does not publish"
+    - name: 📦 Publish to NPM Registry (in npmjs, bunx/bun不可)
+      run: npx can-npm-publish --verbose --registry https://registry.npmjs.org/ && npm publish --registry https://registry.npmjs.org/ || echo "❌️ Does not publish"
+      # run: npx can-npm-publish --verbose && npm publish || echo "❌️ Does not publish"
