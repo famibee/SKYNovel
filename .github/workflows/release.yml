@@ -45,6 +45,9 @@ jobs:
     needs: build
 
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Required for OIDC
+      contents: read
     steps:
       - name: 📜 Fetch the latest tag
         id: latest_tag
