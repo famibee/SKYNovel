@@ -4,6 +4,7 @@
 	"description": "webgl novelgame framework",
 	"author": "miyazawa famibee",
 	"publisher": "famibee",
+	"homepage": "http://famibee.blog38.fc2.com/",
 	"license": "MIT",
 	"main": "./dist/web.js",
 	"types": "./dist/index.d.ts",
@@ -105,6 +106,5 @@
 	"bugs": {
 		"url": "https://github.com/famibee/SKYNovel/issues",
 		"email": "famibee@gmail.com"
-	},
-	"homepage": "http://famibee.blog38.fc2.com/"
+	}
 }
