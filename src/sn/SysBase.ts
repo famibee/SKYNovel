@@ -26,7 +26,7 @@ export class SysBase implements ISysRoots, ISysBase {
 	protected async loaded(...[hPlg,]: T_SysBaseLoadedParams) {
 		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
 		delete hPlg.snsys_pre;
-		return await fncPre?.init({
+		return fncPre?.init({
 			getInfo: this.#getInfo,
 			addTag: ()=> { /* empty */ },
 			addLayCls: ()=> { /* empty */ },

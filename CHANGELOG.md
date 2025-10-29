@@ -1,3 +1,9 @@
+- fix: release.yml 手直し
+	- npm Trusted PublishingでOIDCを使ってトークンレスでCIからnpmパッケージを公開
+	- npm Provenance
+	- set-output 使用廃止
+
+
 # [1.63.0](https://github.com/famibee/SKYNovel/compare/v1.62.3...v1.63.0) (2025-10-28)
 
 
