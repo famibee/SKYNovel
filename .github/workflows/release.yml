@@ -30,6 +30,14 @@ jobs:
         bun install
         bun test
 
+    - name: Configure GPG
+      uses: crazy-max/ghaction-import-gpg@v6
+      with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.PASSPHRASE }}
+          git_user_signingkey: true
+          git_commit_gpgsign: true
+
     - name: 📜 Semantic Release
       run: npm run semantic-release
       env:
