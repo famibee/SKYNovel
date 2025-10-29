@@ -1,3 +1,10 @@
+## [1.63.12](https://github.com/famibee/SKYNovel/compare/v1.63.11...v1.63.12) (2025-10-29)
+
+
+### Bug Fixes
+
+* Publish to NPM Registry 手直し5 ([9986d85](https://github.com/famibee/SKYNovel/commit/9986d856170dedefd7f8cc68ccbe13e57a4fc356))
+
 ## [1.63.11](https://github.com/famibee/SKYNovel/compare/v1.63.10...v1.63.11) (2025-10-29)
 
 ：
