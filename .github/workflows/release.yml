@@ -9,7 +9,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write  # Required for OIDC
-      contents: read
+      contents: write
+      issues: write
+      pull-requests: write
     steps:
     - name: 📥 Checkout
       uses: actions/checkout@v5
