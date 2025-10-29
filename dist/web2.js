@@ -20917,7 +20917,7 @@ class SysBase {
   elc = new EventListenerCtn();
   async loaded(...[t]) {
     const e = t.snsys_pre;
-    return delete t.snsys_pre, await e?.init({
+    return delete t.snsys_pre, e?.init({
       getInfo: this.#r,
       addTag: () => {
       },
