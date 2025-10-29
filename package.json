@@ -99,6 +99,7 @@
 	},
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com/",
+		"scope": "@famibee",
 		"tag": "latest",
 		"access": "public",
 		"provenance": true
