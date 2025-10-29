@@ -70,6 +70,8 @@ jobs:
     # - name: 📦 Install dependencies
     #   run: bun install
 
+    # 1.63.16
+
     - name: 📦 Publish to NPM Registry (in npmjs, bunx/bun不可)
       run: npx can-npm-publish --verbose --registry https://registry.npmjs.org/ && npm publish --registry https://registry.npmjs.org/ || echo "❌️ Does not publish"
       # run: npx can-npm-publish --verbose && npm publish || echo "❌️ Does not publish"
