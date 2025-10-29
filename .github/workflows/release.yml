@@ -21,11 +21,6 @@ jobs:
       uses: oven-sh/setup-bun@v2
       with:
         registry-url: https://npm.pkg.github.com/
-    - name: 🔧 Setup node 4 Semantic Release
-      uses: actions/setup-node@v6
-      with:
-        registry-url: https://npm.pkg.github.com/
-        node-version: 'lts/*'
 
     - name: 📦 Install dependencies
       run: |
@@ -64,7 +59,7 @@ jobs:
       - name: 🔧 Setup
         uses: oven-sh/setup-bun@v2
         with:
-          registry-url: https://registry.npmjs.org/
+          registry-url: http://registry.npmjs.org/
           scope: '@famibee'
 
       - name: 📦 Install dependencies

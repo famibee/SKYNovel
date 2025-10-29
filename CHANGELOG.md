@@ -1,74 +1,8 @@
 ## [1.63.11](https://github.com/famibee/SKYNovel/compare/v1.63.10...v1.63.11) (2025-10-29)
 
-
-### Bug Fixes
+：
 
 * release.yml 手直し17 ([e753941](https://github.com/famibee/SKYNovel/commit/e75394193f535d82f93633185b94982881c8af72))
-
-## [1.63.10](https://github.com/famibee/SKYNovel/compare/v1.63.9...v1.63.10) (2025-10-29)
-
-
-### Bug Fixes
-
-* release.yml 手直し16 ([f0eb510](https://github.com/famibee/SKYNovel/commit/f0eb5100c9984f4392be23969f0c779fb8a90268))
-
-## [1.63.9](https://github.com/famibee/SKYNovel/compare/v1.63.8...v1.63.9) (2025-10-29)
-
-
-### Bug Fixes
-
-* release.yml 手直し15 ([86dbcb2](https://github.com/famibee/SKYNovel/commit/86dbcb2f5e36cfdca07db828e31139f8af28cf0b))
-
-## [1.63.8](https://github.com/famibee/SKYNovel/compare/v1.63.7...v1.63.8) (2025-10-29)
-
-
-### Bug Fixes
-
-* release.yml 手直し14 ([f003b8f](https://github.com/famibee/SKYNovel/commit/f003b8f612125a7a400f0165bc0c3c839d05766e))
-
-## [1.63.7](https://github.com/famibee/SKYNovel/compare/v1.63.6...v1.63.7) (2025-10-29)
-
-
-### Bug Fixes
-
-* release.yml 手直し13 ([afa3e3e](https://github.com/famibee/SKYNovel/commit/afa3e3e2a96b7675ac99e50495bd6db44844d11a))
-
-## [1.63.6](https://github.com/famibee/SKYNovel/compare/v1.63.5...v1.63.6) (2025-10-29)
-
-
-### Bug Fixes
-
-* release.yml 手直し12 ([386d0a7](https://github.com/famibee/SKYNovel/commit/386d0a764eabc9baa0a8d822ef6c79cbdd3d7c5f))
-
-## [1.63.5](https://github.com/famibee/SKYNovel/compare/v1.63.4...v1.63.5) (2025-10-29)
-
-
-### Bug Fixes
-
-* release.yml 手直し11 ([3596de3](https://github.com/famibee/SKYNovel/commit/3596de308947d84db767a7e43698081bb4502667))
-
-## [1.63.4](https://github.com/famibee/SKYNovel/compare/v1.63.3...v1.63.4) (2025-10-29)
-
-
-### Bug Fixes
-
-* release.yml 手直し10 ([013be19](https://github.com/famibee/SKYNovel/commit/013be1957187c4ac3f3336146b0fef3f208b1492))
-
-## [1.63.3](https://github.com/famibee/SKYNovel/compare/v1.63.2...v1.63.3) (2025-10-29)
-
-
-### Bug Fixes
-
-* release.yml 手直し7 ([14b066c](https://github.com/famibee/SKYNovel/commit/14b066cd9b666b95399c9d656ac71de419accd27))
-* release.yml 手直し8 ([be1f317](https://github.com/famibee/SKYNovel/commit/be1f3178020387a60916189d13a28a1d14b49728))
-* release.yml 手直し9 ([60c292f](https://github.com/famibee/SKYNovel/commit/60c292fd7d4b9ffdb4eed404d7c99dcdfe8d6c18))
-
-## [1.63.2](https://github.com/famibee/SKYNovel/compare/v1.63.1...v1.63.2) (2025-10-29)
-
-
-### Bug Fixes
-
-* release.yml 手直し6 ([d55a613](https://github.com/famibee/SKYNovel/commit/d55a61349fdf836deaac985f905a99ad2f7bf9c3))
 
 ## [1.63.1](https://github.com/famibee/SKYNovel/compare/v1.63.0...v1.63.1) (2025-10-29)
 
@@ -76,10 +10,6 @@
 ### Bug Fixes
 
 * release.yml 手直し ([5605015](https://github.com/famibee/SKYNovel/commit/5605015a71e7a3ff1d50582b79e237149142c4e5))
-* release.yml 手直し2 ([bf4d82f](https://github.com/famibee/SKYNovel/commit/bf4d82fd63a63c2483fbc10be81bd3bda66827bc))
-* release.yml 手直し3 ([f2589e3](https://github.com/famibee/SKYNovel/commit/f2589e395c4b6a66ea2ea3363d884cc1161f28e3))
-* release.yml 手直し4 ([d282bbb](https://github.com/famibee/SKYNovel/commit/d282bbbcba28c033380ec4a80cc48446b6f778d1))
-* release.yml 手直し5 ([28dbee4](https://github.com/famibee/SKYNovel/commit/28dbee4af59ac04d69711a12ef1fced028f83162))
 
 - fix: release.yml 手直し
 	- npm Trusted PublishingでOIDCを使ってトークンレスでCIからnpmパッケージを公開
