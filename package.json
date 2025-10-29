@@ -1,6 +1,6 @@
 {
 	"name": "@famibee/skynovel",
-	"version": "1.63.6",
+	"version": "1.63.5",
 	"description": "webgl novelgame framework",
 	"author": "miyazawa famibee",
 	"publisher": "famibee",
@@ -99,6 +99,7 @@
 	"publishConfig": {
 		"registry": "https://npm.pkg.github.com/",
 		"tag": "latest",
+		"access": "public",
 		"provenance": true
 	},
 	"bugs": {
