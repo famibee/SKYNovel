@@ -1,3 +1,10 @@
+## [1.63.8](https://github.com/famibee/SKYNovel/compare/v1.63.7...v1.63.8) (2025-10-29)
+
+
+### Bug Fixes
+
+* release.yml 手直し14 ([f003b8f](https://github.com/famibee/SKYNovel/commit/f003b8f612125a7a400f0165bc0c3c839d05766e))
+
 ## [1.63.7](https://github.com/famibee/SKYNovel/compare/v1.63.6...v1.63.7) (2025-10-29)
 
 
