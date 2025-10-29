@@ -1,3 +1,14 @@
+## [1.63.1](https://github.com/famibee/SKYNovel/compare/v1.63.0...v1.63.1) (2025-10-29)
+
+
+### Bug Fixes
+
+* release.yml 手直し ([5605015](https://github.com/famibee/SKYNovel/commit/5605015a71e7a3ff1d50582b79e237149142c4e5))
+* release.yml 手直し2 ([bf4d82f](https://github.com/famibee/SKYNovel/commit/bf4d82fd63a63c2483fbc10be81bd3bda66827bc))
+* release.yml 手直し3 ([f2589e3](https://github.com/famibee/SKYNovel/commit/f2589e395c4b6a66ea2ea3363d884cc1161f28e3))
+* release.yml 手直し4 ([d282bbb](https://github.com/famibee/SKYNovel/commit/d282bbbcba28c033380ec4a80cc48446b6f778d1))
+* release.yml 手直し5 ([28dbee4](https://github.com/famibee/SKYNovel/commit/28dbee4af59ac04d69711a12ef1fced028f83162))
+
 - fix: release.yml 手直し
 	- npm Trusted PublishingでOIDCを使ってトークンレスでCIからnpmパッケージを公開
 	- npm Provenance
