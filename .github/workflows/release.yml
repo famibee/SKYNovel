@@ -39,7 +39,7 @@ jobs:
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     - name: 📦 Publish to NPM Registry (in Gihhub)
-      run: bunx can-npm-publish --verbose && bun publish --provenance || echo "Does not publish"
+      run: bunx can-npm-publish --verbose && bun publish --provenance --access public || echo "Does not publish"
       env:
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
