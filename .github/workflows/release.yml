@@ -18,20 +18,31 @@ jobs:
     - name: 📥 Checkout
       uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
 
-    - name: 🔧 Setup
+    - name: 🔧 Setup bun
       uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
       with:
         registry-url: https://npm.pkg.github.com/
+
+    - name: 🔧 Get node_modules cache
+      id: cache-restore
+      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      with:
+        path: node_modules
+        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+        restore-keys: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+    - name: 📦 Install dependencies
+      run: |
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        bun install --frozen-lockfile
+    - run: bun test
+
     - name: 🔧 Setup node 4 Semantic Release (内部で使用、削除不可)
       uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
       with:
         registry-url: https://npm.pkg.github.com/
         node-version: 'lts/*'
-
-    - name: 📦 Install dependencies
-      run: |
-        bun install
-        bun test
+        cache: npm
+        cache-dependency-path: package-lock.json
 
     - name: 🔧 get-next-version
       run: npx semantic-release --dry-run
@@ -52,7 +63,6 @@ jobs:
 
     outputs:
       nr-published: ${{steps.srdr.outputs.new-release-published}}
-      nr-version: ${{steps.srdr.outputs.new-release-version}}
       nr-git-tag: ${{steps.srdr.outputs.new-release-git-tag}}
 
 
@@ -66,27 +76,37 @@ jobs:
 
     if: needs.pub4gh.outputs.nr-published == 'true'
     steps:
-      - run: echo "The new release version is ${{needs.pub4gh.outputs.nr-version}}"
-      - run: echo "The new release git tag is ${{needs.pub4gh.outputs.nr-git-tag}}"
+      # - run: echo "The new release git tag is ${{needs.pub4gh.outputs.nr-git-tag}}"
 
-      - name: 📜 Fetch the latest tag
+      - name: 📥  Fetch the latest tag & Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           ref: ${{needs.pub4gh.outputs.nr-git-tag}}
       - run: git log
+
+      - name: 🔧 Setup bun
+        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
+        with:
+          registry-url: https://registry.npmjs.org/
+
+      - name: 🔧 Get node_modules cache
+        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          restore-keys: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+      - name: 📦 Install dependencies
+        run: |
+          if: steps.cache-restore.outputs.cache-hit != 'true'
+          bun install --frozen-lockfile
 
       - name: 🔧 Setup node 4 Semantic Release
         uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
         with:
           registry-url: https://registry.npmjs.org/
           node-version: 'lts/*'
-      - name: 🔧 Setup
-        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
-        with:
-          registry-url: https://registry.npmjs.org/
-
-      - name: 📦 Install dependencies
-        run: bun install
+          cache: npm
+          cache-dependency-path: package-lock.json
 
       - name: 📦 Publish to NPM Registry (npmjs)
         run: npx can-npm-publish --verbose && npm publish || echo "❌️ Does not publish"

@@ -1,41 +1,5 @@
 ## [1.63.22](https://github.com/famibee/SKYNovel/compare/v1.63.21...v1.63.22) (2025-10-30)
 
-
-### Bug Fixes
-
-* pinact ([6464bf3](https://github.com/famibee/SKYNovel/commit/6464bf33dc15e75eae195caf5685ad23b2f40832))
-
-## [1.63.21](https://github.com/famibee/SKYNovel/compare/v1.63.20...v1.63.21) (2025-10-30)
-
-
-### Bug Fixes
-
-* pub4npm3 ([dc08291](https://github.com/famibee/SKYNovel/commit/dc082914223ef38214b92090bef438d6528b94db))
-
-## [1.63.20](https://github.com/famibee/SKYNovel/compare/v1.63.19...v1.63.20) (2025-10-30)
-
-
-### Bug Fixes
-
-* pub4npm2 ([f3af21c](https://github.com/famibee/SKYNovel/commit/f3af21cfdb8aa23f55d8cfd3b22d816832018d14))
-
-## [1.63.19](https://github.com/famibee/SKYNovel/compare/v1.63.18...v1.63.19) (2025-10-30)
-
-
-### Bug Fixes
-
-* pub4npm1 ([a68f3dd](https://github.com/famibee/SKYNovel/commit/a68f3ddddad6effeb6f0f6a65c881a20fb54b009))
-
-## [1.63.18](https://github.com/famibee/SKYNovel/compare/v1.63.17...v1.63.18) (2025-10-30)
-
-
-### Bug Fixes
-
-* semantic-release-export-data1 ([8e685a5](https://github.com/famibee/SKYNovel/commit/8e685a593f8e3753bd5ab27bdad783d5c81364d2))
-* semantic-release-export-data2 ([24397fb](https://github.com/famibee/SKYNovel/commit/24397fbe5b905467feca79ce2c56394336371831))
-
-## [1.63.17](https://github.com/famibee/SKYNovel/compare/v1.63.16...v1.63.17) (2025-10-29)
-
 ：
 
 * release.yml 手直し17 ([e753941](https://github.com/famibee/SKYNovel/commit/e75394193f535d82f93633185b94982881c8af72))
