@@ -29,7 +29,6 @@ jobs:
       with:
         path: node_modules
         key: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
-        restore-keys: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
     - name: 📦 Install dependencies
       if: steps.cache-restore.outputs.cache-hit != 'true'
       run: bun install --frozen-lockfile
@@ -93,7 +92,6 @@ jobs:
         with:
           path: node_modules
           key: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
-          restore-keys: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
       - name: 📦 Install dependencies
         if: steps.cache-restore.outputs.cache-hit != 'true'
         run: bun install --frozen-lockfile
