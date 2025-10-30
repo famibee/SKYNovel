@@ -28,12 +28,12 @@ jobs:
       uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
       with:
         path: node_modules
-        key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
-        restore-keys: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+        key: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
+        restore-keys: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
     - name: 📦 Install dependencies
-      run: |
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        bun install --frozen-lockfile
+      if: steps.cache-restore.outputs.cache-hit != 'true'
+      run: bun install --frozen-lockfile
+
     - run: bun test
 
     - name: 🔧 Setup node 4 Semantic Release (内部で使用、削除不可)
@@ -90,15 +90,15 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - name: 🔧 Get node_modules cache
+        id: cache-restore
         uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
         with:
           path: node_modules
-          key: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
-          restore-keys: ${{ runner.os }}-bun-${{ hashFiles('bun.lock') }}
+          key: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
+          restore-keys: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
       - name: 📦 Install dependencies
-        run: |
-          if: steps.cache-restore.outputs.cache-hit != 'true'
-          bun install --frozen-lockfile
+        if: steps.cache-restore.outputs.cache-hit != 'true'
+        run: bun install --frozen-lockfile
 
       - name: 🔧 Setup node 4 Semantic Release
         uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
