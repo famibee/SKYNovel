@@ -1,27 +1,5 @@
 ## [1.63.25](https://github.com/famibee/SKYNovel/compare/v1.63.24...v1.63.25) (2025-10-30)
 
-
-### Bug Fixes
-
-* actions/setup-node・bun installで cache4 ([da5f7ba](https://github.com/famibee/SKYNovel/commit/da5f7bab093164fadd6c00d0cfb6e173f76cf96b))
-
-## [1.63.24](https://github.com/famibee/SKYNovel/compare/v1.63.23...v1.63.24) (2025-10-30)
-
-
-### Bug Fixes
-
-* actions/setup-node・bun installで cache3 ([134c3e8](https://github.com/famibee/SKYNovel/commit/134c3e8336ed7b98d1d5f0fbc0d4aa4e6d2f59e4))
-
-## [1.63.23](https://github.com/famibee/SKYNovel/compare/v1.63.22...v1.63.23) (2025-10-30)
-
-
-### Bug Fixes
-
-* actions/setup-node・bun installで cache ([efbc1cc](https://github.com/famibee/SKYNovel/commit/efbc1cc0b9d782b397ce8703c43e3308c9f64d5e))
-* actions/setup-node・bun installで cache2 ([10ea5ed](https://github.com/famibee/SKYNovel/commit/10ea5ede802ca9a4bf737fc1b5d61cbc4d52daaa))
-
-## [1.63.22](https://github.com/famibee/SKYNovel/compare/v1.63.21...v1.63.22) (2025-10-30)
-
 ：
 
 * release.yml 手直し17 ([e753941](https://github.com/famibee/SKYNovel/commit/e75394193f535d82f93633185b94982881c8af72))
