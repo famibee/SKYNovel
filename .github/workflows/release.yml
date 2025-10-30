@@ -72,8 +72,7 @@ jobs:
       - name: 📜 Fetch the latest tag
         uses: actions/checkout@v5
         with:
-          ref: ${{needs.pub4gh.outputs.nr-version}}
-
+          ref: ${{needs.pub4gh.outputs.nr-git-tag}}
       - run: git log
 
       - name: 🔧 Setup node 4 Semantic Release
