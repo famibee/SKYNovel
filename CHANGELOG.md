@@ -1,3 +1,10 @@
+## [1.63.22](https://github.com/famibee/SKYNovel/compare/v1.63.21...v1.63.22) (2025-10-30)
+
+
+### Bug Fixes
+
+* pinact ([6464bf3](https://github.com/famibee/SKYNovel/commit/6464bf33dc15e75eae195caf5685ad23b2f40832))
+
 ## [1.63.21](https://github.com/famibee/SKYNovel/compare/v1.63.20...v1.63.21) (2025-10-30)
 
 
