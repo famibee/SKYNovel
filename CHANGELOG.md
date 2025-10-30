@@ -1,3 +1,11 @@
+## [1.63.18](https://github.com/famibee/SKYNovel/compare/v1.63.17...v1.63.18) (2025-10-30)
+
+
+### Bug Fixes
+
+* semantic-release-export-data1 ([8e685a5](https://github.com/famibee/SKYNovel/commit/8e685a593f8e3753bd5ab27bdad783d5c81364d2))
+* semantic-release-export-data2 ([24397fb](https://github.com/famibee/SKYNovel/commit/24397fbe5b905467feca79ce2c56394336371831))
+
 ## [1.63.17](https://github.com/famibee/SKYNovel/compare/v1.63.16...v1.63.17) (2025-10-29)
 
 ：
