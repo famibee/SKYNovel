@@ -76,8 +76,6 @@ jobs:
 
     if: needs.pub4gh.outputs.nr-published == 'true'
     steps:
-      # - run: echo "The new release git tag is ${{needs.pub4gh.outputs.nr-git-tag}}"
-
       - name: 📥  Fetch the latest tag & Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
