@@ -79,13 +79,11 @@ jobs:
         uses: actions/setup-node@v6
         with:
           registry-url: https://registry.npmjs.org/
-          scope: '@famibee'
           node-version: 'lts/*'
       - name: 🔧 Setup
         uses: oven-sh/setup-bun@v2
         with:
           registry-url: https://registry.npmjs.org/
-          scope: '@famibee'
 
       - name: 📦 Install dependencies
         run: bun install
