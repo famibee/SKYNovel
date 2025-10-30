@@ -1,3 +1,10 @@
+## [1.63.20](https://github.com/famibee/SKYNovel/compare/v1.63.19...v1.63.20) (2025-10-30)
+
+
+### Bug Fixes
+
+* pub4npm2 ([f3af21c](https://github.com/famibee/SKYNovel/commit/f3af21cfdb8aa23f55d8cfd3b22d816832018d14))
+
 ## [1.63.19](https://github.com/famibee/SKYNovel/compare/v1.63.18...v1.63.19) (2025-10-30)
 
 
