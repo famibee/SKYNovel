@@ -1,47 +1,5 @@
 ## [1.63.17](https://github.com/famibee/SKYNovel/compare/v1.63.16...v1.63.17) (2025-10-29)
 
-
-### Bug Fixes
-
-* Publish to NPM Registry 手直し10 ([3a5e68e](https://github.com/famibee/SKYNovel/commit/3a5e68e22e41090b170bcde0673cc10da1102e3c))
-
-## [1.63.16](https://github.com/famibee/SKYNovel/compare/v1.63.15...v1.63.16) (2025-10-29)
-
-
-### Bug Fixes
-
-* Publish to NPM Registry 手直し9 ([1b34909](https://github.com/famibee/SKYNovel/commit/1b3490915454b3d9f684633959f434bb2adbeee9))
-
-## [1.63.15](https://github.com/famibee/SKYNovel/compare/v1.63.14...v1.63.15) (2025-10-29)
-
-
-### Bug Fixes
-
-* Publish to NPM Registry 手直し8 ([90aa634](https://github.com/famibee/SKYNovel/commit/90aa634012e55d29755bc1936116e10aeaade2a6))
-
-## [1.63.14](https://github.com/famibee/SKYNovel/compare/v1.63.13...v1.63.14) (2025-10-29)
-
-
-### Bug Fixes
-
-* Publish to NPM Registry 手直し7 ([106a711](https://github.com/famibee/SKYNovel/commit/106a71189e659fc5ed85a4eeff7bf6deca583404))
-
-## [1.63.13](https://github.com/famibee/SKYNovel/compare/v1.63.12...v1.63.13) (2025-10-29)
-
-
-### Bug Fixes
-
-* Publish to NPM Registry 手直し6 ([60d5113](https://github.com/famibee/SKYNovel/commit/60d51131790cb3e52a1afca730574a6f48e6ebe3))
-
-## [1.63.12](https://github.com/famibee/SKYNovel/compare/v1.63.11...v1.63.12) (2025-10-29)
-
-
-### Bug Fixes
-
-* Publish to NPM Registry 手直し5 ([9986d85](https://github.com/famibee/SKYNovel/commit/9986d856170dedefd7f8cc68ccbe13e57a4fc356))
-
-## [1.63.11](https://github.com/famibee/SKYNovel/compare/v1.63.10...v1.63.11) (2025-10-29)
-
 ：
 
 * release.yml 手直し17 ([e753941](https://github.com/famibee/SKYNovel/commit/e75394193f535d82f93633185b94982881c8af72))
