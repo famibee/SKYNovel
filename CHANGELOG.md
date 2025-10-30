@@ -1,3 +1,10 @@
+## [1.63.25](https://github.com/famibee/SKYNovel/compare/v1.63.24...v1.63.25) (2025-10-30)
+
+
+### Bug Fixes
+
+* actions/setup-node・bun installで cache4 ([da5f7ba](https://github.com/famibee/SKYNovel/commit/da5f7bab093164fadd6c00d0cfb6e173f76cf96b))
+
 ## [1.63.24](https://github.com/famibee/SKYNovel/compare/v1.63.23...v1.63.24) (2025-10-30)
 
 
