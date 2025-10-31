@@ -1,23 +1,17 @@
-## [1.63.28](https://github.com/famibee/SKYNovel/compare/v1.63.27...v1.63.28) (2025-10-31)
+- feat: release.yml 手直し2
+	- actions のバージョンアップ
+	- npm Trusted Publishing で npm パッケージ公開に移行
+	- secrets.NPM_TOKEN への依存削除
+	- npmjs へのリリースが止まっていたのを回復（cjs版のみ）
+	- GitHub ActionsのSHA Pinを行った
+		- また、GitHubリポジトリの"Require actions to be pinned to a full-length commit SHA”を有効に
+	- actions/setup-nodeで cache
+	- node_modulesで cache
+- fix: その他細かい手直し
 
 
-### Bug Fixes
+：（試行錯誤中の過程に付き省略）
 
-* FgPATs 2 ([55d342a](https://github.com/famibee/SKYNovel/commit/55d342a8db392bd175552b503d3bc2a9c47555c4))
-
-## [1.63.27](https://github.com/famibee/SKYNovel/compare/v1.63.26...v1.63.27) (2025-10-31)
-
-
-### Bug Fixes
-
-：
-
-* release.yml 手直し17 ([e753941](https://github.com/famibee/SKYNovel/commit/e75394193f535d82f93633185b94982881c8af72))
-
-## [1.63.1](https://github.com/famibee/SKYNovel/compare/v1.63.0...v1.63.1) (2025-10-29)
-
-
-### Bug Fixes
 
 * release.yml 手直し ([5605015](https://github.com/famibee/SKYNovel/commit/5605015a71e7a3ff1d50582b79e237149142c4e5))
 

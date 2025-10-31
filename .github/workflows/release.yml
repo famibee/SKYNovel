@@ -21,7 +21,9 @@ jobs:
     - name: 🔧 Setup bun
       uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
       with:
-        registry-url: https://npm.pkg.github.com/
+        registries: |
+          https://registry.npmjs.org/
+          @famibee:https://npm.pkg.github.com/|$GITHUB_TOKEN
 
     - name: 🔧 Get node_modules cache
       id: cache-restore
@@ -31,6 +33,8 @@ jobs:
         key: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
     - name: 📦 Install dependencies
       if: steps.cache-restore.outputs.cache-hit != 'true'
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       run: bun install --frozen-lockfile
 
     - run: bun test
@@ -43,67 +47,11 @@ jobs:
         cache: npm
         cache-dependency-path: package-lock.json
 
-    - name: 🔧 get-next-version
-      run: npx semantic-release --dry-run
-      id: srdr
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
     - name: 📜 Semantic Release
       run: bun run semantic-release
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-    - name: 📦 Publish to NPM Registry (Gihhub)
-      run: bunx can-npm-publish --verbose && bun publish || echo "Does not publish"
-      env:
-        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
-
-    outputs:
-      nr-published: ${{steps.srdr.outputs.new-release-published}}
-      nr-git-tag: ${{steps.srdr.outputs.new-release-git-tag}}
-
-
-  pub4npm:
-    needs: pub4gh
-
-    runs-on: ubuntu-latest
-    permissions:
-      id-token: write  # Required for OIDC
-      contents: read
-
-    if: needs.pub4gh.outputs.nr-published == 'true'
-    steps:
-      - name: 📥  Fetch the latest tag & Checkout
-        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
-        with:
-          ref: ${{needs.pub4gh.outputs.nr-git-tag}}
-      - run: git log
-
-      - name: 🔧 Setup bun
-        uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
-        with:
-          registry-url: https://registry.npmjs.org/
-
-      - name: 🔧 Get node_modules cache
-        id: cache-restore
-        uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
-        with:
-          path: node_modules
-          key: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
-      - name: 📦 Install dependencies
-        if: steps.cache-restore.outputs.cache-hit != 'true'
-        run: bun install --frozen-lockfile
-
-      - name: 🔧 Setup node 4 Semantic Release
-        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
-        with:
-          registry-url: https://registry.npmjs.org/
-          node-version: 'lts/*'
-          cache: npm
-          cache-dependency-path: package-lock.json
-
-      - name: 📦 Publish to NPM Registry (npmjs)
-        run: npx can-npm-publish --verbose && npm publish || echo "❌️ Does not publish"
-        # run: bunx can-npm-publish --verbose && bun publish || echo "❌️ Does not publish"
+    - name: 📦 Publish to NPM Registry
+      run: bun publish || echo "ok."
