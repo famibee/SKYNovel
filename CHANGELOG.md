@@ -1,3 +1,10 @@
+# [1.64.0](https://github.com/famibee/SKYNovel/compare/v1.63.28...v1.64.0) (2025-10-31)
+
+
+### Features
+
+* release.yml 手直し2 ([9288a2c](https://github.com/famibee/SKYNovel/commit/9288a2ca2ff22de993ef0d89977d7b0a2dc07a4a))
+
 - feat: release.yml 手直し2
 	- actions のバージョンアップ
 	- npm Trusted Publishing で npm パッケージ公開に移行
