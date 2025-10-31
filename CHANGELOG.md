@@ -1,3 +1,10 @@
+## [1.63.27](https://github.com/famibee/SKYNovel/compare/v1.63.26...v1.63.27) (2025-10-31)
+
+
+### Bug Fixes
+
+* FgPATs ([71c31c7](https://github.com/famibee/SKYNovel/commit/71c31c789cdf17d7d8340d4a25f21c24fddb1522))
+
 ## [1.63.26](https://github.com/famibee/SKYNovel/compare/v1.63.25...v1.63.26) (2025-10-30)
 
 ：
