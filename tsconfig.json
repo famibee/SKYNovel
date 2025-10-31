@@ -7,7 +7,6 @@
 
 		/* Bundler mode */
 		"moduleResolution": "node",
-		// "moduleResolution": "bundler",
 		"esModuleInterop": true,	// CommonJS/AMD/UMD モジュールを ES6 モジュールと同様に扱う
 			// pixi.js 6.1.0以降必須
 		"resolveJsonModule": true,	// JSON ファイルの型検証、json をインポートできるように

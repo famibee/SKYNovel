@@ -6,7 +6,6 @@
 ![npm type definitions](https://img.shields.io/npm/types/skynovel)
 
 [![Build Status](https://app.travis-ci.com/famibee/SKYNovel.svg?branch=master)](https://app.travis-ci.com/famibee/SKYNovel)
-[![Maintainability](https://api.codeclimate.com/v1/badges/228e91311459ce3f7e10/maintainability)](https://codeclimate.com/github/famibee/SKYNovel/maintainability)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/famibee/skynovel)
 ![GitHub Release Date](https://img.shields.io/github/release-date/famibee/skynovel)
 ![Release package](https://github.com/famibee/SKYNovel/workflows/Release%20package/badge.svg)
