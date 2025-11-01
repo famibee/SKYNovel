@@ -9,12 +9,12 @@
 
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/famibee/skynovel?color=brightgreen)
 ![GitHub last commit](https://img.shields.io/github/last-commit/famibee/skynovel)
-![Release package](https://github.com/famibee/SKYNovel/workflows/Release%20package/badge.svg)
-
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/famibee/skynovel)
-![GitHub Release Date](https://img.shields.io/github/release-date/famibee/skynovel)
 ![npm type definitions](https://img.shields.io/npm/types/@famibee/skynovel)
 [![semantic-release: angular](https://img.shields.io/badge/semantic--release-angular-e10079?logo=semantic-release)](https://github.com/semantic-release/semantic-release)
+
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/famibee/skynovel)
+![Release package](https://github.com/famibee/SKYNovel/workflows/Release%20package/badge.svg)
+![GitHub Release Date](https://img.shields.io/github/release-date/famibee/skynovel)
 
 ![NodeJs](https://img.shields.io/badge/Node%20js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 ![electron](https://img.shields.io/badge/Electron-2B2E3A?style=for-the-badge&logo=electron&logoColor=9FEAF9)

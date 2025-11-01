@@ -1,3 +1,6 @@
+- fix: release.yml 手直し3、bun update 確認中1
+
+
 # [1.64.0](https://github.com/famibee/SKYNovel/compare/v1.63.28...v1.64.0) (2025-10-31)
 
 

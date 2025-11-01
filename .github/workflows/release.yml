@@ -1,11 +1,11 @@
-name: "Release package"
+name: "Publish"
 
 on:
   push:
     branches: [ master ]
 
 jobs:
-  pub4gh:
+  Publish:
     runs-on: ubuntu-latest
     permissions:
       id-token: write  # Required for OIDC
@@ -20,10 +20,6 @@ jobs:
 
     - name: 🔧 Setup bun
       uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
-      with:
-        registries: |
-          https://registry.npmjs.org/
-          @famibee:https://npm.pkg.github.com/|$GITHUB_TOKEN
 
     - name: 🔧 Get node_modules cache
       id: cache-restore
@@ -33,8 +29,6 @@ jobs:
         key: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
     - name: 📦 Install dependencies
       if: steps.cache-restore.outputs.cache-hit != 'true'
-      env:
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       run: bun install --frozen-lockfile
 
     - run: bun test
@@ -42,16 +36,19 @@ jobs:
     - name: 🔧 Setup node 4 Semantic Release (内部で使用、削除不可)
       uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
       with:
-        registry-url: https://npm.pkg.github.com/
         node-version: 'lts/*'
-        cache: npm
-        cache-dependency-path: package-lock.json
-
     - name: 📜 Semantic Release
       run: bun run semantic-release
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
         NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
-    - name: 📦 Publish to NPM Registry
-      run: bun publish || echo "ok."
+    - name: 📦 Publish to NPM Registry (Gihhub)
+      run: |
+        bunx can-npm-publish --verbose
+        bun publish --registry https://npm.pkg.github.com/ || echo "ok ✅"
+      env:
+        NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    - name: 📦 Publish to NPM Registry (npmjs)
+      run: bun publish --registry https://registry.npmjs.org/ || echo "ok ✅"
