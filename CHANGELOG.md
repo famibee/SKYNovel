@@ -1,3 +1,10 @@
+## [1.64.7](https://github.com/famibee/SKYNovel/compare/v1.64.6...v1.64.7) (2025-11-01)
+
+
+### Bug Fixes
+
+* semantic-release1 ([a88b189](https://github.com/famibee/SKYNovel/commit/a88b189e3b605222372a5f9dfc6bd070244625f7))
+
 ## [1.64.6](https://github.com/famibee/SKYNovel/compare/v1.64.5...v1.64.6) (2025-11-01)
 
 
