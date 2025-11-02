@@ -1,3 +1,10 @@
+## [1.64.8](https://github.com/famibee/SKYNovel/compare/v1.64.7...v1.64.8) (2025-11-02)
+
+
+### Bug Fixes
+
+* 画像から生成するタイプの [button] を含む[trans]が終了しなくなる件 ([b446fe5](https://github.com/famibee/SKYNovel/commit/b446fe5fe322976b33de66b793f69bb1dfc85926))
+
 - fix: 画像から生成するタイプの [button] を含む[trans]が終了しなくなる件
 
 
