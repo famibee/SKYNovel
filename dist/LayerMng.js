@@ -1283,7 +1283,7 @@ class z extends W {
         (l) => {
           this.#c(l), this.#n.width = l.width * this.#t.scale_x, this.#n.height = l.height * this.#t.scale_y;
         },
-        (l) => s
+        (l) => s()
       );
       return;
     }

@@ -103,7 +103,7 @@ export class Button extends Container {
 		// == 画像から生成
 		if (hArg.pic) {
 			this.#o.type = 'pic';	// dump用
-//			this.#idc = new PicBtnDesignCast(this, hArg);
+			// this.#idc = new PicBtnDesignCast(this, hArg);
 
 			this.#sps = new SpritesMng(
 				hArg.pic,
@@ -113,7 +113,7 @@ export class Button extends Container {
 					this.#rctBtnTxt.width  = sp.width  * this.#o.scale_x;
 					this.#rctBtnTxt.height = sp.height * this.#o.scale_y;
 				},
-				_isStop=> resolve,
+				_isStop=> resolve(),
 			);
 			return;
 		}

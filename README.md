@@ -1,5 +1,5 @@
 # SKYNovel
-[![MIT](https://img.shields.io/badge/MIT-green?style=for-the-badge)](https://github.com/famibee/skynovel_esm/blob/master/LICENSE)
+[![MIT](https://img.shields.io/badge/MIT-green?style=for-the-badge)](LICENSE)
 ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
 ![Google chrome](https://img.shields.io/badge/Google_chrome-4285F4?style=for-the-badge&logo=Google-chrome&logoColor=white)

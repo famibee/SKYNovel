@@ -632,8 +632,8 @@ void main() {
 				Reading.notifyEndProc(TMP_TSY_NM + TW_INT_TRANS);
 			});
 		};
-//		hArg[':id'] = pg.fore.name.slice(0, -7);
-//		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
+		// hArg[':id'] = pg.fore.name.slice(0, -7);
+		// this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
 		this.#spTransFore.filters = [];
 		this.#spTransFore.alpha = 1;
 
