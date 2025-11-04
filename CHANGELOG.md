@@ -1,3 +1,6 @@
+- fix: 暗号化画像のロード処理が終了しない件
+
+
 ## [1.64.8](https://github.com/famibee/SKYNovel/compare/v1.64.7...v1.64.8) (2025-11-02)
 
 

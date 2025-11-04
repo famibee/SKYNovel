@@ -125,10 +125,7 @@ export class SpritesMng {
 
 		const aComp: {fn: string, fnc: IFncCompSpr}[] = [];
 		const ldr = new Loader;
-		const a = csv.split(',');
-		const len = a.length;
-		for (let i=0; i<len; ++i) {
-			const fn0 = a[i];
+		for (const fn0 of csv.split(',')) {
 			if (! fn0) throw 'face属性に空要素が含まれます';
 
 			// 差分絵を重ねる
@@ -138,14 +135,13 @@ export class SpritesMng {
 				dy	: 0,
 				blendmode	: BLEND_MODES.NORMAL
 			};
-			const fnc = i === 0 ?fncFirstComp :(sp: Sprite)=> {
+			aComp.push({fn, fnc: sp=> {
 				// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 				if (! sp.transform) return;	// エラー予防
 				sp.x = dx;
 				sp.y = dy;
 				sp.blendMode = blendmode;
-			};
-			aComp.push({fn, fnc});
+			}});
 
 			if (fn in SpritesMng.#hFn2ResAniSpr) continue;
 			if (fn in utils.TextureCache) continue;
@@ -172,6 +168,8 @@ export class SpritesMng {
 			: {};
 			ldr.add({...xt, name: fn, url});
 		}
+		const comp1 = aComp.at(0);
+		if (comp1) comp1.fnc = fncFirstComp;
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 		const fncLoaded = (_: any, hRes: {[fn: string]: LoaderResource})=> {
@@ -244,9 +242,9 @@ export class SpritesMng {
 				// res.texture = Texture.from(r);
 					// でも良いが、キャッシュ追加と、それでcsv2Sprites()内で使用するので
 				res.type = LoaderResource.TYPE.IMAGE;
-	//			URL.revokeObjectURL(r.src);	// TODO: キャッシュ破棄
-
+				// URL.revokeObjectURL(r.src);	// TODO: キャッシュ破棄
 			});
+			next();
 			return;
 		}
 

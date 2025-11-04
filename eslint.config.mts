@@ -55,6 +55,7 @@ export default defineConfig([
 		rules: {
 			// 未使用変数チェックの回避 _
 			'no-unused-vars': 'off',	// VSC がやるので
+			'no-unused-private-class-members': 'off',
 			'@typescript-eslint/no-unused-vars': 'off',
 			'no-extra-semi': 'warn',	// セミコロン ; の重複
 			'quotes': ['warn', 'single'],
