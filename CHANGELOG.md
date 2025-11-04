@@ -1,3 +1,10 @@
+## [1.64.9](https://github.com/famibee/SKYNovel/compare/v1.64.8...v1.64.9) (2025-11-04)
+
+
+### Bug Fixes
+
+* 暗号化画像のロード処理が終了しない件 ([58a6f35](https://github.com/famibee/SKYNovel/commit/58a6f35ed2f5c9655fc1eb5c02a77e5d2caf3087))
+
 - fix: 暗号化画像のロード処理が終了しない件
 
 
