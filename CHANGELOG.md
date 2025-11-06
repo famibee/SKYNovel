@@ -1,3 +1,10 @@
+## [1.64.10](https://github.com/famibee/SKYNovel/compare/v1.64.9...v1.64.10) (2025-11-06)
+
+
+### Bug Fixes
+
+* アプリ版の「初回」ウインドウ初期値が 300x300 になる件 ([2312cac](https://github.com/famibee/SKYNovel/commit/2312cac4c9df4aae7507dd9bb49cdec1f28e65ad))
+
 - fix: アプリ版の「初回」ウインドウ初期値が 300x300 になる件
 - fix: アプリ版の「二回目」起動時にウインドウ位置が (0, 0) になる件
 - fix: 初期化の流れをリファクタリング
