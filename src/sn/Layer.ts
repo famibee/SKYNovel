@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, int, argChk_Boolean, argChk_Num, uint} from './CmnLib';
-import type {HArg} from './Grammar';
+import type {TArg} from './Grammar';
 import type {IMakeDesignCast} from './LayerMng';
 
 import type {DisplayObject, Container, AbstractRenderer, Filter} from 'pixi.js';
@@ -27,7 +27,7 @@ export type T_RecordPlayBack_lay = {
 	x			: number;
 	y			: number;
 	visible		: boolean;
-	aFltHArg?	: HArg[];
+	aFltHArg?	: TArg[];
 }
 
 
@@ -58,7 +58,7 @@ export class Layer {
 
 	destroy() { /* empty */ }
 
-	lay(hArg: HArg): boolean {
+	lay(hArg: TArg): boolean {
 		const c = this.ctn;
 		if ('alpha' in hArg) c.alpha = argChk_Num(hArg, 'alpha', 1);
 
@@ -87,7 +87,7 @@ export class Layer {
 
 		return false;
 	}
-	aFltHArg: HArg[]	= [];
+	aFltHArg: TArg[]	= [];
 
 	/*
 	* 現状未サポート
@@ -98,7 +98,7 @@ export class Layer {
 		* 		人形城のヒビキとかのやつ？
 	*/
 	// フィルター生成
-	static	bldFilters(hArg: HArg): Filter {
+	static	bldFilters(hArg: TArg): Filter {
 		const {filter=''} = hArg;
 		const fnc = Layer.hBldFilter[filter];
 		if (! fnc) throw 'filter が異常です';
@@ -110,7 +110,7 @@ export class Layer {
 		return f;
 	}
 	// https://github.com/pixijs/filters
-	static	readonly	hBldFilter: {[nm: string]: (hArg: HArg)=> Filter} = {
+	static	readonly	hBldFilter: {[nm: string]: (hArg: TArg)=> Filter} = {
 		// https://pixijs.download/v6.5.10/docs/PIXI.filters.BlurFilter.html
 		blur: hArg=> {	// ガウスぼかし
 			const f = new BlurFilter(
@@ -345,7 +345,7 @@ export class Layer {
 		},
 	};
 
-	static	setBlendmode(cnt: Container, hArg: HArg) {
+	static	setBlendmode(cnt: Container, hArg: TArg) {
 		const {blendmode} = hArg;
 		if (! blendmode) return;	// 省略時になにもしない
 
@@ -417,7 +417,7 @@ export class Layer {
 	renderStart() { /* empty */ }
 	renderEnd() { /* empty */ }
 
-	clearLay(hArg: HArg): void {
+	clearLay(hArg: TArg): void {
 		this.ctn.alpha = 1;
 		this.ctn.blendMode = BLEND_MODES.NORMAL;
 		// visibleは触らない
@@ -501,7 +501,7 @@ export class Layer {
 		}, "filters": [${this.aFltHArg.map(f=> `"${f.filter ?? ''}"`).join(',')}]`;
 	}
 
-	static	setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp = false, isButton = false): void {
+	static	setXY(base: DisplayObject, hArg: TArg, ret: Container, isGrp = false, isButton = false): void {
 		if (hArg.pos) {Layer.setXYByPos(base, hArg.pos, ret); return}
 
 		const rct_base = base.getBounds();

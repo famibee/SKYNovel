@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {IHTag} from '../src/sn/Grammar';
+import type {T_HTag} from '../src/sn/Grammar';
 import {Variable} from '../src/sn/Variable';
 import {SysTest} from './SysTest';
 import {Config} from '../src/sn/Config';
@@ -19,7 +19,7 @@ beforeEach(async ()=> {
 	const sys = new SysTest({}, {cur: 'test/', crypto: false, dip: ''});
 	const cfg = await Config.generate(sys);
 
-	val = new Variable(cfg, <IHTag><unknown>{});
+	val = new Variable(sys, cfg, <T_HTag><unknown>{});
 });
 
 it('getVal_-1', ()=> {

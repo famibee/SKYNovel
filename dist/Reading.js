@@ -1,4 +1,4 @@
-import { e as _, g as d, C as N, k as x, d as R, f as B, E as j } from "./web2.js";
+import { a as d, H as x, D as N, E as R, e as _, q as B, l as j } from "./web2.js";
 var E = Object.freeze({
   Linear: Object.freeze({
     None: function(e) {
@@ -142,7 +142,7 @@ var E = Object.freeze({
   }
 }), y = function() {
   return performance.now();
-}, W = (
+}, D = (
   /** @class */
   function() {
     function e() {
@@ -194,7 +194,7 @@ var E = Object.freeze({
       return e._nextId++;
     }, e._nextId = 0, e;
   }()
-), L = new W(), D = (
+), L = new D(), W = (
   /** @class */
   function() {
     function e(t, i) {
@@ -449,7 +449,7 @@ class n {
     }
     if (s === "enter") {
       const o = a.fcs.getFocus();
-      if (o instanceof N) {
+      if (o instanceof B) {
         o.emit(x, new PointerEvent(x));
         return;
       }
@@ -530,10 +530,10 @@ class n {
     return n.recodePage(), a.cancelAutoSkip(), new M(t), !0;
   }
   wait(t) {
-    const i = R(t, "time", NaN);
+    const i = j(t, "time", NaN);
     if (a.skip_enabled)
       return !a.skip_all && !a.scrItr.isNextKidoku && a.cancelAutoSkip(), !1;
-    const s = new D({}), r = "wait", o = () => {
+    const s = new W({}), r = "wait", o = () => {
       U(s), a.notifyEndProc(r);
     };
     s.to({}, i).onComplete(o).start();
@@ -698,7 +698,7 @@ class a {
       };
       this.#t.add(this.main.cvs, x, (l) => {
         l.stopPropagation(), o();
-      }), this.#t.add(document, B, (l) => {
+      }), this.#t.add(document, N, (l) => {
         l.isComposing || (l.stopPropagation(), o());
       }), this.procWheel4wle(this.#t, o);
     }
@@ -708,7 +708,7 @@ class a {
     this.#s = "", this.#e = () => {
     }, this.#t.clear();
   }
-  static #t = new j();
+  static #t = new R();
   static #e = () => {
   };
   static notifyEndProc(t) {
@@ -775,10 +775,10 @@ class a {
 export {
   E,
   n as R,
-  D as T,
+  W as T,
   a,
-  U as b,
-  K as r,
+  K as b,
+  U as r,
   z as u
 };
 //# sourceMappingURL=Reading.js.map

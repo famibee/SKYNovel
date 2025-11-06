@@ -1,5 +1,5 @@
-import { HArg, IHTag } from './Grammar';
-import { T_Evt2Fnc, T_HEvt2Fnc, IMain, T_Mark, IVariable } from './CmnInterface';
+import { TArg, T_HTag } from './Grammar';
+import { T_Evt2Fnc, T_HEvt2Fnc, T_Main, T_Mark, T_Variable } from './CmnInterface';
 import { Config } from './Config';
 import { ScriptIterator } from './ScriptIterator';
 import { LayerMng } from './LayerMng';
@@ -23,7 +23,7 @@ export declare class ReadingState {
     static clear_eventer(rawKeY: string, glb: boolean, key: string): void;
     static popLocalEvts(): T_HEvt2Fnc;
     static pushLocalEvts(h: T_HEvt2Fnc): void;
-    static clear_event(hArg: HArg): boolean;
+    static clear_event(hArg: TArg): boolean;
     static getHtmlElmList(KeY: string): {
         el: NodeListOf<HTMLElement>;
         id: string;
@@ -46,11 +46,11 @@ export declare class ReadingState {
     static playbackPage(saPageLog: string, $styPaging: string): void;
     beginProc(): void;
     endProc(): void;
-    l(hArg: HArg): boolean;
-    p(hArg: HArg): boolean;
-    s(hArg: HArg): boolean;
-    wait(hArg: HArg): boolean;
-    page(hArg: HArg): boolean;
+    l(hArg: TArg): boolean;
+    p(hArg: TArg): boolean;
+    s(hArg: TArg): boolean;
+    wait(hArg: TArg): boolean;
+    page(hArg: TArg): boolean;
     static destroy(): void;
 }
 export declare class Reading {
@@ -67,9 +67,9 @@ export declare class Reading {
     static skip_enabled: boolean;
     static auto_enabled: boolean;
     static cfg: Config;
-    static hTag: IHTag;
-    static main: IMain;
-    static val: IVariable;
+    static hTag: T_HTag;
+    static main: T_Main;
+    static val: T_Variable;
     static scrItr: ScriptIterator;
     static layMng: LayerMng;
     static goTxt: () => void;
@@ -78,7 +78,7 @@ export declare class Reading {
     static sndMng: SoundMng;
     static procWheel4wle: (elc: EventListenerCtn, onIntr: () => void) => void;
     static fcs: FocusMng;
-    static init(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, scrItr: ScriptIterator, layMng: LayerMng, evtMng: EventMng, sndMng: SoundMng, procWheel4wle: (elc: EventListenerCtn, onIntr: () => void) => void): void;
+    static init(cfg: Config, hTag: T_HTag, main: T_Main, val: T_Variable, scrItr: ScriptIterator, layMng: LayerMng, evtMng: EventMng, sndMng: SoundMng, procWheel4wle: (elc: EventListenerCtn, onIntr: () => void) => void): void;
     static setFcs(fcs: FocusMng): void;
     static cancelAutoSkip(): void;
 }

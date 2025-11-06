@@ -1,13 +1,13 @@
-import { IVariable, ISysBase, typeProcVal, T_fncSetVal, T_Mark, T_Data4Vari, T_VAL_DATA, T_VAL_BSNU } from '../src/sn/CmnInterface';
+import { T_Variable, T_ProcVal, T_fncSetVal, T_Mark, T_Data4Vari, T_VAL_DATA, T_VAL_BSNU } from '../src/sn/CmnInterface';
 import { Areas } from '../src/sn/Areas';
-export declare class ValTest implements IVariable {
+export declare class ValTest implements T_Variable {
     #private;
-    setSys(_sys: ISysBase): Promise<void>;
+    init(): Promise<void>;
     flush(): void;
     setDoRecProc(_doRecProc: (doRec: boolean) => void): void;
     getVal(arg_name: string): T_VAL_DATA;
     setVal_Nochk: (_sc: string, _nm: string, _v: T_VAL_BSNU, _ac?: boolean) => void;
-    defTmp: (_name: string, _fnc: typeProcVal) => void;
+    defTmp: (_name: string, _fnc: T_ProcVal) => void;
     cloneMp: () => {
         'const.sn.macro': string;
         'const.sn.me_call_scriptFn': string;

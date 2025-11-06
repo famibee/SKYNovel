@@ -1,15 +1,15 @@
 import { IEvtMng } from './CmnLib';
-import { IHTag } from './Grammar';
-import { IVariable, IMain, IGetFrm } from './CmnInterface';
+import { T_HTag } from './Grammar';
+import { T_Variable, T_Main, T_GetFrm } from './CmnInterface';
 import { SysBase } from './SysBase';
 import { Config } from './Config';
 import { Application } from 'pixi.js';
-export declare class FrameMng implements IGetFrm {
+export declare class FrameMng implements T_GetFrm {
     #private;
     private readonly appPixi;
     private readonly val;
-    static init(cfg: Config, sys: SysBase, main: IMain): void;
-    constructor(hTag: IHTag, appPixi: Application, val: IVariable);
+    static init(cfg: Config, sys: SysBase, main: T_Main): void;
+    constructor(hTag: T_HTag, appPixi: Application, val: T_Variable);
     setEvtMng(evtMng: IEvtMng): void;
     destroy(): void;
     hideAllFrame(): void;

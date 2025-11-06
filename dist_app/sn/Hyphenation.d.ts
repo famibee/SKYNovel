@@ -1,4 +1,4 @@
-import { HArg } from './Grammar';
+import { TArg } from './Grammar';
 import { Rectangle } from 'pixi.js';
 export type IChRect = {
     ch: string;
@@ -25,7 +25,7 @@ export declare class Hyphenation {
     break_fixed_left: number;
     break_fixed_top: number;
     bura: boolean;
-    lay(hArg: HArg): void;
+    lay(hArg: TArg): void;
     reNew(to: Hyphenation): void;
     record(): T_RP_Hyphenation;
     playback(hLay?: T_RP_Hyphenation): void;

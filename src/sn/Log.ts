@@ -5,8 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {HArg, IHTag} from './Grammar';
-import type {IVariable} from './CmnInterface';
+import type {TArg, T_HTag} from './Grammar';
+import type {T_Variable} from './CmnInterface';
 import type {T_CFG} from './ConfigBase';
 
 
@@ -15,7 +15,7 @@ export type T_LOG = {
 	pagebreak: ()=> void;
 };
 
-type T_LOG_DATA = HArg & {
+type T_LOG_DATA = TArg & {
 	text	: string;	// 履歴文字列
 }
 
@@ -29,7 +29,7 @@ export class Log implements T_LOG {
 	#aLog		: T_LOG_DATA[]	= [];			// 🍚
 
 
-	constructor(private readonly oCfg: T_CFG, private readonly hTag: IHTag, private readonly val: IVariable) {
+	constructor(private readonly oCfg: T_CFG, private readonly hTag: T_HTag, private readonly val: T_Variable) {
 		hTag.rec_ch			= o=> this.#rec_ch(o);		// 履歴書き込み
 		hTag.rec_r			= o=> this.#rec_r(o);		// 履歴改行
 		hTag.reset_rec		= o=> this.#reset_rec(o);	// 履歴リセット
@@ -63,7 +63,7 @@ export class Log implements T_LOG {
 
 	//MARK: 履歴書き込み
 	//	🌾this.#LastLog = {...hArg, text: 🌾this.#LastLog.text};
-	#rec_ch(hArg: HArg) {
+	#rec_ch(hArg: TArg) {
 		this.#LastLog = {...hArg, text: this.#LastLog.text};
 		if (! hArg.text) {
 			this.val.setVal_Nochk('save', 'const.sn.sLog',// 🍊 リプレイ時の回復用
@@ -80,14 +80,14 @@ export class Log implements T_LOG {
 	}
 
 	//MARK: 履歴改行
-	#rec_r(hArg: HArg) {return this.#rec_ch({...hArg, text: '[r]'})}
+	#rec_r(hArg: TArg) {return this.#rec_ch({...hArg, text: '[r]'})}
 
 	//MARK: 履歴リセット
 	//	以下をクリア。text で置き換え値を設定できる
 	//	🌾this.#LastLog		= {text: hArg.text ?? ''};
 	//	🍚this.#aLog		= []
 	//	🍊save:const.sn.sLog= hArg.text ?[{text:"${hArg.text}"}] : []
-	#reset_rec(hArg: HArg) {
+	#reset_rec(hArg: TArg) {
 		this.#aLog = [];
 		hArg.text ??= '';
 		this.#LastLog = {text: hArg.text};		// 🌾

@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {IHTag} from '../src/sn/Grammar';
+import type {T_HTag} from '../src/sn/Grammar';
 import {Log} from '../src/sn/Log';
 import {SysTest} from './SysTest';
 import {Config} from '../src/sn/Config';
@@ -18,7 +18,7 @@ if (! globalThis.document) GlobalRegistrator.register();
 
 let	cfg	: Config;
 let	val	: Variable;
-let hTag: IHTag;
+let hTag: T_HTag;
 
 let	log	: Log;
 
@@ -27,7 +27,7 @@ let out_ch = '';
 beforeEach(async ()=> {
 	const sys = new SysTest({}, {cur: 'test/', crypto: false, dip: ''});
 	cfg = await Config.generate(sys);
-	val = new Variable(cfg, <IHTag>{});
+	val = new Variable(sys, cfg, <T_HTag>{});
 
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	hTag = Object.create(null);	// タグ処理辞書

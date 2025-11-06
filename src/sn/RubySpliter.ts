@@ -7,21 +7,21 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {HArg} from './Grammar';
-import type {IPutCh} from './CmnInterface';
+import type {TArg} from './Grammar';
+import type {T_PutCh} from './CmnInterface';
 
 export type IAutoPage = (idx: number, str: string) => void;
 
 
 export class RubySpliter {
 	static	#sesame		= 'ヽ';
-	static	setting(hArg: HArg) {if (hArg.sesame) RubySpliter.#sesame = hArg.sesame}
+	static	setting(hArg: TArg) {if (hArg.sesame) RubySpliter.#sesame = hArg.sesame}
 	static	getSesame() {return RubySpliter.#sesame}
 
 	static	destroy() {RubySpliter.#sesame = 'ヽ'}
 
-	#putCh	: IPutCh	= ()=> { /* empty */ };
-	init(putCh: IPutCh) {this.#putCh = putCh}
+	#putCh	: T_PutCh	= ()=> { /* empty */ };
+	init(putCh: T_PutCh) {this.#putCh = putCh}
 
 /*
 		★Unicodeで「漢字」の正規表現 – ものかの http://tama-san.com/kanji-regex/

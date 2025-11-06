@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {type IEvtMng, CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
-import type {HArg} from './Grammar';
+import type {TArg} from './Grammar';
 import {Reading} from './Reading';
 
 import {Tween, Easing, removeAll, update} from '@tweenjs/tween.js'
@@ -43,7 +43,7 @@ export class CmnTween {
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static	setTwProp(tw: Tween<any>, hArg: HArg): Tween<any> {
+	static	setTwProp(tw: Tween<any>, hArg: TArg): Tween<any> {
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		return tw.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(this.ease(hArg.ease))
@@ -104,7 +104,7 @@ export class CmnTween {
 		y			: 0,
 	};
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static cnvTweenArg(hArg: HArg, lay: any): HArg {
+	static cnvTweenArg(hArg: TArg, lay: any): TArg {
 		const hTo: {[val_name: string]: number} = {};
 		for (const nm of Object.keys(this.hMemberCnt)) {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
@@ -140,7 +140,7 @@ export class CmnTween {
 
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static	tween(tw_nm: string, hArg: HArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween<any> {
+	static	tween(tw_nm: string, hArg: TArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween<any> {
 		const time = this.#evtMng.isSkipping ?0 :argChk_Num(hArg, 'time', NaN);
 		const tw = new Tween(hNow)
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -157,8 +157,8 @@ export class CmnTween {
 			for (const {groups} of path.matchAll(this.#REG_TSY_PATH)) {
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const {x, x2, y, y2, o, o2, json} = groups!;
-				let hArg2: HArg = {};
-				if (json) try {hArg2 = <HArg>JSON.parse(json)} catch (e) {
+				let hArg2: TArg = {};
+				if (json) try {hArg2 = <TArg>JSON.parse(json)} catch (e) {
 					console.error(`🍝 json=${json} `+ String(e));
 					continue;
 				}
@@ -228,7 +228,7 @@ export class CmnTween {
 	static	readonly	#REG_TSY_PATH	= /\(\s*(?:(?<x>[-=\d.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
 
 	// トランス終了待ち
-	static	wt(_hArg: HArg) {
+	static	wt(_hArg: TArg) {
 		const ti = this.#hTwInf[TW_INT_TRANS];
 		if (! ti?.tw) return false;
 
@@ -253,7 +253,7 @@ export class CmnTween {
 
 
 	// トゥイーン終了待ち
-	static	wait_tsy(hArg: HArg) {
+	static	wait_tsy(hArg: TArg) {
 		const tw_nm = this.#tw_nm(hArg);
 		const ti = this.#hTwInf[tw_nm];
 		if (! ti?.tw) return false;
@@ -262,7 +262,7 @@ export class CmnTween {
 		Reading.beginProc(TMP_TSY_NM + tw_nm, fnc, true, fnc);
 		return true;
 	}
-		static	#tw_nm(hArg: HArg) {
+		static	#tw_nm(hArg: TArg) {
 			const {layer='', id, name} = hArg;
 			const tw_nm = id ?`frm\n${id}` :name ?? layer;
 			if (! tw_nm) throw 'トゥイーンが指定されていません';
@@ -271,21 +271,21 @@ export class CmnTween {
 		}
 
 	// トゥイーン中断
-	static	stop_tsy(hArg: HArg) {
+	static	stop_tsy(hArg: TArg) {
 		const tw_nm = this.#tw_nm(hArg);
 		this.#hTwInf[tw_nm]?.tw?.stop().end();	// stop()とend()は別
 		return false;
 	}
 
 	// 一時停止
-	static	pause_tsy(hArg: HArg) {
+	static	pause_tsy(hArg: TArg) {
 		const tw_nm = this.#tw_nm(hArg);
 		this.#hTwInf[tw_nm]?.tw?.pause();
 		return false;
 	}
 
 	// 一時停止再開
-	static	resume_tsy(hArg: HArg) {
+	static	resume_tsy(hArg: TArg) {
 		const tw_nm = this.#tw_nm(hArg);
 		this.#hTwInf[tw_nm]?.tw?.resume();
 		return false;

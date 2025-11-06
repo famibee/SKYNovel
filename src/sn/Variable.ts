@@ -7,8 +7,8 @@
 
 import {uint, int, argChk_Boolean, argChk_Num} from './CmnLib';
 import {creCSArg, type T_H_VAL_MP} from './CallStack';
-import type {HArg, IHTag} from './Grammar';
-import type {IVariable, T_fncSetVal, typeProcVal, ISysBase, T_Data4Vari, T_Mark, IFncHook, Scope, T_H_TMP_DATA, T_H_VAL_MARK, T_H_SYS_DATA, T_VAL_DATA_FNC, T_VAL_DATA, T_VAL_BSNU, T_H_SAVE_DATA} from './CmnInterface';
+import type {TArg, T_HTag} from './Grammar';
+import type {T_Variable, T_fncSetVal, T_ProcVal, T_SysBase, T_Data4Vari, T_Mark, T_FncHook, Scope, T_H_TMP_DATA, T_H_VAL_MARK, T_H_SYS_DATA, T_VAL_DATA_FNC, T_VAL_DATA, T_VAL_BSNU, T_H_SAVE_DATA} from './CmnInterface';
 import {creSAVEDATA, creSYS_DATA, creTMP_DATA} from './CmnInterface';
 import type {Config} from './Config';
 import {Areas} from './Areas';
@@ -16,7 +16,7 @@ import {PropParser} from './PropParser';
 import {ReadingState} from './Reading';
 
 
-export class Variable implements IVariable {
+export class Variable implements T_Variable {
 	#hSave		: T_H_SAVE_DATA	= creSAVEDATA();
 	#hTmp		: T_H_TMP_DATA	= creTMP_DATA();
 	#hScopes	= {
@@ -28,12 +28,12 @@ export class Variable implements IVariable {
 	};
 
 
-	constructor(private readonly cfg: Config, hTag: IHTag) {
+	constructor(private readonly sys: T_SysBase, private readonly cfg: Config, hTag: T_HTag) {
 		//	変数操作
 		hTag.let			= o=> this.#let(o);			// 変数代入・演算
 		hTag.let_abs		= o=> this.#let_abs(o);		// 絶対値
 		hTag.let_char_at	= o=> this.#let_char_at(o);	// 文字列から一字取りだし
-		hTag.let_index_of	= o=> this.#let_index_of(o);	// 文字列で検索
+		hTag.let_index_of	= o=> this.#let_index_of(o);// 文字列で検索
 		hTag.let_length		= o=> this.#let_length(o);	// 文字列の長さ
 		// let_mlはScriptIteratorにて定義				// インラインテキスト代入
 		hTag.let_replace	= o=> this.#let_replace(o);	// 正規表現で置換
@@ -55,8 +55,8 @@ export class Variable implements IVariable {
 
 		// save:
 		this.defTmp('const.sn.bookmark.json', ()=> {
-			const a: HArg[] = [];
-			for (const [nm, mk] of Object.entries(this.#data.mark)) {
+			const a: TArg[] = [];
+			for (const [nm, mk] of Object.entries(this.#d4v.mark)) {
 				const o = {...mk.json};
 				o.place = uint(nm);
 				a.push(o);	// パスを searchPath() で展開してはいけない
@@ -94,8 +94,6 @@ export class Variable implements IVariable {
 		//	※ macOSなら【設定】-【ディスプレイ】-【使用形態】のイメージボタンにホバーすると出る数字と同じ
 // DebugMng.myTrace(`fn:Variable.ts 画面サイズ(${String(screen.width)} x ${String(screen.height)}) 利用可能領域(${String(screen.availWidth)} x ${String(screen.availHeight)})`, 'W');
 
-		this.#clearsysvar(true);
-
 		// prj.json
 		this.#hTmp['const.sn.config.window.width']	= cfg.oCfg.window.width;
 		this.#hTmp['const.sn.config.window.height']	= cfg.oCfg.window.height;
@@ -104,46 +102,42 @@ export class Variable implements IVariable {
 	}
 
 
-	#sys	: ISysBase;
-	#data	: T_Data4Vari	= {
+	#d4v	: T_Data4Vari	= {
 		sys		: <T_H_SYS_DATA>{},	// clearsysvarを呼ぶので
 		mark	: {},
 		kidoku	: {},
 	};
 	#hSys	: T_H_SYS_DATA;
 	#hAreaKidoku	: {[fn: string]: Areas}	= {};
-	#callHook		: IFncHook;
-	async setSys(sys: ISysBase) {
-		this.#sys = sys;
-		await sys.initVal(this.#data, this.#hTmp, data=> {
-			this.updateData(data);
+	#callHook		: T_FncHook;
+	async init() {return this.sys.initVal(this.#hTmp, data=> {
+		this.updateData(data);
 
-			if (this.cfg.oCfg.debug.variable) this.#dbgVariable(sys);
-			else this.#flush = ()=> sys.flush();
+		if (this.cfg.oCfg.debug.variable) this.#dbgVariable(this.sys);
+		else this.flush = ()=> this.sys.flush();
+		this.flush();
 
-			this.#callHook = (type, o)=> sys.callHook(type, o);
-		//x	this.callHook = sys.callHook;
-			sys.addHook((type, o)=> this.#hProcDbgRes[type]?.(type, o));
+		this.#callHook = (type, o)=> this.sys.callHook(type, o);
+		this.sys.addHook((type, o)=> this.#hProcDbgRes[type]?.(type, o));
 
-			// 初回の初期化と、v1.11.0 まで未初期化変数があった件の対策
-			const tm = int(this.getVal('sys:sn.tagCh.msecWait', -1));
-			if (this.#hTmp['const.sn.isFirstBoot'] || tm === -1) this.#clearsysvar(true);
+		// 初回の初期化と、v1.11.0 まで未初期化変数があった件の対策
+		const tm = int(this.getVal('sys:sn.tagCh.msecWait', -1));
+		if (tm === -1) this.#clearsysvar(true);
 
-			this.#tagCh_doWait = Boolean(this.getVal('sys:sn.tagCh.doWait'));
-			this.#tagCh_doWait_Kidoku = Boolean(this.getVal('sys:sn.tagCh.doWait_Kidoku'));
-			this.#tagCh_msecWait = int(this.getVal('sys:sn.tagCh.msecWait'));
-			this.#tagCh_msecWait_Kidoku = int(this.getVal('sys:sn.tagCh.msecWait_Kidoku'));
+		this.#tagCh_doWait = Boolean(this.getVal('sys:sn.tagCh.doWait'));
+		this.#tagCh_doWait_Kidoku = Boolean(this.getVal('sys:sn.tagCh.doWait_Kidoku'));
+		this.#tagCh_msecWait = int(this.getVal('sys:sn.tagCh.msecWait'));
+		this.#tagCh_msecWait_Kidoku = int(this.getVal('sys:sn.tagCh.msecWait_Kidoku'));
 
-			this.#saPageLog();
-		});
-	}
+		this.#saPageLog();
+	})}
 
 	//MARK: SessionStorage で確認できるデバッグ機能
-	#dbgVariable(sys: ISysBase) {
+	#dbgVariable(sys: T_SysBase) {
 		sessionStorage.clear();
 		const ns = this.cfg.headNs;
 
-		this.#flush = () => {
+		this.flush = () => {
 			const oSys = creSYS_DATA();
 			for (const [k, v] of Object.entries(this.#hSys)) {
 				if (v instanceof Function) continue;
@@ -175,13 +169,13 @@ export class Variable implements IVariable {
 			sessionStorage[ns + 'mp'] = JSON.stringify(oMp);
 
 			const oMark: T_H_VAL_MARK = {};
-			for (const [k, v] of Object.entries(this.#data.mark)) {
+			for (const [k, v] of Object.entries(this.#d4v.mark)) {
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
 				oMark[int(k)] = v instanceof Function ? v() : v;
 			}
 			sessionStorage[ns + 'mark'] = JSON.stringify(oMark);
 
-			sessionStorage[ns + 'kidoku'] = structuredClone(this.#data.kidoku);
+			sessionStorage[ns + 'kidoku'] = structuredClone(this.#d4v.kidoku);
 
 			sys.flush();
 		};
@@ -198,16 +192,16 @@ export class Variable implements IVariable {
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 		auth: (_, o)=> this.#set_data_break(o.hBreakpoint.aData),
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition, @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-		var	: (_,o)=> this.#sys.send2Dbg(o.ri, {v: this.#hScopes[<Scope>o.scope] ?? {}}),
+		var	: (_,o)=> this.sys.send2Dbg(o.ri, {v: this.#hScopes[<Scope>o.scope] ?? {}}),
 		set_var	: (_, o)=> {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-			try {this.#setVal(o.nm, o.val); this.#sys.send2Dbg(o.ri, {})} catch { /* empty */ }
+			try {this.#setVal(o.nm, o.val); this.sys.send2Dbg(o.ri, {})} catch { /* empty */ }
 		},
 		set_data_break	: (_, o)=> {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
 			this.#set_data_break(o.a);
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
-			this.#sys.send2Dbg(o.ri, {});
+			this.sys.send2Dbg(o.ri, {});
 		},
 		disconnect: _=> {Variable.#hSetEvent = {}},
 	}
@@ -221,34 +215,33 @@ export class Variable implements IVariable {
 
 	//MARK: 外からのデータで保持データを更新
 	//	初期化時やインポートなどで使用
-	updateData(data: T_Data4Vari): void {
-		this.#data = data;
-		this.#hSys = this.#hScopes.sys = this.#data.sys;
+	updateData(d4v: T_Data4Vari): void {
+		this.#d4v = d4v;
+		this.#hSys = this.#hScopes.sys = d4v.sys;
 
 		this.#hAreaKidoku = {};
-		for (const [fn, dk] of Object.entries(this.#data.kidoku)) {
+		for (const [fn, dk] of Object.entries(d4v.kidoku)) {
 			this.#hAreaKidoku[fn] = Areas.from(dk);
 		}
 		// this.flush();	// saveKidoku() に任せる
 	}
-	#flush	= ()=> { /* empty */ };
-	flush() {this.#flush()}	// 先にこのメソッドへの参照を配ってしまうので、中身を入れ替える
+	flush	= ()=> { /* empty */ };
 
 	setDoRecProc(fnc: (doRec: boolean)=> void) {this.#doRecProc = fnc}
 	#doRecProc = (_doRec: boolean)=> { /* empty */ };
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-	defTmp(name: string, fnc: typeProcVal) {(<any>this.#hTmp)[name] = fnc}
+	defTmp(name: string, fnc: T_ProcVal) {(<any>this.#hTmp)[name] = fnc}
 
 	cloneMp() {return {...this.#hScopes.mp}}
 	setMp(mp: T_H_VAL_MP) {this.#hScopes.mp = mp}
 
 	setMark(place: number, mark: T_Mark) {
-		this.#data.mark[place] = mark;
+		this.#d4v.mark[place] = mark;
 		this.flush();
 	}
 	getMark(place: number) {
-		const mark = this.#data.mark[place];
+		const mark = this.#d4v.mark[place];
 		if (! mark) throw `place【${String(place)}】は存在しません`;
 		return mark;
 	}
@@ -265,7 +258,7 @@ export class Variable implements IVariable {
 		const ar = this.#hAreaKidoku[fn];
 		if (ar) return ar;
 
-		this.#data.kidoku[fn] = {};
+		this.#d4v.kidoku[fn] = {};
 		const ret = this.#hAreaKidoku[fn] = new Areas;
 		return ret;
 	}
@@ -276,7 +269,7 @@ export class Variable implements IVariable {
 	}
 	saveKidoku() {
 		for (const [fn, ak] of Object.entries(this.#hAreaKidoku)) {
-			this.#data.kidoku[fn] = ak.val();
+			this.#d4v.kidoku[fn] = ak.val();
 		}
 		this.flush();
 	}
@@ -284,30 +277,30 @@ export class Variable implements IVariable {
 
 //	// しおり
 	// しおりの複写
-	#copybookmark(hArg: HArg) {
+	#copybookmark(hArg: TArg) {
 		const from = argChk_Num(hArg, 'from', NaN);
 		const to = argChk_Num(hArg, 'to', NaN);
 		// const from = hArg.from;
 		// const to = hArg.to;
 		if (from === to) return false;
 
-		const f = this.#data.mark[from];
+		const f = this.#d4v.mark[from];
 		if (! f) throw `from:${String(from)} のセーブデータは存在しません`;
 		this.setMark(to, {...f});
-		this.#sys.copyBMFolder(from, to);
+		this.sys.copyBMFolder(from, to);
 
 		return false;
 	}
 
 	// しおりの消去
-	#erasebookmark(hArg: HArg) {
+	#erasebookmark(hArg: TArg) {
 		const place = argChk_Num(hArg, 'place', NaN);
 
 		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-		delete this.#data.mark[place];
+		delete this.#d4v.mark[place];
 		this.flush();
 
-		this.#sys.eraseBMFolder(place);
+		this.sys.eraseBMFolder(place);
 
 		return false;
 	}
@@ -315,7 +308,7 @@ export class Variable implements IVariable {
 
 //	//	変数操作
 	// 変数代入・演算
-	#let(hArg: HArg) {
+	#let(hArg: TArg) {
 		if (! hArg.name) throw 'nameは必須です';
 
 		let autocast = true;
@@ -348,7 +341,7 @@ export class Variable implements IVariable {
 	}
 
 	// 絶対値
-	#let_abs(hArg: HArg) {
+	#let_abs(hArg: TArg) {
 		const n = argChk_Num(hArg, 'text', 0);
 		//hArg.text = Math.abs(n);
 		hArg.text = String(n < 0 ?-n :n);
@@ -360,7 +353,7 @@ export class Variable implements IVariable {
 	}
 
 	// 文字列から一字取りだし
-	#let_char_at(hArg: HArg) {
+	#let_char_at(hArg: TArg) {
 		hArg.text = (hArg.text ?? '').charAt(argChk_Num(hArg, 'pos', 0));
 		this.#let(hArg);
 
@@ -368,7 +361,7 @@ export class Variable implements IVariable {
 	}
 
 	// 文字列で検索
-	#let_index_of(hArg: HArg) {
+	#let_index_of(hArg: TArg) {
 		const {val} = hArg;
 		if (! val) throw 'valは必須です';
 		const start = argChk_Num(hArg, 'start', 0);
@@ -380,7 +373,7 @@ export class Variable implements IVariable {
 	}
 
 	// 文字列の長さ
-	#let_length(hArg: HArg) {
+	#let_length(hArg: TArg) {
 		hArg.text = String((hArg.text ?? '').length);
 		this.#let(hArg);
 
@@ -388,7 +381,7 @@ export class Variable implements IVariable {
 	}
 
 	// 正規表現で置換
-	#let_replace(hArg: HArg) {
+	#let_replace(hArg: TArg) {
 		if (! hArg.reg) throw 'regは必須です';
 
 		const {flags} = hArg;
@@ -402,7 +395,7 @@ export class Variable implements IVariable {
 	}
 
 	// 四捨五入
-	#let_round(hArg: HArg) {
+	#let_round(hArg: TArg) {
 		const n = argChk_Num(hArg, 'text', 0);
 		hArg.text = String(Math.round(n));
 		this.#let(hArg);
@@ -411,7 +404,7 @@ export class Variable implements IVariable {
 	}
 
 	// 正規表現で検索
-	#let_search(hArg: HArg) {
+	#let_search(hArg: TArg) {
 		if (! hArg.reg) throw 'regは必須です';
 
 		const {flags} = hArg;
@@ -425,7 +418,7 @@ export class Variable implements IVariable {
 	}
 
 	// 文字列から抜きだし
-	#let_substr(hArg: HArg) {
+	#let_substr(hArg: TArg) {
 		const i = argChk_Num(hArg, 'pos', 0);
 		hArg.text = hArg.len !== 'all'
 			? (hArg.text ?? '').slice(i, i +int(argChk_Num(hArg, 'len', 1)))
@@ -439,7 +432,7 @@ export class Variable implements IVariable {
 //	// デバッグ・その他
 	// システム変数の全消去
 	#clearsysvar(init = false) {
-		const sys = this.#hSys = this.#hScopes.sys = this.#data.sys = creSYS_DATA();
+		const sys = this.#hSys = this.#hScopes.sys = this.#d4v.sys = creSYS_DATA();
 
 		const is_nw = typeof process !== 'undefined';
 		if (is_nw) {
@@ -468,7 +461,7 @@ export class Variable implements IVariable {
 		for (const ar of Object.values(this.#hAreaKidoku)) ar.clear();
 			// this.#data.kidoku へのコピーは saveKidoku() に任せる
 
-		this.#hScopes.mark = this.#data.mark = {};
+		this.#hScopes.mark = this.#d4v.mark = {};
 
 		if (! init) this.#saPageLog();
 

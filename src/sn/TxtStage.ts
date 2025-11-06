@@ -8,8 +8,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {CmnLib, type IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
-import type {HArg} from './Grammar';
+import {CmnLib, type IEvtMng, RPN_COMP_CHIN, argChk_Boolean, argChk_Num} from './CmnLib';
+import type {TArg} from './Grammar';
 import type {Config} from './Config';
 import {CmnTween} from './CmnTween';
 import {SpritesMng} from './SpritesMng';
@@ -19,7 +19,7 @@ import type {IMakeDesignCast} from './LayerMng';
 import type {SysBase} from './SysBase';
 import type {T_RP_Hyphenation, IChRect} from './Hyphenation';
 import {Hyphenation} from './Hyphenation';
-import {type ScriptIterator, RPN_COMP_CHIN} from './ScriptIterator';
+import type {ScriptIterator} from './ScriptIterator';
 import {Reading} from './Reading';
 import {htm2tx} from './htm2tx';
 
@@ -187,7 +187,7 @@ export class TxtStage extends Container {
 		pad_bottom	: 0,	// paddingBottom
 	}
 
-	lay(hArg: HArg) {
+	lay(hArg: TArg) {
 		const s = this.#htmTxt.style;
 		if ('style' in hArg) {
 			if (hArg.style) {
@@ -601,7 +601,7 @@ export class TxtStage extends Container {
 		TxtStage.#hChOutStyle = Object.create(null);
 	}
 	static	getChInStyle(name: string) {return TxtStage.#hChInStyle[name]}
-	static	ch_in_style(hArg: HArg): T_ChInOutStyle {
+	static	ch_in_style(hArg: TArg): T_ChInOutStyle {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 		if (TxtStage.#REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
@@ -634,7 +634,7 @@ export class TxtStage extends Container {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	static	#hChOutStyle: {[nm: string]: T_ChInOutStyle}= Object.create(null);
 	static	getChOutStyle(name: string) {return TxtStage.#hChOutStyle[name]}
-	static	ch_out_style(hArg: HArg): T_ChInOutStyle {
+	static	ch_out_style(hArg: TArg): T_ChInOutStyle {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 		if (TxtStage.#REG_NG_CHSTYLE_NAME_CHR.test(name)) throw `name【${name}】に使えない文字が含まれます`;
@@ -666,7 +666,7 @@ export class TxtStage extends Container {
 
 	static	readonly	#cntBreak	= new Container;
 	static				#spsBreak	= new SpritesMng;
-	dispBreak(o: HArg) {
+	dispBreak(o: TArg) {
 		TxtStage.delBreak();
 
 		const cnt = TxtStage.#cntBreak;

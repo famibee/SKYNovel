@@ -22,7 +22,6 @@ export * from './sn/ScriptIterator';
 export * from './sn/SoundMng';
 export * from './sn/SysApp';
 export * from './sn/SysBase';
-export * from './sn/SysNode';
 export * from './sn/SysWeb';
 export * from './sn/TxtLayer';
 export * from './sn/TxtStage';

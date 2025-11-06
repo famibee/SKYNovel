@@ -7,11 +7,11 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {type IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
-import type {IVariable, IMain} from './CmnInterface';
+import type {T_Variable, T_Main} from './CmnInterface';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import type {Config} from './Config';
 import type {SysBase} from './SysBase';
-import type {HArg} from './Grammar';
+import type {TArg} from './Grammar';
 import {CmnTween} from './CmnTween';
 import {Reading} from './Reading';
 
@@ -89,8 +89,8 @@ class SndInf {
 
 
 let cfg	: Config;
-let val	: IVariable;
-let main: IMain;
+let val	: T_Variable;
+let main: T_Main;
 let sys	: SysBase;
 let hSndBuf	: HSndBuf;
 
@@ -104,7 +104,7 @@ export	const	BUF_SE		= 'SE';
 
 export class SndBuf {
 	static	#hLP	: {[buf: string]: string}	= {};
-	static	init($cfg: Config, $val: IVariable, $main: IMain, $sys: SysBase, $hSndBuf: HSndBuf) {
+	static	init($cfg: Config, $val: T_Variable, $main: T_Main, $sys: SysBase, $hSndBuf: HSndBuf) {
 		SndBuf.#hLP = {};
 		cfg	= $cfg;
 		val	= $val;
@@ -121,13 +121,13 @@ export class SndBuf {
 		val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
 		val.flush();
 	}
-	static	getVol(hArg: HArg, def: number): number {
+	static	getVol(hArg: TArg, def: number): number {
 		const vol = argChk_Num(hArg, 'volume', def);
 		if (vol < 0) return 0;
 		if (vol > 1) return 1;
 		return vol;
 	}
-	static	xchgbuf({buf: buf1 = BUF_SE, buf2 = BUF_SE}: HArg) {
+	static	xchgbuf({buf: buf1 = BUF_SE, buf2 = BUF_SE}: TArg) {
 		if (buf1 === buf2) throw `[xchgbuf] buf:${buf1} が同じ値です`;
 
 		const n1 = 'const.sn.sound.'+ buf1 +'.';
@@ -161,7 +161,7 @@ export class SndBuf {
 
 
 	constructor(
-		readonly hArg	: HArg,
+		readonly hArg	: TArg,
 		readonly buf	: string,
 		readonly fn		: string,
 	) {
@@ -348,15 +348,15 @@ export class SndBuf {
 
 	setVol(vol: number) {this.#si.setVol(vol)}
 
-	ws =(hArg: HArg)=> this.#si.stt.ws(this.#si, hArg);
-	stopse({buf = BUF_SE}: HArg) {
+	ws =(hArg: TArg)=> this.#si.stt.ws(this.#si, hArg);
+	stopse({buf = BUF_SE}: TArg) {
 		stop2var(this.#si, buf);
 		this.#si.stt.stopse(this.#si);
 	}
 
-	fade =(hArg: HArg)=> this.#si.stt.fade(this.#si, hArg);
-	wf =(hArg: HArg)=> this.#si.stt.wf(this.#si, hArg);
-	stopfadese =(hArg: HArg)=> this.#si.stt.stopfadese(this.#si, hArg);
+	fade =(hArg: TArg)=> this.#si.stt.fade(this.#si, hArg);
+	wf =(hArg: TArg)=> this.#si.stt.wf(this.#si, hArg);
+	stopfadese =(hArg: TArg)=> this.#si.stt.stopfadese(this.#si, hArg);
 
 }
 
@@ -377,12 +377,12 @@ type ISndState = {
 	// type も class に implements できるらしい！ https://qiita.com/tkrkt/items/d01b96363e58a7df830e
 	onLoad(si: SndInf)	: void;
 	stopse(si: SndInf)	: void;
-	ws(si: SndInf, hArg: HArg): boolean;
+	ws(si: SndInf, hArg: TArg): boolean;
 	onPlayEnd(buf: string)	: void;
-	fade(si: SndInf, hArg: HArg): void;
-	wf(si: SndInf, hArg: HArg): boolean;
+	fade(si: SndInf, hArg: TArg): void;
+	wf(si: SndInf, hArg: TArg): boolean;
 	compFade(buf: string)	: void;
-	stopfadese(si: SndInf, hArg: HArg): void;
+	stopfadese(si: SndInf, hArg: TArg): void;
 	isDestroy	: boolean;
 }
 
@@ -402,7 +402,7 @@ class SsPlaying implements ISndState {
 	constructor(readonly si: SndInf) {}
 	onLoad() { /* empty */ }		// ok
 	stopse(si: SndInf)	{si.stt = new SsStop(si)}
-	ws(si: SndInf, hArg: HArg) {
+	ws(si: SndInf, hArg: TArg) {
 		if (si.loop) return false;
 
 		si.stt = new SsWaitingStop(si);
@@ -424,7 +424,7 @@ class SsPlaying implements ISndState {
 		return true;
 	}
 	onPlayEnd() { /* empty */ }		// ok
-	fade(si: SndInf, hArg: HArg) {
+	fade(si: SndInf, hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
 
 		const vn = 'const.sn.sound.'+ buf +'.';
@@ -485,7 +485,7 @@ class SsFade implements ISndState {
 	ws =()=> false;					// ok ?
 	onPlayEnd() { /* empty */ }		// ok
 	fade() { /* empty */ }			// ok
-	wf(si: SndInf, hArg: HArg) {
+	wf(si: SndInf, hArg: TArg) {
 		si.stt = new SsWaitingFade(si);
 		const canskip = argChk_Boolean(hArg, 'canskip', false);
 		if (canskip && evtMng.isSkipping) {this.stopfadese(); return false}

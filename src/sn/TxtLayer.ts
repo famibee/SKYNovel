@@ -7,17 +7,17 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
+import type {SysBase} from './SysBase';
 import {Layer, type T_RecordPlayBack_lay} from './Layer';
 import {uint, CmnLib, type IEvtMng, argChk_Boolean, argChk_Num, initStyle, addStyle, argChk_Color} from './CmnLib';
-import type {IHTag, HArg} from './Grammar';
-import type {IVariable, IPutCh} from './CmnInterface';
+import type {T_HTag, TArg} from './Grammar';
+import type {T_Variable, T_PutCh} from './CmnInterface';
 import {type T_RP_layTxtStage, TxtStage} from './TxtStage';
 import type {Config} from './Config';
 import {RubySpliter} from './RubySpliter';
 import {SpritesMng} from './SpritesMng';
 import {Button} from './Button';
-import {LayerMng, type IMakeDesignCast} from './LayerMng';
-import type {SysBase} from './SysBase';
+import type {IMakeDesignCast} from './LayerMng';
 import {DebugMng} from './DebugMng';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import {Reading} from './Reading';
@@ -74,10 +74,10 @@ export type T_cmdTxt_JSON = {
 
 export class TxtLayer extends Layer {
 	static	#cfg		: Config;
-	static	#val		: IVariable;
+	static	#val		: T_Variable;
 	static	#isPageFore	: (me: TxtLayer)=> boolean;
 	static	#log		: T_LOG;
-	static	init(cfg: Config, hTag: IHTag, val: IVariable, log: T_LOG, isPageFore: (me: TxtLayer)=> boolean, appPixi: Application): void {
+	static	init(cfg: Config, hTag: T_HTag, val: T_Variable, log: T_LOG, isPageFore: (me: TxtLayer)=> boolean, appPixi: Application): void {
 		this.#cfg = cfg;
 		TxtStage.init(cfg, appPixi);
 		this.#val = val;
@@ -146,7 +146,7 @@ export class TxtLayer extends Layer {
 	}
 
 	// 文字出現演出
-	static	#ch_in_style(hArg: HArg) {
+	static	#ch_in_style(hArg: TArg) {
 		const o = TxtStage.ch_in_style(hArg);
 		const x = o.x.startsWith('=') ?`${o.nx *100}%` :`${o.nx}px`;
 		const y = o.y.startsWith('=') ?`${o.ny *100}%` :`${o.ny}px`;
@@ -171,7 +171,7 @@ export class TxtLayer extends Layer {
 		return false;
 	}
 	// 文字消去演出
-	static	#ch_out_style(hArg: HArg) {
+	static	#ch_out_style(hArg: TArg) {
 		const o = TxtStage.ch_out_style(hArg);
 		const x = o.x.startsWith('=') ?`${o.nx *100}%` :`${o.nx}px`;
 		const y = o.y.startsWith('=') ?`${o.ny *100}%` :`${o.ny}px`;
@@ -192,6 +192,10 @@ export class TxtLayer extends Layer {
 		return false;
 	}
 
+	static		#msecChWait		= 10;
+	static set	msecChWait(mscw: number) {TxtLayer.#msecChWait = mscw}
+	static get	msecChWait() {return TxtLayer.#msecChWait}
+
 
 	static	#evtMng	: IEvtMng;
 	static	#sys	: SysBase;
@@ -204,7 +208,7 @@ export class TxtLayer extends Layer {
 	// 文字ごとのウェイト
 	static #doAutoWc	= false;
 	static #hAutoWc	: {[ch: string]: number}	= {};
-	static #autowc(hArg: HArg) {
+	static #autowc(hArg: TArg) {
 		this.#doAutoWc = argChk_Boolean(hArg, 'enabled', this.#doAutoWc);
 		this.#val.setVal_Nochk('save', 'const.sn.autowc.enabled', this.#doAutoWc);
 
@@ -292,7 +296,7 @@ export class TxtLayer extends Layer {
 	protected	override	procSetX(x: number) {this.#txs.lay({x})}
 	protected	override	procSetY(y: number) {this.#txs.lay({y})}
 
-	override lay(hArg: HArg) {
+	override lay(hArg: TArg) {
 		super.lay(hArg);
 		Layer.setXY(this.ctn, hArg, this.ctn);
 
@@ -345,7 +349,7 @@ export class TxtLayer extends Layer {
 		if (ret) Reading.beginProc(RPN_TXT_LAY);
 		return ret;
 	}
-	#set_ch_in(hArg: T_cmdTxt_JSON | HArg) {
+	#set_ch_in(hArg: T_cmdTxt_JSON | TArg) {
 		const {in_style} = hArg;
 		if (! in_style) return;
 		const cis = TxtStage.getChInStyle(in_style);
@@ -359,7 +363,7 @@ export class TxtLayer extends Layer {
 	override get	width() {return this.#txs.getWidth}
 	override get	height() {return this.#txs.getHeight}
 
-	#set_ch_out(hArg: T_cmdTxt_JSON | HArg) {
+	#set_ch_out(hArg: T_cmdTxt_JSON | TArg) {
 		const {out_style} = hArg;
 		if (! out_style) return;
 		const cos = TxtStage.getChOutStyle(out_style);
@@ -369,7 +373,7 @@ export class TxtLayer extends Layer {
 	#$ch_out_style	= '';
 
 	#sps	= new SpritesMng;
-	#drawBack(hArg: HArg, fncComp: (isStop: boolean)=> void): boolean {
+	#drawBack(hArg: TArg, fncComp: (isStop: boolean)=> void): boolean {
 		if ('back_clear' in hArg) {
 			if (argChk_Boolean(hArg, 'back_clear', false)) {
 				this.#b_color = 0x000000;
@@ -464,7 +468,7 @@ export class TxtLayer extends Layer {
 		}
 	}
 
-	#setFfs(hArg: HArg) {
+	#setFfs(hArg: TArg) {
 		if ('noffs' in hArg) {
 			this.#strNoFFS = hArg.noffs ?? '';
 			// eslint-disable-next-line no-irregular-whitespace
@@ -554,7 +558,7 @@ export class TxtLayer extends Layer {
 	tagCh(text: string): void {this.#rbSpl.putTxt(text)}
 	#needGoTxt = false;
 	get needGoTxt() {return this.#needGoTxt}
-	readonly	#putCh	: IPutCh = (ch, iruby)=> {
+	readonly	#putCh	: T_PutCh = (ch, iruby)=> {
 		let ruby = iruby;
 		if (TxtLayer.#cfg.oCfg.debug.putCh) console.log(`🖊 文字表示 text:\`${ch}\`(${ch.charCodeAt(0).toString(16)}) ruby:\`${ruby}\` name:\`${this.name_}\``);
 
@@ -641,7 +645,7 @@ export class TxtLayer extends Layer {
 				// 直後の dispBreak() のため oを更新
 				o.id ??= String(this.#aSpan.length);
 				if (o.id === 'break') {
-					this.#txs.dispBreak(<HArg>o);
+					this.#txs.dispBreak(<TArg>o);
 					return;	// breakではない
 				}
 
@@ -754,7 +758,7 @@ export class TxtLayer extends Layer {
 			?? this.#stkASpan.at(0)?.o.wait	// 親要素
 			?? (TxtLayer.#doAutoWc	// ()は必要
 				? TxtLayer.#hAutoWc[ch.at(0) ?? ''] ?? 0
-				: LayerMng.msecChWait) :0;
+				: TxtLayer.msecChWait) :0;
 		if (TxtLayer.#evtMng.isSkipping) this.#cumDelay = 0;
 		else if (isAddWait && this.#ch_in_join) this.#cumDelay += uint(wait);
 			// ... += uint(wait)*5	// こうすると出現視認テストができる
@@ -833,7 +837,7 @@ export class TxtLayer extends Layer {
 	get enabled() {return this.ctn.interactiveChildren}
 	set enabled(e) {this.ctn.interactiveChildren = e}
 
-	readonly	addButton = (hArg: HArg)=> new Promise<void>(re=> {
+	readonly	addButton = (hArg: TArg)=> new Promise<void>(re=> {
 		// 直後の JSON.stringify() のため hArg を更新
 		hArg.key = `btn=[${this.#cntBtn.children.length}] `+ this.name_;
 		hArg[':id_tag'] = hArg.key.slice(0, -7);	// Design用
@@ -850,7 +854,7 @@ export class TxtLayer extends Layer {
 	}
 
 
-	override clearLay(hArg: HArg): void {
+	override clearLay(hArg: TArg): void {
 		super.clearLay(hArg);
 
 		this.clearText();
@@ -895,7 +899,7 @@ export class TxtLayer extends Layer {
 
 		aPrm.push(
 			new Promise<void>(re=> {
-				const h: HArg = hLay.b_do
+				const h: TArg = hLay.b_do
 					? hLay.b_do === 'Sprite'
 						? {b_pic: hLay.b_pic}
 						: {b_color: hLay.b_color}
@@ -904,7 +908,7 @@ export class TxtLayer extends Layer {
 				h.b_alpha_isfixed = hLay.b_alpha_isfixed;
 				if (! this.#drawBack(h, isStop=> {if (isStop) re()})) re();
 			}),
-			...hLay.btns.map(b=> this.addButton(<HArg>JSON.parse(b.replaceAll('\'', '"')))).flat(),
+			...hLay.btns.map(b=> this.addButton(<TArg>JSON.parse(b.replaceAll('\'', '"')))).flat(),
 		);
 	}
 

@@ -6,17 +6,17 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {Grammar, type IHTag, REG_TAG, splitAmpersand} from '../src/sn/Grammar';
-import type {IConfig, IExts, T_SEARCHPATH} from '../src/sn/ConfigBase';
+import {Grammar, type T_HTag, REG_TAG, splitAmpersand} from '../src/sn/Grammar';
+import type {T_Config, T_Exts, T_SEARCHPATH} from '../src/sn/ConfigBase';
 import {creCFG, SEARCH_PATH_ARG_EXT} from '../src/sn/ConfigBase';
 
 //===== Test Class =====
-class CfgTest implements IConfig {
+class CfgTest implements T_Config {
 	oCfg	= creCFG();
 	headNs	= '';
 	searchPath: T_SEARCHPATH = _fn=> '';
-	matchPath = (_fnptn: string, _extptn?: SEARCH_PATH_ARG_EXT): readonly IExts[]=> [];
-	addPath(_fn: string, _h_exts: IExts) { /* empty */ }
+	matchPath = (_fnptn: string, _extptn?: SEARCH_PATH_ARG_EXT): readonly T_Exts[]=> [];
+	addPath(_fn: string, _h_exts: T_Exts) { /* empty */ }
 }
 //===== Test Class =====
 
@@ -1260,7 +1260,7 @@ it('test_char2macro_1', ()=> {
 	expect(aToken[3]).toBe('@@');
 	expect(aToken[4]).toBe('[aa]');
 
-	grm.char2macro({char: '@', name: 'zzz',}, <IHTag><unknown>{
+	grm.char2macro({char: '@', name: 'zzz',}, <T_HTag><unknown>{
 		zzz: ()=> false,
 	}, scr, 0);
 	expect(aToken).toHaveLength(6);
@@ -1284,7 +1284,7 @@ it('test_char2macro_2', ()=> {
 	expect(aToken[4]).toBe('@@');
 	expect(aToken[5]).toBe('[aa]');
 
-	grm.char2macro({char: '@', name: 'zzz',}, <IHTag><unknown>{
+	grm.char2macro({char: '@', name: 'zzz',}, <T_HTag><unknown>{
 		zzz: ()=> false,
 	}, scr, 1);
 	expect(aToken).toHaveLength(7);
@@ -1311,7 +1311,7 @@ it('test_bracket2macro_0', ()=> {
 	expect(aToken[4]).toBe('〔黒柳〕〔梨香〕');
 	expect(aToken[5]).toBe('[zzz]');
 
-	grm.bracket2macro({text: '〔〕', name: 'セリフ',}, <IHTag><unknown>{
+	grm.bracket2macro({text: '〔〕', name: 'セリフ',}, <T_HTag><unknown>{
 		セリフ: ()=> false,
 	}, scr, 1);
 	expect(aToken).toHaveLength(7);
@@ -1335,7 +1335,7 @@ it('test_bracket2macro_1', ()=> {
 	expect(aToken[3]).toBe('〔黒柳〕〔梨香〕');
 	expect(aToken[4]).toBe('[zzz]');
 
-	grm.bracket2macro({text: '〔〕', name: 'セリフ',}, <IHTag><unknown>{
+	grm.bracket2macro({text: '〔〕', name: 'セリフ',}, <T_HTag><unknown>{
 		セリフ: ()=> false,
 	}, scr, 0);
 	expect(aToken).toHaveLength(6);

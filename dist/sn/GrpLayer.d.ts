@@ -1,6 +1,6 @@
 import { Layer, T_RecordPlayBack_lay } from './Layer';
-import { HArg } from './Grammar';
-import { IMain, IVariable } from './CmnInterface';
+import { TArg } from './Grammar';
+import { T_Main, T_Variable } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
 import { SoundMng } from './SoundMng';
@@ -12,17 +12,17 @@ export type T_RP_layGrp = T_RecordPlayBack_lay & {
 };
 export declare class GrpLayer extends Layer {
     #private;
-    static init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: IVariable): void;
+    static init(main: T_Main, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: T_Variable): void;
     static destroy(): void;
     constructor();
-    readonly lay: (hArg: HArg) => boolean;
+    readonly lay: (hArg: TArg) => boolean;
     get width(): number;
     get height(): number;
     renderStart(): void;
     renderEnd(): void;
-    setPos(hArg: HArg): void;
+    setPos(hArg: TArg): void;
     get containMovement(): boolean;
-    clearLay(hArg: HArg): void;
+    clearLay(hArg: TArg): void;
     readonly record: () => {
         sBkFn: string;
         sBkFace: string;
@@ -38,7 +38,7 @@ export declare class GrpLayer extends Layer {
         x: number;
         y: number;
         visible: boolean;
-        aFltHArg: HArg[];
+        aFltHArg: TArg[];
     };
     playback(hLay: T_RP_layGrp, aPrm: Promise<void>[]): void;
     makeDesignCast(gdc: IMakeDesignCast): void;

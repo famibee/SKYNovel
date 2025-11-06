@@ -26,14 +26,15 @@ export class Config extends ConfigBase {
 	}
 
 	protected	constructor(override readonly sys: SysBase) {super(sys)}
-	protected	override	async load(oCfg: T_CFG_RAW) {
-		await super.load(oCfg);
 
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		CmnLib.stageW = oCfg.window!.width;
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		CmnLib.stageH = oCfg.window!.height;
+	protected	override	async load(oCfg: T_CFG_RAW) {
+		oCfg.window ??= {width: 300, height: 300};
+		CmnLib.stageW = oCfg.window.width;
+		CmnLib.stageH = oCfg.window.height;
 		CmnLib.debugLog = oCfg.debug.debugLog;
+		await CmnLib.init();
+
+		return super.load(oCfg);
 	}
 
 	override	searchPath(fn: string, extptn: SEARCH_PATH_ARG_EXT = SEARCH_PATH_ARG_EXT.DEFAULT): string {

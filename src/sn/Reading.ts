@@ -6,8 +6,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {HArg, IHTag} from './Grammar';
-import type {T_Evt2Fnc, T_HEvt2Fnc, IMain, T_Mark, IVariable} from './CmnInterface';
+import type {TArg, T_HTag} from './Grammar';
+import type {T_Evt2Fnc, T_HEvt2Fnc, T_Main, T_Mark, T_Variable} from './CmnInterface';
 import {argChk_Boolean, argChk_Num, CmnLib, EVNM_CLICK, EVNM_KEY} from './CmnLib';
 import type {Config} from './Config';
 import type {ScriptIterator} from './ScriptIterator';
@@ -63,7 +63,7 @@ export class ReadingState {
 	}
 	static	pushLocalEvts(h: T_HEvt2Fnc) {this.#hLocalEvt2Fnc = h}
 
-	static	clear_event(hArg: HArg): boolean {
+	static	clear_event(hArg: TArg): boolean {
 		const glb = argChk_Boolean(hArg, 'global', false);
 		const h = glb ?this.#hGlobalEvt2Fnc :this.#hLocalEvt2Fnc;
 		for (const [KeY, e2f] of Object.entries(h)) {
@@ -240,7 +240,7 @@ export class ReadingState {
 
 
 	// タグ処理
-	l(hArg: HArg): boolean {
+	l(hArg: TArg): boolean {
 // console.log(`fn:Reading.ts line:218 [l] isKidoku:${Reading.scrItr.isKidoku} isNextKidoku:${Reading.scrItr.isNextKidoku} A:${Reading.auto_enabled} B:${Reading.skip_enabled} C:${Reading.skip_all}`);
 		if (! Reading.tagL_enabled) return false;
 
@@ -268,7 +268,7 @@ export class ReadingState {
 		new ReadingState_wait4Tag(hArg);
 		return true;
 	}
-	p(hArg: HArg): boolean {
+	p(hArg: TArg): boolean {
 // console.log(`fn:Reading.ts line:248 [p] isKidoku:${Reading.scrItr.isKidoku} isNextKidoku:${Reading.scrItr.isNextKidoku} A:${Reading.auto_enabled} B:${Reading.skip_enabled} C:${Reading.skip_all}`);
 		ReadingState.recodePage();
 
@@ -294,14 +294,14 @@ export class ReadingState {
 		new ReadingState_wait4Tag(hArg);
 		return true;
 	}
-	s(hArg: HArg): boolean {
+	s(hArg: TArg): boolean {
 		ReadingState.recodePage();
 
 		Reading.cancelAutoSkip();
 		new ReadingState_wait4Tag(hArg);
 		return true;
 	}
-	wait(hArg: HArg): boolean {
+	wait(hArg: TArg): boolean {
 		const time = argChk_Num(hArg, 'time', NaN);	// skip時もエラーは出したい
 		if (Reading.skip_enabled) {		// Fスキップ時
 			if (! Reading.skip_all && ! Reading.scrItr.isNextKidoku) Reading.cancelAutoSkip();	// 未読で停止
@@ -319,7 +319,7 @@ export class ReadingState {
 		Reading.beginProc(RPN_WAIT, fin, true, canskip ?fin :undefined);
 		return true;
 	}
-	page(hArg: HArg): boolean {
+	page(hArg: TArg): boolean {
 		if (! ('clear' in hArg || 'to' in hArg || 'style' in hArg)) throw 'clear,style,to いずれかは必須です';
 
 		// ページ移動状態中に有効にするグローバルイベントを限定
@@ -380,7 +380,7 @@ class ReadingState_proc extends ReadingState {
 // wait 状態
 //	イベント待ちやクリック待ち
 class ReadingState_wait4Tag extends ReadingState {
-	constructor(hArg: HArg) {
+	constructor(hArg: TArg) {
 		super();
 		if (CmnLib.debugLog) console.log('📖 => %cReadingState_wait', 'color:#3B0;');
 
@@ -415,7 +415,7 @@ class ReadingState_wait4Tag extends ReadingState {
 
 	override	readonly	isWait	= true;
 
-	override page(hArg: HArg): boolean {
+	override page(hArg: TArg): boolean {
 		const ret = super.page(hArg);	// チェックも兼ねて
 		const {to} = hArg;
 		if (! to) return ret;
@@ -448,7 +448,7 @@ class ReadingState_page extends ReadingState {
 		if (CmnLib.debugLog) console.log('📖 => %cReadingState_page', 'color:#3B0;');
 		Reading.val.setVal_Nochk('tmp', 'const.sn.isPaging', true);
 	}
-	static	go(hArg: HArg) {return new ReadingState_page().page(hArg)}
+	static	go(hArg: TArg) {return new ReadingState_page().page(hArg)}
 
 	#isPaging	= true;
 	override	get	isSkipping() {return this.#isPaging}
@@ -459,7 +459,7 @@ class ReadingState_page extends ReadingState {
 	override	endProc() {Reading.main.resume()}
 
 	// タグ処理
-	override	l(hArg: HArg): boolean {
+	override	l(hArg: TArg): boolean {
 // console.log(`fn:ReadState.ts [l] len:${ReadingState.lenPage} pos:${ReadingState.posPage} isSkipping:${this.#isPaging}`);
 		if (! this.#isPaging) return super.l(hArg);	// 基底 ReadingState_go 化
 
@@ -479,7 +479,7 @@ class ReadingState_page extends ReadingState {
 		ReadingState.waitRsvEvent4Paging();
 		return true;
 	}
-	override	p(hArg: HArg): boolean {
+	override	p(hArg: TArg): boolean {
 // console.log(`fn:ReadState.ts [p] len:${ReadingState.lenPage} pos:${ReadingState.posPage}`);
 		if (! this.#isPaging) return super.p(hArg);	// 基底 ReadingState_go 化
 
@@ -498,12 +498,12 @@ class ReadingState_page extends ReadingState {
 		ReadingState.waitRsvEvent4Paging();
 		return true;
 	}
-	override	s(hArg: HArg): boolean {
+	override	s(hArg: TArg): boolean {
 		new ReadingState_wait4Tag(hArg);
 		return true;
 	}
 	override	wait() {return false}
-	override	page(hArg: HArg): boolean {
+	override	page(hArg: TArg): boolean {
 		const {to, style, clear} = hArg;
 		if (style || clear) return false;
 
@@ -643,9 +643,9 @@ export class Reading {
 
 
 	static	cfg		: Config;
-	static	hTag	: IHTag;
-	static	main	: IMain;
-	static	val		: IVariable;
+	static	hTag	: T_HTag;
+	static	main	: T_Main;
+	static	val		: T_Variable;
 	static	scrItr	: ScriptIterator;
 	static	layMng	: LayerMng;
 	static	goTxt = ()=> { /* empty */ };
@@ -656,7 +656,7 @@ export class Reading {
 
 	static	fcs		: FocusMng;
 
-	static	init(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, scrItr: ScriptIterator, layMng: LayerMng, evtMng: EventMng, sndMng: SoundMng, procWheel4wle: (elc: EventListenerCtn, onIntr: ()=> void)=> void) {
+	static	init(cfg: Config, hTag: T_HTag, main: T_Main, val: T_Variable, scrItr: ScriptIterator, layMng: LayerMng, evtMng: EventMng, sndMng: SoundMng, procWheel4wle: (elc: EventListenerCtn, onIntr: ()=> void)=> void) {
 		this.cfg = cfg;
 		this.hTag = hTag;
 		this.main = main;

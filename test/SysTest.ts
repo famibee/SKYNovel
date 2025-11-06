@@ -6,11 +6,11 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {creCFG} from '../src/sn/ConfigBase';
-import {SysNode} from '../src/sn/SysNode';
+import {SysBase} from '../src/sn/SysBase';
 import hPath from './path.json';
 
 
-export class SysTest extends SysNode {
+export class SysTest extends SysBase {
 	override	fetch = (url: string)=> Promise.resolve(new Response(
 		JSON.stringify( url === 'test/prj.json' ? creCFG() : hPath )
 	));

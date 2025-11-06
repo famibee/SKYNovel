@@ -1,17 +1,18 @@
 import { T_H_VAL_MP } from './CallStack';
-import { IHTag } from './Grammar';
-import { IVariable, T_fncSetVal, typeProcVal, ISysBase, T_Data4Vari, T_Mark, Scope, T_VAL_DATA, T_VAL_BSNU } from './CmnInterface';
+import { T_HTag } from './Grammar';
+import { T_Variable, T_fncSetVal, T_ProcVal, T_SysBase, T_Data4Vari, T_Mark, Scope, T_VAL_DATA, T_VAL_BSNU } from './CmnInterface';
 import { Config } from './Config';
 import { Areas } from './Areas';
-export declare class Variable implements IVariable {
+export declare class Variable implements T_Variable {
     #private;
+    private readonly sys;
     private readonly cfg;
-    constructor(cfg: Config, hTag: IHTag);
-    setSys(sys: ISysBase): Promise<void>;
-    updateData(data: T_Data4Vari): void;
-    flush(): void;
+    constructor(sys: T_SysBase, cfg: Config, hTag: T_HTag);
+    init(): Promise<void>;
+    updateData(d4v: T_Data4Vari): void;
+    flush: () => void;
     setDoRecProc(fnc: (doRec: boolean) => void): void;
-    defTmp(name: string, fnc: typeProcVal): void;
+    defTmp(name: string, fnc: T_ProcVal): void;
     cloneMp(): {
         'const.sn.macro': string;
         'const.sn.me_call_scriptFn': string;

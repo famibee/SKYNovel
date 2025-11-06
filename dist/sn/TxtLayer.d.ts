@@ -1,11 +1,11 @@
+import { SysBase } from './SysBase';
 import { Layer, T_RecordPlayBack_lay } from './Layer';
 import { IEvtMng } from './CmnLib';
-import { IHTag, HArg } from './Grammar';
-import { IVariable } from './CmnInterface';
+import { T_HTag, TArg } from './Grammar';
+import { T_Variable } from './CmnInterface';
 import { T_RP_layTxtStage } from './TxtStage';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
-import { SysBase } from './SysBase';
 import { ScriptIterator } from './ScriptIterator';
 import { T_LOG } from './Log';
 import { Renderer, Application } from 'pixi.js';
@@ -44,7 +44,9 @@ export type T_cmdTxt_JSON = {
 };
 export declare class TxtLayer extends Layer {
     #private;
-    static init(cfg: Config, hTag: IHTag, val: IVariable, log: T_LOG, isPageFore: (me: TxtLayer) => boolean, appPixi: Application): void;
+    static init(cfg: Config, hTag: T_HTag, val: T_Variable, log: T_LOG, isPageFore: (me: TxtLayer) => boolean, appPixi: Application): void;
+    static set msecChWait(mscw: number);
+    static get msecChWait(): number;
     static setEvtMng(evtMng: IEvtMng, sys: SysBase, scrItr: ScriptIterator): void;
     constructor();
     destroy(): void;
@@ -55,7 +57,7 @@ export declare class TxtLayer extends Layer {
     cvsResizeChildren(): void;
     protected procSetX(x: number): void;
     protected procSetY(y: number): void;
-    lay(hArg: HArg): boolean;
+    lay(hArg: TArg): boolean;
     get width(): number;
     get height(): number;
     chgBackAlpha(g_alpha: number): void;
@@ -69,9 +71,9 @@ export declare class TxtLayer extends Layer {
     get pagePlainText(): string;
     get enabled(): boolean;
     set enabled(e: boolean);
-    readonly addButton: (hArg: HArg) => Promise<void>;
+    readonly addButton: (hArg: TArg) => Promise<void>;
     canFocus(): boolean;
-    clearLay(hArg: HArg): void;
+    clearLay(hArg: TArg): void;
     readonly record: () => {
         enabled: boolean;
         r_cssText: string;
@@ -105,7 +107,7 @@ export declare class TxtLayer extends Layer {
         x: number;
         y: number;
         visible: boolean;
-        aFltHArg: HArg[];
+        aFltHArg: TArg[];
     };
     playback(hLay: T_RP_layTxt, aPrm: Promise<void>[]): void;
     get cssText(): string;

@@ -64,48 +64,47 @@ export type T_CFG = T_CFG_RAW & {
     };
 };
 export declare function creCFG(): T_CFG;
-export type IExts = {
+export type T_Exts = {
     ':cnt'?: number;
 } & {
     [ext: string]: string;
 };
-export type IFn2Path = {
-    [fn: string]: IExts;
+export type T_Fn2Path = {
+    [fn: string]: T_Exts;
 };
 export type T_SEARCHPATH = (fn: string, extptn?: SEARCH_PATH_ARG_EXT) => string;
-export type IConfig = {
+export type T_Config = {
     oCfg: T_CFG;
     headNs: string;
     searchPath: T_SEARCHPATH;
-    matchPath: (fnptn: string, extptn?: SEARCH_PATH_ARG_EXT) => readonly IExts[];
-    addPath: (fn: string, h_exts: IExts) => void;
+    matchPath: (fnptn: string, extptn?: SEARCH_PATH_ARG_EXT) => readonly T_Exts[];
+    addPath: (fn: string, h_exts: T_Exts) => void;
 };
-export interface ISysRoots {
-    loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig): Promise<void>;
+export type T_SysRoots = {
     dec(ext: string, tx: string): Promise<string>;
     decAB(ab: ArrayBuffer): Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer>;
-    arg: HSysBaseArg;
+    arg: T_HSysBaseArg;
     fetch(url: string): Promise<Response>;
     hash(str: string): string;
-}
-export type HSysBaseArg = {
+};
+export type T_HSysBaseArg = {
     cur: string;
     crypto: boolean;
     dip?: string;
 };
-export declare class ConfigBase implements IConfig {
+export declare class ConfigBase implements T_Config {
     #private;
-    readonly sys: ISysRoots;
+    readonly sys: T_SysRoots;
     oCfg: T_CFG;
     userFnTail: string;
-    protected hPathFn2Exts: IFn2Path;
-    protected constructor(sys: ISysRoots);
+    protected hPathFn2Exts: T_Fn2Path;
+    protected constructor(sys: T_SysRoots);
     protected load(oCfg: T_CFG_RAW): Promise<void>;
     get existsBreakline(): boolean;
     get existsBreakpage(): boolean;
     get headNs(): string;
     searchPath(fn: string, extptn?: SEARCH_PATH_ARG_EXT): string;
-    matchPath(fnptn: string, extptn?: SEARCH_PATH_ARG_EXT): readonly IExts[];
-    addPath(fn: string, h_exts: IExts): void;
+    matchPath(fnptn: string, extptn?: SEARCH_PATH_ARG_EXT): readonly T_Exts[];
+    addPath(fn: string, h_exts: T_Exts): void;
 }
 //# sourceMappingURL=ConfigBase.d.ts.map

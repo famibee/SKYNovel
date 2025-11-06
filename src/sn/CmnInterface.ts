@@ -5,22 +5,21 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {HSysBaseArg, T_SEARCHPATH} from './ConfigBase';
-import type {HArg, ITag} from './Grammar';
+import type {T_HSysBaseArg, T_SEARCHPATH} from './ConfigBase';
+import type {TArg, TTag} from './Grammar';
 import type {Areas, T_H_Areas} from './Areas';
 import type {T_H_VAL_MP} from './CallStack';
 import type {Layer, T_RecordPlayBack_lay} from './Layer';
-import {getDateStr} from './CmnLib';
+import {CmnLib, getDateStr} from './CmnLib';
 
 import type {DisplayObject, RenderTexture} from 'pixi.js';
-import platform from 'platform';
 
 
-export type IMyTrace = (txt: string, lvl?: string, fnline?: boolean, adjust_line?: number)=> void
+export type T_MyTrace = (txt: string, lvl?: string, fnline?: boolean, adjust_line?: number)=> void
 
 
 // =============== PropParser
-export type IPropParser = {
+export type T_PropParser = {
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	parse(s: string): any;
 	getValAmpersand(val: string): string;
@@ -28,7 +27,7 @@ export type IPropParser = {
 
 
 // =============== Plugin
-export type PLUGIN_DECAB_RET = {
+export type T_PLUGIN_DECAB_RET = {
 	ext_num	: number;
 	ab		: ArrayBuffer;
 };
@@ -38,50 +37,48 @@ export type T_PLUGIN_INFO = {
 		height	: number;
 	},
 }
-export type IPluginInitArg = {
+export type T_PluginInitArg = {
 	getInfo(): T_PLUGIN_INFO;
-	addTag(tag_name: string, tag_fnc: ITag): void;
-	addLayCls(cls: string, fnc: ILayerFactory): void;
+	addTag(tag_name: string, tag_fnc: TTag): void;
+	addLayCls(cls: string, fnc: T_LayerFactory): void;
 	searchPath: T_SEARCHPATH;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	getVal(arg_name: string, def?: number | string): any;
 	resume(fnc?: ()=> void): void;
 	render(dsp: DisplayObject, renTx?: RenderTexture, clear?: boolean): void;
 	setDec(fnc: (ext: string, tx: string)=> Promise<string>): void;
-	setDecAB(fnc: (ab: ArrayBuffer)=> Promise<PLUGIN_DECAB_RET>): void;
+	setDecAB(fnc: (ab: ArrayBuffer)=> Promise<T_PLUGIN_DECAB_RET>): void;
 	setEnc(fnc: (tx: string)=> Promise<string>): void;
 	getStK(fnc: ()=> string): void;
 	getHash(fnc: (str: string)=> string): void;
 }
-export type IPlugin = {
-	init(pia: IPluginInitArg): Promise<void>;
+export type T_Plugin = {
+	init(pia: T_PluginInitArg): Promise<void>;
 }
-export type HPlugin = {[name: string]: IPlugin;}
+export type T_HPlugin = {[name: string]: T_Plugin;}
 
-export type ILayerFactory = ()=> Layer
+export type T_LayerFactory = ()=> Layer
 
 
 // =============== SysBase
 export type T_SysBaseParams = [
-	hPlg	: HPlugin,
-	arg?	: HSysBaseArg,
+	hPlg	: T_HPlugin,
+	arg?	: T_HSysBaseArg,
 ];
 export type T_SysBaseLoadedParams = [
-	hPlg	: HPlugin,
-	arg		: HSysBaseArg,
+	hPlg	: T_HPlugin,
+	arg		: T_HSysBaseArg,
 ];
 
 
 export type SYS_DEC_RET = HTMLImageElement | HTMLVideoElement | ArrayBuffer;
-export type ISysBase = {
-	initVal(data: T_Data4Vari, hTmp: T_H_TMP_DATA, comp: (data: T_Data4Vari)=> void): Promise<void>;
+export type T_SysBase = {
+	initVal(hTmp: T_H_TMP_DATA, comp: (data: T_Data4Vari)=> void): Promise<void>;
 	flush(): void;
-	dec(ext: string, tx: string): Promise<string>;
-	decAB(ab: ArrayBuffer): Promise<SYS_DEC_RET>;
 
-	addHook(fnc: IFncHook): void;
-	callHook: IFncHook;
-	send2Dbg: IFncHook;
+	addHook(fnc: T_FncHook): void;
+	callHook: T_FncHook;
+	send2Dbg: T_FncHook;
 
 	copyBMFolder(from: number, to: number): void;
 	eraseBMFolder(place: number): void;
@@ -89,17 +86,17 @@ export type ISysBase = {
 	destroy(): void;
 }
 
-export type IFire = (KEY: string, e: Event)=> void;
+export type T_Fire = (KEY: string, e: Event)=> void;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type IFncHook = (type: string, o: any)=> void;
+export type T_FncHook = (type: string, o: any)=> void;
 
 
 // =============== Main
-export type IMain = {
+export type T_Main = {
 	errScript(mes: string, isThrow? :boolean): void;
 	cvs			: HTMLCanvasElement;
 	resume(fnc?: ()=> void): void;
-	resumeByJumpOrCall(hArg: HArg): void;
+	resumeByJumpOrCall(hArg: TArg): void;
 	stop(): void;
 	setLoop(v: boolean, mes?: string): void;
 	destroy(): void;
@@ -193,8 +190,8 @@ export function creSYS_DATA(): T_H_SYS_DATA {return {
 	'const.sn.aPageLog'			: '[]',	// ページ遷移用情報（JSON文字列）
 	'const.sn.nativeWindow.x'	: 0,	// 実数；横座標
 	'const.sn.nativeWindow.y'	: 0,	// 実数；縦座標
-	'const.sn.nativeWindow.w'	: 0,	// 実数；横幅
-	'const.sn.nativeWindow.h'	: 0,	// 実数；縦幅
+	'const.sn.nativeWindow.w'	: CmnLib.stageW,	// 実数；横幅
+	'const.sn.nativeWindow.h'	: CmnLib.stageH,	// 実数；縦幅
 	'const.sn.save.place'		: 1,	// 次のセーブplaceを示す
 	'const.sn.sound.BGM.volume'	: 1,	// BGMの基準音量（buf="BGM"の効果音）
 	'const.sn.sound.SE.volume'	: 1,	// 効果音の基準音量（buf="SE"の効果音）
@@ -338,7 +335,7 @@ export function creTMP_DATA(): T_H_TMP_DATA {return {
 		? ()=> false
 		: ()=> (new globalThis.AudioContext).state === 'suspended',
 		// ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる
-	'const.sn.platform'			: JSON.stringify(platform),	// 環境による
+	'const.sn.platform'			: CmnLib.platform,	// 環境による
 
 	'const.sn.screenResolutionX': screen.availWidth,	// 画面の最大水平解像度
 	'const.sn.screenResolutionY': screen.availHeight,	// 画面の最大垂直解像度
@@ -361,19 +358,19 @@ export function creTMP_DATA(): T_H_TMP_DATA {return {
 
 export type Scope = 'tmp'|'save'|'sys'|'mp';
 
-export type typeProcVal = ()=> T_VAL_BSN;
+export type T_ProcVal = ()=> T_VAL_BSN;
 
 export type T_fncSetVal = (arg_name: string, val: T_VAL_BSN, autocast?: boolean)=> void;
 
-export type IVariable = {
-	setSys(sys: ISysBase): Promise<void>;
+export type T_Variable = {
+	init(): Promise<void>;
 	flush(): void;
 	setDoRecProc(doRecProc: (doRec: boolean)=> void): void;
 
 	getVal(arg_name: string, def?: number | string, touch?: boolean): T_VAL_DATA;
 	setVal_Nochk(scope: Scope, nm: string, val: T_VAL_BSNU, autocast?: boolean): void;
 
-	defTmp(name: string, fnc: typeProcVal): void;
+	defTmp(name: string, fnc: T_ProcVal): void;
 	cloneMp(): T_H_VAL_MP;
 	setMp(mp: T_H_VAL_MP): void;
 	setMark(place: number, mark: T_Mark): void;
@@ -408,9 +405,9 @@ export type T_Data4Vari = {
 
 export type T_Mark = {
 	hSave	: T_H_SAVE_DATA;
-	hPages	: HIPage;
+	hPages	: T_HPage;
 	aIfStk	: number[];
-	json?	: HArg;
+	json?	: TArg;
 }
 
 
@@ -420,14 +417,14 @@ export type T_HEvt2Fnc	= {[name: string]: T_Evt2Fnc;};
 
 
 // =============== FrameMng, LayerMng
-export type IGetFrm = {
+export type T_GetFrm = {
 	getFrmDisabled	: (id: string)=> boolean;
 };
 
 
 // =============== Pages
-export type HIPage = {[name: string]: IPage};
-export type IPage = {
+export type T_HPage = {[name: string]: T_Page};
+export type T_Page = {
 	cls		: string;
 	fore	: T_RecordPlayBack_lay;
 	back	: T_RecordPlayBack_lay;
@@ -435,8 +432,8 @@ export type IPage = {
 
 
 // =============== RubySpliter
-export type IPutCh = (ch: string, ruby: string)=> void
+export type T_PutCh = (ch: string, ruby: string)=> void
 
 
 // =============== Volume change event notification (GrpLayer)
-export type INoticeChgVolume = (vol: number)=> void
+export type T_NoticeChgVolume = (vol: number)=> void

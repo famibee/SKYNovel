@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {RubySpliter} from '../src/sn/RubySpliter';
-import type {IPutCh} from '../src/sn/CmnInterface';
+import type {T_PutCh} from '../src/sn/CmnInterface';
 
 let	rbSpl	: RubySpliter;
 let	retText	= '';
@@ -18,7 +18,7 @@ beforeEach(()=> {
 	retText	= '';
 	retRuby	= '';
 });
-	const putCh : IPutCh = (ch, ruby)=> {
+	const putCh : T_PutCh = (ch, ruby)=> {
 		retText = retText + '.'+ ch;
 		retRuby = retRuby + '.'+ ruby;
 	}

@@ -1,8 +1,8 @@
 import { IEvtMng } from './CmnLib';
-import { IVariable, IMain } from './CmnInterface';
+import { T_Variable, T_Main } from './CmnInterface';
 import { Config } from './Config';
 import { SysBase } from './SysBase';
-import { HArg } from './Grammar';
+import { TArg } from './Grammar';
 export type HSndBuf = {
     [buf: string]: SndBuf;
 };
@@ -10,21 +10,21 @@ export declare const BUF_BGM = "BGM";
 export declare const BUF_SE = "SE";
 export declare class SndBuf {
     #private;
-    readonly hArg: HArg;
+    readonly hArg: TArg;
     readonly buf: string;
     readonly fn: string;
-    static init($cfg: Config, $val: IVariable, $main: IMain, $sys: SysBase, $hSndBuf: HSndBuf): void;
+    static init($cfg: Config, $val: T_Variable, $main: T_Main, $sys: SysBase, $hSndBuf: HSndBuf): void;
     static setEvtMng($evtMng: IEvtMng): void;
     static delLoopPlay(buf: string): void;
-    static getVol(hArg: HArg, def: number): number;
-    static xchgbuf({ buf: buf1, buf2 }: HArg): void;
+    static getVol(hArg: TArg, def: number): number;
+    static xchgbuf({ buf: buf1, buf2 }: TArg): void;
     readonly needLoad: boolean;
-    constructor(hArg: HArg, buf: string, fn: string);
+    constructor(hArg: TArg, buf: string, fn: string);
     setVol(vol: number): void;
-    ws: (hArg: HArg) => boolean;
-    stopse({ buf }: HArg): void;
-    fade: (hArg: HArg) => void;
-    wf: (hArg: HArg) => boolean;
-    stopfadese: (hArg: HArg) => void;
+    ws: (hArg: TArg) => boolean;
+    stopse({ buf }: TArg): void;
+    fade: (hArg: TArg) => void;
+    wf: (hArg: TArg) => boolean;
+    stopfadese: (hArg: TArg) => void;
 }
 //# sourceMappingURL=SndBuf.d.ts.map

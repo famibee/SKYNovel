@@ -8,9 +8,9 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {argChk_Boolean, getFn, CmnLib, argChk_Num} from './CmnLib';
-import type {IHTag, HArg, Script, ITag} from './Grammar';
-import type {IMain, IVariable, T_Mark, IPropParser, T_HEvt2Fnc} from './CmnInterface';
+import {argChk_Boolean, getFn, CmnLib, argChk_Num, RPN_COMP_CHIN} from './CmnLib';
+import type {T_HTag, TArg, Script, TTag} from './Grammar';
+import type {T_Main, T_Variable, T_Mark, T_PropParser, T_HEvt2Fnc} from './CmnInterface';
 import {creSAVEDATA} from './CmnInterface';
 import type {Config} from './Config';
 import {CallStack, creCSArg, creMP, type ICallStackArg} from './CallStack';
@@ -47,8 +47,6 @@ const enum SndProcOnLoad {
 	ALL_STOP_AND_PLAY,
 }
 
-export	const	RPN_COMP_CHIN = 'compChIn';
-
 
 export class ScriptIterator {
 	#script		: Script	= {aToken: [''], len: 1, aLNum: [1]};
@@ -72,7 +70,7 @@ export class ScriptIterator {
 
 
 	//MARK: コンストラクタ
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly main: IMain, private readonly val: IVariable, private readonly prpPrs: IPropParser, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
+	constructor(private readonly cfg: Config, private readonly hTag: T_HTag, private readonly main: T_Main, private readonly val: T_Variable, private readonly prpPrs: T_PropParser, private readonly sndMng: SoundMng, private readonly sys: SysBase) {
 		// 変数操作
 		hTag.let_ml		= o=> this.#let_ml(o);	// インラインテキスト代入
 		hTag.endlet_ml	= ()=> false;			// インラインテキスト代入終端
@@ -418,7 +416,7 @@ export class ScriptIterator {
 	#procDebugtag	= (_tag_name: string)=> { /* empty */ };
 	//MARK: タグ解析
 	async	タグ解析(tag_name: string, args: string): Promise<boolean> {
-		const tag_fnc = this.hTag[<keyof IHTag>tag_name];
+		const tag_fnc = this.hTag[<keyof T_HTag>tag_name];
 		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		if (! tag_fnc) throw `未定義のタグ【${tag_name}】です`;
 
@@ -435,7 +433,7 @@ export class ScriptIterator {
 			if (! p) return false;
 		}
 
-		let hArg: HArg = {};
+		let hArg: TArg = {};
 		const csa: ICallStackArg = this.#aCallStk.at(-1)?.csArg ?? creCSArg();
 
 		const len = this.#aCallStk.length;
@@ -673,7 +671,7 @@ export class ScriptIterator {
 			'add_filter',	// フィルター追加
 		]);
 		// キー押しっぱなしスキップで処理せずスルーするタグ
-		readonly	#hTag2SkipBypass: {[tag_name: string]: ITag} = {
+		readonly	#hTag2SkipBypass: {[tag_name: string]: TTag} = {
 			'wt'		: ()=> false,	// トランス終了待ち
 			'wait_tsy'	: o=> this.hTag.stop_tsy(o),	// トゥイーン終了待ち
 			// 'wv',		：タグ内部で処理	// 動画再生終了待ち
@@ -716,7 +714,7 @@ export class ScriptIterator {
 
 
 	//MARK: インラインテキスト代入
-	#let_ml(hArg: HArg) {
+	#let_ml(hArg: TArg) {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 
@@ -794,7 +792,7 @@ export class ScriptIterator {
 
 
 	//MARK: 外部へスクリプトを表示
-	#dump_script(hArg: HArg) {
+	#dump_script(hArg: TArg) {
 		const {set_fnc, break_fnc} = hArg;
 		if (! set_fnc) throw 'set_fncは必須です';	// スクリプトを返すコールバック
 
@@ -884,7 +882,7 @@ export class ScriptIterator {
 		return false;
 	}
 	//MARK: ifブロックの開始
-	#if(hArg: HArg) {
+	#if(hArg: TArg) {
 		//console.log('if idxToken:'+ this.#idxToken);
 		const {exp} = hArg;
 		if (! exp) throw 'expは必須です';
@@ -949,7 +947,7 @@ export class ScriptIterator {
 
 
 	//MARK: サブルーチンコール
-	#call(hArg: HArg) {
+	#call(hArg: TArg) {
 		if (! argChk_Boolean(hArg, 'count', false)) this.#eraseKidoku();
 
 		const {fn} = hArg;
@@ -960,7 +958,7 @@ export class ScriptIterator {
 		if (argChk_Boolean(hArg, 'clear_local_event', false)) this.hTag.clear_event({});
 		return this.#jumpWork(fn, hArg.label);
 	}
-	#callSub(hArg: HArg, hEvt1Time?: T_HEvt2Fnc) {
+	#callSub(hArg: TArg, hEvt1Time?: T_HEvt2Fnc) {
 		const csa: ICallStackArg = {
 			...hArg,
 			':hEvt1Time': hEvt1Time,
@@ -974,7 +972,7 @@ export class ScriptIterator {
 	}
 
 	//MARK: シナリオジャンプ
-	#jump(hArg: HArg) {
+	#jump(hArg: TArg) {
 		if (! argChk_Boolean(hArg, 'count', true)) this.#eraseKidoku();
 
 		this.#aIfStk[0] = -1;
@@ -982,7 +980,7 @@ export class ScriptIterator {
 	}
 
 	//MARK: コールスタック破棄
-	#pop_stack(hArg: HArg) {
+	#pop_stack(hArg: TArg) {
 		if (argChk_Boolean(hArg, 'clear', false)) this.#aCallStk = [];
 		else if (! this.#aCallStk.pop()) throw 'スタックが空です';
 		this.#clearResvToken();
@@ -993,7 +991,7 @@ export class ScriptIterator {
 	}
 
 	//MARK: サブルーチンから戻る
-	#return(hArg: HArg) {
+	#return(hArg: TArg) {
 		const cs = this.#aCallStk.pop();
 		if (! cs) throw 'スタックが空です';
 		const csa = cs.csArg;
@@ -1345,14 +1343,14 @@ export class ScriptIterator {
 
 
 	//MARK: 括弧マクロの定義
-	#bracket2macro(hArg: HArg) {
+	#bracket2macro(hArg: TArg) {
 		this.#grm.bracket2macro(hArg, this.hTag, this.#script, this.#idxToken);
 
 		return false;
 	}
 
 	//MARK: 一文字マクロの定義
-	#char2macro(hArg: HArg) {
+	#char2macro(hArg: TArg) {
 		this.#grm.char2macro(hArg, this.hTag, this.#script, this.#idxToken);
 
 		return false;
@@ -1361,7 +1359,7 @@ export class ScriptIterator {
 	//MARK: マクロ定義の開始
 	// eslint-disable-next-line no-irregular-whitespace
 	readonly	#REG_NG4MAC_NM = /["'#;\\]　]+/;
-	#macro(hArg: HArg) {
+	#macro(hArg: TArg) {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 		if (name in this.hTag) throw `[${name}]はタグかすでに定義済みのマクロです`;
@@ -1372,7 +1370,7 @@ export class ScriptIterator {
 		this.#strStepin += '|'+ name;
 		// (new RegExp("~")) の場合は、バックスラッシュは２つ必要
 		this.#REGSTEPIN = new RegExp(`\\[(${this.#strStepin})\\b`);
-		this.hTag[<keyof IHTag>name] = hArgM=> {
+		this.hTag[<keyof T_HTag>name] = hArgM=> {
 			hArgM.design_unit = hArg.design_unit;
 			this.#callSub(hArgM);
 
@@ -1413,7 +1411,7 @@ export class ScriptIterator {
 
 
 	//MARK: しおりの読込
-	#load(hArg: HArg) {
+	#load(hArg: TArg) {
 		if ('fn' in hArg !== 'label' in hArg) throw 'fnとlabelはセットで指定して下さい';
 
 		const place = argChk_Num(hArg, 'place', 0);
@@ -1422,7 +1420,7 @@ export class ScriptIterator {
 
 		return this.loadFromMark(hArg, mark, SndProcOnLoad.ALL_STOP_AND_PLAY);
 	}
-	loadFromMark(hArg: HArg, mark: T_Mark, snd: SndProcOnLoad = SndProcOnLoad.MINIMAL_STOP) {
+	loadFromMark(hArg: TArg, mark: T_Mark, snd: SndProcOnLoad = SndProcOnLoad.MINIMAL_STOP) {
 		this.hTag.clear_event({});
 		this.val.mark2save(mark);
 		this.val.setMp(creMP());
@@ -1438,7 +1436,7 @@ export class ScriptIterator {
 			aIfStk	: [...mark.aIfStk],
 		}
 
-		const o: HArg = {
+		const o: TArg = {
 			enabled	: Boolean(this.val.getVal('save:const.sn.autowc.enabled')),
 			text	: String(this.val.getVal('save:const.sn.autowc.text')),
 			time	: Number(this.val.getVal('save:const.sn.autowc.time')),
@@ -1483,7 +1481,7 @@ export class ScriptIterator {
 	}
 
 	//MARK: スクリプト再読込
-	#reload_script(hArg: HArg) {	// 最後の[record_place]から再開
+	#reload_script(hArg: TArg) {	// 最後の[record_place]から再開
 		const mark = this.val.getMark(0);
 		if (! mark) return false;
 
@@ -1547,7 +1545,7 @@ export class ScriptIterator {
 	}
 
 	//MARK: しおりの保存
-	#save(hArg: HArg) {
+	#save(hArg: TArg) {
 		if (! ('place' in hArg)) throw 'placeは必須です';
 		const place = Number(hArg.place);
 
@@ -1564,7 +1562,7 @@ export class ScriptIterator {
 	}
 
 
-	recodeDesign(hArg: HArg) {
+	recodeDesign(hArg: TArg) {
 		let fn = '';
 		let idx = 0;
 

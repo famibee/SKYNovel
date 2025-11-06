@@ -1,4 +1,4 @@
-import { d as b, e as m } from "./web2.js";
+import { l as b, e as m } from "./web2.js";
 import { I as v, S as f, R as r, B as n, a as u } from "./SndBuf.js";
 class V {
   constructor(s, t, o, i, l) {

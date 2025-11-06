@@ -5,12 +5,12 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {IVariable, ISysBase, typeProcVal, T_fncSetVal, T_Mark, T_Data4Vari, T_H_VAL_DATA, T_VAL_DATA, T_VAL_BSNU} from '../src/sn/CmnInterface';
+import type {T_Variable, T_ProcVal, T_fncSetVal, T_Mark, T_Data4Vari, T_H_VAL_DATA, T_VAL_DATA, T_VAL_BSNU} from '../src/sn/CmnInterface';
 import {creSAVEDATA} from '../src/sn/CmnInterface';
 import {Areas} from '../src/sn/Areas';
 
 
-export class ValTest implements IVariable {
+export class ValTest implements T_Variable {
 	#hGetVal: T_H_VAL_DATA = {
 		...<T_H_VAL_DATA><unknown>{
 			'mp:fn'			: 'うひひ',
@@ -41,14 +41,14 @@ export class ValTest implements IVariable {
 		},
 	};
 
-	async setSys(_sys: ISysBase) { /* empty */ }
+	async init() { /* empty */ }
 	flush(): void { /* empty */ }
 	setDoRecProc(_doRecProc: (doRec: boolean)=> void): void { /* empty */ }
 
 	getVal(arg_name: string): T_VAL_DATA {return <T_VAL_DATA>this.#hGetVal[arg_name]}
 	setVal_Nochk = (_sc: string, _nm: string, _v: T_VAL_BSNU, _ac?: boolean)=> { /* empty */ };
 
-	defTmp = (_name: string, _fnc: typeProcVal)=> { /* empty */ };
+	defTmp = (_name: string, _fnc: T_ProcVal)=> { /* empty */ };
 	cloneMp = ()=> ({
 		'const.sn.macro': '{}',
 		'const.sn.me_call_scriptFn': '',

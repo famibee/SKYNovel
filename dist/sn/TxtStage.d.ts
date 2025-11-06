@@ -1,5 +1,5 @@
 import { IEvtMng } from './CmnLib';
-import { HArg } from './Grammar';
+import { TArg } from './Grammar';
 import { Config } from './Config';
 import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';
@@ -50,7 +50,7 @@ export declare class TxtStage extends Container {
     static destroy(): void;
     noticeCompTxt: () => void;
     constructor(ctn: Sprite, canFocus: () => boolean, sys: SysBase);
-    lay(hArg: HArg): void;
+    lay(hArg: TArg): void;
     cvsResize(): void;
     get tategaki(): boolean;
     get infTL(): T_InfTxLay;
@@ -61,10 +61,10 @@ export declare class TxtStage extends Container {
     skipChIn(): boolean;
     static initChStyle(): void;
     static getChInStyle(name: string): T_ChInOutStyle | undefined;
-    static ch_in_style(hArg: HArg): T_ChInOutStyle;
+    static ch_in_style(hArg: TArg): T_ChInOutStyle;
     static getChOutStyle(name: string): T_ChInOutStyle | undefined;
-    static ch_out_style(hArg: HArg): T_ChInOutStyle;
-    dispBreak(o: HArg): void;
+    static ch_out_style(hArg: TArg): T_ChInOutStyle;
+    dispBreak(o: TArg): void;
     static delBreak(): void;
     reNew(): TxtStage;
     record(): {

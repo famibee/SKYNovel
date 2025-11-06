@@ -5,8 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {HArg} from './Grammar';
-import type {IPropParser} from './CmnInterface';
+import type {TArg} from './Grammar';
+import type {T_PropParser} from './CmnInterface';
 import type {SysBase} from './SysBase';
 import type {ScriptIterator} from './ScriptIterator';
 import type {HPage} from './LayerMng';
@@ -20,7 +20,7 @@ import type {Application, Text, Sprite} from 'pixi.js';
 
 
 export class DesignCast {
-	static	init(_appPixi: Application, _sys: SysBase, _scrItr: ScriptIterator, _prpPrs: IPropParser, _cfg: Config, _hPages: HPage) { /* empty */ }
+	static	init(_appPixi: Application, _sys: SysBase, _scrItr: ScriptIterator, _prpPrs: T_PropParser, _cfg: Config, _hPages: HPage) { /* empty */ }
 	static	cvsResizeDesign() { /* empty */ }
 //	static	readonly	#alzTagArg	= new AnalyzeTagArg;
 
@@ -28,9 +28,9 @@ export class DesignCast {
 	constructor(readonly bg_col: string, readonly isLay = false) {}
 	destroy() { /* empty */ }
 
-	gethArg(): HArg {return this.hArg}
-	protected	hArg	: HArg	= {};
-	sethArg(hArg: HArg): void {
+	gethArg(): TArg {return this.hArg}
+	protected	hArg	: TArg	= {};
+	sethArg(hArg: TArg): void {
 		this.hArg = hArg;
 	}
 
@@ -71,13 +71,13 @@ export class TxtLayPadDesignCast extends DesignCast {
 
 // 文字レイヤ・ボタン基本
 export class BtnDesignCast extends DesignCast {
-	constructor(protected readonly btn: Button, override readonly hArg: HArg) {
+	constructor(protected readonly btn: Button, override readonly hArg: TArg) {
 		super('#e92');
 	}
 }
 // 文字レイヤ・文字ボタン
 export class TxtBtnDesignCast extends BtnDesignCast {
-	constructor(btn: Button, hArg: HArg, _txt: Text) {
+	constructor(btn: Button, hArg: TArg, _txt: Text) {
 		super(btn, hArg);
 	}
 }

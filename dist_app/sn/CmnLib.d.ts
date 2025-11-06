@@ -1,4 +1,4 @@
-import { HArg } from './Grammar';
+import { TArg } from './Grammar';
 import { Container } from 'pixi.js';
 export declare function int(o: unknown): number;
 export declare function uint(o: unknown): number;
@@ -9,13 +9,14 @@ export declare const EVNM_BUTTON = "pointerdown";
 export declare const EVNM_CLICK = "pointerdown";
 export declare const EVNM_KEY = "keydown";
 export type IEvtMng = {
-    button(hArg: HArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
+    button(hArg: TArg, ctnBtn: Container, normal: () => void, hover: () => boolean, clicked: () => void): void;
     unButton(em: Container): void;
     get isSkipping(): boolean;
     hideHint(): void;
     cvsResize(): void;
     resvFlameEvent(body: HTMLBodyElement): void;
 };
+export declare const RPN_COMP_CHIN = "compChIn";
 type T_HASH_Arg = {
     [name: string]: any;
 };
@@ -23,19 +24,22 @@ export declare function argChk_Num(hash: T_HASH_Arg, name: string, def: number):
 export declare function argChk_Boolean(hash: T_HASH_Arg, name: string, def: boolean): boolean;
 export declare function parseColor(v: string): number;
 export declare function argChk_Color(hash: T_HASH_Arg, name: string, def: number): number;
-export declare function mesErrJSON(hArg: HArg, nm?: string, mes?: string): string;
+export declare function mesErrJSON(hArg: TArg, nm?: string, mes?: string): string;
 export declare function getFn(p: string): string;
 export type T_DIP = {
     [name: string]: string;
 };
 export declare class CmnLib {
+    static init(): Promise<void>;
     static stageW: number;
     static stageH: number;
     static debugLog: boolean;
-    static readonly isSafari: boolean;
-    static readonly isFirefox: boolean;
-    static readonly isMac: boolean;
-    static readonly isMobile: boolean;
+    static platform: string;
+    static plat_desc: string;
+    static isSafari: boolean;
+    static isFirefox: boolean;
+    static isMac: boolean;
+    static isMobile: boolean;
     static hDip: T_DIP;
     static isDbg: boolean;
     static isPackaged: boolean;

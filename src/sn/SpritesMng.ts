@@ -8,12 +8,12 @@
 
 import {Config} from './Config';
 import {type IEvtMng, argChk_Boolean, argChk_Num, getFn, int} from './CmnLib';
-import type {IMain, IVariable, SYS_DEC_RET} from './CmnInterface';
+import type {T_Main, T_Variable, SYS_DEC_RET} from './CmnInterface';
 import {DebugMng} from './DebugMng';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import type {SysBase} from './SysBase';
 import type {SoundMng} from './SoundMng';
-import type {HArg} from './Grammar';
+import type {TArg} from './Grammar';
 import {Layer} from './Layer';
 import {Reading} from './Reading';
 
@@ -39,10 +39,10 @@ type IResAniSpr = {
 
 export class SpritesMng {
 	static	#cfg	: Config;
-	static	#val	: IVariable;
+	static	#val	: T_Variable;
 	static	#sys	: SysBase;
-	static	#main	: IMain;
-	static	init(cfg: Config, val: IVariable, sys: SysBase, main: IMain, sndMng: SoundMng) {
+	static	#main	: T_Main;
+	static	init(cfg: Config, val: T_Variable, sys: SysBase, main: T_Main, sndMng: SoundMng) {
 		SpritesMng.#cfg = cfg;
 		SpritesMng.#val = val;
 		SpritesMng.#sys = sys;
@@ -346,7 +346,7 @@ export class SpritesMng {
 	static	#hFn2hve	: {[fn: string]: HTMLVideoElement} = {};
 	static	getHFn2VElm(fn: string) {return SpritesMng.#hFn2hve[fn]}
 
-	static	wv(hArg: HArg): boolean {
+	static	wv(hArg: TArg): boolean {
 		// 動画ファイル名指定でいいかなと。なぜなら「ループで再生しつつ」
 		// 同ファイル名の別の動画の再生は待ちたい、なんて状況は普通は無いだろうと
 		const {fn} = hArg;
@@ -376,7 +376,7 @@ export class SpritesMng {
 	}
 
 
-	static	add_face(hArg: HArg): boolean {
+	static	add_face(hArg: TArg): boolean {
 		const {name} = hArg;
 		if (! name) throw 'nameは必須です';
 		if (name in SpritesMng.#hFace) throw '一つのname（'+ name +'）に対して同じ画像を複数割り当てられません';

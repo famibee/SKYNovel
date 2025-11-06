@@ -8,8 +8,8 @@
 
 import {CmnLib, type IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import {CmnTween} from './CmnTween';
-import type {IHTag, HArg} from './Grammar';
-import type {IVariable, IMain, IGetFrm} from './CmnInterface';
+import type {T_HTag, TArg} from './Grammar';
+import type {T_Variable, T_Main, T_GetFrm} from './CmnInterface';
 import type {SysBase} from './SysBase';
 import type {Config} from './Config';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
@@ -18,17 +18,17 @@ import {Reading} from './Reading';
 import {type Application, Loader, LoaderResource} from 'pixi.js';
 
 
-export class FrameMng implements IGetFrm {
+export class FrameMng implements T_GetFrm {
 	static	#cfg	: Config;
 	static	#sys	: SysBase;
-	static	#main	: IMain;
-	static	init(cfg: Config, sys: SysBase, main: IMain): void {
+	static	#main	: T_Main;
+	static	init(cfg: Config, sys: SysBase, main: T_Main): void {
 		FrameMng.#cfg = cfg;
 		FrameMng.#sys = sys;
 		FrameMng.#main = main;
 	}
 
-	constructor(hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable) {
+	constructor(hTag: T_HTag, private readonly appPixi: Application, private readonly val: T_Variable) {
 		//	HTMLフレーム
 		hTag.add_frame		= o=> this.#add_frame(o);	// フレーム追加
 		hTag.let_frame		= o=> this.#let_frame(o);	// フレーム変数を取得
@@ -68,7 +68,7 @@ export class FrameMng implements IGetFrm {
 
 	//	HTMLフレーム
 	// フレーム追加
-	#add_frame(hArg: HArg) {
+	#add_frame(hArg: TArg) {
 		const {id, src, alpha: a=1, scale_x: sx=1, scale_y: sy=1, rotate: r=0,} = hArg;
 		if (! id) throw 'idは必須です';
 		if (! src) throw 'srcは必須です';
@@ -159,14 +159,13 @@ export class FrameMng implements IGetFrm {
 	#hDisabled	: {[id: string]: boolean}	= {};
 	// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 	getFrmDisabled(id: string): boolean {return this.#hDisabled[id]!}
-	#rect(hArg: HArg): DOMRect {
+	#rect(hArg: TArg): DOMRect {
 		const a = {...hArg};
-		const re = FrameMng.#sys.resolution;
 		return new DOMRect(
-			argChk_Num(a, 'x', 0) *re,
-			argChk_Num(a, 'y', 0) *re,
-			argChk_Num(a, 'width', CmnLib.stageW) *re,
-			argChk_Num(a, 'height', CmnLib.stageH) *re,
+			argChk_Num(a, 'x', 0),
+			argChk_Num(a, 'y', 0),
+			argChk_Num(a, 'width', CmnLib.stageW),
+			argChk_Num(a, 'height', CmnLib.stageH),
 		);
 	}
 
@@ -243,7 +242,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	// フレーム変数を取得
-	#let_frame(hArg: HArg) {
+	#let_frame(hArg: TArg) {
 		const {id, var_name} = hArg;
 		if (! id) throw 'idは必須です';
 		const f = <HTMLIFrameElement | null>document.getElementById(id);
@@ -270,7 +269,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	// フレーム変数に設定
-	#set_frame(hArg: HArg) {
+	#set_frame(hArg: TArg) {
 		const {id, var_name, text} = hArg;
 		if (! id) throw 'idは必須です';
 		const f = <HTMLIFrameElement | null>document.getElementById(id);
@@ -294,7 +293,7 @@ export class FrameMng implements IGetFrm {
 
 	// フレームに設定
 	#zIdx = 1;
-	#frame(hArg: HArg) {
+	#frame(hArg: TArg) {
 		const {id} = hArg;
 		if (! id) throw 'idは必須です';
 		const f = <HTMLIFrameElement | null>document.getElementById(id);
@@ -356,7 +355,7 @@ export class FrameMng implements IGetFrm {
 	}
 
 	// フレームをトゥイーン開始
-	#tsy_frame(hArg: HArg) {
+	#tsy_frame(hArg: TArg) {
 		const {id, alpha, x, y, scale_x, scale_y, rotate, width, height} = hArg;
 		if (! id) throw 'idは必須です';
 		const f = <HTMLIFrameElement | null>document.getElementById(id);

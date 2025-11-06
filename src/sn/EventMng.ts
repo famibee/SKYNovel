@@ -8,8 +8,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, type IEvtMng, argChk_Boolean, addStyle, mesErrJSON, EVNM_BUTTON, EVNM_CLICK, EVNM_KEY} from './CmnLib';
-import type {IHTag, HArg} from './Grammar';
-import type {IVariable, IMain} from './CmnInterface';
+import type {T_HTag, TArg} from './Grammar';
+import type {T_Variable, T_Main} from './CmnInterface';
 import type {LayerMng} from './LayerMng';
 import type {ScriptIterator} from './ScriptIterator';
 import {TxtLayer} from './TxtLayer';
@@ -44,7 +44,7 @@ export class EventMng implements IEvtMng {
 		// [2, 'right'],
 	]);
 
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, readonly appPixi: Application, private readonly main: IMain, private readonly layMng: LayerMng, private readonly val: IVariable, sndMng: SoundMng, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
+	constructor(private readonly cfg: Config, private readonly hTag: T_HTag, readonly appPixi: Application, private readonly main: T_Main, private readonly layMng: LayerMng, private readonly val: T_Variable, sndMng: SoundMng, private readonly scrItr: ScriptIterator, private readonly sys: SysBase) {
 		//	イベント
 		hTag.clear_event	= o=> ReadingState.clear_event(o);// イベントを全消去
 		// enable_event		// LayerMng.ts内で定義		//イベント有無の切替
@@ -74,7 +74,7 @@ export class EventMng implements IEvtMng {
 //					this.#isDbgBreak = true;
 					if (! Reading.isWait) return;
 
-					const hArg: HArg = {};
+					const hArg: TArg = {};
 					scrItr.recodeDesign(hArg);
 					sys.callHook('_enterDesign', hArg);
 					sys.send2Dbg('_enterDesign', hArg);
@@ -399,7 +399,7 @@ export class EventMng implements IEvtMng {
 
 	unButton(ctnBtn: Container) {this.#fcs.remove(ctnBtn)}
 
-	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
+	button(hArg: TArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void) {
 		if (! hArg.fn && ! hArg.label && ! hArg.url) this.main.errScript('fnまたはlabelまたはurlは必須です');
 		hArg.fn ??= this.scrItr.scriptFn;
 
@@ -466,7 +466,7 @@ export class EventMng implements IEvtMng {
 		if (hArg.onenter) {
 			// マウス重なり（フォーカス取得）時、ラベルコール。必ず[return]で戻ること
 			const k = key + hArg.onenter.toLowerCase();
-			const o: HArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: k};
+			const o: TArg = {fn: hArg.fn, label: hArg.onenter, call: true, key: k};
 			ReadingState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			ctnBtn.on('pointerover', e=> Reading.fire(k, e));
@@ -474,7 +474,7 @@ export class EventMng implements IEvtMng {
 		if (hArg.onleave) {
 			// マウス外れ（フォーカス外れ）時、ラベルコール。必ず[return]で戻ること
 			const k = key + hArg.onleave.toLowerCase();
-			const o: HArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: k};
+			const o: TArg = {fn: hArg.fn, label: hArg.onleave, call: true, key: k};
 			ReadingState.setEvt2Fnc(glb, k, ()=> this.main.resumeByJumpOrCall(o));
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			ctnBtn.on('pointerout', e=> Reading.fire(k, e));
@@ -497,7 +497,7 @@ export class EventMng implements IEvtMng {
 			},
 		],
 	};
-	#dispHint(hArg: HArg, ctnBtn: Container) {
+	#dispHint(hArg: TArg, ctnBtn: Container) {
 		const rctBtn = ctnBtn instanceof Button
 			? ctnBtn.getBtnBounds()
 			: ctnBtn.getBounds();
@@ -540,7 +540,7 @@ export class EventMng implements IEvtMng {
 	cvsResize() {this.hideHint()}
 
 
-	#event(hArg: HArg): boolean {
+	#event(hArg: TArg): boolean {
 		const rawKeY = hArg.key;
 		if (! rawKeY) throw 'keyは必須です';
 		const key = rawKeY.toLowerCase();
@@ -637,7 +637,7 @@ export class EventMng implements IEvtMng {
 	}
 
 	// フォーカス移動
-	#set_focus(hArg: HArg) {
+	#set_focus(hArg: TArg) {
 		const {add, del, to} = hArg;
 		if (add?.startsWith('dom=')) {
 			const g = ReadingState.getHtmlElmList(add);

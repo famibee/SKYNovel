@@ -1,5 +1,5 @@
-import { IHTag, HArg } from './Grammar';
-import { IMain, IVariable, T_Mark, IPropParser } from './CmnInterface';
+import { T_HTag, TArg } from './Grammar';
+import { T_Main, T_Variable, T_Mark, T_PropParser } from './CmnInterface';
 import { Config } from './Config';
 import { EventMng } from './EventMng';
 import { LayerMng } from './LayerMng';
@@ -10,7 +10,6 @@ declare const enum SndProcOnLoad {
     NO_TOUCH = 1,
     ALL_STOP_AND_PLAY = 2
 }
-export declare const RPN_COMP_CHIN = "compChIn";
 export declare class ScriptIterator {
     #private;
     private readonly cfg;
@@ -26,7 +25,7 @@ export declare class ScriptIterator {
     get lineNum(): number;
     readonly addLineNum: (len: number) => void;
     jumpJustBefore(): void;
-    constructor(cfg: Config, hTag: IHTag, main: IMain, val: IVariable, prpPrs: IPropParser, sndMng: SoundMng, sys: SysBase);
+    constructor(cfg: Config, hTag: T_HTag, main: T_Main, val: T_Variable, prpPrs: T_PropParser, sndMng: SoundMng, sys: SysBase);
     noticeWait: () => void;
     destroy(): void;
     isBreak: (_token: string) => boolean;
@@ -39,7 +38,7 @@ export declare class ScriptIterator {
     get isKidoku(): boolean;
     get isNextKidoku(): boolean;
     get normalWait(): number;
-    loadFromMark(hArg: HArg, mark: T_Mark, snd?: SndProcOnLoad): boolean;
+    loadFromMark(hArg: TArg, mark: T_Mark, snd?: SndProcOnLoad): boolean;
     nowScrIdx(): {
         fn: string;
         idx: number;
@@ -51,7 +50,7 @@ export declare class ScriptIterator {
         col_s: number;
         col_e: number;
     };
-    recodeDesign(hArg: HArg): void;
+    recodeDesign(hArg: TArg): void;
     replace(idx: number, val: string): void;
 }
 export {};

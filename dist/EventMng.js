@@ -1,5 +1,6 @@
-import { E as se, C as ht, f as G, g as it, h as Ee, j as Te, k as Oe, S as ke, e as J, l as _e, m as Lt, n as Me } from "./web2.js";
-import { T as Se, B as Jt } from "./LayerMng.js";
+import { E as se, q as ht, D as G, a as it, w as Ee, d as Te, H as Oe, I as ke, e as J, J as _e, S as Lt, K as Me } from "./web2.js";
+import { T as Se } from "./TxtLayer.js";
+import { Button as Jt } from "./Button.js";
 import { R as D, a as k } from "./Reading.js";
 class De {
   #e = [];
@@ -133,11 +134,11 @@ var C = "top", R = "bottom", $ = "right", Y = "left", Xt = "auto", vt = [C, R, $
   return i.concat([t + "-" + nt, t + "-" + ft]);
 }, []), le = /* @__PURE__ */ [].concat(vt, [Xt]).reduce(function(i, t) {
   return i.concat([t, t + "-" + nt, t + "-" + ft]);
-}, []), Ce = "beforeRead", Ye = "read", Xe = "afterRead", je = "beforeMain", He = "main", Re = "afterMain", $e = "beforeWrite", Fe = "write", Ve = "afterWrite", Ae = [Ce, Ye, Xe, je, He, Re, $e, Fe, Ve];
+}, []), Ce = "beforeRead", Ye = "read", Xe = "afterRead", He = "beforeMain", je = "main", Re = "afterMain", $e = "beforeWrite", Fe = "write", Ve = "afterWrite", Ae = [Ce, Ye, Xe, He, je, Re, $e, Fe, Ve];
 function W(i) {
   return i ? (i.nodeName || "").toLowerCase() : null;
 }
-function j(i) {
+function H(i) {
   if (i == null)
     return window;
   if (i.toString() !== "[object Window]") {
@@ -147,24 +148,24 @@ function j(i) {
   return i;
 }
 function tt(i) {
-  var t = j(i).Element;
+  var t = H(i).Element;
   return i instanceof t || i instanceof Element;
 }
-function H(i) {
-  var t = j(i).HTMLElement;
+function j(i) {
+  var t = H(i).HTMLElement;
   return i instanceof t || i instanceof HTMLElement;
 }
-function jt(i) {
+function Ht(i) {
   if (typeof ShadowRoot > "u")
     return !1;
-  var t = j(i).ShadowRoot;
+  var t = H(i).ShadowRoot;
   return i instanceof t || i instanceof ShadowRoot;
 }
 function We(i) {
   var t = i.state;
   Object.keys(t.elements).forEach(function(e) {
     var n = t.styles[e] || {}, r = t.attributes[e] || {}, s = t.elements[e];
-    !H(s) || !W(s) || (Object.assign(s.style, n), Object.keys(r).forEach(function(l) {
+    !j(s) || !W(s) || (Object.assign(s.style, n), Object.keys(r).forEach(function(l) {
       var o = r[l];
       o === !1 ? s.removeAttribute(l) : s.setAttribute(l, o === !0 ? "" : o);
     }));
@@ -188,7 +189,7 @@ function Be(i) {
       var r = t.elements[n], s = t.attributes[n] || {}, l = Object.keys(t.styles.hasOwnProperty(n) ? t.styles[n] : e[n]), o = l.reduce(function(a, u) {
         return a[u] = "", a;
       }, {});
-      !H(r) || !W(r) || (Object.assign(r.style, o), Object.keys(s).forEach(function(a) {
+      !j(r) || !W(r) || (Object.assign(r.style, o), Object.keys(s).forEach(function(a) {
         r.removeAttribute(a);
       }));
     });
@@ -218,8 +219,8 @@ function ce() {
 function ot(i, t, e) {
   t === void 0 && (t = !1), e === void 0 && (e = !1);
   var n = i.getBoundingClientRect(), r = 1, s = 1;
-  t && H(i) && (r = i.offsetWidth > 0 && rt(n.width) / i.offsetWidth || 1, s = i.offsetHeight > 0 && rt(n.height) / i.offsetHeight || 1);
-  var l = tt(i) ? j(i) : window, o = l.visualViewport, a = !ce() && e, u = (n.left + (a && o ? o.offsetLeft : 0)) / r, h = (n.top + (a && o ? o.offsetTop : 0)) / s, p = n.width / r, g = n.height / s;
+  t && j(i) && (r = i.offsetWidth > 0 && rt(n.width) / i.offsetWidth || 1, s = i.offsetHeight > 0 && rt(n.height) / i.offsetHeight || 1);
+  var l = tt(i) ? H(i) : window, o = l.visualViewport, a = !ce() && e, u = (n.left + (a && o ? o.offsetLeft : 0)) / r, h = (n.top + (a && o ? o.offsetTop : 0)) / s, p = n.width / r, g = n.height / s;
   return {
     width: p,
     height: g,
@@ -231,7 +232,7 @@ function ot(i, t, e) {
     y: h
   };
 }
-function Ht(i) {
+function jt(i) {
   var t = ot(i), e = i.offsetWidth, n = i.offsetHeight;
   return Math.abs(t.width - e) <= 1 && (e = t.width), Math.abs(t.height - n) <= 1 && (n = t.height), {
     x: i.offsetLeft,
@@ -244,7 +245,7 @@ function he(i, t) {
   var e = t.getRootNode && t.getRootNode();
   if (i.contains(t))
     return !0;
-  if (e && jt(e)) {
+  if (e && Ht(e)) {
     var n = t;
     do {
       if (n && i.isSameNode(n))
@@ -255,7 +256,7 @@ function he(i, t) {
   return !1;
 }
 function B(i) {
-  return j(i).getComputedStyle(i);
+  return H(i).getComputedStyle(i);
 }
 function qe(i) {
   return ["table", "td", "th"].indexOf(W(i)) >= 0;
@@ -273,24 +274,24 @@ function kt(i) {
     // $FlowFixMe[prop-missing]
     i.assignedSlot || // step into the shadow DOM of the parent of a slotted node
     i.parentNode || // DOM Element detected
-    (jt(i) ? i.host : null) || // ShadowRoot detected
+    (Ht(i) ? i.host : null) || // ShadowRoot detected
     // $FlowFixMe[incompatible-call]: HTMLElement is a Node
     q(i)
   );
 }
 function Zt(i) {
-  return !H(i) || // https://github.com/popperjs/popper-core/issues/837
+  return !j(i) || // https://github.com/popperjs/popper-core/issues/837
   B(i).position === "fixed" ? null : i.offsetParent;
 }
 function Ie(i) {
   var t = /firefox/i.test(Ct()), e = /Trident/i.test(Ct());
-  if (e && H(i)) {
+  if (e && j(i)) {
     var n = B(i);
     if (n.position === "fixed")
       return null;
   }
   var r = kt(i);
-  for (jt(r) && (r = r.host); H(r) && ["html", "body"].indexOf(W(r)) < 0; ) {
+  for (Ht(r) && (r = r.host); j(r) && ["html", "body"].indexOf(W(r)) < 0; ) {
     var s = B(r);
     if (s.transform !== "none" || s.perspective !== "none" || s.contain === "paint" || ["transform", "perspective"].indexOf(s.willChange) !== -1 || t && s.willChange === "filter" || t && s.filter && s.filter !== "none")
       return r;
@@ -299,7 +300,7 @@ function Ie(i) {
   return null;
 }
 function mt(i) {
-  for (var t = j(i), e = Zt(i); e && qe(e) && B(e).position === "static"; )
+  for (var t = H(i), e = Zt(i); e && qe(e) && B(e).position === "static"; )
     e = Zt(e);
   return e && (W(e) === "html" || W(e) === "body" && B(e).position === "static") ? t : e || Ie(i) || t;
 }
@@ -337,7 +338,7 @@ var Ue = function(t, e) {
 function Ke(i) {
   var t, e = i.state, n = i.name, r = i.options, s = e.elements.arrow, l = e.modifiersData.popperOffsets, o = A(e.placement), a = Rt(o), u = [Y, $].indexOf(o) >= 0, h = u ? "height" : "width";
   if (!(!s || !l)) {
-    var p = Ue(r.padding, e), g = Ht(s), d = a === "y" ? C : Y, m = a === "y" ? R : $, v = e.rects.reference[h] + e.rects.reference[a] - l[a] - e.rects.popper[h], y = l[a] - e.rects.reference[a], w = mt(s), c = w ? a === "y" ? w.clientHeight || 0 : w.clientWidth || 0 : 0, f = v / 2 - y / 2, b = p[d], E = c - g[h] - p[m], x = c / 2 - g[h] / 2 + f, T = ut(b, x, E), S = a;
+    var p = Ue(r.padding, e), g = jt(s), d = a === "y" ? C : Y, m = a === "y" ? R : $, v = e.rects.reference[h] + e.rects.reference[a] - l[a] - e.rects.popper[h], y = l[a] - e.rects.reference[a], w = mt(s), c = w ? a === "y" ? w.clientHeight || 0 : w.clientWidth || 0 : 0, f = v / 2 - y / 2, b = p[d], E = c - g[h] - p[m], x = c / 2 - g[h] / 2 + f, T = ut(b, x, E), S = a;
     e.modifiersData[n] = (t = {}, t[S] = T, t.centerOffset = T - x, t);
   }
 }
@@ -382,7 +383,7 @@ function Qt(i) {
   var w = l.hasOwnProperty("x"), c = l.hasOwnProperty("y"), f = Y, b = C, E = window;
   if (u) {
     var x = mt(e), T = "clientHeight", S = "clientWidth";
-    if (x === j(e) && (x = q(e), B(x).position !== "static" && o === "absolute" && (T = "scrollHeight", S = "scrollWidth")), x = x, r === C || (r === Y || r === $) && s === ft) {
+    if (x === H(e) && (x = q(e), B(x).position !== "static" && o === "absolute" && (T = "scrollHeight", S = "scrollWidth")), x = x, r === C || (r === Y || r === $) && s === ft) {
       b = R;
       var M = p && x === E && E.visualViewport ? E.visualViewport.height : (
         // $FlowFixMe[prop-missing]
@@ -404,7 +405,7 @@ function Qt(i) {
   }, u && Ze), P = h === !0 ? Qe({
     x: d,
     y: v
-  }, j(e)) : {
+  }, H(e)) : {
     x: d,
     y: v
   };
@@ -448,7 +449,7 @@ var Et = {
   passive: !0
 };
 function ii(i) {
-  var t = i.state, e = i.instance, n = i.options, r = n.scroll, s = r === void 0 ? !0 : r, l = n.resize, o = l === void 0 ? !0 : l, a = j(t.elements.popper), u = [].concat(t.scrollParents.reference, t.scrollParents.popper);
+  var t = i.state, e = i.instance, n = i.options, r = n.scroll, s = r === void 0 ? !0 : r, l = n.resize, o = l === void 0 ? !0 : l, a = H(t.elements.popper), u = [].concat(t.scrollParents.reference, t.scrollParents.popper);
   return s && u.forEach(function(h) {
     h.addEventListener("scroll", e.update, Et);
   }), o && a.addEventListener("resize", e.update, Et), function() {
@@ -487,7 +488,7 @@ function te(i) {
   });
 }
 function $t(i) {
-  var t = j(i), e = t.pageXOffset, n = t.pageYOffset;
+  var t = H(i), e = t.pageXOffset, n = t.pageYOffset;
   return {
     scrollLeft: e,
     scrollTop: n
@@ -497,7 +498,7 @@ function Ft(i) {
   return ot(q(i)).left + $t(i).scrollLeft;
 }
 function si(i, t) {
-  var e = j(i), n = q(i), r = e.visualViewport, s = n.clientWidth, l = n.clientHeight, o = 0, a = 0;
+  var e = H(i), n = q(i), r = e.visualViewport, s = n.clientWidth, l = n.clientHeight, o = 0, a = 0;
   if (r) {
     s = r.width, l = r.height;
     var u = ce();
@@ -524,12 +525,12 @@ function Vt(i) {
   return /auto|scroll|overlay|hidden/.test(e + r + n);
 }
 function pe(i) {
-  return ["html", "body", "#document"].indexOf(W(i)) >= 0 ? i.ownerDocument.body : H(i) && Vt(i) ? i : pe(kt(i));
+  return ["html", "body", "#document"].indexOf(W(i)) >= 0 ? i.ownerDocument.body : j(i) && Vt(i) ? i : pe(kt(i));
 }
 function dt(i, t) {
   var e;
   t === void 0 && (t = []);
-  var n = pe(i), r = n === ((e = i.ownerDocument) == null ? void 0 : e.body), s = j(n), l = r ? [s].concat(s.visualViewport || [], Vt(n) ? n : []) : n, o = t.concat(l);
+  var n = pe(i), r = n === ((e = i.ownerDocument) == null ? void 0 : e.body), s = H(n), l = r ? [s].concat(s.visualViewport || [], Vt(n) ? n : []) : n, o = t.concat(l);
   return r ? o : (
     // $FlowFixMe[incompatible-call]: isBody tells us target will be an HTMLElement here
     o.concat(dt(kt(l)))
@@ -551,7 +552,7 @@ function ee(i, t, e) {
   return t === ae ? Yt(si(i, e)) : tt(t) ? li(t, e) : Yt(ai(q(i)));
 }
 function ci(i) {
-  var t = dt(kt(i)), e = ["absolute", "fixed"].indexOf(B(i).position) >= 0, n = e && H(i) ? mt(i) : i;
+  var t = dt(kt(i)), e = ["absolute", "fixed"].indexOf(B(i).position) >= 0, n = e && j(i) ? mt(i) : i;
   return tt(n) ? t.filter(function(r) {
     return tt(r) && he(r, n) && W(r) !== "body";
   }) : [];
@@ -817,7 +818,7 @@ function Ti(i) {
   };
   if (x) {
     if (s) {
-      var L, F = b === "y" ? C : Y, I = b === "y" ? R : $, X = b === "y" ? "height" : "width", V = x[b], gt = V + y[F], z = V - y[I], yt = d ? -S[X] / 2 : 0, Mt = c === nt ? T[X] : S[X], at = c === nt ? -S[X] : -T[X], bt = t.elements.arrow, et = d && bt ? Ht(bt) : {
+      var L, F = b === "y" ? C : Y, I = b === "y" ? R : $, X = b === "y" ? "height" : "width", V = x[b], gt = V + y[F], z = V - y[I], yt = d ? -S[X] / 2 : 0, Mt = c === nt ? T[X] : S[X], at = c === nt ? -S[X] : -T[X], bt = t.elements.arrow, et = d && bt ? jt(bt) : {
         width: 0,
         height: 0
       }, N = t.modifiersData["arrow#persistent"] ? t.modifiersData["arrow#persistent"].padding : ue(), lt = N[F], wt = N[I], U = ut(0, T[X], et[X]), St = f ? T[X] / 2 - yt - U - lt - _.mainAxis : Mt - U - lt - _.mainAxis, me = f ? -T[X] / 2 + yt + U + wt + _.mainAxis : at + U + wt + _.mainAxis, Dt = t.elements.arrow && mt(t.elements.arrow), ge = Dt ? b === "y" ? Dt.clientTop || 0 : Dt.clientLeft || 0 : 0, At = (L = O?.[b]) != null ? L : 0, ye = V + St - At - ge, be = V + me - At, Wt = ut(d ? Ot(gt, ye) : gt, V, d ? Q(z, be) : z);
@@ -844,7 +845,7 @@ function ki(i) {
   };
 }
 function _i(i) {
-  return i === j(i) || !H(i) ? $t(i) : ki(i);
+  return i === H(i) || !j(i) ? $t(i) : ki(i);
 }
 function Mi(i) {
   var t = i.getBoundingClientRect(), e = rt(t.width) / i.offsetWidth || 1, n = rt(t.height) / i.offsetHeight || 1;
@@ -852,7 +853,7 @@ function Mi(i) {
 }
 function Si(i, t, e) {
   e === void 0 && (e = !1);
-  var n = H(t), r = H(t) && Mi(t), s = q(t), l = ot(i, r, e), o = {
+  var n = j(t), r = j(t) && Mi(t), s = q(t), l = ot(i, r, e), o = {
     scrollLeft: 0,
     scrollTop: 0
   }, a = {
@@ -860,7 +861,7 @@ function Si(i, t, e) {
     y: 0
   };
   return (n || !n && !e) && ((W(t) !== "body" || // https://github.com/popperjs/popper-core/issues/1078
-  Vt(s)) && (o = _i(t)), H(t) ? (a = ot(t, !0), a.x += t.clientLeft, a.y += t.clientTop) : s && (a.x = Ft(s))), {
+  Vt(s)) && (o = _i(t)), j(t) ? (a = ot(t, !0), a.x += t.clientLeft, a.y += t.clientTop) : s && (a.x = Ft(s))), {
     x: l.left + o.scrollLeft - a.x,
     y: l.top + o.scrollTop - a.y,
     width: l.width,
@@ -968,7 +969,7 @@ function Yi(i) {
           if (oe(c, f)) {
             h.rects = {
               reference: Si(c, mt(f), h.options.strategy === "fixed"),
-              popper: Ht(f)
+              popper: jt(f)
             }, h.reset = !1, h.placement = h.options.placement, h.orderedModifiers.forEach(function(_) {
               return h.modifiersData[_.name] = Object.assign({}, _.data);
             });
@@ -1027,7 +1028,7 @@ function Yi(i) {
     return d;
   };
 }
-var Xi = [ni, xi, ei, Ne, bi, pi, Oi, Ge, mi], ji = /* @__PURE__ */ Yi({
+var Xi = [ni, xi, ei, Ne, bi, pi, Oi, Ge, mi], Hi = /* @__PURE__ */ Yi({
   defaultModifiers: Xi
 });
 class _t {
@@ -1150,7 +1151,7 @@ try {
   }));
 } catch {
 }
-class Fi {
+class Vi {
   constructor(t, e, n, r, s, l, o, a, u) {
     if (this.cfg = t, this.hTag = e, this.appPixi = n, this.main = r, this.layMng = s, this.val = l, this.scrItr = a, this.sys = u, e.clear_event = (c) => D.clear_event(c), e.event = (c) => this.#b(c), e.set_cancel_skip = () => !1, e.set_focus = (c) => this.#w(c), o.setEvtMng(this), a.setOtherObj(this, s), Se.setEvtMng(this, u, a), s.setEvtMng(this), k.setFcs(this.#t), u.setFire((c, f) => k.fire(c, f)), it.isDbg) {
       const c = {
@@ -1202,7 +1203,7 @@ class Fi {
 <div class="sn_hint" role="tooltip">
 	<span>Dummy</span>
 	<div class="sn_hint_ar" data-popper-arrow></div>
-</div>`), this.#i = document.querySelector(".sn_hint"), this.#u = this.#i.querySelector("span"), this.#d = ji(this.#v, this.#i), this.#i.hidden = !0, n.stage.interactive = !0, this.#e.add(document.body, G, (c) => this.#o(c)), this.#e.add(document.body, "keyup", () => D.resetFired()), this.#e.add(r.cvs, "contextmenu", (c) => {
+</div>`), this.#i = document.querySelector(".sn_hint"), this.#u = this.#i.querySelector("span"), this.#d = Hi(this.#v, this.#i), this.#i.hidden = !0, n.stage.interactive = !0, this.#e.add(document.body, G, (c) => this.#o(c)), this.#e.add(document.body, "keyup", () => D.resetFired()), this.#e.add(r.cvs, "contextmenu", (c) => {
       const f = this.#s(c) + "rightclick";
       k.fire(f, c, !0), c.preventDefault();
     });
@@ -1583,6 +1584,6 @@ class Fi {
   };
 }
 export {
-  Fi as EventMng
+  Vi as EventMng
 };
 //# sourceMappingURL=EventMng.js.map

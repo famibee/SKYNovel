@@ -1,11 +1,11 @@
 import { T_HEvt2Fnc } from './CmnInterface';
-import { HArg } from './Grammar';
+import { TArg } from './Grammar';
 export type T_H_VAL_MP = {
     'const.sn.macro': string;
     'const.sn.me_call_scriptFn': string;
 };
 export declare function creMP(): T_H_VAL_MP;
-export type ICallStackArg = HArg & {
+export type ICallStackArg = TArg & {
     ':resvToken'?: string;
     ':hEvt1Time'?: T_HEvt2Fnc;
     ':hMp': T_H_VAL_MP;

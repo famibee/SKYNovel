@@ -6,8 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {type IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
-import type {IHTag, HArg} from './Grammar';
-import type {IVariable, IMain, INoticeChgVolume} from './CmnInterface';
+import type {T_HTag, TArg} from './Grammar';
+import type {T_Variable, T_Main, T_NoticeChgVolume} from './CmnInterface';
 import type {Config} from './Config';
 import type {SysBase} from './SysBase';
 import {BUF_BGM, BUF_SE, type HSndBuf, SndBuf} from './SndBuf';
@@ -18,7 +18,7 @@ import {sound, utils} from '@pixi/sound';
 export class SoundMng {
 	#hSndBuf	: HSndBuf	= {};
 
-	constructor(cfg: Config, hTag: IHTag, private readonly val: IVariable, main: IMain, sys: SysBase) {
+	constructor(cfg: Config, hTag: T_HTag, private readonly val: T_Variable, main: T_Main, sys: SysBase) {
 		hTag.volume		= o=> this.#volume(o);		// 音量設定（独自拡張）
 		hTag.fadebgm	= o=> this.#fadebgm(o);		// BGMのフェード
 		hTag.fadeoutbgm	= o=> this.#fadeoutbgm(o);	// BGMのフェードアウト
@@ -46,7 +46,7 @@ export class SoundMng {
 
 	#evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng; SndBuf.setEvtMng(evtMng)}
-	setNoticeChgVolume(setGlbVol: INoticeChgVolume, setMovVol: INoticeChgVolume) {
+	setNoticeChgVolume(setGlbVol: T_NoticeChgVolume, setMovVol: T_NoticeChgVolume) {
 		this.val.defValTrg('sys:sn.sound.global_volume', (_, val)=> setGlbVol(sound.volumeAll = Number(val)));
 		this.val.defValTrg('sys:sn.sound.movie_volume', (_, val)=> setMovVol(Number(val)));
 
@@ -56,7 +56,7 @@ export class SoundMng {
 	}
 
 	//MARK: 音量設定（独自拡張）
-	#volume(hArg: HArg) {
+	#volume(hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
 		const vnV = 'const.sn.sound.'+ buf +'.volume';
 		const arg_vol = this.#getVol(hArg, 1);
@@ -70,7 +70,7 @@ export class SoundMng {
 		hArg.volume = Number(this.val.getVal('save:'+ vnV));	// 目標音量（save:）
 		return this.#fadese(hArg);
 	}
-	#getVol(hArg: HArg, def: number) {
+	#getVol(hArg: TArg, def: number) {
 		const vol = argChk_Num(hArg, 'volume', def);
 		if (vol < 0) return 0;
 		if (vol > 1) return 1;
@@ -78,13 +78,13 @@ export class SoundMng {
 	}
 
 	//MARK: BGM/効果音のフェードアウト（loadから使うのでマクロ化禁止）
-	#fadeoutbgm(hArg: HArg) {hArg.volume = 0; return this.#fadebgm(hArg)}
+	#fadeoutbgm(hArg: TArg) {hArg.volume = 0; return this.#fadebgm(hArg)}
 	//MARK: 効果音のフェードアウト（loadから使うのでマクロ化禁止）
-	#fadeoutse(hArg: HArg) {hArg.volume = 0; return this.#fadese(hArg)}
+	#fadeoutse(hArg: TArg) {hArg.volume = 0; return this.#fadese(hArg)}
 	//MARK: BGMのフェード（loadから使うのでマクロ化禁止）
-	#fadebgm(hArg: HArg) {hArg.buf = BUF_BGM; return this.#fadese(hArg)}
+	#fadebgm(hArg: TArg) {hArg.buf = BUF_BGM; return this.#fadese(hArg)}
 	//MARK: 効果音のフェード
-	#fadese(hArg: HArg) {
+	#fadese(hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
 		this.#stopfadese(hArg);
 		this.#hSndBuf[buf]?.fade(hArg);
@@ -93,7 +93,7 @@ export class SoundMng {
 	}
 
 	//MARK: BGM の演奏
-	#playbgm(hArg: HArg) {
+	#playbgm(hArg: TArg) {
 		hArg.buf = BUF_BGM;
 		hArg.canskip = false;
 		argChk_Boolean(hArg, 'loop', true);
@@ -101,7 +101,7 @@ export class SoundMng {
 	}
 
 	//MARK: 効果音の再生
-	#playse(hArg: HArg) {
+	#playse(hArg: TArg) {
 		const {buf = BUF_SE, fn} = hArg;
 		this.#stopse({buf});
 		if (! fn) throw `fnは必須です buf:${buf}`;
@@ -125,9 +125,9 @@ export class SoundMng {
 		return false;
 	}
 	//MARK: BGM 演奏の停止（loadから使うのでマクロ化禁止）
-	#stopbgm(hArg: HArg) {hArg.buf = BUF_BGM; return this.#stopse(hArg)}
+	#stopbgm(hArg: TArg) {hArg.buf = BUF_BGM; return this.#stopse(hArg)}
 	//MARK: 効果音再生の停止
-	#stopse(hArg: HArg) {
+	#stopse(hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
 		this.#hSndBuf[buf]?.stopse(hArg);
 
@@ -135,16 +135,16 @@ export class SoundMng {
 	}
 
 	//MARK: BGM フェードの終了待ち
-	#wb(hArg: HArg) {hArg.buf = BUF_BGM; return this.#wf(hArg)}
+	#wb(hArg: TArg) {hArg.buf = BUF_BGM; return this.#wf(hArg)}
 
 	//MARK: 効果音フェードの終了待ち
-	#wf(hArg: HArg) {
+	#wf(hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
 		return this.#hSndBuf[buf]?.wf(hArg) ?? false;
 	}
 
 	//MARK: 音声フェードの停止
-	#stopfadese(hArg: HArg) {
+	#stopfadese(hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
 		this.#hSndBuf[buf]?.stopfadese(hArg);
 
@@ -152,15 +152,15 @@ export class SoundMng {
 	}
 
 	//MARK: BGM 再生の終了待ち
-	#wl(hArg: HArg) {hArg.buf = BUF_BGM; return this.#ws(hArg)}
+	#wl(hArg: TArg) {hArg.buf = BUF_BGM; return this.#ws(hArg)}
 	//MARK: 効果音再生の終了待ち
-	#ws(hArg: HArg) {
+	#ws(hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
 		return this.#hSndBuf[buf]?.ws(hArg) ?? false;
 	}
 
 	//MARK: 再生トラックの交換
-	#xchgbuf(hArg: HArg) {
+	#xchgbuf(hArg: TArg) {
 		const {buf: buf1 = BUF_SE, buf2 = BUF_SE} = hArg;
 		if (buf1 === buf2) return false;
 

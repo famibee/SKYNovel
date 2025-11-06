@@ -6,22 +6,20 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, getDateStr} from './CmnLib';
-import type {HArg, ITag, IHTag} from './Grammar';
+import type {TArg, TTag, T_HTag} from './Grammar';
 import type {SysBase} from './SysBase';
 import type {ScriptIterator} from './ScriptIterator';
-
-import platform from 'platform';
 
 export type T_TRACE = (txt: string, lvl?: 'D'|'W'|'F'|'E'|'I'|'ET')=> void;
 
 
 export class DebugMng {
 	static	#scrItr	: ScriptIterator;
-	static	#hTag	: IHTag;
-	static	#title	: ITag;
+	static	#hTag	: T_HTag;
+	static	#title	: TTag;
 	static	#spnDbg	: HTMLSpanElement;
 
-	constructor(private readonly sys: SysBase, hTag: IHTag, scrItr: ScriptIterator) {
+	constructor(private readonly sys: SysBase, hTag: T_HTag, scrItr: ScriptIterator) {
 		DebugMng.#scrItr = scrItr;
 		DebugMng.#hTag = hTag;
 		DebugMng.#title = hTag.title;
@@ -56,11 +54,11 @@ export class DebugMng {
 
 	// ログ出力
 	#first = true;
-	#log(hArg: HArg) {
+	#log(hArg: TArg) {
 		let dat = '';
 		if (this.#first) {
 			this.#first = false;
-			dat = `== ${platform.description ?? ''} ==\n`;
+			dat = `== ${CmnLib.plat_desc} ==\n`;
 		}
 		void this.sys.appendFile(
 			this.sys.path_downloads +'log.txt',
@@ -74,7 +72,7 @@ export class DebugMng {
 		return false;
 	}
 
-	#trace(hArg: HArg) {
+	#trace(hArg: TArg) {
 		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing, @typescript-eslint/restrict-template-expressions
 		DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
 

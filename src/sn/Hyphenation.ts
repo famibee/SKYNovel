@@ -9,7 +9,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {argChk_Boolean, argChk_Num} from './CmnLib';
-import type {HArg} from './Grammar';
+import type {TArg} from './Grammar';
 
 import type {Rectangle} from 'pixi.js';
 
@@ -62,7 +62,7 @@ export class Hyphenation {
 	break_fixed_left= 0;
 	break_fixed_top	= 0;
 	bura			= false;
-	lay(hArg: HArg) {
+	lay(hArg: TArg) {
 		if (hArg.kinsoku_sol) {
 			this.#s行頭禁則 = hArg.kinsoku_sol;
 			this.#reg行頭禁則 = new RegExp(`[${this.#s行頭禁則}]`);

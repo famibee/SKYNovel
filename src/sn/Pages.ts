@@ -5,8 +5,8 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {HArg} from './Grammar';
-import type {IVariable} from './CmnInterface';
+import type {TArg} from './Grammar';
+import type {T_Variable} from './CmnInterface';
 import type {Layer} from './Layer';
 import type {SysBase} from './SysBase';
 import {argChk_Boolean} from './CmnLib';
@@ -16,7 +16,7 @@ import type {Container} from 'pixi.js';
 export class Pages {
 	#pg: {fore: Layer, back: Layer};
 
-	constructor(layname: string, readonly cls: string, fore: Container, back: Container, readonly hArg: HArg, readonly sys: SysBase, readonly val: IVariable, readonly ret: {isWait: boolean}) {
+	constructor(layname: string, readonly cls: string, fore: Container, back: Container, readonly hArg: TArg, readonly sys: SysBase, readonly val: T_Variable, readonly ret: {isWait: boolean}) {
 		const fncF = sys.hFactoryCls[cls];
 		if (! fncF) throw `属性 class【${cls}】が不正です`;
 
@@ -56,12 +56,12 @@ export class Pages {
 		this.#pg.back.destroy();
 	}
 
-	readonly lay = (hArg: HArg)=> this.getPage(hArg).lay(hArg);
-	readonly getPage = (hArg: HArg)=>
+	readonly lay = (hArg: TArg)=> this.getPage(hArg).lay(hArg);
+	readonly getPage = (hArg: TArg)=>
 		Pages.argChk_page(hArg, 'fore') !== 'back'
 			? this.#pg.fore
 			: this.#pg.back;
-	static	argChk_page(hash: HArg, def: string): string {
+	static	argChk_page(hash: TArg, def: string): string {
 		const v = hash.page ?? def;
 		if (v === 'fore' || v === 'back') {hash.page = v; return v}
 

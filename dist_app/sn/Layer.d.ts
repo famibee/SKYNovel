@@ -1,4 +1,4 @@
-import { HArg } from './Grammar';
+import { TArg } from './Grammar';
 import { IMakeDesignCast } from './LayerMng';
 import { DisplayObject, Container, AbstractRenderer, Filter, BLEND_MODES, Sprite } from 'pixi.js';
 export type T_RecordPlayBack_lay = {
@@ -14,7 +14,7 @@ export type T_RecordPlayBack_lay = {
     x: number;
     y: number;
     visible: boolean;
-    aFltHArg?: HArg[];
+    aFltHArg?: TArg[];
 };
 export declare class Layer {
     #private;
@@ -40,19 +40,19 @@ export declare class Layer {
     set y(v: number);
     protected procSetY(_y: number): void;
     destroy(): void;
-    lay(hArg: HArg): boolean;
-    aFltHArg: HArg[];
-    static bldFilters(hArg: HArg): Filter;
+    lay(hArg: TArg): boolean;
+    aFltHArg: TArg[];
+    static bldFilters(hArg: TArg): Filter;
     static readonly hBldFilter: {
-        [nm: string]: (hArg: HArg) => Filter;
+        [nm: string]: (hArg: TArg) => Filter;
     };
-    static setBlendmode(cnt: Container, hArg: HArg): void;
+    static setBlendmode(cnt: Container, hArg: TArg): void;
     static getBlendmodeNum(bm_name: string): number;
     static getNum2Blendmode(bmn: number): string;
     get containMovement(): boolean;
     renderStart(): void;
     renderEnd(): void;
-    clearLay(hArg: HArg): void;
+    clearLay(hArg: TArg): void;
     copy(fromLayer: Layer, aPrm: Promise<void>[]): void;
     record(): {
         name: string;
@@ -67,7 +67,7 @@ export declare class Layer {
         x: number;
         y: number;
         visible: boolean;
-        aFltHArg: HArg[];
+        aFltHArg: TArg[];
     };
     playback(hLay: T_RecordPlayBack_lay, _aPrm: Promise<void>[]): void;
     snapshot(rnd: AbstractRenderer, re: () => void): void;
@@ -79,7 +79,7 @@ export declare class Layer {
     cvsResize(): void;
     cvsResizeChildren(): void;
     dump(): string;
-    static setXY(base: DisplayObject, hArg: HArg, ret: Container, isGrp?: boolean, isButton?: boolean): void;
+    static setXY(base: DisplayObject, hArg: TArg, ret: Container, isGrp?: boolean, isButton?: boolean): void;
     static setXYByPos(base: DisplayObject, pos: string, ret: DisplayObject): void;
     static setXYCenter(dsp: DisplayObject): void;
 }

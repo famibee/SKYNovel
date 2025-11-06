@@ -53,9 +53,7 @@ export class appMain extends appMain_cmn {
 		return bw;
 	}
 
-	protected override	sendShutdown() {
-		this.bw.webContents.send('shutdown');
-	}
+	protected override	sendShutdown() {this.bw.webContents.send('shutdown')}
 
 	protected override	sendSaveWinInf(arg: SAVE_WIN_INF) {
 		this.bw.webContents.send('save_win_inf', arg);

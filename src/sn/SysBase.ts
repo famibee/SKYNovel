@@ -5,58 +5,86 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {IHTag, ITag} from './Grammar';
-import type {IVariable, ISysBase, T_Data4Vari, ILayerFactory, IMain, IFire, IFncHook, PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, HPlugin, T_H_TMP_DATA} from './CmnInterface';
+import type {T_HTag, TTag} from './Grammar';
+import type {T_Variable, T_SysBase, T_Data4Vari, T_LayerFactory, T_Main, T_Fire, T_FncHook, T_PLUGIN_DECAB_RET, T_PLUGIN_INFO, T_SysBaseLoadedParams, T_HPlugin, T_H_TMP_DATA} from './CmnInterface';
 import {creSYS_DATA} from './CmnInterface';
 import {argChk_Boolean, CmnLib, EVNM_KEY} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
-import type {IConfig, IFn2Path, ISysRoots, HSysBaseArg} from './ConfigBase';
+import type {T_Config, T_SysRoots, T_HSysBaseArg} from './ConfigBase';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import type {Main} from './Main';
 
-import type {Application, DisplayObject, Loader, RenderTexture} from 'pixi.js';
+import type {Application, Loader} from 'pixi.js';
 import {io, type Socket} from 'socket.io-client';
 
 
-export class SysBase implements ISysRoots, ISysBase {
-	hFactoryCls: {[name: string]: ILayerFactory}	= {};
-
+export class SysBase implements T_SysRoots, T_SysBase {
 	protected	readonly	elc		= new EventListenerCtn;
 
-	constructor(readonly hPlg: HPlugin = {}, public arg: HSysBaseArg) {}
+	hFactoryCls		: {[cls: string]: T_LayerFactory}	= {};
+
+	constructor(private readonly hPlg: T_HPlugin = {}, public arg: T_HSysBaseArg) {}
+
+	destroy() {this.elc.clear()}
+
+
 	protected async loaded(...[hPlg,]: T_SysBaseLoadedParams) {
 		const fncPre = hPlg.snsys_pre;	// prj・path.json_ の為に先読み
 		delete hPlg.snsys_pre;
 		return fncPre?.init({
-			getInfo: this.#getInfo,
-			addTag: ()=> { /* empty */ },
-			addLayCls: ()=> { /* empty */ },
-			searchPath: ()=> '',
-			getVal: ()=> ({}),
-			resume: ()=> { /* empty */ },
-			render: ()=> { /* empty */ },
-			setDec: fnc=> {this.dec = fnc},
-			setDecAB: fnc=> {this.#plgDecAB = fnc},
-			setEnc: fnc=> {this.enc = fnc},
-			getStK: fnc=> {this.stk = fnc},
-			getHash: fnc=> {this.hash = fnc},
+			getInfo		: this.#getInfo,
+			addTag		: ()=> { /* empty */ },
+			addLayCls	: ()=> { /* empty */ },
+			searchPath	: ()=> '',
+			getVal		: ()=> ({}),
+			resume		: ()=> { /* empty */ },
+			render		: ()=> { /* empty */ },
+			setDec		: fnc=> {this.dec = fnc},
+			setDecAB	: fnc=> {this.#plgDecAB = fnc},
+			setEnc		: fnc=> {this.enc = fnc},
+			getStK		: fnc=> {this.stk = fnc},
+			getHash		: fnc=> {this.hash = fnc},
 		});
 	}
+
+	protected	main: Main | undefined = undefined;
+	protected	cfg: T_Config;
+	setMain(main: Main, cfg: T_Config) {
+		this.main = main;
+		this.cfg = cfg;
+	}
+	protected async run() {
+		const [{Main}, {TxtLayer}, {GrpLayer}] = await Promise.all([
+			import('./Main'),
+			import('./TxtLayer'),
+			import('./GrpLayer'),
+		]);
+		this.hFactoryCls = {
+			grp: ()=> new GrpLayer,
+			txt: ()=> new TxtLayer,
+		};
+
+		this.run = async ()=> {
+			this.main?.destroy();
+			this.main = await Main.generate(this);	// 末端で this.loadPath() を呼ぶ
+		};
+		await this.run();
+	}
+	stop() {
+		this.main?.destroy();
+		this.main = undefined;
+	}
+
+
 	fetch = (url: string, init?: RequestInit)=> fetch(url, init);
 
-	destroy() {this.elc.clear()}
-
-	resolution	= 1;
-
-	protected	cfg: IConfig;
-	// eslint-disable-next-line @typescript-eslint/require-await
-	async loadPath(_hPathFn2Exts: IFn2Path, cfg: IConfig) {this.cfg = cfg}
 
 	protected	readonly	data: T_Data4Vari = {
 		sys		: creSYS_DATA(),
 		mark	: {},
 		kidoku	: {},
 	};
-	async	initVal(_data: T_Data4Vari, _hTmp: T_H_TMP_DATA, _comp: (data: T_Data4Vari)=> void) { /* empty */ }
+	async	initVal(_hTmp: T_H_TMP_DATA, _comp: (data: T_Data4Vari)=> void) { /* empty */ }
 	flush() {
 		// 立て続きの保存を回避し最短 500ms の間隔を開ける
 		if (this.#tidFlush) {this.#rsvFlush = true; return}	// 次の Timeout 時に予約
@@ -75,23 +103,14 @@ export class SysBase implements ISysRoots, ISysBase {
 	protected	flushSub() { /* empty */ }
 
 
-	// === vite-electron 用コード ===
-	use4ViteElectron(_src: string, _path: string, _ld: Loader, _main: IMain): boolean {return false}
-
-
-	protected async run() { /* empty */ }
-
-
-	protected	val		: IVariable;
-	protected	main	: IMain;
-	init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
+	protected	val		: T_Variable;
+	init(hTag: T_HTag, appPixi: Application, val: T_Variable) {
 		const aP: Promise<void>[] = [];
 
 		this.val = val;
-		this.main = main;
 		let mes = '';
 		aP.push(
-			val.setSys(this)
+			val.init()
 			.then(()=> {
 				//l = String(val.getVal('save:const.sn.sLog'));
 				mes = 'sys';	// tst sys
@@ -120,6 +139,8 @@ export class SysBase implements ISysRoots, ISysBase {
 		hTag.update_check	= o=> this.update_check(o);	// 更新チェック
 		hTag.window			= o=> this.window(o);	// アプリウインドウ設定
 
+		hTag.title({text: this.cfg.oCfg.book.title || 'SKYNovel'});
+
 		val.defTmp('const.sn.isApp', ()=> this.isApp);
 		val.defTmp('const.sn.isDbg', ()=> CmnLib.isDbg);
 		val.defTmp('const.sn.isPackaged', ()=> CmnLib.isPackaged);
@@ -130,31 +151,31 @@ export class SysBase implements ISysRoots, ISysBase {
 
 		val.flush();
 
-		if (CmnLib.isDbg) this.attach_debug(main);
+		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+		if (CmnLib.isDbg) this.attach_debug(this.main!);
 
-		this.hFactoryCls = {};	// ギャラリーなどで何度も初期化される対策
 		// プラグイン初期化
 		return [
 			...aP,
 			...Object.values(this.hPlg).map(v=> v.init({
-				getInfo: this.#getInfo,
-				addTag: (name: string, tag_fnc: ITag)=> {
+				getInfo		: this.#getInfo,
+				addTag		: (name, tag_fnc)=> {
 					if (name in hTag) throw `すでに定義済みのタグ[${name}]です`;
-					hTag[<keyof IHTag>name] = tag_fnc;
+					hTag[<keyof T_HTag>name] = tag_fnc;
 				},
-				addLayCls: (cls: string, fnc: ILayerFactory)=> {
-					if (this.hFactoryCls[cls]) throw `すでに定義済みのレイヤcls【${cls}】です`;
+				addLayCls	: (cls, fnc)=> {
+					if (cls in this.hFactoryCls) throw `すでに定義済みのレイヤcls【${cls}】です`;
 					this.hFactoryCls[cls] = fnc;
 				},
-				searchPath: (fn, extptn = SEARCH_PATH_ARG_EXT.DEFAULT)=>	this.cfg.searchPath(fn, extptn),
-				getVal: (arg_name: string, def?: number | string)=> val.getVal(arg_name, def),
-				resume: ()=> main.resume(),
-				render: (dsp: DisplayObject, renderTexture: RenderTexture, clear = false)=> appPixi.renderer.render(dsp, {renderTexture, clear}),
-				setDec: ()=> { /* empty */ },
-				setDecAB: ()=> { /* empty */ },
-				setEnc: ()=> { /* empty */ },
-				getStK: ()=> { /* empty */ },
-				getHash: ()=> { /* empty */ },
+				searchPath	: (fn, extptn = SEARCH_PATH_ARG_EXT.DEFAULT)=> this.cfg.searchPath(fn, extptn),
+				getVal		: (arg_name, def?)=> val.getVal(arg_name, def),
+				resume		: ()=> this.main?.resume(),
+				render		: (dsp, renderTexture, clear = false)=> appPixi.renderer.render(dsp, {renderTexture, clear}),
+				setDec		: ()=> { /* empty */ },
+				setDecAB	: ()=> { /* empty */ },
+				setEnc		: ()=> { /* empty */ },
+				getStK		: ()=> { /* empty */ },
+				getHash		: ()=> { /* empty */ },
 			})),
 		];
 	}
@@ -182,6 +203,8 @@ export class SysBase implements ISysRoots, ISysBase {
 	get	ofsPadTop_Dom2PIXI(): number {return this.#ofsPadTop_Dom2PIXI}
 	protected	isFullScr	= false;
 	cvsResize() {
+		if (! this.main) return;
+
 		let w = globalThis.innerWidth;
 		let h = globalThis.innerHeight;
 		const cvs = this.main.cvs;
@@ -266,8 +289,12 @@ export class SysBase implements ISysRoots, ISysBase {
 	}
 
 
+	// === vite-electron 用コード ===
+	use4ViteElectron(_src: string, _path: string, _ld: Loader, _main: T_Main): boolean {return false}
+
+
 	// デバッガ接続
-	attach_debug(main: IMain) {
+	attach_debug(main: T_Main) {
 		this.attach_debug = ()=> { /* empty */ };
 
 		const gs = document.createElement('style');
@@ -355,6 +382,8 @@ export class SysBase implements ISysRoots, ISysBase {
 		_addPath		: o=> this.cfg.addPath(o.fn, o.o),
 	};
 	protected toast(nm: string) {
+		if (! this.main) return;
+
 		const p = document.body;
 		for (const e of [
 			...Array.from(p.getElementsByClassName('sn_BounceIn')),
@@ -394,14 +423,14 @@ top: ${String(
 
 	pathBaseCnvSnPath4Dbg = '';
 
-	protected fire: IFire;
-	setFire(fire: IFire) {this.fire = fire}
+	protected fire: T_Fire;
+	setFire(fire: T_Fire) {this.fire = fire}
 
-	#aFncHook: IFncHook[]	= [];
-	addHook(fnc: IFncHook) {this.#aFncHook.push(fnc)}
-	callHook: IFncHook = (_type, _o)=> { /* empty */ };
+	#aFncHook: T_FncHook[]	= [];
+	addHook(fnc: T_FncHook) {this.#aFncHook.push(fnc)}
+	callHook: T_FncHook = (_type, _o)=> { /* empty */ };
 
-	send2Dbg: IFncHook = (type, o)=> {
+	send2Dbg: T_FncHook = (type, o)=> {
 //console.log(`fn:SysBase.ts 新SND isBuf:${!(this.sk)} type:${type} o:${JSON.stringify(o)}`);
 		this.#sk?.emit('data', type, o);
 	}
@@ -411,11 +440,11 @@ top: ${String(
 	eraseBMFolder = (_place: number)=> { /* empty */ };
 
 
-	protected readonly	close			: ITag = ()=> false;
-	protected readonly	_export			: ITag = ()=> false;
-	protected readonly	_import			: ITag = ()=> false;
-	protected readonly	navigate_to		: ITag = ()=> false;
-	protected readonly	title			: ITag = hArg=> {
+	protected readonly	close			: TTag = ()=> false;
+	protected readonly	_export			: TTag = ()=> false;
+	protected readonly	_import			: TTag = ()=> false;
+	protected readonly	navigate_to		: TTag = ()=> false;
+	protected readonly	title			: TTag = hArg=> {
 		const {text} = hArg;
 		if (! text) throw '[title] textは必須です';
 
@@ -427,7 +456,7 @@ top: ${String(
 		#main_title	= '';
 		protected titleSub(_txt: string) { /* empty */ }
 
-	readonly	#tglFlscr: ITag = hArg=> {
+	readonly	#tglFlscr: TTag = hArg=> {
 		if (! hArg.key) {
 			this.tglFlscr_sub()
 			.catch((e: unknown)=> SysBase.tglFlscr_HdrErr(e));
@@ -460,8 +489,8 @@ top: ${String(
 		}
 		protected	async	tglFlscr_sub() { /* empty */ }
 
-	protected readonly	update_check	: ITag = ()=> false;
-	protected readonly	window			: ITag = ()=> false;
+	protected readonly	update_check	: TTag = ()=> false;
+	protected readonly	window			: TTag = ()=> false;
 
 	#info_title	= '';
 	setTitleInfo(txt: string) {
@@ -470,7 +499,7 @@ top: ${String(
 	}
 
 
-	#plgDecAB: (ab: ArrayBuffer)=> Promise<PLUGIN_DECAB_RET> = ()=> Promise.resolve({ext_num: 0, ab: new ArrayBuffer(0)});
+	#plgDecAB: (ab: ArrayBuffer)=> Promise<T_PLUGIN_DECAB_RET> = ()=> Promise.resolve({ext_num: 0, ab: new ArrayBuffer(0)});
 
 	dec = (_ext: string, tx: string)=> Promise.resolve(tx);
 	async decAB(iab: ArrayBuffer): Promise<HTMLImageElement | HTMLVideoElement | ArrayBuffer> {

@@ -6,8 +6,8 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, argChk_Boolean, parseColor} from './CmnLib';
-import type {IHTag, HArg} from './Grammar';
-import type {IMain, Scope, T_VAL_BSNU, T_VAL_DATA} from './CmnInterface';
+import type {T_HTag, TArg} from './Grammar';
+import type {T_Main, Scope, T_VAL_BSNU, T_VAL_DATA} from './CmnInterface';
 import type {SysBase} from './SysBase';
 import {DebugMng} from './DebugMng';
 import {Config} from './Config';
@@ -16,38 +16,46 @@ import type {ScriptIterator} from './ScriptIterator';
 import type {LayerMng} from './LayerMng';
 import type {EventMng} from './EventMng';
 
-import {Application, type IApplicationOptions, utils} from 'pixi.js';
+import {type IApplicationOptions, Application, utils} from 'pixi.js';
 
 
 const	SN_ID	= 'skynovel';
 
-export class Main implements IMain {
+export class Main implements T_Main {
+	static	async generate(sys: SysBase): Promise<Main> {
+		utils.skipHello();
+
+		const m = new Main(sys);
+		await m.#init()
+		.catch((e: unknown)=> console.error('Main.generate err e:%o', e));
+
+		return m;
+	}
+
+
 	cvs			: HTMLCanvasElement;
 
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-	#hTag		: IHTag		= Object.create(null);	// タグ処理辞書
+	#hTag		: T_HTag		= Object.create(null);	// タグ処理辞書
 
 	#scrItr		: ScriptIterator;
 	#layMng		: LayerMng;
 	#evtMng		: EventMng;
 
+	#aDest		: (()=> void)[]		= [];
 
-	constructor(private readonly sys: SysBase) {
-		utils.skipHello();
 
-		Config.generate(sys)
-		.then(c=> this.#init(c))
-		.catch((e: unknown)=> console.error('load err fn:prj.json e:%o', e));
-	}
+	private constructor(private readonly sys: SysBase) {}
 
-	#aDest: (()=> void)[]	= [];
-	async #init(cfg: Config) {
+	async #init() {
+		const cfg = await Config.generate(this.sys);
+		this.sys.setMain(this, cfg);
+
 		const hApp: IApplicationOptions = {
 			width			: cfg.oCfg.window.width,
 			height			: cfg.oCfg.window.height,
 			backgroundColor	: parseColor(String(cfg.oCfg.init.bg_color)),
 				// このString()は後方互換性のため必須
-		//	resolution		: sys.resolution,
 			resolution		: globalThis.devicePixelRatio,
 		};
 
@@ -84,25 +92,27 @@ export class Main implements IMain {
 		if (! cc) throw '#init cc err';
 		CmnLib.cc4ColorName = cc;
 
-		const [{Variable}, {PropParser}, {SoundMng}, {ScriptIterator}, {LayerMng}, {EventMng}] = await Promise.all([
+		const [{Variable}, {PropParser}, {SoundMng}, {ScriptIterator}, {LayerMng}, {EventMng}, {Button}] = await Promise.all([
 			import('./Variable'),
 			import('./PropParser'),
 			import('./SoundMng'),
 			import('./ScriptIterator'),
 			import('./LayerMng'),
 			import('./EventMng'),
+			import('./Button'),
 		]);
 
+		Button.init(cfg);
+
 		// 変数
-		const val = new Variable(cfg, this.#hTag);
+		const val = new Variable(this.sys, cfg, this.#hTag);
 		const prpPrs = new PropParser(val, cfg.oCfg.init.escape);
 		this.#setVal_Nochk = (scope, nm, v, autocast)=> val.setVal_Nochk(scope, nm, v, autocast);
 		this.#getValAmpersand = v=> prpPrs.getValAmpersand(v);
 		this.#parse = s=> prpPrs.parse(s);
 
 		// システム
-		await Promise.allSettled(this.sys.init(this.#hTag, app, val, this));	// 変数準備完了
-		this.#hTag.title({text: cfg.oCfg.book.title || 'SKYNovel'});
+		await Promise.allSettled(this.sys.init(this.#hTag, app, val));	// 変数準備完了
 
 		// ＢＧＭ・効果音
 		const sndMng = new SoundMng(cfg, this.#hTag, val, this, this.sys);
@@ -135,7 +145,7 @@ export class Main implements IMain {
 			this.#isLoop = false;
 
 			const fncDummy = ()=> true;
-			for (const key in this.#hTag) this.#hTag[<keyof IHTag>key] = fncDummy;
+			for (const key in this.#hTag) this.#hTag[<keyof T_HTag>key] = fncDummy;
 		});
 	}
 
@@ -153,7 +163,7 @@ export class Main implements IMain {
 	errScript = (_mes: string, _isThrow = true)=> { /* empty */ }
 
 
-	resumeByJumpOrCall(hArg: HArg) {
+	resumeByJumpOrCall(hArg: TArg) {
 		if (hArg.url) {
 			this.#hTag.navigate_to(hArg);
 			this.#scrItr.jumpJustBefore();
@@ -223,7 +233,7 @@ export class Main implements IMain {
 					const cl = (token.match(/\n/g) ?? []).length;
 					if (cl > 0) this.#scrItr.addLineNum(cl);
 					if (await this.#scrItr.タグ解析(
-						<keyof IHTag>tag_name, args
+						<keyof T_HTag>tag_name, args
 					)) {this.stop(); return}
 					continue;
 				}

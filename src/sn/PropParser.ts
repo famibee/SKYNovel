@@ -16,15 +16,15 @@
 
 import {alt, lazy, of, optWhitespace, regex, seq, seqMap, string} from 'parsimmon';
 import {int} from './CmnLib';
-import type {IPropParser, IVariable, T_VAL_DATA} from './CmnInterface';
+import type {T_PropParser, T_Variable, T_VAL_DATA} from './CmnInterface';
 
 type IFncCalc = (a: any[]) => any
 type IHFncCalc = { [key: string]: IFncCalc; }
 
-export class PropParser implements IPropParser {
+export class PropParser implements T_PropParser {
 	#parser: any = null;
 
-	constructor(private readonly val: IVariable, ce = '\\') {
+	constructor(private readonly val: T_Variable, ce = '\\') {
 		function ope(a: (string | RegExp)[]) {
 			const ps: any = [];
 			for (const v of a) ps.push(

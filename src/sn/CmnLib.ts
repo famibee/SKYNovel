@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {HArg} from './Grammar';
+import type {TArg} from './Grammar';
 
 // =============== Global
 export function int(o: unknown): number {return parseInt(String(o), 10)}
@@ -64,7 +64,7 @@ export const EVNM_KEY	= 'keydown';
 
 import type {Container} from 'pixi.js';
 export type IEvtMng = {
-	button(hArg: HArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void): void;
+	button(hArg: TArg, ctnBtn: Container, normal: ()=> void, hover: ()=> boolean, clicked: ()=> void): void;
 	unButton(em: Container): void;
 	get	isSkipping(): boolean;
 	hideHint(): void;
@@ -72,6 +72,12 @@ export type IEvtMng = {
 
 	resvFlameEvent(body: HTMLBodyElement): void;
 }
+
+
+
+// =============== ScriptIterator
+export	const	RPN_COMP_CHIN = 'compChIn';
+
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -155,7 +161,7 @@ export	function argChk_Color(hash: T_HASH_Arg, name: string, def: number): numbe
 
 const REG_ERRMES_JSON = /JSON at position (\d+)$/;
 	// Unexpected number in JSON at position
-export	function mesErrJSON(hArg: HArg, nm = '', mes = ''): string {
+export	function mesErrJSON(hArg: TArg, nm = '', mes = ''): string {
 	const col = (REG_ERRMES_JSON.exec(mes) ?? ['',''])[1];
 	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 	return `[${hArg[':タグ名']}] ${nm} 属性の解析エラー : ${mes}
@@ -173,17 +179,28 @@ export	function getFn(p: string) {return (REG_FN.exec(p) ?? [''])[0]}
 
 export type T_DIP = {[name: string]: string};
 
-import {name, os} from 'platform';
 //import {isMobile} from 'pixi.js';		// 使い物にならないことを確認済み
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class CmnLib {
+	static	async	init() {
+		const p = await import('platform');
+		this.platform	= JSON.stringify(p);
+		this.plat_desc	= p.description ?? '';
+		this.isSafari	= p.name === 'Safari';
+		this.isFirefox	= p.name === 'Firefox';
+		this.isMac		= (p.os?.family ?? '').includes('OS X');
+		this.isMobile	= ! /(Windows|OS X)/.test(p.os?.family ?? '');
+	}
+
 	static	stageW		= 0;
 	static	stageH		= 0;
 	static	debugLog	= false;
-	static	readonly	isSafari	= name === 'Safari';
-	static	readonly	isFirefox	= name === 'Firefox';
-	static	readonly	isMac		= (os?.family ?? '').includes('OS X');
-	static	readonly	isMobile	= ! /(Windows|OS X)/.test(os?.family ?? '');
+	static	platform	: string;
+	static	plat_desc	: string;
+	static	isSafari	: boolean;
+	static	isFirefox	: boolean;
+	static	isMac		: boolean;
+	static	isMobile	: boolean;
 	static	hDip		: T_DIP	= {};
 	static	isDbg		= false;
 	static	isPackaged	= false;

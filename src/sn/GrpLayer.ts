@@ -8,8 +8,8 @@
 import {Layer, type T_RecordPlayBack_lay} from './Layer';
 
 import {CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
-import type {HArg} from './Grammar';
-import type {IMain, IVariable} from './CmnInterface';
+import type {TArg} from './Grammar';
+import type {T_Main, T_Variable} from './CmnInterface';
 import type {Config} from './Config';
 import type {SysBase} from './SysBase';
 import {EventListenerCtn} from './EventListenerCtn';
@@ -32,7 +32,7 @@ export class GrpLayer extends Layer {
 	static	readonly	#elc	= new EventListenerCtn;
 
 	static	#appPixi: Application;
-	static	init(main: IMain, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: IVariable): void {
+	static	init(main: T_Main, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: T_Variable): void {
 		GrpLayer.#appPixi = appPixi;
 		SpritesMng.init(cfg, val, sys, main, sndMng);
 	}
@@ -51,7 +51,7 @@ export class GrpLayer extends Layer {
 	#csvFn		= '';
 	#sBkFn		= '';
 	#sBkFace	= '';
-	override readonly	lay = (hArg: HArg)=> {
+	override readonly	lay = (hArg: TArg)=> {
 		const RPN_GRP_LAY = Reading.procID +`GrpLayer lay name:${this.name_}`;
 		const ret = this.#laySub(hArg, isStop=> {
 			if (isStop) Reading.endProc(RPN_GRP_LAY);
@@ -59,7 +59,7 @@ export class GrpLayer extends Layer {
 		if (ret) Reading.beginProc(RPN_GRP_LAY);
 		return ret;
 	}
-	#laySub(hArg: HArg, resolve: (isStop: boolean)=> void): boolean {
+	#laySub(hArg: TArg, resolve: (isStop: boolean)=> void): boolean {
 		const {fn, face = ''} = hArg;
 		this.#idc.sethArg(hArg);
 		if (! fn) {
@@ -155,7 +155,7 @@ export class GrpLayer extends Layer {
 	}
 
 
-	setPos(hArg: HArg): void {
+	setPos(hArg: TArg): void {
 		Layer.setXY(
 			this.ctn.children[0] ?? this.ctn,
 			hArg,
@@ -174,7 +174,7 @@ export class GrpLayer extends Layer {
 		);
 	}
 
-	override clearLay(hArg: HArg): void {
+	override clearLay(hArg: TArg): void {
 		super.clearLay(hArg);
 		this.#sps.destroy();
 		this.#sBkFn		= '';

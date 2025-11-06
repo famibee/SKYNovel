@@ -1,5 +1,5 @@
-import { HArg } from './Grammar';
-import { IPropParser } from './CmnInterface';
+import { TArg } from './Grammar';
+import { T_PropParser } from './CmnInterface';
 import { SysBase } from './SysBase';
 import { ScriptIterator } from './ScriptIterator';
 import { HPage } from './LayerMng';
@@ -12,13 +12,13 @@ import { Application, Text, Sprite } from 'pixi.js';
 export declare class DesignCast {
     readonly bg_col: string;
     readonly isLay: boolean;
-    static init(_appPixi: Application, _sys: SysBase, _scrItr: ScriptIterator, _prpPrs: IPropParser, _cfg: Config, _hPages: HPage): void;
+    static init(_appPixi: Application, _sys: SysBase, _scrItr: ScriptIterator, _prpPrs: T_PropParser, _cfg: Config, _hPages: HPage): void;
     static cvsResizeDesign(): void;
     constructor(bg_col: string, isLay?: boolean);
     destroy(): void;
-    gethArg(): HArg;
-    protected hArg: HArg;
-    sethArg(hArg: HArg): void;
+    gethArg(): TArg;
+    protected hArg: TArg;
+    sethArg(hArg: TArg): void;
     setOther(_hPrm: HPRM): void;
     adopt(_idcCh: DesignCast): void;
     static enterMode(): void;
@@ -41,11 +41,11 @@ export declare class TxtLayPadDesignCast extends DesignCast {
 }
 export declare class BtnDesignCast extends DesignCast {
     protected readonly btn: Button;
-    readonly hArg: HArg;
-    constructor(btn: Button, hArg: HArg);
+    readonly hArg: TArg;
+    constructor(btn: Button, hArg: TArg);
 }
 export declare class TxtBtnDesignCast extends BtnDesignCast {
-    constructor(btn: Button, hArg: HArg, _txt: Text);
+    constructor(btn: Button, hArg: TArg, _txt: Text);
 }
 export declare class PicBtnDesignCast extends BtnDesignCast {
     setSp(_sp: Sprite): void;

@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {uint, type IEvtMng, argChk_Boolean, argChk_Num, mesErrJSON} from './CmnLib';
-import type {HArg} from './Grammar';
+import type {TArg} from './Grammar';
 import {SpritesMng} from './SpritesMng';
 import {Layer} from './Layer';
 import type {Config} from './Config';
@@ -66,7 +66,7 @@ export class Button extends Container {
 		height	: number;
 	};
 
-	constructor(private readonly hArg: HArg, readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
+	constructor(private readonly hArg: TArg, readonly evtMng: IEvtMng, readonly resolve: ()=> void, private readonly canFocus: ()=> boolean) {
 		super();
 /*
 		if (CmnLib.isDbg) {

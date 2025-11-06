@@ -8,8 +8,8 @@
 
 import {CmnLib, getDateStr, uint, type IEvtMng, argChk_Boolean, argChk_Num, addStyle, argChk_Color, parseColor} from './CmnLib';
 import {CmnTween, TMP_TSY_NM, TW_INT_TRANS} from './CmnTween';
-import type {IHTag, HArg} from './Grammar';
-import type {IVariable, IMain, HIPage, IGetFrm, IPropParser} from './CmnInterface';
+import type {T_HTag, TArg} from './Grammar';
+import type {T_Variable, T_Main, T_HPage, T_GetFrm, T_PropParser} from './CmnInterface';
 import {Pages} from './Pages';
 import {Layer} from './Layer';
 import {GrpLayer} from './GrpLayer';
@@ -41,7 +41,7 @@ function cnvSArg(o: T_cmdTxt_JSON) {
 }
 
 
-export class LayerMng implements IGetFrm {
+export class LayerMng implements T_GetFrm {
 	readonly	#stage	: Container;
 				#fore	= new Container;
 				#back	= new Container;
@@ -54,7 +54,7 @@ export class LayerMng implements IGetFrm {
 	readonly	#elc		= new EventListenerCtn;
 
 	//MARK: コンストラクタ
-	constructor(private readonly cfg: Config, private readonly hTag: IHTag, private readonly appPixi: Application, private readonly val: IVariable, private readonly main: IMain, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, sndMng: SoundMng, prpPrs: IPropParser) {
+	constructor(private readonly cfg: Config, private readonly hTag: T_HTag, private readonly appPixi: Application, private readonly val: T_Variable, private readonly main: T_Main, private readonly scrItr: ScriptIterator, private readonly sys: SysBase, sndMng: SoundMng, prpPrs: T_PropParser) {
 		// レスポンシブや回転・全画面切り替え・DevTools 表示切り替えの対応
 		const fncResizeLay = ()=> {
 			sys.cvsResize();
@@ -85,11 +85,8 @@ export class LayerMng implements IGetFrm {
 		TxtLayer.init(cfg, hTag, val, this.#log, me=> this.#hPages[me.layname]!.fore === me, appPixi);
 		GrpLayer.init(main, cfg, appPixi, sys, sndMng, val);
 		FrameMng.init(cfg, sys, main);
-		Button.init(cfg);
 
 		this.#frmMng = new FrameMng(hTag, appPixi, val);
-		sys.hFactoryCls.grp = ()=> new GrpLayer;
-		sys.hFactoryCls.txt = ()=> new TxtLayer;
 
 		//	システム
 		hTag.loadplugin		= o=> this.#loadplugin(o);	// プラグインの読み込み
@@ -159,13 +156,13 @@ export class LayerMng implements IGetFrm {
 		hTag.button			= o=> this.#button(o);		// ボタンを表示
 
 
-		if (cfg.existsBreakline) this.breakLine = (hArg: HArg)=> {
+		if (cfg.existsBreakline) this.breakLine = (hArg: TArg)=> {
 			delete hArg.visible;
 			hArg.id = 'break';
 			hArg.pic= 'breakline';
 			this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON>hArg));
 		};
-		if (cfg.existsBreakpage) this.breakPage = (hArg: HArg)=> {
+		if (cfg.existsBreakpage) this.breakPage = (hArg: TArg)=> {
 			delete hArg.visible;
 			hArg.id = 'break';
 			hArg.pic= 'breakpage';
@@ -300,7 +297,7 @@ export class LayerMng implements IGetFrm {
 		this.#frmMng.destroy();
 
 		CmnTween.destroy();
-		LayerMng.#msecChWait = 10;
+		TxtLayer.msecChWait = 10;
 	}
 
 
@@ -318,8 +315,8 @@ export class LayerMng implements IGetFrm {
 	#cmdTxt = (cmd: string, tl = this.currentTxtlayForeNeedErr, _record = true)=> tl.tagCh('｜&emsp;《'+ cmd +'》');
 	goTxt = ()=> { /* empty */ };
 	get needGoTxt() {return this.currentTxtlayFore?.needGoTxt ?? false;}
-	breakLine = (_hArg: HArg)=> { /* empty */ };
-	breakPage = (_hArg: HArg)=> { /* empty */ };
+	breakLine = (_hArg: TArg)=> { /* empty */ };
+	breakPage = (_hArg: TArg)=> { /* empty */ };
 	clearBreak() {
 		if (! this.currentTxtlayFore) return;
 
@@ -338,7 +335,7 @@ export class LayerMng implements IGetFrm {
 
 //	//	システム
 	//MARK: スナップショット
-	#snapshot(hArg: HArg) {
+	#snapshot(hArg: TArg) {
 		const dt = getDateStr('-', '_', '', '_');
 		const fn0 = hArg.fn
 		? hArg.fn.startsWith(PROTOCOL_USERDATA)
@@ -350,8 +347,8 @@ export class LayerMng implements IGetFrm {
 		const height= argChk_Num(hArg, 'height', CmnLib.stageH);
 		return this.#snapshot4proc(hArg, url, width, height, `snapshot dt:${dt}`);
 	}
-	#snapshot4proc :(hArg: HArg, url: string, width: number, height: number, RPN_SNAPSHOT: string)=> boolean = ()=> false;
-	#snapshot4app({layer}: HArg, url: string, width: number, height: number, RPN_SNAPSHOT: string): boolean {
+	#snapshot4proc :(hArg: TArg, url: string, width: number, height: number, RPN_SNAPSHOT: string)=> boolean = ()=> false;
+	#snapshot4app({layer}: TArg, url: string, width: number, height: number, RPN_SNAPSHOT: string): boolean {
 		this.#frmMng.hideAllFrame();
 		Reading.beginProc(RPN_SNAPSHOT);
 		if (! layer) {
@@ -379,7 +376,7 @@ export class LayerMng implements IGetFrm {
 		});
 		return true;
 	}
-	#snapshot4web(hArg: HArg, url: string, width: number, height: number, RPN_SNAPSHOT: string): boolean {
+	#snapshot4web(hArg: TArg, url: string, width: number, height: number, RPN_SNAPSHOT: string): boolean {
 		Reading.beginProc(RPN_SNAPSHOT);
 		const b_color = argChk_Color(hArg, 'b_color', this.#bg_color);
 		const rnd = autoDetectRenderer({
@@ -416,7 +413,7 @@ export class LayerMng implements IGetFrm {
 	}
 
 	//MARK: プラグインの読み込み
-	#loadplugin(hArg: HArg) {
+	#loadplugin(hArg: TArg) {
 		const {fn} = hArg;
 		if (! fn) throw 'fnは必須です';
 		if (! fn.endsWith('.css')) throw 'サポートされない拡張子です';
@@ -438,7 +435,7 @@ export class LayerMng implements IGetFrm {
 
 //	//	レイヤ共通
 	//MARK: レイヤを追加する
-	#add_lay(hArg: HArg) {
+	#add_lay(hArg: TArg) {
 		const {layer, class: cls} = hArg;
 		if (! layer) throw 'layerは必須です';
 		if (layer.includes(',')) throw 'layer名に「,」は使えません';
@@ -456,7 +453,7 @@ export class LayerMng implements IGetFrm {
 				this.#current = o=> this.#$current(o);
 				this.hTag.current({layer});	// hPages更新後でないと呼べない
 				this.goTxt = ()=> {
-					if (this.#evtMng.isSkipping) LayerMng.#msecChWait = 0;
+					if (this.#evtMng.isSkipping) TxtLayer.msecChWait = 0;
 					else this.setNormalChWait();
 					for (const ln of this.#aLayName) {
 						const f = this.#hPages[ln]!.fore;
@@ -483,7 +480,7 @@ export class LayerMng implements IGetFrm {
 	#curTxtlay		= '';
 	#firstGrplay	= '';
 
-	#lay(hArg: HArg): boolean {
+	#lay(hArg: TArg): boolean {
 		// Trans
 		const ln = this.#argChk_layer(hArg);
 		const pg = this.#hPages[ln]!;
@@ -528,7 +525,7 @@ export class LayerMng implements IGetFrm {
 	#rebuildLayerRankInfo() {this.#aLayName = this.#sortLayers()}
 
 	//MARK: レイヤ設定の消去
-	#clear_lay(hArg: HArg) {
+	#clear_lay(hArg: TArg) {
 		this.#foreachLayers(hArg, layer=> {
 			//if (name === this.strTxtlay && hArg.page !== 'back') this.recText('', true);
 				// 改ページ
@@ -601,7 +598,7 @@ void main() {
 
 
 	//MARK: ページ裏表を交換
-	#trans(hArg: HArg) {
+	#trans(hArg: TArg) {
 		const {layer} = hArg;
 		const sDoTrans = new Set<string>;
 		const aLayFore = this.#getLayers(layer).map(ln=> {
@@ -725,7 +722,7 @@ void main() {
 	}
 
 	#getLayers(layer = ''): string[] {return layer ?layer.split(',') :this.#aLayName}
-	#foreachLayers(hArg: HArg, fnc: (ln: string, $pg: Pages)=> void): readonly string[] {
+	#foreachLayers(hArg: TArg, fnc: (ln: string, $pg: Pages)=> void): readonly string[] {
 		const aLn = this.#getLayers(hArg.layer);
 		for (const ln of aLn) {
 			const pg = this.#hPages[ln];
@@ -756,7 +753,7 @@ void main() {
 	}
 
 	//MARK: 画面を揺らす
-	#quake(hArg: HArg) {
+	#quake(hArg: TArg) {
 		if (argChk_Num(hArg, 'time', NaN) === 0) return false;
 
 		const aLayCtn = this.#getLayers(hArg.layer)
@@ -798,7 +795,7 @@ void main() {
 
 
 	//MARK: トゥイーン開始
-	#tsy(hArg: HArg) {
+	#tsy(hArg: TArg) {
 		const {layer, render, name} = hArg;
 		if (! layer) throw 'layerは必須です';
 
@@ -833,7 +830,7 @@ void main() {
 
 
 	//MARK: フィルター追加
-	#add_filter(hArg: HArg) {
+	#add_filter(hArg: TArg) {
 		this.#foreachLayers(hArg, layer=> {
 			const pg = this.#hPages[this.#argChk_layer({layer})]!;
 			if (hArg.page === 'both') {	// page=both で両面に
@@ -847,7 +844,7 @@ void main() {
 
 		return false;
 	}
-	#add_filter2(l: Layer, hArg: HArg) {
+	#add_filter2(l: Layer, hArg: TArg) {
 		const s = l.ctn;
 		s.filters ??= [];
 		s.filters = [...s.filters, Layer.bldFilters(hArg)];
@@ -855,7 +852,7 @@ void main() {
 	}
 
 	//MARK: フィルター全削除
-	#clear_filter(hArg: HArg) {
+	#clear_filter(hArg: TArg) {
 		this.#foreachLayers(hArg, layer=> {
 			const pg = this.#hPages[this.#argChk_layer({layer})]!;
 			if (hArg.page === 'both') {	// page=both で両面に
@@ -876,7 +873,7 @@ void main() {
 	}
 
 	//MARK: フィルター個別切替
-	#enable_filter(hArg: HArg) {
+	#enable_filter(hArg: TArg) {
 		this.#foreachLayers(hArg, layer=> {
 			const pg = this.#hPages[this.#argChk_layer({layer})]!;
 			if (hArg.page === 'both') {	// page=both で両面に
@@ -890,7 +887,7 @@ void main() {
 
 		return false;
 	}
-	#enable_filter2(l: Layer, hArg: HArg) {
+	#enable_filter2(l: Layer, hArg: TArg) {
 		const s = l.ctn;
 		if (! s.filters) throw 'フィルターがありません';
 
@@ -904,10 +901,8 @@ void main() {
 
 
 //	// 文字・文字レイヤ
-	static		#msecChWait		= 10;
-	static get	msecChWait() {return LayerMng.#msecChWait}
 	//MARK: 文字を追加する
-	#ch(hArg: HArg) {
+	#ch(hArg: TArg) {
 		const {text} = hArg;
 		if (! text) throw 'textは必須です';
 
@@ -931,8 +926,8 @@ void main() {
 		return false;
 	}
 
-	#getTxtLayer = (_hArg: HArg): TxtLayer=> {this.#chkTxtLay(); throw 0};
-	#$getTxtLayer(hArg: HArg): TxtLayer {
+	#getTxtLayer = (_hArg: TArg): TxtLayer=> {this.#chkTxtLay(); throw 0};
+	#$getTxtLayer(hArg: TArg): TxtLayer {
 		const ln = this.#argChk_layer(hArg, this.#curTxtlay);
 		const pg = this.#hPages[ln]!;
 		const lay = pg.getPage(hArg);
@@ -940,12 +935,12 @@ void main() {
 
 		return lay;
 	}
-	setNormalChWait(): void {LayerMng.#msecChWait = this.scrItr.normalWait}
+	setNormalChWait(): void {TxtLayer.msecChWait = this.scrItr.normalWait}
 
 
 	//MARK: 操作対象のメッセージレイヤの指定
-	#current = (_hArg: HArg): boolean=> {this.#chkTxtLay(); throw 0};
-	#$current(hArg: HArg) {
+	#current = (_hArg: TArg): boolean=> {this.#chkTxtLay(); throw 0};
+	#$current(hArg: TArg) {
 		const {layer} = hArg;
 		if (! layer) throw '[current] layerは必須です';
 
@@ -976,7 +971,7 @@ void main() {
 	#pgTxtlay	: Pages | undefined	= undefined;	// カレントテキストレイヤ
 	#chkTxtLay	: ()=> void	= ()=> {throw '文字レイヤーがありません。文字表示や操作する前に、[add_lay layer=（レイヤ名） class=txt]で文字レイヤを追加して下さい'};
 
-	#argChk_layer(hArg: HArg, def = ''): string {
+	#argChk_layer(hArg: TArg, def = ''): string {
 		const ln = hArg.layer ?? def;
 		if (ln.includes(',')) throw 'layer名に「,」は使えません';
 		if (! (ln in this.#hPages)) throw '属性 layer【'+ ln +'】が不正です。レイヤーがありません';
@@ -990,7 +985,7 @@ void main() {
 
 
 	//MARK: 文字消去
-	#clear_text(hArg: HArg) {
+	#clear_text(hArg: TArg) {
 		const tf = this.#getTxtLayer(hArg);
 		if (hArg.layer === this.#curTxtlay && hArg.page === 'fore') this.#log.pagebreak();	// 改ページ、クリア前に
 		tf.clearText();
@@ -999,10 +994,10 @@ void main() {
 
 
 	//MARK: ハイパーリンクの終了
-	#endlink(hArg: HArg) {this.#cmdTxt('endlink｜', this.#getTxtLayer(hArg)); return false}
+	#endlink(hArg: TArg) {this.#cmdTxt('endlink｜', this.#getTxtLayer(hArg)); return false}
 
 	//MARK: ページ両面の文字消去
-	#er(hArg: HArg) {
+	#er(hArg: TArg) {
 		if (argChk_Boolean(hArg, 'rec_page_break', true)) this.#log.pagebreak();	// 改ページ、クリア前に
 
 		if (this.#pgTxtlay) {
@@ -1014,7 +1009,7 @@ void main() {
 	}
 
 	//MARK: インライン画像表示
-	#graph(hArg: HArg) {
+	#graph(hArg: TArg) {
 		if (! hArg.pic) throw '[graph] picは必須です';
 
 		this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
@@ -1022,7 +1017,7 @@ void main() {
 	}
 
 	//MARK: ハイパーリンク
-	#link(hArg: HArg) {
+	#link(hArg: TArg) {
 		if (! hArg.fn && ! hArg.label && ! hArg.url) throw 'fn,label,url いずれかは必須です';
 		hArg.fn ??= this.scrItr.scriptFn;	// ここで指定する必要がある
 
@@ -1034,10 +1029,10 @@ void main() {
 	}
 
 	//MARK: 改行
-	#r(hArg: HArg) {return this.#ch({...hArg, text: '\n'})}
+	#r(hArg: TArg) {return this.#ch({...hArg, text: '\n'})}
 
 	//MARK: 文字列と複数ルビの追加
-	#ruby2(hArg: HArg) {
+	#ruby2(hArg: TArg) {
 		const {t, r} = hArg;
 		if (! t) throw '[ruby2] tは必須です';
 		if (! r) throw '[ruby2] rは必須です';
@@ -1050,13 +1045,13 @@ void main() {
 
 
 	//MARK: インラインスタイル設定
-	#span(hArg: HArg) {
+	#span(hArg: TArg) {
 		this.#cmdTxt('span｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
 		return false;
 	}
 
 	//MARK: tcy縦中横を表示する
-	#tcy(hArg: HArg) {
+	#tcy(hArg: TArg) {
 		if (! hArg.t) throw '[tcy] tは必須です';
 
 		this.#cmdTxt('tcy｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
@@ -1065,7 +1060,7 @@ void main() {
 
 
 	//MARK: レイヤのダンプ
-	#dump_lay({layer}: HArg) {
+	#dump_lay({layer}: TArg) {
 		console.group('🥟 [dump_lay]');
 		for (const ln of this.#getLayers(layer)) {
 			const {fore, back} = this.#hPages[ln]!;
@@ -1085,7 +1080,7 @@ void main() {
 
 
 	//MARK: イベント有無の切替
-	#enable_event(hArg: HArg) {
+	#enable_event(hArg: TArg) {
 		const ln = this.#argChk_layer(hArg, this.#curTxtlay);
 		const v = argChk_Boolean(hArg, 'enabled', true);
 		this.#getTxtLayer(hArg).enabled = v;
@@ -1096,7 +1091,7 @@ void main() {
 
 
 	//MARK: ボタンを表示
-	#button(hArg: HArg) {
+	#button(hArg: TArg) {
 		Pages.argChk_page(hArg, 'back');	// チェックしたいというよりデフォルトをbackに
 		hArg.fn ??= this.scrItr.scriptFn;	// ここで指定する必要がある
 			// fn省略時、画像ボタンはロード後という後のタイミングで scrItr.scriptFn を
@@ -1124,7 +1119,7 @@ void main() {
 		}
 		return o;
 	}
-	playback($hPages: HIPage): Promise<void>[] {
+	playback($hPages: T_HPage): Promise<void>[] {
 		// これを先に。save:const.sn.sLog がクリアされてしまう
 		this.#log.playback();
 

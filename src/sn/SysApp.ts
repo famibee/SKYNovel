@@ -6,20 +6,18 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import  type {T_HINFO} from '../appMain_cmn';
-import {SysNode} from './SysNode';
+import {SysBase} from './SysBase';
 import {CmnLib, getDateStr, argChk_Boolean, argChk_Num, uint} from './CmnLib';
-import type {IHTag, ITag} from './Grammar';
-import type {IVariable, T_Data4Vari, IMain, T_SysBaseParams, T_SysBaseLoadedParams, T_H_TMP_DATA} from './CmnInterface';
+import type {T_HTag, TTag} from './Grammar';
+import type {T_Variable, T_Data4Vari, T_SysBaseParams, T_SysBaseLoadedParams, T_H_TMP_DATA} from './CmnInterface';
+import {creSYS_DATA} from './CmnInterface';
 import type {HPROC, SAVE_WIN_INF} from '../preload';
-import {Main} from './Main';
 import {DebugMng} from './DebugMng';
-type MyGlobalThis = Window & {
-	to_app: HPROC;
-}
-const {to_app} = (<MyGlobalThis><unknown>globalThis);
+const {to_app} = <{to_app: HPROC;}><unknown>globalThis;
 
 import type {Application} from 'pixi.js';
 import type {IpcRendererEvent, MessageBoxOptions} from 'electron/renderer';
+import type {readFile} from 'fs-extra';
 
 
 type T_upd__index_json_pkg = {
@@ -43,7 +41,7 @@ type T_upd__index_json = T_upd__index_json_pkg & {
 
 
 	// console.log はアプリのコンソールに出る
-export class SysApp extends SysNode {
+export class SysApp extends SysBase {
 	constructor(...[hPlg = {}, arg = {cur: 'prj/', crypto: false, dip: ''}]: T_SysBaseParams) {	// DOMContentLoaded は呼び出し側でやる
 		super(hPlg, arg);
 
@@ -80,14 +78,16 @@ export class SysApp extends SysNode {
 	override	fetch = (url: string)=> fetch(url, {cache: 'no-store'});
 
 	override	ensureFile	= to_app.ensureFile;
-	protected override	writeFile	= to_app.writeFile;
-	override	appendFile		= to_app.appendFile;
-	override	outputFile		= to_app.outputFile;
+	protected	async readFile(_path: string, _encoding: Parameters<typeof readFile>[1]): Promise<string> {return Promise.resolve('')}
+	protected	writeFile	= to_app.writeFile;
+	override	appendFile	= to_app.appendFile;
+	override	outputFile	= to_app.outputFile;
 
+	override readonly	isApp = true;
 	protected 	override $path_userdata		= '';
 	protected	override $path_downloads	= '';
 
-	override async	initVal(data: T_Data4Vari, hTmp: T_H_TMP_DATA, comp: (data: T_Data4Vari)=> void) {
+	override async	initVal(hTmp: T_H_TMP_DATA, comp: (data: T_Data4Vari)=> void) {
 		// システム情報
 		hTmp['const.sn.isDebugger'] = false;
 			// システムがデバッグ用の特別なバージョンか
@@ -106,10 +106,9 @@ export class SysApp extends SysNode {
 		= await to_app.Store_isEmpty();
 		if (first) {
 			// データがない（初回起動）場合の処理
-			this.data.sys = data.sys;
-			this.data.mark = data.mark;
-			this.data.kidoku = data.kidoku;
-			this.flush();	// 初期化なのでここのみ必要
+			this.data.sys = creSYS_DATA();
+			this.data.mark = {};
+			this.data.kidoku = {};
 		}
 		else {
 			// データがある場合の処理
@@ -123,18 +122,16 @@ export class SysApp extends SysNode {
 		const x = argChk_Num(this.data.sys, 'const.sn.nativeWindow.x', 0);
 		//const x = Number(this.val.getVal(	// ここではまだ使えない
 		const y = argChk_Num(this.data.sys, 'const.sn.nativeWindow.y', 0);
-		const w = argChk_Num(this.data.sys, 'const.sn.nativeWindow.w', CmnLib.stageW);
-		const h = argChk_Num(this.data.sys, 'const.sn.nativeWindow.h', CmnLib.stageH);
-// console.log(`fn:SysApp.ts to_app.inited(${x},${y},${w},${h})`);
-		await to_app.inited(this.cfg.oCfg, {c: first, x, y, w, h});
+		const w = this.data.sys['const.sn.nativeWindow.w'] || CmnLib.stageW;
+		const h = this.data.sys['const.sn.nativeWindow.h'] || CmnLib.stageH;
 
 		to_app.on('save_win_inf', (_e, {x, y, w, h}: SAVE_WIN_INF)=> {
+// // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 // console.log(`fn:SysApp.ts save_win_inf (${x},${y},${w},${h})`);
-			this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.x', x);
-			this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.y', y);
-			this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.w', w);
-			this.val.setVal_Nochk('sys', 'const.sn.nativeWindow.h', h);
-			this.flush();
+			this.data.sys['const.sn.nativeWindow.x'] = x;
+			this.data.sys['const.sn.nativeWindow.y'] = y;
+			this.data.sys['const.sn.nativeWindow.w'] = w;
+			this.data.sys['const.sn.nativeWindow.h'] = h;
 
 			// ・画面サイズ：screen.width ウインドウが表示されているディスプレイのサイズ
 			//	※ macOSなら【設定】-【ディスプレイ】-【使用形態】のイメージボタンにホバーすると出る数字と同じ
@@ -143,9 +140,12 @@ export class SysApp extends SysNode {
 			hTmp['const.sn.screenResolutionY'] = screen.availHeight;	// 画面の最大垂直解像度
 				// AIRNovel の const.flash.system.Capabilities.screenResolutionX、Y
 				// 上のメニューバーは含んでいない（たぶん an も）。含むのは workAreaSize
+
+			comp(this.data);
 		});
 
-		comp(this.data);
+// console.log(`fn:SysApp.ts to_app.inited(${x},${y},${w},${h})`);
+		await to_app.inited(this.cfg.oCfg, {c: first, x, y, w, h});
 	}
 	#setStore = ()=> to_app.Store({
 		cwd	: this.$path_userdata +'storage',
@@ -154,18 +154,11 @@ export class SysApp extends SysNode {
 	});
 
 
-	#main: Main | undefined = undefined;
-	// eslint-disable-next-line @typescript-eslint/require-await
-	protected override async run() {
-		this.#main?.destroy();
-		this.#main = new Main(this);
-	}
+	override init(hTag: T_HTag, appPixi: Application, val: T_Variable) {
+		const ret = super.init(hTag, appPixi, val);
+		document.body.style.backgroundColor = '#000';
 
-
-	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
-		const ret = super.init(hTag, appPixi, val, main);
-
-		to_app.on('shutdown', (_e)=> main.destroy());
+		to_app.on('shutdown', (_e)=> this.main?.destroy());
 
 		const ev = new MouseEvent('click');
 		to_app.on('fire', (_e, KEY: string)=> this.fire(KEY, ev));
@@ -178,6 +171,7 @@ export class SysApp extends SysNode {
 	override cvsResize() {
 		super.cvsResize();
 
+		if (! this.main) return;
 		const cvs = this.main.cvs;
 		const ps = cvs.parentElement?.style;
 		if (! ps) return;
@@ -267,7 +261,7 @@ export class SysApp extends SysNode {
 	}
 
 	// ＵＲＬを開く
-	protected override readonly	navigate_to: ITag = hArg=> {
+	protected override readonly	navigate_to: TTag = hArg=> {
 		const {url} = hArg;
 		if (! url) throw '[navigate_to] urlは必須です';
 
@@ -286,7 +280,7 @@ export class SysApp extends SysNode {
 	});
 
 	// 更新チェック
-	protected override readonly	update_check: ITag = hArg=> {
+	protected override readonly	update_check: TTag = hArg=> {
 		const {url} = hArg;
 		if (! url) throw '[update_check] urlは必須です';
 		if (! url.endsWith('/')) throw '[update_check] urlの末尾は/にして下さい';
@@ -418,7 +412,7 @@ export class SysApp extends SysNode {
 	}
 
 	// アプリウインドウ設定
-	protected override readonly	window: ITag = hArg=> {
+	protected override readonly	window: TTag = hArg=> {
 		const x = argChk_Num(hArg, 'x', Number(this.val.getVal('sys:const.sn.nativeWindow.x', 0)));
 		const y = argChk_Num(hArg, 'y', Number(this.val.getVal('sys:const.sn.nativeWindow.y', 0)));
 		const w = argChk_Num(hArg, 'w', Number(this.val.getVal('sys:const.sn.nativeWindow.w', CmnLib.stageW)));
@@ -435,6 +429,13 @@ export class SysApp extends SysNode {
 
 	override capturePage(path: string, w: number, h: number, fnc: ()=> void) {
 		void to_app.capturePage(path, w, h).then(()=> fnc());
+	}
+
+	override async savePic(path: string, data_url: string) {
+		const bs64 = data_url.slice(data_url.indexOf(',', 20) +1);
+		await this.ensureFile(path);
+		await this.writeFile(path, bs64);
+		if (CmnLib.debugLog) console.log(`画像ファイル ${path} を保存しました`);
 	}
 
 }

@@ -6,7 +6,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import type {T_HEvt2Fnc} from './CmnInterface';
-import type {HArg} from './Grammar';
+import type {TArg} from './Grammar';
 
 
 // マクロ変数(mp:)
@@ -19,7 +19,7 @@ export function creMP(): T_H_VAL_MP {return {
 		'const.sn.me_call_scriptFn'	: '',
 }}
 
-export type ICallStackArg = HArg & {
+export type ICallStackArg = TArg & {
 	':resvToken'?	: string;		// call元のtoken
 	':hEvt1Time'?	: T_HEvt2Fnc;	// call元のローカル予約イベント
 	':hMp'			: T_H_VAL_MP;	// call元のmp:

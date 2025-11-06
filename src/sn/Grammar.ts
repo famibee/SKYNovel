@@ -8,10 +8,10 @@
 
 import {AnalyzeTagArg} from './AnalyzeTagArg';
 import {getFn} from './CmnLib';
-import {type IConfig, SEARCH_PATH_ARG_EXT} from './ConfigBase';
+import {type T_Config, SEARCH_PATH_ARG_EXT} from './ConfigBase';
 
 
-export type HArg = {
+export type TArg = {
 	':タグ名'?	: string;
 	canskip?	: boolean;
 
@@ -126,7 +126,7 @@ export type HArg = {
 	type?	: string;	// 3Dレイヤで使用
 	camera_target?	: string;
 
-	arg?	: HArg;
+	arg?	: TArg;
 	fnc?	: ()=> void;
 
 	filter?	: string;
@@ -180,153 +180,153 @@ export type HArg = {
 //	stepin?		: boolean;		// 拡張機能のみ使用：false指定でステップインしない
 //	nowarn_unused?	: boolean;	// 拡張機能のみ使用：未使用警告を出さない
 }
-export type ITag = (hArg: HArg) => boolean;
-export type IHTag = {
+export type TTag = (hArg: TArg) => boolean;
+export type T_HTag = {
 // 変数操作
-	clearsysvar			: ITag;	// システム変数の全消去
-	clearvar			: ITag;	// ゲーム変数の全消去
-	let_abs				: ITag;	// 絶対値
-	let_char_at			: ITag;	// 文字列から一字取りだし
-	let_index_of		: ITag;	// 文字列で検索
-	let_length			: ITag;	// 文字列の長さ
-	let_ml				: ITag;	// インラインテキスト代入
-	let_replace			: ITag;	// 正規表現で置換
-	let_round			: ITag;	// 四捨五入
-	let_search			: ITag;	// 正規表現で検索
-	let_substr			: ITag;	// 文字列から抜きだし
-	let					: ITag;	// 変数代入・演算
+	clearsysvar			: TTag;	// システム変数の全消去
+	clearvar			: TTag;	// ゲーム変数の全消去
+	let_abs				: TTag;	// 絶対値
+	let_char_at			: TTag;	// 文字列から一字取りだし
+	let_index_of		: TTag;	// 文字列で検索
+	let_length			: TTag;	// 文字列の長さ
+	let_ml				: TTag;	// インラインテキスト代入
+	let_replace			: TTag;	// 正規表現で置換
+	let_round			: TTag;	// 四捨五入
+	let_search			: TTag;	// 正規表現で検索
+	let_substr			: TTag;	// 文字列から抜きだし
+	let					: TTag;	// 変数代入・演算
 
 // レイヤ共通
-	add_lay				: ITag;	// レイヤを追加する
-	clear_lay			: ITag;	// レイヤ設定の消去
-	finish_trans		: ITag;	// トランス強制終了
-	lay					: ITag;	// レイヤ設定
-	trans				: ITag;	// ページ裏表を交換
-	wt					: ITag;	// トランス終了待ち
-	add_filter			: ITag;	// フィルター追加
-	clear_filter		: ITag;	// フィルター全削除
-	enable_filter		: ITag;	// フィルター個別切替
+	add_lay				: TTag;	// レイヤを追加する
+	clear_lay			: TTag;	// レイヤ設定の消去
+	finish_trans		: TTag;	// トランス強制終了
+	lay					: TTag;	// レイヤ設定
+	trans				: TTag;	// ページ裏表を交換
+	wt					: TTag;	// トランス終了待ち
+	add_filter			: TTag;	// フィルター追加
+	clear_filter		: TTag;	// フィルター全削除
+	enable_filter		: TTag;	// フィルター個別切替
 
 // トゥイーンアニメ
-	pause_tsy			: ITag;	// 一時停止
-	resume_tsy			: ITag;	// 一時停止再開
-	stop_tsy			: ITag;	// トゥイーン中断
-	tsy					: ITag;	// トゥイーン開始
-	wait_tsy			: ITag;	// トゥイーン終了待ち
+	pause_tsy			: TTag;	// 一時停止
+	resume_tsy			: TTag;	// 一時停止再開
+	stop_tsy			: TTag;	// トゥイーン中断
+	tsy					: TTag;	// トゥイーン開始
+	wait_tsy			: TTag;	// トゥイーン終了待ち
 
 // 文字・文字レイヤ
-	autowc				: ITag;	// 文字ごとのウェイト
-	ch					: ITag;	// 文字を追加する
-	ch_in_style			: ITag;	// 文字出現演出定義
-	ch_out_style		: ITag;	// 文字消去演出定義
-	clear_text			: ITag;	// 文字消去
-	current				: ITag;	// デフォルト文字レイヤ設定
-	endlet_ml			: ITag;	// インラインテキスト代入の終端
-	endlink				: ITag;	// ハイパーリンクの終了
-	er					: ITag;	// ページ両面の文字消去
-	graph				: ITag;	// インライン画像表示
-	link				: ITag;	// ハイパーリンク
-	r					: ITag;	// 改行
-	rec_ch				: ITag;	// 履歴書き込み
-	rec_r				: ITag;	// 履歴改行
-	reset_rec			: ITag;	// 履歴リセット
-	ruby2				: ITag;	// 文字列と複数ルビの追加
-	set_focus			: ITag;	// フォーカス移動
-	span				: ITag;	// インラインスタイル設定
-	tcy					: ITag;	// 縦中横を表示する
+	autowc				: TTag;	// 文字ごとのウェイト
+	ch					: TTag;	// 文字を追加する
+	ch_in_style			: TTag;	// 文字出現演出定義
+	ch_out_style		: TTag;	// 文字消去演出定義
+	clear_text			: TTag;	// 文字消去
+	current				: TTag;	// デフォルト文字レイヤ設定
+	endlet_ml			: TTag;	// インラインテキスト代入の終端
+	endlink				: TTag;	// ハイパーリンクの終了
+	er					: TTag;	// ページ両面の文字消去
+	graph				: TTag;	// インライン画像表示
+	link				: TTag;	// ハイパーリンク
+	r					: TTag;	// 改行
+	rec_ch				: TTag;	// 履歴書き込み
+	rec_r				: TTag;	// 履歴改行
+	reset_rec			: TTag;	// 履歴リセット
+	ruby2				: TTag;	// 文字列と複数ルビの追加
+	set_focus			: TTag;	// フォーカス移動
+	span				: TTag;	// インラインスタイル設定
+	tcy					: TTag;	// 縦中横を表示する
 
 // 画像・画像レイヤ
-	add_face			: ITag;	// 差分名称の定義
-	wv					: ITag;	// 動画再生終了待ち
+	add_face			: TTag;	// 差分名称の定義
+	wv					: TTag;	// 動画再生終了待ち
 
 // HTMLフレーム
-	add_frame			: ITag;	// フレーム追加
-	frame				: ITag;	// フレームに設定
-	let_frame			: ITag;	// フレーム変数を取得
-	set_frame			: ITag;	// フレーム変数に設定
-	tsy_frame			: ITag;	// フレームをトゥイーン開始
+	add_frame			: TTag;	// フレーム追加
+	frame				: TTag;	// フレームに設定
+	let_frame			: TTag;	// フレーム変数を取得
+	set_frame			: TTag;	// フレーム変数に設定
+	tsy_frame			: TTag;	// フレームをトゥイーン開始
 
 // イベント
-	clear_event			: ITag;	// イベントを全消去
-	enable_event		: ITag;	// イベント有無の切替
-	event				: ITag;	// イベントを予約
-	l					: ITag;	// 行末クリック待ち
-	p					: ITag;	// 改ページクリック待ち
-	s					: ITag;	// 停止する
-	set_cancel_skip		: ITag;	// スキップ中断予約
-	wait				: ITag;	// ウェイトを入れる
-	waitclick			: ITag;	// クリックを待つ
+	clear_event			: TTag;	// イベントを全消去
+	enable_event		: TTag;	// イベント有無の切替
+	event				: TTag;	// イベントを予約
+	l					: TTag;	// 行末クリック待ち
+	p					: TTag;	// 改ページクリック待ち
+	s					: TTag;	// 停止する
+	set_cancel_skip		: TTag;	// スキップ中断予約
+	wait				: TTag;	// ウェイトを入れる
+	waitclick			: TTag;	// クリックを待つ
 
 // ＢＧＭ・効果音
-	fadebgm				: ITag;	// BGMのフェード
-	fadeoutbgm			: ITag;	// BGMのフェードアウト
-	fadeoutse			: ITag;	// 効果音のフェードアウト
-	fadese				: ITag;	// 効果音のフェード
-	playbgm				: ITag;	// BGM の演奏
-	playse				: ITag;	// 効果音の再生
-	stop_allse			: ITag;	// 全効果音再生の停止
-	stopbgm				: ITag;	// BGM 演奏の停止
-	stopfadese			: ITag;	// 音声フェードの停止
-	stopse				: ITag;	// 効果音再生の停止
-	volume				: ITag;	// BGMや効果音の音量を指定
-	wb					: ITag;	// BGM フェードの終了待ち
-	wf					: ITag;	// 効果音フェードの終了待ち
-	wl					: ITag;	// BGM 再生の終了待ち
-	ws					: ITag;	// 効果音再生の終了待ち
-	xchgbuf				: ITag;		// サウンドバッファの交換
+	fadebgm				: TTag;	// BGMのフェード
+	fadeoutbgm			: TTag;	// BGMのフェードアウト
+	fadeoutse			: TTag;	// 効果音のフェードアウト
+	fadese				: TTag;	// 効果音のフェード
+	playbgm				: TTag;	// BGM の演奏
+	playse				: TTag;	// 効果音の再生
+	stop_allse			: TTag;	// 全効果音再生の停止
+	stopbgm				: TTag;	// BGM 演奏の停止
+	stopfadese			: TTag;	// 音声フェードの停止
+	stopse				: TTag;	// 効果音再生の停止
+	volume				: TTag;	// BGMや効果音の音量を指定
+	wb					: TTag;	// BGM フェードの終了待ち
+	wf					: TTag;	// 効果音フェードの終了待ち
+	wl					: TTag;	// BGM 再生の終了待ち
+	ws					: TTag;	// 効果音再生の終了待ち
+	xchgbuf				: TTag;		// サウンドバッファの交換
 
 // 条件分岐
-	else				: ITag;	// その他ifブロック開始
-	elsif				: ITag;	// 別条件のifブロック開始
-	endif				: ITag;	// ifブロックの終端
-	if					: ITag;	// ifブロックの開始
+	else				: TTag;	// その他ifブロック開始
+	elsif				: TTag;	// 別条件のifブロック開始
+	endif				: TTag;	// ifブロックの終端
+	if					: TTag;	// ifブロックの開始
 
 // ラベル・ジャンプ
-	button				: ITag;	// ボタンを表示
-	call				: ITag;	// サブルーチンコール
-	jump				: ITag;	// シナリオジャンプ
-	page				: ITag;	// ページ移動
-	pop_stack			: ITag;	// コールスタック破棄
-	return				: ITag;	// サブルーチンから戻る
+	button				: TTag;	// ボタンを表示
+	call				: TTag;	// サブルーチンコール
+	jump				: TTag;	// シナリオジャンプ
+	page				: TTag;	// ページ移動
+	pop_stack			: TTag;	// コールスタック破棄
+	return				: TTag;	// サブルーチンから戻る
 
 // マクロ
-	bracket2macro		: ITag;	// 括弧マクロの定義
-	char2macro			: ITag;	// 一文字マクロの定義
-	endmacro			: ITag;	// マクロ定義の終了
-	macro				: ITag;	// マクロ定義の開始
+	bracket2macro		: TTag;	// 括弧マクロの定義
+	char2macro			: TTag;	// 一文字マクロの定義
+	endmacro			: TTag;	// マクロ定義の終了
+	macro				: TTag;	// マクロ定義の開始
 
 // しおり
-	copybookmark		: ITag;	// しおりの複写
-	erasebookmark		: ITag;	// しおりの消去
-	load				: ITag;	// しおりの読込
-	record_place		: ITag;	// セーブポイント指定
-	reload_script		: ITag;	// スクリプト再読込
-	save				: ITag;	// しおりの保存
+	copybookmark		: TTag;	// しおりの複写
+	erasebookmark		: TTag;	// しおりの消去
+	load				: TTag;	// しおりの読込
+	record_place		: TTag;	// セーブポイント指定
+	reload_script		: TTag;	// スクリプト再読込
+	save				: TTag;	// しおりの保存
 
 // 画面揺らし
-	quake				: ITag;	// 画面を揺らす
-	stop_quake			: ITag;	// 画面揺らし中断
-	wq					: ITag;	// 画面揺らし終了待ち
+	quake				: TTag;	// 画面を揺らす
+	stop_quake			: TTag;	// 画面揺らし中断
+	wq					: TTag;	// 画面揺らし終了待ち
 
 // システム
-	close				: ITag;	// アプリの終了
-	export				: ITag;	// プレイデータをエクスポート
-	import				: ITag;	// プレイデータをインポート
-	loadplugin			: ITag;	// プラグインの読み込み
-	navigate_to			: ITag;	// ＵＲＬを開く
-	snapshot			: ITag;	// スナップショット
-	title				: ITag;	// タイトル指定
-	toggle_full_screen	: ITag;	// 全画面状態切替
-	update_check		: ITag;	// 更新チェック機能
-	window				: ITag;	// アプリウインドウ設定
+	close				: TTag;	// アプリの終了
+	export				: TTag;	// プレイデータをエクスポート
+	import				: TTag;	// プレイデータをインポート
+	loadplugin			: TTag;	// プラグインの読み込み
+	navigate_to			: TTag;	// ＵＲＬを開く
+	snapshot			: TTag;	// スナップショット
+	title				: TTag;	// タイトル指定
+	toggle_full_screen	: TTag;	// 全画面状態切替
+	update_check		: TTag;	// 更新チェック機能
+	window				: TTag;	// アプリウインドウ設定
 
 // デバッグ・その他
-	dump_lay			: ITag;	// レイヤのダンプ
-	dump_script			: ITag;	// 外部へスクリプトを表示
-	dump_stack			: ITag;	// スタックのダンプ
-	dump_val			: ITag;	// 変数のダンプ
-	log					: ITag;	// ログ出力
-	trace				: ITag;	// デバッグ表示へ出力
+	dump_lay			: TTag;	// レイヤのダンプ
+	dump_script			: TTag;	// 外部へスクリプトを表示
+	dump_stack			: TTag;	// スタックのダンプ
+	dump_val			: TTag;	// 変数のダンプ
+	log					: TTag;	// ログ出力
+	trace				: TTag;	// デバッグ表示へ出力
 }
 
 
@@ -375,7 +375,7 @@ export function	splitAmpersand(token: string): {
 
 
 export class Grammar {
-	constructor(private readonly cfg: IConfig) {this.setEscape('')}
+	constructor(private readonly cfg: T_Config) {this.setEscape('')}
 
 	#REG_TOKEN	: RegExp;
 	setEscape(ce: string) {
@@ -428,7 +428,7 @@ export class Grammar {
 
 
 	// 括弧マクロの定義
-	bracket2macro(hArg: HArg, hTag: IHTag, scr: Script, start_idx: number) {
+	bracket2macro(hArg: TArg, hTag: T_HTag, scr: Script, start_idx: number) {
 		const {name, text} = hArg;
 		if (! name) throw '[bracket2macro] nameは必須です';
 		if (! text) throw '[bracket2macro] textは必須です';
@@ -452,7 +452,7 @@ export class Grammar {
 		this.#replaceScr_C2M(scr, start_idx);
 	}
 	// 一文字マクロの定義
-	char2macro(hArg: HArg, hTag: IHTag, scr: Script, start_idx: number) {
+	char2macro(hArg: TArg, hTag: T_HTag, scr: Script, start_idx: number) {
 		const {char, name} = hArg;
 		if (! char) throw '[char2macro] charは必須です';
 		this.#hC2M ??= {};

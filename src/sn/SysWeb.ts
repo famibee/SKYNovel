@@ -6,11 +6,9 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {SysBase} from './SysBase';
-import {CmnLib, getDateStr, argChk_Boolean, argChk_Num, T_DIP} from './CmnLib';
-import type {IHTag, ITag} from './Grammar';
-import type {IVariable, IMain, T_Data4Vari, T_SysBaseParams, T_SysBaseLoadedParams, T_H_TMP_DATA, T_H_VAL_KIDOKU, T_H_VAL_MARK, T_H_SYS_DATA} from './CmnInterface';
-import {Main} from './Main';
-import type {IFn2Path, IConfig} from './ConfigBase';
+import {CmnLib, getDateStr, argChk_Boolean, argChk_Num, type T_DIP} from './CmnLib';
+import type {T_HTag, TTag} from './Grammar';
+import type {T_Variable, T_Data4Vari, T_SysBaseParams, T_SysBaseLoadedParams, T_H_TMP_DATA, T_H_VAL_KIDOKU, T_H_VAL_MARK, T_H_SYS_DATA} from './CmnInterface';
 
 import type {Application} from 'pixi.js';
 import store from 'store';
@@ -68,36 +66,9 @@ export class SysWeb extends SysBase {
 		this.#now_prj = this.arg.cur;
 		await this.run();
 	}
-	// eslint-disable-next-line @typescript-eslint/require-await
-	protected	override run = async ()=> {
-		this.#main?.destroy();
-		this.#main = new Main(this);
-	}
-	stop() {
-		this.#main?.destroy();
-		this.#main = undefined;
-	}
-	#main: Main | undefined = undefined;
 
 
-	override async loadPath(hPathFn2Exts: IFn2Path, cfg: IConfig) {
-		await super.loadPath(hPathFn2Exts, cfg);
-
-		const fn = this.arg.cur +'path.json';
-		const res = await this.fetch(fn);
-		if (! res.ok) throw Error(res.statusText);
-
-		const src = await res.text();
-		const oJs = <IFn2Path>JSON.parse(await this.dec(fn, src));
-		for (const [nm, v] of Object.entries(oJs)) {
-			const h = hPathFn2Exts[nm] = v;
-			for (const [ext, w] of Object.entries(h)) {
-				if (ext !== ':cnt') h[ext] = this.arg.cur + <string>w;
-			}
-		}
-	}
-
-	override async	initVal(data: T_Data4Vari, hTmp: T_H_TMP_DATA, comp: (data: T_Data4Vari)=> void) {
+	override async	initVal(hTmp: T_H_TMP_DATA, comp: (data: T_Data4Vari)=> void) {
 		// システム情報
 		const hn = encodeURIComponent(document.location.hostname);
 		hTmp['const.sn.isDebugger'] = hn === 'localhost' || hn ==='127.0.0.1';
@@ -118,10 +89,10 @@ export class SysWeb extends SysBase {
 		// eslint-disable-next-line no-cond-assign
 		if (hTmp['const.sn.isFirstBoot'] = store.get(nm) === undefined) {
 			// データがない（初回起動）場合の処理
-			this.data.sys = data.sys;
-			this.data.mark = data.mark;
-			this.data.kidoku = data.kidoku;
-			this.flush();	// 初期化なのでここのみ必要
+			this.data.sys = <T_H_SYS_DATA>{};
+			this.data.mark = {};
+			this.data.kidoku = {};
+			// this.flush();	// ここでは仮置き、外でやってもらう
 			comp(this.data);
 			return;
 		}
@@ -153,8 +124,8 @@ export class SysWeb extends SysBase {
 		comp(this.data);
 	}
 
-	override init(hTag: IHTag, appPixi: Application, val: IVariable, main: IMain) {
-		const aP = super.init(hTag, appPixi, val, main);
+	override init(hTag: T_HTag, appPixi: Application, val: T_Variable) {
+		const aP = super.init(hTag, appPixi, val);
 
 		// 全画面状態切替
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -184,7 +155,7 @@ export class SysWeb extends SysBase {
 		if (! this.cfg.oCfg.debug.devtool) this.elc.add(globalThis, 'devtoolschange', (e: DevToolsEvent)=> {
 			if (! e.detail.isOpen) return;
 			console.error('DevToolは禁止されています。許可する場合は【プロジェクト設定】の【devtool】をONに。');
-			main.destroy();
+			this.main?.destroy();
 		}, {once: true, passive: true});
 
 		return aP;
@@ -194,17 +165,18 @@ export class SysWeb extends SysBase {
 	override cvsResize() {
 		super.cvsResize();
 
-		if (this.isFullScr) {
-			const s = this.main.cvs.style;
-			s.width = s.height = '';	// ブラウザ版のセンタリングに必須
-		}
+		if (! this.isFullScr) return;
+		if (! this.main) return;
+
+		const s = this.main.cvs.style;
+		s.width = s.height = '';	// ブラウザ版のセンタリングに必須
 	}
 
 
 	override pathBaseCnvSnPath4Dbg = '${pathbase}/';
 
 	// プレイデータをエクスポート
-	protected override readonly	_export: ITag = ()=> {
+	protected override readonly	_export: TTag = ()=> {
 		(async ()=> {
 			const s = JSON.stringify({
 				'sys': this.data.sys,
@@ -229,7 +201,7 @@ export class SysWeb extends SysBase {
 	}
 
 	// プレイデータをインポート
-	protected override readonly	_import: ITag = ()=> {
+	protected override readonly	_import: TTag = ()=> {
 		new Promise((rs: (file: Blob)=> void, rj)=> {
 			const inp = document.createElement('input');
 			inp.type = 'file';
@@ -264,7 +236,7 @@ export class SysWeb extends SysBase {
 
 
 	// ＵＲＬを開く
-	protected override readonly	navigate_to: ITag = hArg=> {
+	protected override readonly	navigate_to: TTag = hArg=> {
 		const {url} = hArg;
 		if (! url) throw '[navigate_to] urlは必須です';
 	//	globalThis.open(url);		// 近年セキュリティ的に効かない
