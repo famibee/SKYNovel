@@ -1,3 +1,10 @@
+## [1.64.11](https://github.com/famibee/SKYNovel/compare/v1.64.10...v1.64.11) (2025-11-08)
+
+
+### Bug Fixes
+
+* ESM版で [update_check] でアイコンが表示されなかった件を修正 ([5aeaf00](https://github.com/famibee/SKYNovel/commit/5aeaf008b6597090c7362a8fda2ef5d6fde61bff))
+
 - fix: ESM版で [update_check] でアイコンが表示されなかった件を修正
 - fix: 手直し
 
