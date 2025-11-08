@@ -1,4 +1,13 @@
-# SKYNovel
+<p align="center">
+	<img src="test/logo.png" alt="logo" width="120">
+</p>
+
+<h1 align="center">SKYNovel</h1>
+
+<p align="center"><em>WebGL NovelGame framework by PixiJS</em></p>
+<br />
+
+
 [![MIT](https://img.shields.io/badge/MIT-green?style=for-the-badge)](LICENSE)
 ![macOS](https://img.shields.io/badge/mac%20os-000000?style=for-the-badge&logo=apple&logoColor=white)
 ![Windows](https://img.shields.io/badge/Windows-0078D6?style=for-the-badge&logo=windows&logoColor=white)
@@ -26,12 +35,6 @@
 ![VSCode](https://img.shields.io/badge/VSCode-0078D4?style=for-the-badge&logo=visual%20studio%20code&logoColor=white)
 ![Sublime Text](https://img.shields.io/badge/sublime_text-%23575757.svg?&style=for-the-badge&logo=sublime-text&logoColor=important)
 
-
-WebGL NovelGame framework by PixiJS
-
-![logo.svg](test/logo.png)
-
-[CHANGELOG.md](CHANGELOG.md)
 
 ---
 ## description（説明）

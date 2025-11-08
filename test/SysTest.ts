@@ -11,7 +11,7 @@ import hPath from './path.json';
 
 
 export class SysTest extends SysBase {
-	override	fetch = (url: string)=> Promise.resolve(new Response(
+	override	readonly	fetch = (url: string)=> Promise.resolve(new Response(
 		JSON.stringify( url === 'test/prj.json' ? creCFG() : hPath )
 	));
 }

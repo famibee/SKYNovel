@@ -75,13 +75,13 @@ export class SysApp extends SysBase {
 	};
 
 
-	override	fetch = (url: string)=> fetch(url, {cache: 'no-store'});
+	override	readonly	fetch = (url: string)=> fetch(url, {cache: 'no-store'});
 
-	override	ensureFile	= to_app.ensureFile;
+	override	readonly	ensureFile	= to_app.ensureFile;
 	protected	async readFile(_path: string, _encoding: Parameters<typeof readFile>[1]): Promise<string> {return Promise.resolve('')}
-	protected	writeFile	= to_app.writeFile;
-	override	appendFile	= to_app.appendFile;
-	override	outputFile	= to_app.outputFile;
+	protected	readonly	writeFile	= to_app.writeFile;
+	override	readonly	appendFile	= to_app.appendFile;
+	override	readonly	outputFile	= to_app.outputFile;
 
 	override readonly	isApp = true;
 	protected 	override $path_userdata		= '';
@@ -147,7 +147,7 @@ export class SysApp extends SysBase {
 // console.log(`fn:SysApp.ts to_app.inited(${x},${y},${w},${h})`);
 		await to_app.inited(this.cfg.oCfg, {c: first, x, y, w, h});
 	}
-	#setStore = ()=> to_app.Store({
+	readonly	#setStore = ()=> to_app.Store({
 		cwd	: this.$path_userdata +'storage',
 		name: this.arg.crypto ?'data_' :'data',
 		encryptionKey: this.arg.crypto ?this.stk() :undefined,
@@ -197,14 +197,14 @@ export class SysApp extends SysBase {
 	}
 
 
-	override copyBMFolder	= (from: number, to: number)=> {
+	override readonly copyBMFolder = (from: number, to: number)=> {
 		const path_from = `${this.$path_userdata}storage/${String(from)}/`;
 		const path_to = `${this.$path_userdata}storage/${String(to)}/`;
 		void to_app.existsSync(path_from).then(async v=> {
 			if (v) await to_app.copy(path_from, path_to);
 		});
 	};
-	override eraseBMFolder	= (place: number)=> {
+	override readonly eraseBMFolder = (place: number)=> {
 		void to_app.remove(`${this.$path_userdata}storage/${String(place)}/`);
 	};
 
