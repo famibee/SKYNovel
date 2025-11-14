@@ -152,7 +152,7 @@ export class ReadingState {
 
 		// 予約実行
 		const key = rawKeY.toLowerCase();
-		// if (CmnLib.debugLog) console.log(`👺 fire<(key:\`${key}\` type:${e.type} e:${JSON.stringify(e)})`);
+// console.log(`👺 fire<(key:\`${key}\` type:${e.type})`);
 
 		switch (key) {
 			case 'click':
@@ -160,6 +160,7 @@ export class ReadingState {
 			case 'middleclick':	// 〃
 			case 'enter':
 			case 'arrowdown':
+				if (Reading.evtMng.isSkipping) break;
 				if (! ReadingState.isFirstFire()) return;
 				break;
 		}
@@ -182,7 +183,7 @@ export class ReadingState {
 		ke(e);
 		//this.hLocalEvt2Fnc = {};	// ここで消去禁止、Main.resumeByJumpOrCall()が担当
 	}
-	get	isSkipping() {return Reading.skip_enabled}
+	get	skip_enabled() {return Reading.skip_enabled}
 	readonly	isWait: boolean	= false;
 	// イベント複数発生回避（ボタンとステージクリックなど）
 	static	#wasFired	= false;
@@ -452,7 +453,7 @@ class ReadingState_page extends ReadingState {
 	static	go(hArg: TArg) {return new ReadingState_page().page(hArg)}
 
 	#isPaging	= true;
-	override	get	isSkipping() {return this.#isPaging}
+	override	get	skip_enabled() {return this.#isPaging}
 
 	override	readonly	isWait	= false;
 
@@ -633,7 +634,7 @@ export class Reading {
 		ReadingState.rs.fire(KeY, e);
 	}
 
-	static	get	isSkipping() {return ReadingState.rs.isSkipping}
+	static	get	isSkipping() {return ReadingState.rs.skip_enabled}
 	static	get	isWait() {return ReadingState.rs.isWait}	// 予約イベントの発生待ち中か
 
 

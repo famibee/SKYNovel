@@ -444,6 +444,7 @@ class n {
       // 〃
       case "enter":
       case "arrowdown":
+        if (a.evtMng.isSkipping) break;
         if (!n.isFirstFire()) return;
         break;
     }
@@ -457,7 +458,7 @@ class n {
     const r = n.getEvt2Fnc(s);
     r && (i.stopImmediatePropagation?.(), !(!s.startsWith("dom=") && a.layMng.clickTxtLay()) && r(i));
   }
-  get isSkipping() {
+  get skip_enabled() {
     return a.skip_enabled;
   }
   isWait = !1;
@@ -616,7 +617,7 @@ class O extends n {
     return new O().page(t);
   }
   #i = !0;
-  get isSkipping() {
+  get skip_enabled() {
     return this.#i;
   }
   isWait = !1;
@@ -725,7 +726,7 @@ class a {
     s && this.cancelAutoSkip(), n.rs.fire(t, i);
   }
   static get isSkipping() {
-    return n.rs.isSkipping;
+    return n.rs.skip_enabled;
   }
   static get isWait() {
     return n.rs.isWait;

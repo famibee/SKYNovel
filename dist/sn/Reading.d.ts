@@ -32,7 +32,7 @@ export declare class ReadingState {
     static waitRsvEvent(glb: boolean, onUserAct?: () => void): void;
     static waitRsvEvent4Paging(): void;
     fire(rawKeY: string, e: Event): void;
-    get isSkipping(): boolean;
+    get skip_enabled(): boolean;
     readonly isWait: boolean;
     static isFirstFire(): boolean;
     static resetFired(): void;
