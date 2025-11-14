@@ -7,7 +7,7 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, getDateStr, uint, type IEvtMng, argChk_Boolean, argChk_Num, addStyle, argChk_Color, parseColor} from './CmnLib';
-import {CmnTween, TMP_TSY_NM, TW_INT_TRANS} from './CmnTween';
+import {CmnTween, TW_NM_TRANS} from './CmnTween';
 import type {T_HTag, TArg} from './Grammar';
 import type {T_Variable, T_Main, T_HPage, T_GetFrm, T_PropParser} from './CmnInterface';
 import {Pages} from './Pages';
@@ -530,7 +530,9 @@ export class LayerMng implements T_GetFrm {
 			//if (name === this.strTxtlay && hArg.page !== 'back') this.recText('', true);
 				// 改ページ
 			const pg = this.#hPages[this.#argChk_layer({layer})]!;
-			if (hArg.page === 'both') {	// page=both で両面削除
+			// page=both で両面削除
+			// an時代・瀬戸愛羅さんより https://famibee.blog.fc2.com/blog-entry-205.html
+			if (hArg.page === 'both') {
 				pg.fore.clearLay(hArg);
 				pg.back.clearLay(hArg);
 				return;
@@ -626,7 +628,7 @@ void main() {
 				this.#spTransBack.visible = false;
 				this.#spTransFore.visible = false;
 
-				Reading.notifyEndProc(TMP_TSY_NM + TW_INT_TRANS);
+				Reading.notifyEndProc(TW_NM_TRANS);
 			});
 		};
 		// hArg[':id'] = pg.fore.name.slice(0, -7);
@@ -636,11 +638,7 @@ void main() {
 
 		// 一瞬切り替え
 		const time = argChk_Num(hArg, 'time', 0);
-		if (time === 0 || this.#evtMng.isSkipping) {
-			Reading.beginProc(TMP_TSY_NM + TW_INT_TRANS, ()=> { /* empty */ });
-			queueMicrotask(()=> comp());	// 下で止めてからにしたい
-			return true;
-		}
+		if (time === 0 || this.#evtMng.isSkipping) {comp(); return false}
 
 
 		const aBackTransAfter: Sprite[] = [];
@@ -688,7 +686,7 @@ void main() {
 		const {glsl, rule} = hArg;
 		const comp2 = ()=> {ticker.remove(fncRender); comp()};
 		if (! glsl && ! rule) {
-			CmnTween.tween(TW_INT_TRANS, hArg, this.#spTransFore, {alpha: 0}, ()=> { /* empty */ }, comp2, ()=> { /* empty */ });
+			CmnTween.tween(TW_NM_TRANS, hArg, this.#spTransFore, {alpha: 0}, ()=> { /* empty */ }, comp2, ()=> { /* empty */ });
 			ticker.add(fncRender);
 			return false;
 		}
@@ -704,7 +702,7 @@ void main() {
 			glsl ?? LayerMng.#srcRuleTransFragment,
 			uniforms,
 		)];
-		const tw = CmnTween.tween(TW_INT_TRANS, hArg, uniforms, {tick: 1}, ()=> { /* empty */ }, comp2, ()=> { /* empty */ }, ! rule);
+		const tw = CmnTween.tween(TW_NM_TRANS, hArg, uniforms, {tick: 1}, ()=> { /* empty */ }, comp2, ()=> { /* empty */ }, ! rule);
 		if (! rule) {
 			ticker.add(fncRender);
 			return false;
@@ -780,7 +778,7 @@ void main() {
 			: ()=> {this.#spTransFore.y = Math.round(Math.random()* v*2) -v};
 		this.#spTransFore.filters = [];
 
-		CmnTween.tween(TW_INT_TRANS, hArg, this.#spTransFore, {x: 0, y: 0}, ()=> {fncH(); fncV()}, ()=> {
+		CmnTween.tween(TW_NM_TRANS, hArg, this.#spTransFore, {x: 0, y: 0}, ()=> {fncH(); fncV()}, ()=> {
 			ticker.remove(fncRender);
 				// transなしでもadd()してなくても走るが、構わないっぽい。
 			this.#fore.visible = true;
@@ -803,9 +801,12 @@ void main() {
 		const lay = pg.fore;
 
 		let finishBlendLayer = ()=> { /* empty */ };
-		if (render && ! this.#evtMng.isSkipping) {
-			lay.renderStart();
-			finishBlendLayer = ()=> lay.renderEnd();
+		if (render) {
+			if (this.#evtMng.isSkipping) lay.renderStart(true);
+			else {
+				lay.renderStart(false);
+				finishBlendLayer = ()=> lay.renderEnd();
+			}
 		}
 
 		const hTo = CmnTween.cnvTweenArg(hArg, lay);
@@ -814,11 +815,11 @@ void main() {
 		const spBack = pg.back.ctn;	// fore, back が変わる恐れで外へ
 		CmnTween.tween(name ?? layer, hArg, lay, CmnTween.cnvTweenArg(hArg, lay), ()=> { /* empty */ }, finishBlendLayer, ()=> {
 			if (arrive) Object.assign(lay, hTo);
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-			if (backlay) for (const nm of Object.keys(CmnTween.hMemberCnt)) (<any>spBack)[nm] = (<any>lay)[nm];
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
+			if (backlay) for (const nm of CmnTween.aLayerPrpNm) (<any>spBack)[nm] = lay[nm];
 		});
-//		hArg[':id'] = pg.fore.name.slice(0, -7);
-//		this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
+		// hArg[':id'] = pg.fore.name.slice(0, -7);
+		// this.scrItr.getDesignInfo(hArg);	// 必ず[':id'] を設定すること
 
 		if ('filter' in hArg) {
 			lay.ctn.filters = [Layer.bldFilters(hArg)];
@@ -917,6 +918,8 @@ void main() {
 
 		const record = argChk_Boolean(hArg, 'record', true);
 		const doRecLog = this.val.doRecLog();
+		// [ch text=""]に改行を含められる方法
+		// an時代・瀬戸愛羅さんより https://famibee.blog.fc2.com/blog-entry-275.html
 		if (! record) this.val.setVal_Nochk('save', 'sn.doRecLog', record);
 		tl.tagCh(text.replaceAll('[r]', '\n'));
 		this.val.setVal_Nochk('save', 'sn.doRecLog', doRecLog);

@@ -111,7 +111,15 @@ export class GrpLayer extends Layer {
 	override	get	height() {return this.#height}
 
 
-	override	renderStart() {
+	override	renderStart(isSkipping: boolean) {
+		if (isSkipping) {
+			const a = this.ctn.alpha;
+			this.ctn.alpha = 1;	// 無意味に思えるが、pixi部の挙動が変わるので一度やる
+			this.ctn.alpha = a;
+
+			return;
+		}
+
 		this.#spTsy = new Sprite(this.#rtTsy);
 		this.#spTsy.visible = false;
 		this.ctn.addChildAt(this.#spTsy, 0);

@@ -166,8 +166,8 @@ export	function mesErrJSON(hArg: TArg, nm = '', mes = ''): string {
 	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 	return `[${hArg[':タグ名']}] ${nm} 属性の解析エラー : ${mes}
 ${
-	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-	(<any>hArg)[nm]
+	// eslint-disable-next-line @typescript-eslint/no-base-to-string
+	String(hArg[<keyof TArg>nm])
 }${col ?`
 ${'^'.padStart(Number(col))}` :''}`;
 }

@@ -1,7 +1,7 @@
 import { i as dt } from "./app2.js";
-var lt = { exports: {} }, Ht = lt.exports, Ot;
+var lt = { exports: {} }, Ht = lt.exports, Lt;
 function Xt() {
-  return Ot || (Ot = 1, function(At, e) {
+  return Lt || (Lt = 1, function(At, e) {
     (function(c, l) {
       At.exports = l();
     })(typeof self < "u" ? self : Ht, function() {
@@ -154,7 +154,7 @@ function Xt() {
           return { status: t.status, index: t.index, value: t.value, furthest: r.furthest, expected: n };
         }
         var nt = {};
-        function bt(t, r) {
+        function vt(t, r) {
           if (L(t)) return { offset: r, line: -1, column: -1 };
           t in nt || (nt[t] = {});
           for (var n = nt[t], i = 0, u = 0, s = 0, a = r; a >= 0; ) {
@@ -184,7 +184,7 @@ function Xt() {
         function J(t) {
           if (typeof t != "string") throw new Error("not a string: " + t);
         }
-        var kt = 2, qt = 3, R = 8, It = 5 * R, Rt = 4 * R, vt = "  ";
+        var kt = 2, qt = 3, R = 8, It = 5 * R, Rt = 4 * R, yt = "  ";
         function it(t, r) {
           return new Array(r + 1).join(t);
         }
@@ -192,14 +192,14 @@ function Xt() {
           var i = r - t.length;
           return i <= 0 ? t : it(n, i) + t;
         }
-        function yt(t, r, n, i) {
+        function Et(t, r, n, i) {
           return { from: t - r > 0 ? t - r : 0, to: t + n > i ? i : t + n };
         }
         function Mt(t, r) {
           var n, i, u, s, a, h = r.index, v = h.offset, S = 1;
           if (v === t.length) return "Got the end of the input";
           if (L(t)) {
-            var N = v - v % R, k = v - N, _ = yt(N, It, Rt + R, t.length), q = O(function(w) {
+            var N = v - v % R, k = v - N, _ = Et(N, It, Rt + R, t.length), q = O(function(w) {
               return O(function(C) {
                 return ot(C.toString(16), 2, "0");
               }, w);
@@ -216,16 +216,16 @@ function Xt() {
             }, q), (a = (8 * (s.to > 0 ? s.to - 1 : s.to)).toString(16).length) < 2 && (a = 2);
           } else {
             var T = t.split(/\r\n|[\n\r\u2028\u2029]/);
-            n = h.column - 1, i = h.line - 1, s = yt(i, kt, qt, T.length), u = T.slice(s.from, s.to), a = s.to.toString().length;
+            n = h.column - 1, i = h.line - 1, s = Et(i, kt, qt, T.length), u = T.slice(s.from, s.to), a = s.to.toString().length;
           }
           var Ct = i - s.from;
           return L(t) && (a = (8 * (s.to > 0 ? s.to - 1 : s.to)).toString(16).length) < 2 && (a = 2), x(function(w, C, H) {
-            var V, X = H === Ct, Y = X ? "> " : vt;
-            return V = L(t) ? ot((8 * (s.from + H)).toString(16), a, "0") : ot((s.from + H + 1).toString(), a, " "), [].concat(w, [Y + V + " | " + C], X ? [vt + it(" ", a) + " | " + ot("", n, " ") + it("^", S)] : []);
+            var V, X = H === Ct, Y = X ? "> " : yt;
+            return V = L(t) ? ot((8 * (s.from + H)).toString(16), a, "0") : ot((s.from + H + 1).toString(), a, " "), [].concat(w, [Y + V + " | " + C], X ? [yt + it(" ", a) + " | " + ot("", n, " ") + it("^", S)] : []);
           }, [], u).join(`
 `);
         }
-        function Et(t, r) {
+        function wt(t, r) {
           return [`
 `, "-- PARSING FAILED " + it("-", 50), `
 
@@ -239,7 +239,7 @@ function Xt() {
 `].join("");
           var n;
         }
-        function wt(t) {
+        function xt(t) {
           return t.flags !== void 0 ? t.flags : [t.global ? "g" : "", t.ignoreCase ? "i" : "", t.multiline ? "m" : "", t.unicode ? "u" : "", t.sticky ? "y" : ""].join("");
         }
         function ut() {
@@ -269,7 +269,7 @@ function Xt() {
             return s;
           });
         }
-        function xt(t, r) {
+        function Nt(t, r) {
           return pt(t, r).or(z([]));
         }
         function pt(t, r) {
@@ -288,13 +288,13 @@ function Xt() {
         function A(t, r) {
           (function(u) {
             if (!(u instanceof RegExp)) throw new Error("not a regexp: " + u);
-            for (var s = wt(u), a = 0; a < s.length; a++) {
+            for (var s = xt(u), a = 0; a < s.length; a++) {
               var h = s.charAt(a);
               if (h !== "i" && h !== "m" && h !== "u" && h !== "s") throw new Error('unsupported regexp flag "' + h + '": ' + u);
             }
           })(t), arguments.length >= 2 ? U(r) : r = 0;
           var n = function(u) {
-            return RegExp("^(?:" + u.source + ")", wt(u));
+            return RegExp("^(?:" + u.source + ")", xt(u));
           }(t), i = "" + t;
           return o(function(u, s) {
             var a = n.exec(u.slice(s));
@@ -327,7 +327,7 @@ function Xt() {
           if (t instanceof RegExp) return ft(A(t));
           throw new Error("not a string, regexp, or parser: " + t);
         }
-        function Nt(t) {
+        function St(t) {
           return G(t), o(function(r, n) {
             var i = t._(r, n), u = r.slice(n, i.index);
             return i.status ? B(n, 'not "' + u + '"') : b(n, null);
@@ -339,7 +339,7 @@ function Xt() {
             return n < r.length && t(i) ? b(n + 1, i) : B(n, "a character/byte matching " + t);
           });
         }
-        function St(t, r) {
+        function Bt(t, r) {
           arguments.length < 2 && (r = t, t = void 0);
           var n = o(function(i, u) {
             return n._ = r()._, n._(i, u);
@@ -352,11 +352,11 @@ function Xt() {
         f.parse = function(t) {
           if (typeof t != "string" && !L(t)) throw new Error(".parse must be called with a string or Buffer as its argument");
           var r, n = this.skip(gt)._(t, 0);
-          return r = n.status ? { status: !0, value: n.value } : { status: !1, index: bt(t, n.furthest), expected: n.expected }, delete nt[t], r;
+          return r = n.status ? { status: !0, value: n.value } : { status: !1, index: vt(t, n.furthest), expected: n.expected }, delete nt[t], r;
         }, f.tryParse = function(t) {
           var r = this.parse(t);
           if (r.status) return r.value;
-          var n = Et(t, r), i = new Error(n);
+          var n = wt(t, r), i = new Error(n);
           throw i.type = "ParsimmonError", i.result = r, i;
         }, f.assert = function(t, r) {
           return this.chain(function(n) {
@@ -447,13 +447,13 @@ function Xt() {
             return { name: t, value: n, start: r, end: i };
           });
         }, f.sepBy = function(t) {
-          return xt(this, t);
+          return Nt(this, t);
         }, f.sepBy1 = function(t) {
           return pt(this, t);
         }, f.lookahead = function(t) {
           return this.skip(ft(t));
         }, f.notFollowedBy = function(t) {
-          return this.skip(Nt(t));
+          return this.skip(St(t));
         }, f.desc = function(t) {
           E(t) || (t = [t]);
           var r = this;
@@ -475,31 +475,31 @@ function Xt() {
           });
         }, f.concat = f.or, f.empty = mt, f.of = z, f["fantasy-land/ap"] = f.ap, f["fantasy-land/chain"] = f.chain, f["fantasy-land/concat"] = f.concat, f["fantasy-land/empty"] = f.empty, f["fantasy-land/of"] = f.of, f["fantasy-land/map"] = f.map;
         var Q = o(function(t, r) {
-          return b(r, bt(t, r));
+          return b(r, vt(t, r));
         }), Ft = o(function(t, r) {
           return r >= t.length ? B(r, "any character/byte") : b(r + 1, et(t, r));
         }), zt = o(function(t, r) {
           return b(t.length, t.slice(r));
         }), gt = o(function(t, r) {
           return r < t.length ? B(r, "EOF") : b(r, null);
-        }), Vt = A(/[0-9]/).desc("a digit"), Dt = A(/[0-9]*/).desc("optional digits"), Wt = A(/[a-z]/i).desc("a letter"), $t = A(/[a-z]*/i).desc("optional letters"), Gt = A(/\s*/).desc("optional whitespace"), Ut = A(/\s+/).desc("whitespace"), Bt = K("\r"), _t = K(`
-`), Pt = K(`\r
-`), jt = st(Pt, _t, Bt).desc("newline"), Tt = st(jt, gt);
-        o.all = zt, o.alt = st, o.any = Ft, o.cr = Bt, o.createLanguage = function(t) {
+        }), Vt = A(/[0-9]/).desc("a digit"), Dt = A(/[0-9]*/).desc("optional digits"), Wt = A(/[a-z]/i).desc("a letter"), $t = A(/[a-z]*/i).desc("optional letters"), Gt = A(/\s*/).desc("optional whitespace"), Ut = A(/\s+/).desc("whitespace"), _t = K("\r"), Pt = K(`
+`), jt = K(`\r
+`), Ot = st(jt, Pt, _t).desc("newline"), Tt = st(Ot, gt);
+        o.all = zt, o.alt = st, o.any = Ft, o.cr = _t, o.createLanguage = function(t) {
           var r = {};
           for (var n in t) ({}).hasOwnProperty.call(t, n) && function(i) {
-            r[i] = St(function() {
+            r[i] = Bt(function() {
               return t[i](r);
             });
           }(n);
           return r;
-        }, o.crlf = Pt, o.custom = function(t) {
+        }, o.crlf = jt, o.custom = function(t) {
           return o(t(b, B));
-        }, o.digit = Vt, o.digits = Dt, o.empty = mt, o.end = Tt, o.eof = gt, o.fail = at, o.formatError = Et, o.index = Q, o.isParser = d, o.lazy = St, o.letter = Wt, o.letters = $t, o.lf = _t, o.lookahead = ft, o.makeFailure = B, o.makeSuccess = b, o.newline = jt, o.noneOf = function(t) {
+        }, o.digit = Vt, o.digits = Dt, o.empty = mt, o.end = Tt, o.eof = gt, o.fail = at, o.formatError = wt, o.index = Q, o.isParser = d, o.lazy = Bt, o.letter = Wt, o.letters = $t, o.lf = Pt, o.lookahead = ft, o.makeFailure = B, o.makeSuccess = b, o.newline = Ot, o.noneOf = function(t) {
           return ct(function(r) {
             return t.indexOf(r) < 0;
           }).desc("none of '" + t + "'");
-        }, o.notFollowedBy = Nt, o.of = z, o.oneOf = function(t) {
+        }, o.notFollowedBy = St, o.of = z, o.oneOf = function(t) {
           for (var r = t.split(""), n = 0; n < r.length; n++) r[n] = "'" + r[n] + "'";
           return ct(function(i) {
             return t.indexOf(i) >= 0;
@@ -508,7 +508,7 @@ function Xt() {
           return ct(function(n) {
             return t <= n && n <= r;
           }).desc(t + "-" + r);
-        }, o.regex = A, o.regexp = A, o.sepBy = xt, o.sepBy1 = pt, o.seq = ut, o.seqMap = F, o.seqObj = function() {
+        }, o.regex = A, o.regexp = A, o.sepBy = Nt, o.sepBy1 = pt, o.seq = ut, o.seqMap = F, o.seqObj = function() {
           for (var t, r = {}, n = 0, i = (t = arguments, Array.prototype.slice.call(t)), u = i.length, s = 0; s < u; s += 1) {
             var a = i[s];
             if (!d(a)) {
@@ -588,7 +588,7 @@ function Xt() {
   }(lt)), lt.exports;
 }
 var g = Xt();
-class Lt {
+class bt {
   constructor(e, c = "\\") {
     this.val = e;
     function l(m) {
@@ -762,7 +762,7 @@ class Lt {
     // 小なり、以下、大なり、以上
     "==": (e) => {
       const c = this.#t(e.shift()), l = this.#t(e.shift());
-      return c == null && l == null && (!c || !l) ? c == l : String(c) === String(l);
+      return c == null && l == null ? c == l : String(c) === String(l);
     },
     "!=": (e) => !this.#r["=="](e),
     "===": (e) => {
@@ -807,13 +807,15 @@ class Lt {
     const l = this.#u.exec(e.trim())?.groups;
     if (!l) return null;
     const { scope: p = "tmp", name: o, at: f = "" } = l;
+    if (!bt.#s.includes(p)) throw `[変数に値セット] scopeが異常【${p}】です`;
     return {
       scope: p,
-      name: Lt.#s(o),
+      name: bt.#a(o),
       at: f
     };
   }
-  static #s(e) {
+  static #s = ["tmp", "sys", "save", "mp"];
+  static #a(e) {
     let c = 0, l = 0, p = e;
     for (; ; ) {
       if (c = p.indexOf('["'), c < 0) {
@@ -828,6 +830,6 @@ class Lt {
   }
 }
 export {
-  Lt as PropParser
+  bt as PropParser
 };
 //# sourceMappingURL=PropParser.js.map

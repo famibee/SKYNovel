@@ -66,8 +66,8 @@ const po = /JSON at position (\d+)$/;
 function $v(i, t = "", e = "") {
   const r = (po.exec(e) ?? ["", ""])[1];
   return `[${i[":タグ名"]}] ${t} 属性の解析エラー : ${e}
-${// eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-  i[t]}${r ? `
+${// eslint-disable-next-line @typescript-eslint/no-base-to-string
+  String(i[t])}${r ? `
 ${"^".padStart(Number(r))}` : ""}`;
 }
 const vo = /^[^/.]+$|[^/]+(?=\.)/;
@@ -18416,7 +18416,7 @@ class Bt {
   get containMovement() {
     return !1;
   }
-  renderStart() {
+  renderStart(t) {
   }
   renderEnd() {
   }

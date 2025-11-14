@@ -18,7 +18,7 @@ export declare class GrpLayer extends Layer {
     readonly lay: (hArg: TArg) => boolean;
     get width(): number;
     get height(): number;
-    renderStart(): void;
+    renderStart(isSkipping: boolean): void;
     renderEnd(): void;
     setPos(hArg: TArg): void;
     get containMovement(): boolean;

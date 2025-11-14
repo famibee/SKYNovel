@@ -410,13 +410,11 @@ export class EventMng implements IEvtMng {
 		const glb = argChk_Boolean(hArg, 'global', false);
 		ReadingState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
 		// 直後にも pointer〜 があるのでダブリに見えるが、こちらが fire 用
-		ctnBtn.on(EVNM_BUTTON, ({data})=> {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-			const e = data.originalEvent;
+		ctnBtn.on(EVNM_BUTTON, e=> {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-			e.preventDefault();
+			e.preventDefault?.();
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			if (ReadingState.isFirstFire()) Reading.fire(key, e, true);
+			Reading.fire(key, e, true);
 		});
 
 		// マウスイベント発生
@@ -623,8 +621,8 @@ export class EventMng implements IEvtMng {
 			if (style.display === 'none'
 			|| e.dataset.focus === 'false'
 		//	|| style.visibility !== 'visible'
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-			|| (<any>e)?.disabled
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			|| (<HTMLInputElement>e)?.disabled
 		//	|| parseFloat(style.opacity ?? '') <= 0.0
 		//	|| parseInt(style.height ?? '', 10) <= 0
 		//	|| parseInt(style.width ?? '', 10) <= 0

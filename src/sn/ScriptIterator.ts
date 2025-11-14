@@ -503,13 +503,13 @@ export class ScriptIterator {
 		// （一部タグの処理直前に）画面トランジションを止める
 		if (this.#setTag2FinishTrans.has(tag_name)) {
 			this.#evtMng.hideHint();
-			await CmnTween.closeTrans();
+			CmnTween.stopEndTrans();
 		}
 		// キー押しっぱなしスキップで処理せずスルーする
 		const fncBypass = this.#hTag2SkipBypass[tag_name];
 		if (fncBypass
 			&& argChk_Boolean(hArg, 'canskip', this.#hTag2CanSkip[tag_name] ?? true)
-			&& this.#evtMng.isSkipping) return fncBypass(hPrm);
+			&& this.#evtMng.isSkipping) return fncBypass(hArg);
 
 		return tag_fnc(hArg);
 	}
@@ -672,7 +672,8 @@ export class ScriptIterator {
 		]);
 		// キー押しっぱなしスキップで処理せずスルーするタグ
 		readonly	#hTag2SkipBypass: {[tag_name: string]: TTag} = {
-			'wt'		: ()=> false,	// トランス終了待ち
+			'wt'		: ()=> {CmnTween.stopEndTrans(); return false},
+											// トランス終了待ち
 			'wait_tsy'	: o=> this.hTag.stop_tsy(o),	// トゥイーン終了待ち
 			// 'wv',		：タグ内部で処理	// 動画再生終了待ち
 			'wait'			: ()=> false,	// ウェイトを入れる

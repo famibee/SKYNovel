@@ -1,21 +1,21 @@
 import { a as v, S, b as w, R as P, e as d, L as B, D as k, k as C, f as D } from "./app2.js";
-import { c as O, C as y, a as L } from "./CallStack.js";
-import { G as I, A as M, t as T, a as $ } from "./Main.js";
+import { c as O, C as L, a as $ } from "./CallStack.js";
+import { G as I, A as M, t as T, a as x } from "./Main.js";
 import { R as j } from "./RubySpliter.js";
-import { C as x } from "./CmnTween.js";
+import { C as y } from "./CmnTween.js";
 import { a as _, R as N } from "./Reading.js";
 import { a as W } from "./SndBuf.js";
 class p {
   //MARK: コンストラクタ
-  constructor(t, s, i, n, a, r, h) {
-    this.cfg = t, this.hTag = s, this.main = i, this.val = n, this.prpPrs = a, this.sndMng = r, this.sys = h, s.let_ml = (e) => this.#Z(e), s.endlet_ml = () => !1, s.dump_stack = () => this.#tt(), s.dump_script = (e) => this.#st(e), s.else = // その他ifブロック開始
+  constructor(t, s, i, h, n, r, a) {
+    this.cfg = t, this.hTag = s, this.main = i, this.val = h, this.prpPrs = n, this.sndMng = r, this.sys = a, s.let_ml = (e) => this.#Z(e), s.endlet_ml = () => !1, s.dump_stack = () => this.#tt(), s.dump_script = (e) => this.#st(e), s.else = // その他ifブロック開始
     s.elsif = // 別条件のifブロック開始
-    s.endif = () => this.#et(), s.if = (e) => this.#nt(e), s.call = (e) => this.#at(e), s.jump = (e) => this.#ht(e), s.pop_stack = (e) => this.#ot(e), s.return = (e) => this.#j(e), s.bracket2macro = (e) => this.#kt(e), s.char2macro = (e) => this.#gt(e), s.endmacro = (e) => this.#j(e), s.macro = (e) => this.#bt(e), s.load = (e) => this.#vt(e), s.reload_script = (e) => this.#St(e), s.record_place = () => this.#q(), s.save = (e) => this.#wt(e), t.oCfg.debug.token && (this.#F = (e) => {
+    s.endif = () => this.#et(), s.if = (e) => this.#nt(e), s.call = (e) => this.#ht(e), s.jump = (e) => this.#at(e), s.pop_stack = (e) => this.#ot(e), s.return = (e) => this.#j(e), s.bracket2macro = (e) => this.#kt(e), s.char2macro = (e) => this.#gt(e), s.endmacro = (e) => this.#j(e), s.macro = (e) => this.#bt(e), s.load = (e) => this.#vt(e), s.reload_script = (e) => this.#St(e), s.record_place = () => this.#q(), s.save = (e) => this.#wt(e), t.oCfg.debug.token && (this.#F = (e) => {
       e.trim() !== "" && console.log(`🌱 トークン ${this.#i}:${String(this.#e)} (i:${String(this.#t)} cs:${String(this.#n.length)}) %c【${e}】`, "background-color:#350;");
-    }), t.oCfg.debug.tag && (this.#D = (e) => console.log(`🌲 タグ解析 ${this.#i}:${String(this.#e)} (i:${String(this.#t)} cs:${String(this.#n.length)}) %c[${e} %o]`, "background-color:#30B;", this.#r.hPrm)), n.defTmp("const.sn.aIfStk.length", () => this.#o.length), n.defTmp("const.sn.vctCallStk.length", () => this.#n.length), this.#l = new I(t);
+    }), t.oCfg.debug.tag && (this.#D = (e) => console.log(`🌲 タグ解析 ${this.#i}:${String(this.#e)} (i:${String(this.#t)} cs:${String(this.#n.length)}) %c[${e} %o]`, "background-color:#30B;", this.#r.hPrm)), h.defTmp("const.sn.aIfStk.length", () => this.#o.length), h.defTmp("const.sn.vctCallStk.length", () => this.#n.length), this.#l = new I(t);
     const l = t.oCfg.init.escape;
     if (this.#l.setEscape(l), j.setEscape(l), v.isDbg) {
-      this.#k, h.addHook((c, f) => this.#k[c]?.(f)), this.isBreak = (c) => this.#A(c);
+      this.#k, a.addHook((c, f) => this.#k[c]?.(f)), this.isBreak = (c) => this.#A(c);
       const e = () => this.analyzeInit();
       this.analyzeInit = () => {
         this.analyzeInit = () => {
@@ -85,7 +85,7 @@ class p {
     // constructorでセット
     //launch:	// ここでは冒頭停止に間に合わないのでanalyzeInit()で
     disconnect: () => {
-      p.#w = {}, p.#p = {}, this.isBreak = () => !1, this.#k.continue({}), this.#a = 0;
+      p.#w = {}, p.#p = {}, this.isBreak = () => !1, this.#k.continue({}), this.#h = 0;
     },
     restart: () => {
       this.isBreak = () => !1;
@@ -94,7 +94,7 @@ class p {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     add_break: (t) => this.#E(t.fn, t.o),
     data_break: (t) => {
-      this.#a === 0 && (this.#a = 1, this.main.setLoop(!1, `変数 ${t.dataId}【${t.old_v}】→【${t.new_v}】データブレーク`), this.sys.callHook("stopOnDataBreakpoint", {}), this.sys.send2Dbg("stopOnDataBreakpoint", {}));
+      this.#h === 0 && (this.#h = 1, this.main.setLoop(!1, `変数 ${t.dataId}【${t.old_v}】→【${t.new_v}】データブレーク`), this.sys.callHook("stopOnDataBreakpoint", {}), this.sys.send2Dbg("stopOnDataBreakpoint", {}));
     },
     set_func_break: (t) => {
       p.#p = {};
@@ -110,22 +110,22 @@ class p {
     },
     // デバッガからの操作系
     continue: () => {
-      this.#S() || (this.#t -= this.#b, this.#a = 3, this.main.setLoop(!0), this.main.resume());
+      this.#S() || (this.#t -= this.#b, this.#h = 3, this.main.setLoop(!0), this.main.resume());
     },
     stepover: (t) => this.#P(t),
     stepin: () => {
       if (this.#S()) return;
       const t = this.#s.aToken[this.#t - this.#b];
-      this.sys.callHook(`stopOnStep${this.#N.test(t ?? "") ? "In" : ""}`, {}), this.#t -= this.#b, this.#a = this.#a === 1 ? 4 : 5, this.main.setLoop(!0), this.main.resume();
+      this.sys.callHook(`stopOnStep${this.#N.test(t ?? "") ? "In" : ""}`, {}), this.#t -= this.#b, this.#h = this.#h === 1 ? 4 : 5, this.main.setLoop(!0), this.main.resume();
     },
     stepout: (t) => {
       this.#S() || (this.#n.length > 0 ? this.#B(!0) : this.#P(t));
     },
     pause: () => {
-      this.#a = 4, this.main.setLoop(!1, "一時停止"), this.sys.send2Dbg("stopOnStep", {});
+      this.#h = 4, this.main.setLoop(!1, "一時停止"), this.sys.send2Dbg("stopOnStep", {});
     },
     stopOnEntry: () => {
-      this.#a = 4, this.main.setLoop(!1, "一時停止"), this.sys.send2Dbg("stopOnEntry", {});
+      this.#h = 4, this.main.setLoop(!1, "一時停止"), this.sys.send2Dbg("stopOnEntry", {});
     }
   };
   #g = (t) => this.cfg.searchPath(t, S.SCRIPT);
@@ -136,11 +136,11 @@ class p {
     this.#N.test(s ?? "") ? this.#B(!1) : (this.sys.callHook("stopOnStep", {}), this.#k.stepin(t));
   }
   #B(t) {
-    this.sys.callHook(`stopOnStep${t ? "Out" : ""}`, {}), this.#C = this.#n.length - (t ? 1 : 0), this.#t -= this.#b, this.#a = t ? 7 : 6, this.main.setLoop(!0), this.main.resume();
+    this.sys.callHook(`stopOnStep${t ? "Out" : ""}`, {}), this.#C = this.#n.length - (t ? 1 : 0), this.#t -= this.#b, this.#h = t ? 7 : 6, this.main.setLoop(!0), this.main.resume();
   }
   #C = 0;
   get #b() {
-    return this.#a === 2 || this.#a === 4 ? 1 : 0;
+    return this.#h === 2 || this.#h === 4 ? 1 : 0;
   }
   #S() {
     return this.#t < this.#s.len ? !1 : (this.sys.callHook("stopOnEntry", {}), this.main.setLoop(!1, "スクリプト終端です isIdxOverLast"), !0);
@@ -148,30 +148,30 @@ class p {
   // reload 再生成 Main に受け渡すため static
   static #w = {};
   static #p = {};
-  #a = 0;
+  #h = 0;
   // https://raw.githubusercontent.com/famibee/SKYNovel-vscode-extension/master/src/doc/BreakStateSMD.pu
   isBreak = (t) => !1;
   #A(t) {
-    switch (this.#a) {
+    switch (this.#h) {
       case 6:
-        this.#T(), this.#a = 7;
+        this.#T(), this.#h = 7;
         break;
       case 7:
         if (this.#n.length !== this.#C) break;
-        return this.#a = 4, this.main.setLoop(!1, "ステップ実行"), this.sys.send2Dbg("stopOnStep", {}), !0;
+        return this.#h = 4, this.main.setLoop(!1, "ステップ実行"), this.sys.send2Dbg("stopOnStep", {}), !0;
       // タグを実行せず、直前停止
       case 5:
-        this.#T(), this.#a = 4;
+        this.#T(), this.#h = 4;
         break;
       case 4:
         return this.#T(), this.main.setLoop(!1, "ステップ実行"), this.sys.send2Dbg("stopOnStep", {}), !0;
       // タグを実行せず、直前停止
       case 3:
-        this.#T(), this.#a = 0;
+        this.#T(), this.#h = 0;
         break;
       default:
         if (T(t) in p.#p)
-          return this.#a = 2, this.main.setLoop(!1, `関数 ${t} ブレーク`), this.sys.callHook("stopOnBreakpoint", {}), this.sys.send2Dbg("stopOnBreakpoint", {}), !0;
+          return this.#h = 2, this.main.setLoop(!1, `関数 ${t} ブレーク`), this.sys.callHook("stopOnBreakpoint", {}), this.sys.send2Dbg("stopOnBreakpoint", {}), !0;
         {
           const s = p.#w[this.#_(this.#i)];
           if (!s) break;
@@ -180,13 +180,13 @@ class p {
           if (i.condition) {
             if (!this.prpPrs.parse(i.condition)) break;
           } else if ("hitCondition" in i && --i.hitCondition > 0) break;
-          const n = this.#a === 0;
-          this.#a = 2, this.main.setLoop(!1, n ? (
+          const h = this.#h === 0;
+          this.#h = 2, this.main.setLoop(!1, h ? (
             // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
             (i.condition ? "条件" : "ヒットカウント") + "ブレーク"
           ) : "ステップ実行");
-          const a = n ? "stopOnBreakpoint" : "stopOnStep";
-          this.sys.callHook(a, {}), this.sys.send2Dbg(a, {});
+          const n = h ? "stopOnBreakpoint" : "stopOnStep";
+          this.sys.callHook(n, {}), this.sys.send2Dbg(n, {});
         }
         return !0;
     }
@@ -197,12 +197,12 @@ class p {
     t?.hitCondition && --t.hitCondition;
   }
   #J() {
-    const t = this.#a === 3 ? 1 : 0, s = this.#s.aToken[this.#t - 1 + t], i = this.#_(this.#i), n = T(s), a = n ? `[${n}]` : s, r = String(this.val.getVal("mp:const.sn.macro") ?? "{}");
-    if (this.#t === 0) return [{ fn: i, ln: 1, col: 1, nm: a, ma: r }];
-    const h = this.#c(this.#s, this.#t), l = [{ fn: i, ln: h.ln, col: h.col_s + 1, nm: a, ma: r }], e = this.#n.length;
+    const t = this.#h === 3 ? 1 : 0, s = this.#s.aToken[this.#t - 1 + t], i = this.#_(this.#i), h = T(s), n = h ? `[${h}]` : s, r = String(this.val.getVal("mp:const.sn.macro") ?? "{}");
+    if (this.#t === 0) return [{ fn: i, ln: 1, col: 1, nm: n, ma: r }];
+    const a = this.#c(this.#s, this.#t), l = [{ fn: i, ln: a.ln, col: a.col_s + 1, nm: n, ma: r }], e = this.#n.length;
     if (e === 0) return l;
     for (let c = e - 1; c >= 0; --c) {
-      const f = this.#n[c], o = this.#h[f.fn];
+      const f = this.#n[c], o = this.#a[f.fn];
       if (!o) continue;
       const u = o.aToken[f.idx - 1];
       if (!u) continue;
@@ -225,45 +225,45 @@ class p {
     const i = this.hTag[t];
     if (!i) throw `未定義のタグ【${t}】です`;
     this.#r.parse(s), this.#D(t);
-    const n = this.#r.hPrm;
-    if (n.cond) {
-      const e = n.cond.val;
+    const h = this.#r.hPrm;
+    if (h.cond) {
+      const e = h.cond.val;
       if (!e || e.startsWith("&")) throw "属性condは「&」が不要です";
       const c = this.prpPrs.parse(e), f = String(c);
       if (f === "null" || f === "undefined" || !c) return !1;
     }
-    let a = {};
-    const r = this.#n.at(-1)?.csArg ?? O(), h = this.#n.length;
+    let n = {};
+    const r = this.#n.at(-1)?.csArg ?? O(), a = this.#n.length;
     if (this.#r.isKomeParam) {
-      if (h === 0) throw "属性「*」はマクロのみ有効です";
-      a = { ...r };
+      if (a === 0) throw "属性「*」はマクロのみ有効です";
+      n = { ...r };
     }
-    a[":タグ名"] = t;
-    for (const [e, { val: c, def: f }] of Object.entries(n)) {
+    n[":タグ名"] = t;
+    for (const [e, { val: c, def: f }] of Object.entries(h)) {
       let o = c;
       if (c.startsWith("%")) {
-        if (h === 0) throw "属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）";
+        if (a === 0) throw "属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）";
         const u = r[o.slice(1)];
         if (u) {
-          a[e] = u;
+          n[e] = u;
           continue;
         }
         if (f === void 0 || f === "null") continue;
         o = f;
       }
       if (o = this.prpPrs.getValAmpersand(o ?? ""), o !== "undefined") {
-        a[e] = o;
+        n[e] = o;
         continue;
       }
-      f !== void 0 && (o = this.prpPrs.getValAmpersand(f), o !== "undefined" && (a[e] = o));
+      f !== void 0 && (o = this.prpPrs.getValAmpersand(f), o !== "undefined" && (n[e] = o));
     }
     if (_.needGoTxt && this.#U.has(t)) {
       const { promise: e, resolve: c } = Promise.withResolvers();
       _.beginProc(P, () => c(0), !1, () => c(0)), _.goTxt(), this.val.saveKidoku(), await e;
     }
-    this.#X.has(t) && (this.#x.hideHint(), await x.closeTrans());
+    this.#X.has(t) && (this.#x.hideHint(), y.stopEndTrans());
     const l = this.#Q[t];
-    return l && d(a, "canskip", this.#Y[t] ?? !0) && this.#x.isSkipping ? l(n) : i(a);
+    return l && d(n, "canskip", this.#Y[t] ?? !0) && this.#x.isSkipping ? l(n) : i(n);
   }
   // 文字出現演出を待つタグ
   //	ここで列挙せずタグ処理で文字表示を始めたい場合、goTxt()すること
@@ -429,7 +429,7 @@ class p {
   ]);
   // キー押しっぱなしスキップで処理せずスルーするタグ
   #Q = {
-    wt: () => !1,
+    wt: () => (y.stopEndTrans(), !1),
     // トランス終了待ち
     wait_tsy: (t) => this.hTag.stop_tsy(t),
     // トゥイーン終了待ち
@@ -486,8 +486,8 @@ class p {
     const { name: s } = t;
     if (!s) throw "nameは必須です";
     let i = "";
-    const n = this.#s.len;
-    for (; this.#t < n && (i = this.#s.aToken[this.#t], i === ""); ++this.#t)
+    const h = this.#s.len;
+    for (; this.#t < h && (i = this.#s.aToken[this.#t], i === ""); ++this.#t)
       ;
     return t.text = i, t.cast = "str", this.hTag.let(t), this.#t += 2, this.#e += (i.match(/\n/g) ?? []).length, !1;
   }
@@ -500,10 +500,10 @@ class p {
     const i = this.#n.length;
     if (i > 0) {
       console.info(s);
-      for (let n = i - 1; n >= 0; --n) {
-        const a = this.#n[n], r = a.csArg[":hMp"], h = r ? r[":タグ名"] : void 0, l = a.csArg[":タグ名"] ?? "", e = this.#c(this.#h[a.fn], a.idx);
+      for (let h = i - 1; h >= 0; --h) {
+        const n = this.#n[h], r = n.csArg[":hMp"], a = r ? r[":タグ名"] : void 0, l = n.csArg[":タグ名"] ?? "", e = this.#c(this.#a[n.fn], n.idx);
         console.info(
-          `${String(i - n)}つ前のコール元 fn:${a.fn} line:${String(e.ln)} col:${String(e.col_s + 1)}${h ? "（[" + h + "]マクロ内）" : " "}で [${l} ...]をコール`
+          `${String(i - h)}つ前のコール元 fn:${n.fn} line:${String(e.ln)} col:${String(e.col_s + 1)}${a ? "（[" + a + "]マクロ内）" : " "}で [${l} ...]をコール`
         );
       }
     }
@@ -512,16 +512,16 @@ class p {
   #c(t, s) {
     const i = { ln: 1, col_s: 0, col_e: 0 };
     if (!t) return i;
-    let n = s - 1;
-    const a = i.ln = t.aLNum[n];
-    for (; t.aLNum[n] === a; ) {
-      const r = t.aToken[n];
+    let h = s - 1;
+    const n = i.ln = t.aLNum[h];
+    for (; t.aLNum[h] === n; ) {
+      const r = t.aToken[h];
       if (!r.startsWith(`
 `)) {
-        const h = r.length;
-        i.col_e > 0 && (i.col_s += h), i.col_e += h;
+        const a = r.length;
+        i.col_e > 0 && (i.col_s += a), i.col_e += a;
       }
-      if (--n < 0) break;
+      if (--h < 0) break;
     }
     return i;
   }
@@ -534,10 +534,10 @@ class p {
       return this.#y = () => {
       }, !1;
     }
-    if (this.noticeBreak = (n) => {
+    if (this.noticeBreak = (h) => {
       this.#O !== this.#i && (this.#O = this.#i, this.#y(
         this.#it[this.#i] ??= this.#s.aToken.join("")
-      )), this.#L(this.#e, n);
+      )), this.#L(this.#e, h);
     }, this.noticeBreak(!0), !i) return !1;
     if (this.#L = globalThis[i], !this.#L) {
       if (d(t, "need_err", !0)) throw `HTML内に関数${i}が見つかりません`;
@@ -566,11 +566,11 @@ class p {
     const s = t.split(`
 `).slice(-this.#I), i = s.length;
     console.group(`🥟 Error line (from ${String(i)} rows before) fn:${this.#i}`);
-    const n = String(this.#e).length, a = this.#c(this.#s, this.#t);
+    const h = String(this.#e).length, n = this.#c(this.#s, this.#t);
     for (let r = 0; r < i; ++r) {
-      const h = this.#e - i + r + 1, l = `${String(h).padStart(n, " ")}: %c`, e = s[r], c = e.length > 75 ? e.slice(0, 75) + "…" : e;
+      const a = this.#e - i + r + 1, l = `${String(a).padStart(h, " ")}: %c`, e = s[r], c = e.length > 75 ? e.slice(0, 75) + "…" : e;
       r === i - 1 ? console.info(
-        l + c.slice(0, a.col_s) + "%c" + c.slice(a.col_s),
+        l + c.slice(0, n.col_s) + "%c" + c.slice(n.col_s),
         "color: black; background-color: skyblue;",
         "color: black; background-color: pink;"
       ) : console.info(l + c, "color: black; background-color: skyblue;");
@@ -591,9 +591,9 @@ class p {
     const { exp: s } = t;
     if (!s) throw "expは必須です";
     if (s.startsWith("&")) throw "属性expは「&」が不要です";
-    let i = 0, n = this.prpPrs.parse(s) ? this.#t : -1;
-    const a = this.#s.aLNum[this.#t], r = this.#e - ((a ?? 0) || 0), h = this.#s.len;
-    for (; this.#t < h; ++this.#t) {
+    let i = 0, h = this.prpPrs.parse(s) ? this.#t : -1;
+    const n = this.#s.aLNum[this.#t], r = this.#e - ((n ?? 0) || 0), a = this.#s.len;
+    for (; this.#t < a; ++this.#t) {
       const l = this.#s.aLNum[this.#t];
       this.#s.aLNum[this.#t] = ((l ?? 0) || 0) + r;
       const e = this.#s.aToken[this.#t];
@@ -604,7 +604,7 @@ class p {
         continue;
       }
       if (c !== 91) continue;
-      const [f, o] = $(e);
+      const [f, o] = x(e);
       if (!(f in this.hTag)) throw `未定義のタグ[${f}]です`;
       switch (this.#r.parse(o), f) {
         case "if":
@@ -612,29 +612,29 @@ class p {
           break;
         case "elsif":
           {
-            if (i > 0 || n > -1) break;
+            if (i > 0 || h > -1) break;
             const u = this.#r.hPrm.exp?.val;
             if (!u) throw "expは必須です";
             if (u.startsWith("&")) throw "属性expは「&」が不要です";
-            this.prpPrs.parse(u) && (n = this.#t + 1);
+            this.prpPrs.parse(u) && (h = this.#t + 1);
           }
           break;
         case "else":
           if (i > 0) break;
-          n === -1 && (n = this.#t + 1);
+          h === -1 && (h = this.#t + 1);
           break;
         case "endif":
           if (i > 0) {
             --i;
             break;
           }
-          return n === -1 ? (++this.#t, this.#s.aLNum[this.#t] += r) : (this.#o.unshift(this.#t + 1), this.#t = n, this.#e = this.#s.aLNum[this.#t]), !1;
+          return h === -1 ? (++this.#t, this.#s.aLNum[this.#t] += r) : (this.#o.unshift(this.#t + 1), this.#t = h, this.#e = this.#s.aLNum[this.#t]), !1;
       }
     }
     throw "[endif]がないままスクリプト終端です";
   }
   //MARK: サブルーチンコール
-  #at(t) {
+  #ht(t) {
     d(t, "count", !1) || this.#V();
     const { fn: s } = t;
     return s && this.#g(s), this.#M({ ...t }, N.popLocalEvts()), d(t, "clear_local_event", !1) && this.hTag.clear_event({}), this.#f(s, t.label);
@@ -646,17 +646,17 @@ class p {
       ":hMp": this.val.cloneMp(),
       ":lenIfStk": this.#o.length
     };
-    this.#s.aLNum[this.#t] = this.#e, this.#W || (i[":resvToken"] = "", this.#$()), this.#n.push(new y(this.#i, this.#t, i)), this.#o.unshift(-1);
+    this.#s.aLNum[this.#t] = this.#e, this.#W || (i[":resvToken"] = "", this.#$()), this.#n.push(new L(this.#i, this.#t, i)), this.#o.unshift(-1);
   }
   //MARK: シナリオジャンプ
-  #ht(t) {
+  #at(t) {
     return d(t, "count", !0) || this.#V(), this.#o[0] = -1, this.#f(t.fn, t.label);
   }
   //MARK: コールスタック破棄
   #ot(t) {
     if (d(t, "clear", !1)) this.#n = [];
     else if (!this.#n.pop()) throw "スタックが空です";
-    return this.#$(), this.#o = [-1], this.val.setMp(L()), !1;
+    return this.#$(), this.#o = [-1], this.val.setMp($()), !1;
   }
   //MARK: サブルーチンから戻る
   #j(t) {
@@ -664,12 +664,12 @@ class p {
     if (!s) throw "スタックが空です";
     const i = s.csArg;
     this.#o = this.#o.slice(-i[":lenIfStk"]);
-    const n = i[":hMp"];
-    n && this.val.setMp(n);
-    const a = i[":resvToken"];
-    a ? this.nextToken = () => (this.#$(), a) : this.#$(), i[":hEvt1Time"] && N.pushLocalEvts(i[":hEvt1Time"]);
-    const { fn: r, label: h } = t;
-    return r || h ? this.#f(r, h) : s.fn in this.#h ? (this.#z(s), !1) : this.#f(s.fn, "", s.idx);
+    const h = i[":hMp"];
+    h && this.val.setMp(h);
+    const n = i[":resvToken"];
+    n ? this.nextToken = () => (this.#$(), n) : this.#$(), i[":hEvt1Time"] && N.pushLocalEvts(i[":hEvt1Time"]);
+    const { fn: r, label: a } = t;
+    return r || a ? this.#f(r, a) : s.fn in this.#a ? (this.#z(s), !1) : this.#f(s.fn, "", s.idx);
   }
   #W = "";
   #$() {
@@ -680,21 +680,21 @@ class p {
     if (v.debugLog && console.log(`📜 %c1:jumpWork%c fn:${t} lbl:${s} idx:${String(i)}`, "color:#3B0;", ""), !t && !s && this.main.errScript("[jump系] fnまたはlabelは必須です"), s ? (s.startsWith("*") || this.main.errScript("[jump系] labelは*で始まります"), this.#v = s, this.#v.startsWith("**") || (this.#t = i)) : (this.#v = "", this.#t = i), !t)
       return this.analyzeInit(), !1;
     if (t.includes("@")) throw "[jump系] fn には文字「@」は禁止です";
-    const n = this.#g(t);
+    const h = this.#g(t);
     if (t === this.#i)
       return this.analyzeInit(), !1;
     this.#i = t;
-    const a = this.#h[t];
-    if (a)
-      return this.#s = a, this.analyzeInit(), !1;
+    const n = this.#a[t];
+    if (n)
+      return this.#s = n, this.analyzeInit(), !1;
     const r = `jumpWork fn:${t}`;
     _.beginProc(r);
-    let h = "";
+    let a = "";
     const l = new B();
     try {
-      h = this.#g(t + "@"), l.add({ name: t + ":base", url: n }), l.add({ name: t, url: h });
+      a = this.#g(t + "@"), l.add({ name: t + ":base", url: h }), l.add({ name: t, url: a });
     } catch {
-      l.add({ name: t, url: n });
+      l.add({ name: t, url: h });
     }
     return l.use((e, c) => {
       this.sys.dec(e.extension, e.data).then((f) => {
@@ -703,7 +703,7 @@ class p {
         this.main.errScript(`[jump系]snロード失敗です fn:${e.name} ${String(f)}`, !1), c();
       });
     }).load((e, c) => {
-      if (_.endProc(r), h) {
+      if (_.endProc(r), a) {
         const f = c[t + ":base"].data, o = c[t].data, u = f.split(`
 `), m = o.split(`
 `), b = u.length, E = m.length;
@@ -736,79 +736,79 @@ class p {
   #rt = /(\*{2,})([^|]*)/;
   #lt = /^\[macro\s/;
   #K = /^\[endmacro[\s\]]/;
-  #ct(t, s, i, n, a) {
+  #ct(t, s, i, h, n) {
     const r = t.aToken.length;
-    let h = i, l = n;
+    let a = i, l = h;
     if (!l) {
-      if (this.#H()) return { idx: a, ln: h };
-      if (t.aLNum[a])
-        h = t.aLNum[a];
+      if (this.#H()) return { idx: n, ln: a };
+      if (t.aLNum[n])
+        a = t.aLNum[n];
       else {
-        h = 1;
-        for (let o = 0; o < a; ++o) {
-          t.aLNum[o] ||= h;
+        a = 1;
+        for (let o = 0; o < n; ++o) {
+          t.aLNum[o] ||= a;
           const u = t.aToken[o];
           u.startsWith(`
-`) ? h += u.length : h += (u.match(/\n/g) ?? []).length;
+`) ? a += u.length : a += (u.match(/\n/g) ?? []).length;
         }
-        t.aLNum[a] = h;
+        t.aLNum[n] = a;
       }
-      return { idx: a, ln: h };
+      return { idx: n, ln: a };
     }
     t.aLNum[0] = 1;
     const e = l.match(this.#rt);
     if (e) {
       l = e[1];
-      let o = a;
+      let o = n;
       switch (e[2]) {
         case "before":
           for (; t.aToken[--o] !== l; )
             o === 0 && k.myTrace(`[jump系 無名ラベルbefore] 
-						${String(h)} 行目以前で ${s ? "マクロ内に" : ""} ラベル【 ${l} 】がありません`, "ET"), s && t.aToken[o].search(this.#lt) > -1 && k.myTrace("[jump系 無名ラベルbefore] マクロ内にラベル【" + l + "】がありません", "ET");
+						${String(a)} 行目以前で ${s ? "マクロ内に" : ""} ラベル【 ${l} 】がありません`, "ET"), s && t.aToken[o].search(this.#lt) > -1 && k.myTrace("[jump系 無名ラベルbefore] マクロ内にラベル【" + l + "】がありません", "ET");
           return { idx: o + 1, ln: t.aLNum[o] };
         //	break;
         case "after":
           for (; t.aToken[++o] !== l; )
-            o === r && k.myTrace(`[jump系 無名ラベルafter] ${String(h)} 行目以後でマクロ内にラベル【${l}】がありません`, "ET"), t.aToken[o].search(this.#K) > -1 && k.myTrace(`[jump系 無名ラベルafter] ${String(h)} 行目以後でマクロ内にラベル【 ${l} 】がありません`, "ET");
+            o === r && k.myTrace(`[jump系 無名ラベルafter] ${String(a)} 行目以後でマクロ内にラベル【${l}】がありません`, "ET"), t.aToken[o].search(this.#K) > -1 && k.myTrace(`[jump系 無名ラベルafter] ${String(a)} 行目以後でマクロ内にラベル【 ${l} 】がありません`, "ET");
           return { idx: o + 1, ln: t.aLNum[o] };
         //	break;
         default:
           k.myTrace("[jump系] 無名ラベル指定【label=" + l + "】が間違っています", "ET");
       }
     }
-    h = 1;
+    a = 1;
     const c = new RegExp(
       "^" + l.replaceAll("*", "\\*") + "(?=\\s|;|\\[|\\||$)"
     );
     let f = !1;
     for (let o = 0; o < r; ++o) {
-      t.aLNum[o] ||= h;
+      t.aLNum[o] ||= a;
       const u = t.aToken[o];
       if (f) {
-        this.#l.testTagEndLetml(u) ? f = !1 : h += (u.match(/\n/g) ?? []).length;
+        this.#l.testTagEndLetml(u) ? f = !1 : a += (u.match(/\n/g) ?? []).length;
         continue;
       }
       const m = u.charCodeAt(0);
       if (m === 10) {
-        h += u.length;
+        a += u.length;
         continue;
       }
       if (m === 42) {
-        if (u.search(c) > -1) return { idx: o + 1, ln: h };
+        if (u.search(c) > -1) return { idx: o + 1, ln: a };
         continue;
       }
-      m === 91 && (h += (u.match(/\n/g) ?? []).length, this.#l.testTagLetml(u) && (f = !0));
+      m === 91 && (a += (u.match(/\n/g) ?? []).length, this.#l.testTagLetml(u) && (f = !0));
     }
     throw f ? "[let_ml]の終端・[endlet_ml]がありません" : (k.myTrace(`[jump系] ラベル【${l}】がありません`, "ET"), "Dummy");
   }
-  #h = /* @__PURE__ */ Object.create(null);
+  #a = /* @__PURE__ */ Object.create(null);
   //{} シナリオキャッシュ
   #ft(t) {
     let s = "";
     try {
       s = "ScriptIterator.resolveScript";
       const i = this.#l.resolveScript(t);
-      s = "ScriptIterator.replaceScript_Wildcard", this.#mt(i), this.#h[this.#i] = this.#s = i;
+      s = "ScriptIterator.replaceScript_Wildcard", this.#mt(i), this.#a[this.#i] = this.#s = i;
     } catch (i) {
       i instanceof Error ? s += `例外 mes=${i.message}(${i.name})` : s = String(i), this.main.errScript(s, !1);
     }
@@ -816,7 +816,7 @@ class p {
   }
   #z(t) {
     this.#i = t.fn, this.#t = t.idx;
-    const s = this.#h[this.#i];
+    const s = this.#a[this.#i];
     s && (this.#s = s), this.#e = this.#s.aLNum[t.idx];
   }
   #ut = /^\[(call|loadplugin)\s/;
@@ -825,14 +825,14 @@ class p {
     for (let s = t.len - 1; s >= 0; --s) {
       const i = t.aToken[s];
       if (!this.#ut.test(i)) continue;
-      const [n, a] = $(i);
-      this.#r.parse(a);
+      const [h, n] = x(i);
+      this.#r.parse(n);
       const r = this.#r.hPrm.fn;
       if (!r) continue;
-      const { val: h } = r;
-      if (!h.endsWith("*")) continue;
+      const { val: a } = r;
+      if (!a.endsWith("*")) continue;
       t.aToken.splice(s, 1, "	", "; " + i), t.aLNum.splice(s, 1, NaN, NaN);
-      const l = n === "loadplugin" ? S.CSS : S.SN, e = this.cfg.matchPath("^" + h.slice(0, -1) + ".*", l);
+      const l = h === "loadplugin" ? S.CSS : S.SN, e = this.cfg.matchPath("^" + a.slice(0, -1) + ".*", l);
       for (const c of e) {
         const f = i.replace(
           this.#pt,
@@ -861,9 +861,9 @@ class p {
   get isNextKidoku() {
     let t = this.#i, s = this.#t, i = this.#s.len;
     if (this.#n.length > 0) {
-      const a = this.#n[0];
-      t = a.fn, s = a.idx;
-      const r = this.#h[t];
+      const n = this.#n[0];
+      t = n.fn, s = n.idx;
+      const r = this.#a[t];
       r && (i = r.len);
     }
     return s === i ? !1 : this.val.getAreaKidoku(t)?.search(s) ?? !1;
@@ -887,19 +887,19 @@ class p {
     if (!s) throw "nameは必須です";
     if (s in this.hTag) throw `[${s}]はタグかすでに定義済みのマクロです`;
     if (this.#_t.test(s)) throw `[${s}]はマクロ名として異常です`;
-    const i = this.#e, n = new y(this.#i, this.#t);
-    for (this.#G += "|" + s, this.#N = new RegExp(`\\[(${this.#G})\\b`), this.hTag[s] = (a) => (a.design_unit = t.design_unit, this.#M(a), this.val.setMp({
-      ...a,
+    const i = this.#e, h = new L(this.#i, this.#t);
+    for (this.#G += "|" + s, this.#N = new RegExp(`\\[(${this.#G})\\b`), this.hTag[s] = (n) => (n.design_unit = t.design_unit, this.#M(n), this.val.setMp({
+      ...n,
       "const.sn.macro": JSON.stringify({ name: t.name }),
       // ムダに大きいスクリプター用情報を削除、名前だけに
       "const.sn.me_call_scriptFn": this.#i
-    }), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", this.#i), this.#e = i, this.#z(n), !1); this.#t < this.#s.len; ++this.#t) {
+    }), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", this.#i), this.#e = i, this.#z(h), !1); this.#t < this.#s.len; ++this.#t) {
       this.#s.aLNum[this.#t] ||= this.#e;
-      const a = this.#s.aToken[this.#t];
-      if (a.search(this.#K) > -1)
+      const n = this.#s.aToken[this.#t];
+      if (n.search(this.#K) > -1)
         return ++this.#t, !1;
-      const r = a.charCodeAt(0);
-      r === 10 ? this.#e += a.length : r === 91 && (this.#e += (a.match(/\n/g) ?? []).length);
+      const r = n.charCodeAt(0);
+      r === 10 ? this.#e += n.length : r === 91 && (this.#e += (n.match(/\n/g) ?? []).length);
     }
     throw `マクロ[${s}]定義の終端・[endmacro]がありません`;
   }
@@ -919,9 +919,9 @@ class p {
     );
   }
   loadFromMark(t, s, i = 0) {
-    this.hTag.clear_event({}), this.val.mark2save(s), this.val.setMp(L()), this.#m.recPagebreak();
-    let n = [];
-    i !== 1 && (n = this.sndMng.playLoopFromSaveObj(
+    this.hTag.clear_event({}), this.val.mark2save(s), this.val.setMp($()), this.#m.recPagebreak();
+    let h = [];
+    i !== 1 && (h = this.sndMng.playLoopFromSaveObj(
       i === 2
       /* ALL_STOP_AND_PLAY */
     )), d(t, "do_rec", !0) && (this.#u = {
@@ -929,20 +929,20 @@ class p {
       hPages: { ...s.hPages },
       aIfStk: [...s.aIfStk]
     });
-    const a = {
+    const n = {
       enabled: !!this.val.getVal("save:const.sn.autowc.enabled"),
       text: String(this.val.getVal("save:const.sn.autowc.text")),
       time: Number(this.val.getVal("save:const.sn.autowc.time"))
     };
-    this.hTag.autowc(a), this.#o = [...this.#u.aIfStk], this.#n = [], x.stopAllTw();
-    const r = Promise.allSettled([...n, ...this.#m.playback(this.#u.hPages)]).then(() => this.#m.cover(!1)), { index: h, fn: l } = t;
-    if (h)
-      return v.debugLog && console.log(`📜 %cloadFromMark index:${String(h)} move!%c fn:${l ?? ""}`, "color:#3B0;", ""), r.then(() => {
-        this.#f(l, "", h) || this.main.resume();
+    this.hTag.autowc(n), this.#o = [...this.#u.aIfStk], this.#n = [], y.stopAllTw();
+    const r = Promise.allSettled([...h, ...this.#m.playback(this.#u.hPages)]).then(() => this.#m.cover(!1)), { index: a, fn: l } = t;
+    if (a)
+      return v.debugLog && console.log(`📜 %cloadFromMark index:${String(a)} move!%c fn:${l ?? ""}`, "color:#3B0;", ""), r.then(() => {
+        this.#f(l, "", a) || this.main.resume();
       }).catch((o) => console.error("loadFromMark e:%o", o)), !0;
     this.#m.cover(!0);
     const e = String(this.val.getVal("save:const.sn.scriptFn")), c = Number(this.val.getVal("save:const.sn.scriptIdx"));
-    delete this.#h[e];
+    delete this.#a[e];
     const { label: f } = t;
     return r.then(f ? () => {
       this.#i = e, this.#t = c, this.hTag.call({ fn: l, label: f }) || this.main.resume();
@@ -954,15 +954,15 @@ class p {
   #St(t) {
     const s = this.val.getMark(0);
     if (!s) return !1;
-    delete this.#h[w(s.hSave["const.sn.scriptFn"])];
+    delete this.#a[w(s.hSave["const.sn.scriptFn"])];
     const i = {};
-    for (const n in this.#h)
+    for (const h in this.#a)
       try {
-        this.#g(n + "@");
+        this.#g(h + "@");
       } catch {
-        i[n] = this.#h[n];
+        i[h] = this.#a[h];
       }
-    return this.#h = i, t.do_rec = !1, this.loadFromMark(
+    return this.#a = i, t.do_rec = !1, this.loadFromMark(
       t,
       s,
       1
@@ -999,8 +999,8 @@ class p {
   }
   //MARK: スクリプト停止位置（マクロなどなら最上位の呼び元）
   nowScrFnLn() {
-    const { fn: t, idx: s } = this.nowScrIdx(), i = this.#h[t], n = this.#c(i, s);
-    return { fn: t, ...n };
+    const { fn: t, idx: s } = this.nowScrIdx(), i = this.#a[t], h = this.#c(i, s);
+    return { fn: t, ...h };
   }
   //MARK: しおりの保存
   #wt(t) {
@@ -1012,17 +1012,17 @@ class p {
   }
   recodeDesign(t) {
     let s = "", i = 0;
-    const n = this.#n.length;
-    if (t.design_unit && n > 0) {
+    const h = this.#n.length;
+    if (t.design_unit && h > 0) {
       const l = this.#n[0];
       s = l.fn, i = l.idx;
     } else
       s = this.#i, i = this.#t;
     t[":path"] = this.#_(s);
-    const a = this.#h[s], r = this.#c(a, i);
+    const n = this.#a[s], r = this.#c(n, i);
     t[":ln"] = r.ln, t[":col_s"] = r.col_s, t[":col_e"] = r.col_e;
-    const h = i - 1;
-    t[":idx_tkn"] = h, t[":token"] = a.aToken[h], this.sys.send2Dbg("_recodeDesign", t);
+    const a = i - 1;
+    t[":idx_tkn"] = a, t[":token"] = n.aToken[a], this.sys.send2Dbg("_recodeDesign", t);
   }
   replace(t, s) {
     this.#s.aToken[t] = s;

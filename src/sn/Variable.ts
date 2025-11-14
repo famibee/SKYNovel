@@ -40,6 +40,8 @@ export class Variable implements T_Variable {
 		hTag.let_round		= o=> this.#let_round(o);	// 四捨五入
 		hTag.let_search		= o=> this.#let_search(o);	// 正規表現で検索
 		hTag.let_substr		= o=> this.#let_substr(o);	// 文字列から抜きだし
+		// ほぼ瀬戸愛羅さんの「変数代入強化プラグイン」の取り込みです。ありがとうございます！
+		// an時代・瀬戸愛羅さんより https://famibee.blog.fc2.com/blog-entry-267.html
 
 		//	デバッグ・その他
 		hTag.clearsysvar	= ()=> this.#clearsysvar();	// システム変数の全消去
@@ -311,9 +313,10 @@ export class Variable implements T_Variable {
 	#let(hArg: TArg) {
 		if (! hArg.name) throw 'nameは必須です';
 
+		// 自動で数値型変換しない（≒文字変換する）機能
+		// an時代・瀬戸愛羅さんより https://famibee.blog.fc2.com/blog-entry-108.html
 		let autocast = true;
 		if (hArg.cast) {
-			//switch (trim(hArg.cast)) {
 			switch (hArg.cast) {
 			case 'num':
 				argChk_Num(hArg, 'text', NaN);
@@ -495,33 +498,25 @@ export class Variable implements T_Variable {
 		const o = PropParser.getValName(arg_name);
 		if (! o) throw `[変数参照] name(${arg_name})が変数名として異常です`;
 
-		const hScope = this.#hScopes[<Scope>o.scope];
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (! hScope) throw `[変数に値セット] scopeが異常【${String(o.scope)}】です`;
-
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const nm = o.name!;
-		if (nm.startsWith('const.') && nm in hScope) {
-			throw `[変数に値セット] 変数【${nm}】は書き換え不可です`;
+		const {scope, name} = o;
+		const hScope = this.#hScopes[scope];
+		if (name.startsWith('const.') && name in hScope) {
+			throw `[変数に値セット] 変数【${name}】は書き換え不可です`;
 		}
 
-		this.setVal_Nochk(<Scope>o.scope, nm, val, autocast);
+		this.setVal_Nochk(scope, name, val, autocast);
 	}
 	setVal_Nochk(scope: Scope, nm: string, ival: T_VAL_BSNU, autocast = false) {
 		const hScope = this.#hScopes[scope];
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-		const val = autocast ?this.#castAuto(ival) : ival;
+		const new_v = autocast ?this.#castAuto(ival) : ival;
 
 		const fullnm = scope +':'+ nm;
 		if (fullnm in Variable.#hSetEvent) {
-			// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-			const old_v = (<any>hScope)[nm];
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			const new_v = val;
+			const old_v = hScope[<keyof typeof hScope>nm];
 			// eslint-disable-next-line eqeqeq
 			if (old_v != new_v) this.#callHook('data_break', {
 				dataId: fullnm,
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 				old_v,
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 				new_v,
@@ -529,17 +524,17 @@ export class Variable implements T_Variable {
 		}
 
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-assignment
-		(<any>hScope)[nm] = val;
+		(<any>hScope)[nm] = new_v;
 
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-		this.#hSetValTrg[fullnm]?.(nm, val ?? '');
+		this.#hSetValTrg[fullnm]?.(nm, new_v ?? '');
 
 		// if (scope === 'sys') this.flush()
 			// 厳密にはここですべきだが、パフォーマンスに問題があるので
 			// クリック待ちを期待できるwait、waitclick、s、l、pタグで
 			// saveKidoku()をコール。（中で保存しているのでついでに）
 
-		//console.log(`\tlet s[${scope}] n[${nm}]='${val}' trg[${(trg)}]`);
+		//console.log(`\tlet s[${scope}] n[${nm}]='${new_v}' trg[${(trg)}]`);
 	}
 	// reload 再生成 Main に受け渡すため static
 	static	#hSetEvent: {[fullnm: string]: 1} = {};
@@ -554,35 +549,30 @@ export class Variable implements T_Variable {
 		const o = PropParser.getValName(arg_name);
 		if (! o) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
-		const hScope = this.#hScopes[<Scope>o.scope];
-		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
-		if (! hScope) throw `[変数参照] scopeが異常【${String(o.scope)}】です`;
+		const {scope, name, at} = o;
+		const hScope = this.#hScopes[scope];
 
-		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-		const val_name = o.name!;
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-		let val = <T_VAL_DATA_FNC>(<any>hScope)[val_name];
-		// let val = (<any>hScope)[val_name];
-// console.log(`fn:Variable.ts  ・getVal arg_name=${arg_name}= val_name=${val_name}= A:${String(! (val_name in hScope))} val:%o`, val);
-		if (! (val_name in hScope)) {	// 存在しない変数名の場合、刻んで調べていく
+		let val = <T_VAL_DATA_FNC>hScope[<keyof typeof hScope>name];
+// console.log(`getVal arg_name=${arg_name}= nm=${name}= A:${String(! (name in hScope))} val:${String(val)}`);
+		if (! (name in hScope)) {	// 存在しない変数名の場合、刻んで調べていく
 			val = def;
 			if (touch) {
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-explicit-any
-				(<any>hScope)[val_name] = def;
+				(<any>hScope)[name] = def;
 				// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-				return o.at === '@str' ?val :this.#castAuto(val);
+				return at === '@str' ?val :this.#castAuto(val);
 			}
 
-			let nm = '';
-			const aNm = val_name.split('.');
+			let n = '';
+			const aNm = name.split('.');
 			const len = aNm.length;
-			for (let i=0; i<len; ++i, nm += '.') {
+			for (let i=0; i<len; ++i, n += '.') {
 				// eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-				nm += aNm[i];
-				if (! (nm in hScope)) continue;	// 存在しない変数名の場合、延ばす
+				n += aNm[i];
+				if (! (n in hScope)) continue;	// 存在しない変数名の場合、延ばす
 
-				// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access
-				let v = JSON.parse((<any>hScope)[nm]);
+				// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+				let v = JSON.parse(hScope[<keyof typeof hScope>n]);
 				if (Object.prototype.toString.call(v) !== '[object Object]') {
 					// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 					if (i +1 === len) {val = v; break}	// 最下層ならそのまま返す
@@ -609,10 +599,10 @@ export class Variable implements T_Variable {
 			}
 		}
 		if (val instanceof Function) val = val();
-// console.log(`\tget [${arg_name}] -> s[${o.scope ?? 'tmp'}'] a[${o.at ?? ''}] n[${val_name}'] ret['${String(val)}']('${typeof val}')'`);
+// console.log(`\tget [${arg_name}] -> s[${scope ?? 'tmp'}'] a[${at ?? ''}] n[${name}'] ret['${String(val)}']('${typeof val}')'`);
 
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-return
-		return o.at === '@str' ?val :this.#castAuto(val);
+		return at === '@str' ?val :this.#castAuto(val);
 	}
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -626,7 +616,7 @@ export class Variable implements T_Variable {
 
 		return val;
 	}
-	#REG_NUMERICLITERAL		= /^-?[\d.]+$/;
+	#REG_NUMERICLITERAL	= /^-?[\d.]+$/;
 
 
 	// 変数のダンプ

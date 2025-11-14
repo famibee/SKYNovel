@@ -50,7 +50,7 @@ export declare class Layer {
     static getBlendmodeNum(bm_name: string): number;
     static getNum2Blendmode(bmn: number): string;
     get containMovement(): boolean;
-    renderStart(): void;
+    renderStart(_isSkipping: boolean): void;
     renderEnd(): void;
     clearLay(hArg: TArg): void;
     copy(fromLayer: Layer, aPrm: Promise<void>[]): void;

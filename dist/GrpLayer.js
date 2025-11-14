@@ -94,24 +94,29 @@ class r extends c {
   get height() {
     return this.#p;
   }
-  renderStart() {
+  renderStart(t) {
+    if (t) {
+      const e = this.ctn.alpha;
+      this.ctn.alpha = 1, this.ctn.alpha = e;
+      return;
+    }
     this.#t = new f(this.#h), this.#t.visible = !1, this.ctn.addChildAt(this.#t, 0), this.#t.position.set(-this.ctn.x, -this.ctn.y);
-    let t = () => {
-      const s = this.ctn.alpha;
+    let s = () => {
+      const e = this.ctn.alpha;
       this.ctn.alpha = 1;
-      for (const e of this.ctn.children) e.visible = !0;
-      this.#t.visible = !1, r.#r.renderer.render(this.ctn, { renderTexture: this.#h }), this.ctn.alpha = s;
-      for (const e of this.ctn.children) e.visible = !1;
+      for (const i of this.ctn.children) i.visible = !0;
+      this.#t.visible = !1, r.#r.renderer.render(this.ctn, { renderTexture: this.#h }), this.ctn.alpha = e;
+      for (const i of this.ctn.children) i.visible = !1;
     };
     if (!this.containMovement) {
-      const s = t;
-      t = () => {
-        t = () => {
-        }, s();
+      const e = s;
+      s = () => {
+        s = () => {
+        }, e();
       };
     }
     this.#a = () => {
-      t(), this.#t.visible = !0;
+      s(), this.#t.visible = !0;
     }, r.#r.ticker.add(this.#a);
   }
   #h = u.create({

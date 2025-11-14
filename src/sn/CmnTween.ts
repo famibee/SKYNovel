@@ -7,6 +7,7 @@
 
 import {type IEvtMng, CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
 import type {TArg} from './Grammar';
+import type {Layer} from './Layer';
 import {Reading} from './Reading';
 
 import {Tween, Easing, removeAll, update} from '@tweenjs/tween.js'
@@ -19,8 +20,8 @@ type ITwInf = {
 	onEnd?	: ()=> void;
 }
 
-export const TW_INT_TRANS = 'trans\n';	// 改行でスクリプトから絶対指定できない値に
-export const TMP_TSY_NM	= 'tsy nm:';
+export const TW_NM_TRANS = 'trans\n';	// 改行でスクリプトから絶対指定できない値に
+const PID_HD_TW	= 'tsy nm:';
 
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -91,24 +92,23 @@ export class CmnTween {
 		return es;
 	}
 
-	static readonly hMemberCnt	= {
-		alpha		: 0,
-		height		: 0,
-		rotation	: 0,	// rotationX〜Z、scaleZ、zは設定すると
-		scale_x		: 0,	// 三次元方向の拡大縮小ルーチンが働き画像がぼやけるので
-		scale_y		: 0,	// backlayで設定しない方針
-		pivot_x		: 0,
-		pivot_y		: 0,
-		width		: 0,
-		x			: 0,
-		y			: 0,
-	};
+	static readonly aLayerPrpNm = <(keyof Layer)[]>[
+		'alpha',
+		'height',
+		'rotation',	// rotationX〜Z、scaleZ、zは設定すると
+		'scale_x',	// 三次元方向の拡大縮小ルーチンが働き画像がぼやけるので
+		'scale_y',	// backlayで設定しない方針
+		'pivot_x',
+		'pivot_y',
+		'width',
+		'x',
+		'y',
+	];
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	static cnvTweenArg(hArg: TArg, lay: any): TArg {
 		const hTo: {[val_name: string]: number} = {};
-		for (const nm of Object.keys(this.hMemberCnt)) {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-			const arg = (<any>hArg)[nm];
+		for (const nm of CmnTween.aLayerPrpNm) {
+			const arg = hArg[<keyof TArg>nm];
 			if (! arg) continue;
 
 			// {x:500}			X位置を500に
@@ -116,14 +116,14 @@ export class CmnTween {
 			// {x:'=-500'}		現在のX位置に-500加算した位置
 			// {x:'250,500'}	+250から＋500までの間でランダムな値をX位置に
 			// {x:'=250,500'}	+250から＋500までの間でランダムな値を現在のX位置に加算
+			// eslint-disable-next-line @typescript-eslint/no-base-to-string
 			const v = String(arg);
 			const hdeq = v.startsWith('=');
 			const vx = hdeq ?v.slice(1) :v;
 			if (! vx) continue;
 
-			const [v0, v1] = vx.split(',');
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const a0 = hTo[nm] = parseFloat(v0!);
+			const [v0='0', v1] = vx.split(',');
+			const a0 = hTo[nm] = parseFloat(v0);
 
 			if (v1) hTo[nm] += Math.round(
 				Math.random() * (parseFloat(v1) -a0 +1)
@@ -194,7 +194,7 @@ export class CmnTween {
 			ti.onEnd?.();
 
 			onComplete();
-			Reading.notifyEndProc(TMP_TSY_NM + tw_nm);	// ラストに
+			Reading.notifyEndProc(PID_HD_TW + tw_nm);	// ラストに
 		});
 
 		const {chain} = hArg;
@@ -219,7 +219,6 @@ export class CmnTween {
 	(?:
 		\s*,\s*
 		(?:	(?<o>[-=\d\.]+)	|	(['"])	(?<o2>.*?)	\8	)
-
 	)?
 )?
 |
@@ -229,27 +228,17 @@ export class CmnTween {
 
 	// トランス終了待ち
 	static	wt(_hArg: TArg) {
-		const ti = this.#hTwInf[TW_INT_TRANS];
+		const ti = this.#hTwInf[TW_NM_TRANS];
 		if (! ti?.tw) return false;
 
-		const fnc = ()=> this.#stopEndTrans();
-		Reading.beginProc(TMP_TSY_NM + TW_INT_TRANS, fnc, true, fnc);
+		const fnc = ()=> this.stopEndTrans();
+		Reading.beginProc(TW_NM_TRANS, fnc, true, fnc);
 		return true;
 	}
 
 	// レイヤのトランジションの停止
-	static	#stopEndTrans() {this.#hTwInf[TW_INT_TRANS]?.tw?.stop().end()}
+	static	stopEndTrans() {this.#hTwInf[TW_NM_TRANS]?.tw?.stop().end()}
 		// stop()とend()は別
-	static	async	closeTrans() {
-		const ti = this.#hTwInf[TW_INT_TRANS];
-		if (! ti?.tw) return;
-
-		// eslint-disable-next-line @typescript-eslint/no-invalid-void-type
-		const {promise, resolve} = Promise.withResolvers<void>();
-		Reading.beginProc(TMP_TSY_NM + TW_INT_TRANS, resolve, false, resolve);
-		this.#stopEndTrans();	// beginProc後に
-		await promise;
-	}
 
 
 	// トゥイーン終了待ち
@@ -259,7 +248,7 @@ export class CmnTween {
 		if (! ti?.tw) return false;
 
 		const fnc = ()=> ti.tw?.end();	// stop()とend()は別
-		Reading.beginProc(TMP_TSY_NM + tw_nm, fnc, true, fnc);
+		Reading.beginProc(PID_HD_TW + tw_nm, fnc, true, fnc);
 		return true;
 	}
 		static	#tw_nm(hArg: TArg) {

@@ -65,8 +65,8 @@ const REG_ERRMES_JSON = /JSON at position (\d+)$/;
 function mesErrJSON(n, e = "", t = "") {
   const r = (REG_ERRMES_JSON.exec(t) ?? ["", ""])[1];
   return `[${n[":タグ名"]}] ${e} 属性の解析エラー : ${t}
-${// eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-  n[e]}${r ? `
+${// eslint-disable-next-line @typescript-eslint/no-base-to-string
+  String(n[e])}${r ? `
 ${"^".padStart(Number(r))}` : ""}`;
 }
 const REG_FN = /^[^/.]+$|[^/]+(?=\.)/;
@@ -21514,7 +21514,7 @@ class Layer {
   get containMovement() {
     return !1;
   }
-  renderStart() {
+  renderStart(e) {
   }
   renderEnd() {
   }

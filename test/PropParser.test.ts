@@ -5,6 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
+import type {T_RET_getValName} from '../src/sn/PropParser';
 import {PropParser} from '../src/sn/PropParser';
 
 import {ValTest} from './ValTest';
@@ -636,8 +637,15 @@ it.each([
 });
 
 
+
+
+type T_IT_EACH_getValName = {
+	i	: string;
+	h	: T_RET_getValName;
+}
+
 // getValName
-it.each([
+it.each(<T_IT_EACH_getValName[]>[
 	// _getValName0
 	{i: 'mp:fn', h: {
 		scope: 'mp',
@@ -687,7 +695,7 @@ it.each([
 
 ])('$i', ({i, h})=> {
 	const o = PropParser.getValName(i);
-	for (const [k, v] of Object.entries(h)) expect(o?.[k]).toBe(v);
+	for (const [k, v] of Object.entries(h)) expect(o?.[<keyof T_RET_getValName>k]).toBe(v);
 });
 
 

@@ -1,3 +1,15 @@
+- fix(src/sn/ScriptIterator.ts): Fスキップ時に処理の流れが狂う場合がある件
+	- スキップ時の [wt] で同期的にトランス終了させるよう
+	- キー押しっぱなしスキップなどでの処理が動いていなかった
+- fix(src/sn/Reading.ts): stopImmediatePropagation がないイベントへの対応
+	- キーボードでボタン選択し、Enter 押下でエラーになっていた
+- fix(src/sn/GrpLayer.ts, LayerMng.ts): pixi不具合対策
+- fix(src/sn/SndBuf.ts): レア発生の不具合対応
+- fix(src/sn/LayerMng.ts): [trans time=0] でのむやみな queueMicrotask などを削除
+- fix: ESLint とにらめっこで型記述手直し
+- docs: AIRNovel 時代からのコード、瀬戸愛羅さんの貢献（のごく一部）を明記
+
+
 ## [1.64.11](https://github.com/famibee/SKYNovel/compare/v1.64.10...v1.64.11) (2025-11-08)
 
 

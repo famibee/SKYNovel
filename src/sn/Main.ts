@@ -238,6 +238,7 @@ export class Main implements T_Main {
 					continue;
 				}
 				// & 変数操作・変数表示
+				// an時代・瀬戸愛羅さんより https://famibee.blog.fc2.com/blog-entry-245.html
 				if (uc === 38) {
 					if (! token.endsWith('&')) {
 						errHd = '変数計算';

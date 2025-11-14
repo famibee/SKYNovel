@@ -255,8 +255,8 @@ export class FrameMng implements T_GetFrm {
 		const win = f.contentWindow!;
 		if (! Object.hasOwn(win, var_name)) throw `frame【${id}】に変数/関数【${var_name}】がありません。変数は var付きにして下さい`;
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-		const v = (<any>win)[var_name];
+		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+		const v = win[<keyof Window>var_name];
 		// var変数 / 関数実行の戻り値 -> 組み込み変数
 		this.val.setVal_Nochk(
 			'tmp',

@@ -414,7 +414,7 @@ export class Layer {
 	// eslint-disable-next-line @typescript-eslint/class-literal-property-style
 	get containMovement(): boolean {return false}
 
-	renderStart() { /* empty */ }
+	renderStart(_isSkipping: boolean) { /* empty */ }
 	renderEnd() { /* empty */ }
 
 	clearLay(hArg: TArg): void {
@@ -512,6 +512,7 @@ export class Layer {
 		const b_height	= r_absclY === 1
 						? rct_base.height: rct_base.height*r_absclY;
 
+		// an時代・瀬戸愛羅さんより https://famibee.blog.fc2.com/blog-entry-253.html
 		// 横位置計算
 		let x = ret.x;	// AIRNovelでは 0
 		if ('left' in hArg) {

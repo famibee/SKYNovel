@@ -311,6 +311,8 @@ export class SndBuf {
 		}
 
 		const join = this.needLoad = argChk_Boolean(hArg, 'join', true);
+		// an時代・瀬戸愛羅さんより https://famibee.blog.fc2.com/blog-entry-106.html
+		// デフォルトでjoin=trueの方が初心者に優しい
 		if (join) {
 			const RPN_LOADED = this.#si.procID +`loaded buf:${buf} fn:${fn}`;
 			Reading.beginProc(RPN_LOADED);
@@ -450,6 +452,27 @@ class SsPlaying implements ISndState {
 		if (! tw) return;
 		CmnTween.setTwProp(tw, hArg)
 		.to({volume: vol}, time)
+		.onUpdate(()=> {
+			if (si.snd?.isPlaying) return;
+
+			// レア発生の不具合対応
+			//	以下のエラーの対策。ただ、レア発生ゆえにこれで直ったかが確認できていない
+/*
+pixi-sound.esm.mjs:9 Uncaught TypeError: Cannot read properties of null (reading 'length')
+    at n.refresh (pixi-sound.esm.mjs:9:21344)
+    at n.set (pixi-sound.esm.mjs:9:21627)
+    at e._updateProperties (tween.esm.js:805:37)
+    at e.update (tween.esm.js:731:14)
+    at e.update (tween.esm.js:263:36)
+    at #e [as fn] (CmnTween.ts:40:27)
+    at i.emit (ticker.mjs:98:22)
+    at i.update (ticker.mjs:458:37)
+    at _tick (ticker.mjs:226:23)
+n.refresh @ pixi-sound.esm.mjs:9
+*/
+			tw.stop();
+			tw.onComplete();
+		})
 		.onComplete(()=> {
 			remove(tw);
 			si.stt.compFade(buf);

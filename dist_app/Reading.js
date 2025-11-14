@@ -455,7 +455,7 @@ class n {
       }
     }
     const r = n.getEvt2Fnc(s);
-    r && (i.stopImmediatePropagation(), !(!s.startsWith("dom=") && a.layMng.clickTxtLay()) && r(i));
+    r && (i.stopImmediatePropagation?.(), !(!s.startsWith("dom=") && a.layMng.clickTxtLay()) && r(i));
   }
   get isSkipping() {
     return a.skip_enabled;

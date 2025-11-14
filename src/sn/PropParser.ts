@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unnecessary-condition */
-/* eslint-disable @typescript-eslint/no-base-to-string */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
 /* eslint-disable @typescript-eslint/no-unsafe-argument */
@@ -16,17 +14,24 @@
 
 import {alt, lazy, of, optWhitespace, regex, seq, seqMap, string} from 'parsimmon';
 import {int} from './CmnLib';
-import type {T_PropParser, T_Variable, T_VAL_DATA} from './CmnInterface';
+import type {T_PropParser, T_Variable, T_VAL_DATA, Scope} from './CmnInterface';
 
 type IFncCalc = (a: any[]) => any
 type IHFncCalc = { [key: string]: IFncCalc; }
+
+export type T_RET_getValName = {
+	scope	: Scope;
+	name	: string;
+	at		: string;
+}
+
 
 export class PropParser implements T_PropParser {
 	#parser: any = null;
 
 	constructor(private readonly val: T_Variable, ce = '\\') {
 		function ope(a: (string | RegExp)[]) {
-			const ps: any = [];
+			const ps = [];
 			for (const v of a) ps.push(
 				(typeof v === 'string' ?string(v) :regex(v))
 				.trim(optWhitespace)
@@ -110,7 +115,7 @@ export class PropParser implements T_PropParser {
 				'.'+ this.parse(v.slice(1, -1))
 			);
 			const v = this.val.getVal(s);
-			//console.log('      👹 s:%O: val:%O:', s, val);
+			// console.log('      👹 val:%O: s:%O: v:%o', val, s, v);
 			if (v === null || v === undefined) return ['!str!', v];	// v == null は eqeqeq違反
 			if (typeof v === 'boolean') return ['!bool!', v];
 
@@ -272,7 +277,7 @@ export class PropParser implements T_PropParser {
 			const b = this.#calc(a.shift());
 			const c = this.#calc(a.shift());
 			// eslint-disable-next-line eqeqeq
-			return b == null && c == null && (! b || ! c)
+			return b == null && c == null
 				// eslint-disable-next-line eqeqeq
 				? b == c : String(b) === String(c);
 		},
@@ -319,7 +324,7 @@ export class PropParser implements T_PropParser {
 
 	readonly #REG_EMBEDVAR
 		= /(\$((tmp|sys|save|mp):)?[^\s!--/:-@[-^`{-~]+|#\{[^}]+})/g;
-	#procEmbedVar(b: object): any {
+	#procEmbedVar(b: any): any {
 		if (b === null || b === undefined) return b;
 			// b == null は eqeqeq違反
 
@@ -341,21 +346,24 @@ export class PropParser implements T_PropParser {
 		= /^((?<scope>\w+?):)?(?<name>[^\s :@]+)(?<at>@str)?$/;
 		// 522 match 18413 step(~10ms) https://regex101.com/r/tmCKuE/1
 			// →これは改良しようがない。いい意味で改善の余地なし
-	static	getValName(arg_name: string): {[name: string]: string} | null {
+	static	getValName(arg_name: string): T_RET_getValName | null {
 		const e = this.#REG_VAL.exec(arg_name.trim());
 		const g = e?.groups;
 		if (! g) return null;
 
-		const {scope='tmp', name, at=''} = g;
+		const {scope='tmp', name, at=''} = <T_RET_getValName>g;
+		if (! PropParser.#A_SCOPE.includes(scope)) throw `[変数に値セット] scopeが異常【${scope}】です`;
 		return {
 			scope,
-			name	: PropParser.#getValName_B2D(name!),
+			name	: PropParser.#getValName_B2D(name),
 			at,
 		};
 	}
+	static	readonly	#A_SCOPE = ['tmp', 'sys', 'save', 'mp'];
 
 	static	#getValName_B2D(str: string): string {
 		let i = 0, e = 0, s = str;
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
 		while (true) {
 			i = s.indexOf('["');
 			if (i < 0) {

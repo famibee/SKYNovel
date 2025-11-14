@@ -1,7 +1,7 @@
 import { j as dt } from "./web2.js";
-var lt = { exports: {} }, Ht = lt.exports, Ot;
+var lt = { exports: {} }, Ht = lt.exports, Lt;
 function Xt() {
-  return Ot || (Ot = 1, function(At, e) {
+  return Lt || (Lt = 1, function(At, e) {
     (function(c, l) {
       At.exports = l();
     })(typeof self < "u" ? self : Ht, function() {
@@ -89,7 +89,7 @@ function Xt() {
             }, { coll: [], buf: s.slice(a, h) }, t).coll);
           });
         }
-        function P(t, r) {
+        function j(t, r) {
           return new o(function(n, i) {
             return D(), i + r > n.length ? B(i, r + " bytes for " + t) : b(i + r, n.slice(i, i + r));
           });
@@ -99,22 +99,22 @@ function Xt() {
           var n;
         }
         function Z(t) {
-          return W("uintBE", t), P("uintBE(" + t + ")", t).map(function(r) {
+          return W("uintBE", t), j("uintBE(" + t + ")", t).map(function(r) {
             return r.readUIntBE(0, t);
           });
         }
         function $(t) {
-          return W("uintLE", t), P("uintLE(" + t + ")", t).map(function(r) {
+          return W("uintLE", t), j("uintLE(" + t + ")", t).map(function(r) {
             return r.readUIntLE(0, t);
           });
         }
         function m(t) {
-          return W("intBE", t), P("intBE(" + t + ")", t).map(function(r) {
+          return W("intBE", t), j("intBE(" + t + ")", t).map(function(r) {
             return r.readIntBE(0, t);
           });
         }
         function y(t) {
-          return W("intLE", t), P("intLE(" + t + ")", t).map(function(r) {
+          return W("intLE", t), j("intLE(" + t + ")", t).map(function(r) {
             return r.readIntLE(0, t);
           });
         }
@@ -133,7 +133,7 @@ function Xt() {
         function B(t, r) {
           return E(r) || (r = [r]), { status: !1, index: -1, value: null, furthest: t, expected: r };
         }
-        function j(t, r) {
+        function P(t, r) {
           if (!r || t.furthest > r.furthest) return t;
           var n = t.furthest === r.furthest ? function(i, u) {
             if (function() {
@@ -154,7 +154,7 @@ function Xt() {
           return { status: t.status, index: t.index, value: t.value, furthest: r.furthest, expected: n };
         }
         var nt = {};
-        function bt(t, r) {
+        function vt(t, r) {
           if (L(t)) return { offset: r, line: -1, column: -1 };
           t in nt || (nt[t] = {});
           for (var n = nt[t], i = 0, u = 0, s = 0, a = r; a >= 0; ) {
@@ -184,7 +184,7 @@ function Xt() {
         function J(t) {
           if (typeof t != "string") throw new Error("not a string: " + t);
         }
-        var kt = 2, qt = 3, R = 8, It = 5 * R, Rt = 4 * R, vt = "  ";
+        var kt = 2, qt = 3, R = 8, It = 5 * R, Rt = 4 * R, yt = "  ";
         function it(t, r) {
           return new Array(r + 1).join(t);
         }
@@ -192,14 +192,14 @@ function Xt() {
           var i = r - t.length;
           return i <= 0 ? t : it(n, i) + t;
         }
-        function yt(t, r, n, i) {
+        function Et(t, r, n, i) {
           return { from: t - r > 0 ? t - r : 0, to: t + n > i ? i : t + n };
         }
         function Mt(t, r) {
           var n, i, u, s, a, h = r.index, v = h.offset, S = 1;
           if (v === t.length) return "Got the end of the input";
           if (L(t)) {
-            var N = v - v % R, k = v - N, _ = yt(N, It, Rt + R, t.length), q = O(function(w) {
+            var N = v - v % R, k = v - N, _ = Et(N, It, Rt + R, t.length), q = O(function(w) {
               return O(function(C) {
                 return ot(C.toString(16), 2, "0");
               }, w);
@@ -216,16 +216,16 @@ function Xt() {
             }, q), (a = (8 * (s.to > 0 ? s.to - 1 : s.to)).toString(16).length) < 2 && (a = 2);
           } else {
             var T = t.split(/\r\n|[\n\r\u2028\u2029]/);
-            n = h.column - 1, i = h.line - 1, s = yt(i, kt, qt, T.length), u = T.slice(s.from, s.to), a = s.to.toString().length;
+            n = h.column - 1, i = h.line - 1, s = Et(i, kt, qt, T.length), u = T.slice(s.from, s.to), a = s.to.toString().length;
           }
           var Ct = i - s.from;
           return L(t) && (a = (8 * (s.to > 0 ? s.to - 1 : s.to)).toString(16).length) < 2 && (a = 2), x(function(w, C, H) {
-            var V, X = H === Ct, Y = X ? "> " : vt;
-            return V = L(t) ? ot((8 * (s.from + H)).toString(16), a, "0") : ot((s.from + H + 1).toString(), a, " "), [].concat(w, [Y + V + " | " + C], X ? [vt + it(" ", a) + " | " + ot("", n, " ") + it("^", S)] : []);
+            var V, X = H === Ct, Y = X ? "> " : yt;
+            return V = L(t) ? ot((8 * (s.from + H)).toString(16), a, "0") : ot((s.from + H + 1).toString(), a, " "), [].concat(w, [Y + V + " | " + C], X ? [yt + it(" ", a) + " | " + ot("", n, " ") + it("^", S)] : []);
           }, [], u).join(`
 `);
         }
-        function Et(t, r) {
+        function wt(t, r) {
           return [`
 `, "-- PARSING FAILED " + it("-", 50), `
 
@@ -239,17 +239,17 @@ function Xt() {
 `].join("");
           var n;
         }
-        function wt(t) {
+        function xt(t) {
           return t.flags !== void 0 ? t.flags : [t.global ? "g" : "", t.ignoreCase ? "i" : "", t.multiline ? "m" : "", t.unicode ? "u" : "", t.sticky ? "y" : ""].join("");
         }
         function ut() {
           for (var t = [].slice.call(arguments), r = t.length, n = 0; n < r; n += 1) G(t[n]);
           return o(function(i, u) {
             for (var s, a = new Array(r), h = 0; h < r; h += 1) {
-              if (!(s = j(t[h]._(i, u), s)).status) return s;
+              if (!(s = P(t[h]._(i, u), s)).status) return s;
               a[h] = s.value, u = s.index;
             }
-            return j(b(u, a), s);
+            return P(b(u, a), s);
           });
         }
         function F() {
@@ -265,11 +265,11 @@ function Xt() {
           if (r === 0) return at("zero alternates");
           for (var n = 0; n < r; n += 1) G(t[n]);
           return o(function(i, u) {
-            for (var s, a = 0; a < t.length; a += 1) if ((s = j(t[a]._(i, u), s)).status) return s;
+            for (var s, a = 0; a < t.length; a += 1) if ((s = P(t[a]._(i, u), s)).status) return s;
             return s;
           });
         }
-        function xt(t, r) {
+        function Nt(t, r) {
           return pt(t, r).or(z([]));
         }
         function pt(t, r) {
@@ -288,13 +288,13 @@ function Xt() {
         function A(t, r) {
           (function(u) {
             if (!(u instanceof RegExp)) throw new Error("not a regexp: " + u);
-            for (var s = wt(u), a = 0; a < s.length; a++) {
+            for (var s = xt(u), a = 0; a < s.length; a++) {
               var h = s.charAt(a);
               if (h !== "i" && h !== "m" && h !== "u" && h !== "s") throw new Error('unsupported regexp flag "' + h + '": ' + u);
             }
           })(t), arguments.length >= 2 ? U(r) : r = 0;
           var n = function(u) {
-            return RegExp("^(?:" + u.source + ")", wt(u));
+            return RegExp("^(?:" + u.source + ")", xt(u));
           }(t), i = "" + t;
           return o(function(u, s) {
             var a = n.exec(u.slice(s));
@@ -327,7 +327,7 @@ function Xt() {
           if (t instanceof RegExp) return ft(A(t));
           throw new Error("not a string, regexp, or parser: " + t);
         }
-        function Nt(t) {
+        function St(t) {
           return G(t), o(function(r, n) {
             var i = t._(r, n), u = r.slice(n, i.index);
             return i.status ? B(n, 'not "' + u + '"') : b(n, null);
@@ -339,7 +339,7 @@ function Xt() {
             return n < r.length && t(i) ? b(n + 1, i) : B(n, "a character/byte matching " + t);
           });
         }
-        function St(t, r) {
+        function Bt(t, r) {
           arguments.length < 2 && (r = t, t = void 0);
           var n = o(function(i, u) {
             return n._ = r()._, n._(i, u);
@@ -352,11 +352,11 @@ function Xt() {
         f.parse = function(t) {
           if (typeof t != "string" && !L(t)) throw new Error(".parse must be called with a string or Buffer as its argument");
           var r, n = this.skip(gt)._(t, 0);
-          return r = n.status ? { status: !0, value: n.value } : { status: !1, index: bt(t, n.furthest), expected: n.expected }, delete nt[t], r;
+          return r = n.status ? { status: !0, value: n.value } : { status: !1, index: vt(t, n.furthest), expected: n.expected }, delete nt[t], r;
         }, f.tryParse = function(t) {
           var r = this.parse(t);
           if (r.status) return r.value;
-          var n = Et(t, r), i = new Error(n);
+          var n = wt(t, r), i = new Error(n);
           throw i.type = "ParsimmonError", i.result = r, i;
         }, f.assert = function(t, r) {
           return this.chain(function(n) {
@@ -380,7 +380,7 @@ function Xt() {
           var t = this;
           return o(function(r, n) {
             for (var i = [], u = void 0; ; ) {
-              if (!(u = j(t._(r, n), u)).status) return j(b(n, i), u);
+              if (!(u = P(t._(r, n), u)).status) return P(b(n, i), u);
               if (n === u.index) throw new Error("infinite loop detected in .many() parser --- calling .many() on a parser which can accept zero characters is usually the cause");
               n = u.index, i.push(u.value);
             }
@@ -402,11 +402,11 @@ function Xt() {
           var n = this;
           return arguments.length < 2 && (r = t), U(t), U(r), o(function(i, u) {
             for (var s = [], a = void 0, h = void 0, v = 0; v < t; v += 1) {
-              if (h = j(a = n._(i, u), h), !a.status) return h;
+              if (h = P(a = n._(i, u), h), !a.status) return h;
               u = a.index, s.push(a.value);
             }
-            for (; v < r && (h = j(a = n._(i, u), h), a.status); v += 1) u = a.index, s.push(a.value);
-            return j(b(u, s), h);
+            for (; v < r && (h = P(a = n._(i, u), h), a.status); v += 1) u = a.index, s.push(a.value);
+            return P(b(u, s), h);
           });
         }, f.result = function(t) {
           return this.map(function() {
@@ -423,7 +423,7 @@ function Xt() {
           var r = this;
           return o(function(n, i) {
             var u = r._(n, i);
-            return u.status ? j(b(u.index, t(u.value)), u) : u;
+            return u.status ? P(b(u.index, t(u.value)), u) : u;
           });
         }, f.contramap = function(t) {
           M(t);
@@ -447,13 +447,13 @@ function Xt() {
             return { name: t, value: n, start: r, end: i };
           });
         }, f.sepBy = function(t) {
-          return xt(this, t);
+          return Nt(this, t);
         }, f.sepBy1 = function(t) {
           return pt(this, t);
         }, f.lookahead = function(t) {
           return this.skip(ft(t));
         }, f.notFollowedBy = function(t) {
-          return this.skip(Nt(t));
+          return this.skip(St(t));
         }, f.desc = function(t) {
           E(t) || (t = [t]);
           var r = this;
@@ -471,35 +471,35 @@ function Xt() {
           var r = this;
           return o(function(n, i) {
             var u = r._(n, i);
-            return u.status ? j(t(u.value)._(n, u.index), u) : u;
+            return u.status ? P(t(u.value)._(n, u.index), u) : u;
           });
         }, f.concat = f.or, f.empty = mt, f.of = z, f["fantasy-land/ap"] = f.ap, f["fantasy-land/chain"] = f.chain, f["fantasy-land/concat"] = f.concat, f["fantasy-land/empty"] = f.empty, f["fantasy-land/of"] = f.of, f["fantasy-land/map"] = f.map;
         var Q = o(function(t, r) {
-          return b(r, bt(t, r));
+          return b(r, vt(t, r));
         }), Ft = o(function(t, r) {
           return r >= t.length ? B(r, "any character/byte") : b(r + 1, et(t, r));
         }), zt = o(function(t, r) {
           return b(t.length, t.slice(r));
         }), gt = o(function(t, r) {
           return r < t.length ? B(r, "EOF") : b(r, null);
-        }), Vt = A(/[0-9]/).desc("a digit"), Dt = A(/[0-9]*/).desc("optional digits"), Wt = A(/[a-z]/i).desc("a letter"), $t = A(/[a-z]*/i).desc("optional letters"), Gt = A(/\s*/).desc("optional whitespace"), Ut = A(/\s+/).desc("whitespace"), Bt = K("\r"), _t = K(`
+        }), Vt = A(/[0-9]/).desc("a digit"), Dt = A(/[0-9]*/).desc("optional digits"), Wt = A(/[a-z]/i).desc("a letter"), $t = A(/[a-z]*/i).desc("optional letters"), Gt = A(/\s*/).desc("optional whitespace"), Ut = A(/\s+/).desc("whitespace"), _t = K("\r"), jt = K(`
 `), Pt = K(`\r
-`), jt = st(Pt, _t, Bt).desc("newline"), Tt = st(jt, gt);
-        o.all = zt, o.alt = st, o.any = Ft, o.cr = Bt, o.createLanguage = function(t) {
+`), Ot = st(Pt, jt, _t).desc("newline"), Tt = st(Ot, gt);
+        o.all = zt, o.alt = st, o.any = Ft, o.cr = _t, o.createLanguage = function(t) {
           var r = {};
           for (var n in t) ({}).hasOwnProperty.call(t, n) && function(i) {
-            r[i] = St(function() {
+            r[i] = Bt(function() {
               return t[i](r);
             });
           }(n);
           return r;
         }, o.crlf = Pt, o.custom = function(t) {
           return o(t(b, B));
-        }, o.digit = Vt, o.digits = Dt, o.empty = mt, o.end = Tt, o.eof = gt, o.fail = at, o.formatError = Et, o.index = Q, o.isParser = d, o.lazy = St, o.letter = Wt, o.letters = $t, o.lf = _t, o.lookahead = ft, o.makeFailure = B, o.makeSuccess = b, o.newline = jt, o.noneOf = function(t) {
+        }, o.digit = Vt, o.digits = Dt, o.empty = mt, o.end = Tt, o.eof = gt, o.fail = at, o.formatError = wt, o.index = Q, o.isParser = d, o.lazy = Bt, o.letter = Wt, o.letters = $t, o.lf = jt, o.lookahead = ft, o.makeFailure = B, o.makeSuccess = b, o.newline = Ot, o.noneOf = function(t) {
           return ct(function(r) {
             return t.indexOf(r) < 0;
           }).desc("none of '" + t + "'");
-        }, o.notFollowedBy = Nt, o.of = z, o.oneOf = function(t) {
+        }, o.notFollowedBy = St, o.of = z, o.oneOf = function(t) {
           for (var r = t.split(""), n = 0; n < r.length; n++) r[n] = "'" + r[n] + "'";
           return ct(function(i) {
             return t.indexOf(i) >= 0;
@@ -508,7 +508,7 @@ function Xt() {
           return ct(function(n) {
             return t <= n && n <= r;
           }).desc(t + "-" + r);
-        }, o.regex = A, o.regexp = A, o.sepBy = xt, o.sepBy1 = pt, o.seq = ut, o.seqMap = F, o.seqObj = function() {
+        }, o.regex = A, o.regexp = A, o.sepBy = Nt, o.sepBy1 = pt, o.seq = ut, o.seqMap = F, o.seqObj = function() {
           for (var t, r = {}, n = 0, i = (t = arguments, Array.prototype.slice.call(t)), u = i.length, s = 0; s < u; s += 1) {
             var a = i[s];
             if (!d(a)) {
@@ -525,10 +525,10 @@ function Xt() {
           return o(function(v, S) {
             for (var N, k = {}, _ = 0; _ < u; _ += 1) {
               var q, T;
-              if (E(i[_]) ? (q = i[_][0], T = i[_][1]) : (q = null, T = i[_]), !(N = j(T._(v, S), N)).status) return N;
+              if (E(i[_]) ? (q = i[_][0], T = i[_][1]) : (q = null, T = i[_]), !(N = P(T._(v, S), N)).status) return N;
               q && (k[q] = N.value), S = N.index;
             }
-            return j(b(S, k), N);
+            return P(b(S, k), N);
           });
         }, o.string = K, o.succeed = z, o.takeWhile = function(t) {
           return M(t), o(function(r, n) {
@@ -567,20 +567,20 @@ function Xt() {
             return u === t ? b(i + 1, u) : B(i, r);
           });
         }, buffer: function(t) {
-          return P("buffer", t).map(function(r) {
+          return j("buffer", t).map(function(r) {
             return Buffer.from(r);
           });
         }, encodedString: function(t, r) {
-          return P("string", r).map(function(n) {
+          return j("string", r).map(function(n) {
             return n.toString(t);
           });
-        }, uintBE: Z, uint8BE: Z(1), uint16BE: Z(2), uint32BE: Z(4), uintLE: $, uint8LE: $(1), uint16LE: $(2), uint32LE: $(4), intBE: m, int8BE: m(1), int16BE: m(2), int32BE: m(4), intLE: y, int8LE: y(1), int16LE: y(2), int32LE: y(4), floatBE: P("floatBE", 4).map(function(t) {
+        }, uintBE: Z, uint8BE: Z(1), uint16BE: Z(2), uint32BE: Z(4), uintLE: $, uint8LE: $(1), uint16LE: $(2), uint32LE: $(4), intBE: m, int8BE: m(1), int16BE: m(2), int32BE: m(4), intLE: y, int8LE: y(1), int16LE: y(2), int32LE: y(4), floatBE: j("floatBE", 4).map(function(t) {
           return t.readFloatBE(0);
-        }), floatLE: P("floatLE", 4).map(function(t) {
+        }), floatLE: j("floatLE", 4).map(function(t) {
           return t.readFloatLE(0);
-        }), doubleBE: P("doubleBE", 8).map(function(t) {
+        }), doubleBE: j("doubleBE", 8).map(function(t) {
           return t.readDoubleBE(0);
-        }), doubleLE: P("doubleLE", 8).map(function(t) {
+        }), doubleLE: j("doubleLE", 8).map(function(t) {
           return t.readDoubleLE(0);
         }) }, c.exports = o;
       }]);
@@ -588,7 +588,7 @@ function Xt() {
   }(lt)), lt.exports;
 }
 var g = Xt();
-class Lt {
+class bt {
   constructor(e, c = "\\") {
     this.val = e;
     function l(m) {
@@ -638,7 +638,7 @@ class Lt {
       g.alt(
         g.regex(/-?(0|[1-9][0-9]*)/)
       ).map((m) => dt(m))
-    ).map((m) => ["!num!", m]).desc("number"), ht = g.string("null").map(() => ["!str!", null]), tt = g.regex(/(true|false)/).map((m) => ["!bool!", m === "true"]).desc("boolean"), D = g.regex(new RegExp(`(?:"(?:\\${c}["'#\\n]|[^"])*"|'(?:\\${c}["'#\\n]|[^'])*'|\\#(?:\\${c}["'#\\n]|[^#])*\\#)`)).map((m) => ["!str!", m.slice(1, -1).replaceAll(c, "")]).desc("string"), rt = /\[[^\]]+\]/g, P = g.regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-/:-@[-^`{-~]+(?:\.[^\s!-/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/).map((m) => {
+    ).map((m) => ["!num!", m]).desc("number"), ht = g.string("null").map(() => ["!str!", null]), tt = g.regex(/(true|false)/).map((m) => ["!bool!", m === "true"]).desc("boolean"), D = g.regex(new RegExp(`(?:"(?:\\${c}["'#\\n]|[^"])*"|'(?:\\${c}["'#\\n]|[^'])*'|\\#(?:\\${c}["'#\\n]|[^#])*\\#)`)).map((m) => ["!str!", m.slice(1, -1).replaceAll(c, "")]).desc("string"), rt = /\[[^\]]+\]/g, j = g.regex(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-/:-@[-^`{-~]+(?:\.[^\s!-/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/).map((m) => {
       const y = m.replaceAll(
         rt,
         (E) => (
@@ -648,7 +648,7 @@ class Lt {
       ), d = this.val.getVal(y);
       return d == null ? ["!str!", d] : typeof d == "boolean" ? ["!bool!", d] : Object.prototype.toString.call(d) === "[object String]" ? ["!str!", String(d)] : ["!num!", Number(d)];
     }).desc("string"), W = g.lazy(
-      () => g.string("(").then(this.#e).skip(g.string(")")).or(O).or(ht).or(tt).or(D).or(P)
+      () => g.string("(").then(this.#e).skip(g.string(")")).or(O).or(ht).or(tt).or(D).or(j)
     ), $ = [
       // 演算子の優先順位 - JavaScript | MDN https://developer.mozilla.org/ja/docs/Web/JavaScript/Reference/Operators/Operator_precedence
       // 優先順位：18（メンバーへのアクセス、計算値によるメンバーへのアクセス）
@@ -762,7 +762,7 @@ class Lt {
     // 小なり、以下、大なり、以上
     "==": (e) => {
       const c = this.#t(e.shift()), l = this.#t(e.shift());
-      return c == null && l == null && (!c || !l) ? c == l : String(c) === String(l);
+      return c == null && l == null ? c == l : String(c) === String(l);
     },
     "!=": (e) => !this.#r["=="](e),
     "===": (e) => {
@@ -807,13 +807,15 @@ class Lt {
     const l = this.#u.exec(e.trim())?.groups;
     if (!l) return null;
     const { scope: p = "tmp", name: o, at: f = "" } = l;
+    if (!bt.#s.includes(p)) throw `[変数に値セット] scopeが異常【${p}】です`;
     return {
       scope: p,
-      name: Lt.#s(o),
+      name: bt.#a(o),
       at: f
     };
   }
-  static #s(e) {
+  static #s = ["tmp", "sys", "save", "mp"];
+  static #a(e) {
     let c = 0, l = 0, p = e;
     for (; ; ) {
       if (c = p.indexOf('["'), c < 0) {
@@ -828,6 +830,6 @@ class Lt {
   }
 }
 export {
-  Lt as PropParser
+  bt as PropParser
 };
 //# sourceMappingURL=PropParser.js.map

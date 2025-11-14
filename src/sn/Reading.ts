@@ -175,7 +175,8 @@ export class ReadingState {
 		const ke = ReadingState.getEvt2Fnc(key);
 		if (! ke) return;		// 予約されていないイベントなので無視
 
-		e.stopImmediatePropagation();
+		// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+		e.stopImmediatePropagation?.();
 		if (! key.startsWith('dom=') && Reading.layMng.clickTxtLay()) return;
 
 		ke(e);

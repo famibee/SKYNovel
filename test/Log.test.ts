@@ -5,7 +5,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import type {T_HTag} from '../src/sn/Grammar';
+import type {T_HTag, TArg} from '../src/sn/Grammar';
 import {Log} from '../src/sn/Log';
 import {SysTest} from './SysTest';
 import {Config} from '../src/sn/Config';
@@ -155,8 +155,7 @@ it('rec_ch_badChar', ()=> {
 	.toBe('[{"text":"\\"\\\\","name":"😈"}]');
 });
 it('rec_ch_other_arg', ()=> {
-	// eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-explicit-any
-	hTag.rec_ch(<any>{name:'オーメン', col: '0xD4C', v: true});
+	hTag.rec_ch(<TArg>{name:'オーメン', col: '0xD4C', v: true});
 
 	expect(out_ch).toBe('');
 	expect(val.getVal('save:const.sn.sLog', 'def'))
