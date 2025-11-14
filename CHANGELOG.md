@@ -1,3 +1,10 @@
+## [1.64.13](https://github.com/famibee/SKYNovel/compare/v1.64.12...v1.64.13) (2025-11-14)
+
+
+### Bug Fixes
+
+* **src/sn/Reading.ts:** 下キーなど押しっぱなしスキップが効かない件 ([7e5920f](https://github.com/famibee/SKYNovel/commit/7e5920f110cc9367eb7b7a31e7dc294c931dfbc1))
+
 - fix(src/sn/Reading.ts): 下キーなど押しっぱなしスキップが効かない件
 	- v1.62.0 (2025-08-27)【イベント処理の状態遷移を簡素化、整理】でのデグレード
 
