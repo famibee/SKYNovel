@@ -1,3 +1,10 @@
+## [1.64.12](https://github.com/famibee/SKYNovel/compare/v1.64.11...v1.64.12) (2025-11-14)
+
+
+### Bug Fixes
+
+* **src/sn/ScriptIterator.ts:** Fスキップ時に処理の流れが狂う場合がある件 ([02ca1c4](https://github.com/famibee/SKYNovel/commit/02ca1c424d8637cde4f788c23c54db9151b5b20f))
+
 - fix(src/sn/ScriptIterator.ts): Fスキップ時に処理の流れが狂う場合がある件
 	- スキップ時の [wt] で同期的にトランス終了させるよう
 	- キー押しっぱなしスキップなどでの処理が動いていなかった
