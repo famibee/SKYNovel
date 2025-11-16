@@ -1,3 +1,6 @@
+- fix(src/sn/LayerMng.ts): [quake] 後の [wq] で一度クリックしないと次へ進まない件
+
+
 ## [1.64.13](https://github.com/famibee/SKYNovel/compare/v1.64.12...v1.64.13) (2025-11-14)
 
 

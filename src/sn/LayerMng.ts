@@ -785,6 +785,8 @@ void main() {
 			this.#spTransFore.visible = false;
 			this.#spTransFore.x = 0;	// 必須、onUpdate は toの値にしてくれない
 			this.#spTransFore.y = 0;
+
+			Reading.notifyEndProc(TW_NM_TRANS);
 		}, ()=> { /* empty */ });
 		ticker.add(fncRender);
 
