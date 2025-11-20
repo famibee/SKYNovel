@@ -1,3 +1,6 @@
+- fix(src/sn/SndBuf.ts): 再生完了した際に、状態変化させていなかったケースがあった件
+
+
 ## [1.64.14](https://github.com/famibee/SKYNovel/compare/v1.64.13...v1.64.14) (2025-11-16)
 
 

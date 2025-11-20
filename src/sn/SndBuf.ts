@@ -38,7 +38,7 @@ class SndInf {
 			readonly	pan		: number,
 			readonly	snd		: Sound | null,
 	) {
-		this.stt = snd ?new SsPlaying(this) :new SsLoading;
+		this.stt = snd ?new SsPlaying(this) :new SsLoading(this);
 		this.#proc_id = Reading.procID;
 		if (snd) this.addSnd(snd);
 	}
@@ -272,7 +272,7 @@ export class SndBuf {
 				const d = snd.duration;
 				const start	= ret_ms /1000;
 				const end	= end_ms /1000;
-				if (d <= start) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <=  ret_ms:${ret_ms} は異常値です`);
+				if (d <= start) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <= ret_ms:${ret_ms} は異常値です`);
 
 				void snd.play({	// 一周目はループなし、なのでキャッシュされてる
 					...o,
@@ -389,10 +389,11 @@ type ISndState = {
 }
 
 class SsLoading implements ISndState {
+	constructor(readonly si: SndInf) {}
 	onLoad(si: SndInf)	{si.stt = new SsPlaying(si)}
 	stopse(si: SndInf)	{si.stt = new SsStop(si, false)}
 	ws =()=> false;
-	onPlayEnd() { /* empty */ }		// ok
+	onPlayEnd() {this.si.stt = new SsStop(this.si, false)}	// ok
 	fade() { /* empty */ }			// ok
 	wf =()=> false;					// ok
 	compFade() { /* empty */ }		// ok
@@ -425,7 +426,7 @@ class SsPlaying implements ISndState {
 		Reading.beginProc(si.procID +'ws', fin, true, canskip ?fin :undefined);
 		return true;
 	}
-	onPlayEnd() { /* empty */ }		// ok
+	onPlayEnd() {this.si.stt = new SsStop(this.si, false)}	// ok
 	fade(si: SndInf, hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
 
@@ -493,7 +494,10 @@ class SsWaitingStop implements ISndState {
 	onLoad() { /* empty */ }		// ok
 	stopse(si: SndInf)	{si.stt = new SsStop(si)}
 	ws =()=> false;					// ok
-	onPlayEnd()	{Reading.notifyEndProc(this.si.procID +'ws')}
+	onPlayEnd()	{					// ok
+		this.si.stt = new SsStop(this.si, false);
+		Reading.notifyEndProc(this.si.procID +'ws');
+	}
 	fade() { /* empty */ }			// ok
 	wf =()=> false;					// ok
 	compFade() { /* empty */ }		// ok
@@ -506,7 +510,7 @@ class SsFade implements ISndState {
 	onLoad() { /* empty */ }		// ok
 	stopse(si: SndInf)	{this.stopfadese(); si.stt = new SsStop(si)}	// 順番厳守
 	ws =()=> false;					// ok ?
-	onPlayEnd() { /* empty */ }		// ok
+	onPlayEnd() {this.stopfadese(); this.si.stt = new SsStop(this.si, false)}	// ok
 	fade() { /* empty */ }			// ok
 	wf(si: SndInf, hArg: TArg) {
 		si.stt = new SsWaitingFade(si);
@@ -526,8 +530,8 @@ class SsWaitingFade implements ISndState {
 	constructor(private readonly si: SndInf) {}
 	onLoad() { /* empty */ }		// ok
 	stopse(si: SndInf)	{this.stopfadese(); si.stt = new SsStop(si)}
-	ws =()=> false;		// ok
-	onPlayEnd() { /* empty */ }		// ok
+	ws =()=> false;					// ok
+	onPlayEnd() {this.stopfadese(); this.si.stt = new SsStop(this.si, false)}	// ok
 	fade() { /* empty */ }			// ok
 	wf =()=> false;					// ok
 	compFade() {Reading.notifyEndProc(this.si.procID +'wf')}
@@ -546,9 +550,9 @@ class SsStop implements ISndState {
 		si.destroy = ()=> { /* empty */ };	// 再度コール時エラー対策
 	}
 	onLoad() { /* empty */ }		// ok
-	stopse() { /* empty */ }		// ok
-	ws =()=> false;		// ok
-	onPlayEnd() { /* empty */ }		// ok
+	stopse() {/* empty */ }			// ok
+	ws =()=> false;					// ok
+	onPlayEnd() {/* empty */ }		// ok
 	fade() { /* empty */ }			// ok
 	wf =()=> false;		// ok
 	compFade() { /* empty */ }		// ok
