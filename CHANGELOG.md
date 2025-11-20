@@ -1,3 +1,10 @@
+## [1.64.15](https://github.com/famibee/SKYNovel/compare/v1.64.14...v1.64.15) (2025-11-20)
+
+
+### Bug Fixes
+
+* **src/sn/SndBuf.ts:** 再生完了した際に、状態変化させていなかったケースがあった件 ([8cefe9d](https://github.com/famibee/SKYNovel/commit/8cefe9d5af7aa2fd82de4cbc5acbfd84888f7330))
+
 - fix(src/sn/SndBuf.ts): 再生完了した際に、状態変化させていなかったケースがあった件
 
 
