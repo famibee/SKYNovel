@@ -6,7 +6,7 @@
 	http://opensource.org/licenses/mit-license.php
 ** ***** END LICENSE BLOCK ***** */
 
-import {type IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
+import {CmnLib, type IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
 import type {T_Variable, T_Main} from './CmnInterface';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import type {Config} from './Config';
@@ -54,6 +54,22 @@ class SndInf {
 		this.onPlayEnd = ()=> {this.stt.onPlayEnd(this.buf); this.#onStop()};
 		this.stop = ()=> {snd.stop(); this.#onStop()};
 		this.destroy = ()=> snd.destroy();
+
+		// タブのミュート中や AudioContext.state === 'suspended' の場合は
+		//	再生もされないので再生終了イベントも発生しないため、タイマーで擬似的に発生させる
+		if (! this.loop && CmnLib.needClick2Play()) {
+			setTimeout(()=> this.onPlayEnd(), (
+				snd.duration
+				-this.start_ms
+				-(this.end_ms <= 0
+					// 負の値は「末尾から何ms手前を終端とするか」
+					? this.end_ms
+					// 正の値は「冒頭から何ms目を終端とするか」
+					: this.end_ms === SndBuf.MAX_END_MS
+					? 0		// ありえない巨大定数 = 音声ファイルの末端
+					: snd.duration -this.end_ms)
+			) *1000);
+		}
 
 		switch (this.buf) {		// セリフ再生中はBGM音量を絞る
 			case BUF_VOICE:{
@@ -153,7 +169,7 @@ export class SndBuf {
 	}
 
 
-	static	readonly	#MAX_END_MS	= 999000;
+	static	readonly	MAX_END_MS	= 999000;
 
 
 	readonly #si		: SndInf;
@@ -166,7 +182,7 @@ export class SndBuf {
 		readonly fn		: string,
 	) {
 		const start_ms = argChk_Num(hArg, 'start_ms', 0);
-		const end_ms = argChk_Num(hArg, 'end_ms', SndBuf.#MAX_END_MS);
+		const end_ms = argChk_Num(hArg, 'end_ms', SndBuf.MAX_END_MS);
 		const ret_ms = argChk_Num(hArg, 'ret_ms', 0);
 		const pan = argChk_Num(hArg, 'pan', 0);
 		const speed = argChk_Num(hArg, 'speed', 1);
@@ -228,7 +244,7 @@ export class SndBuf {
 
 		// start_ms・end_ms機能→@pixi/sound準備
 		let sp_nm = '';
-		if (0 < start_ms || end_ms < SndBuf.#MAX_END_MS) {
+		if (0 < start_ms || end_ms < SndBuf.MAX_END_MS) {
 			sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
 			const os = (o.sprites ??= {})[sp_nm] = {
 				start	: start_ms /1000,
@@ -252,7 +268,7 @@ export class SndBuf {
 				if (os.end <= os.start) main.errScript(`[playse] end_ms:${end_ms}(${os.end *1000}) >= start_ms:${start_ms} は異常値です`);
 				if (os.end *1000 <= ret_ms) main.errScript(`[playse] end_ms:${end_ms}(${os.end *1000}) <= ret_ms:${ret_ms} は異常値です`);
 				if (d <= os.start) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <= start_ms:${start_ms} は異常値です`);
-				if (end_ms !== SndBuf.#MAX_END_MS && d <= os.end) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <= end_ms:${end_ms} は異常値です`);
+				if (end_ms !== SndBuf.MAX_END_MS && d <= os.end) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <= end_ms:${end_ms} は異常値です`);
 
 				void s2.play(sp_nm, snd=> o.complete?.(snd));
 					// 流れ的にはすぐ下の「ループなし/あり」を呼ぶ

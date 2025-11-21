@@ -144,6 +144,7 @@ export class SysBase implements T_SysRoots, T_SysBase {
 		val.defTmp('const.sn.isApp', ()=> this.isApp);
 		val.defTmp('const.sn.isDbg', ()=> CmnLib.isDbg);
 		val.defTmp('const.sn.isPackaged', ()=> CmnLib.isPackaged);
+		val.defTmp('const.sn.needClick2Play', ()=> CmnLib.needClick2Play());
 
 		val.defTmp('const.sn.displayState', ()=> this.isFullScr);
 

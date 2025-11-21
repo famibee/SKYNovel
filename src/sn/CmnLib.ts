@@ -205,6 +205,17 @@ export class CmnLib {
 	static	isDbg		= false;
 	static	isPackaged	= false;
 
+	static	needClick2Play(): boolean {
+		if ('AudioContext' in globalThis) {
+			CmnLib.#ac = new globalThis.AudioContext;
+			CmnLib.needClick2Play = ()=> CmnLib.#ac.state === 'suspended';
+		}
+		else CmnLib.needClick2Play = ()=> false;
+
+		return CmnLib.needClick2Play();
+	}
+	static	#ac: AudioContext;
+
 	static	isDarkMode	= false;
 
 	static	cc4ColorName: CanvasRenderingContext2D;

@@ -18,6 +18,7 @@ export declare class SndBuf {
     static delLoopPlay(buf: string): void;
     static getVol(hArg: TArg, def: number): number;
     static xchgbuf({ buf: buf1, buf2 }: TArg): void;
+    static readonly MAX_END_MS = 999000;
     readonly needLoad: boolean;
     constructor(hArg: TArg, buf: string, fn: string);
     setVol(vol: number): void;

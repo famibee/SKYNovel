@@ -30,6 +30,7 @@ export type T_DIP = {
     [name: string]: string;
 };
 export declare class CmnLib {
+    #private;
     static init(): Promise<void>;
     static stageW: number;
     static stageH: number;
@@ -43,6 +44,7 @@ export declare class CmnLib {
     static hDip: T_DIP;
     static isDbg: boolean;
     static isPackaged: boolean;
+    static needClick2Play(): boolean;
     static isDarkMode: boolean;
     static cc4ColorName: CanvasRenderingContext2D;
 }

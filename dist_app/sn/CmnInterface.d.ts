@@ -145,7 +145,7 @@ export type T_H_TMP_DATA = {
     'const.sn.last_page_text': string;
     'const.sn.Math.PI': number;
     'const.sn.navigator.language': string;
-    'const.sn.needClick2Play': () => boolean;
+    'const.sn.needClick2Play': boolean;
     'const.sn.platform': string;
     'const.sn.screenResolutionX': number;
     'const.sn.screenResolutionY': number;

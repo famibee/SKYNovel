@@ -53,8 +53,8 @@ function co(i) {
   const t = Number(i);
   if (!isNaN(t)) return t;
   if (i === "black") return 0;
-  L.cc4ColorName.fillStyle = i;
-  const e = L.cc4ColorName.fillStyle;
+  D.cc4ColorName.fillStyle = i;
+  const e = D.cc4ColorName.fillStyle;
   if (e === "#000000") throw `色名前 ${i} が異常です`;
   return parseInt(e.slice(1), 16);
 }
@@ -74,7 +74,7 @@ const vo = /^[^/.]+$|[^/]+(?=\.)/;
 function Zv(i) {
   return (vo.exec(i) ?? [""])[0];
 }
-class L {
+class D {
   static async init() {
     const t = await import("./platform.js").then((e) => e.p);
     this.platform = JSON.stringify(t), this.plat_desc = t.description ?? "", this.isSafari = t.name === "Safari", this.isFirefox = t.name === "Firefox", this.isMac = (t.os?.family ?? "").includes("OS X"), this.isMobile = !/(Windows|OS X)/.test(t.os?.family ?? "");
@@ -91,6 +91,10 @@ class L {
   static hDip = {};
   static isDbg = !1;
   static isPackaged = !1;
+  static needClick2Play() {
+    return "AudioContext" in globalThis ? (D.#t = new globalThis.AudioContext(), D.needClick2Play = () => D.#t.state === "suspended") : D.needClick2Play = () => !1, D.needClick2Play();
+  }
+  static #t;
   static isDarkMode = !1;
   static cc4ColorName;
 }
@@ -132,9 +136,9 @@ function na() {
     // 実数；横座標
     "const.sn.nativeWindow.y": 0,
     // 実数；縦座標
-    "const.sn.nativeWindow.w": L.stageW,
+    "const.sn.nativeWindow.w": D.stageW,
     // 実数；横幅
-    "const.sn.nativeWindow.h": L.stageH,
+    "const.sn.nativeWindow.h": D.stageH,
     // 実数；縦幅
     "const.sn.save.place": 1,
     // 次のセーブplaceを示す
@@ -242,9 +246,9 @@ function Jv() {
     // 円周率
     "const.sn.navigator.language": "jp",
     // ユーザーが最優先に設定している言語設定
-    "const.sn.needClick2Play": typeof globalThis > "u" ? () => !1 : () => new globalThis.AudioContext().state === "suspended",
+    "const.sn.needClick2Play": !1,
     // ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる
-    "const.sn.platform": L.platform,
+    "const.sn.platform": D.platform,
     // 環境による
     "const.sn.screenResolutionX": screen.availWidth,
     // 画面の最大水平解像度
@@ -1112,14 +1116,14 @@ function Lo() {
     m = m || 2;
     var E = x && x.length, I = E ? x[0] * m : g.length, T = t(g, 0, I, m, !0), C = [];
     if (!T || T.next === T.prev) return C;
-    var D, H, z, st, Q, tt, _t;
+    var L, H, z, st, Q, tt, _t;
     if (E && (T = h(g, x, T, m)), g.length > 80 * m) {
-      D = z = g[0], H = st = g[1];
+      L = z = g[0], H = st = g[1];
       for (var J = m; J < I; J += m)
-        Q = g[J], tt = g[J + 1], Q < D && (D = Q), tt < H && (H = tt), Q > z && (z = Q), tt > st && (st = tt);
-      _t = Math.max(z - D, st - H), _t = _t !== 0 ? 32767 / _t : 0;
+        Q = g[J], tt = g[J + 1], Q < L && (L = Q), tt < H && (H = tt), Q > z && (z = Q), tt > st && (st = tt);
+      _t = Math.max(z - L, st - H), _t = _t !== 0 ? 32767 / _t : 0;
     }
-    return r(T, C, m, D, H, _t, 0), C;
+    return r(T, C, m, L, H, _t, 0), C;
   }
   function t(g, x, m, E, I) {
     var T, C;
@@ -1145,12 +1149,12 @@ function Lo() {
   function r(g, x, m, E, I, T, C) {
     if (g) {
       !C && T && d(g, E, I, T);
-      for (var D = g, H, z; g.prev !== g.next; ) {
+      for (var L = g, H, z; g.prev !== g.next; ) {
         if (H = g.prev, z = g.next, T ? s(g, E, I, T) : n(g)) {
-          x.push(H.i / m | 0), x.push(g.i / m | 0), x.push(z.i / m | 0), q(g), g = z.next, D = z.next;
+          x.push(H.i / m | 0), x.push(g.i / m | 0), x.push(z.i / m | 0), q(g), g = z.next, L = z.next;
           continue;
         }
-        if (g = z, g === D) {
+        if (g = z, g === L) {
           C ? C === 1 ? (g = a(e(g), x, m), r(g, x, m, E, I, T, 2)) : C === 2 && o(g, x, m, E, I, T) : r(e(g), x, m, E, I, T, 1);
           break;
         }
@@ -1160,8 +1164,8 @@ function Lo() {
   function n(g) {
     var x = g.prev, m = g, E = g.next;
     if (b(x, m, E) >= 0) return !1;
-    for (var I = x.x, T = m.x, C = E.x, D = x.y, H = m.y, z = E.y, st = I < T ? I < C ? I : C : T < C ? T : C, Q = D < H ? D < z ? D : z : H < z ? H : z, tt = I > T ? I > C ? I : C : T > C ? T : C, _t = D > H ? D > z ? D : z : H > z ? H : z, J = E.next; J !== x; ) {
-      if (J.x >= st && J.x <= tt && J.y >= Q && J.y <= _t && y(I, D, T, H, C, z, J.x, J.y) && b(J.prev, J, J.next) >= 0) return !1;
+    for (var I = x.x, T = m.x, C = E.x, L = x.y, H = m.y, z = E.y, st = I < T ? I < C ? I : C : T < C ? T : C, Q = L < H ? L < z ? L : z : H < z ? H : z, tt = I > T ? I > C ? I : C : T > C ? T : C, _t = L > H ? L > z ? L : z : H > z ? H : z, J = E.next; J !== x; ) {
+      if (J.x >= st && J.x <= tt && J.y >= Q && J.y <= _t && y(I, L, T, H, C, z, J.x, J.y) && b(J.prev, J, J.next) >= 0) return !1;
       J = J.next;
     }
     return !0;
@@ -1169,16 +1173,16 @@ function Lo() {
   function s(g, x, m, E) {
     var I = g.prev, T = g, C = g.next;
     if (b(I, T, C) >= 0) return !1;
-    for (var D = I.x, H = T.x, z = C.x, st = I.y, Q = T.y, tt = C.y, _t = D < H ? D < z ? D : z : H < z ? H : z, J = st < Q ? st < tt ? st : tt : Q < tt ? Q : tt, Mt = D > H ? D > z ? D : z : H > z ? H : z, It = st > Q ? st > tt ? st : tt : Q > tt ? Q : tt, Rt = v(_t, J, x, m, E), ht = v(Mt, It, x, m, E), K = g.prevZ, W = g.nextZ; K && K.z >= Rt && W && W.z <= ht; ) {
-      if (K.x >= _t && K.x <= Mt && K.y >= J && K.y <= It && K !== I && K !== C && y(D, st, H, Q, z, tt, K.x, K.y) && b(K.prev, K, K.next) >= 0 || (K = K.prevZ, W.x >= _t && W.x <= Mt && W.y >= J && W.y <= It && W !== I && W !== C && y(D, st, H, Q, z, tt, W.x, W.y) && b(W.prev, W, W.next) >= 0)) return !1;
+    for (var L = I.x, H = T.x, z = C.x, st = I.y, Q = T.y, tt = C.y, _t = L < H ? L < z ? L : z : H < z ? H : z, J = st < Q ? st < tt ? st : tt : Q < tt ? Q : tt, Mt = L > H ? L > z ? L : z : H > z ? H : z, It = st > Q ? st > tt ? st : tt : Q > tt ? Q : tt, Rt = v(_t, J, x, m, E), ht = v(Mt, It, x, m, E), K = g.prevZ, W = g.nextZ; K && K.z >= Rt && W && W.z <= ht; ) {
+      if (K.x >= _t && K.x <= Mt && K.y >= J && K.y <= It && K !== I && K !== C && y(L, st, H, Q, z, tt, K.x, K.y) && b(K.prev, K, K.next) >= 0 || (K = K.prevZ, W.x >= _t && W.x <= Mt && W.y >= J && W.y <= It && W !== I && W !== C && y(L, st, H, Q, z, tt, W.x, W.y) && b(W.prev, W, W.next) >= 0)) return !1;
       W = W.nextZ;
     }
     for (; K && K.z >= Rt; ) {
-      if (K.x >= _t && K.x <= Mt && K.y >= J && K.y <= It && K !== I && K !== C && y(D, st, H, Q, z, tt, K.x, K.y) && b(K.prev, K, K.next) >= 0) return !1;
+      if (K.x >= _t && K.x <= Mt && K.y >= J && K.y <= It && K !== I && K !== C && y(L, st, H, Q, z, tt, K.x, K.y) && b(K.prev, K, K.next) >= 0) return !1;
       K = K.prevZ;
     }
     for (; W && W.z <= ht; ) {
-      if (W.x >= _t && W.x <= Mt && W.y >= J && W.y <= It && W !== I && W !== C && y(D, st, H, Q, z, tt, W.x, W.y) && b(W.prev, W, W.next) >= 0) return !1;
+      if (W.x >= _t && W.x <= Mt && W.y >= J && W.y <= It && W !== I && W !== C && y(L, st, H, Q, z, tt, W.x, W.y) && b(W.prev, W, W.next) >= 0) return !1;
       W = W.nextZ;
     }
     return !0;
@@ -1194,21 +1198,21 @@ function Lo() {
   function o(g, x, m, E, I, T) {
     var C = g;
     do {
-      for (var D = C.next.next; D !== C.prev; ) {
-        if (C.i !== D.i && S(C, D)) {
-          var H = G(C, D);
+      for (var L = C.next.next; L !== C.prev; ) {
+        if (C.i !== L.i && S(C, L)) {
+          var H = G(C, L);
           C = e(C, C.next), H = e(H, H.next), r(C, x, m, E, I, T, 0), r(H, x, m, E, I, T, 0);
           return;
         }
-        D = D.next;
+        L = L.next;
       }
       C = C.next;
     } while (C !== g);
   }
   function h(g, x, m, E) {
-    var I = [], T, C, D, H, z;
+    var I = [], T, C, L, H, z;
     for (T = 0, C = x.length; T < C; T++)
-      D = x[T] * E, H = T < C - 1 ? x[T + 1] * E : g.length, z = t(g, D, H, E, !1), z === z.next && (z.steiner = !0), I.push(_(z));
+      L = x[T] * E, H = T < C - 1 ? x[T + 1] * E : g.length, z = t(g, L, H, E, !1), z === z.next && (z.steiner = !0), I.push(_(z));
     for (I.sort(u), T = 0; T < I.length; T++)
       m = l(I[T], m);
     return m;
@@ -1227,8 +1231,8 @@ function Lo() {
     var m = x, E = g.x, I = g.y, T = -1 / 0, C;
     do {
       if (I <= m.y && I >= m.next.y && m.next.y !== m.y) {
-        var D = m.x + (I - m.y) * (m.next.x - m.x) / (m.next.y - m.y);
-        if (D <= E && D > T && (T = D, C = m.x < m.next.x ? m : m.next, D === E))
+        var L = m.x + (I - m.y) * (m.next.x - m.x) / (m.next.y - m.y);
+        if (L <= E && L > T && (T = L, C = m.x < m.next.x ? m : m.next, L === E))
           return C;
       }
       m = m.next;
@@ -1252,13 +1256,13 @@ function Lo() {
     I.prevZ.nextZ = null, I.prevZ = null, p(I);
   }
   function p(g) {
-    var x, m, E, I, T, C, D, H, z = 1;
+    var x, m, E, I, T, C, L, H, z = 1;
     do {
       for (m = g, g = null, T = null, C = 0; m; ) {
-        for (C++, E = m, D = 0, x = 0; x < z && (D++, E = E.nextZ, !!E); x++)
+        for (C++, E = m, L = 0, x = 0; x < z && (L++, E = E.nextZ, !!E); x++)
           ;
-        for (H = z; D > 0 || H > 0 && E; )
-          D !== 0 && (H === 0 || !E || m.z <= E.z) ? (I = m, m = m.nextZ, D--) : (I = E, E = E.nextZ, H--), T ? T.nextZ = I : g = I, I.prevZ = T, T = I;
+        for (H = z; L > 0 || H > 0 && E; )
+          L !== 0 && (H === 0 || !E || m.z <= E.z) ? (I = m, m = m.nextZ, L--) : (I = E, E = E.nextZ, H--), T ? T.nextZ = I : g = I, I.prevZ = T, T = I;
         m = E;
       }
       T.nextZ = null, z *= 2;
@@ -1275,8 +1279,8 @@ function Lo() {
     while (x !== g);
     return m;
   }
-  function y(g, x, m, E, I, T, C, D) {
-    return (I - C) * (x - D) >= (g - C) * (T - D) && (g - C) * (E - D) >= (m - C) * (x - D) && (m - C) * (T - D) >= (I - C) * (E - D);
+  function y(g, x, m, E, I, T, C, L) {
+    return (I - C) * (x - L) >= (g - C) * (T - L) && (g - C) * (E - L) >= (m - C) * (x - L) && (m - C) * (T - L) >= (I - C) * (E - L);
   }
   function S(g, x) {
     return g.next.i !== x.i && g.prev.i !== x.i && !F(g, x) && // dones't intersect other edges
@@ -1291,8 +1295,8 @@ function Lo() {
     return g.x === x.x && g.y === x.y;
   }
   function w(g, x, m, E) {
-    var I = M(b(g, x, m)), T = M(b(g, x, E)), C = M(b(m, E, g)), D = M(b(m, E, x));
-    return !!(I !== T && C !== D || I === 0 && P(g, m, x) || T === 0 && P(g, E, x) || C === 0 && P(m, g, E) || D === 0 && P(m, x, E));
+    var I = M(b(g, x, m)), T = M(b(g, x, E)), C = M(b(m, E, g)), L = M(b(m, E, x));
+    return !!(I !== T && C !== L || I === 0 && P(g, m, x) || T === 0 && P(g, E, x) || C === 0 && P(m, g, E) || L === 0 && P(m, x, E));
   }
   function P(g, x, m) {
     return x.x <= Math.max(g.x, m.x) && x.x >= Math.min(g.x, m.x) && x.y <= Math.max(g.y, m.y) && x.y >= Math.min(g.y, m.y);
@@ -1335,13 +1339,13 @@ function Lo() {
   i.deviation = function(g, x, m, E) {
     var I = x && x.length, T = I ? x[0] * m : g.length, C = Math.abs(k(g, 0, T, m));
     if (I)
-      for (var D = 0, H = x.length; D < H; D++) {
-        var z = x[D] * m, st = D < H - 1 ? x[D + 1] * m : g.length;
+      for (var L = 0, H = x.length; L < H; L++) {
+        var z = x[L] * m, st = L < H - 1 ? x[L + 1] * m : g.length;
         C -= Math.abs(k(g, z, st, m));
       }
     var Q = 0;
-    for (D = 0; D < E.length; D += 3) {
-      var tt = E[D] * m, _t = E[D + 1] * m, J = E[D + 2] * m;
+    for (L = 0; L < E.length; L += 3) {
+      var tt = E[L] * m, _t = E[L + 1] * m, J = E[L + 2] * m;
       Q += Math.abs(
         (g[tt] - g[J]) * (g[_t + 1] - g[tt + 1]) - (g[tt] - g[_t]) * (g[J + 1] - g[tt + 1])
       );
@@ -9827,12 +9831,12 @@ function Sd(i, t) {
     h || (s.cap === le.ROUND ? p += ye(b - A * (k - g) * 0.5, R - O * (k - g) * 0.5, b - A * k, R - O * k, b + A * g, R + O * g, c, !0) + 2 : s.cap === le.SQUARE && (p += Gs(b, R, A, O, k, g, !0, c))), c.push(b - A * k, R - O * k), c.push(b + A * g, R + O * g);
     for (var x = 1; x < d - 1; ++x) {
       b = r[(x - 1) * 2], R = r[(x - 1) * 2 + 1], w = r[x * 2], P = r[x * 2 + 1], M = r[(x + 1) * 2], F = r[(x + 1) * 2 + 1], A = -(R - P), O = b - w, q = Math.sqrt(A * A + O * O), A /= q, O /= q, A *= _, O *= _, G = -(P - F), Y = w - M, q = Math.sqrt(G * G + Y * Y), G /= q, Y /= q, G *= _, Y *= _;
-      var m = w - b, E = R - P, I = w - M, T = F - P, C = m * I + E * T, D = E * I - T * m, H = D < 0;
-      if (Math.abs(D) < 1e-3 * Math.abs(C)) {
+      var m = w - b, E = R - P, I = w - M, T = F - P, C = m * I + E * T, L = E * I - T * m, H = L < 0;
+      if (Math.abs(L) < 1e-3 * Math.abs(C)) {
         c.push(w - A * k, P - O * k), c.push(w + A * g, P + O * g), C >= 0 && (s.join === ne.ROUND ? p += ye(w, P, w - A * k, P - O * k, w - G * k, P - Y * k, c, !1) + 4 : p += 2, c.push(w - G * g, P - Y * g), c.push(w + G * k, P + Y * k));
         continue;
       }
-      var z = (-A + b) * (-O + P) - (-A + w) * (-O + R), st = (-G + M) * (-Y + P) - (-G + w) * (-Y + F), Q = (m * st - I * z) / D, tt = (T * z - E * st) / D, _t = (Q - w) * (Q - w) + (tt - P) * (tt - P), J = w + (Q - w) * k, Mt = P + (tt - P) * k, It = w - (Q - w) * g, Rt = P - (tt - P) * g, ht = Math.min(m * m + E * E, I * I + T * T), K = H ? k : g, W = ht + K * K * y, at = _t <= W;
+      var z = (-A + b) * (-O + P) - (-A + w) * (-O + R), st = (-G + M) * (-Y + P) - (-G + w) * (-Y + F), Q = (m * st - I * z) / L, tt = (T * z - E * st) / L, _t = (Q - w) * (Q - w) + (tt - P) * (tt - P), J = w + (Q - w) * k, Mt = P + (tt - P) * k, It = w - (Q - w) * g, Rt = P - (tt - P) * g, ht = Math.min(m * m + E * E, I * I + T * T), K = H ? k : g, W = ht + K * K * y, at = _t <= W;
       at ? s.join === ne.BEVEL || _t / y > S ? (H ? (c.push(J, Mt), c.push(w + A * g, P + O * g), c.push(J, Mt), c.push(w + G * g, P + Y * g)) : (c.push(w - A * k, P - O * k), c.push(It, Rt), c.push(w - G * k, P - Y * k), c.push(It, Rt)), p += 2) : s.join === ne.ROUND ? H ? (c.push(J, Mt), c.push(w + A * g, P + O * g), p += ye(w, P, w + A * g, P + O * g, w + G * g, P + Y * g, c, !0) + 4, c.push(J, Mt), c.push(w + G * g, P + Y * g)) : (c.push(w - A * k, P - O * k), c.push(It, Rt), p += ye(w, P, w - A * k, P - O * k, w - G * k, P - Y * k, c, !1) + 4, c.push(w - G * k, P - Y * k), c.push(It, Rt)) : (c.push(J, Mt), c.push(It, Rt)) : (c.push(w - A * k, P - O * k), c.push(w + A * g, P + O * g), s.join === ne.ROUND ? H ? p += ye(w, P, w + A * g, P + O * g, w + G * g, P + Y * g, c, !0) + 2 : p += ye(w, P, w - A * k, P - O * k, w - G * k, P - Y * k, c, !1) + 2 : s.join === ne.MITER && _t / y <= S && (H ? (c.push(It, Rt), c.push(It, Rt)) : (c.push(J, Mt), c.push(J, Mt)), p += 2), c.push(w - G * k, P - Y * k), c.push(w + G * g, P + Y * g), p += 2);
     }
     b = r[(d - 2) * 2], R = r[(d - 2) * 2 + 1], w = r[(d - 1) * 2], P = r[(d - 1) * 2 + 1], A = -(R - P), O = b - w, q = Math.sqrt(A * A + O * O), A /= q, O /= q, A *= _, O *= _, c.push(w - A * k, P - O * k), c.push(w + A * g, P + O * g), h || (s.cap === le.ROUND ? p += ye(w - A * (k - g) * 0.5, P - O * (k - g) * 0.5, w - A * k, P - O * k, w + A * g, P + O * g, c, !1) + 2 : s.cap === le.SQUARE && (p += Gs(w, P, A, O, k, g, !1, c)));
@@ -12654,9 +12658,9 @@ void main(void)\r
       if (!g[I]) {
         var T = d.pop();
         if (!T) {
-          var C = new ii(), D = void 0, H = void 0;
-          r.distanceFieldType === "none" ? (D = new or(V.EMPTY), H = j.NORMAL) : (D = new or(V.EMPTY, { program: lr.from(vp, pp), uniforms: { uFWidth: 0 } }), H = j.NORMAL_NPM);
-          var z = new ar(C, D);
+          var C = new ii(), L = void 0, H = void 0;
+          r.distanceFieldType === "none" ? (L = new or(V.EMPTY), H = j.NORMAL) : (L = new or(V.EMPTY, { program: lr.from(vp, pp), uniforms: { uFWidth: 0 } }), H = j.NORMAL_NPM);
+          var z = new ar(C, L);
           z.blendMode = H, T = {
             index: 0,
             indexCount: 0,
@@ -17465,7 +17469,7 @@ class Fe {
       r.init().then(() => {
         s = "sys", s += String(r.getVal("sys:TextLayer.Back.Alpha", 1)), s = "kidoku", r.saveKidoku();
       }).catch((a) => console.error(`セーブデータ（${s}）が壊れています。一度クリアする必要があります(b) %o`, a))
-    ), t.close = (a) => this.close(a), t.export = (a) => this._export(a), t.import = (a) => this._import(a), t.navigate_to = (a) => this.navigate_to(a), t.title = (a) => this.title(a), t.toggle_full_screen = (a) => this.#m(a), t.update_check = (a) => this.update_check(a), t.window = (a) => this.window(a), t.title({ text: this.cfg.oCfg.book.title || "SKYNovel" }), r.defTmp("const.sn.isApp", () => this.isApp), r.defTmp("const.sn.isDbg", () => L.isDbg), r.defTmp("const.sn.isPackaged", () => L.isPackaged), r.defTmp("const.sn.displayState", () => this.isFullScr), r.setVal_Nochk("sys", "const.sn.cfg.ns", this.cfg.oCfg.save_ns), r.flush(), L.isDbg && this.attach_debug(this.main), [
+    ), t.close = (a) => this.close(a), t.export = (a) => this._export(a), t.import = (a) => this._import(a), t.navigate_to = (a) => this.navigate_to(a), t.title = (a) => this.title(a), t.toggle_full_screen = (a) => this.#m(a), t.update_check = (a) => this.update_check(a), t.window = (a) => this.window(a), t.title({ text: this.cfg.oCfg.book.title || "SKYNovel" }), r.defTmp("const.sn.isApp", () => this.isApp), r.defTmp("const.sn.isDbg", () => D.isDbg), r.defTmp("const.sn.isPackaged", () => D.isPackaged), r.defTmp("const.sn.needClick2Play", () => D.needClick2Play()), r.defTmp("const.sn.displayState", () => this.isFullScr), r.setVal_Nochk("sys", "const.sn.cfg.ns", this.cfg.oCfg.save_ns), r.flush(), D.isDbg && this.attach_debug(this.main), [
       ...n,
       ...Object.values(this.hPlg).map((a) => a.init({
         getInfo: this.#s,
@@ -17496,8 +17500,8 @@ class Fe {
   }
   #s = () => ({
     window: {
-      width: L.stageW,
-      height: L.stageH
+      width: D.stageW,
+      height: D.stageH
     }
   });
   #e = 0;
@@ -17537,20 +17541,20 @@ class Fe {
       const h = globalThis.getComputedStyle(r);
       t = parseFloat(h.width), e = parseFloat(h.height);
     }
-    if (L.isMobile) {
+    if (D.isMobile) {
       const u = screen.orientation.angle % 180 === 0;
       (u && t > e || !u && t < e) && ([t, e] = [e, t]);
     }
     const s = r.getBoundingClientRect();
-    if (dt(L.hDip, "expanding", !0) || n || L.stageW > t || L.stageH > e)
-      if (L.stageW / L.stageH <= t / e ? (this.#i = e, this.#e = L.stageW / L.stageH * e) : (this.#e = t, this.#i = L.stageH / L.stageW * t), this.#n = this.#e / L.stageW, n)
+    if (dt(D.hDip, "expanding", !0) || n || D.stageW > t || D.stageH > e)
+      if (D.stageW / D.stageH <= t / e ? (this.#i = e, this.#e = D.stageW / D.stageH * e) : (this.#e = t, this.#i = D.stageH / D.stageW * t), this.#n = this.#e / D.stageW, n)
         this.#o = 0, this.#u = 0;
       else {
         const h = 1 - this.#n;
-        L.isMobile ? (this.#o = (t - this.#e) / 2 * h, this.#u = (e - this.#i) / 2 * h) : (this.#o = s.left * h, this.#u = s.top * h);
+        D.isMobile ? (this.#o = (t - this.#e) / 2 * h, this.#u = (e - this.#i) / 2 * h) : (this.#o = s.left * h, this.#u = s.top * h);
       }
     else
-      this.#e = L.stageW, this.#i = L.stageH, this.#n = 1, this.#o = 0, this.#u = 0;
+      this.#e = D.stageW, this.#i = D.stageH, this.#n = 1, this.#o = 0, this.#u = 0;
     const a = r.parentElement.style;
     n || (a.position = "relative", a.width = `${String(this.#e)}px`, a.height = `${String(this.#i)}px`);
     const o = r.style;
@@ -17636,13 +17640,13 @@ class Fe {
     const r = document.createElement("img"), n = Fe.#y[t];
     if (!n) throw new Error(`toast 名ミス=${t}`);
     r.src = `data:image/svg+xml;base64,${n.dat}`;
-    const s = Math.min(L.stageW, L.stageH) / 4 * this.#n;
+    const s = Math.min(D.stageW, D.stageH) / 4 * this.#n;
     r.width = r.height = s, r.style.cssText = `position: absolute;
 left: ${String(
-      (L.stageW - s) / 2 * this.#n + s * (n.dx ?? 0)
+      (D.stageW - s) / 2 * this.#n + s * (n.dx ?? 0)
     )}px;
 top: ${String(
-      (L.stageH - s) / 2 * this.#n + s * (n.dy ?? 0)
+      (D.stageH - s) / 2 * this.#n + s * (n.dy ?? 0)
     )}px;`, r.classList.add("sn_toast", n.ease ?? "sn_BounceInOut"), n.ease || r.addEventListener("animationend", () => e.removeChild(r), { once: !0, passive: !0 }), e.insertBefore(r, this.main.cvs);
   }
   static #y = {
@@ -17780,7 +17784,7 @@ class Z {
   #i = !0;
   #n(t) {
     let e = "";
-    return this.#i && (this.#i = !1, e = `== ${L.plat_desc} ==
+    return this.#i && (this.#i = !1, e = `== ${D.plat_desc} ==
 `), this.sys.appendFile(
       this.sys.path_downloads + "log.txt",
       `${e}--- ${An("-", "_", "")} [fn:${Z.#t.scriptFn} line:${String(Z.#t.lineNum)}] prj:${this.sys.arg.cur}
@@ -17796,7 +17800,7 @@ ${t.text || `(text is ${t.text})`}
     let r = `{${e}} ` + t, n = "";
     switch (e) {
       case "D":
-        n = `color:#${L.isDarkMode ? "49F" : "05A"};`;
+        n = `color:#${D.isDarkMode ? "49F" : "05A"};`;
         break;
       case "W":
         n = "color:#FF8800;";
@@ -17822,7 +17826,7 @@ ${t.text || `(text is ${t.text})`}
     let n = "";
     switch (e) {
       case "D":
-        n = `color:#${L.isDarkMode ? "49F" : "05A"};`;
+        n = `color:#${D.isDarkMode ? "49F" : "05A"};`;
         break;
       case "W":
         n = "color:#F80;";
@@ -17868,7 +17872,7 @@ class n_ extends Fe {
     super(t, e), this.loaded(t, e);
   }
   async loaded(...[t, e]) {
-    await super.loaded(t, e), this.#t = await nt.getInfo(), L.isPackaged = this.#t.isPackaged, this.arg = { ...e, cur: this.#t.getAppPath.replaceAll("\\", "/") + (L.isPackaged ? "/doc/" : "/") + e.cur }, nt.on("log", (r, n) => console.info("main: %o", n)), this.$path_downloads = this.#t.downloads.replaceAll("\\", "/") + "/", L.isDbg = !!this.#t.env.SKYNOVEL_DBG && !L.isPackaged, L.isDbg && (this.extPort = ct(this.#t.env.SKYNOVEL_PORT ?? "3776")), await this.run();
+    await super.loaded(t, e), this.#t = await nt.getInfo(), D.isPackaged = this.#t.isPackaged, this.arg = { ...e, cur: this.#t.getAppPath.replaceAll("\\", "/") + (D.isPackaged ? "/doc/" : "/") + e.cur }, nt.on("log", (r, n) => console.info("main: %o", n)), this.$path_downloads = this.#t.downloads.replaceAll("\\", "/") + "/", D.isDbg = !!this.#t.env.SKYNOVEL_DBG && !D.isPackaged, D.isDbg && (this.extPort = ct(this.#t.env.SKYNOVEL_PORT ?? "3776")), await this.run();
   }
   #t = {
     getAppPath: "",
@@ -17892,7 +17896,7 @@ class n_ extends Fe {
   $path_userdata = "";
   $path_downloads = "";
   async initVal(t, e) {
-    t["const.sn.isDebugger"] = !1, this.$path_userdata = L.isDbg ? this.#t.getAppPath.slice(0, -3) + ".vscode/" : this.#t.userData.replaceAll("\\", "/") + "/", this.flushSub = () => {
+    t["const.sn.isDebugger"] = !1, this.$path_userdata = D.isDbg ? this.#t.getAppPath.slice(0, -3) + ".vscode/" : this.#t.userData.replaceAll("\\", "/") + "/", this.flushSub = () => {
       nt.flush(JSON.parse(JSON.stringify(this.data)));
     }, await this.#r();
     const r = t["const.sn.isFirstBoot"] = await nt.Store_isEmpty();
@@ -17902,7 +17906,7 @@ class n_ extends Fe {
       const h = await nt.Store_get();
       this.data.sys = h.sys, this.data.mark = h.mark, this.data.kidoku = h.kidoku;
     }
-    const n = U(this.data.sys, "const.sn.nativeWindow.x", 0), s = U(this.data.sys, "const.sn.nativeWindow.y", 0), a = this.data.sys["const.sn.nativeWindow.w"] || L.stageW, o = this.data.sys["const.sn.nativeWindow.h"] || L.stageH;
+    const n = U(this.data.sys, "const.sn.nativeWindow.x", 0), s = U(this.data.sys, "const.sn.nativeWindow.y", 0), a = this.data.sys["const.sn.nativeWindow.w"] || D.stageW, o = this.data.sys["const.sn.nativeWindow.h"] || D.stageH;
     nt.on("save_win_inf", (h, { x: u, y: l, w: f, h: c }) => {
       this.data.sys["const.sn.nativeWindow.x"] = u, this.data.sys["const.sn.nativeWindow.y"] = l, this.data.sys["const.sn.nativeWindow.w"] = f, this.data.sys["const.sn.nativeWindow.h"] = c, t["const.sn.screenResolutionX"] = screen.availWidth, t["const.sn.screenResolutionY"] = screen.availHeight, e(this.data);
     }), await nt.inited(this.cfg.oCfg, { c: r, x: n, y: s, w: a, h: o });
@@ -17941,7 +17945,7 @@ class n_ extends Fe {
     this.$path_userdata + "storage/",
     this.$path_downloads + (this.arg.crypto ? "" : "no_crypto_") + this.cfg.headNs + An("-", "_", "") + ".spd"
   ).then(() => {
-    L.debugLog && console.log("プレイデータをエクスポートしました"), this.fire("sn:exported", new MouseEvent("click"));
+    D.debugLog && console.log("プレイデータをエクスポートしました"), this.fire("sn:exported", new MouseEvent("click"));
   }), !1);
   // プレイデータをインポート
   _import = () => (nt.showOpenDialog({
@@ -17959,7 +17963,7 @@ class n_ extends Fe {
     this.flush = () => {
     }, await nt.unzip(e, this.$path_userdata + "storage/"), await this.#r();
     const n = await nt.Store_get();
-    this.data.sys = n.sys, this.data.mark = n.mark, this.data.kidoku = n.kidoku, this.flush = r, this.flush(), this.val.updateData(n), L.debugLog && console.log("プレイデータをインポートしました"), this.fire("sn:imported", new MouseEvent("click"));
+    this.data.sys = n.sys, this.data.mark = n.mark, this.data.kidoku = n.kidoku, this.flush = r, this.flush(), this.val.updateData(n), D.debugLog && console.log("プレイデータをインポートしました"), this.fire("sn:imported", new MouseEvent("click"));
   }).catch((t) => console.log(`[import] err: ${String(t)}`)), !1);
   // ＵＲＬを開く
   navigate_to = (t) => {
@@ -17980,7 +17984,7 @@ class n_ extends Fe {
     const { url: e } = t;
     if (!e) throw "[update_check] urlは必須です";
     if (!e.endsWith("/")) throw "[update_check] urlの末尾は/にして下さい";
-    return L.debugLog && Z.myTrace(`[update_check] url=${e}`, "D"), this.fetch(e + "_index.json").then(async (r) => {
+    return D.debugLog && Z.myTrace(`[update_check] url=${e}`, "D"), this.fetch(e + "_index.json").then(async (r) => {
       const n = {
         title: "アプリ更新",
         icon: this.#t.getAppPath + "/app/icon.png",
@@ -17994,7 +17998,7 @@ class n_ extends Fe {
     }).catch((r) => Z.myTrace(String(r), "ET")), !1;
   };
   async #s(t, e, r) {
-    L.debugLog && Z.myTrace("[update_check] _index.jsonを取得しました", "D");
+    D.debugLog && Z.myTrace("[update_check] _index.jsonを取得しました", "D");
     const n = await t.json();
     if (!await this.#i(n.version, r)) return;
     const s = this.#t.platform + "_" + this.#t.arch, a = n[s];
@@ -18012,12 +18016,12 @@ class n_ extends Fe {
     l > 0 || (await Promise.allSettled(u), await this.#a(r));
   }
   async #e(t, e) {
-    const r = await this.fetch(t + `latest${L.isMac ? "-mac" : ""}.yml`);
+    const r = await this.fetch(t + `latest${D.isMac ? "-mac" : ""}.yml`);
     if (!r.ok) {
-      if (L.debugLog) throw "[update_check] .ymlが見つかりません";
+      if (D.debugLog) throw "[update_check] .ymlが見つかりません";
       return;
     }
-    L.debugLog && Z.myTrace("[update_check] .ymlを取得しました", "D");
+    D.debugLog && Z.myTrace("[update_check] .ymlを取得しました", "D");
     const n = await r.text(), a = /version: (.+)/.exec(n)?.[1];
     if (!a) throw "[update_check] .yml に version が見つかりません";
     if (!await this.#i(a, e)) return;
@@ -18025,48 +18029,48 @@ class n_ extends Fe {
     if (!o) throw "[update_check] path が見つかりません";
     const [, h] = o;
     if (!h) throw "[update_check] path が見つかりません.";
-    L.debugLog && Z.myTrace(`[update_check] path=${h}`, "D");
+    D.debugLog && Z.myTrace(`[update_check] path=${h}`, "D");
     const u = /sha512: (.+)/.exec(n);
     if (!u) throw "[update_check] sha512 が見つかりません";
     const [, l] = u;
-    L.debugLog && Z.myTrace(`[update_check] sha=${l ?? ""}=`, "D");
+    D.debugLog && Z.myTrace(`[update_check] sha=${l ?? ""}=`, "D");
     const [, f, c] = /(.+)(\.\w+)/.exec(h) ?? ["", "", ""];
     await this.#n(t, f + "-" + this.#t.arch + c, h), await this.#a(e);
   }
   async #i(t, e) {
     const r = this.#t.getVersion;
-    if (L.debugLog && Z.myTrace(`[update_check] 現在ver=${r} 新規ver=${t}`, "D"), t === r)
-      return L.debugLog && Z.myTrace("[update_check] バージョン更新なし", "I"), !1;
+    if (D.debugLog && Z.myTrace(`[update_check] 現在ver=${r} 新規ver=${t}`, "D"), t === r)
+      return D.debugLog && Z.myTrace("[update_check] バージョン更新なし", "I"), !1;
     e.detail = `現在 NOW ver ${r}
 新規 NEW ver ${t}`;
     const { response: n } = await nt.showMessageBox(e);
-    return n > 0 ? !1 : (L.debugLog && Z.myTrace("[update_check] アプリダウンロード開始", "D"), !0);
+    return n > 0 ? !1 : (D.debugLog && Z.myTrace("[update_check] アプリダウンロード開始", "D"), !0);
   }
   async #n(t, e, r) {
-    L.debugLog && Z.myTrace(`[update_check] アプリファイルDL試行... url=${t + e}`, "D");
+    D.debugLog && Z.myTrace(`[update_check] アプリファイルDL試行... url=${t + e}`, "D");
     const n = await this.fetch(t + e);
     if (!n.ok) {
-      L.debugLog && Z.myTrace(`[update_check] アプリファイルが見つかりません url=${t + r}`);
+      D.debugLog && Z.myTrace(`[update_check] アプリファイルが見つかりません url=${t + r}`);
       return;
     }
     const s = this.#t.downloads + "/" + r;
-    L.debugLog && Z.myTrace(`[update_check] pathDL=${s}`, "D"), await this.writeFile(s, new DataView(await n.arrayBuffer()));
+    D.debugLog && Z.myTrace(`[update_check] pathDL=${s}`, "D"), await this.writeFile(s, new DataView(await n.arrayBuffer()));
   }
   async #a(t) {
-    L.debugLog && Z.myTrace("アプリファイルを保存しました", "D"), t.buttons.pop(), t.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを
+    D.debugLog && Z.myTrace("アプリファイルを保存しました", "D"), t.buttons.pop(), t.message = `アプリ【${this.cfg.oCfg.book.title}】の更新パッケージを
 ダウンロードしました`, await nt.showMessageBox(t);
   }
   // アプリウインドウ設定
   window = (t) => {
-    const e = U(t, "x", Number(this.val.getVal("sys:const.sn.nativeWindow.x", 0))), r = U(t, "y", Number(this.val.getVal("sys:const.sn.nativeWindow.y", 0))), n = U(t, "w", Number(this.val.getVal("sys:const.sn.nativeWindow.w", L.stageW))), s = U(t, "h", Number(this.val.getVal("sys:const.sn.nativeWindow.h", L.stageH)));
-    return nt.window(dt(t, "centering", !1), e, r, L.stageW, L.stageH), this.val.setVal_Nochk("sys", "const.sn.nativeWindow.x", e), this.val.setVal_Nochk("sys", "const.sn.nativeWindow.y", r), this.val.setVal_Nochk("sys", "const.sn.nativeWindow.w", n), this.val.setVal_Nochk("sys", "const.sn.nativeWindow.h", s), this.flush(), !1;
+    const e = U(t, "x", Number(this.val.getVal("sys:const.sn.nativeWindow.x", 0))), r = U(t, "y", Number(this.val.getVal("sys:const.sn.nativeWindow.y", 0))), n = U(t, "w", Number(this.val.getVal("sys:const.sn.nativeWindow.w", D.stageW))), s = U(t, "h", Number(this.val.getVal("sys:const.sn.nativeWindow.h", D.stageH)));
+    return nt.window(dt(t, "centering", !1), e, r, D.stageW, D.stageH), this.val.setVal_Nochk("sys", "const.sn.nativeWindow.x", e), this.val.setVal_Nochk("sys", "const.sn.nativeWindow.y", r), this.val.setVal_Nochk("sys", "const.sn.nativeWindow.w", n), this.val.setVal_Nochk("sys", "const.sn.nativeWindow.h", s), this.flush(), !1;
   };
   capturePage(t, e, r, n) {
     nt.capturePage(t, e, r).then(() => n());
   }
   async savePic(t, e) {
     const r = e.slice(e.indexOf(",", 20) + 1);
-    await this.ensureFile(t), await this.writeFile(t, r), L.debugLog && console.log(`画像ファイル ${t} を保存しました`);
+    await this.ensureFile(t), await this.writeFile(t, r), D.debugLog && console.log(`画像ファイル ${t} を保存しました`);
   }
 }
 const { BlurFilter: Uv, ColorMatrixFilter: bt, NoiseFilter: Gv } = zp;
@@ -18474,19 +18478,19 @@ class Bt {
     }
     const a = t.getBounds(), o = r.scale.x < 0 ? -r.scale.x : r.scale.x, h = o === 1 ? a.width : a.width * o, u = r.scale.y < 0 ? -r.scale.y : r.scale.y, l = u === 1 ? a.height : a.height * u;
     let f = r.x;
-    "left" in e ? (f = U(e, "left", 0), f > -1 && f < 1 && (f *= L.stageW)) : "center" in e ? (f = U(e, "center", 0), f > -1 && f < 1 && (f *= L.stageW), f -= (s ? h / 3 : h) / 2) : "right" in e ? (f = U(e, "right", 0), f > -1 && f < 1 && (f *= L.stageW), f -= s ? h / 3 : h) : "s_right" in e && (f = U(e, "s_right", 0), f > -1 && f < 1 && (f *= L.stageW), f = L.stageW - f - (s ? h / 3 : h)), r.x = we(r.scale.x < 0 ? f + (s ? h / 3 : h) : f);
+    "left" in e ? (f = U(e, "left", 0), f > -1 && f < 1 && (f *= D.stageW)) : "center" in e ? (f = U(e, "center", 0), f > -1 && f < 1 && (f *= D.stageW), f -= (s ? h / 3 : h) / 2) : "right" in e ? (f = U(e, "right", 0), f > -1 && f < 1 && (f *= D.stageW), f -= s ? h / 3 : h) : "s_right" in e && (f = U(e, "s_right", 0), f > -1 && f < 1 && (f *= D.stageW), f = D.stageW - f - (s ? h / 3 : h)), r.x = we(r.scale.x < 0 ? f + (s ? h / 3 : h) : f);
     let c = r.y;
-    "top" in e ? (c = U(e, "top", 0), c > -1 && c < 1 && (c *= L.stageH)) : "middle" in e ? (c = U(e, "middle", 0), c > -1 && c < 1 && (c *= L.stageH), c -= l / 2) : "bottom" in e ? (c = U(e, "bottom", 0), c > -1 && c < 1 && (c *= L.stageH), c -= l) : "s_bottom" in e && (c = U(e, "s_bottom", 0), c > -1 && c < 1 && (c *= L.stageH), c = L.stageH - c - l), r.y = we(r.scale.y < 0 ? c + l : c), n && !("left" in e) && !("center" in e) && !("right" in e) && !("s_right" in e) && !("top" in e) && !("middle" in e) && !("bottom" in e) && !("s_bottom" in e) && Bt.setXYByPos(t, "c", r);
+    "top" in e ? (c = U(e, "top", 0), c > -1 && c < 1 && (c *= D.stageH)) : "middle" in e ? (c = U(e, "middle", 0), c > -1 && c < 1 && (c *= D.stageH), c -= l / 2) : "bottom" in e ? (c = U(e, "bottom", 0), c > -1 && c < 1 && (c *= D.stageH), c -= l) : "s_bottom" in e && (c = U(e, "s_bottom", 0), c > -1 && c < 1 && (c *= D.stageH), c = D.stageH - c - l), r.y = we(r.scale.y < 0 ? c + l : c), n && !("left" in e) && !("center" in e) && !("right" in e) && !("s_right" in e) && !("top" in e) && !("middle" in e) && !("bottom" in e) && !("s_bottom" in e) && Bt.setXYByPos(t, "c", r);
   }
   static setXYByPos(t, e, r) {
     if (e === "stay") return;
     const n = t.getBounds(), s = r.scale.x < 0 ? -r.scale.x : r.scale.x, a = s === 1 ? n.width : n.width * s, o = r.scale.y < 0 ? -r.scale.y : r.scale.y, h = o === 1 ? n.height : n.height * o;
     let u = 0;
-    !e || e === "c" ? u = L.stageW * 0.5 : e === "r" ? u = L.stageW - a * 0.5 : e === "l" ? u = a * 0.5 : u = we(e), r.x = we(u - a * 0.5), r.y = L.stageH - h, r.scale.x < 0 && (r.x += a), r.scale.y < 0 && (r.y += h);
+    !e || e === "c" ? u = D.stageW * 0.5 : e === "r" ? u = D.stageW - a * 0.5 : e === "l" ? u = a * 0.5 : u = we(e), r.x = we(u - a * 0.5), r.y = D.stageH - h, r.scale.x < 0 && (r.x += a), r.scale.y < 0 && (r.y += h);
   }
   static setXYCenter(t) {
     const e = t.getBounds();
-    t.x = (L.stageW - e.width) * 0.5, t.y = (L.stageH - e.height) * 0.5;
+    t.x = (D.stageW - e.width) * 0.5, t.y = (D.stageH - e.height) * 0.5;
   }
 }
 export {
@@ -18513,7 +18517,7 @@ export {
   kt as U,
   j as V,
   n_ as W,
-  L as a,
+  D as a,
   Zv as b,
   Kv as c,
   t_ as d,

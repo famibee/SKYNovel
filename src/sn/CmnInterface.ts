@@ -265,7 +265,7 @@ export type T_H_TMP_DATA = {
 	// 'const.sn.lay.（レイヤ名）.（foreかback）.y'		: number;
 	'const.sn.Math.PI'		: number;
 	'const.sn.navigator.language'	: string;
-	'const.sn.needClick2Play'		: ()=> boolean;
+	'const.sn.needClick2Play'		: boolean;
 	'const.sn.platform'				: string;
 	'const.sn.screenResolutionX'	: number;
 	'const.sn.screenResolutionY'	: number;
@@ -331,9 +331,7 @@ export function creTMP_DATA(): T_H_TMP_DATA {return {
 	// 'const.sn.lay.（レイヤ名）.（foreかback）.y'		: 0,	// 実数；縦座標
 	'const.sn.Math.PI'		: Math.PI,	// 円周率
 	'const.sn.navigator.language': 'jp',	// ユーザーが最優先に設定している言語設定
-	'const.sn.needClick2Play'	: typeof globalThis === 'undefined'
-		? ()=> false
-		: ()=> (new globalThis.AudioContext).state === 'suspended',
+	'const.sn.needClick2Play'	: false,
 		// ブラウザ実行で、クリックされるまで音声再生が差し止められている状態か。なにかクリックされれば falseになる
 	'const.sn.platform'			: CmnLib.platform,	// 環境による
 

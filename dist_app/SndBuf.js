@@ -1,6 +1,6 @@
-import { l as R, m as O, T as M, n as ue, k as j, e as A, S as ae, L as le } from "./app2.js";
-import { C as ce } from "./CmnTween.js";
-import { a as L, T as pe, r as he } from "./Reading.js";
+import { l as R, m as O, T, n as ue, k as F, e as A, S as ae, L as le, a as ce } from "./app2.js";
+import { C as pe } from "./CmnTween.js";
+import { a as L, T as he, r as fe } from "./Reading.js";
 var ee;
 function _() {
   return ee;
@@ -25,17 +25,17 @@ var V = function() {
     return n;
   }).apply(this, arguments);
 }, se = ["mp3", "ogg", "oga", "opus", "mpeg", "wav", "m4a", "aiff", "wma", "mid", "caf"], K = {};
-function fe(n) {
+function de(n) {
   var e = V({ m4a: "audio/mp4", oga: "audio/ogg", opus: 'audio/ogg; codecs="opus"', caf: 'audio/x-caf; codecs="opus"' }, n || {}), t = document.createElement("audio"), s = {}, o = /^no$/;
   se.forEach(function(i) {
     var r = t.canPlayType("audio/".concat(i)).replace(o, ""), u = e[i] ? t.canPlayType(e[i]).replace(o, "") : "";
     s[i] = !!r || !!u;
   }), Object.assign(K, s);
 }
-fe();
-var de = /\.(\{([^\}]+)\})(\?.*)?$/;
+de();
+var _e = /\.(\{([^\}]+)\})(\?.*)?$/;
 function ne(n) {
-  var e = de, t = typeof n == "string" ? n : n.url;
+  var e = _e, t = typeof n == "string" ? n : n.url;
   if (!e.test(t)) return t;
   for (var s = e.exec(t), o = s[2].split(","), i = o[o.length - 1], r = 0, u = o.length; r < u; r++) {
     var a = o[r];
@@ -69,10 +69,10 @@ var q = se.filter(function(n) {
   }, n.use = function(e, t) {
     e.data && q.indexOf(e.extension) > -1 ? e.sound = _().add(e.name, { loaded: t, preload: !0, url: e.url, source: e.data }) : t();
   }, n.extension = "loader", n;
-}(), _e = 0, ye = function(n) {
+}(), ye = 0, me = function(n) {
   function e(t) {
     var s = n.call(this) || this;
-    return s.id = _e++, s.init(t), s;
+    return s.id = ye++, s.init(t), s;
   }
   return b(e, n), e.prototype.set = function(t, s) {
     if (this[t] === void 0) throw new Error("Property with name ".concat(t, " does not exist."));
@@ -141,27 +141,27 @@ var q = se.filter(function(n) {
   }, e.prototype.play = function(t) {
     var s = this, o = t.start, i = t.end, r = t.speed, u = t.loop, a = t.volume, l = t.muted;
     this._speed = r, this._volume = a, this._loop = !!u, this._muted = l, this.refresh(), this.loop && i !== null && (this.loop = !1), this._start = o, this._end = i || this._duration, this._start = Math.max(0, this._start - e.PADDING), this._end = Math.min(this._end + e.PADDING, this._duration), this._source.onloadedmetadata = function() {
-      s._source && (s._source.currentTime = o, s._source.onloadedmetadata = null, s.emit("progress", o, s._duration), M.shared.add(s._onUpdate, s));
+      s._source && (s._source.currentTime = o, s._source.onloadedmetadata = null, s.emit("progress", o, s._duration), T.shared.add(s._onUpdate, s));
     }, this._source.onended = this._onComplete.bind(this), this._source.play(), this.emit("start");
   }, e.prototype._onUpdate = function() {
     this.emit("progress", this.progress, this._duration), this._source.currentTime >= this._end && !this._source.loop && this._onComplete();
   }, e.prototype._onComplete = function() {
-    M.shared.remove(this._onUpdate, this), this._internalStop(), this.emit("progress", 1, this._duration), this.emit("end", this);
+    T.shared.remove(this._onUpdate, this), this._internalStop(), this.emit("progress", 1, this._duration), this.emit("end", this);
   }, e.prototype.destroy = function() {
-    M.shared.remove(this._onUpdate, this), this.removeAllListeners();
+    T.shared.remove(this._onUpdate, this), this.removeAllListeners();
     var t = this._source;
     t && (t.onended = null, t.onplay = null, t.onpause = null, this._internalStop()), this._source = null, this._speed = 1, this._volume = 1, this._loop = !1, this._end = null, this._start = 0, this._duration = 0, this._playing = !1, this._pausedReal = !1, this._paused = !1, this._muted = !1, this._media && (this._media.context.off("refresh", this.refresh, this), this._media.context.off("refreshPaused", this.refreshPaused, this), this._media = null);
   }, e.prototype.toString = function() {
     return "[HTMLAudioInstance id=".concat(this.id, "]");
   }, e.PADDING = 0.1, e;
-}(R), me = function(n) {
+}(R), ge = function(n) {
   function e() {
     return n !== null && n.apply(this, arguments) || this;
   }
   return b(e, n), e.prototype.init = function(t) {
     this.parent = t, this._source = t.options.source || new Audio(), t.url && (this._source.src = t.url);
   }, e.prototype.create = function() {
-    return new ye(this);
+    return new me(this);
   }, Object.defineProperty(e.prototype, "isPlayable", { get: function() {
     return !!this._source && this._source.readyState === 4;
   }, enumerable: !1, configurable: !0 }), Object.defineProperty(e.prototype, "duration", { get: function() {
@@ -202,7 +202,7 @@ var q = se.filter(function(n) {
       }, 0);
     }
   }, e;
-}(R), ge = function() {
+}(R), be = function() {
   function n(e, t) {
     this.parent = e, Object.assign(this, t), this.duration = this.end - this.start;
   }
@@ -221,10 +221,10 @@ var q = se.filter(function(n) {
     } else e.value = t;
     return t;
   }, n;
-}(), be = 0, ve = function(n) {
+}(), ve = 0, Pe = function(n) {
   function e(t) {
     var s = n.call(this) || this;
-    return s.id = be++, s._media = null, s._paused = !1, s._muted = !1, s._elapsed = 0, s.init(t), s;
+    return s.id = ve++, s._media = null, s._paused = !1, s._muted = !1, s._elapsed = 0, s.init(t), s;
   }
   return b(e, n), e.prototype.set = function(t, s) {
     if (this[t] === void 0) throw new Error("Property with name ".concat(t, " does not exist."));
@@ -299,7 +299,7 @@ var q = se.filter(function(n) {
     var g = this._source.buffer.duration;
     this._duration = g, this._end = o, this._lastUpdate = this._now(), this._elapsed = s, this._source.onended = this._onComplete.bind(this), this._loop ? (this._source.loopEnd = o, this._source.loopStart = s, this._source.start(0, s)) : o ? this._source.start(0, s, o - s) : this._source.start(0, s), this.emit("start"), this._update(!0), this.enableTicker(!0);
   }, e.prototype.enableTicker = function(t) {
-    M.shared.remove(this._updateListener, this), t && M.shared.add(this._updateListener, this);
+    T.shared.remove(this._updateListener, this), t && T.shared.add(this._updateListener, this);
   }, Object.defineProperty(e.prototype, "progress", { get: function() {
     return this._progress;
   }, enumerable: !1, configurable: !0 }), Object.defineProperty(e.prototype, "paused", { get: function() {
@@ -374,7 +374,7 @@ var q = se.filter(function(n) {
   }, enumerable: !1, configurable: !0 }), n.prototype.destroy = function() {
     this.filters = null, this._input = null, this._output = null;
   }, n;
-}(), Pe = function(n) {
+}(), xe = function(n) {
   function e(t) {
     var s = this, o = t.audioContext, i = o.createBufferSource(), r = o.createGain(), u = o.createAnalyser();
     return i.connect(u), u.connect(r), r.connect(t.destination), (s = n.call(this, u, r) || this).context = t, s.bufferSource = i, s.gain = r, s.analyser = u, s;
@@ -391,11 +391,11 @@ var q = se.filter(function(n) {
   }, Object.defineProperty(e.prototype, "bufferSize", { get: function() {
     return this.script.bufferSize;
   }, enumerable: !1, configurable: !0 }), e.BUFFER_SIZE = 0, e;
-}(ie), xe = function() {
+}(ie), we = function() {
   function n() {
   }
   return n.prototype.init = function(e) {
-    this.parent = e, this._nodes = new Pe(this.context), this._source = this._nodes.bufferSource, this.source = e.options.source;
+    this.parent = e, this._nodes = new xe(this.context), this._source = this._nodes.bufferSource, this.source = e.options.source;
   }, n.prototype.destroy = function() {
     this.parent = null, this._nodes.destroy(), this._nodes = null;
     try {
@@ -404,7 +404,7 @@ var q = se.filter(function(n) {
     }
     this._source = null, this.source = null;
   }, n.prototype.create = function() {
-    return new ve(this);
+    return new Pe(this);
   }, Object.defineProperty(n.prototype, "context", { get: function() {
     return this.parent.context;
   }, enumerable: !1, configurable: !0 }), Object.defineProperty(n.prototype, "isPlayable", { get: function() {
@@ -447,7 +447,7 @@ var q = se.filter(function(n) {
   }
   return n.from = function(e) {
     var t = {};
-    return typeof e == "string" ? t.url = e : e instanceof ArrayBuffer || e instanceof AudioBuffer || e instanceof HTMLAudioElement ? t.source = e : t = e, (t = V({ autoPlay: !1, singleInstance: !1, url: null, source: null, preload: !1, volume: 1, speed: 1, complete: null, loaded: null, loop: !1 }, t)).url && (t.url = ne(t.url)), Object.freeze(t), new n(_().useLegacy ? new me() : new xe(), t);
+    return typeof e == "string" ? t.url = e : e instanceof ArrayBuffer || e instanceof AudioBuffer || e instanceof HTMLAudioElement ? t.source = e : t = e, (t = V({ autoPlay: !1, singleInstance: !1, url: null, source: null, preload: !1, volume: 1, speed: 1, complete: null, loaded: null, loop: !1 }, t)).url && (t.url = ne(t.url)), Object.freeze(t), new n(_().useLegacy ? new ge() : new we(), t);
   }, Object.defineProperty(n.prototype, "context", { get: function() {
     return _().context;
   }, enumerable: !1, configurable: !0 }), n.prototype.pause = function() {
@@ -472,7 +472,7 @@ var q = se.filter(function(n) {
       for (var o in e) s[o] = this.addSprites(o, e[o]);
       return s;
     }
-    var i = new ge(this, t);
+    var i = new be(this, t);
     return this._sprites[e] = i, i;
   }, n.prototype.destroy = function() {
     this._removeInstances(), this.removeSprites(), this.media.destroy(), this.media = null, this._sprites = null, this._instances = null;
@@ -552,7 +552,7 @@ var q = se.filter(function(n) {
   }, n.prototype._poolInstance = function(e) {
     e.destroy(), n._pool.indexOf(e) < 0 && n._pool.push(e);
   }, n._pool = [], n;
-}(), we = function(n) {
+}(), Oe = function(n) {
   function e() {
     var t = n !== null && n.apply(this, arguments) || this;
     return t.speed = 1, t.muted = !1, t.volume = 1, t.paused = !1, t;
@@ -626,12 +626,12 @@ var q = se.filter(function(n) {
     }, o);
     i && i.catch(o);
   }, e;
-}(ie), Oe = function() {
+}(ie), Ee = function() {
   function n() {
     this.init();
   }
   return n.prototype.init = function() {
-    return this.supported && (this._webAudioContext = new Y()), this._htmlAudioContext = new we(), this._sounds = {}, this.useLegacy = !this.supported, this;
+    return this.supported && (this._webAudioContext = new Y()), this._htmlAudioContext = new Oe(), this._sounds = {}, this.useLegacy = !this.supported, this;
   }, Object.defineProperty(n.prototype, "context", { get: function() {
     return this._context;
   }, enumerable: !1, configurable: !0 }), Object.defineProperty(n.prototype, "filtersAll", { get: function() {
@@ -737,9 +737,9 @@ var q = se.filter(function(n) {
         return p.type = $.type, v.setParamValue(p.Q, 1), p.frequency.value = $.f, v.setParamValue(p.gain, $.gain), p;
       });
       (m = n.call(this, g[0], g[g.length - 1]) || this).bands = g, m.bandsMap = {};
-      for (var f = 0; f < m.bands.length; f++) {
-        var w = m.bands[f];
-        f > 0 && m.bands[f - 1].connect(w), m.bandsMap[w.frequency.value] = w;
+      for (var d = 0; d < m.bands.length; d++) {
+        var w = m.bands[d];
+        d > 0 && m.bands[d - 1].connect(w), m.bandsMap[w.frequency.value] = w;
       }
       return m;
     }
@@ -897,50 +897,50 @@ var q = se.filter(function(n) {
     n.call(this, null);
   }
   return b(e, n), e;
-}(k) }, Ae = { __proto__: null, supported: K }, z = function(n) {
+}(k) }, Ve = { __proto__: null, supported: K }, z = function(n) {
   return ee = n, n;
-}(new Oe());
+}(new Ee());
 ue.add(oe);
-class S {
+class j {
   constructor(e, t, s, o, i, r, u, a) {
-    this.fn = e, this.buf = t, this.start_ms = s, this.end_ms = o, this.ret_ms = i, this.volume = r, this.pan = u, this.snd = a, this.stt = a ? new G(this) : new Ee(this), this.#s = L.procID, a && this.addSnd(a);
+    this.fn = e, this.buf = t, this.start_ms = s, this.end_ms = o, this.ret_ms = i, this.volume = r, this.pan = u, this.snd = a, this.stt = a ? new G(this) : new Se(this), this.#e = L.procID, a && this.addSnd(a);
   }
   static #t = 1;
   stt;
   loop = !1;
-  #s;
+  #e;
   get procID() {
-    return this.#s;
+    return this.#e;
   }
   addSnd(e) {
     switch (this.loop = e.loop, this.stt.onLoad(this), this.pan !== 0 && (e.filters = [new B.StereoFilter(this.pan)]), this.setVol = (t) => {
       e.volume = t;
-    }, this.tw = () => new pe(e), this.onPlayEnd = () => {
-      this.stt.onPlayEnd(this.buf), this.#e();
+    }, this.tw = () => new he(e), this.onPlayEnd = () => {
+      this.stt.onPlayEnd(this.buf), this.#s();
     }, this.stop = () => {
-      e.stop(), this.#e();
-    }, this.destroy = () => e.destroy(), this.buf) {
+      e.stop(), this.#s();
+    }, this.destroy = () => e.destroy(), !this.loop && ce.needClick2Play() && setTimeout(() => this.onPlayEnd(), (e.duration - this.start_ms - (this.end_ms <= 0 ? this.end_ms : this.end_ms === f.MAX_END_MS ? 0 : e.duration - this.end_ms)) * 1e3), this.buf) {
       // セリフ再生中はBGM音量を絞る
       case Q:
         {
           const t = Number(c.getVal("sys:sn.sound.BGM.vol_mul_talking") ?? 1);
           if (t === 1) break;
-          S.#t = t;
-          const s = X[H];
-          s && s.setVol(this.volume * S.#t);
+          j.#t = t;
+          const s = H[X];
+          s && s.setVol(this.volume * j.#t);
         }
         break;
-      case H:
-        e.volume = this.volume * S.#t;
+      case X:
+        e.volume = this.volume * j.#t;
         break;
     }
   }
-  #e = () => {
-    if (this.#e = () => {
-    }, S.#t === 1 || this.buf !== Q) return;
-    S.#t = 1;
-    const e = X[H];
-    e && e.setVol(this.volume * S.#t);
+  #s = () => {
+    if (this.#s = () => {
+    }, j.#t === 1 || this.buf !== Q) return;
+    j.#t = 1;
+    const e = H[X];
+    e && e.setVol(this.volume * j.#t);
   };
   setVol(e) {
   }
@@ -953,12 +953,12 @@ class S {
   destroy() {
   }
 }
-let J, c, F, Z, X, U;
-const H = "BGM", D = "SE", Q = "VOICE";
-class d {
+let J, c, S, Z, H, U;
+const X = "BGM", D = "SE", Q = "VOICE";
+class f {
   constructor(e, t, s) {
     this.hArg = e, this.buf = t, this.fn = s;
-    const o = j(e, "start_ms", 0), i = j(e, "end_ms", d.#s), r = j(e, "ret_ms", 0), u = j(e, "pan", 0), a = j(e, "speed", 1);
+    const o = F(e, "start_ms", 0), i = F(e, "end_ms", f.MAX_END_MS), r = F(e, "ret_ms", 0), u = F(e, "pan", 0), a = F(e, "speed", 1);
     if (o < 0) throw `[playse] start_ms:${o} が負の値です`;
     if (r < 0) throw `[playse] ret_ms:${r} が負の値です`;
     if (0 < i) {
@@ -967,12 +967,12 @@ class d {
     }
     const l = "const.sn.sound." + t + ".";
     c.setVal_Nochk("save", l + "fn", s);
-    const h = d.getVol(e, 1);
+    const h = f.getVol(e, 1);
     c.setVal_Nochk("save", l + "volume", h);
     const y = h * Number(c.getVal("sys:" + l + "volume", 1, !0)), m = A(e, "loop", !1);
-    m ? (d.#t[t] = s, c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(d.#t))) : d.delLoopPlay(t), c.setVal_Nochk("save", l + "start_ms", o), c.setVal_Nochk("save", l + "end_ms", i), c.setVal_Nochk("save", l + "ret_ms", r), c.setVal_Nochk("tmp", l + "playing", !0), c.flush();
+    m ? (f.#t[t] = s, c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(f.#t))) : f.delLoopPlay(t), c.setVal_Nochk("save", l + "start_ms", o), c.setVal_Nochk("save", l + "end_ms", i), c.setVal_Nochk("save", l + "ret_ms", r), c.setVal_Nochk("tmp", l + "playing", !0), c.flush();
     const g = z.find(s);
-    this.#e = new S(
+    this.#e = new j(
       s,
       t,
       o,
@@ -982,14 +982,14 @@ class d {
       u,
       g
     );
-    const f = {
+    const d = {
       loop: m,
       speed: a,
       volume: y,
       loaded: (p, x) => {
         if (!this.#e.stt.isDestroy) {
           if (p) {
-            F.errScript(`ロード失敗です SndBuf fn:${s} ${String(p)}`, !1);
+            S.errScript(`ロード失敗です SndBuf fn:${s} ${String(p)}`, !1);
             return;
           }
           x && (this.#e.addSnd(x), u !== 0 && (x.filters = [new B.StereoFilter(u)]), e.fnc?.());
@@ -997,26 +997,26 @@ class d {
       }
     };
     let w = "";
-    if (0 < o || i < d.#s) {
+    if (0 < o || i < f.MAX_END_MS) {
       w = `${s};${o};${i};${r}`;
-      const p = (f.sprites ??= {})[w] = {
+      const p = (d.sprites ??= {})[w] = {
         start: o / 1e3,
         end: i / 1e3
       };
-      f.preload = !0;
-      const x = f.loaded;
-      f.loaded = (C, E) => {
+      d.preload = !0;
+      const x = d.loaded;
+      d.loaded = (C, E) => {
         if (this.#e.stt.isDestroy) return;
         x(C, E);
-        const I = E, T = I.duration;
-        p.end < 0 && (p.end += T, I.removeSprites(w), I.addSprites(w, p)), p.end <= p.start && F.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) >= start_ms:${o} は異常値です`), p.end * 1e3 <= r && F.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) <= ret_ms:${r} は異常値です`), T <= p.start && F.errScript(`[playse] 音声ファイル再生時間:${T * 1e3} <= start_ms:${o} は異常値です`), i !== d.#s && T <= p.end && F.errScript(`[playse] 音声ファイル再生時間:${T * 1e3} <= end_ms:${i} は異常値です`), I.play(w, (re) => f.complete?.(re));
+        const I = E, M = I.duration;
+        p.end < 0 && (p.end += M, I.removeSprites(w), I.addSprites(w, p)), p.end <= p.start && S.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) >= start_ms:${o} は異常値です`), p.end * 1e3 <= r && S.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) <= ret_ms:${r} は異常値です`), M <= p.start && S.errScript(`[playse] 音声ファイル再生時間:${M * 1e3} <= start_ms:${o} は異常値です`), i !== f.MAX_END_MS && M <= p.end && S.errScript(`[playse] 音声ファイル再生時間:${M * 1e3} <= end_ms:${i} は異常値です`), I.play(w, (re) => d.complete?.(re));
       };
-    } else f.autoPlay = !0;
-    if (m ? r !== 0 && (f.loop = !1, f.complete = (p) => {
+    } else d.autoPlay = !0;
+    if (m ? r !== 0 && (d.loop = !1, d.complete = (p) => {
       const x = p.duration, C = r / 1e3, E = i / 1e3;
-      x <= C && F.errScript(`[playse] 音声ファイル再生時間:${x * 1e3} <= ret_ms:${r} は異常値です`), p.play({
+      x <= C && S.errScript(`[playse] 音声ファイル再生時間:${x * 1e3} <= ret_ms:${r} は異常値です`), p.play({
         // 一周目はループなし、なのでキャッシュされてる
-        ...f,
+        ...d,
         start: C,
         end: E < 0 ? E + x : E,
         // 負の値は末尾から
@@ -1029,14 +1029,14 @@ class d {
         //-	loaded?: LoadedCallback;
         //-	singleInstance?: boolean;
       });
-    }) : f.complete = () => {
+    }) : d.complete = () => {
       W(this.#e, t), this.#e.onPlayEnd();
-    }, this.#n(), g) {
-      if (g.volume = y, w) this.#o(s, f);
+    }, this.#s(), g) {
+      if (g.volume = y, w) this.#n(s, d);
       else if (g.isPlayable) {
         const p = g.options.source;
-        !(p instanceof ArrayBuffer) || p.byteLength === 0 ? g.play(f) : this.#e.addSnd(N.from({
-          ...f,
+        !(p instanceof ArrayBuffer) || p.byteLength === 0 ? g.play(d) : this.#e.addSnd(N.from({
+          ...d,
           url: g.options.url,
           source: p
         }));
@@ -1047,42 +1047,42 @@ class d {
     if (this.needLoad = A(e, "join", !0)) {
       const p = this.#e.procID + `loaded buf:${t} fn:${s}`;
       L.beginProc(p);
-      const x = f.loaded;
-      f.loaded = (C, E) => {
+      const x = d.loaded;
+      d.loaded = (C, E) => {
         x(C, E), L.endProc(p);
       };
     }
-    this.#o(s, f);
+    this.#n(s, d);
   }
   static #t = {};
   static init(e, t, s, o, i) {
-    d.#t = {}, J = e, c = t, F = s, Z = o, X = i;
+    f.#t = {}, J = e, c = t, S = s, Z = o, H = i;
   }
   static setEvtMng(e) {
     U = e;
   }
   static delLoopPlay(e) {
-    delete d.#t[e];
+    delete f.#t[e];
     const t = "const.sn.sound." + e + ".";
-    c.setVal_Nochk("save", t + "fn", ""), c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(d.#t)), c.flush();
+    c.setVal_Nochk("save", t + "fn", ""), c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(f.#t)), c.flush();
   }
   static getVol(e, t) {
-    const s = j(e, "volume", t);
+    const s = F(e, "volume", t);
     return s < 0 ? 0 : s > 1 ? 1 : s;
   }
   static xchgbuf({ buf: e = D, buf2: t = D }) {
     if (e === t) throw `[xchgbuf] buf:${e} が同じ値です`;
     const s = "const.sn.sound." + e + ".", o = Number(c.getVal("save:" + s + "volume")), i = String(c.getVal("save:" + s + "fn")), r = "const.sn.sound." + t + ".", u = Number(c.getVal("save:" + r + "volume")), a = String(c.getVal("save:" + r + "fn"));
-    c.setVal_Nochk("save", s + "volume", u), c.setVal_Nochk("save", r + "volume", o), c.setVal_Nochk("save", s + "fn", a), c.setVal_Nochk("save", r + "fn", i), e in d.#t != t in d.#t && (e in d.#t ? (delete d.#t[e], d.#t[t] = i) : (delete d.#t[t], d.#t[e] = a), c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(d.#t))), c.flush();
+    c.setVal_Nochk("save", s + "volume", u), c.setVal_Nochk("save", r + "volume", o), c.setVal_Nochk("save", s + "fn", a), c.setVal_Nochk("save", r + "fn", i), e in f.#t != t in f.#t && (e in f.#t ? (delete f.#t[e], f.#t[t] = i) : (delete f.#t[t], f.#t[e] = a), c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(f.#t))), c.flush();
   }
-  static #s = 999e3;
+  static MAX_END_MS = 999e3;
   #e;
   needLoad;
-  #n = () => {
-    z.volumeAll = Number(c.getVal("sys:sn.sound.global_volume", 1)), this.#n = () => {
+  #s = () => {
+    z.volumeAll = Number(c.getVal("sys:sn.sound.global_volume", 1)), this.#s = () => {
     };
   };
-  #o(e, t) {
+  #n(e, t) {
     const s = J.searchPath(e, ae.SOUND);
     if (!s.endsWith(".bin")) {
       t.url = s, N.from(t);
@@ -1091,7 +1091,7 @@ class d {
     new le().add({ name: e, url: s, xhrType: O.XHR_RESPONSE_TYPE.BUFFER }).use((o, i) => {
       Z.decAB(o.data).then((r) => {
         o.data = r;
-      }).catch((r) => F.errScript(`Sound ロード失敗ですc fn:${o.name} ${r}`, !1)).finally(() => i());
+      }).catch((r) => S.errScript(`Sound ロード失敗ですc fn:${o.name} ${r}`, !1)).finally(() => i());
     }).load((o, i) => {
       t.source = i[e]?.data, N.from(t);
     });
@@ -1109,13 +1109,13 @@ class d {
 }
 function W({ loop: n }, e) {
   if (n) {
-    d.delLoopPlay(e);
+    f.delLoopPlay(e);
     return;
   }
   const t = "const.sn.sound." + e + ".";
   c.setVal_Nochk("tmp", t + "playing", !1), c.flush();
 }
-class Ee {
+class Se {
   constructor(e) {
     this.si = e;
   }
@@ -1171,20 +1171,20 @@ class G {
   }
   // ok
   fade(e, t) {
-    const { buf: s = D } = t, i = "const.sn.sound." + s + "." + "volume", r = d.getVol(t, NaN);
+    const { buf: s = D } = t, i = "const.sn.sound." + s + "." + "volume", r = f.getVol(t, NaN);
     c.setVal_Nochk("save", i, r);
     const u = r * Number(c.getVal("sys:" + i, 1)), a = A(t, "stop", r === 0);
-    a && d.delLoopPlay(s), c.flush();
-    const l = j(t, "time", NaN), h = j(t, "delay", 0);
+    a && f.delLoopPlay(s), c.flush();
+    const l = F(t, "time", NaN), h = F(t, "delay", 0);
     if (l === 0 && h === 0 || U.isSkipping) {
       e.setVol(u), e.stt = a ? new P(e) : new G(e);
       return;
     }
     const y = e.tw();
-    y && (ce.setTwProp(y, t).to({ volume: u }, l).onUpdate(() => {
+    y && (pe.setTwProp(y, t).to({ volume: u }, l).onUpdate(() => {
       e.snd?.isPlaying || (y.stop(), y.onComplete());
     }).onComplete(() => {
-      he(y), e.stt.compFade(s), e.stt = a ? new P(e) : new G(e);
+      fe(y), e.stt.compFade(s), e.stt = a ? new P(e) : new G(e);
     }).start(), e.stt = new je(y, e));
   }
   wf = () => !1;
@@ -1246,7 +1246,7 @@ class je {
   }
   // ok
   wf(e, t) {
-    e.stt = new Se(e);
+    e.stt = new ke(e);
     const s = A(t, "canskip", !1);
     if (s && U.isSkipping)
       return this.stopfadese(), !1;
@@ -1259,7 +1259,7 @@ class je {
   stopfadese = () => this.si.stop();
   isDestroy = !1;
 }
-class Se {
+class ke {
   constructor(e) {
     this.si = e;
   }
@@ -1317,9 +1317,9 @@ class P {
 }
 export {
   D as B,
-  Ae as I,
+  Ve as I,
   z as R,
-  d as S,
-  H as a
+  f as S,
+  X as a
 };
 //# sourceMappingURL=SndBuf.js.map
