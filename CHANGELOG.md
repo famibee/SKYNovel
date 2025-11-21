@@ -1,3 +1,10 @@
+## [1.64.16](https://github.com/famibee/SKYNovel/compare/v1.64.15...v1.64.16) (2025-11-21)
+
+
+### Bug Fixes
+
+* 特定のケースで音声再生終了イベントも発生しないため、タイマーで擬似的に発生させるように ([6ab48c4](https://github.com/famibee/SKYNovel/commit/6ab48c468f6f83e5a019cfd7a1826df12d4d86c5))
+
 - fix: 特定のケースで音声再生終了イベントも発生しないため、タイマーで擬似的に発生させるように
 	- タブのミュート中や AudioContext.state === 'suspended' の場合は再生もされないので再生終了イベントも発生しない
 
