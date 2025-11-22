@@ -479,20 +479,16 @@ class n {
   static recodePage(t = !1) {
     if (!a.val.getVal("save:sn.doRecLog")) return;
     const { fn: i, idx: s } = a.scrItr.nowScrIdx(), r = `${s - 1}:` + i;
-    if (this.aPage.findIndex((l) => l.key === r) > -1) return;
+    if (this.aPage.findIndex((c) => c.key === r) > -1) return;
     d.debugLog && console.log(`📜 %crecodePage === week:${t} lenPage:${this.lenPage} len:${this.aPage.length} POP:${this.aPage.at(-1)?.week}`, "color:#3B0;"), this.aPage.at(-1)?.week && this.aPage.pop();
-    const { max_len: o } = a.cfg.oCfg.log;
-    if (this.aPage.push({
+    const { max_len: o } = a.cfg.oCfg.log, l = a.scrItr.nowMark();
+    l.hSave["const.sn.sLog"] = "[]", this.aPage.push({
       key: r,
       week: t,
       fn: a.val.getVal("save:const.sn.scriptFn", i),
       index: a.val.getVal("save:const.sn.scriptIdx", 0),
-      mark: a.scrItr.nowMark()
-    }) > o && (this.aPage = this.aPage.slice(-o)), this.lenPage = this.aPage.length, d.debugLog) {
-      const l = a.scrItr.nowMark();
-      console.log(`   %clenPage:${this.lenPage} (base=${l.hPages.base.fore.sBkFn} 0=${l.hPages[0].fore.sBkFn} mes=${/color: \w+;/.exec(l.hPages.mes.fore.txs.cssText)})%c mark:%o`, "color:#3B0;", "", l), console.table(this.aPage);
-    }
-    a.val.setVal_Nochk("sys", "const.sn.aPageLog", JSON.stringify(this.aPage));
+      mark: l
+    }) > o && (this.aPage = this.aPage.slice(-o)), this.lenPage = this.aPage.length, d.debugLog && (console.log(`   %clenPage:${this.lenPage} (base=${l.hPages.base.fore.sBkFn} 0=${l.hPages[0].fore.sBkFn} mes=${/color: \w+;/.exec(l.hPages.mes.fore.txs.cssText)})%c mark:%o`, "color:#3B0;", "", l), console.table(this.aPage)), a.val.setVal_Nochk("sys", "const.sn.aPageLog", JSON.stringify(this.aPage));
   }
   static playbackPage(t, i) {
     this.aPage = JSON.parse(t), this.lenPage = this.aPage.length, this.posPage >= this.lenPage && (this.posPage = this.lenPage - 1), this.styPaging = i;

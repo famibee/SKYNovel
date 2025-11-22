@@ -1,5 +1,5 @@
 import { a as d, I as x, H as N, E as R, e as _, o as B, k as j } from "./app2.js";
-var I = Object.freeze({
+var E = Object.freeze({
   Linear: Object.freeze({
     None: function(e) {
       return e;
@@ -118,13 +118,13 @@ var I = Object.freeze({
   }),
   Bounce: Object.freeze({
     In: function(e) {
-      return 1 - I.Bounce.Out(1 - e);
+      return 1 - E.Bounce.Out(1 - e);
     },
     Out: function(e) {
       return e < 1 / 2.75 ? 7.5625 * e * e : e < 2 / 2.75 ? 7.5625 * (e -= 1.5 / 2.75) * e + 0.75 : e < 2.5 / 2.75 ? 7.5625 * (e -= 2.25 / 2.75) * e + 0.9375 : 7.5625 * (e -= 2.625 / 2.75) * e + 0.984375;
     },
     InOut: function(e) {
-      return e < 0.5 ? I.Bounce.In(e * 2) * 0.5 : I.Bounce.Out(e * 2 - 1) * 0.5 + 0.5;
+      return e < 0.5 ? E.Bounce.In(e * 2) * 0.5 : E.Bounce.Out(e * 2 - 1) * 0.5 + 0.5;
     }
   }),
   generatePow: function(e) {
@@ -198,7 +198,7 @@ var I = Object.freeze({
   /** @class */
   function() {
     function e(t, i) {
-      i === void 0 && (i = L), this._object = t, this._group = i, this._isPaused = !1, this._pauseStart = 0, this._valuesStart = {}, this._valuesEnd = {}, this._valuesStartRepeat = {}, this._duration = 1e3, this._isDynamic = !1, this._initialRepeat = 0, this._repeat = 0, this._yoyo = !1, this._isPlaying = !1, this._reversed = !1, this._delayTime = 0, this._startTime = 0, this._easingFunction = I.Linear.None, this._interpolationFunction = C.Linear, this._chainedTweens = [], this._onStartCallbackFired = !1, this._onEveryStartCallbackFired = !1, this._id = F.nextId(), this._isChainStopped = !1, this._propertiesAreSetUp = !1, this._goToEnd = !1;
+      i === void 0 && (i = L), this._object = t, this._group = i, this._isPaused = !1, this._pauseStart = 0, this._valuesStart = {}, this._valuesEnd = {}, this._valuesStartRepeat = {}, this._duration = 1e3, this._isDynamic = !1, this._initialRepeat = 0, this._repeat = 0, this._yoyo = !1, this._isPlaying = !1, this._reversed = !1, this._delayTime = 0, this._startTime = 0, this._easingFunction = E.Linear.None, this._interpolationFunction = C.Linear, this._chainedTweens = [], this._onStartCallbackFired = !1, this._onEveryStartCallbackFired = !1, this._id = F.nextId(), this._isChainStopped = !1, this._propertiesAreSetUp = !1, this._goToEnd = !1;
     }
     return e.prototype.getId = function() {
       return this._id;
@@ -295,7 +295,7 @@ var I = Object.freeze({
     }, e.prototype.yoyo = function(t) {
       return t === void 0 && (t = !1), this._yoyo = t, this;
     }, e.prototype.easing = function(t) {
-      return t === void 0 && (t = I.Linear.None), this._easingFunction = t, this;
+      return t === void 0 && (t = E.Linear.None), this._easingFunction = t, this;
     }, e.prototype.interpolation = function(t) {
       return t === void 0 && (t = C.Linear), this._interpolationFunction = t, this;
     }, e.prototype.chain = function() {
@@ -479,20 +479,16 @@ class n {
   static recodePage(t = !1) {
     if (!a.val.getVal("save:sn.doRecLog")) return;
     const { fn: i, idx: s } = a.scrItr.nowScrIdx(), r = `${s - 1}:` + i;
-    if (this.aPage.findIndex((l) => l.key === r) > -1) return;
+    if (this.aPage.findIndex((c) => c.key === r) > -1) return;
     d.debugLog && console.log(`📜 %crecodePage === week:${t} lenPage:${this.lenPage} len:${this.aPage.length} POP:${this.aPage.at(-1)?.week}`, "color:#3B0;"), this.aPage.at(-1)?.week && this.aPage.pop();
-    const { max_len: o } = a.cfg.oCfg.log;
-    if (this.aPage.push({
+    const { max_len: o } = a.cfg.oCfg.log, l = a.scrItr.nowMark();
+    l.hSave["const.sn.sLog"] = "[]", this.aPage.push({
       key: r,
       week: t,
       fn: a.val.getVal("save:const.sn.scriptFn", i),
       index: a.val.getVal("save:const.sn.scriptIdx", 0),
-      mark: a.scrItr.nowMark()
-    }) > o && (this.aPage = this.aPage.slice(-o)), this.lenPage = this.aPage.length, d.debugLog) {
-      const l = a.scrItr.nowMark();
-      console.log(`   %clenPage:${this.lenPage} (base=${l.hPages.base.fore.sBkFn} 0=${l.hPages[0].fore.sBkFn} mes=${/color: \w+;/.exec(l.hPages.mes.fore.txs.cssText)})%c mark:%o`, "color:#3B0;", "", l), console.table(this.aPage);
-    }
-    a.val.setVal_Nochk("sys", "const.sn.aPageLog", JSON.stringify(this.aPage));
+      mark: l
+    }) > o && (this.aPage = this.aPage.slice(-o)), this.lenPage = this.aPage.length, d.debugLog && (console.log(`   %clenPage:${this.lenPage} (base=${l.hPages.base.fore.sBkFn} 0=${l.hPages[0].fore.sBkFn} mes=${/color: \w+;/.exec(l.hPages.mes.fore.txs.cssText)})%c mark:%o`, "color:#3B0;", "", l), console.table(this.aPage)), a.val.setVal_Nochk("sys", "const.sn.aPageLog", JSON.stringify(this.aPage));
   }
   static playbackPage(t, i) {
     this.aPage = JSON.parse(t), this.lenPage = this.aPage.length, this.posPage >= this.lenPage && (this.posPage = this.lenPage - 1), this.styPaging = i;
@@ -501,7 +497,7 @@ class n {
     new $();
   }
   endProc() {
-    new E();
+    new I();
   }
   // タグ処理
   l(t) {
@@ -550,7 +546,7 @@ class n {
     this.#t = {}, this.#e = {}, this.aPage = [], this.lenPage = 0, this.posPage = 0;
   }
 }
-class E extends n {
+class I extends n {
   constructor() {
     super(), d.debugLog && console.log("📖 => %cReadingState_go", "color:#3B0;"), a.main.resume();
   }
@@ -581,11 +577,11 @@ class M extends n {
         return;
       case "p":
         i = () => {
-          _(t, "er", !1) && a.hTag.er(t), a.sndMng.clearCache(), new E();
+          _(t, "er", !1) && a.hTag.er(t), a.sndMng.clearCache(), new I();
         };
         break;
       default:
-        i = () => new E();
+        i = () => new I();
     }
     n.waitRsvEvent(s, i);
   }
@@ -629,10 +625,10 @@ class O extends n {
   }
   // タグ処理
   l(t) {
-    return this.#i ? n.posPage === n.lenPage - 1 ? (this.#t(), new E().l(t)) : (_(t, "visible", !0) && a.layMng.breakLine(t), a.layMng.setAllStyle2TxtLay(n.styPaging), a.goTxt(), n.aPage[n.posPage]?.week ? (n.waitRsvEvent4Paging(), !0) : !1) : super.l(t);
+    return this.#i ? n.posPage === n.lenPage - 1 ? (this.#t(), new I().l(t)) : (_(t, "visible", !0) && a.layMng.breakLine(t), a.layMng.setAllStyle2TxtLay(n.styPaging), a.goTxt(), n.aPage[n.posPage]?.week ? (n.waitRsvEvent4Paging(), !0) : !1) : super.l(t);
   }
   p(t) {
-    return this.#i ? n.posPage === n.lenPage - 1 ? (this.#t(), new E().p(t)) : (_(t, "visible", !0) && a.layMng.breakPage(t), a.layMng.setAllStyle2TxtLay(n.styPaging), a.goTxt(), n.waitRsvEvent4Paging(), !0) : super.p(t);
+    return this.#i ? n.posPage === n.lenPage - 1 ? (this.#t(), new I().p(t)) : (_(t, "visible", !0) && a.layMng.breakPage(t), a.layMng.setAllStyle2TxtLay(n.styPaging), a.goTxt(), n.waitRsvEvent4Paging(), !0) : super.p(t);
   }
   s(t) {
     return new M(t), !0;
@@ -774,7 +770,7 @@ class a {
   }
 }
 export {
-  I as E,
+  E,
   n as R,
   D as T,
   a,

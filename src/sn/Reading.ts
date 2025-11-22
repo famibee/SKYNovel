@@ -214,17 +214,23 @@ export class ReadingState {
 
 		if (this.aPage.at(-1)?.week) this.aPage.pop();
 		const {max_len} = Reading.cfg.oCfg.log;	// 一定数を保つ
+
+		// 不必要ながら巨大になりがちな情報をダミー値にする
+		//	mark はページ移動処理で ReadingState_page.page() での
+		//	scrItr.loadFromMark() に渡す。問題ない範囲なら変数をオミットできる
+		const mark = Reading.scrItr.nowMark();
+		mark.hSave['const.sn.sLog'] = '[]';
+
 		if (this.aPage.push({key, week,
 			fn		: <string>Reading.val.getVal('save:const.sn.scriptFn', fn),
 			index	: <number>Reading.val.getVal('save:const.sn.scriptIdx', 0),
-			mark	: Reading.scrItr.nowMark(),
+			mark,
 		}) > max_len) this.aPage = this.aPage.slice(-max_len);
 		this.lenPage = this.aPage.length;
 
 		if (CmnLib.debugLog) {
-			const m = Reading.scrItr.nowMark();
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			console.log(`   %clenPage:${this.lenPage} (base=${(<T_RP_layGrp>m.hPages.base!.fore).sBkFn} 0=${(<T_RP_layGrp>m.hPages['0']!.fore).sBkFn} mes=${/color: \w+;/.exec((<T_RP_layTxt>m.hPages.mes!.fore).txs.cssText)})%c mark:%o`, 'color:#3B0;', '', m);
+			console.log(`   %clenPage:${this.lenPage} (base=${(<T_RP_layGrp>mark.hPages.base!.fore).sBkFn} 0=${(<T_RP_layGrp>mark.hPages['0']!.fore).sBkFn} mes=${/color: \w+;/.exec((<T_RP_layTxt>mark.hPages.mes!.fore).txs.cssText)})%c mark:%o`, 'color:#3B0;', '', mark);
 			console.table(this.aPage);
 		}
 
@@ -682,9 +688,9 @@ export class Reading {
 		hTag.l			= o=> ReadingState.rs.l(o);		// 行末クリック待ち
 		hTag.p			= o=> ReadingState.rs.p(o);		// 改ページクリック待ち
 		hTag.s			= o=> ReadingState.rs.s(o);		// 停止する
-		hTag.wait		= o=> ReadingState.rs.wait(o);		// ウェイトを入れる
+		hTag.wait		= o=> ReadingState.rs.wait(o);	// ウェイトを入れる
 		hTag.waitclick	= o=> ReadingState.rs.s(o);		// クリックを待つ
-		hTag.page		= o=> ReadingState.rs.page(o);		// ページ移動
+		hTag.page		= o=> ReadingState.rs.page(o);	// ページ移動
 
 		new ReadingState_proc;
 		hTag.jump({fn: 'main'});

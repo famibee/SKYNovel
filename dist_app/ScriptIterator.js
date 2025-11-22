@@ -997,6 +997,7 @@ class p {
   nowMark() {
     return { ...this.#u };
   }
+  // コピーはここでする
   //MARK: スクリプト停止位置（マクロなどなら最上位の呼び元）
   nowScrFnLn() {
     const { fn: t, idx: s } = this.nowScrIdx(), i = this.#a[t], h = this.#c(i, s);

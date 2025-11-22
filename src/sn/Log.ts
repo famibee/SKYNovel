@@ -90,7 +90,7 @@ export class Log implements T_LOG {
 	#reset_rec(hArg: TArg) {
 		this.#aLog = [];
 		hArg.text ??= '';
-		this.#LastLog = {text: hArg.text};		// 🌾
+		this.#LastLog = {text: hArg.text};	// 🌾
 		this.val.setVal_Nochk('save', 'const.sn.sLog', JSON.stringify([this.#LastLog]));	// 🍊 リプレイ時の回復用
 
 		return false;

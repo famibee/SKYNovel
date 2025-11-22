@@ -1535,7 +1535,7 @@ export class ScriptIterator {
 			idx	: cs.idx,
 		}
 	}
-	nowMark(): T_Mark {return {...this.#mark}}
+	nowMark(): T_Mark {return {...this.#mark}}	// コピーはここでする
 
 	//MARK: スクリプト停止位置（マクロなどなら最上位の呼び元）
 	nowScrFnLn(): {fn: string, ln: number, col_s: number, col_e: number} {
