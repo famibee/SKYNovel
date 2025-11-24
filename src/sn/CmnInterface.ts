@@ -125,9 +125,9 @@ export type T_H_SAVE_DATA = {
 	// 'const.sn.sound.【buf】.volume'	: number;
 	'const.sn.styPaging'	: string;
 	'sn.doRecLog'			: boolean;
-	'const.sn.sLog'		: string;
+	'const.sn.sLog'			: string;
 	'const.sn.loopPlaying'	: string;
-	'const.sn.scriptFn'	: string;
+	'const.sn.scriptFn'		: string;
 	'const.sn.scriptIdx'	: number;
 	// 'const.sn.layer.（文字レイヤ名）.enabled'	: boolean;
 
@@ -229,12 +229,12 @@ export type T_H_TMP_DATA = {
 	'const.sn.displayState'	: boolean;
 			// const.flash.display.Stage.displayState
 
-	// 'const.sn.frm.（フレーム名）'	: boolean;
-	// 'const.sn.frm.（フレーム名）.alpha'		: number;
+	// 'const.sn.frm.（フレーム名）'		: boolean;
+	// 'const.sn.frm.（フレーム名）.alpha'	: number;
 	// 'const.sn.frm.（フレーム名）.x'		: number;
 	// 'const.sn.frm.（フレーム名）.y'		: number;
-	// 'const.sn.frm.（フレーム名）.scale_x'		: number;
-	// 'const.sn.frm.（フレーム名）.scale_y'		: number;
+	// 'const.sn.frm.（フレーム名）.scale_x'	: number;
+	// 'const.sn.frm.（フレーム名）.scale_y'	: number;
 	// 'const.sn.frm.（フレーム名）.rotate'		: number;
 	// 'const.sn.frm.（フレーム名）.width'		: number;
 	// 'const.sn.frm.（フレーム名）.height'		: number;
@@ -299,21 +299,21 @@ export function creTMP_DATA(): T_H_TMP_DATA {return {
 	// 'const.sn.frm.（フレーム名）.alpha'	: 1,	// フレームの不透明度
 	// 'const.sn.frm.（フレーム名）.x'		: 0,	// フレームの座標。画面左上を(0, 0)とする座標。leftやtopでないことに注意
 	// 'const.sn.frm.（フレーム名）.y'		: 0,	// 実数；縦座標
-	// 'const.sn.frm.（フレーム名）.scale_x'	: 1,	// cssでのtransform: scaleの値
-	// 'const.sn.frm.（フレーム名）.scale_y'	: 1,	// cssでのtransform: scaleの値
+	// 'const.sn.frm.（フレーム名）.scale_x': 1,	// cssでのtransform: scaleの値
+	// 'const.sn.frm.（フレーム名）.scale_y': 1,	// cssでのtransform: scaleの値
 	// 'const.sn.frm.（フレーム名）.rotate'	: 0,	// cssでのrotate、回転角度（単位：deg 度）、正の値は時計回り
-	// 'const.sn.frm.（フレーム名）.width'		: prjのアプリ横幅画面サイズ,	// フレームの横幅
+	// 'const.sn.frm.（フレーム名）.width'	: prjのアプリ横幅画面サイズ,	// フレームの横幅
 	// 'const.sn.frm.（フレーム名）.height'	: prjのアプリ縦幅画面サイズ,	// フレームの縦幅
-	// 'const.sn.frm.（フレーム名）.visible'	: true,	// フレームが表示されているか。visible属性の値を返す
+	// 'const.sn.frm.（フレーム名）.visible': true,	// フレームが表示されているか。visible属性の値を返す
 
 	'const.sn.isApp'		: false,	// アプリ版か
 	'const.sn.isDbg'		: false,	// デバッグモードか
 	'const.sn.isPackaged'	: false,	// パッケージされたアプリか(Electron API - app.isPackaged)
 	'const.sn.isPaging'		: false,	// ページ遷移状態か
 	'const.sn.isDarkMode'	: false,	// ダークモードか
-	'const.sn.isDebugger'	: true,	// ブラウザ実行、それもVSCode・npmによる「起動：ブラウザ版」上での実行か
+	'const.sn.isDebugger'	: true,		// ブラウザ実行、それもVSCode・npmによる「起動：ブラウザ版」上での実行か
 	'const.sn.isFirstBoot'	: true,		// ゲームがインストールされてから、初めての起動か（起動されるまでデータが空だったか）
-	'const.sn.isKidoku'		: true,	// この変数を参照した位置は既読か。参照「後」必ず既読になる点に注意
+	'const.sn.isKidoku'		: true,		// この変数を参照した位置は既読か。参照「後」必ず既読になる点に注意
 	'const.sn.key.alternate': false,	// ALTキー（MacならOptionキー）が押されているか
 	'const.sn.key.back'		: false,	// back 〃
 	'const.sn.key.command'	: false,	// command 〃

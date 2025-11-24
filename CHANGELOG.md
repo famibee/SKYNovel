@@ -1,3 +1,7 @@
+- fix(src/sn/SndBuf.ts): fade 系が機能していなかった件
+- fix(src/sn/FrameMng.ts): [tsy_frame] を手直し
+
+
 ## [1.64.17](https://github.com/famibee/SKYNovel/compare/v1.64.16...v1.64.17) (2025-11-22)
 
 

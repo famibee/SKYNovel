@@ -196,12 +196,12 @@ function creTMP_DATA() {
     // 'const.sn.frm.（フレーム名）.alpha'	: 1,	// フレームの不透明度
     // 'const.sn.frm.（フレーム名）.x'		: 0,	// フレームの座標。画面左上を(0, 0)とする座標。leftやtopでないことに注意
     // 'const.sn.frm.（フレーム名）.y'		: 0,	// 実数；縦座標
-    // 'const.sn.frm.（フレーム名）.scale_x'	: 1,	// cssでのtransform: scaleの値
-    // 'const.sn.frm.（フレーム名）.scale_y'	: 1,	// cssでのtransform: scaleの値
+    // 'const.sn.frm.（フレーム名）.scale_x': 1,	// cssでのtransform: scaleの値
+    // 'const.sn.frm.（フレーム名）.scale_y': 1,	// cssでのtransform: scaleの値
     // 'const.sn.frm.（フレーム名）.rotate'	: 0,	// cssでのrotate、回転角度（単位：deg 度）、正の値は時計回り
-    // 'const.sn.frm.（フレーム名）.width'		: prjのアプリ横幅画面サイズ,	// フレームの横幅
+    // 'const.sn.frm.（フレーム名）.width'	: prjのアプリ横幅画面サイズ,	// フレームの横幅
     // 'const.sn.frm.（フレーム名）.height'	: prjのアプリ縦幅画面サイズ,	// フレームの縦幅
-    // 'const.sn.frm.（フレーム名）.visible'	: true,	// フレームが表示されているか。visible属性の値を返す
+    // 'const.sn.frm.（フレーム名）.visible': true,	// フレームが表示されているか。visible属性の値を返す
     "const.sn.isApp": !1,
     // アプリ版か
     "const.sn.isDbg": !1,

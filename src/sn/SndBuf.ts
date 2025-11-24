@@ -36,13 +36,14 @@ class SndInf {
 			readonly	ret_ms	: number,
 	private	readonly	volume	: number,
 			readonly	pan		: number,
-			readonly	snd		: Sound | null,
+	public				snd		: Sound | null,
 	) {
 		this.stt = snd ?new SsPlaying(this) :new SsLoading(this);
 		this.#proc_id = Reading.procID;
 		if (snd) this.addSnd(snd);
 	}
 	addSnd(snd: Sound) {
+		this.snd = snd;
 		this.loop = snd.loop;
 	//	if (! this.loop) sound.add(this.fn, snd);	// 手動キャッシュすると単発連打で無音に
 
@@ -464,13 +465,15 @@ class SsPlaying implements ISndState {
 			return;
 		}
 
-//console.log('fadese start from:%f to:%f', sb.snd.volume, vol);
+		if (! si.snd) return
+// console.log(`fadese start buf:${buf} from:%f to:%f`, si.snd.volume, vol);
 		const tw = si.tw();
 		if (! tw) return;
+
 		CmnTween.setTwProp(tw, hArg)
 		.to({volume: vol}, time)
-		.onUpdate(()=> {
-			if (si.snd?.isPlaying) return;
+		.onUpdate((d: {volume: number})=> {
+			if (si.snd?.isPlaying) {si.snd.volume = d.volume; return}
 
 			// レア発生の不具合対応
 			//	以下のエラーの対策。ただ、レア発生ゆえにこれで直ったかが確認できていない

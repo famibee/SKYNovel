@@ -294,8 +294,8 @@ var q = se.filter(function(n) {
   }, e.prototype.play = function(t) {
     var s = t.start, o = t.end, i = t.speed, r = t.loop, u = t.volume, a = t.muted, l = t.filters;
     this._paused = !1;
-    var h = this._media.nodes.cloneBufferSource(), y = h.source, m = h.gain;
-    this._source = y, this._gain = m, this._speed = i, this._volume = u, this._loop = !!r, this._muted = a, this._filters = l, this.refresh();
+    var h = this._media.nodes.cloneBufferSource(), m = h.source, y = h.gain;
+    this._source = m, this._gain = y, this._speed = i, this._volume = u, this._loop = !!r, this._muted = a, this._filters = l, this.refresh();
     var g = this._source.buffer.duration;
     this._duration = g, this._end = o, this._lastUpdate = this._now(), this._elapsed = s, this._source.onended = this._onComplete.bind(this), this._loop ? (this._source.loopEnd = o, this._source.loopStart = s, this._source.start(0, s)) : o ? this._source.start(0, s, o - s) : this._source.start(0, s), this.emit("start"), this._update(!0), this.enableTicker(!0);
   }, e.prototype.enableTicker = function(t) {
@@ -496,8 +496,8 @@ var q = se.filter(function(n) {
       s.start = r.start + (s.start || 0), s.end = r.end, s.speed = r.speed || 1, s.loop = r.loop || s.loop, delete s.sprite;
     }
     if (s.offset && (s.start = s.offset), !this.isLoaded) return new Promise(function(a, l) {
-      o.autoPlay = !0, o._autoPlayOptions = s, o._preload(function(h, y, m) {
-        h ? l(h) : (s.loaded && s.loaded(h, y, m), a(m));
+      o.autoPlay = !0, o._autoPlayOptions = s, o._preload(function(h, m, y) {
+        h ? l(h) : (s.loaded && s.loaded(h, m, y), a(y));
       });
     });
     (this.singleInstance || s.singleInstance) && this._removeInstances();
@@ -728,22 +728,22 @@ var q = se.filter(function(n) {
     this.disconnect(), this.destination = null, this.source = null;
   }, n;
 }(), B = { __proto__: null, EqualizerFilter: function(n) {
-  function e(t, s, o, i, r, u, a, l, h, y) {
-    t === void 0 && (t = 0), s === void 0 && (s = 0), o === void 0 && (o = 0), i === void 0 && (i = 0), r === void 0 && (r = 0), u === void 0 && (u = 0), a === void 0 && (a = 0), l === void 0 && (l = 0), h === void 0 && (h = 0), y === void 0 && (y = 0);
-    var m = this;
+  function e(t, s, o, i, r, u, a, l, h, m) {
+    t === void 0 && (t = 0), s === void 0 && (s = 0), o === void 0 && (o = 0), i === void 0 && (i = 0), r === void 0 && (r = 0), u === void 0 && (u = 0), a === void 0 && (a = 0), l === void 0 && (l = 0), h === void 0 && (h = 0), m === void 0 && (m = 0);
+    var y = this;
     if (!_().useLegacy) {
-      var g = [{ f: e.F32, type: "lowshelf", gain: t }, { f: e.F64, type: "peaking", gain: s }, { f: e.F125, type: "peaking", gain: o }, { f: e.F250, type: "peaking", gain: i }, { f: e.F500, type: "peaking", gain: r }, { f: e.F1K, type: "peaking", gain: u }, { f: e.F2K, type: "peaking", gain: a }, { f: e.F4K, type: "peaking", gain: l }, { f: e.F8K, type: "peaking", gain: h }, { f: e.F16K, type: "highshelf", gain: y }].map(function($) {
+      var g = [{ f: e.F32, type: "lowshelf", gain: t }, { f: e.F64, type: "peaking", gain: s }, { f: e.F125, type: "peaking", gain: o }, { f: e.F250, type: "peaking", gain: i }, { f: e.F500, type: "peaking", gain: r }, { f: e.F1K, type: "peaking", gain: u }, { f: e.F2K, type: "peaking", gain: a }, { f: e.F4K, type: "peaking", gain: l }, { f: e.F8K, type: "peaking", gain: h }, { f: e.F16K, type: "highshelf", gain: m }].map(function($) {
         var p = _().context.audioContext.createBiquadFilter();
         return p.type = $.type, v.setParamValue(p.Q, 1), p.frequency.value = $.f, v.setParamValue(p.gain, $.gain), p;
       });
-      (m = n.call(this, g[0], g[g.length - 1]) || this).bands = g, m.bandsMap = {};
-      for (var d = 0; d < m.bands.length; d++) {
-        var w = m.bands[d];
-        d > 0 && m.bands[d - 1].connect(w), m.bandsMap[w.frequency.value] = w;
+      (y = n.call(this, g[0], g[g.length - 1]) || this).bands = g, y.bandsMap = {};
+      for (var d = 0; d < y.bands.length; d++) {
+        var w = y.bands[d];
+        d > 0 && y.bands[d - 1].connect(w), y.bandsMap[w.frequency.value] = w;
       }
-      return m;
+      return y;
     }
-    m = n.call(this, null) || this;
+    y = n.call(this, null) || this;
   }
   return b(e, n), e.prototype.setGain = function(t, s) {
     if (s === void 0 && (s = 0), !this.bandsMap[t]) throw new Error("No band found for frequency ".concat(t));
@@ -913,7 +913,7 @@ class j {
     return this.#e;
   }
   addSnd(e) {
-    switch (this.loop = e.loop, this.stt.onLoad(this), this.pan !== 0 && (e.filters = [new B.StereoFilter(this.pan)]), this.setVol = (t) => {
+    switch (this.snd = e, this.loop = e.loop, this.stt.onLoad(this), this.pan !== 0 && (e.filters = [new B.StereoFilter(this.pan)]), this.setVol = (t) => {
       e.volume = t;
     }, this.tw = () => new he(e), this.onPlayEnd = () => {
       this.stt.onPlayEnd(this.buf), this.#s();
@@ -969,8 +969,8 @@ class f {
     c.setVal_Nochk("save", l + "fn", s);
     const h = f.getVol(e, 1);
     c.setVal_Nochk("save", l + "volume", h);
-    const y = h * Number(c.getVal("sys:" + l + "volume", 1, !0)), m = A(e, "loop", !1);
-    m ? (f.#t[t] = s, c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(f.#t))) : f.delLoopPlay(t), c.setVal_Nochk("save", l + "start_ms", o), c.setVal_Nochk("save", l + "end_ms", i), c.setVal_Nochk("save", l + "ret_ms", r), c.setVal_Nochk("tmp", l + "playing", !0), c.flush();
+    const m = h * Number(c.getVal("sys:" + l + "volume", 1, !0)), y = A(e, "loop", !1);
+    y ? (f.#t[t] = s, c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(f.#t))) : f.delLoopPlay(t), c.setVal_Nochk("save", l + "start_ms", o), c.setVal_Nochk("save", l + "end_ms", i), c.setVal_Nochk("save", l + "ret_ms", r), c.setVal_Nochk("tmp", l + "playing", !0), c.flush();
     const g = z.find(s);
     this.#e = new j(
       s,
@@ -978,14 +978,14 @@ class f {
       o,
       i,
       r,
-      y,
+      m,
       u,
       g
     );
     const d = {
-      loop: m,
+      loop: y,
       speed: a,
-      volume: y,
+      volume: m,
       loaded: (p, x) => {
         if (!this.#e.stt.isDestroy) {
           if (p) {
@@ -1012,7 +1012,7 @@ class f {
         p.end < 0 && (p.end += M, I.removeSprites(w), I.addSprites(w, p)), p.end <= p.start && S.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) >= start_ms:${o} は異常値です`), p.end * 1e3 <= r && S.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) <= ret_ms:${r} は異常値です`), M <= p.start && S.errScript(`[playse] 音声ファイル再生時間:${M * 1e3} <= start_ms:${o} は異常値です`), i !== f.MAX_END_MS && M <= p.end && S.errScript(`[playse] 音声ファイル再生時間:${M * 1e3} <= end_ms:${i} は異常値です`), I.play(w, (re) => d.complete?.(re));
       };
     } else d.autoPlay = !0;
-    if (m ? r !== 0 && (d.loop = !1, d.complete = (p) => {
+    if (y ? r !== 0 && (d.loop = !1, d.complete = (p) => {
       const x = p.duration, C = r / 1e3, E = i / 1e3;
       x <= C && S.errScript(`[playse] 音声ファイル再生時間:${x * 1e3} <= ret_ms:${r} は異常値です`), p.play({
         // 一周目はループなし、なのでキャッシュされてる
@@ -1032,7 +1032,7 @@ class f {
     }) : d.complete = () => {
       W(this.#e, t), this.#e.onPlayEnd();
     }, this.#s(), g) {
-      if (g.volume = y, w) this.#n(s, d);
+      if (g.volume = m, w) this.#n(s, d);
       else if (g.isPlayable) {
         const p = g.options.source;
         !(p instanceof ArrayBuffer) || p.byteLength === 0 ? g.play(d) : this.#e.addSnd(N.from({
@@ -1180,12 +1180,17 @@ class G {
       e.setVol(u), e.stt = a ? new P(e) : new G(e);
       return;
     }
-    const y = e.tw();
-    y && (pe.setTwProp(y, t).to({ volume: u }, l).onUpdate(() => {
-      e.snd?.isPlaying || (y.stop(), y.onComplete());
+    if (!e.snd) return;
+    const m = e.tw();
+    m && (pe.setTwProp(m, t).to({ volume: u }, l).onUpdate((y) => {
+      if (e.snd?.isPlaying) {
+        e.snd.volume = y.volume;
+        return;
+      }
+      m.stop(), m.onComplete();
     }).onComplete(() => {
-      fe(y), e.stt.compFade(s), e.stt = a ? new P(e) : new G(e);
-    }).start(), e.stt = new je(y, e));
+      fe(m), e.stt.compFade(s), e.stt = a ? new P(e) : new G(e);
+    }).start(), e.stt = new je(m, e));
   }
   wf = () => !1;
   // ok

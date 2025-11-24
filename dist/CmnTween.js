@@ -80,9 +80,9 @@ class k {
       if (!c) continue;
       const u = String(c), p = u.startsWith("="), h = p ? u.slice(1) : u;
       if (!h) continue;
-      const [d = "0", e] = h.split(","), r = s[a] = parseFloat(d);
-      e && (s[a] += Math.round(
-        Math.random() * (parseFloat(e) - r + 1)
+      const [d = "0", o] = h.split(","), r = s[a] = parseFloat(d);
+      o && (s[a] += Math.round(
+        Math.random() * (parseFloat(o) - r + 1)
       )), p && (s[a] += parseFloat(i[a]));
     }
     return s;
@@ -93,14 +93,14 @@ class k {
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static tween(t, i, s, a, c, u, p, h = !0) {
-    const d = this.#s.isSkipping ? 0 : T(i, "time", NaN), e = new S(s).to(a, d).onUpdate(c);
-    this.setTwProp(e, i), this.#t[t] = { tw: e, onEnd: p };
+    const d = this.#s.isSkipping ? 0 : T(i, "time", NaN), o = new S(s).to(a, d).onUpdate((e) => c(e));
+    this.setTwProp(o, i), this.#t[t] = { tw: o, onEnd: p };
     const { path: r } = i;
-    let f = e;
+    let f = o;
     if (r) {
       g.debugLog && console.group(`🍝 [${i[":タグ名"]}] path=${r}= start(${s.x},${s.y},${s.alpha})`);
-      for (const { groups: o } of r.matchAll(this.#o)) {
-        const { x: w, x2: Q, y, y2: C, o: m, o2: b, json: I } = o;
+      for (const { groups: e } of r.matchAll(this.#o)) {
+        const { x: w, x2: Q, y, y2: C, o: m, o2: b, json: I } = e;
         let l = {};
         if (I) try {
           l = JSON.parse(I);
@@ -119,16 +119,16 @@ class k {
       g.debugLog && console.groupEnd();
     }
     f.onComplete(() => {
-      const o = this.#t[t];
-      o?.tw && (delete this.#t[t], o.tw = void 0, e.stop(), o.onEnd?.(), u(), x.notifyEndProc($ + t));
+      const e = this.#t[t];
+      e?.tw && (delete this.#t[t], e.tw = void 0, o.stop(), e.onEnd?.(), u(), x.notifyEndProc($ + t));
     });
     const { chain: O } = i;
     if (O) {
-      const o = this.#t[O];
-      if (!o?.tw) throw `${O}は存在しない・または終了したトゥイーンです`;
-      delete o.onEnd, o.tw.chain(e);
-    } else h && e.start();
-    return e;
+      const e = this.#t[O];
+      if (!e?.tw) throw `${O}は存在しない・または終了したトゥイーンです`;
+      delete e.onEnd, e.tw.chain(o);
+    } else h && o.start();
+    return o;
   }
   // 11 match 301 step (0.1ms) PCRE2 https://regex101.com/r/reinpq/1
   // List ${x}${x2}/${y}${y2}/${o}${o2}=${json}\n

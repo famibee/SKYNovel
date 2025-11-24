@@ -377,15 +377,21 @@ export class FrameMng implements T_GetFrm {
 		const hArg2 = CmnTween.cnvTweenArg(hArg, hNow);
 
 		const hTo: {[val_name: string]: number} = {};
-		let fncA = ()=> { /* empty */ };
+		let fncA = (_d: {a: number})=> { /* empty */ };
 		if (alpha) {
 			hTo.a = argChk_Num(hArg2, 'alpha', 0);
-			fncA = ()=> {
-				f.style.opacity = String(hNow.a);
-				this.val.setVal_Nochk('tmp', 'alpha', hNow.a);
+			fncA = d=> {
+				f.style.opacity = String(d.a);
+				this.val.setVal_Nochk('tmp', 'alpha', d.a);
 			};
 		}
-		let fncXYSR = ()=> { /* empty */ };
+		let fncXYSR = (_d: {
+			x: number;
+			y: number;
+			sx: number;
+			sy: number;
+			r: number;
+		})=> { /* empty */ };
 		const rct = this.#rect(hArg2);
 		if (x || y || scale_x || scale_y || rotate) {
 			hTo.x = rct.x;
@@ -393,45 +399,42 @@ export class FrameMng implements T_GetFrm {
 			hTo.sx = argChk_Num(hArg2, 'scale_x', 1);
 			hTo.sy = argChk_Num(hArg2, 'scale_y', 1);
 			hTo.r = argChk_Num(hArg2, 'rotate', 0);
-			fncXYSR = ()=> {
+			fncXYSR = d=> {
 				f.style.left = `${
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					FrameMng.#sys.ofsLeft4elm +hNow.x! *FrameMng.#sys.cvsScale
+					FrameMng.#sys.ofsLeft4elm +d.x *FrameMng.#sys.cvsScale
 				} px`;
 				f.style.top  = `${
-					// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-					FrameMng.#sys.ofsTop4elm  +hNow.y! *FrameMng.#sys.cvsScale
+					FrameMng.#sys.ofsTop4elm  +d.y *FrameMng.#sys.cvsScale
 				} px`;
-				f.style.transform = `scale(${hNow.sx}, ${hNow.sy}) rotate(${hNow.r}deg)`;
-				this.val.setVal_Nochk('tmp', vn +'.x', hNow.x);
-				this.val.setVal_Nochk('tmp', vn +'.y', hNow.y);
-				this.val.setVal_Nochk('tmp', vn +'.scale_x', hNow.sx);
-				this.val.setVal_Nochk('tmp', vn +'.scale_y', hNow.sy);
-				this.val.setVal_Nochk('tmp', vn +'.rotate', hNow.r);
+				f.style.transform = `scale(${d.sx}, ${d.sy}) rotate(${d.r}deg)`;
+				this.val.setVal_Nochk('tmp', vn +'.x', d.x);
+				this.val.setVal_Nochk('tmp', vn +'.y', d.y);
+				this.val.setVal_Nochk('tmp', vn +'.scale_x', d.sx);
+				this.val.setVal_Nochk('tmp', vn +'.scale_y', d.sy);
+				this.val.setVal_Nochk('tmp', vn +'.rotate', d.r);
 			};
 		}
-		let fncW = ()=> { /* empty */ };
+		let fncW = (_d: {w: number})=> { /* empty */ };
 		if (width) {
 			hTo.w = rct.width;
-			fncW = ()=> {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				f.width = `${hNow.w! *FrameMng.#sys.cvsScale} px`;
-				this.val.setVal_Nochk('tmp', vn +'.width', hNow.w);
+			fncW = d=> {
+				f.width = `${d.w *FrameMng.#sys.cvsScale} px`;
+				this.val.setVal_Nochk('tmp', vn +'.width', d.w);
 			};
 		}
-		let fncH = ()=> { /* empty */ };
+		let fncH = (_d: {h: number})=> { /* empty */ };
 		if (height) {
 			hTo.h = rct.height;
-			fncH = ()=> {
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				f.height = `${hNow.h! *FrameMng.#sys.cvsScale} px`;
-				this.val.setVal_Nochk('tmp', vn +'.height', hNow.h);
+			fncH = d=> {
+				f.height = `${d.h *FrameMng.#sys.cvsScale} px`;
+				this.val.setVal_Nochk('tmp', vn +'.height', d.h);
 			};
 		}
 
 		this.appPixi.stage.interactive = false;
-		CmnTween.tween(`frm\n${id}`, hArg, hNow, CmnTween.cnvTweenArg(hArg, hNow), ()=> {
-			fncA(); fncXYSR(); fncW(); fncH();
+		CmnTween.tween(`frm\n${id}`, hArg, hNow, CmnTween.cnvTweenArg(hArg, hNow), d=> {
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+			fncA(d); fncXYSR(d); fncW(d); fncH(d);
 		}, ()=> {this.appPixi.stage.interactive = true}, ()=> { /* empty */ });
 
 		return false;

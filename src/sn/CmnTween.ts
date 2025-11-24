@@ -140,12 +140,12 @@ export class CmnTween {
 
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static	tween(tw_nm: string, hArg: TArg, hNow: any, hTo: any, onUpdate: ()=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween<any> {
+	static	tween(tw_nm: string, hArg: TArg, hNow: any, hTo: any, onUpdate: (d: any)=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween<any> {
 		const time = this.#evtMng.isSkipping ?0 :argChk_Num(hArg, 'time', NaN);
 		const tw = new Tween(hNow)
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		.to(hTo, time)
-		.onUpdate(onUpdate);
+		.onUpdate(d=> onUpdate(d));
 		this.setTwProp(tw, hArg);
 		this.#hTwInf[tw_nm] = {tw, onEnd};
 
