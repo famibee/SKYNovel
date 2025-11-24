@@ -1,3 +1,10 @@
+## [1.64.18](https://github.com/famibee/SKYNovel/compare/v1.64.17...v1.64.18) (2025-11-24)
+
+
+### Bug Fixes
+
+* **src/sn/SndBuf.ts:** fade 系が機能していなかった件 ([782812f](https://github.com/famibee/SKYNovel/commit/782812f1db9eda3014aada980af4fe61a074b00d))
+
 - fix(src/sn/SndBuf.ts): fade 系が機能していなかった件
 - fix(src/sn/FrameMng.ts): [tsy_frame] を手直し
 
