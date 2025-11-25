@@ -3,6 +3,9 @@ import { T as Se } from "./TxtLayer.js";
 import { Button as Jt } from "./Button.js";
 import { R as L, a as k } from "./Reading.js";
 class De {
+  constructor(t) {
+    this.cvs = t;
+  }
   #e = [];
   #t = -1;
   #r = new se();
@@ -121,7 +124,7 @@ class De {
     return t.on() ? t.btn : null;
   }
   blur() {
-    this.#o(), this.#t = -1, globalThis.focus();
+    this.#o(), this.#t = -1, this.cvs.focus();
   }
   #o() {
     for (let t = this.#e.length - 1; t >= 0; --t) {
