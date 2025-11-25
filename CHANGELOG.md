@@ -1,3 +1,6 @@
+-fix(src/sn/FocusMng.ts): フレームを非表示にした場合など、フォーカスを失った場合はメインキャンバスにフォーカスを移動させるように
+
+
 ## [1.64.18](https://github.com/famibee/SKYNovel/compare/v1.64.17...v1.64.18) (2025-11-24)
 
 

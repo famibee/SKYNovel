@@ -1153,7 +1153,7 @@ try {
 }
 class Vi {
   constructor(t, e, n, r, s, l, o, a, u) {
-    if (this.cfg = t, this.hTag = e, this.appPixi = n, this.main = r, this.layMng = s, this.val = l, this.scrItr = a, this.sys = u, e.clear_event = (c) => L.clear_event(c), e.event = (c) => this.#b(c), e.set_cancel_skip = () => !1, e.set_focus = (c) => this.#w(c), o.setEvtMng(this), a.setOtherObj(this, s), Se.setEvtMng(this, u, a), s.setEvtMng(this), k.setFcs(this.#t), u.setFire((c, f) => k.fire(c, f)), it.isDbg) {
+    if (this.cfg = t, this.hTag = e, this.appPixi = n, this.main = r, this.layMng = s, this.val = l, this.scrItr = a, this.sys = u, e.clear_event = (c) => L.clear_event(c), e.event = (c) => this.#b(c), e.set_cancel_skip = () => !1, e.set_focus = (c) => this.#w(c), this.#t = new De(n.view), o.setEvtMng(this), a.setOtherObj(this, s), Se.setEvtMng(this, u, a), s.setEvtMng(this), k.setFcs(this.#t), u.setFire((c, f) => k.fire(c, f)), it.isDbg) {
       const c = {
         pause: () => {
           if (!k.isWait) return;
@@ -1326,7 +1326,7 @@ class Vi {
     );
   }
   #e = new se();
-  #t = new De();
+  #t;
   #r;
   #a = /* @__PURE__ */ new Map([
     [0, ""],

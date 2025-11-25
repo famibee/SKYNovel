@@ -36,7 +36,7 @@ const enum eDownKeys {
 
 export class EventMng implements IEvtMng {
 	readonly	#elc		= new EventListenerCtn;
-	readonly	#fcs		= new FocusMng;
+	readonly	#fcs;
 	readonly	#tg;
 	readonly	#setBtnNM	= new Map<eDownKeys, string>([
 		[0, ''],
@@ -61,6 +61,7 @@ export class EventMng implements IEvtMng {
 		// ラベル・ジャンプ
 		// hTag.page		// Reading.ts内で定義		// ページ移動
 
+		this.#fcs = new FocusMng(appPixi.view);
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
 		TxtLayer.setEvtMng(this, sys, scrItr);
