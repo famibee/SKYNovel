@@ -1,3 +1,10 @@
+## [1.64.19](https://github.com/famibee/SKYNovel/compare/v1.64.18...v1.64.19) (2025-11-25)
+
+
+### Bug Fixes
+
+* **src/sn/FocusMng.ts:** フレームを非表示にした場合など、フォーカスを失った場合はメインキャンバスにフォーカスを移動させるように ([2d2a949](https://github.com/famibee/SKYNovel/commit/2d2a9498429ca200cb3a3173ba0ec844c1f06f89))
+
 -fix(src/sn/FocusMng.ts): フレームを非表示にした場合など、フォーカスを失った場合はメインキャンバスにフォーカスを移動させるように
 
 
