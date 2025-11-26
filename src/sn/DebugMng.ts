@@ -65,16 +65,16 @@ export class DebugMng {
 			`${dat}--- ${getDateStr('-', '_', '')
 			} [fn:${DebugMng.#scrItr.scriptFn} line:${String(DebugMng.#scrItr.lineNum)
 			}] prj:${this.sys.arg.cur
-			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing, @typescript-eslint/restrict-template-expressions
-			}\n${hArg.text || `(text is ${hArg.text})`}\n`,
+			// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+			}\n${hArg.text || `(text is ${String(hArg.text)})`}\n`,
 		);
 
 		return false;
 	}
 
 	#trace(hArg: TArg) {
-		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing, @typescript-eslint/restrict-template-expressions
-		DebugMng.myTrace(hArg.text || `(text is ${hArg.text})`, 'I');
+		// eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+		DebugMng.myTrace(hArg.text || `(text is ${String(hArg.text)})`, 'I');
 
 		return false;
 	}

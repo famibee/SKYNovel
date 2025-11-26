@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -272,9 +271,9 @@ export class EventMng implements IEvtMng {
 			if (CmnLib.debugLog) {
 				// コネクタを挿した時ではなく、ボタンなどを押した時に発生
 				// ただ一度抜き→差しするとすぐ発生するようになる
-				gamepad.on('gamepad:connected', ({detail})=> console.log(`👺<'gamepad:connected' index:${detail.index} id:${detail.gamepad.id}`));
+				gamepad.on('gamepad:connected', ({detail})=> console.log(`👺<'gamepad:connected' index:${String(detail.index)} id:${detail.gamepad.id}`));
 				// コネクタを抜いた時に発生
-				gamepad.on('gamepad:disconnected', ({detail})=> console.log(`👺<'gamepad:disconnected' index:${detail.index} id:${detail.gamepad.id}`));	// e.detail.gamepad = undefined
+				gamepad.on('gamepad:disconnected', ({detail})=> console.log(`👺<'gamepad:disconnected' index:${String(detail.index)} id:${detail.gamepad.id}`));	// e.detail.gamepad = undefined
 			}
 			const aStick: string[] = [
 				'',			'ArrowUp',	'',				// '7', '8', '9',

@@ -6,7 +6,6 @@
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2025-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -333,8 +332,8 @@ export function htm2tx(fnc: (tx2: any)=> void, htmTxt: HTMLSpanElement, infTL :T
 			node.setAttribute('xmlns', 'http://www.w3.org/1999/xhtml');
 			const img = new Image;
 			//img.crossOrigin = 'Anonymous';	//--いまのとこ不要
-			img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${infTL.$width
-			}px" height="${infTL.$height
+			img.src = `data:image/svg+xml;charset=utf-8,<svg xmlns="http://www.w3.org/2000/svg" width="${String(infTL.$width)
+			}px" height="${String(infTL.$height)
 			}px"><foreignObject x="0" y="0" width="100%" height="100%">${
 				(new XMLSerializer).serializeToString(node)
 				.replaceAll('#', '%23').replaceAll('\n', '%0A')
@@ -351,5 +350,5 @@ export function htm2tx(fnc: (tx2: any)=> void, htmTxt: HTMLSpanElement, infTL :T
 			canvas.getContext('2d')!.drawImage(img, 0, 0);
 			fnc(Texture.from(canvas));
 		})
-		.catch((e: unknown)=> DebugMng.myTrace(`goTxt() = ${e}`));
+		.catch((e: unknown)=> DebugMng.myTrace(`goTxt() = ${String(e)}`));
 	}

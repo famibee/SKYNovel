@@ -95,7 +95,7 @@ class p {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument, @typescript-eslint/no-unsafe-member-access
     add_break: (t) => this.#E(t.fn, t.o),
     data_break: (t) => {
-      this.#h === 0 && (this.#h = 1, this.main.setLoop(!1, `変数 ${t.dataId}【${t.old_v}】→【${t.new_v}】データブレーク`), this.sys.callHook("stopOnDataBreakpoint", {}), this.sys.send2Dbg("stopOnDataBreakpoint", {}));
+      this.#h === 0 && (this.#h = 1, this.main.setLoop(!1, `変数 ${String(t.dataId)}【${String(t.old_v)}】→【${String(t.new_v)}】データブレーク`), this.sys.callHook("stopOnDataBreakpoint", {}), this.sys.send2Dbg("stopOnDataBreakpoint", {}));
     },
     set_func_break: (t) => {
       p.#p = {};

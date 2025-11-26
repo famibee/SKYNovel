@@ -32,11 +32,11 @@ const EVNM_BUTTON = "pointerdown", EVNM_CLICK = "pointerdown", EVNM_KEY = "keydo
 function argChk_Num(n, e, t) {
   const r = n[e];
   if (!(e in n)) {
-    if (isNaN(t)) throw `[${n[":タグ名"]}]属性 ${e} は必須です`;
+    if (isNaN(t)) throw `[${n[":タグ名"] ?? ""}]属性 ${e} は必須です`;
     return n[e] = t, t;
   }
   const a = String(r).startsWith("0x") ? parseInt(r) : parseFloat(r);
-  if (isNaN(a)) throw `[${n[":タグ名"]}]属性 ${e} の値【${r}】が数値ではありません`;
+  if (isNaN(a)) throw `[${n[":タグ名"] ?? ""}]属性 ${e} の値【${String(r)}】が数値ではありません`;
   return n[e] = a, a;
 }
 function argChk_Boolean(n, e, t) {
@@ -64,7 +64,7 @@ function argChk_Color(n, e, t) {
 const REG_ERRMES_JSON = /JSON at position (\d+)$/;
 function mesErrJSON(n, e = "", t = "") {
   const r = (REG_ERRMES_JSON.exec(t) ?? ["", ""])[1];
-  return `[${n[":タグ名"]}] ${e} 属性の解析エラー : ${t}
+  return `[${n[":タグ名"] ?? ""}] ${e} 属性の解析エラー : ${t}
 ${// eslint-disable-next-line @typescript-eslint/no-base-to-string
   String(n[e])}${r ? `
 ${"^".padStart(Number(r))}` : ""}`;
@@ -21567,7 +21567,7 @@ class Layer {
   cvsResizeChildren() {
   }
   dump() {
-    return ` "idx":${this.ctn.parent.getChildIndex(this.ctn)}, "visible":"${this.ctn.visible}", "left":${this.ctn.x}, "top":${this.ctn.y}, "alpha":${this.ctn.alpha}, "rotation":${this.ctn.angle}, "name":"${this.name_}", "scale_x":${this.ctn.scale.x}, "scale_y":${this.ctn.scale.y}, "filters": [${this.aFltHArg.map((e) => `"${e.filter ?? ""}"`).join(",")}]`;
+    return ` "idx":${String(this.ctn.parent.getChildIndex(this.ctn))}, "visible":"${String(this.ctn.visible)}", "left":${String(this.ctn.x)}, "top":${String(this.ctn.y)}, "alpha":${String(this.ctn.alpha)}, "rotation":${String(this.ctn.angle)}, "name":"${this.name_}", "scale_x":${String(this.ctn.scale.x)}, "scale_y":${String(this.ctn.scale.y)}, "filters": [${this.aFltHArg.map((e) => `"${e.filter ?? ""}"`).join(",")}]`;
   }
   static setXY(e, t, r, a = !1, o = !1) {
     if (t.pos) {

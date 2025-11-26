@@ -1,6 +1,5 @@
 /* eslint-disable no-irregular-whitespace */
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2024-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -97,13 +96,13 @@ export class Hyphenation {
 			if (len行末禁則 < lenぶら下げ) {
 				for (let i=0; i<len行末禁則; ++i) {
 					const c = this.#s行末禁則[i];
-					if (this.#sぶら下げ.includes(c!)) throw `禁則の競合があります。文字 ${c} がぶら下げ と 行末禁則 の両方に含まれます`;
+					if (this.#sぶら下げ.includes(c!)) throw `禁則の競合があります。文字 ${String(c)} がぶら下げ と 行末禁則 の両方に含まれます`;
 				}
 			}
 			else {
 				for (let i=0; i<lenぶら下げ; ++i) {
 					const c = this.#sぶら下げ[i];
-					if (this.#s行末禁則.includes(c!)) throw `禁則の競合があります。文字 ${c} がぶら下げ と 行末禁則 の両方に含まれます`;
+					if (this.#s行末禁則.includes(c!)) throw `禁則の競合があります。文字 ${String(c)} がぶら下げ と 行末禁則 の両方に含まれます`;
 				}
 			}
 		}
@@ -115,13 +114,13 @@ export class Hyphenation {
 			if (len分割禁止 < lenぶら下げ) {
 				for (let i=0; i<len分割禁止; ++i) {
 					const c = this.#s分割禁止[i];
-					if (this.#sぶら下げ.includes(c!)) throw `禁則の競合があります。文字 ${c} がぶら下げ と 分割禁止 の両方に含まれます`;
+					if (this.#sぶら下げ.includes(c!)) throw `禁則の競合があります。文字 ${String(c)} がぶら下げ と 分割禁止 の両方に含まれます`;
 				}
 			}
 			else {
 				for (let i=0; i<lenぶら下げ; ++i) {
 					const c = this.#sぶら下げ[i];
-					if (this.#s分割禁止.includes(c!)) throw `禁則の競合があります。文字 ${c} がぶら下げ と 分割禁止 の両方に含まれます`;
+					if (this.#s分割禁止.includes(c!)) throw `禁則の競合があります。文字 ${String(c)} がぶら下げ と 分割禁止 の両方に含まれます`;
 				}
 			}
 		}

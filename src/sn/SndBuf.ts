@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2023-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -188,11 +187,11 @@ export class SndBuf {
 		const pan = argChk_Num(hArg, 'pan', 0);
 		const speed = argChk_Num(hArg, 'speed', 1);
 
-		if (start_ms < 0) throw `[playse] start_ms:${start_ms} が負の値です`;
-		if (ret_ms < 0) throw `[playse] ret_ms:${ret_ms} が負の値です`;
+		if (start_ms < 0) throw `[playse] start_ms:${String(start_ms)} が負の値です`;
+		if (ret_ms < 0) throw `[playse] ret_ms:${String(ret_ms)} が負の値です`;
 		if (0 < end_ms) {
-			if (end_ms <= start_ms) throw `[playse] start_ms:${start_ms} >= end_ms:${end_ms} は異常値です`;
-			if (end_ms <= ret_ms) throw `[playse] ret_ms:${ret_ms} >= end_ms:${end_ms} は異常値です`;
+			if (end_ms <= start_ms) throw `[playse] start_ms:${String(start_ms)} >= end_ms:${String(end_ms)} は異常値です`;
+			if (end_ms <= ret_ms) throw `[playse] ret_ms:${String(ret_ms)} >= end_ms:${String(end_ms)} は異常値です`;
 		}
 
 		// この辺で属性を増減したら、loadFromSaveObj()にも反映する
@@ -246,7 +245,7 @@ export class SndBuf {
 		// start_ms・end_ms機能→@pixi/sound準備
 		let sp_nm = '';
 		if (0 < start_ms || end_ms < SndBuf.MAX_END_MS) {
-			sp_nm = `${fn};${start_ms};${end_ms};${ret_ms}`;
+			sp_nm = `${fn};${String(start_ms)};${String(end_ms)};${String(ret_ms)}`;
 			const os = (o.sprites ??= {})[sp_nm] = {
 				start	: start_ms /1000,
 				end		: end_ms /1000,
@@ -266,10 +265,10 @@ export class SndBuf {
 					s2.removeSprites(sp_nm);
 					s2.addSprites(sp_nm, os);
 				}
-				if (os.end <= os.start) main.errScript(`[playse] end_ms:${end_ms}(${os.end *1000}) >= start_ms:${start_ms} は異常値です`);
-				if (os.end *1000 <= ret_ms) main.errScript(`[playse] end_ms:${end_ms}(${os.end *1000}) <= ret_ms:${ret_ms} は異常値です`);
-				if (d <= os.start) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <= start_ms:${start_ms} は異常値です`);
-				if (end_ms !== SndBuf.MAX_END_MS && d <= os.end) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <= end_ms:${end_ms} は異常値です`);
+				if (os.end <= os.start) main.errScript(`[playse] end_ms:${String(end_ms)}(${String(os.end *1000)}) >= start_ms:${String(start_ms)} は異常値です`);
+				if (os.end *1000 <= ret_ms) main.errScript(`[playse] end_ms:${String(end_ms)}(${String(os.end *1000)}) <= ret_ms:${String(ret_ms)} は異常値です`);
+				if (d <= os.start) main.errScript(`[playse] 音声ファイル再生時間:${String(d *1000)} <= start_ms:${String(start_ms)} は異常値です`);
+				if (end_ms !== SndBuf.MAX_END_MS && d <= os.end) main.errScript(`[playse] 音声ファイル再生時間:${String(d *1000)} <= end_ms:${String(end_ms)} は異常値です`);
 
 				void s2.play(sp_nm, snd=> o.complete?.(snd));
 					// 流れ的にはすぐ下の「ループなし/あり」を呼ぶ
@@ -289,7 +288,7 @@ export class SndBuf {
 				const d = snd.duration;
 				const start	= ret_ms /1000;
 				const end	= end_ms /1000;
-				if (d <= start) main.errScript(`[playse] 音声ファイル再生時間:${d *1000} <= ret_ms:${ret_ms} は異常値です`);
+				if (d <= start) main.errScript(`[playse] 音声ファイル再生時間:${String(d *1000)} <= ret_ms:${String(ret_ms)} は異常値です`);
 
 				void snd.play({	// 一周目はループなし、なのでキャッシュされてる
 					...o,
@@ -354,7 +353,7 @@ export class SndBuf {
 		.use((res, next)=> {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 			void sys.decAB(res.data).then(y=> {res.data = y})
-			.catch((e: unknown)=> main.errScript(`Sound ロード失敗ですc fn:${res.name} ${e}`, false))
+			.catch((e: unknown)=> main.errScript(`Sound ロード失敗ですc fn:${res.name} ${String(e)}`, false))
 			.finally(()=> next());
 		})
 		.load((_ldr, hRes)=> {	// このあと o.loaded() もコールされる

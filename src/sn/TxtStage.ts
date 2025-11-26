@@ -130,8 +130,7 @@ export class TxtStage extends Container {
 		this.addChild(this.#grpDbgMasume);
 		this.#grpDbgMasume.name = 'grpDbgMasume';
 		const fncMasumeLog = CmnLib.debugLog
-			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-			? ({ch, rect: {x, y, width, height}}: IChRect)=> console.log(`🍌 masume ch:${ch} x:${x} y:${y} w:${width} h:${height}`)
+			? ({ch, rect: {x, y, width, height}}: IChRect)=> console.log(`🍌 masume ch:${ch} x:${String(x)} y:${String(y)} w:${String(width)} h:${String(height)}`)
 			: ()=> { /* empty */ };
 		this.#fncMasume = TxtStage.#cfg.oCfg.debug.masume
 			? (cr: IChRect)=> {
@@ -225,8 +224,7 @@ export class TxtStage extends Container {
 			//-(CmnLib.isSafari && !CmnLib.isMobile && this.#isTategaki
 			//	? this.#infTL.pad_left +this.#infTL.pad_right
 			//	: 0);	// 無効化 2022/02/09
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		s.transformOrigin = `${this.ctn.pivot.x}px ${this.ctn.pivot.y}px`;
+		s.transformOrigin = `${String(this.ctn.pivot.x)}px ${String(this.ctn.pivot.y)}px`;
 		this.cvsResize();
 		s.display = this.ctn.visible ?'inline' :'none';
 
@@ -272,12 +270,9 @@ export class TxtStage extends Container {
 	cvsResize() {
 		const s = this.#htmTxt.style;
 		const cvsScale = this.sys.cvsScale;
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		s.left = `${this.sys.ofsLeft4elm +this.#left *cvsScale}px`;
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		s.top = `${this.sys.ofsTop4elm +this.ctn.position.y *cvsScale}px`;
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		s.transform = `rotate(${this.ctn.angle}deg) scale(${this.ctn.scale.x *cvsScale}, ${this.ctn.scale.y *cvsScale})`;
+		s.left = `${String(this.sys.ofsLeft4elm +this.#left *cvsScale)}px`;
+		s.top = `${String(this.sys.ofsTop4elm +this.ctn.position.y *cvsScale)}px`;
+		s.transform = `rotate(${String(this.ctn.angle)}deg) scale(${String(this.ctn.scale.x *cvsScale)}, ${String(this.ctn.scale.y *cvsScale)})`;
 
 //		this.#idc.cvsResize();
 //		this.#idcCh.cvsResize();
@@ -316,17 +311,15 @@ export class TxtStage extends Container {
 		let bkHtm = '';
 		if (begin === 0) {	// 初回
 			if (TxtStage.#cfg.oCfg.debug.masume) {
-				if (CmnLib.debugLog) console.log(`🍌 masume ${
-					// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-					this.name} v:${this.visible} l:${this.x} t:${this.y
-					// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-					} a:${this.alpha} pl:${this.#infTL.pad_left
-					// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-					} pr:${this.#infTL.pad_right
-					// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-					} pt:${this.#infTL.pad_top} pb:${this.#infTL.pad_bottom
-					// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-					} w:${this.#infTL.$width} h:${this.#infTL.$height}`);
+				if (CmnLib.debugLog) console.log(`🍌 masume ${this.name
+				} v:${String(this.visible)} l:${String(this.x)
+				} t:${String(this.y)} a:${String(this.alpha)
+				} pl:${String(this.#infTL.pad_left)
+				} pr:${String(this.#infTL.pad_right)
+				} pt:${String(this.#infTL.pad_top)
+				} pb:${String(this.#infTL.pad_bottom)
+				} w:${String(this.#infTL.$width)
+				} h:${String(this.#infTL.$height)}`);
 
 				this.#grpDbgMasume.clear()
 				.beginFill(0x33FF00, 0.2)	// 文字レイヤ

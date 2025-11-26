@@ -1270,7 +1270,7 @@ class Vi {
         analog: !1,
         deadZone: 0.3
       });
-      it.debugLog && (f.on("gamepad:connected", ({ detail: x }) => console.log(`👺<'gamepad:connected' index:${x.index} id:${x.gamepad.id}`)), f.on("gamepad:disconnected", ({ detail: x }) => console.log(`👺<'gamepad:disconnected' index:${x.index} id:${x.gamepad.id}`)));
+      it.debugLog && (f.on("gamepad:connected", ({ detail: x }) => console.log(`👺<'gamepad:connected' index:${String(x.index)} id:${x.gamepad.id}`)), f.on("gamepad:disconnected", ({ detail: x }) => console.log(`👺<'gamepad:disconnected' index:${String(x.index)} id:${x.gamepad.id}`)));
       const b = [
         "",
         "ArrowUp",

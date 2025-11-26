@@ -264,8 +264,7 @@ export class appMain_cmn {
 			// 全画面時に無効にする意味合いと、
 			// winでのみ全画面移行時に【setContentSize】から発生
 
-// // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-// console.log(`fn:appMain.ts window c:${ic} (${ix},${iy},${iw},${ih}) scr(${this.#scrSize.width},${this.#scrSize.height})`);
+console.log(`fn:appMain.ts window c:${String(ic)} (${String(ix)},${String(iy)},${String(iw)},${String(ih)}) scr(${String(this.#scrSize.width)},${String(this.#scrSize.height)})`);
 		this.#onMove = ()=> { /* empty */ };
 		const x = this.#winX = Math.round(ic
 			? (this.#scrSize.width - iw) *0.5

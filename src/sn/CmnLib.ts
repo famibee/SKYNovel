@@ -80,15 +80,17 @@ export	const	RPN_COMP_CHIN = 'compChIn';
 
 
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type T_HASH_Arg = {[name: string]: any};
+type T_HASH_Arg = {
+	':タグ名'?	: string;
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	[name: string]: any;
+};
 
 export	function argChk_Num(hash: T_HASH_Arg, name: string, def: number): number {
 	// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 	const v = hash[name];
 	if (! (name in hash)) {
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		if (isNaN(def)) throw `[${hash[':タグ名']}]属性 ${name} は必須です`;
+		if (isNaN(def)) throw `[${hash[':タグ名'] ?? ''}]属性 ${name} は必須です`;
 
 		hash[name] = def;
 		return def;
@@ -99,8 +101,7 @@ export	function argChk_Num(hash: T_HASH_Arg, name: string, def: number): number 
 		? parseInt(v)
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		: parseFloat(v);
-	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-	if (isNaN(n)) throw `[${hash[':タグ名']}]属性 ${name} の値【${v}】が数値ではありません`;
+	if (isNaN(n)) throw `[${hash[':タグ名'] ?? ''}]属性 ${name} の値【${String(v)}】が数値ではありません`;
 
 	hash[name] = n;
 	return n;
@@ -163,8 +164,7 @@ const REG_ERRMES_JSON = /JSON at position (\d+)$/;
 	// Unexpected number in JSON at position
 export	function mesErrJSON(hArg: TArg, nm = '', mes = ''): string {
 	const col = (REG_ERRMES_JSON.exec(mes) ?? ['',''])[1];
-	// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-	return `[${hArg[':タグ名']}] ${nm} 属性の解析エラー : ${mes}
+	return `[${hArg[':タグ名'] ?? ''}] ${nm} 属性の解析エラー : ${mes}
 ${
 	// eslint-disable-next-line @typescript-eslint/no-base-to-string
 	String(hArg[<keyof TArg>nm])

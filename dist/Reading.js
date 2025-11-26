@@ -1,5 +1,5 @@
 import { a as d, H as x, D as N, E as R, e as _, q as B, l as j } from "./web2.js";
-var E = Object.freeze({
+var S = Object.freeze({
   Linear: Object.freeze({
     None: function(e) {
       return e;
@@ -118,13 +118,13 @@ var E = Object.freeze({
   }),
   Bounce: Object.freeze({
     In: function(e) {
-      return 1 - E.Bounce.Out(1 - e);
+      return 1 - S.Bounce.Out(1 - e);
     },
     Out: function(e) {
       return e < 1 / 2.75 ? 7.5625 * e * e : e < 2 / 2.75 ? 7.5625 * (e -= 1.5 / 2.75) * e + 0.75 : e < 2.5 / 2.75 ? 7.5625 * (e -= 2.25 / 2.75) * e + 0.9375 : 7.5625 * (e -= 2.625 / 2.75) * e + 0.984375;
     },
     InOut: function(e) {
-      return e < 0.5 ? E.Bounce.In(e * 2) * 0.5 : E.Bounce.Out(e * 2 - 1) * 0.5 + 0.5;
+      return e < 0.5 ? S.Bounce.In(e * 2) * 0.5 : S.Bounce.Out(e * 2 - 1) * 0.5 + 0.5;
     }
   }),
   generatePow: function(e) {
@@ -198,7 +198,7 @@ var E = Object.freeze({
   /** @class */
   function() {
     function e(t, i) {
-      i === void 0 && (i = L), this._object = t, this._group = i, this._isPaused = !1, this._pauseStart = 0, this._valuesStart = {}, this._valuesEnd = {}, this._valuesStartRepeat = {}, this._duration = 1e3, this._isDynamic = !1, this._initialRepeat = 0, this._repeat = 0, this._yoyo = !1, this._isPlaying = !1, this._reversed = !1, this._delayTime = 0, this._startTime = 0, this._easingFunction = E.Linear.None, this._interpolationFunction = C.Linear, this._chainedTweens = [], this._onStartCallbackFired = !1, this._onEveryStartCallbackFired = !1, this._id = F.nextId(), this._isChainStopped = !1, this._propertiesAreSetUp = !1, this._goToEnd = !1;
+      i === void 0 && (i = L), this._object = t, this._group = i, this._isPaused = !1, this._pauseStart = 0, this._valuesStart = {}, this._valuesEnd = {}, this._valuesStartRepeat = {}, this._duration = 1e3, this._isDynamic = !1, this._initialRepeat = 0, this._repeat = 0, this._yoyo = !1, this._isPlaying = !1, this._reversed = !1, this._delayTime = 0, this._startTime = 0, this._easingFunction = S.Linear.None, this._interpolationFunction = C.Linear, this._chainedTweens = [], this._onStartCallbackFired = !1, this._onEveryStartCallbackFired = !1, this._id = F.nextId(), this._isChainStopped = !1, this._propertiesAreSetUp = !1, this._goToEnd = !1;
     }
     return e.prototype.getId = function() {
       return this._id;
@@ -244,15 +244,15 @@ var E = Object.freeze({
             var u = s[l];
             if (u.length === 0)
               continue;
-            for (var S = [c], P = 0, b = u.length; P < b; P += 1) {
+            for (var I = [c], P = 0, b = u.length; P < b; P += 1) {
               var T = this._handleRelativeValue(c, u[P]);
               if (isNaN(T)) {
                 h = !1, console.warn("Found invalid interpolation list. Skipping.");
                 break;
               }
-              S.push(T);
+              I.push(T);
             }
-            h && (s[l] = S);
+            h && (s[l] = I);
           }
           if ((g === "object" || f) && c && !h) {
             i[l] = f ? [] : {};
@@ -295,7 +295,7 @@ var E = Object.freeze({
     }, e.prototype.yoyo = function(t) {
       return t === void 0 && (t = !1), this._yoyo = t, this;
     }, e.prototype.easing = function(t) {
-      return t === void 0 && (t = E.Linear.None), this._easingFunction = t, this;
+      return t === void 0 && (t = S.Linear.None), this._easingFunction = t, this;
     }, e.prototype.interpolation = function(t) {
       return t === void 0 && (t = C.Linear), this._interpolationFunction = t, this;
     }, e.prototype.chain = function() {
@@ -332,8 +332,8 @@ var E = Object.freeze({
           return 1;
         var k = Math.trunc(c / f), v = c - k * f, w = Math.min(v / s._duration, 1);
         return w === 0 && c === s._duration ? 1 : w;
-      }, u = h(), S = this._easingFunction(u);
-      if (this._updateProperties(this._object, this._valuesStart, this._valuesEnd, S), this._onUpdateCallback && this._onUpdateCallback(this._object, u), this._duration === 0 || c >= this._duration)
+      }, u = h(), I = this._easingFunction(u);
+      if (this._updateProperties(this._object, this._valuesStart, this._valuesEnd, I), this._onUpdateCallback && this._onUpdateCallback(this._object, u), this._duration === 0 || c >= this._duration)
         if (this._repeat > 0) {
           var P = Math.min(Math.trunc((c - this._duration) / f) + 1, this._repeat);
           isFinite(this._repeat) && (this._repeat -= P);
@@ -478,9 +478,9 @@ class n {
   static aKeysAtPaging = [];
   static recodePage(t = !1) {
     if (!a.val.getVal("save:sn.doRecLog")) return;
-    const { fn: i, idx: s } = a.scrItr.nowScrIdx(), r = `${s - 1}:` + i;
+    const { fn: i, idx: s } = a.scrItr.nowScrIdx(), r = `${String(s - 1)}:` + i;
     if (this.aPage.findIndex((c) => c.key === r) > -1) return;
-    d.debugLog && console.log(`📜 %crecodePage === week:${t} lenPage:${this.lenPage} len:${this.aPage.length} POP:${this.aPage.at(-1)?.week}`, "color:#3B0;"), this.aPage.at(-1)?.week && this.aPage.pop();
+    d.debugLog && console.log(`📜 %crecodePage === week:${String(t)} lenPage:${String(this.lenPage)} len:${String(this.aPage.length)} POP:${String(this.aPage.at(-1)?.week)}`, "color:#3B0;"), this.aPage.at(-1)?.week && this.aPage.pop();
     const { max_len: o } = a.cfg.oCfg.log, l = a.scrItr.nowMark();
     l.hSave["const.sn.sLog"] = "[]", this.aPage.push({
       key: r,
@@ -488,7 +488,9 @@ class n {
       fn: a.val.getVal("save:const.sn.scriptFn", i),
       index: a.val.getVal("save:const.sn.scriptIdx", 0),
       mark: l
-    }) > o && (this.aPage = this.aPage.slice(-o)), this.lenPage = this.aPage.length, d.debugLog && (console.log(`   %clenPage:${this.lenPage} (base=${l.hPages.base.fore.sBkFn} 0=${l.hPages[0].fore.sBkFn} mes=${/color: \w+;/.exec(l.hPages.mes.fore.txs.cssText)})%c mark:%o`, "color:#3B0;", "", l), console.table(this.aPage)), a.val.setVal_Nochk("sys", "const.sn.aPageLog", JSON.stringify(this.aPage));
+    }) > o && (this.aPage = this.aPage.slice(-o)), this.lenPage = this.aPage.length, d.debugLog && (console.log(`   %clenPage:${String(this.lenPage)} (base=${l.hPages.base.fore.sBkFn} 0=${l.hPages[0].fore.sBkFn} mes=${String(
+      /color: \w+;/.exec((l.hPages.mes?.fore).txs.cssText)
+    )})%c mark:%o`, "color:#3B0;", "", l), console.table(this.aPage)), a.val.setVal_Nochk("sys", "const.sn.aPageLog", JSON.stringify(this.aPage));
   }
   static playbackPage(t, i) {
     this.aPage = JSON.parse(t), this.lenPage = this.aPage.length, this.posPage >= this.lenPage && (this.posPage = this.lenPage - 1), this.styPaging = i;
@@ -497,7 +499,7 @@ class n {
     new $();
   }
   endProc() {
-    new I();
+    new E();
   }
   // タグ処理
   l(t) {
@@ -546,7 +548,7 @@ class n {
     this.#t = {}, this.#e = {}, this.aPage = [], this.lenPage = 0, this.posPage = 0;
   }
 }
-class I extends n {
+class E extends n {
   constructor() {
     super(), d.debugLog && console.log("📖 => %cReadingState_go", "color:#3B0;"), a.main.resume();
   }
@@ -577,11 +579,11 @@ class M extends n {
         return;
       case "p":
         i = () => {
-          _(t, "er", !1) && a.hTag.er(t), a.sndMng.clearCache(), new I();
+          _(t, "er", !1) && a.hTag.er(t), a.sndMng.clearCache(), new E();
         };
         break;
       default:
-        i = () => new I();
+        i = () => new E();
     }
     n.waitRsvEvent(s, i);
   }
@@ -625,10 +627,10 @@ class O extends n {
   }
   // タグ処理
   l(t) {
-    return this.#i ? n.posPage === n.lenPage - 1 ? (this.#t(), new I().l(t)) : (_(t, "visible", !0) && a.layMng.breakLine(t), a.layMng.setAllStyle2TxtLay(n.styPaging), a.goTxt(), n.aPage[n.posPage]?.week ? (n.waitRsvEvent4Paging(), !0) : !1) : super.l(t);
+    return this.#i ? n.posPage === n.lenPage - 1 ? (this.#t(), new E().l(t)) : (_(t, "visible", !0) && a.layMng.breakLine(t), a.layMng.setAllStyle2TxtLay(n.styPaging), a.goTxt(), n.aPage[n.posPage]?.week ? (n.waitRsvEvent4Paging(), !0) : !1) : super.l(t);
   }
   p(t) {
-    return this.#i ? n.posPage === n.lenPage - 1 ? (this.#t(), new I().p(t)) : (_(t, "visible", !0) && a.layMng.breakPage(t), a.layMng.setAllStyle2TxtLay(n.styPaging), a.goTxt(), n.waitRsvEvent4Paging(), !0) : super.p(t);
+    return this.#i ? n.posPage === n.lenPage - 1 ? (this.#t(), new E().p(t)) : (_(t, "visible", !0) && a.layMng.breakPage(t), a.layMng.setAllStyle2TxtLay(n.styPaging), a.goTxt(), n.waitRsvEvent4Paging(), !0) : super.p(t);
   }
   s(t) {
     return new M(t), !0;
@@ -639,7 +641,7 @@ class O extends n {
   page(t) {
     const { to: i, style: s, clear: r } = t;
     if (s || r) return !1;
-    switch (d.debugLog && console.log(`📜 %cpage() pos:${n.posPage}%c len:${n.lenPage} to:${i}`, "color:#3B0;", ""), i) {
+    switch (d.debugLog && console.log(`📜 %cpage() pos:${String(n.posPage)}%c len:${String(n.lenPage)} to:${String(i)}`, "color:#3B0;", ""), i) {
       case "oldest":
         if (n.posPage === 0) return !1;
         n.posPage = 0;
@@ -663,15 +665,19 @@ class O extends n {
         n.lenPage = n.posPage + 1, n.aPage = n.aPage.slice(0, n.lenPage), this.#t();
         break;
       default:
-        throw `属性to「${i}」は異常です`;
+        throw `属性to「${String(i)}」は異常です`;
     }
     n.posPage === n.lenPage - 1 && this.#t();
     const o = n.aPage[n.posPage];
-    if (!o) throw `posPage異常:${n.posPage}`;
+    if (!o) throw `posPage異常:${String(n.posPage)}`;
     const { fn: l, index: c, mark: f } = o;
     if (d.debugLog) {
       const g = a.scrItr.nowMark(), { week: h } = n.aPage[n.posPage] ?? { week: !1 };
-      console.log(`   -- fn:${l} i:${c} pos:${n.posPage} (base=%c${g.hPages.base.fore.sBkFn}%c 0=%c${g.hPages[0].fore.sBkFn}%c mes=%c${/color: \w+;/.exec(g.hPages.mes.fore.txs.cssText)}%c) week:${h} A:${n.posPage === n.lenPage - 1}
+      console.log(`   -- fn:${l} i:${String(c)} pos:${String(n.posPage)} (base=%c${(g.hPages.base?.fore).sBkFn}%c 0=%c${(g.hPages[0]?.fore).sBkFn}%c mes=%c${String(
+        /color: \w+;/.exec((g.hPages.mes?.fore).txs.cssText)
+      )}%c) week:${String(h)} A:${String(
+        n.posPage === n.lenPage - 1
+      )}
    styPaging=%c${n.styPaging}%c
    mark:%o`, "background-color:#3B0; color:#000;", "", "background-color:#B4F; color:#000;", "", "color:#B68;", "", n.styPaging, "", f);
     }
@@ -683,7 +689,7 @@ class O extends n {
 }
 class a {
   static beginProc(t, i, s = !0, r) {
-    if (d.debugLog && console.log(`📖.beginProc id:%c${t}%c onNotify:${i} endProc:${s} onClickSkip:${r}`, "color:#3B0;", ""), this.#i(), this.#s = t, i) {
+    if (d.debugLog && console.log(`📖.beginProc id:%c${t}%c onNotify:${String(i)} endProc:${String(s)} onClickSkip:${String(r)}`, "color:#3B0;", ""), this.#i(), this.#s = t, i) {
       const { promise: o, resolve: l } = Promise.withResolvers();
       o.then((c) => {
         d.debugLog && console.log(`📖.callBack id:%c${c}%c`, "color:#3B0;", ""), i(), s ? this.endProc(c) : this.#i();
@@ -709,14 +715,14 @@ class a {
   static #e = () => {
   };
   static notifyEndProc(t) {
-    d.debugLog && console.log(`📖.notifyEndProc id:%c${t}%c=${this.#s === t}`, "color:#3B0;", ""), this.#s === t && this.#e(t);
+    d.debugLog && console.log(`📖.notifyEndProc id:%c${t}%c=${String(this.#s === t)}`, "color:#3B0;", ""), this.#s === t && this.#e(t);
   }
   static endProc(t) {
-    d.debugLog && console.log(`📖.endProc id:%c${t}%c=${this.#s === t}`, "color:#3B0;", ""), this.#s === t && (n.rs.endProc(), this.#i());
+    d.debugLog && console.log(`📖.endProc id:%c${t}%c=${String(this.#s === t)}`, "color:#3B0;", ""), this.#s === t && (n.rs.endProc(), this.#i());
   }
   static #s = "";
   static get procID() {
-    return `RP_${this.scrItr.scriptFn}:${this.scrItr.idxToken}_`;
+    return `RP_${this.scrItr.scriptFn}:${String(this.scrItr.idxToken)}_`;
   }
   static fire(t, i, s = !1) {
     s && this.cancelAutoSkip(), n.rs.fire(t, i);
@@ -770,7 +776,7 @@ class a {
   }
 }
 export {
-  E,
+  S as E,
   n as R,
   W as T,
   a,

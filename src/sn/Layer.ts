@@ -485,19 +485,14 @@ export class Layer {
 	cvsResizeChildren() { /* empty */ }
 
 	dump(): string {
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		return ` "idx":${this.ctn.parent.getChildIndex(this.ctn)
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		}, "visible":"${this.ctn.visible
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		}", "left":${this.ctn.x}, "top":${this.ctn.y
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		}, "alpha":${this.ctn.alpha}, "rotation":${this.ctn.angle
+		return ` "idx":${String(this.ctn.parent.getChildIndex(this.ctn))
+		}, "visible":"${String(this.ctn.visible)
+		}", "left":${String(this.ctn.x)}, "top":${String(this.ctn.y)
+		}, "alpha":${String(this.ctn.alpha)
+		}, "rotation":${String(this.ctn.angle)
 //		}, "blendMode":${this.ctn.blendMode
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		}, "name":"${this.name_}", "scale_x":${this.ctn.scale.x
-		// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-		}, "scale_y":${this.ctn.scale.y
+		}, "name":"${this.name_}", "scale_x":${String(this.ctn.scale.x)
+		}, "scale_y":${String(this.ctn.scale.y)
 		}, "filters": [${this.aFltHArg.map(f=> `"${f.filter ?? ''}"`).join(',')}]`;
 	}
 

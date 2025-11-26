@@ -152,8 +152,8 @@ export class CmnTween {
 		const {path} = hArg;
 		let twLast = tw;
 		if (path) {
-			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
-			if (CmnLib.debugLog) console.group(`🍝 [${hArg[':タグ名']}] path=${path}= start(${hNow.x},${hNow.y},${hNow.alpha})`);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			if (CmnLib.debugLog) console.group(`🍝 [${hArg[':タグ名'] ?? ''}] path=${path}= start(${String(hNow.x)},${String(hNow.y)},${String(hNow.alpha)})`);
 			for (const {groups} of path.matchAll(this.#REG_TSY_PATH)) {
 				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 				const {x, x2, y, y2, o, o2, json} = groups!;
@@ -170,8 +170,7 @@ export class CmnTween {
 
 				const hTo2 = this.cnvTweenArg(hArg2, hNow);
 				if (CmnLib.debugLog) console.info(`🍝 ${
-					// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-					json ?? `{x:${x} y:${y} o:${o}}`
+					json ?? `{x:${String(x)} y:${String(y)} o:${String(o)}}`
 				} => hTo:${JSON.stringify(hTo2)}`);
 
 				const twNew = new Tween(hNow)

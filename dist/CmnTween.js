@@ -1,6 +1,6 @@
-import { l as T, e as P, a as g } from "./web2.js";
-import { u as L, E as n, b as N, T as S, a as x } from "./Reading.js";
-const _ = `trans
+import { l as E, e as P, a as T } from "./web2.js";
+import { u as L, E as n, b as N, T as B, a as x } from "./Reading.js";
+const S = `trans
 `, $ = "tsy nm:";
 class k {
   static #t = {};
@@ -15,8 +15,8 @@ class k {
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static setTwProp(t, i) {
-    const s = T(i, "repeat", 1);
-    return t.delay(T(i, "delay", 0)).easing(this.ease(i.ease)).repeat(s > 0 ? s - 1 : 1 / 0).yoyo(P(i, "yoyo", !1));
+    const s = E(i, "repeat", 1);
+    return t.delay(E(i, "delay", 0)).easing(this.ease(i.ease)).repeat(s > 0 ? s - 1 : 1 / 0).yoyo(P(i, "yoyo", !1));
   }
   static #e = {
     "Back.In": (t) => n.Back.In(t),
@@ -78,11 +78,11 @@ class k {
     for (const a of k.aLayerPrpNm) {
       const c = t[a];
       if (!c) continue;
-      const u = String(c), p = u.startsWith("="), h = p ? u.slice(1) : u;
+      const r = String(c), p = r.startsWith("="), h = p ? r.slice(1) : r;
       if (!h) continue;
-      const [d = "0", o] = h.split(","), r = s[a] = parseFloat(d);
+      const [d = "0", o] = h.split(","), u = s[a] = parseFloat(d);
       o && (s[a] += Math.round(
-        Math.random() * (parseFloat(o) - r + 1)
+        Math.random() * (parseFloat(o) - u + 1)
       )), p && (s[a] += parseFloat(i[a]));
     }
     return s;
@@ -92,15 +92,15 @@ class k {
     this.#t = {}, N();
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static tween(t, i, s, a, c, u, p, h = !0) {
-    const d = this.#s.isSkipping ? 0 : T(i, "time", NaN), o = new S(s).to(a, d).onUpdate((e) => c(e));
+  static tween(t, i, s, a, c, r, p, h = !0) {
+    const d = this.#s.isSkipping ? 0 : E(i, "time", NaN), o = new B(s).to(a, d).onUpdate((e) => c(e));
     this.setTwProp(o, i), this.#t[t] = { tw: o, onEnd: p };
-    const { path: r } = i;
+    const { path: u } = i;
     let f = o;
-    if (r) {
-      g.debugLog && console.group(`🍝 [${i[":タグ名"]}] path=${r}= start(${s.x},${s.y},${s.alpha})`);
-      for (const { groups: e } of r.matchAll(this.#o)) {
-        const { x: w, x2: Q, y, y2: C, o: m, o2: b, json: I } = e;
+    if (u) {
+      T.debugLog && console.group(`🍝 [${i[":タグ名"] ?? ""}] path=${u}= start(${String(s.x)},${String(s.y)},${String(s.alpha)})`);
+      for (const { groups: e } of u.matchAll(this.#o)) {
+        const { x: w, x2: _, y, y2: Q, o: g, o2: C, json: I } = e;
         let l = {};
         if (I) try {
           l = JSON.parse(I);
@@ -109,18 +109,17 @@ class k {
           continue;
         }
         else
-          (w ?? Q) && (l.x = w ?? Q), (y ?? C) && (l.y = y ?? C), (m ?? b) && (l.alpha = Number(m ?? b));
-        const B = this.cnvTweenArg(l, s);
-        g.debugLog && console.info(`🍝 ${// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-        I ?? `{x:${w} y:${y} o:${m}}`} => hTo:${JSON.stringify(B)}`);
-        const E = new S(s).to(B, d);
-        this.setTwProp(E, i), f.chain(E), f = E;
+          (w ?? _) && (l.x = w ?? _), (y ?? Q) && (l.y = y ?? Q), (g ?? C) && (l.alpha = Number(g ?? C));
+        const b = this.cnvTweenArg(l, s);
+        T.debugLog && console.info(`🍝 ${I ?? `{x:${String(w)} y:${String(y)} o:${String(g)}}`} => hTo:${JSON.stringify(b)}`);
+        const m = new B(s).to(b, d);
+        this.setTwProp(m, i), f.chain(m), f = m;
       }
-      g.debugLog && console.groupEnd();
+      T.debugLog && console.groupEnd();
     }
     f.onComplete(() => {
       const e = this.#t[t];
-      e?.tw && (delete this.#t[t], e.tw = void 0, o.stop(), e.onEnd?.(), u(), x.notifyEndProc($ + t));
+      e?.tw && (delete this.#t[t], e.tw = void 0, o.stop(), e.onEnd?.(), r(), x.notifyEndProc($ + t));
     });
     const { chain: O } = i;
     if (O) {
@@ -149,13 +148,13 @@ class k {
   static #o = /\(\s*(?:(?<x>[-=\d.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
   // トランス終了待ち
   static wt(t) {
-    if (!this.#t[_]?.tw) return !1;
+    if (!this.#t[S]?.tw) return !1;
     const s = () => this.stopEndTrans();
-    return x.beginProc(_, s, !0, s), !0;
+    return x.beginProc(S, s, !0, s), !0;
   }
   // レイヤのトランジションの停止
   static stopEndTrans() {
-    this.#t[_]?.tw?.stop().end();
+    this.#t[S]?.tw?.stop().end();
   }
   // stop()とend()は別
   // トゥイーン終了待ち
@@ -189,6 +188,6 @@ ${s}` : a ?? i;
 }
 export {
   k as C,
-  _ as T
+  S as T
 };
 //# sourceMappingURL=CmnTween.js.map

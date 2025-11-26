@@ -626,7 +626,7 @@ var q = se.filter(function(n) {
     }, o);
     i && i.catch(o);
   }, e;
-}(ie), Ee = function() {
+}(ie), Se = function() {
   function n() {
     this.init();
   }
@@ -899,11 +899,11 @@ var q = se.filter(function(n) {
   return b(e, n), e;
 }(k) }, Ve = { __proto__: null, supported: K }, z = function(n) {
   return ee = n, n;
-}(new Ee());
+}(new Se());
 ue.add(oe);
 class j {
   constructor(e, t, s, o, i, r, u, a) {
-    this.fn = e, this.buf = t, this.start_ms = s, this.end_ms = o, this.ret_ms = i, this.volume = r, this.pan = u, this.snd = a, this.stt = a ? new G(this) : new Se(this), this.#e = L.procID, a && this.addSnd(a);
+    this.fn = e, this.buf = t, this.start_ms = s, this.end_ms = o, this.ret_ms = i, this.volume = r, this.pan = u, this.snd = a, this.stt = a ? new G(this) : new Ee(this), this.#e = L.procID, a && this.addSnd(a);
   }
   static #t = 1;
   stt;
@@ -953,17 +953,17 @@ class j {
   destroy() {
   }
 }
-let J, c, S, Z, H, U;
+let J, c, E, Z, H, U;
 const X = "BGM", D = "SE", Q = "VOICE";
 class f {
   constructor(e, t, s) {
     this.hArg = e, this.buf = t, this.fn = s;
     const o = F(e, "start_ms", 0), i = F(e, "end_ms", f.MAX_END_MS), r = F(e, "ret_ms", 0), u = F(e, "pan", 0), a = F(e, "speed", 1);
-    if (o < 0) throw `[playse] start_ms:${o} が負の値です`;
-    if (r < 0) throw `[playse] ret_ms:${r} が負の値です`;
+    if (o < 0) throw `[playse] start_ms:${String(o)} が負の値です`;
+    if (r < 0) throw `[playse] ret_ms:${String(r)} が負の値です`;
     if (0 < i) {
-      if (i <= o) throw `[playse] start_ms:${o} >= end_ms:${i} は異常値です`;
-      if (i <= r) throw `[playse] ret_ms:${r} >= end_ms:${i} は異常値です`;
+      if (i <= o) throw `[playse] start_ms:${String(o)} >= end_ms:${String(i)} は異常値です`;
+      if (i <= r) throw `[playse] ret_ms:${String(r)} >= end_ms:${String(i)} は異常値です`;
     }
     const l = "const.sn.sound." + t + ".";
     c.setVal_Nochk("save", l + "fn", s);
@@ -989,7 +989,7 @@ class f {
       loaded: (p, x) => {
         if (!this.#e.stt.isDestroy) {
           if (p) {
-            S.errScript(`ロード失敗です SndBuf fn:${s} ${String(p)}`, !1);
+            E.errScript(`ロード失敗です SndBuf fn:${s} ${String(p)}`, !1);
             return;
           }
           x && (this.#e.addSnd(x), u !== 0 && (x.filters = [new B.StereoFilter(u)]), e.fnc?.());
@@ -998,27 +998,27 @@ class f {
     };
     let w = "";
     if (0 < o || i < f.MAX_END_MS) {
-      w = `${s};${o};${i};${r}`;
+      w = `${s};${String(o)};${String(i)};${String(r)}`;
       const p = (d.sprites ??= {})[w] = {
         start: o / 1e3,
         end: i / 1e3
       };
       d.preload = !0;
       const x = d.loaded;
-      d.loaded = (C, E) => {
+      d.loaded = (C, S) => {
         if (this.#e.stt.isDestroy) return;
-        x(C, E);
-        const I = E, M = I.duration;
-        p.end < 0 && (p.end += M, I.removeSprites(w), I.addSprites(w, p)), p.end <= p.start && S.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) >= start_ms:${o} は異常値です`), p.end * 1e3 <= r && S.errScript(`[playse] end_ms:${i}(${p.end * 1e3}) <= ret_ms:${r} は異常値です`), M <= p.start && S.errScript(`[playse] 音声ファイル再生時間:${M * 1e3} <= start_ms:${o} は異常値です`), i !== f.MAX_END_MS && M <= p.end && S.errScript(`[playse] 音声ファイル再生時間:${M * 1e3} <= end_ms:${i} は異常値です`), I.play(w, (re) => d.complete?.(re));
+        x(C, S);
+        const I = S, M = I.duration;
+        p.end < 0 && (p.end += M, I.removeSprites(w), I.addSprites(w, p)), p.end <= p.start && E.errScript(`[playse] end_ms:${String(i)}(${String(p.end * 1e3)}) >= start_ms:${String(o)} は異常値です`), p.end * 1e3 <= r && E.errScript(`[playse] end_ms:${String(i)}(${String(p.end * 1e3)}) <= ret_ms:${String(r)} は異常値です`), M <= p.start && E.errScript(`[playse] 音声ファイル再生時間:${String(M * 1e3)} <= start_ms:${String(o)} は異常値です`), i !== f.MAX_END_MS && M <= p.end && E.errScript(`[playse] 音声ファイル再生時間:${String(M * 1e3)} <= end_ms:${String(i)} は異常値です`), I.play(w, (re) => d.complete?.(re));
       };
     } else d.autoPlay = !0;
     if (y ? r !== 0 && (d.loop = !1, d.complete = (p) => {
-      const x = p.duration, C = r / 1e3, E = i / 1e3;
-      x <= C && S.errScript(`[playse] 音声ファイル再生時間:${x * 1e3} <= ret_ms:${r} は異常値です`), p.play({
+      const x = p.duration, C = r / 1e3, S = i / 1e3;
+      x <= C && E.errScript(`[playse] 音声ファイル再生時間:${String(x * 1e3)} <= ret_ms:${String(r)} は異常値です`), p.play({
         // 一周目はループなし、なのでキャッシュされてる
         ...d,
         start: C,
-        end: E < 0 ? E + x : E,
+        end: S < 0 ? S + x : S,
         // 負の値は末尾から
         //	speed,		// 重複
         loop: !0,
@@ -1048,15 +1048,15 @@ class f {
       const p = this.#e.procID + `loaded buf:${t} fn:${s}`;
       L.beginProc(p);
       const x = d.loaded;
-      d.loaded = (C, E) => {
-        x(C, E), L.endProc(p);
+      d.loaded = (C, S) => {
+        x(C, S), L.endProc(p);
       };
     }
     this.#n(s, d);
   }
   static #t = {};
   static init(e, t, s, o, i) {
-    f.#t = {}, J = e, c = t, S = s, Z = o, H = i;
+    f.#t = {}, J = e, c = t, E = s, Z = o, H = i;
   }
   static setEvtMng(e) {
     U = e;
@@ -1091,7 +1091,7 @@ class f {
     new le().add({ name: e, url: s, xhrType: O.XHR_RESPONSE_TYPE.BUFFER }).use((o, i) => {
       Z.decAB(o.data).then((r) => {
         o.data = r;
-      }).catch((r) => S.errScript(`Sound ロード失敗ですc fn:${o.name} ${r}`, !1)).finally(() => i());
+      }).catch((r) => E.errScript(`Sound ロード失敗ですc fn:${o.name} ${String(r)}`, !1)).finally(() => i());
     }).load((o, i) => {
       t.source = i[e]?.data, N.from(t);
     });
@@ -1115,7 +1115,7 @@ function W({ loop: n }, e) {
   const t = "const.sn.sound." + e + ".";
   c.setVal_Nochk("tmp", t + "playing", !1), c.flush();
 }
-class Se {
+class Ee {
   constructor(e) {
     this.si = e;
   }

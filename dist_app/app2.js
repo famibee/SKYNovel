@@ -33,11 +33,11 @@ const Xv = "pointerdown", Yv = "pointerdown", fo = "keydown", Vv = "compChIn";
 function U(i, t, e) {
   const r = i[t];
   if (!(t in i)) {
-    if (isNaN(e)) throw `[${i[":タグ名"]}]属性 ${t} は必須です`;
+    if (isNaN(e)) throw `[${i[":タグ名"] ?? ""}]属性 ${t} は必須です`;
     return i[t] = e, e;
   }
   const n = String(r).startsWith("0x") ? parseInt(r) : parseFloat(r);
-  if (isNaN(n)) throw `[${i[":タグ名"]}]属性 ${t} の値【${r}】が数値ではありません`;
+  if (isNaN(n)) throw `[${i[":タグ名"] ?? ""}]属性 ${t} の値【${String(r)}】が数値ではありません`;
   return i[t] = n, n;
 }
 function dt(i, t, e) {
@@ -65,7 +65,7 @@ function Wv(i, t, e) {
 const po = /JSON at position (\d+)$/;
 function $v(i, t = "", e = "") {
   const r = (po.exec(e) ?? ["", ""])[1];
-  return `[${i[":タグ名"]}] ${t} 属性の解析エラー : ${e}
+  return `[${i[":タグ名"] ?? ""}] ${t} 属性の解析エラー : ${e}
 ${// eslint-disable-next-line @typescript-eslint/no-base-to-string
   String(i[t])}${r ? `
 ${"^".padStart(Number(r))}` : ""}`;
@@ -17788,12 +17788,12 @@ class Z {
 `), this.sys.appendFile(
       this.sys.path_downloads + "log.txt",
       `${e}--- ${An("-", "_", "")} [fn:${Z.#t.scriptFn} line:${String(Z.#t.lineNum)}] prj:${this.sys.arg.cur}
-${t.text || `(text is ${t.text})`}
+${t.text || `(text is ${String(t.text)})`}
 `
     ), !1;
   }
   #a(t) {
-    return Z.myTrace(t.text || `(text is ${t.text})`, "I"), !1;
+    return Z.myTrace(t.text || `(text is ${String(t.text)})`, "I"), !1;
   }
   // private禁止、galleryでエラーになる
   static trace_beforeNew = (t, e = "E") => {
@@ -18469,7 +18469,7 @@ class Bt {
   cvsResizeChildren() {
   }
   dump() {
-    return ` "idx":${this.ctn.parent.getChildIndex(this.ctn)}, "visible":"${this.ctn.visible}", "left":${this.ctn.x}, "top":${this.ctn.y}, "alpha":${this.ctn.alpha}, "rotation":${this.ctn.angle}, "name":"${this.name_}", "scale_x":${this.ctn.scale.x}, "scale_y":${this.ctn.scale.y}, "filters": [${this.aFltHArg.map((t) => `"${t.filter ?? ""}"`).join(",")}]`;
+    return ` "idx":${String(this.ctn.parent.getChildIndex(this.ctn))}, "visible":"${String(this.ctn.visible)}", "left":${String(this.ctn.x)}, "top":${String(this.ctn.y)}, "alpha":${String(this.ctn.alpha)}, "rotation":${String(this.ctn.angle)}, "name":"${this.name_}", "scale_x":${String(this.ctn.scale.x)}, "scale_y":${String(this.ctn.scale.y)}, "filters": [${this.aFltHArg.map((t) => `"${t.filter ?? ""}"`).join(",")}]`;
   }
   static setXY(t, e, r, n = !1, s = !1) {
     if (e.pos) {

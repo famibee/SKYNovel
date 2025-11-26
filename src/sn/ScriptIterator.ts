@@ -209,8 +209,8 @@ export class ScriptIterator {
 			if (this.#breakState !== BreakState.Running) return;
 
 			this.#breakState = BreakState.Wait;
-			// eslint-disable-next-line @typescript-eslint/restrict-template-expressions, @typescript-eslint/no-unsafe-member-access
-			this.main.setLoop(false, `変数 ${o.dataId}【${o.old_v}】→【${o.new_v}】データブレーク`);
+			// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+			this.main.setLoop(false, `変数 ${String(o.dataId)}【${String(o.old_v)}】→【${String(o.new_v)}】データブレーク`);
 			this.sys.callHook('stopOnDataBreakpoint', {});	// sn全体へ通知
 			this.sys.send2Dbg('stopOnDataBreakpoint', {});
 		},

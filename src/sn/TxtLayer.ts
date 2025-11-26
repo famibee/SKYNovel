@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -99,7 +98,7 @@ export class TxtLayer extends Layer {
 			cfg.matchPath('.+', SEARCH_PATH_ARG_EXT.FONT)
 			.flatMap(o=> Object.values(o).map(v=> `
 @font-face {
-	font-family: '${v}';
+	font-family: '${String(v)}';
 	src: url('${this.#cfg.searchPath(String(v), SEARCH_PATH_ARG_EXT.FONT)}');
 }
 `)).join('')
@@ -147,23 +146,23 @@ export class TxtLayer extends Layer {
 
 	// 文字出現演出
 	static	#ch_in_style(hArg: TArg) {
-		const o = TxtStage.ch_in_style(hArg);
-		const x = o.x.startsWith('=') ?`${o.nx *100}%` :`${o.nx}px`;
-		const y = o.y.startsWith('=') ?`${o.ny *100}%` :`${o.ny}px`;
-		const {name} = hArg;
+		const {x, y, nx, ny, alpha, wait, ease, rotate, scale_x, scale_y} = TxtStage.ch_in_style(hArg);
+		const x2 = x.startsWith('=') ?`${String(nx *100)}%` :`${String(nx)}px`;
+		const y2 = y.startsWith('=') ?`${String(ny *100)}%` :`${String(ny)}px`;
+		const {name=''} = hArg;
 		addStyle(`
 .sn_ch_in_${name} {
 	position: relative;
 	display: inline-block;
 }
 .go_ch_in_${name} {
-	opacity: ${o.alpha};
+	opacity: ${String(alpha)};
 	position: relative;
 	display: inline-block;
-	animation: sn_ch_in_${name} ${o.wait}ms ${o.ease} 0s both;
+	animation: sn_ch_in_${name} ${String(wait)}ms ${ease} 0s both;
 }
 @keyframes sn_ch_in_${name} {
-	from {transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y})}
+	from {transform: rotate(${String(rotate)}deg) scale(${String(scale_x)}, ${String(scale_y)}) translate(${x2}, ${y2})}
 	to {opacity: 1; transform: none;}
 }
 `);
@@ -172,20 +171,20 @@ export class TxtLayer extends Layer {
 	}
 	// 文字消去演出
 	static	#ch_out_style(hArg: TArg) {
-		const o = TxtStage.ch_out_style(hArg);
-		const x = o.x.startsWith('=') ?`${o.nx *100}%` :`${o.nx}px`;
-		const y = o.y.startsWith('=') ?`${o.ny *100}%` :`${o.ny}px`;
-		const {name} = hArg;
+		const {x, y, nx, ny, alpha, wait, ease, rotate, scale_x, scale_y} = TxtStage.ch_out_style(hArg);
+		const x2 = x.startsWith('=') ?`${String(nx *100)}%` :`${String(nx)}px`;
+		const y2 = y.startsWith('=') ?`${String(ny *100)}%` :`${String(ny)}px`;
+		const {name=''} = hArg;
 		addStyle(`
 .go_ch_out_${name} {
 	position: relative;
 	display: inline-block;
-	animation: go_ch_out_${name} ${o.wait}ms ${o.ease} 0s both;
+	animation: go_ch_out_${name} ${String(wait)}ms ${ease} 0s both;
 }
 @keyframes go_ch_out_${name} {
 	to {
-		opacity: ${o.alpha};
-		transform: rotate(${o.rotate}deg) scale(${o.scale_x}, ${o.scale_y}) translate(${x}, ${y});
+		opacity: ${String(alpha)};
+		transform: rotate(${String(rotate)}deg) scale(${String(scale_x)}, ${String(scale_y)}) translate(${x2}, ${y2});
 	}
 `);
 
@@ -270,7 +269,7 @@ export class TxtLayer extends Layer {
 		this.#cntBtn.name = 'cntBtn';
 
 		const padding = 16;	// 初期padding
-		this.lay({style: `width: ${CmnLib.stageW}px; height: ${CmnLib.stageH}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${padding}px;`, in_style: 'default', out_style: 'default', back_clear: 'true'});
+		this.lay({style: `width: ${String(CmnLib.stageW)}px; height: ${String(CmnLib.stageH)}px; font-family: 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif; color: white; font-size: 24px; line-height: 1.5; padding: ${String(padding)}px;`, in_style: 'default', out_style: 'default', back_clear: 'true'});
 	}
 	override destroy() {
 		if (this.#b_do) {this.ctn.removeChild(this.#b_do).destroy(); this.#b_do = undefined}
@@ -308,8 +307,8 @@ export class TxtLayer extends Layer {
 		if ('r_align' in hArg) this.#r_align = hArg.r_align ?? '';
 		this.#ruby_pd = CmnLib.isSafari
 		? this.#txs.tategaki		// Safariでは親文字幅 l は疑似値
-			? (v, l)=> `text-align: start; height: ${l}em; padding-top: ${v}; padding-bottom: ${v};`
-			: (v, l)=> `text-align: start; width: ${l}em; padding-left: ${v}; padding-right: ${v};`
+			? (v, l)=> `text-align: start; height: ${String(l)}em; padding-top: ${v}; padding-bottom: ${v};`
+			: (v, l)=> `text-align: start; width: ${String(l)}em; padding-left: ${v}; padding-right: ${v};`
 		: this.#txs.tategaki
 			? v=> `text-align: justify; text-align-last: justify; padding-top: ${v}; padding-bottom: ${v};`
 			: v=> `text-align: justify; text-align-last: justify; padding-left: ${v}; padding-right: ${v};`;
@@ -326,7 +325,7 @@ export class TxtLayer extends Layer {
 					// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment
 					const key = <any>cln.style[i];
 					if (key in TxtLayer.#hWarnR_Style) {
-						DebugMng.myTrace(`${key}は指定できません`, 'W');
+						DebugMng.myTrace(`${String(key)}は指定できません`, 'W');
 						continue;
 					}
 					const v = cln.style[key];
@@ -513,9 +512,9 @@ export class TxtLayer extends Layer {
 		case 'justify':
 			st = this.#ruby_pd('0', len);	break;
 		case '121':
-			st = this.#ruby_pd(`calc(${(len -rb.length) /(rb.length *2)}em)`, len);	break;
+			st = this.#ruby_pd(`calc(${String((len -rb.length) /(rb.length *2))}em)`, len);	break;
 		case 'even':
-			st = this.#ruby_pd(`calc(${(len -rb.length) /(rb.length +1)}em)`, len);	break;
+			st = this.#ruby_pd(`calc(${String((len -rb.length) /(rb.length +1))}em)`, len);	break;
 		case '1ruby':
 			st = this.#ruby_pd('1em', len);	break;
 		default:
@@ -539,11 +538,11 @@ export class TxtLayer extends Layer {
 			case 'justify':	st = 'ruby-align: space-between;';	break;
 			case '121':		st = 'ruby-align: space-around;';	break;
 			case 'even':{
-				const ev = (len -rb.length) /(rb.length +1);
+				const ev = ` ${String((len -rb.length) /(rb.length +1))}em;`;
 				st = 'ruby-align: space-between; '+
 				(this.#txs.tategaki
-					? `padding-top: ${ev}em; padding-bottom: ${ev}em;`
-					: `padding-left: ${ev}em; padding-right: ${ev}em;`);
+					? `padding-top:${ev} padding-bottom:${ev}`
+					: `padding-left:${ev} padding-right:${ev}`);
 			}	break;
 			case '1ruby':	st = 'ruby-align: space-between; '+
 				(this.#txs.tategaki
@@ -766,7 +765,7 @@ export class TxtLayer extends Layer {
 
 		return {
 			cl	: ` class='sn_ch sn_ch_yet sn_ch_in_${this.#$ch_in_style}'`,	// TxtStage.goTxt()はこれ単位で文字出現させる
-			sty	: `animation-delay: ${this.#cumDelay}ms;${
+			sty	: `animation-delay: ${String(this.#cumDelay)}ms;${
 				this.#stkASpan.at(-1)?.o.style ?? ''
 			}`,		// TxtStage.goTxt()はこれ単位で文字出現させる
 			lnk	: (this.#stkASpan.at(0)?.o[':link'] ?? '')+' '+ curpos,
@@ -839,7 +838,7 @@ export class TxtLayer extends Layer {
 
 	readonly	addButton = (hArg: TArg)=> new Promise<void>(re=> {
 		// 直後の JSON.stringify() のため hArg を更新
-		hArg.key = `btn=[${this.#cntBtn.children.length}] `+ this.name_;
+		hArg.key = `btn=[${String(this.#cntBtn.children.length)}] `+ this.name_;
 		hArg[':id_tag'] = hArg.key.slice(0, -7);	// Design用
 		argChk_Boolean(hArg, 'hint_tate', this.#txs.tategaki);	// hint用
 		const btn = new Button(hArg, TxtLayer.#evtMng, ()=> re(), ()=> this.canFocus());
@@ -938,16 +937,21 @@ export class TxtLayer extends Layer {
 	override dump(): string {
 		this.#putCh('', 'gotxt｜');	// バッファの文字を印字してしまう
 
-		return super.dump() +`, "enabled":"${this.enabled}", ${this.#txs.dump()
-		}, "b_pic":"${this.#b_pic}", "b_color":"${this.#b_color
-		}", "b_alpha":${this.#b_alpha}, "b_alpha_isfixed":"${this.#b_alpha_isfixed
-		}", "width":${this.#txs.getWidth}, "height":${this.#txs.getHeight
+		return super.dump() +`, "enabled":"${String(this.enabled)
+		}", ${this.#txs.dump()
+		}, "b_pic":"${this.#b_pic}", "b_color":"${String(this.#b_color)
+		}", "b_alpha":${String(this.#b_alpha)
+		}, "b_alpha_isfixed":"${String(this.#b_alpha_isfixed)
+		}", "width":${String(this.#txs.getWidth)
+		}, "height":${String(this.#txs.getHeight)
 		}, "pixi_obj":[${
 			this.ctn.children.map(e=> `{"class":"${
 				e instanceof Sprite ?'Sprite' :
 					e instanceof Graphics ?'Graphics' :
 						e instanceof Container ?'Container' :'?'
-			}", "name":"${e.name}", "alpha":${e.alpha}, "x":${e.x}, "y":${e.y}, "visible":"${e.visible}"}`).join(',')
+			}", "name":"${e.name}", "alpha":${String(e.alpha)
+			}, "x":${String(e.x)}, "y":${String(e.y)
+			}, "visible":"${String(e.visible)}"}`).join(',')
 		}], "button":[${
 			this.#cntBtn.children.map(b=> b.children[0]?.name ?? '{}').join(',')
 		}]`;

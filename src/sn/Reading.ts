@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2025-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -207,10 +206,10 @@ export class ReadingState {
 		if (! Reading.val.getVal('save:sn.doRecLog')) return;
 
 		const {fn, idx} = Reading.scrItr.nowScrIdx();
-		const key = `${idx -1}:`+ fn;	// 検索時の都合で -1
+		const key = `${String(idx -1)}:`+ fn;	// 検索時の都合で -1
 		if (this.aPage.findIndex(p=> p.key === key) > -1) return;	// 保存済
 
-		if (CmnLib.debugLog) console.log(`📜 %crecodePage === week:${week} lenPage:${this.lenPage} len:${this.aPage.length} POP:${this.aPage.at(-1)?.week}`, 'color:#3B0;');
+		if (CmnLib.debugLog) console.log(`📜 %crecodePage === week:${String(week)} lenPage:${String(this.lenPage)} len:${String(this.aPage.length)} POP:${String(this.aPage.at(-1)?.week)}`, 'color:#3B0;');
 
 		if (this.aPage.at(-1)?.week) this.aPage.pop();
 		const {max_len} = Reading.cfg.oCfg.log;	// 一定数を保つ
@@ -230,7 +229,9 @@ export class ReadingState {
 
 		if (CmnLib.debugLog) {
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			console.log(`   %clenPage:${this.lenPage} (base=${(<T_RP_layGrp>mark.hPages.base!.fore).sBkFn} 0=${(<T_RP_layGrp>mark.hPages['0']!.fore).sBkFn} mes=${/color: \w+;/.exec((<T_RP_layTxt>mark.hPages.mes!.fore).txs.cssText)})%c mark:%o`, 'color:#3B0;', '', mark);
+			console.log(`   %clenPage:${String(this.lenPage)} (base=${(<T_RP_layGrp>mark.hPages.base!.fore).sBkFn} 0=${(<T_RP_layGrp>mark.hPages['0']!.fore).sBkFn} mes=${String(
+				/color: \w+;/.exec((<T_RP_layTxt>mark.hPages.mes?.fore).txs.cssText)
+			)})%c mark:%o`, 'color:#3B0;', '', mark);
 			console.table(this.aPage);
 		}
 
@@ -515,7 +516,7 @@ class ReadingState_page extends ReadingState {
 		const {to, style, clear} = hArg;
 		if (style || clear) return false;
 
-		if (CmnLib.debugLog) console.log(`📜 %cpage() pos:${ReadingState.posPage}%c len:${ReadingState.lenPage} to:${to}`, 'color:#3B0;', '');
+		if (CmnLib.debugLog) console.log(`📜 %cpage() pos:${String(ReadingState.posPage)}%c len:${String(ReadingState.lenPage)} to:${String(to)}`, 'color:#3B0;', '');
 		switch (to) {
 			case 'oldest':
 				if (ReadingState.posPage === 0) return false;
@@ -542,19 +543,26 @@ class ReadingState_page extends ReadingState {
 				this.#exit();
 				break;
 
-			default:	throw `属性to「${to}」は異常です`;
+			default:	throw `属性to「${String(to)}」は異常です`;
 		}
 		// ページ移動状態を抜ける
 		if (ReadingState.posPage === ReadingState.lenPage -1) this.#exit();
 
 		const p = ReadingState.aPage[ReadingState.posPage];
-		if (! p) throw `posPage異常:${ReadingState.posPage}`;
+		if (! p) throw `posPage異常:${String(ReadingState.posPage)}`;
 		const {fn, index, mark} = p;
 		if (CmnLib.debugLog) {
 			const m = Reading.scrItr.nowMark();
 			const {week} = ReadingState.aPage[ReadingState.posPage] ?? {week: false};
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			console.log(`   -- fn:${fn} i:${index} pos:${ReadingState.posPage} (base=%c${(<T_RP_layGrp>m.hPages.base!.fore).sBkFn}%c 0=%c${(<T_RP_layGrp>m.hPages['0']!.fore).sBkFn}%c mes=%c${/color: \w+;/.exec((<T_RP_layTxt>m.hPages.mes!.fore).txs.cssText)}%c) week:${week} A:${ReadingState.posPage === ReadingState.lenPage -1}\n   styPaging=%c${ReadingState.styPaging}%c\n   mark:%o`, 'background-color:#3B0; color:#000;', '', 'background-color:#B4F; color:#000;', '', 'color:#B68;', '', ReadingState.styPaging, '', mark);
+			console.log(`   -- fn:${fn} i:${String(index)
+			} pos:${String(ReadingState.posPage)
+			} (base=%c${(<T_RP_layGrp>m.hPages.base?.fore).sBkFn
+			}%c 0=%c${(<T_RP_layGrp>m.hPages['0']?.fore).sBkFn
+			}%c mes=%c${String(
+				/color: \w+;/.exec((<T_RP_layTxt>m.hPages.mes?.fore).txs.cssText)
+			)}%c) week:${String(week)} A:${String(
+				ReadingState.posPage === ReadingState.lenPage -1
+			)}\n   styPaging=%c${ReadingState.styPaging}%c\n   mark:%o`, 'background-color:#3B0; color:#000;', '', 'background-color:#B4F; color:#000;', '', 'color:#B68;', '', ReadingState.styPaging, '', mark);
 		}
 		return Reading.scrItr.loadFromMark({fn, index}, mark);
 	}
@@ -570,7 +578,7 @@ class ReadingState_page extends ReadingState {
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
 export class Reading {
 	static	beginProc(proc_id: string, onNotify?: ()=> void, endProc = true, onClickSkip?: ()=> void) {
-		if (CmnLib.debugLog) console.log(`📖.beginProc id:%c${proc_id}%c onNotify:${onNotify} endProc:${endProc} onClickSkip:${onClickSkip}`, 'color:#3B0;', '');
+		if (CmnLib.debugLog) console.log(`📖.beginProc id:%c${proc_id}%c onNotify:${String(onNotify)} endProc:${String(endProc)} onClickSkip:${String(onClickSkip)}`, 'color:#3B0;', '');
 		this.#clearProc();
 		this.#procID = proc_id;
 
@@ -618,21 +626,21 @@ export class Reading {
 
 	static	#rsNotify	: (proc_id: string)=> void	= ()=> { /* empty */ };
 	static	notifyEndProc(proc_id: string) {
-		if (CmnLib.debugLog) console.log(`📖.notifyEndProc id:%c${proc_id}%c=${this.#procID === proc_id}`, 'color:#3B0;', '');
+		if (CmnLib.debugLog) console.log(`📖.notifyEndProc id:%c${proc_id}%c=${String(this.#procID === proc_id)}`, 'color:#3B0;', '');
 		if (this.#procID !== proc_id) return;
 
 		this.#rsNotify(proc_id);
 	}
 
 	static	endProc(proc_id: string) {
-		if (CmnLib.debugLog) console.log(`📖.endProc id:%c${proc_id}%c=${this.#procID === proc_id}`, 'color:#3B0;', '');
+		if (CmnLib.debugLog) console.log(`📖.endProc id:%c${proc_id}%c=${String(this.#procID === proc_id)}`, 'color:#3B0;', '');
 		if (this.#procID !== proc_id) return;
 
 		ReadingState.rs.endProc();
 		this.#clearProc();
 	}
 		static	#procID	= '';
-		static	get procID() {return `RP_${this.scrItr.scriptFn}:${this.scrItr.idxToken}_`}
+		static	get procID() {return `RP_${this.scrItr.scriptFn}:${String(this.scrItr.idxToken)}_`}
 
 
 	static	fire(KeY: string, e: Event, cancelAutoSkip = false) {

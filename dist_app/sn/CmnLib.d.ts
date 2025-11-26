@@ -18,6 +18,7 @@ export type IEvtMng = {
 };
 export declare const RPN_COMP_CHIN = "compChIn";
 type T_HASH_Arg = {
+    ':タグ名'?: string;
     [name: string]: any;
 };
 export declare function argChk_Num(hash: T_HASH_Arg, name: string, def: number): number;

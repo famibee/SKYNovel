@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/restrict-template-expressions */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -79,16 +78,17 @@ export class FrameMng implements T_GetFrm {
 		const b_color = hArg.b_color ?` background-color: ${hArg.b_color};` :'';
 		const rct = this.#rect(hArg);
 		// 【sandbox="allow-scripts allow-same-origin"】は必要なのに警告が出るので削除
-		FrameMng.#main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id}" style="opacity: ${a}; ${b_color} position: absolute; left:${
-			FrameMng.#sys.ofsLeft4elm +rct.x *FrameMng.#sys.cvsScale
+		FrameMng.#main.cvs.insertAdjacentHTML('beforebegin', `<iframe id="${id}" style="opacity: ${String(a)}; ${b_color} position: absolute; left:${
+			String(FrameMng.#sys.ofsLeft4elm +rct.x *FrameMng.#sys.cvsScale)
 		}px; top: ${
-			FrameMng.#sys.ofsTop4elm +rct.y *FrameMng.#sys.cvsScale
+			String(FrameMng.#sys.ofsTop4elm +rct.y *FrameMng.#sys.cvsScale)
 		}px; z-index: 1; border: 0px; overflow: hidden; display: ${
 			v ?'inline' :'none'
-		}; transform: scale(${sx}, ${sy}) rotate(${r}deg);" width="${
-			rct.width *FrameMng.#sys.cvsScale
+		}; transform: scale(${String(sx)}, ${String(sy)}) rotate(${
+			String(r)}deg);" width="${
+			String(rct.width *FrameMng.#sys.cvsScale)
 		}" height="${
-			rct.height *FrameMng.#sys.cvsScale
+			String(rct.height *FrameMng.#sys.cvsScale)
 		}"></iframe>`);
 
 		const RPN_ADD_FRAME = Reading.procID +`add_frame id:${id}`;
@@ -104,7 +104,7 @@ export class FrameMng implements T_GetFrm {
 				next();
 			})
 			.catch((e: unknown)=> {
-				FrameMng.#main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${e}`, false);
+				FrameMng.#main.errScript(`[add_frame]Html ロード失敗です src:${res.name} ${String(e)}`, false);
 				next();
 			})
 		);
@@ -200,7 +200,7 @@ export class FrameMng implements T_GetFrm {
 				next();
 			})
 			.catch((e: unknown)=> {
-				FrameMng.#main.errScript(`FrameMng loadPic ロード失敗です fn:${res.name} ${e}`, false)
+				FrameMng.#main.errScript(`FrameMng loadPic ロード失敗です fn:${res.name} ${String(e)}`, false)
 				next();
 			});
 		});
@@ -234,8 +234,12 @@ export class FrameMng implements T_GetFrm {
 			const y = Number(this.val.getVal(vn +'.y'));
 			const w = Number(this.val.getVal(vn +'.width'));
 			const h = Number(this.val.getVal(vn +'.height'));
-			f.style.left = `${FrameMng.#sys.ofsLeft4elm +x *FrameMng.#sys.cvsScale}px`;
-			f.style.top  = `${FrameMng.#sys.ofsTop4elm  +y *FrameMng.#sys.cvsScale}px`;
+			f.style.left = `${String(
+				FrameMng.#sys.ofsLeft4elm +x *FrameMng.#sys.cvsScale
+			)}px`;
+			f.style.top  = `${String(
+				FrameMng.#sys.ofsTop4elm  +y *FrameMng.#sys.cvsScale
+			)}px`;
 			f.width = String(w *FrameMng.#sys.cvsScale);
 			f.height = String(h *FrameMng.#sys.cvsScale);
 		}
@@ -302,9 +306,9 @@ export class FrameMng implements T_GetFrm {
 		if (! this.val.getVal('tmp:'+ vn)) throw `frame【${id}】が読み込まれていません`;
 
 		const s = f.style;
-		if (argChk_Boolean(hArg, 'float', false)) s.zIndex = `${++this.#zIdx}`;
-		else if ('index' in hArg) s.zIndex = `${argChk_Num(hArg, 'index', 0)}`;
-		else if (hArg.dive) s.zIndex = `-${++this.#zIdx}`;
+		if (argChk_Boolean(hArg, 'float', false)) s.zIndex = String(++this.#zIdx);
+		else if ('index' in hArg) s.zIndex = String(argChk_Num(hArg, 'index', 0));
+		else if (hArg.dive) s.zIndex = String(-++this.#zIdx);	// -は必要
 
 		if ('alpha' in hArg) {
 			const a = s.opacity = String(hArg.alpha);
@@ -312,8 +316,12 @@ export class FrameMng implements T_GetFrm {
 		}
 		const rct = this.#rect(hArg);
 		if ('x' in hArg || 'y' in hArg) {
-			s.left = `${FrameMng.#sys.ofsLeft4elm +rct.x *FrameMng.#sys.cvsScale}px`;
-			s.top  = `${FrameMng.#sys.ofsTop4elm  +rct.y *FrameMng.#sys.cvsScale}px`;
+			s.left = `${String(
+				FrameMng.#sys.ofsLeft4elm +rct.x *FrameMng.#sys.cvsScale
+			)}px`;
+			s.top  = `${String(
+				FrameMng.#sys.ofsTop4elm  +rct.y *FrameMng.#sys.cvsScale
+			)}px`;
 			this.val.setVal_Nochk('tmp', vn +'.x', rct.x);
 			this.val.setVal_Nochk('tmp', vn +'.y', rct.y);
 		}
@@ -321,7 +329,7 @@ export class FrameMng implements T_GetFrm {
 			const sx = argChk_Num(hArg, 'scale_x', 1);
 			const sy = argChk_Num(hArg, 'scale_y', 1);
 			const r = argChk_Num(hArg, 'rotate', 0);
-			s.transform = `scale(${sx}, ${sy}) rotate(${r}deg)`;
+			s.transform = `scale(${String(sx)}, ${String(sy)}) rotate(${String(r)}deg)`;
 			this.val.setVal_Nochk('tmp', vn +'.scale_x', sx);
 			this.val.setVal_Nochk('tmp', vn +'.scale_y', sy);
 			this.val.setVal_Nochk('tmp', vn +'.rotate', r);
@@ -400,13 +408,13 @@ export class FrameMng implements T_GetFrm {
 			hTo.sy = argChk_Num(hArg2, 'scale_y', 1);
 			hTo.r = argChk_Num(hArg2, 'rotate', 0);
 			fncXYSR = d=> {
-				f.style.left = `${
+				f.style.left = `${String(
 					FrameMng.#sys.ofsLeft4elm +d.x *FrameMng.#sys.cvsScale
-				} px`;
-				f.style.top  = `${
+				)} px`;
+				f.style.top  = `${String(
 					FrameMng.#sys.ofsTop4elm  +d.y *FrameMng.#sys.cvsScale
-				} px`;
-				f.style.transform = `scale(${d.sx}, ${d.sy}) rotate(${d.r}deg)`;
+				)} px`;
+				f.style.transform = `scale(${String(d.sx)}, ${String(d.sy)}) rotate(${String(d.r)}deg)`;
 				this.val.setVal_Nochk('tmp', vn +'.x', d.x);
 				this.val.setVal_Nochk('tmp', vn +'.y', d.y);
 				this.val.setVal_Nochk('tmp', vn +'.scale_x', d.sx);
@@ -418,7 +426,7 @@ export class FrameMng implements T_GetFrm {
 		if (width) {
 			hTo.w = rct.width;
 			fncW = d=> {
-				f.width = `${d.w *FrameMng.#sys.cvsScale} px`;
+				f.width = `${String(d.w *FrameMng.#sys.cvsScale)} px`;
 				this.val.setVal_Nochk('tmp', vn +'.width', d.w);
 			};
 		}
@@ -426,7 +434,7 @@ export class FrameMng implements T_GetFrm {
 		if (height) {
 			hTo.h = rct.height;
 			fncH = d=> {
-				f.height = `${d.h *FrameMng.#sys.cvsScale} px`;
+				f.height = `${String(d.h *FrameMng.#sys.cvsScale)} px`;
 				this.val.setVal_Nochk('tmp', vn +'.height', d.h);
 			};
 		}

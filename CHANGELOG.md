@@ -1,3 +1,6 @@
+- fix: @typescript-eslint/restrict-template-expressions 無効化を使わないように
+
+
 ## [1.64.19](https://github.com/famibee/SKYNovel/compare/v1.64.18...v1.64.19) (2025-11-25)
 
 

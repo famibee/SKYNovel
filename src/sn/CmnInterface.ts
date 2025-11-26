@@ -109,7 +109,7 @@ export type T_VAL_BSNU = T_VAL_BSN | undefined;
 
 
 // 汎用的に変数
-export type T_VAL_DATA = T_VAL_BSNU | null | typeof NaN;
+export type T_VAL_DATA = T_VAL_BSNU | null;
 export type T_VAL_DATA_FNC = T_VAL_DATA | (()=> boolean) | (()=> string) | (()=> number)
 export type T_H_VAL_DATA =  {[val_name: string]: T_VAL_DATA_FNC}
 

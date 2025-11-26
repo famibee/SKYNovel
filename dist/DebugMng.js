@@ -21,12 +21,12 @@ class t {
 `), this.sys.appendFile(
       this.sys.path_downloads + "log.txt",
       `${e}--- ${o("-", "_", "")} [fn:${t.#s.scriptFn} line:${String(t.#s.lineNum)}] prj:${this.sys.arg.cur}
-${a.text || `(text is ${a.text})`}
+${a.text || `(text is ${String(a.text)})`}
 `
     ), !1;
   }
   #o(a) {
-    return t.myTrace(a.text || `(text is ${a.text})`, "I"), !1;
+    return t.myTrace(a.text || `(text is ${String(a.text)})`, "I"), !1;
   }
   // private禁止、galleryでエラーになる
   static trace_beforeNew = (a, e = "E") => {
