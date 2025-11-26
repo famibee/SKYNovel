@@ -1,3 +1,10 @@
+## [1.64.20](https://github.com/famibee/SKYNovel/compare/v1.64.19...v1.64.20) (2025-11-26)
+
+
+### Bug Fixes
+
+* @typescript-eslint/restrict-template-expressions 無効化を使わないように ([cdeadb4](https://github.com/famibee/SKYNovel/commit/cdeadb4a86c456e883ef0eea2840328e656d74ce))
+
 - fix: @typescript-eslint/restrict-template-expressions 無効化を使わないように
 
 
