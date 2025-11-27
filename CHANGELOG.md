@@ -1,3 +1,10 @@
+## [1.64.21](https://github.com/famibee/SKYNovel/compare/v1.64.20...v1.64.21) (2025-11-27)
+
+
+### Bug Fixes
+
+* フォーカスを失った場合、ブラウザ版では globalThis（v1.7.14頃の動作）、アプリ版はメインCanvas にフォーカスを移動させるように ([84f9496](https://github.com/famibee/SKYNovel/commit/84f9496696c267e31ef78e86291a395f7a7adeb5))
+
 - fix: フォーカスを失った場合、ブラウザ版では globalThis（v1.7.14頃の動作）、アプリ版はメインCanvas にフォーカスを移動させるように
 
 
