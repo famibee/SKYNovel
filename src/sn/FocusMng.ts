@@ -8,6 +8,7 @@
 
 import {CmnLib, EVNM_KEY} from './CmnLib';
 import {EventListenerCtn} from './EventListenerCtn';
+import type {SysBase} from './SysBase';
 
 import {Container} from 'pixi.js';
 
@@ -22,7 +23,11 @@ export class FocusMng {
 	#idx					= -1;
 	readonly	#elc		= new EventListenerCtn;
 
-	constructor(private readonly cvs: HTMLCanvasElement) {}
+	constructor(cvs: HTMLCanvasElement, sys: SysBase) {
+		this.#blurSub = sys.isApp
+		? ()=> cvs.focus()
+		: ()=> globalThis.focus();
+	}
 	destroy() {this.#aBtn = []; this.#idx = -1; this.#elc.clear()}
 
 	add(cmp: Container | HTMLElement, on: ()=> boolean, off: ()=> void) {
@@ -160,7 +165,8 @@ export class FocusMng {
 		return b.on() ?b.btn : null;
 	}
 
-	blur() {this.#allOff(); this.#idx = -1; this.cvs.focus()}
+	blur() {this.#allOff(); this.#idx = -1; this.#blurSub()}
+	readonly	#blurSub = ()=> { /* empty */ }
 	#allOff() {
 		for (let i=this.#aBtn.length -1; i>=0; --i) {
 			const b = this.#aBtn[i]!;

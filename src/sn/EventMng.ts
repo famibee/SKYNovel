@@ -60,7 +60,7 @@ export class EventMng implements IEvtMng {
 		// ラベル・ジャンプ
 		// hTag.page		// Reading.ts内で定義		// ページ移動
 
-		this.#fcs = new FocusMng(appPixi.view);
+		this.#fcs = new FocusMng(appPixi.view, sys);
 		sndMng.setEvtMng(this);
 		scrItr.setOtherObj(this, layMng);
 		TxtLayer.setEvtMng(this, sys, scrItr);
