@@ -1,6 +1,6 @@
-import { Q as b, L as v, U as O, S as x, n as h, j as L, y as w, b as V, M as A, B as H, x as y, e as Y, z as j, l as C } from "./web2.js";
-import { D as F } from "./DebugMng.js";
-import { a as N } from "./Reading.js";
+import { Q as w, L as v, U as N, S as L, n as h, j as x, y as R, b as V, M as A, B as j, x as y, e as k, z as H, l as O } from "./web2.js";
+import { D as C } from "./DebugMng.js";
+import { a as F } from "./Reading.js";
 class e {
   constructor(t = "", a, c = () => {
   }, n = () => {
@@ -19,14 +19,14 @@ class e {
     ));
   }
   static #n;
-  static #f;
-  static #e;
   static #r;
+  static #e;
+  static #f;
   static init(t, a, c, n, o) {
-    e.#n = t, e.#f = a, e.#e = c, e.#r = n, c.arg.crypto && (e.#l = (d, f, u) => e.#T(d, f, u), e.#h = (d, f, u) => e.#P(d, f, u));
+    e.#n = t, e.#r = a, e.#e = c, e.#f = n, c.arg.crypto && (e.#l = (d, r, u) => e.#T(d, r, u), e.#h = (d, r, u) => e.#P(d, r, u));
     const s = () => {
       const d = e.#o * e.#m;
-      for (const f of Object.values(e.#t)) f.volume = d;
+      for (const r of Object.values(e.#t)) r.volume = d;
     };
     o.setNoticeChgVolume(
       (d) => {
@@ -66,42 +66,42 @@ class e {
         const l = y.from(t);
         n(l), a(l), c(o);
       };
-      return t in b ? i() : (o = !0, new v().add(t, t).load(i)), o;
+      return t in w ? i() : (o = !0, new v().add(t, t).load(i)), o;
     }
     const s = [], d = new v();
     for (const i of t.split(",")) {
       if (!i) throw "face属性に空要素が含まれます";
-      const { dx: l, dy: r, blendmode: E, fn: m } = e.#c[i] ?? {
+      const { dx: l, dy: f, blendmode: E, fn: m } = e.#c[i] ?? {
         fn: i,
         dx: 0,
         dy: 0,
-        blendmode: O.NORMAL
+        blendmode: N.NORMAL
       };
       if (s.push({ fn: m, fnc: (P) => {
-        P.transform && (P.x = l, P.y = r, P.blendMode = E);
-      } }), m in e.#a || m in b || m in v.shared.resources) continue;
+        P.transform && (P.x = l, P.y = f, P.blendMode = E);
+      } }), m in e.#a || m in w || m in v.shared.resources) continue;
       o = !0;
-      const T = e.#n.searchPath(m, x.SP_GSM), R = this.#e.arg.crypto ? { xhrType: T.endsWith(".json") ? h.XHR_RESPONSE_TYPE.TEXT : h.XHR_RESPONSE_TYPE.BUFFER } : {};
-      d.add({ ...R, name: m, url: T });
+      const T = e.#n.searchPath(m, L.SP_GSM), b = this.#e.arg.crypto ? { xhrType: T.endsWith(".json") ? h.XHR_RESPONSE_TYPE.TEXT : h.XHR_RESPONSE_TYPE.BUFFER } : {};
+      d.add({ ...b, name: m, url: T });
     }
-    const f = s.at(0);
-    f && (f.fnc = a);
+    const r = s.at(0);
+    r && (r.fnc = a);
     const u = (i, l) => {
-      for (const { fn: r, fnc: E } of s) {
-        const m = e.#v(r, l);
-        m.name = r, n(m), E(m);
+      for (const { fn: f, fnc: E } of s) {
+        const m = e.#v(f, l);
+        m.name = f, n(m), E(m);
       }
       c(o);
     };
     return o ? d.use((i, l) => {
       try {
         if (i.extension === "json") {
-          this.#e.dec("json", i.data).then((r) => e.#h(r, i, l));
+          this.#e.dec("json", i.data).then((f) => e.#h(f, i, l));
           return;
         }
-        this.#e.decAB(i.data).then((r) => e.#l(r, i, l));
-      } catch (r) {
-        const E = `画像/動画ロード失敗です fn:${i.name} ${String(r)}`;
+        this.#e.decAB(i.data).then((f) => e.#l(f, i, l));
+      } catch (f) {
+        const E = `画像/動画ロード失敗です fn:${i.name} ${String(f)}`;
         e.#s.isSkipping ? console.warn(E) : console.error("%c" + E, "color:#FF3300;");
       }
     }).load(u) : queueMicrotask(() => u(0, {})), o;
@@ -122,20 +122,20 @@ class e {
     const a = /([^\d]+)\d+\.(\w+)/.exec(t[0] ?? "");
     if (!a) return [];
     const [, c = "", n = ""] = a, o = c.length, s = -n.length - 1;
-    return t.sort((d, f) => L(d.slice(o, s)) > L(f.slice(o, s)) ? 1 : -1);
+    return t.sort((d, r) => x(d.slice(o, s)) > x(r.slice(o, s)) ? 1 : -1);
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static #T(t, a, c) {
     if (a.data = t, a.extension !== "bin" && c(), t instanceof HTMLImageElement) {
-      w.fromLoader(t, a.url, a.name).then((n) => {
-        a.texture = n, a.type = h.TYPE.IMAGE;
-      }), c();
+      R.fromLoader(t, a.url, a.name).then((n) => {
+        a.texture = n, a.type = h.TYPE.IMAGE, c(), URL.revokeObjectURL(t.src);
+      });
       return;
     }
     t instanceof HTMLVideoElement && (t.volume = e.#o, e.#t[a.name] = e.#u(t), a.type = h.TYPE.VIDEO), c();
   }
   static #u(t) {
-    return e.#f.getVal("const.sn.needClick2Play") && (F.trace_beforeNew(`[lay系] ${F.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, "W"), t.muted = !0), t.setAttribute("playsinline", ""), t;
+    return e.#r.getVal("const.sn.needClick2Play") && (C.trace_beforeNew(`[lay系] ${C.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, "W"), t.muted = !0), t.setAttribute("playsinline", ""), t;
   }
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   static #h = (t, { type: a, spritesheet: c, name: n, data: o }, s) => {
@@ -143,7 +143,7 @@ class e {
       case h.TYPE.JSON: {
         const d = c._frameKeys;
         e.#y(d), e.#a[n] = {
-          aTex: d.map((f) => w.from(f)),
+          aTex: d.map((r) => R.from(r)),
           meta: o.meta
         };
       }
@@ -157,18 +157,22 @@ class e {
       c();
       return;
     }
-    const s = V(n.image), d = e.#n.searchPath(s, x.SP_GSM);
-    new v().use((f, u) => {
-      this.#e.decAB(f.data).then((i) => {
-        f.data = i, i instanceof HTMLImageElement && (f.type = h.TYPE.IMAGE, URL.revokeObjectURL(i.src)), u();
-      }).catch((i) => this.#r.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${f.name} ${String(i)}`, !1));
-    }).add({ name: s, url: d, xhrType: h.XHR_RESPONSE_TYPE.BUFFER }).load((f, u) => {
-      for (const { data: i } of Object.values(f.resources)) {
-        const { baseTexture: l } = w.from(i), r = Object.values(o);
+    const s = V(n.image), d = e.#n.searchPath(s, L.SP_GSM);
+    new v().use((r, u) => {
+      this.#e.decAB(r.data).then((i) => {
+        if (r.data = i, i instanceof HTMLImageElement) {
+          r.type = h.TYPE.IMAGE, u(), URL.revokeObjectURL(i.src);
+          return;
+        }
+        u();
+      }).catch((i) => this.#f.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${r.name} ${String(i)}`, !1));
+    }).add({ name: s, url: d, xhrType: h.XHR_RESPONSE_TYPE.BUFFER }).load((r, u) => {
+      for (const { data: i } of Object.values(r.resources)) {
+        const { baseTexture: l } = R.from(i), f = Object.values(o);
         e.#a[a.name] = {
-          aTex: r.map(({ frame: { x: E, y: m, w: T, h: R } }) => new w(
+          aTex: f.map(({ frame: { x: E, y: m, w: T, h: b } }) => new R(
             l,
-            new A(E, m, T, R)
+            new A(E, m, T, b)
           )),
           // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           meta: n
@@ -180,10 +184,10 @@ class e {
   static #v(t, a) {
     const c = e.#a[t];
     if (c) {
-      const s = new H(c.aTex);
+      const s = new j(c.aTex);
       return s.animationSpeed = c.meta.animationSpeed ?? 1, s.play(), s;
     }
-    if (t in b) return y.from(t);
+    if (t in w) return y.from(t);
     const n = e.#t[t];
     if (n) return y.from(n);
     const o = a[t];
@@ -200,10 +204,10 @@ class e {
     if (!c || c.loop) return !1;
     if (e.#s.isSkipping || c.ended)
       return e.stopVideo(a), !1;
-    const n = "wv fn:" + a, o = Y(t, "stop", !0), s = () => {
+    const n = "wv fn:" + a, o = k(t, "stop", !0), s = () => {
       o && e.stopVideo(a);
     };
-    return N.beginProc(n, s, !0, s), c.addEventListener("ended", () => N.notifyEndProc(n), { once: !0, passive: !0 }), !0;
+    return F.beginProc(n, s, !0, s), c.addEventListener("ended", () => F.notifyEndProc(n), { once: !0, passive: !0 }), !0;
   }
   static stopVideo(t) {
     const a = e.#t[t];
@@ -216,9 +220,9 @@ class e {
     const { fn: c = a } = t;
     return e.#c[a] = {
       fn: c,
-      dx: C(t, "dx", 0),
-      dy: C(t, "dy", 0),
-      blendmode: j.getBlendmodeNum(t.blendmode ?? "")
+      dx: O(t, "dx", 0),
+      dy: O(t, "dy", 0),
+      blendmode: H.getBlendmodeNum(t.blendmode ?? "")
     }, !1;
   }
   //	static	clearFace2Name(): void {SpritesMng.hFace = {}}

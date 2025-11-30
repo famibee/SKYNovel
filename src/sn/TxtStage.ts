@@ -531,7 +531,12 @@ export class TxtStage extends Container {
 			// 「animation-duration: 0ms;」だと animationend が発生しないので。
 			// if 三項目の === は右クリック戻りで起こる
 
-		lastElm.addEventListener('animationend', ()=> this.#fncEndChIn(), {once: true});	// クリックキャンセル時は発生しない
+		const fnc = ()=> {
+			lastElm.removeEventListener('animationend', fnc);
+				// {once: true} より、明示的な removeEventListener のほうがサクサク解放するようである。屋上屋を架す事になりにくく、未解放リソースグラフでも低く抑えられる。
+			this.#fncEndChIn();
+		};
+		lastElm.addEventListener('animationend', fnc, {once: true, signal: this.#ac.signal});	// クリックキャンセル時は発生しない
 			// 差し替えるので「()=> 」形式のままにすること
 	}
 	#fncEndChIn: ()=> boolean	= ()=> false;
@@ -686,17 +691,24 @@ export class TxtStage extends Container {
 
 	#fi_easing	= 'Quadratic.Out';
 	#fo_easing	= 'Quadratic.Out';
+	#ac = new AbortController;
 	#clearText() {
 		this.#grpDbgMasume.clear();
 		this.#aRect = [];
 		this.#lenHtmTxt = 0;
 		this.#aGoTxt = [];
+		this.#ac.abort();
+		this.#ac = new AbortController;
 
 		//utils.clearTextureCache();	// 改ページと思われるこのタイミングで
 		this.skipChIn();
-		const n = <HTMLSpanElement>this.#htmTxt.cloneNode(true);
-		//this.htmTxt.innerHTML = '';		以下の方が早いらしい
-		n.textContent = '';
+		const n = document.createElement('span');
+		n.style.cssText = this.#htmTxt.style.cssText;
+		n.classList.value = this.#htmTxt.classList.value;
+			// 以下よりノード数の最大が下がる
+			// const n = <HTMLSpanElement>this.#htmTxt.cloneNode(true);
+			// n.textContent = '';
+			// // this.htmTxt.innerHTML = '';	// 上記のほうが早いらしい
 		const old = this.#htmTxt;
 		const a = Array.from(<HTMLCollectionOf<HTMLElement>>old.getElementsByClassName('sn_ch'));
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -730,17 +742,31 @@ export class TxtStage extends Container {
 				c.destroy();
 			}
 		};
-		if (sum_wait === 0) {this.#htmTxt.textContent = ''; end()}
-		else old.lastElementChild?.addEventListener('animationend', end, {once: true});
+		if (sum_wait === 0) {
+			this.#htmTxt.textContent = '';
+			this.#htmTxt = document.createElement('span');
+			end();
+		}
+		else {
+			const h = old.lastElementChild;
+			if (h) {
+				const fnc = ()=> {
+					h.removeEventListener('animationend', fnc);
+						// {once: true} より、明示的な removeEventListener のほうがサクサク解放するようである。屋上屋を架す事になりにくく、未解放リソースグラフでも低く抑えられる。
+					end();
+				};
+				h.addEventListener('animationend', fnc, {once: true, signal: this.#ac.signal});
+			}
+			else end();
+		}
 
 		this.#htmTxt = n;
-
-		//this.#hyph.clear();	// クリアはしない
 	}
 	reNew(): TxtStage {
 		this.#clearText();
 
-		const to = new TxtStage(this.ctn, ()=> this.canFocus(), this.sys);
+		const to = new TxtStage(this.ctn, this.canFocus, this.sys);
+			// ()=> this.canFocus() だとリソースリークになる
 		to.#infTL = this.#infTL;
 		to.#htmTxt.style.cssText = this.#htmTxt.style.cssText;
 		to.#left = this.#left;
@@ -854,8 +880,20 @@ export class TxtStage extends Container {
 
 		// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 		this.#htmTxt.parentElement!.removeChild(this.#htmTxt);
+		// this.#htmTxt.textContent = '';	// 有効性が逆効果気味
+		this.#htmTxt = document.createElement('span');	// リソース解放に有効
 		this.removeChild(this.#cntTxt);
 		this.removeChild(this.#grpDbgMasume);
+
+		this.#grpDbgMasume.clear();
+		this.#fncMasume = ()=> { /* empty */ };	// リソース解放にやや有効？
+		this.#aGoTxt = [];
+		this.#aRect	= [];
+		this.#lenHtmTxt = 0;
+		this.#aSpTw = [];	// リソース解放に有効
+		this.#ac.abort();	// 有効性が低い、が保険で
+		this.#ch_filter = undefined;
+
 		super.destroy();
 	}
 }

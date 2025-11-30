@@ -530,6 +530,8 @@ top: ${String(
 		const bl = new Blob([ab], {type});
 		const img = new Image;
 		img.onload = ()=> rs(img);
+		// img.onload = ()=> {rs(img); URL.revokeObjectURL(img.src)};
+			// こうすると暗号化時フレームで画像が出なくなる
 		img.onerror = e=> rj(new Error(e instanceof Event ?e.type :e));
 		img.src = URL.createObjectURL(bl);
 	});

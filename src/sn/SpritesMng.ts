@@ -236,15 +236,25 @@ export class SpritesMng {
 
 		if (r instanceof HTMLImageElement) {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			void Texture.fromLoader(r, res.url, res.name).then(r=> {
-				res.texture = r;
+			void Texture.fromLoader(r, res.url, res.name).then(r2=> {
+				res.texture = r2;
 				//Texture.addToCache(Texture.from(r), res.name);
 				// res.texture = Texture.from(r);
 					// でも良いが、キャッシュ追加と、それでcsv2Sprites()内で使用するので
 				res.type = LoaderResource.TYPE.IMAGE;
-				// URL.revokeObjectURL(r.src);	// TODO: キャッシュ破棄
+				next();
+// console.log(`fn:SpritesMng.ts line:253 res.url:${String(res.url)} res.name:${String(res.name)} src2:${r.src}`);
+				// res.url:prj/bg/153385d5-24e0-5483-b779-b04f3ea4c901.bin res.name:市場_品物置き場２
+				URL.revokeObjectURL(r.src);
+
+				// これをするとタイトル画面から画面遷移でチラチラする
+				// const fn = String(res.name);
+				// Texture.removeFromCache(fn);
+				// // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+				// delete utils.TextureCache[fn];
+				// // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+				// delete Loader.shared.resources[fn];
 			});
-			next();
 			return;
 		}
 
@@ -253,7 +263,7 @@ export class SpritesMng {
 			SpritesMng.#hFn2hve[res.name] = SpritesMng.#charmVideoElm(r);
 
 			res.type = LoaderResource.TYPE.VIDEO;
-//			URL.revokeObjectURL(r.src);
+			// URL.revokeObjectURL(r.src);	// 動作確認したい
 		}
 		next();
 	}
@@ -296,12 +306,14 @@ export class SpritesMng {
 		(new Loader)
 		.use((res2, next2)=> {
 			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			this.#sys.decAB(res2.data)
+			void this.#sys.decAB(res2.data)
 			.then(r2=> {
 				res2.data = r2;
 				if (r2 instanceof HTMLImageElement) {
 					res2.type = LoaderResource.TYPE.IMAGE;
+					next2();
 					URL.revokeObjectURL(r2.src);
+					return;
 				}
 				next2();
 			})

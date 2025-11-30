@@ -196,7 +196,14 @@ export class FrameMng implements T_GetFrm {
 			void FrameMng.#sys.decAB(res.data)
 			.then(r=> {
 				res.data = r;
-				if (r instanceof HTMLImageElement) res.type = LoaderResource.TYPE.IMAGE;
+				if (r instanceof HTMLImageElement) {
+					res.type = LoaderResource.TYPE.IMAGE;
+
+					// これをすると二度目のフレーム画面表示で画像が壊れる
+					// next();
+					// URL.revokeObjectURL(r.src);
+					// return;
+				}
 				next();
 			})
 			.catch((e: unknown)=> {

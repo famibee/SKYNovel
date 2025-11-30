@@ -1,3 +1,10 @@
+- fix: メモリリーク修正
+	- src/sn/Button.ts
+	- src/sn/SpritesMng.ts
+	- src/sn/TxtLayer.ts
+	- src/sn/TxtStage.ts
+
+
 ## [1.64.21](https://github.com/famibee/SKYNovel/compare/v1.64.20...v1.64.21) (2025-11-27)
 
 

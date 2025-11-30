@@ -174,7 +174,8 @@ export class Button extends Container {
 					this.#loaded_b_pic(sp, txt);
 					this.#o.width = this.width;
 					this.#o.height = this.height;
-					txt.name = JSON.stringify(this.#o);
+					// txt.name = JSON.stringify(this.#o);
+					// DevTools 【メモリ】【重複する文字列】で悪さするので廃止
 				},
 				isStop=> {
 					Layer.setBlendmode(this, hArg);
@@ -183,7 +184,8 @@ export class Button extends Container {
 			);
 			isStop = this.#sps.ret;
 		}
-		txt.name = JSON.stringify(this.#o);
+		// txt.name = JSON.stringify(this.#o);
+		// DevTools 【メモリ】【重複する文字列】で悪さするので廃止
 
 		this.addChild(txt);
 		this.#rctBtnTxt.width = txt.width;	// addChild()後に取得すること
@@ -230,6 +232,10 @@ export class Button extends Container {
 	}
 
 	override	destroy(): void {
+		this.normal		= ()=> { /* empty */ };
+		this.#hover		= ()=> false;
+		this.#clicked	= ()=> { /* empty */ };
+
 		this.evtMng.unButton(this);
 		this.#sps.destroy();
 		super.destroy();
@@ -288,7 +294,8 @@ export class Button extends Container {
 			this.scale.y *= this.#o.height /h;
 		}
 		else this.#o.height = h;
-		sp.name = JSON.stringify(this.#o);	// dump用
+		// sp.name = JSON.stringify(this.#o);	// dump用
+		// DevTools 【メモリ】【重複する文字列】で悪さするので廃止
 
 		Button.#procMasume4pic(this, sp, w, h);
 	}

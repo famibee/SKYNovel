@@ -819,6 +819,7 @@ export class TxtLayer extends Layer {
 	}
 
 	clearText(): void {
+		this.ctn.removeChild(this.#txs);
 		this.ctn.addChild(this.#txs = this.#txs.reNew());
 
 		this.#cumDelay = 0;

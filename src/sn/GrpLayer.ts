@@ -12,7 +12,6 @@ import type {TArg} from './Grammar';
 import type {T_Main, T_Variable} from './CmnInterface';
 import type {Config} from './Config';
 import type {SysBase} from './SysBase';
-import {EventListenerCtn} from './EventListenerCtn';
 import type {SoundMng} from './SoundMng';
 import type {IMakeDesignCast} from './LayerMng';
 import {GrpLayDesignCast} from './DesignCast';
@@ -29,14 +28,12 @@ export type T_RP_layGrp = T_RecordPlayBack_lay & {
 
 
 export class GrpLayer extends Layer {
-	static	readonly	#elc	= new EventListenerCtn;
-
 	static	#appPixi: Application;
 	static	init(main: T_Main, cfg: Config, appPixi: Application, sys: SysBase, sndMng: SoundMng, val: T_Variable): void {
 		GrpLayer.#appPixi = appPixi;
 		SpritesMng.init(cfg, val, sys, main, sndMng);
 	}
-	static	destroy() {GrpLayer.#elc.clear(); SpritesMng.destroy()}
+	static	destroy() {SpritesMng.destroy()}
 
 	readonly	#idc	= new GrpLayDesignCast(this.ctn, this);
 	constructor() {
