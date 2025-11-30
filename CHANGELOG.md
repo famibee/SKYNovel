@@ -1,3 +1,10 @@
+## [1.64.22](https://github.com/famibee/SKYNovel/compare/v1.64.21...v1.64.22) (2025-11-30)
+
+
+### Bug Fixes
+
+* メモリリーク修正 ([e366c1c](https://github.com/famibee/SKYNovel/commit/e366c1c3c491e82b230bb397caf04168faad8430))
+
 - fix: メモリリーク修正
 	- src/sn/Button.ts
 	- src/sn/SpritesMng.ts
