@@ -156,6 +156,7 @@
 		<li class="mb1"><a href="#an2sn">AIRNovelからの変更点</a></li>
 		<li class="mb1"><a href="#ruby">ルビ記法</a></li>
 		<li class="mb1"><a href="#font">フォントの導入</a></li>
+		<li class="mb1"><a href="#psd">立ち絵素材生成機能</a></li>
 		<li class="mb1"><a href="#crypt">素材や・変数データを暗号化</a></li>
 		<li class="mb1"><a href="#save_path">セーブデータの保存場所</a></li>
 		<li class="mb1"><a href="#on_browser">ブラウザ版の公開方法</a></li>
@@ -1124,6 +1125,61 @@ const.sn.log.json
 	</p>
 
 
+</p>
+<h2 id="psd" class="w-heading">立ち絵素材生成機能</h2>
+<h4>PSDから立ち絵素材を生成する機能について。</h4>
+<p class="mb2 px1">
+	<h4>1.立ち絵 psd ファイルを作成します。</h4>
+	<p class="mb2 px1">
+		「目」「口」などごとに、切り替え可能なレイヤをフォルダにまとめて下さい。<br/>
+		　図の例では、「のっぺらぼうの身体」「目」「口」を重ねて人物の立ち絵、としています。シンプルな例です。<br/>
+		<amp-img src="pic/psd_psd_1.png" width="1638" height="1592" layout="responsive"></amp-img>
+		※レイヤ名やフォルダ名は短いとあとあと都合が良いです。というのも「_」で繋がれて一つの長いファイル名となるので。<br/>
+		※フォルダ名やレイヤ名は「ガギグゲゴ」のような濁点(゛)・半濁点(゜)など合成文字を避けて下さい。これは後にファイル名になりトラブル（NFC/NFD問題）の元だからです。例の画像でレイヤ名が「ゴージャス」ではなく「Gorgeous」となっているのはそのためです。<br/>
+		<br/>
+
+		「目」「口」など表情の上に乗りあげるメガネなどはメガネだけで一つのレイヤに。「青ざめる」「赤面」などは独立したレイヤにするのをオススメします。<br/>
+		　他にも「前髪」「帽子」など、キャラクターによってレイヤが増えると思います。<br/>
+		<amp-img src="pic/psd_psd_2.png" width="1086" height="1124" layout="responsive"></amp-img>
+		「目」ならなんでもかんでも一つのフォルダに入れないといけない、という事はありません。メガネ＋目の「メガネ目」という画像群入りのフォルダが、裸眼の「目」という画像群入りのフォルダと別に存在していても構いません。<br/>
+		<br/>
+
+		※Photoshop ブレンドモード名は限定されており、<a href="tag.html#blendMode">【normal】【add】【multiply】【screen】のみサポート</a>してます。<br/>
+	</p>
+
+	<h4>2.ESM テンプレートにおける src/resource 下に psd ファイルをドロップすると、自動で変換処理が走ります。</h4>
+	<p class="mb2 px1">
+		<amp-img src="pic/psd_exp_1esm.png" width="566" height="1046" layout="responsive"></amp-img>
+		cjs テンプレートでは core/resource 下になります。<br/>
+		<amp-img src="pic/psd_exp_2cjs.png" width="466" height="926" layout="responsive"></amp-img>
+		　doc/prj/face/下に【レイヤごとの png 画像ファイル】と【faceスクリプト】が生成されます。<br/>
+	</p>
+
+	<h4>3.レイヤごとの png 画像ファイル</h4>
+	<p class="mb2 px1">
+		<amp-img src="pic/psd_png_1.png" width="580" height="1044" layout="responsive"></amp-img>
+		　psdファイル名・フォルダ名・レイヤ名が「_」で繋がれて一つの長いファイル名となっています。<br/>
+	</p>
+	<h4>4.faceスクリプト（face_**.sn）</h4>
+	<p class="mb2 px1">
+		　レイヤごとの画像ファイルを[add_face]するスクリプトです。<br/>
+		<amp-img src="pic/psd_sn_1.png" width="1170" height="1086" layout="responsive"></amp-img>
+		※一番下になるレイヤかフォルダは「あえて」コメントアウトされています。画像レイヤとしてのベースであり、[add_face]が不要であるからです。<br/>
+	</p>
+
+	<h4>5.生成画像は faceスクリプトから差分定義され、faceスクリプト自体はテンプレの sub.sn ですべて [call] されます。</h4>
+	<p class="mb2 px1">
+		<amp-img src="pic/psd_sn_2.png" width="1096" height="522" layout="responsive"></amp-img>
+		※[call] するタイミングはタイトル画面からゲーム開始ボタンを押してから本文が表示される過程です。タイトル画面までは不要であり、ゲーム起動速度をかせぐためです。<br/>
+	</p>
+
+	<h4>6.立ち絵を使用します。</h4>
+	<p class="mb2 px1">
+		<amp-img src="pic/psd_fg_1.png" width="1270" height="224" layout="responsive"></amp-img>
+		　立ち絵表示マクロの [fg] や [fg2] での fn,face 属性にて【レイヤごとの画像ファイル名】を列挙すると、立ち絵として表示されます。<br/>
+		※イメージ的には左が一番下、右に向かって上に重ねていくイメージです。<br/>
+		※画像の例では fn属性もface属性も使用していますが、fn属性のみでカンマ区切りでつなげても構いません。<br/>
+	</p>
 
 
 
