@@ -1,3 +1,10 @@
+# [1.65.0](https://github.com/famibee/SKYNovel/compare/v1.64.22...v1.65.0) (2025-12-02)
+
+
+### Features
+
+* ライブラリ更新、最新 @tweenjs/tween.js@25.0.0 へ ([1d137e7](https://github.com/famibee/SKYNovel/commit/1d137e721cd08400a6ca11abf5e0ecd31f44de77))
+
 - feat: ライブラリ更新、最新 @tweenjs/tween.js@25.0.0 へ
 	- src/sn/CmnTween.ts
 	- src/sn/Reading.ts
