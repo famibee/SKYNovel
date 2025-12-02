@@ -282,7 +282,7 @@ export class LayerMng implements T_GetFrm {
 		this.#evtMng = evtMng;
 		this.#frmMng.setEvtMng(evtMng);
 		SpritesMng.setEvtMng(evtMng);
-		CmnTween.init(evtMng, this.appPixi);
+		CmnTween.init(evtMng);
 	}
 
 	destroy() {

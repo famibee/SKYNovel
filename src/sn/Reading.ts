@@ -17,9 +17,10 @@ import type {SoundMng} from './SoundMng';
 import {EventListenerCtn} from './EventListenerCtn';
 import type {T_RP_layGrp} from './GrpLayer';
 import type {T_RP_layTxt} from './TxtLayer';
+import {CmnTween} from './CmnTween';
 
 import {Container} from 'pixi.js';
-import {Tween, remove} from '@tweenjs/tween.js'
+import {Group, Tween} from '@tweenjs/tween.js'
 
 
 type IPageLog = {
@@ -32,6 +33,9 @@ type IPageLog = {
 
 
 export class ReadingState {
+	static	readonly	#grp = new Group;
+	static	init() {CmnTween.addGrp(ReadingState.#grp)}
+
 	static	#rs: ReadingState;
 	static	get rs() {return this.#rs}
 	constructor() {ReadingState.#rs = this}
@@ -319,10 +323,14 @@ export class ReadingState {
 
 		const tw = new Tween({});
 		const RPN_WAIT = 'wait';
-		const fin = ()=> {remove(tw); Reading.notifyEndProc(RPN_WAIT)};
+		const fin = ()=> {
+			ReadingState.#grp.remove(tw);
+			Reading.notifyEndProc(RPN_WAIT);
+		};
 		tw.to({}, time)
 		.onComplete(fin)
 		.start();
+		ReadingState.#grp.add(tw);
 
 		const canskip = argChk_Boolean(hArg, 'canskip', true);
 		Reading.beginProc(RPN_WAIT, fin, true, canskip ?fin :undefined);
@@ -700,6 +708,7 @@ export class Reading {
 		hTag.waitclick	= o=> ReadingState.rs.s(o);		// クリックを待つ
 		hTag.page		= o=> ReadingState.rs.page(o);	// ページ移動
 
+		ReadingState.init();
 		new ReadingState_proc;
 		hTag.jump({fn: 'main'});
 	}

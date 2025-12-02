@@ -1,6 +1,6 @@
 import { Q as w, L as v, U as N, S as L, n as h, j as x, y as R, b as V, M as A, B as j, x as y, e as k, z as H, l as O } from "./web2.js";
 import { D as C } from "./DebugMng.js";
-import { a as F } from "./Reading.js";
+import { a as F } from "./CmnTween.js";
 class e {
   constructor(t = "", a, c = () => {
   }, n = () => {

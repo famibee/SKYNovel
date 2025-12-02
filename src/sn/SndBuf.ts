@@ -16,10 +16,15 @@ import {Reading} from './Reading';
 
 import {Loader, LoaderResource} from 'pixi.js';
 import {sound, Sound, type Options, filters} from '@pixi/sound';
-import {Tween, remove} from '@tweenjs/tween.js'
+import {Group, Tween} from '@tweenjs/tween.js'
+
 
 class SndInf {
-	static	 #vol_mul_talking = 1;
+	static	readonly	grp = new Group;
+	static	init() {CmnTween.addGrp(SndInf.grp)}
+
+	static	#vol_mul_talking = 1;
+
 
 	stt		: ISndState;
 	loop	= false;
@@ -50,7 +55,11 @@ class SndInf {
 		if (this.pan !== 0) snd.filters = [new filters.StereoFilter(this.pan)];
 
 		this.setVol = vol=> {snd.volume = vol};
-		this.tw = ()=> new Tween(snd);
+		this.tw = ()=> {
+			const t = new Tween(snd);
+			SndInf.grp.add(t);
+			return t;
+		};
 		this.onPlayEnd = ()=> {this.stt.onPlayEnd(this.buf); this.#onStop()};
 		this.stop = ()=> {snd.stop(); this.#onStop()};
 		this.destroy = ()=> snd.destroy();
@@ -127,7 +136,10 @@ export class SndBuf {
 		main= $main;
 		sys	= $sys;
 		hSndBuf	= $hSndBuf;
+
+		SndInf.init();
 	}
+
 	static	setEvtMng($evtMng: IEvtMng) {evtMng = $evtMng}
 	static	delLoopPlay(buf: string): void {
 		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
@@ -493,7 +505,7 @@ n.refresh @ pixi-sound.esm.mjs:9
 			tw.onComplete();
 		})
 		.onComplete(()=> {
-			remove(tw);
+			SndInf.grp.remove(tw);
 			si.stt.compFade(buf);
 			si.stt = stop ? new SsStop(si) : new SsPlaying(si);
 		})

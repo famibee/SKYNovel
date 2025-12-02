@@ -1,11 +1,10 @@
 import { e as g, S as H, L as F, m as B, k, a as _, p as M, G, o as U, E as A, q as tt, r as et, t as st, v as W, w as it, x as q, y as at, F as nt, u as O, z as J } from "./app2.js";
-import { C as w, T as R } from "./CmnTween.js";
+import { a as C, C as w, b as R } from "./CmnTween.js";
 import { G as X, D as Y } from "./GrpLayer.js";
 import { S as E } from "./SpritesMng.js";
 import { T as N, a as rt } from "./TxtLayer.js";
 import { R as ot } from "./RubySpliter.js";
 import { P as ct, b as K } from "./Main.js";
-import { a as C } from "./Reading.js";
 import { Button as Q } from "./Button.js";
 class I {
   constructor(t, e, s, i, n, o, r, c) {
@@ -427,7 +426,7 @@ class Z {
   }
   #d;
   setEvtMng(t) {
-    this.#d = t, this.#o.setEvtMng(t), E.setEvtMng(t), w.init(t, this.appPixi);
+    this.#d = t, this.#o.setEvtMng(t), E.setEvtMng(t), w.init(t);
   }
   destroy() {
     for (const t of Object.values(this.#s)) t.destroy();

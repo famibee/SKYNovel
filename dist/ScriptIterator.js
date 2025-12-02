@@ -3,8 +3,7 @@ import { c as O, C as L, a as $ } from "./CallStack.js";
 import { G as I, A as M, t as T, a as x } from "./Main.js";
 import { R as j } from "./RubySpliter.js";
 import { D as k } from "./DebugMng.js";
-import { C as y } from "./CmnTween.js";
-import { a as _, R as N } from "./Reading.js";
+import { a as _, C as y, R as N } from "./CmnTween.js";
 import { a as W } from "./SndBuf.js";
 class p {
   //MARK: コンストラクタ

@@ -1,3 +1,8 @@
+- feat: ライブラリ更新、最新 @tweenjs/tween.js@25.0.0 へ
+	- src/sn/CmnTween.ts
+	- src/sn/Reading.ts
+	- src/sn/SndBuf.ts
+	- src/sn/TxtStage.ts
 - docs: 【SKYNovel 開発者向け情報】にPSDから立ち絵素材を生成する機能について解説を追記
 
 

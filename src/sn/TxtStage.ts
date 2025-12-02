@@ -24,7 +24,7 @@ import {Reading} from './Reading';
 import {htm2tx} from './htm2tx';
 
 import {Container, Sprite, Graphics, Rectangle, Renderer, Application} from 'pixi.js';
-import {Tween} from '@tweenjs/tween.js'
+import {Group, Tween} from '@tweenjs/tween.js'
 
 
 export type T_InfTxLay = {
@@ -77,7 +77,11 @@ export class TxtStage extends Container {
 	static	init(cfg: Config, appPixi: Application): void {
 		TxtStage.#cfg = cfg;
 		TxtStage.#appPixi = appPixi;
+
+		CmnTween.addGrp(TxtStage.grp);
 	}
+	static	readonly	grp = new Group;
+
 	static	#evtMng	: IEvtMng;
 	static	#scrItr	: ScriptIterator;
 	static	setEvtMng(evtMng: IEvtMng, scrItr: ScriptIterator) {
@@ -561,20 +565,21 @@ export class TxtStage extends Container {
 			cis.y.startsWith('=') ?rct.y +sp.height *cis.ny :cis.ny
 		);
 		else sp.position.set(rct.x, rct.y,);
-		const st: T_SpTw = {
-			sp,
-			tw: new Tween(sp)
-			.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, angle: 0 }, cis.wait ?? 0)
-			.easing(ease)
-			.delay((add.wait ?? 0) +(arg.delay ?? 0))
-			.onComplete(()=> {
-				st.tw = undefined;
-				//(略)	if (rct.width === 0 || rct.height === 0) return;
-				//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
-				// これを有効にすると[snapshot]で文字が出ない
-			})
-			.start(),
-		};
+
+		const tw = new Tween(sp)
+		.to({ alpha: 1, x: rct.x, y: rct.y, width: rct.width, height: rct.height, angle: 0 }, cis.wait ?? 0)
+		.easing(ease)
+		.delay((add.wait ?? 0) +(arg.delay ?? 0))
+		.onComplete(()=> {
+			st.tw = undefined;
+			//(略)	if (rct.width === 0 || rct.height === 0) return;
+			//if (sp instanceof Sprite) sp.cacheAsBitmap = true;
+			// これを有効にすると[snapshot]で文字が出ない
+		})
+		.start();
+		TxtStage.grp.add(tw);
+
+		const st: T_SpTw = {sp, tw};
 		this.#aSpTw.push(st);
 	}
 	#aSpTw		: T_SpTw[]	= [];

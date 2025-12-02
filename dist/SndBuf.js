@@ -1,12 +1,11 @@
-import { m as R, n as O, T, o as ue, l as F, e as A, S as ae, L as le, a as ce } from "./web2.js";
-import { C as pe } from "./CmnTween.js";
-import { a as L, T as he, r as fe } from "./Reading.js";
-var ee;
+import { m as R, n as S, T, o as ae, l as j, e as A, S as le, L as ce, a as pe } from "./web2.js";
+import { a as L, G as he, C as ee, T as fe } from "./CmnTween.js";
+var te;
 function _() {
-  return ee;
+  return te;
 }
-var te = function(n, e) {
-  return (te = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(t, s) {
+var se = function(n, e) {
+  return (se = Object.setPrototypeOf || { __proto__: [] } instanceof Array && function(t, s) {
     t.__proto__ = s;
   } || function(t, s) {
     for (var o in s) Object.prototype.hasOwnProperty.call(s, o) && (t[o] = s[o]);
@@ -17,24 +16,24 @@ function b(n, e) {
   function t() {
     this.constructor = n;
   }
-  te(n, e), n.prototype = e === null ? Object.create(e) : (t.prototype = e.prototype, new t());
+  se(n, e), n.prototype = e === null ? Object.create(e) : (t.prototype = e.prototype, new t());
 }
 var V = function() {
   return (V = Object.assign || function(n) {
     for (var e, t = 1, s = arguments.length; t < s; t++) for (var o in e = arguments[t]) Object.prototype.hasOwnProperty.call(e, o) && (n[o] = e[o]);
     return n;
   }).apply(this, arguments);
-}, se = ["mp3", "ogg", "oga", "opus", "mpeg", "wav", "m4a", "aiff", "wma", "mid", "caf"], K = {};
+}, ne = ["mp3", "ogg", "oga", "opus", "mpeg", "wav", "m4a", "aiff", "wma", "mid", "caf"], K = {};
 function de(n) {
   var e = V({ m4a: "audio/mp4", oga: "audio/ogg", opus: 'audio/ogg; codecs="opus"', caf: 'audio/x-caf; codecs="opus"' }, n || {}), t = document.createElement("audio"), s = {}, o = /^no$/;
-  se.forEach(function(i) {
+  ne.forEach(function(i) {
     var r = t.canPlayType("audio/".concat(i)).replace(o, ""), u = e[i] ? t.canPlayType(e[i]).replace(o, "") : "";
     s[i] = !!r || !!u;
   }), Object.assign(K, s);
 }
 de();
 var _e = /\.(\{([^\}]+)\})(\?.*)?$/;
-function ne(n) {
+function oe(n) {
   var e = _e, t = typeof n == "string" ? n : n.url;
   if (!e.test(t)) return t;
   for (var s = e.exec(t), o = s[2].split(","), i = o[o.length - 1], r = 0, u = o.length; r < u; r++) {
@@ -51,21 +50,21 @@ function ne(n) {
   }
   return l;
 }
-var q = se.filter(function(n) {
+var q = ne.filter(function(n) {
   return K[n];
-}), oe = function() {
+}), ie = function() {
   function n() {
   }
   return n.add = function() {
     n.setLegacy(_().useLegacy);
   }, n.setLegacy = function(e) {
     e ? q.forEach(function(t) {
-      O.setExtensionXhrType(t, O.XHR_RESPONSE_TYPE.DEFAULT), O.setExtensionLoadType(t, O.LOAD_TYPE.AUDIO);
+      S.setExtensionXhrType(t, S.XHR_RESPONSE_TYPE.DEFAULT), S.setExtensionLoadType(t, S.LOAD_TYPE.AUDIO);
     }) : q.forEach(function(t) {
-      O.setExtensionXhrType(t, O.XHR_RESPONSE_TYPE.BUFFER), O.setExtensionLoadType(t, O.LOAD_TYPE.XHR);
+      S.setExtensionXhrType(t, S.XHR_RESPONSE_TYPE.BUFFER), S.setExtensionLoadType(t, S.LOAD_TYPE.XHR);
     });
   }, n.pre = function(e, t) {
-    ne(e), t();
+    oe(e), t();
   }, n.use = function(e, t) {
     e.data && q.indexOf(e.extension) > -1 ? e.sound = _().add(e.name, { loaded: t, preload: !0, url: e.url, source: e.data }) : t();
   }, n.extension = "loader", n;
@@ -352,7 +351,7 @@ var q = se.filter(function(n) {
     }
     this._source = null, this._progress = 1, this.emit("progress", 1, this._duration), this.emit("end", this);
   }, e;
-}(R), ie = function() {
+}(R), re = function() {
   function n(e, t) {
     this._output = t, this._input = e;
   }
@@ -391,7 +390,7 @@ var q = se.filter(function(n) {
   }, Object.defineProperty(e.prototype, "bufferSize", { get: function() {
     return this.script.bufferSize;
   }, enumerable: !1, configurable: !0 }), e.BUFFER_SIZE = 0, e;
-}(ie), we = function() {
+}(re), we = function() {
   function n() {
   }
   return n.prototype.init = function(e) {
@@ -447,7 +446,7 @@ var q = se.filter(function(n) {
   }
   return n.from = function(e) {
     var t = {};
-    return typeof e == "string" ? t.url = e : e instanceof ArrayBuffer || e instanceof AudioBuffer || e instanceof HTMLAudioElement ? t.source = e : t = e, (t = V({ autoPlay: !1, singleInstance: !1, url: null, source: null, preload: !1, volume: 1, speed: 1, complete: null, loaded: null, loop: !1 }, t)).url && (t.url = ne(t.url)), Object.freeze(t), new n(_().useLegacy ? new ge() : new we(), t);
+    return typeof e == "string" ? t.url = e : e instanceof ArrayBuffer || e instanceof AudioBuffer || e instanceof HTMLAudioElement ? t.source = e : t = e, (t = V({ autoPlay: !1, singleInstance: !1, url: null, source: null, preload: !1, volume: 1, speed: 1, complete: null, loaded: null, loop: !1 }, t)).url && (t.url = oe(t.url)), Object.freeze(t), new n(_().useLegacy ? new ge() : new we(), t);
   }, Object.defineProperty(n.prototype, "context", { get: function() {
     return _().context;
   }, enumerable: !1, configurable: !0 }), n.prototype.pause = function() {
@@ -626,7 +625,7 @@ var q = se.filter(function(n) {
     }, o);
     i && i.catch(o);
   }, e;
-}(ie), Se = function() {
+}(re), Se = function() {
   function n() {
     this.init();
   }
@@ -658,7 +657,7 @@ var q = se.filter(function(n) {
   }, Object.defineProperty(n.prototype, "useLegacy", { get: function() {
     return this._useLegacy;
   }, set: function(e) {
-    oe.setLegacy(e), this._useLegacy = e, this._context = !e && this.supported ? this._webAudioContext : this._htmlAudioContext;
+    ie.setLegacy(e), this._useLegacy = e, this._context = !e && this.supported ? this._webAudioContext : this._htmlAudioContext;
   }, enumerable: !1, configurable: !0 }), Object.defineProperty(n.prototype, "disableAutoPause", { get: function() {
     return !this._webAudioContext.autoPause;
   }, set: function(e) {
@@ -738,8 +737,8 @@ var q = se.filter(function(n) {
       });
       (y = n.call(this, g[0], g[g.length - 1]) || this).bands = g, y.bandsMap = {};
       for (var d = 0; d < y.bands.length; d++) {
-        var w = y.bands[d];
-        d > 0 && y.bands[d - 1].connect(w), y.bandsMap[w.frequency.value] = w;
+        var O = y.bands[d];
+        d > 0 && y.bands[d - 1].connect(O), y.bandsMap[O.frequency.value] = O;
       }
       return y;
     }
@@ -897,13 +896,17 @@ var q = se.filter(function(n) {
     n.call(this, null);
   }
   return b(e, n), e;
-}(k) }, Ve = { __proto__: null, supported: K }, z = function(n) {
-  return ee = n, n;
+}(k) }, Ae = { __proto__: null, supported: K }, z = function(n) {
+  return te = n, n;
 }(new Se());
-ue.add(oe);
-class j {
+ae.add(ie);
+class P {
   constructor(e, t, s, o, i, r, u, a) {
     this.fn = e, this.buf = t, this.start_ms = s, this.end_ms = o, this.ret_ms = i, this.volume = r, this.pan = u, this.snd = a, this.stt = a ? new G(this) : new Ee(this), this.#e = L.procID, a && this.addSnd(a);
+  }
+  static grp = new he();
+  static init() {
+    ee.addGrp(P.grp);
   }
   static #t = 1;
   stt;
@@ -915,32 +918,35 @@ class j {
   addSnd(e) {
     switch (this.snd = e, this.loop = e.loop, this.stt.onLoad(this), this.pan !== 0 && (e.filters = [new B.StereoFilter(this.pan)]), this.setVol = (t) => {
       e.volume = t;
-    }, this.tw = () => new he(e), this.onPlayEnd = () => {
+    }, this.tw = () => {
+      const t = new fe(e);
+      return P.grp.add(t), t;
+    }, this.onPlayEnd = () => {
       this.stt.onPlayEnd(this.buf), this.#s();
     }, this.stop = () => {
       e.stop(), this.#s();
-    }, this.destroy = () => e.destroy(), !this.loop && ce.needClick2Play() && setTimeout(() => this.onPlayEnd(), (e.duration - this.start_ms - (this.end_ms <= 0 ? this.end_ms : this.end_ms === f.MAX_END_MS ? 0 : e.duration - this.end_ms)) * 1e3), this.buf) {
+    }, this.destroy = () => e.destroy(), !this.loop && pe.needClick2Play() && setTimeout(() => this.onPlayEnd(), (e.duration - this.start_ms - (this.end_ms <= 0 ? this.end_ms : this.end_ms === f.MAX_END_MS ? 0 : e.duration - this.end_ms)) * 1e3), this.buf) {
       // セリフ再生中はBGM音量を絞る
       case Q:
         {
           const t = Number(c.getVal("sys:sn.sound.BGM.vol_mul_talking") ?? 1);
           if (t === 1) break;
-          j.#t = t;
+          P.#t = t;
           const s = H[X];
-          s && s.setVol(this.volume * j.#t);
+          s && s.setVol(this.volume * P.#t);
         }
         break;
       case X:
-        e.volume = this.volume * j.#t;
+        e.volume = this.volume * P.#t;
         break;
     }
   }
   #s = () => {
     if (this.#s = () => {
-    }, j.#t === 1 || this.buf !== Q) return;
-    j.#t = 1;
+    }, P.#t === 1 || this.buf !== Q) return;
+    P.#t = 1;
     const e = H[X];
-    e && e.setVol(this.volume * j.#t);
+    e && e.setVol(this.volume * P.#t);
   };
   setVol(e) {
   }
@@ -953,12 +959,12 @@ class j {
   destroy() {
   }
 }
-let J, c, E, Z, H, U;
+let J, c, F, Z, H, U;
 const X = "BGM", D = "SE", Q = "VOICE";
 class f {
   constructor(e, t, s) {
     this.hArg = e, this.buf = t, this.fn = s;
-    const o = F(e, "start_ms", 0), i = F(e, "end_ms", f.MAX_END_MS), r = F(e, "ret_ms", 0), u = F(e, "pan", 0), a = F(e, "speed", 1);
+    const o = j(e, "start_ms", 0), i = j(e, "end_ms", f.MAX_END_MS), r = j(e, "ret_ms", 0), u = j(e, "pan", 0), a = j(e, "speed", 1);
     if (o < 0) throw `[playse] start_ms:${String(o)} が負の値です`;
     if (r < 0) throw `[playse] ret_ms:${String(r)} が負の値です`;
     if (0 < i) {
@@ -972,7 +978,7 @@ class f {
     const m = h * Number(c.getVal("sys:" + l + "volume", 1, !0)), y = A(e, "loop", !1);
     y ? (f.#t[t] = s, c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(f.#t))) : f.delLoopPlay(t), c.setVal_Nochk("save", l + "start_ms", o), c.setVal_Nochk("save", l + "end_ms", i), c.setVal_Nochk("save", l + "ret_ms", r), c.setVal_Nochk("tmp", l + "playing", !0), c.flush();
     const g = z.find(s);
-    this.#e = new j(
+    this.#e = new P(
       s,
       t,
       o,
@@ -986,39 +992,39 @@ class f {
       loop: y,
       speed: a,
       volume: m,
-      loaded: (p, x) => {
+      loaded: (p, w) => {
         if (!this.#e.stt.isDestroy) {
           if (p) {
-            E.errScript(`ロード失敗です SndBuf fn:${s} ${String(p)}`, !1);
+            F.errScript(`ロード失敗です SndBuf fn:${s} ${String(p)}`, !1);
             return;
           }
-          x && (this.#e.addSnd(x), u !== 0 && (x.filters = [new B.StereoFilter(u)]), e.fnc?.());
+          w && (this.#e.addSnd(w), u !== 0 && (w.filters = [new B.StereoFilter(u)]), e.fnc?.());
         }
       }
     };
-    let w = "";
+    let O = "";
     if (0 < o || i < f.MAX_END_MS) {
-      w = `${s};${String(o)};${String(i)};${String(r)}`;
-      const p = (d.sprites ??= {})[w] = {
+      O = `${s};${String(o)};${String(i)};${String(r)}`;
+      const p = (d.sprites ??= {})[O] = {
         start: o / 1e3,
         end: i / 1e3
       };
       d.preload = !0;
-      const x = d.loaded;
-      d.loaded = (C, S) => {
+      const w = d.loaded;
+      d.loaded = (C, E) => {
         if (this.#e.stt.isDestroy) return;
-        x(C, S);
-        const I = S, M = I.duration;
-        p.end < 0 && (p.end += M, I.removeSprites(w), I.addSprites(w, p)), p.end <= p.start && E.errScript(`[playse] end_ms:${String(i)}(${String(p.end * 1e3)}) >= start_ms:${String(o)} は異常値です`), p.end * 1e3 <= r && E.errScript(`[playse] end_ms:${String(i)}(${String(p.end * 1e3)}) <= ret_ms:${String(r)} は異常値です`), M <= p.start && E.errScript(`[playse] 音声ファイル再生時間:${String(M * 1e3)} <= start_ms:${String(o)} は異常値です`), i !== f.MAX_END_MS && M <= p.end && E.errScript(`[playse] 音声ファイル再生時間:${String(M * 1e3)} <= end_ms:${String(i)} は異常値です`), I.play(w, (re) => d.complete?.(re));
+        w(C, E);
+        const I = E, M = I.duration;
+        p.end < 0 && (p.end += M, I.removeSprites(O), I.addSprites(O, p)), p.end <= p.start && F.errScript(`[playse] end_ms:${String(i)}(${String(p.end * 1e3)}) >= start_ms:${String(o)} は異常値です`), p.end * 1e3 <= r && F.errScript(`[playse] end_ms:${String(i)}(${String(p.end * 1e3)}) <= ret_ms:${String(r)} は異常値です`), M <= p.start && F.errScript(`[playse] 音声ファイル再生時間:${String(M * 1e3)} <= start_ms:${String(o)} は異常値です`), i !== f.MAX_END_MS && M <= p.end && F.errScript(`[playse] 音声ファイル再生時間:${String(M * 1e3)} <= end_ms:${String(i)} は異常値です`), I.play(O, (ue) => d.complete?.(ue));
       };
     } else d.autoPlay = !0;
     if (y ? r !== 0 && (d.loop = !1, d.complete = (p) => {
-      const x = p.duration, C = r / 1e3, S = i / 1e3;
-      x <= C && E.errScript(`[playse] 音声ファイル再生時間:${String(x * 1e3)} <= ret_ms:${String(r)} は異常値です`), p.play({
+      const w = p.duration, C = r / 1e3, E = i / 1e3;
+      w <= C && F.errScript(`[playse] 音声ファイル再生時間:${String(w * 1e3)} <= ret_ms:${String(r)} は異常値です`), p.play({
         // 一周目はループなし、なのでキャッシュされてる
         ...d,
         start: C,
-        end: S < 0 ? S + x : S,
+        end: E < 0 ? E + w : E,
         // 負の値は末尾から
         //	speed,		// 重複
         loop: !0,
@@ -1032,7 +1038,7 @@ class f {
     }) : d.complete = () => {
       W(this.#e, t), this.#e.onPlayEnd();
     }, this.#s(), g) {
-      if (g.volume = m, w) this.#n(s, d);
+      if (g.volume = m, O) this.#n(s, d);
       else if (g.isPlayable) {
         const p = g.options.source;
         !(p instanceof ArrayBuffer) || p.byteLength === 0 ? g.play(d) : this.#e.addSnd(N.from({
@@ -1047,16 +1053,16 @@ class f {
     if (this.needLoad = A(e, "join", !0)) {
       const p = this.#e.procID + `loaded buf:${t} fn:${s}`;
       L.beginProc(p);
-      const x = d.loaded;
-      d.loaded = (C, S) => {
-        x(C, S), L.endProc(p);
+      const w = d.loaded;
+      d.loaded = (C, E) => {
+        w(C, E), L.endProc(p);
       };
     }
     this.#n(s, d);
   }
   static #t = {};
   static init(e, t, s, o, i) {
-    f.#t = {}, J = e, c = t, E = s, Z = o, H = i;
+    f.#t = {}, J = e, c = t, F = s, Z = o, H = i, P.init();
   }
   static setEvtMng(e) {
     U = e;
@@ -1067,7 +1073,7 @@ class f {
     c.setVal_Nochk("save", t + "fn", ""), c.setVal_Nochk("save", "const.sn.loopPlaying", JSON.stringify(f.#t)), c.flush();
   }
   static getVol(e, t) {
-    const s = F(e, "volume", t);
+    const s = j(e, "volume", t);
     return s < 0 ? 0 : s > 1 ? 1 : s;
   }
   static xchgbuf({ buf: e = D, buf2: t = D }) {
@@ -1083,15 +1089,15 @@ class f {
     };
   };
   #n(e, t) {
-    const s = J.searchPath(e, ae.SOUND);
+    const s = J.searchPath(e, le.SOUND);
     if (!s.endsWith(".bin")) {
       t.url = s, N.from(t);
       return;
     }
-    new le().add({ name: e, url: s, xhrType: O.XHR_RESPONSE_TYPE.BUFFER }).use((o, i) => {
+    new ce().add({ name: e, url: s, xhrType: S.XHR_RESPONSE_TYPE.BUFFER }).use((o, i) => {
       Z.decAB(o.data).then((r) => {
         o.data = r;
-      }).catch((r) => E.errScript(`Sound ロード失敗ですc fn:${o.name} ${String(r)}`, !1)).finally(() => i());
+      }).catch((r) => F.errScript(`Sound ロード失敗ですc fn:${o.name} ${String(r)}`, !1)).finally(() => i());
     }).load((o, i) => {
       t.source = i[e]?.data, N.from(t);
     });
@@ -1123,11 +1129,11 @@ class Ee {
     e.stt = new G(e);
   }
   stopse(e) {
-    e.stt = new P(e, !1);
+    e.stt = new x(e, !1);
   }
   ws = () => !1;
   onPlayEnd() {
-    this.si.stt = new P(this.si, !1);
+    this.si.stt = new x(this.si, !1);
   }
   // ok
   fade() {
@@ -1151,7 +1157,7 @@ class G {
   }
   // ok
   stopse(e) {
-    e.stt = new P(e);
+    e.stt = new x(e);
   }
   ws(e, t) {
     if (e.loop) return !1;
@@ -1167,7 +1173,7 @@ class G {
     return L.beginProc(e.procID + "ws", r, !0, s ? r : void 0), !0;
   }
   onPlayEnd() {
-    this.si.stt = new P(this.si, !1);
+    this.si.stt = new x(this.si, !1);
   }
   // ok
   fade(e, t) {
@@ -1175,21 +1181,21 @@ class G {
     c.setVal_Nochk("save", i, r);
     const u = r * Number(c.getVal("sys:" + i, 1)), a = A(t, "stop", r === 0);
     a && f.delLoopPlay(s), c.flush();
-    const l = F(t, "time", NaN), h = F(t, "delay", 0);
+    const l = j(t, "time", NaN), h = j(t, "delay", 0);
     if (l === 0 && h === 0 || U.isSkipping) {
-      e.setVol(u), e.stt = a ? new P(e) : new G(e);
+      e.setVol(u), e.stt = a ? new x(e) : new G(e);
       return;
     }
     if (!e.snd) return;
     const m = e.tw();
-    m && (pe.setTwProp(m, t).to({ volume: u }, l).onUpdate((y) => {
+    m && (ee.setTwProp(m, t).to({ volume: u }, l).onUpdate((y) => {
       if (e.snd?.isPlaying) {
         e.snd.volume = y.volume;
         return;
       }
       m.stop(), m.onComplete();
     }).onComplete(() => {
-      fe(m), e.stt.compFade(s), e.stt = a ? new P(e) : new G(e);
+      P.grp.remove(m), e.stt.compFade(s), e.stt = a ? new x(e) : new G(e);
     }).start(), e.stt = new je(m, e));
   }
   wf = () => !1;
@@ -1210,12 +1216,12 @@ class Fe {
   }
   // ok
   stopse(e) {
-    e.stt = new P(e);
+    e.stt = new x(e);
   }
   ws = () => !1;
   // ok
   onPlayEnd() {
-    this.si.stt = new P(this.si, !1), L.notifyEndProc(this.si.procID + "ws");
+    this.si.stt = new x(this.si, !1), L.notifyEndProc(this.si.procID + "ws");
   }
   fade() {
   }
@@ -1238,13 +1244,13 @@ class je {
   }
   // ok
   stopse(e) {
-    this.stopfadese(), e.stt = new P(e);
+    this.stopfadese(), e.stt = new x(e);
   }
   // 順番厳守
   ws = () => !1;
   // ok ?
   onPlayEnd() {
-    this.stopfadese(), this.si.stt = new P(this.si, !1);
+    this.stopfadese(), this.si.stt = new x(this.si, !1);
   }
   // ok
   fade() {
@@ -1272,12 +1278,12 @@ class ke {
   }
   // ok
   stopse(e) {
-    this.stopfadese(), e.stt = new P(e);
+    this.stopfadese(), e.stt = new x(e);
   }
   ws = () => !1;
   // ok
   onPlayEnd() {
-    this.stopfadese(), this.si.stt = new P(this.si, !1);
+    this.stopfadese(), this.si.stt = new x(this.si, !1);
   }
   // ok
   fade() {
@@ -1291,7 +1297,7 @@ class ke {
   stopfadese = () => this.si.stop();
   isDestroy = !1;
 }
-class P {
+class x {
   constructor(e, t = !0) {
     this.si = e, this.stop = t, t && (e.stop(), e.loop && (e.destroy(), e.destroy = () => {
     }));
@@ -1322,7 +1328,7 @@ class P {
 }
 export {
   D as B,
-  Ve as I,
+  Ae as I,
   z as R,
   f as S,
   X as a

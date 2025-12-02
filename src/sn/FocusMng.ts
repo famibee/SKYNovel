@@ -18,6 +18,7 @@ type IFocusBtn = {
 	off	: ()=> void;
 }
 
+
 export class FocusMng {
 	#aBtn	: IFocusBtn[]	= [];
 	#idx					= -1;

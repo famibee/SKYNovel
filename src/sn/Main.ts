@@ -21,6 +21,7 @@ import {type IApplicationOptions, Application, utils} from 'pixi.js';
 
 const	SN_ID	= 'skynovel';
 
+
 export class Main implements T_Main {
 	static	async generate(sys: SysBase): Promise<Main> {
 		utils.skipHello();

@@ -6,6 +6,7 @@ import { SysBase } from './SysBase';
 import { T_RP_Hyphenation } from './Hyphenation';
 import { ScriptIterator } from './ScriptIterator';
 import { Container, Sprite, Renderer, Application } from 'pixi.js';
+import { Group } from '@tweenjs/tween.js';
 export type T_InfTxLay = {
     fontsize: number;
     $width: number;
@@ -46,6 +47,7 @@ export declare class TxtStage extends Container {
     private readonly canFocus;
     private readonly sys;
     static init(cfg: Config, appPixi: Application): void;
+    static readonly grp: Group;
     static setEvtMng(evtMng: IEvtMng, scrItr: ScriptIterator): void;
     static destroy(): void;
     noticeCompTxt: () => void;

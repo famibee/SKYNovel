@@ -1,7 +1,7 @@
 import { E as se, q as ut, D as G, a as it, w as Ee, d as Te, H as Oe, I as ke, e as J, J as _e, S as Lt, K as Me } from "./web2.js";
 import { T as Se } from "./TxtLayer.js";
 import { Button as Jt } from "./Button.js";
-import { R as L, a as k } from "./Reading.js";
+import { R as L, a as k } from "./CmnTween.js";
 class De {
   #e = [];
   #t = -1;

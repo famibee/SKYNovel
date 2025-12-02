@@ -16,14 +16,14 @@ class o {
   }
   /*
   		★Unicodeで「漢字」の正規表現 – ものかの http://tama-san.com/kanji-regex/
-  		2E80..2FDF CJK部首補助＋康熙部首
-  		3005 々（漢字の踊り字）
-  		3007 〇（漢数字のゼロ）
-  		303B 〻（漢字の踊り字）
-  		3400..4DBF CJK統合漢字拡張A
-  		4E00..9FFF CJK統合漢字
-  		F900..FAFF CJK互換漢字
-  		20000..2FFFF CJK統合漢字拡張B〜F＋CJK互換漢字追加＋念のためU+2FFFFまで
+  		2E80..2FDF	CJK部首補助＋康熙部首
+  		3005		々（漢字の踊り字）
+  		3007		〇（漢数字のゼロ）
+  		303B		〻（漢字の踊り字）
+  		3400..4DBF		CJK統合漢字拡張A
+  		4E00..9FFF		CJK統合漢字
+  		F900..FAFF		CJK互換漢字
+  		20000..2FFFF	CJK統合漢字拡張B〜F＋CJK互換漢字追加＋念のためU+2FFFFまで
   
   		[\x{2E80}-\x{2FDF}々〇〻\x{3400}-\x{4DBF}\x{4E00}-\x{9FFF}\x{F900}-\x{FAFF}\x{20000}-\x{2FFFF}]
   		[\u2E80-\u2FDF々〇〻\u3400-\u4DBF\u4E00-\u9FFF\uF900-\uFAFF\u20000-\u2FFFF]
@@ -46,20 +46,21 @@ class o {
   }
   putTxt(t) {
     for (const { groups: s } of t.matchAll(o.#n)) {
-      const { ruby: c, kan_ruby: e, kan: r = "", ce: i, txt: f = "", str: n = "" } = s;
+      if (!s) break;
+      const { ruby: c, kan_ruby: e, kan: a = "", ce: i, txt: r = "", str: n = "" } = s;
       if (c) {
         this.putTxtRb(decodeURIComponent(n), c);
         continue;
       }
       if (e) {
-        this.putTxtRb(r, e);
+        this.putTxtRb(a, e);
         continue;
       }
       if (i) {
         this.#t(i.slice(1), "");
         continue;
       }
-      for (const a of Array.from(f)) this.#t(a, "");
+      for (const f of Array.from(r)) this.#t(f, "");
     }
   }
   putTxtRb(t, s) {
@@ -70,17 +71,19 @@ class o {
     const c = Array.from(t), e = c.length;
     if (/^\*.?$/.test(s)) {
       const n = "center｜" + (s === "*" ? o.#s : s.charAt(1));
-      for (let a = 0; a < e; ++a) this.#t(c[a], n);
+      for (const f of c) this.#t(f, n);
       return;
     }
     if (e === 1 || !s.includes(" ")) {
       this.#t(t, decodeURIComponent(s));
       return;
     }
-    const r = s.split(" "), i = r.length, f = i > e ? i : e;
-    for (let n = 0; n < f; ++n) this.#t(
+    const a = s.split(" "), i = a.length, r = i > e ? i : e;
+    for (let n = 0; n < r; ++n) this.#t(
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       n < e ? c[n] : "",
-      n < i ? decodeURIComponent(r[n]) : ""
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      n < i ? decodeURIComponent(a[n]) : ""
     );
   }
 }

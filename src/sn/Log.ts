@@ -12,7 +12,7 @@ import type {T_CFG} from './ConfigBase';
 
 export type T_LOG = {
 	recText		: (txt: string)=> void;
-	pagebreak: ()=> void;
+	pagebreak	: ()=> void;
 };
 
 type T_LOG_DATA = TArg & {
