@@ -1,3 +1,13 @@
+## [2.0.0](https://github.com/famibee/SKYNovel/compare/v1.65.0...v2.0.0) (2025-12-17)
+
+### ⚠ BREAKING CHANGES
+
+* ライブラリ更新、最新 howler@2.2.4 へ
+
+### update
+
+* ライブラリ更新、最新 howler@2.2.4 へ ([11fe2c5](https://github.com/famibee/SKYNovel/commit/11fe2c571b2ce5032b0691ab2fe1235b565524b9))
+
 - update: ライブラリ更新、最新 howler@2.2.4 へ
 - feat: howler への対応
 - update: (cjs版)ライブラリ更新、最新 electron-store@11.0.2 へ
