@@ -15,7 +15,7 @@ export declare class ValTest implements T_Variable {
     setMp: () => void;
     setMark(_place: number, _mark: T_Mark): undefined;
     getMark(_place: number): T_Mark;
-    cloneSave: () => import('../src/sn/CmnInterface').T_H_SAVE_DATA;
+    cloneSave: () => import('../src').T_H_SAVE_DATA;
     mark2save(_mark: T_Mark): void;
     touchAreaKidoku: (_fn: string) => Areas;
     getAreaKidoku: (_fn: string) => Areas;

@@ -79,6 +79,8 @@ export default defineConfig([
 				assertionStyle: 'angle-bracket',
 				objectLiteralTypeAssertions: 'allow',
 			}],
+			'@typescript-eslint/no-unused-private-class-members': 'error',
+			'@typescript-eslint/no-useless-default-assignment': 'error',
 
 			'import/no-unresolved': 'off',
 

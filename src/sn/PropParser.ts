@@ -20,9 +20,9 @@ type IFncCalc = (a: any[]) => any
 type IHFncCalc = { [key: string]: IFncCalc; }
 
 export type T_RET_getValName = {
-	scope	: Scope;
+	scope?	: Scope;
 	name	: string;
-	at		: string;
+	at?		: string;
 }
 
 

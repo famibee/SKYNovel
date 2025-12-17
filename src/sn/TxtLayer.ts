@@ -644,7 +644,7 @@ export class TxtLayer extends Layer {
 				// 直後の dispBreak() のため oを更新
 				o.id ??= String(this.#aSpan.length);
 				if (o.id === 'break') {
-					this.#txs.dispBreak(<TArg>o);
+					this.#txs.dispBreak(o);
 					return;	// breakではない
 				}
 

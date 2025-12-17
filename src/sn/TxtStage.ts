@@ -21,6 +21,7 @@ import type {T_RP_Hyphenation, IChRect} from './Hyphenation';
 import {Hyphenation} from './Hyphenation';
 import type {ScriptIterator} from './ScriptIterator';
 import {Reading} from './Reading';
+import type {T_cmdTxt_JSON} from './TxtLayer';
 import {htm2tx} from './htm2tx';
 
 import {Container, Sprite, Graphics, Rectangle, Renderer, Application} from 'pixi.js';
@@ -90,6 +91,8 @@ export class TxtStage extends Container {
 	}
 
 	static	destroy() {
+		TxtStage.grp.removeAll();
+
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 		TxtStage.#hChInStyle	= Object.create(null);
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -669,7 +672,7 @@ export class TxtStage extends Container {
 
 	static	readonly	#cntBreak	= new Container;
 	static				#spsBreak	= new SpritesMng;
-	dispBreak(o: TArg) {
+	dispBreak(o: T_cmdTxt_JSON) {
 		TxtStage.delBreak();
 
 		const cnt = TxtStage.#cntBreak;

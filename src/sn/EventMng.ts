@@ -158,12 +158,11 @@ export class EventMng implements IEvtMng {
 			disregardVelocityThreshold: type=> Math.floor(TG_CHK_SPAN *(type === 'x' ?1 :0.5)),
 		});
 		let pressed = false;	// 長押しとクリックを排他的にする仕組み
-		this.#tg.on('tap', e=> {
+		this.#tg.on('tap', (e: TouchEvent | MouseEvent)=> {
 			if (pressed) return;
 
 			if (e instanceof TouchEvent) {
 				Reading.fire('click', e, true);
-				// tap は clickイベントでこのあと pointerup が発生しないので
 				ReadingState.resetFired();
 				return;
 			}
@@ -173,10 +172,8 @@ export class EventMng implements IEvtMng {
 				this.#setBtnNM.get(e.button) ?? ''}click`;
 // console.log(`fn:EventMng.ts -tap- nmEvt:${nmEvt} e:%o`, e);
 			Reading.fire(nmEvt, e, true);
-			// tap は clickイベントでこのあと pointerup が発生しないので
 			ReadingState.resetFired();
 		});
-		this.#elc.add(window, 'pointerup', ()=> ReadingState.resetFired());
 		this.#elc.add(window, 'pointerout', ()=> ReadingState.resetFired());
 			// ポインターが要素の外に出た：押してフレームが横入りした場合など
 		// gesture.on('doubletap'	// 原理上 tap 反応が遅くなるので不使用
@@ -372,7 +369,7 @@ export class EventMng implements IEvtMng {
 
 		// 今のところ縦回転ホイールのみ想定
 		const key = this.#modKey4MouseEvent(e)
-		+	(e.deltaY > 0 ?'downwheel' :'upwheel');
+		+ (e.deltaY > 0 ?'downwheel' :'upwheel');
 		Reading.fire(key, e, true);
 	}
 	#wheeling = false;
@@ -392,7 +389,7 @@ export class EventMng implements IEvtMng {
 		for (const v of Array.from(document.getElementsByClassName('sn_hint'))) v.parentElement?.removeChild(v);	// ギャラリーリロード用初期化
 
 		this.#tg.destroy();
-		ReadingState.destroy();
+		Reading.destroy();
 		this.#fcs.destroy();
 		this.#elc.clear();
 	}
@@ -410,10 +407,9 @@ export class EventMng implements IEvtMng {
 		const glb = argChk_Boolean(hArg, 'global', false);
 		ReadingState.setEvt2Fnc(glb, key, ()=> this.main.resumeByJumpOrCall(hArg));
 		// 直後にも pointer〜 があるのでダブリに見えるが、こちらが fire 用
-		ctnBtn.on(EVNM_BUTTON, e=> {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-member-access
-			e.preventDefault?.();
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+		ctnBtn.on(EVNM_BUTTON, (e: TouchEvent | MouseEvent)=> {
+			// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
+			e.preventDefault?.();	// ?. は必須
 			Reading.fire(key, e, true);
 		});
 
@@ -442,23 +438,29 @@ export class EventMng implements IEvtMng {
 		if (hArg.clickse) {	//	clickse	クリック時に効果音
 			hArg.clicksebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.clickse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
-			ctnBtn.on('pointerdown', ()=> {
-				this.hTag.playse({fn: hArg.clickse, buf: hArg.clicksebuf, join: false});
-			});
+			ctnBtn.on('pointerdown', ()=> this.hTag.playse({
+				fn : hArg.clickse!,
+				...hArg.clicksebuf	?{buf: hArg.clicksebuf}	:{},
+				join: false,
+			}));
 		}
 		if (hArg.enterse) {	//	enterse	ボタン上にマウスカーソルが載った時に効果音
 			hArg.entersebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.enterse, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
-			ctnBtn.on('pointerover', ()=> {
-				this.hTag.playse({fn: hArg.enterse, buf: hArg.entersebuf, join: false});
-			});
+			ctnBtn.on('pointerover', ()=> this.hTag.playse({
+				fn: hArg.enterse!,
+				...hArg.entersebuf	?{buf: hArg.entersebuf}	:{},
+				join: false,
+			}));
 		}
 		if (hArg.leavese) {	//	leavese	ボタン上からマウスカーソルが外れた時に効果音
 			hArg.leavesebuf ??= 'SYS';
 			this.cfg.searchPath(hArg.leavese, SEARCH_PATH_ARG_EXT.SOUND);// 存在チェック
-			ctnBtn.on('pointerout', ()=> {
-				this.hTag.playse({fn: hArg.leavese, buf: hArg.leavesebuf, join: false});
-			});
+			ctnBtn.on('pointerout', ()=> this.hTag.playse({
+				fn : hArg.leavese!,
+				...hArg.leavesebuf	?{buf: hArg.leavesebuf}	:{},
+				join: false,
+			}));
 		}
 
 		if (hArg.onenter) {

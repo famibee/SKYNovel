@@ -6,586 +6,452 @@
 ** ***** END LICENSE BLOCK ***** */
 
 import {CmnLib, type IEvtMng, argChk_Boolean, argChk_Num} from './CmnLib';
-import type {T_Variable, T_Main} from './CmnInterface';
+import type {T_Variable, T_Main, T_PRequired} from './CmnInterface';
 import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import type {Config} from './Config';
 import type {SysBase} from './SysBase';
 import type {TArg} from './Grammar';
-import {CmnTween} from './CmnTween';
 import {Reading} from './Reading';
 
-import {Loader, LoaderResource} from 'pixi.js';
-import {sound, Sound, type Options, filters} from '@pixi/sound';
-import {Group, Tween} from '@tweenjs/tween.js'
+import {Howl, type HowlOptions} from 'howler';
 
 
-class SndInf {
-	static	readonly	grp = new Group;
-	static	init() {CmnTween.addGrp(SndInf.grp)}
-
-	static	#vol_mul_talking = 1;
-
-
-	stt		: ISndState;
-	loop	= false;
-
-	readonly	#proc_id;
-	get procID() {return this.#proc_id}
-
-	constructor(
-			readonly	fn		: string,
-			readonly	buf		: string,
-			readonly	start_ms: number,
-			readonly	end_ms	: number,
-			readonly	ret_ms	: number,
-	private	readonly	volume	: number,
-			readonly	pan		: number,
-	public				snd		: Sound | null,
-	) {
-		this.stt = snd ?new SsPlaying(this) :new SsLoading(this);
-		this.#proc_id = Reading.procID;
-		if (snd) this.addSnd(snd);
-	}
-	addSnd(snd: Sound) {
-		this.snd = snd;
-		this.loop = snd.loop;
-	//	if (! this.loop) sound.add(this.fn, snd);	// 手動キャッシュすると単発連打で無音に
-
-		this.stt.onLoad(this);
-		if (this.pan !== 0) snd.filters = [new filters.StereoFilter(this.pan)];
-
-		this.setVol = vol=> {snd.volume = vol};
-		this.tw = ()=> {
-			const t = new Tween(snd);
-			SndInf.grp.add(t);
-			return t;
-		};
-		this.onPlayEnd = ()=> {this.stt.onPlayEnd(this.buf); this.#onStop()};
-		this.stop = ()=> {snd.stop(); this.#onStop()};
-		this.destroy = ()=> snd.destroy();
-
-		// タブのミュート中や AudioContext.state === 'suspended' の場合は
-		//	再生もされないので再生終了イベントも発生しないため、タイマーで擬似的に発生させる
-		if (! this.loop && CmnLib.needClick2Play()) {
-			setTimeout(()=> this.onPlayEnd(), (
-				snd.duration
-				-this.start_ms
-				-(this.end_ms <= 0
-					// 負の値は「末尾から何ms手前を終端とするか」
-					? this.end_ms
-					// 正の値は「冒頭から何ms目を終端とするか」
-					: this.end_ms === SndBuf.MAX_END_MS
-					? 0		// ありえない巨大定数 = 音声ファイルの末端
-					: snd.duration -this.end_ms)
-			) *1000);
-		}
-
-		switch (this.buf) {		// セリフ再生中はBGM音量を絞る
-			case BUF_VOICE:{
-				const v = Number(val.getVal('sys:sn.sound.BGM.vol_mul_talking') ?? 1);		// 歴史的経緯で ??
-				if (v === 1) break;
-
-				SndInf.#vol_mul_talking = v;
-				const b = hSndBuf[BUF_BGM];
-				if (b) b.setVol(this.volume * SndInf.#vol_mul_talking);
-			}	break;
-
-			case BUF_BGM:
-				snd.volume = this.volume * SndInf.#vol_mul_talking;
-				break;
-		}
-	}
-		#onStop = ()=> {
-			this.#onStop = ()=> { /* empty */ };
-			if (SndInf.#vol_mul_talking === 1 || this.buf !== BUF_VOICE) return;
-
-			// ボリュームを戻す
-			SndInf.#vol_mul_talking = 1;
-			const b = hSndBuf[BUF_BGM];
-			if (b) b.setVol(this.volume * SndInf.#vol_mul_talking);
-		}
-
-	setVol(_vol: number) { /* empty */ }
-	tw(): Tween<Sound> | undefined {return undefined}
-	onPlayEnd() { /* empty */ }
-	stop() { /* empty */ }
-	destroy() { /* empty */ }
-}
-
-
-let cfg	: Config;
-let val	: T_Variable;
-let main: T_Main;
-let sys	: SysBase;
-let hSndBuf	: HSndBuf;
-
-let evtMng	: IEvtMng;
-
-export type HSndBuf = {[buf: string]: SndBuf}
 export	const	BUF_BGM		= 'BGM';
 export	const	BUF_SE		= 'SE';
 		const	BUF_VOICE	= 'VOICE';
 
+const	MAX_END_MS	= 999000;
+
+
+let val		: T_Variable;
+let errScript	: (mes: string, isThrow? :boolean)=> void;
+let getSndBuf	: (buf: string)=> SndBuf | undefined;
+let	evtMng	: IEvtMng;
+
+let	hLP		: {[buf: string]: string}	= {};
+let vol_mul_talking	= 1;
+
+function	delLoopPlay(buf: string) {
+	// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+	delete hLP[buf];
+	const vn = 'const.sn.sound.'+ buf +'.';
+	val.setVal_Nochk('save', vn +'fn', '');
+	val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hLP));
+	val.flush();
+}
+
+function	getVol(hArg: TArg, def: number): number {
+	const vol = argChk_Num(hArg, 'volume', def);
+	if (vol < 0) return 0;
+	if (vol > 1) return 1;
+	return vol;
+}
+
+export	function xchgbuf({buf: buf1 = BUF_SE, buf2 = BUF_SE}: TArg) {
+	if (buf1 === buf2) throw `[xchgbuf] buf:${buf1} が同じ値です`;
+
+	const n1 = 'const.sn.sound.'+ buf1 +'.';
+	const v1 = Number(val.getVal('save:'+ n1 +'volume'));
+	const f1 = String(val.getVal('save:'+ n1 +'fn'));
+	const n2 = 'const.sn.sound.'+ buf2 +'.';
+	const v2 = Number(val.getVal('save:'+ n2 +'volume'));
+	const f2 = String(val.getVal('save:'+ n2 +'fn'));
+	val.setVal_Nochk('save', n1 +'volume', v2);
+	val.setVal_Nochk('save', n2 +'volume', v1);
+	val.setVal_Nochk('save', n1 +'fn', f2);
+	val.setVal_Nochk('save', n2 +'fn', f1);
+
+	if (buf1 in hLP !== buf2 in hLP) {	// 演算子の優先順位確認済
+		if (buf1 in hLP)
+				// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+				{delete hLP[buf1]; hLP[buf2] = f1}
+		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
+		else	{delete hLP[buf2]; hLP[buf1] = f2}
+		val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hLP));
+	}
+	val.flush();
+}
+
 
 export class SndBuf {
-	static	#hLP	: {[buf: string]: string}	= {};
-	static	init($cfg: Config, $val: T_Variable, $main: T_Main, $sys: SysBase, $hSndBuf: HSndBuf) {
-		SndBuf.#hLP = {};
-		cfg	= $cfg;
+	static	#cfg	: Config;
+	static	#sys	: SysBase;
+	static	init(cfg: Config, $val: T_Variable, main: T_Main, sys: SysBase, $getSndBuf: (buf: string)=> SndBuf | undefined) {
+		hLP = {};
+		SndBuf.#cfg	= cfg;
 		val	= $val;
-		main= $main;
-		sys	= $sys;
-		hSndBuf	= $hSndBuf;
-
-		SndInf.init();
+		errScript = (mes, isThrow)=> main.errScript(mes, isThrow);
+		SndBuf.#sys	= sys;
+		getSndBuf = $getSndBuf;
 	}
 
 	static	setEvtMng($evtMng: IEvtMng) {evtMng = $evtMng}
-	static	delLoopPlay(buf: string): void {
-		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-		delete SndBuf.#hLP[buf];
-		const vn = 'const.sn.sound.'+ buf +'.';
-		val.setVal_Nochk('save', vn +'fn', '');
-		val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
-		val.flush();
-	}
-	static	getVol(hArg: TArg, def: number): number {
-		const vol = argChk_Num(hArg, 'volume', def);
-		if (vol < 0) return 0;
-		if (vol > 1) return 1;
-		return vol;
-	}
-	static	xchgbuf({buf: buf1 = BUF_SE, buf2 = BUF_SE}: TArg) {
-		if (buf1 === buf2) throw `[xchgbuf] buf:${buf1} が同じ値です`;
-
-		const n1 = 'const.sn.sound.'+ buf1 +'.';
-		const v1 = Number(val.getVal('save:'+ n1 +'volume'));
-		const f1 = String(val.getVal('save:'+ n1 +'fn'));
-		const n2 = 'const.sn.sound.'+ buf2 +'.';
-		const v2 = Number(val.getVal('save:'+ n2 +'volume'));
-		const f2 = String(val.getVal('save:'+ n2 +'fn'));
-		val.setVal_Nochk('save', n1 +'volume', v2);
-		val.setVal_Nochk('save', n2 +'volume', v1);
-		val.setVal_Nochk('save', n1 +'fn', f2);
-		val.setVal_Nochk('save', n2 +'fn', f1);
-
-		if (buf1 in SndBuf.#hLP !== buf2 in SndBuf.#hLP) {	// 演算子の優先順位確認済
-			if (buf1 in SndBuf.#hLP)
-					// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-					{delete SndBuf.#hLP[buf1]; SndBuf.#hLP[buf2] = f1}
-			// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
-			else	{delete SndBuf.#hLP[buf2]; SndBuf.#hLP[buf1] = f2}
-			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
-		}
-		val.flush();
-	}
 
 
-	static	readonly	MAX_END_MS	= 999000;
+	static	readonly	generate
+	= (hArg: TArg, buf: string, join: boolean)=> new SndBuf(
+		hArg,
+		buf,
+		hArg.fn ?? '',
+		Reading.procID,
+		join,
+		argChk_Num(hArg, 'start_ms', 0),
+		argChk_Num(hArg, 'end_ms', MAX_END_MS),
+		argChk_Num(hArg, 'ret_ms', 0),
+		argChk_Boolean(hArg, 'loop', false),
+		argChk_Num(hArg, 'pan', 0),
+	);
 
 
-	readonly #si		: SndInf;
-	readonly needLoad;
+	stt		: ISndState	= new StLoading(this);
 
 
-	constructor(
-		readonly hArg	: TArg,
-		readonly buf	: string,
-		readonly fn		: string,
+	private	constructor(
+			readonly	hArg	: TArg,
+			readonly	buf		: string,
+			readonly	fn		: string,
+			readonly	procID	: string,
+			readonly	join	: boolean,
+	private	readonly	start_ms: number,
+	private	readonly	end_ms	: number,
+			readonly	ret_ms	: number,
+			readonly	loop	: boolean,
+	private	readonly	pan		: number,
 	) {
-		const start_ms = argChk_Num(hArg, 'start_ms', 0);
-		const end_ms = argChk_Num(hArg, 'end_ms', SndBuf.MAX_END_MS);
-		const ret_ms = argChk_Num(hArg, 'ret_ms', 0);
-		const pan = argChk_Num(hArg, 'pan', 0);
-		const speed = argChk_Num(hArg, 'speed', 1);
+		if (! fn) throw `fnは必須です buf:${buf}`;
 
-		if (start_ms < 0) throw `[playse] start_ms:${String(start_ms)} が負の値です`;
-		if (ret_ms < 0) throw `[playse] ret_ms:${String(ret_ms)} が負の値です`;
+		if (start_ms < 0) throw `[${hArg[':タグ名'] ?? ''}] start_ms:${String(start_ms)} が負の値です`;
+		if (ret_ms < 0) throw `[${hArg[':タグ名'] ?? ''}] ret_ms:${String(ret_ms)} が負の値です`;
 		if (0 < end_ms) {
-			if (end_ms <= start_ms) throw `[playse] start_ms:${String(start_ms)} >= end_ms:${String(end_ms)} は異常値です`;
-			if (end_ms <= ret_ms) throw `[playse] ret_ms:${String(ret_ms)} >= end_ms:${String(end_ms)} は異常値です`;
+			if (end_ms <= start_ms) throw `[${hArg[':タグ名'] ?? ''}] start_ms:${String(start_ms)} >= end_ms:${String(end_ms)} は異常値です`;
+			if (end_ms <= ret_ms) throw `[${hArg[':タグ名'] ?? ''}] ret_ms:${String(ret_ms)} >= end_ms:${String(end_ms)} は異常値です`;
 		}
 
+		// 目標音量：save:const.an.sound.（バッファ名）.volume【[playse]系で指定】
+		// 基準音量：sys:const.an.sound.（バッファ名）.volume【設定画面で設定】
 		// この辺で属性を増減したら、loadFromSaveObj()にも反映する
 		const vn = 'const.sn.sound.'+ buf +'.';
 		val.setVal_Nochk('save', vn +'fn', fn);
-		const savevol = SndBuf.getVol(hArg, 1);
+		const savevol = getVol(hArg, 1);
 		val.setVal_Nochk('save', vn +'volume', savevol);// 目標音量（save:）
-		const volume = savevol * Number(val.getVal('sys:'+ vn +'volume', 1, true));
+		let volume = savevol * Number(val.getVal('sys:'+ vn +'volume', 1, true));
+		switch (buf) {	// VOICE再生中はBGM音量を絞る
+			case BUF_VOICE:{
+				const v = vol_mul_talking = Number(val.getVal('sys:sn.sound.BGM.vol_mul_talking') ?? 1);	// 歴史的経緯で ??
+				if (v === 1) break;
 
-		const loop = argChk_Boolean(hArg, 'loop', false);
-		if (loop) {
-			SndBuf.#hLP[buf] = fn;
-			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(SndBuf.#hLP));
+				const b = getSndBuf(BUF_BGM);
+				const volnBGM = 'const.sn.sound.'+ BUF_BGM +'.volume';
+				if (b) b.volume
+					= Number(val.getVal('save:'+ volnBGM, 1))
+					* Number(val.getVal('sys:'+ volnBGM, 1, true))
+					* vol_mul_talking;
+			}	break;
+
+			case BUF_BGM:	volume *= vol_mul_talking;	break;
 		}
-		else SndBuf.delLoopPlay(buf);
+
+		// セーブデータ系情報更新
+		if (loop) {
+			hLP[buf] = fn;
+			val.setVal_Nochk('save', 'const.sn.loopPlaying', JSON.stringify(hLP));
+		}
+		else delLoopPlay(buf);
 		val.setVal_Nochk('save', vn +'start_ms', start_ms);
 		val.setVal_Nochk('save', vn +'end_ms', end_ms);
 		val.setVal_Nochk('save', vn +'ret_ms', ret_ms);
 		val.setVal_Nochk('tmp', vn +'playing', true);
 		val.flush();
 
-		const snd = <Sound | null>sound.find(fn);	// キャッシュにあるか
-		this.#si = new SndInf(
-			fn,
-			buf,
-			start_ms,
-			end_ms,
-			ret_ms,
-			volume,
-			pan,
-			snd,
-		);
-		// @pixi/sound用基本パラメータ
-		const o: Options = {
-			loop,
-			speed,
-			volume,
-			loaded	: (e: unknown, s2)=> {
-				if (this.#si.stt.isDestroy) return;
-				// eslint-disable-next-line @typescript-eslint/no-base-to-string
-				if (e) {main.errScript(`ロード失敗です SndBuf fn:${fn} ${String(e)}`, false); return}
-				if (! s2) return;
 
-				this.#si.addSnd(s2);
-				if (pan !== 0) s2.filters = [new filters.StereoFilter(pan)];
-			//	if (! o.loop) sound.add(fn, snd);	// 手動キャッシュすると単発連打で無音に
-				hArg.fnc?.();
+		let cmn_loaded = ()=> { /* empty */ };
+		if (join) {
+			const RPN_LOADED = procID +` loaded buf:${buf} fn:${fn}`;
+			Reading.beginProc(RPN_LOADED);
+			cmn_loaded = ()=> Reading.endProc(RPN_LOADED);
+		}
+		const src = SndBuf.#cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SOUND);
+// console.log(`fn:SndBuf.ts constructor fn:${fn} src:${src}:`);
+		const o: T_PRequired<HowlOptions, 'onload'> = {
+			src,
+			volume,
+			html5	: false,	// Delay with html5:true and loop:true · Issue #1586 · goldfire/howler.js https://github.com/goldfire/howler.js/issues/1586
+			loop,
+			autoplay: true,
+			rate	: argChk_Num(hArg, 'speed', 1),
+			onload	: ()=> {	// 暗号化ファイルでも src 経由なので来る
+				cmn_loaded();
+				hArg.fnc?.();	// なにか使ってたっけ？
+				this.stt = new StPlaying(this, this.#snd);
+			},
+			onloaderror	: (_, e)=> {
+				cmn_loaded();
+				errScript(`SndBuf ロード失敗です fn:${fn} ${String(e)}`, false);
 			},
 		};
+		// ループ時、ループ終了のたびに発火
+		if (! loop) o.onend = ()=> this.stt.onend();
 
-		// start_ms・end_ms機能→@pixi/sound準備
-		let sp_nm = '';
-		if (0 < start_ms || end_ms < SndBuf.MAX_END_MS) {
-			sp_nm = `${fn};${String(start_ms)};${String(end_ms)};${String(ret_ms)}`;
-			const os = (o.sprites ??= {})[sp_nm] = {
-				start	: start_ms /1000,
-				end		: end_ms /1000,
+		// start_ms、end_ms、ret_ms まわりの処理
+// console.log(`fn:SndBuf.ts s:${String(start_ms)} e:${String(end_ms)} r:${String(ret_ms)} loop:${String(loop)}`);
+		if (start_ms > 0 || end_ms !== MAX_END_MS || ret_ms > 0) {
+			o.autoplay = false;
+
+			const {一周目, 二周目} = o.sprite = {	// オフセットと持続時間
+				一周目: [start_ms, end_ms -start_ms],
+				二周目: [ret_ms,   end_ms -ret_ms, true],
 			};
-			o.preload = true;		// loaded発生用、トラブルの元なので使用を控えたい
 			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const old = o.loaded!;
-			o.loaded = (e, s0)=> {
-				if (this.#si.stt.isDestroy) return;
+			const old = o.onload!;
+			o.onload = id=> {
+				old(id);
 
-				old(e, s0);
-				// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-				const s2 = s0!;
-				const d = s2.duration;
-				if (os.end < 0) {	// 負の値は末尾から
-					os.end += d;
-					s2.removeSprites(sp_nm);
-					s2.addSprites(sp_nm, os);
+				const d_ms = this.#snd.duration() *1000;
+				if (d_ms <= start_ms) errScript(`[${hArg[':タグ名'] ?? ''}] 音声ファイル再生時間:${String(d_ms)} <= ret_ms:${String(ret_ms)} は異常値です`);
+				// end_ms
+				// 正の値は「冒頭から何ms目を終端とするか」
+				// 負の値は「末尾から何ms手前を終端とするか」
+				if (end_ms < 0) {	// あとで sprite 変えるバッドノウハウ
+					一周目[1] = d_ms +end_ms -start_ms;
+					二周目[1] = d_ms +end_ms -ret_ms;
 				}
-				if (os.end <= os.start) main.errScript(`[playse] end_ms:${String(end_ms)}(${String(os.end *1000)}) >= start_ms:${String(start_ms)} は異常値です`);
-				if (os.end *1000 <= ret_ms) main.errScript(`[playse] end_ms:${String(end_ms)}(${String(os.end *1000)}) <= ret_ms:${String(ret_ms)} は異常値です`);
-				if (d <= os.start) main.errScript(`[playse] 音声ファイル再生時間:${String(d *1000)} <= start_ms:${String(start_ms)} は異常値です`);
-				if (end_ms !== SndBuf.MAX_END_MS && d <= os.end) main.errScript(`[playse] 音声ファイル再生時間:${String(d *1000)} <= end_ms:${String(end_ms)} は異常値です`);
+				else if (end_ms === MAX_END_MS) {
+					一周目[1] = d_ms -start_ms;
+					二周目[1] = d_ms -ret_ms;
+				}
 
-				void s2.play(sp_nm, snd=> o.complete?.(snd));
-					// 流れ的にはすぐ下の「ループなし/あり」を呼ぶ
-			};
-		}
-		else o.autoPlay = true;
+				const end = 一周目[1] +start_ms;
+				if (end <= start_ms) errScript(`[${hArg[':タグ名'] ?? ''}] end_ms:${String(end_ms)}(${String(end)}) >= start_ms:${String(start_ms)} は異常値です`);
+				if (end <= ret_ms) errScript(`[${hArg[':タグ名'] ?? ''}] end_ms:${String(end_ms)}(${String(end)}) <= ret_ms:${String(ret_ms)} は異常値です`);
+				if (d_ms <= start_ms) errScript(`[${hArg[':タグ名'] ?? ''}] 音声ファイル再生時間:${String(d_ms)} <= start_ms:${String(start_ms)} は異常値です`);
+				if (end_ms !== MAX_END_MS && d_ms <= end) errScript(`[${hArg[':タグ名'] ?? ''}] 音声ファイル再生時間:${String(d_ms)} <= end_ms:${String(end_ms)} は異常値です`);
 
-		// ループなし ... 再生完了イベント
-		if (! loop) o.complete = ()=> {
-			stop2var(this.#si, buf);
-			this.#si.onPlayEnd();
-		};
-		// ループあり ... ret_ms処理
-		else if (ret_ms !== 0) {
-			o.loop = false;	// 一周目はループなしとする
-			o.complete = snd=> {
-				const d = snd.duration;
-				const start	= ret_ms /1000;
-				const end	= end_ms /1000;
-				if (d <= start) main.errScript(`[playse] 音声ファイル再生時間:${String(d *1000)} <= ret_ms:${String(ret_ms)} は異常値です`);
-
-				void snd.play({	// 一周目はループなし、なのでキャッシュされてる
-					...o,
-					start,
-					end		: end < 0 ?end +d :end,// 負の値は末尾から
-				//	speed,		// 重複
-					loop	: true,
-				//	volume,		// 重複
-				//-	muted?: boolean;
-					filters	: pan !== 0 ?[new filters.StereoFilter(pan)] :[],
-				//-	complete?: CompleteCallback;
-				//-	loaded?: LoadedCallback;
-				//-	singleInstance?: boolean;
-				});
-				//不要 this.#sb.snd = snd;	// this.#sb.snd === snd (true)
-			};
-		}
-
-		this.#initVol();
-		if (snd) {
-			snd.volume = volume;	// 再生のたびに音量を戻す
-			if (sp_nm) this.#playseSub(fn, o);
-			else if (snd.isPlayable) {
-				const ab = snd.options.source;
-				if (! (ab instanceof ArrayBuffer)
-					|| ab.byteLength === 0) void snd.play(o);
-				else this.#si.addSnd(Sound.from({
-					...o,
-					url		: snd.options.url,
-					source	: ab,
-				}));
+				this.#snd.play('一周目');
 			}
-			if (pan !== 0) snd.filters = [new filters.StereoFilter(pan)];
-			this.needLoad = false;
-			return;
+
+			// 特殊な二周目にする場合の処理
+			if (loop && ret_ms > 0) {
+				delete o.loop;	// ret_ms 有効時は自作ループで（先頭に戻ってしまう）
+
+				let onend = ()=> {	// もう一箇所の【o.onend =】と住み分けしてる
+					onend = ()=> { /* empty */ };
+					this.#snd.play('二周目');
+				};
+				o.onend = ()=> onend();	// ループ時、ループ終了のたびに発火
+			}
 		}
 
-		const join = this.needLoad = argChk_Boolean(hArg, 'join', true);
-		// an時代・瀬戸愛羅さんより https://famibee.blog.fc2.com/blog-entry-106.html
-		// デフォルトでjoin=trueの方が初心者に優しい
-		if (join) {
-			const RPN_LOADED = this.#si.procID +`loaded buf:${buf} fn:${fn}`;
-			Reading.beginProc(RPN_LOADED);
-			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-			const old = o.loaded!;
-			o.loaded = (e, s2)=> {
-				old(e, s2);
-				Reading.endProc(RPN_LOADED);
-			};
-		}
-		this.#playseSub(fn, o);
-	}
-	#initVol = ()=> {
-		sound.volumeAll = Number(val.getVal('sys:sn.sound.global_volume', 1));
-		this.#initVol = ()=> { /* empty */ };
-	};
-	#playseSub(fn: string, o: Options) {
-		const src = cfg.searchPath(fn, SEARCH_PATH_ARG_EXT.SOUND);
-		if (! src.endsWith('.bin')) {o.url = src; Sound.from(o); return}
 
-		(new Loader).add({name: fn, url: src, xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER,})
-		.use((res, next)=> {
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-			void sys.decAB(res.data).then(y=> {res.data = y})
-			.catch((e: unknown)=> main.errScript(`Sound ロード失敗ですc fn:${res.name} ${String(e)}`, false))
-			.finally(()=> next());
-		})
-		.load((_ldr, hRes)=> {	// このあと o.loaded() もコールされる
-			// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-			o.source = hRes[fn]?.data;
-			Sound.from(o);
+		// play、その後 onload 発生
+		if (! src.endsWith('.bin')) {this.#play(o); return}
+
+		// fetch、play、その後 onload 発生
+		void SndBuf.#sys.fetch(src).then(async res=> {
+			if (! res.ok) errScript(`SndBuf ロード失敗です d1 fn:${fn} ${res.statusText}`, true)
+
+			const abEnc = await res.arrayBuffer();
+			const ab = <ArrayBuffer>await SndBuf.#sys.decAB(abEnc)
+			.catch((e: unknown)=> errScript(`SndBuf ロード失敗です d2 fn:${fn} ${String(e)}`, false));
+
+			const abView = new Uint8Array(ab);
+			const blob = new Blob([abView], {type: 'music/mp3'});
+			const src = URL.createObjectURL(blob);
+			o.src = src;
+			o.format = 'mp3';
+			o.onplay = ()=> URL.revokeObjectURL(src);
+			this.#play(o);
 		});
 	}
 
+	#snd	: Howl;
+	#play(o: HowlOptions) {
+		const snd = this.#snd = new Howl(o);
+		if (this.pan !== 0) snd.stereo(this.pan);
 
-	setVol(vol: number) {this.#si.setVol(vol)}
-
-	ws =(hArg: TArg)=> this.#si.stt.ws(this.#si, hArg);
-	stopse({buf = BUF_SE}: TArg) {
-		stop2var(this.#si, buf);
-		this.#si.stt.stopse(this.#si);
+		// タブのミュート中や AudioContext.state === 'suspended' の場合は
+		//	再生もされないので再生終了イベントも発生しないため、タイマーで擬似的に発生させる
+		if (! this.loop && CmnLib.needClick2Play()) {
+// console.log(`fn:SndBuf.ts needClick2Play d:${String(snd.duration())}`);
+			setTimeout(()=> o.onend?.(0), (
+				snd.duration()
+				-this.start_ms
+				-(this.end_ms <= 0
+					// 負の値は「末尾から何ms手前を終端とするか」
+					? this.end_ms
+					// 正の値は「冒頭から何ms目を終端とするか」
+					: this.end_ms === MAX_END_MS
+					? 0		// ありえない巨大定数 = 音声ファイルの末端
+					: snd.duration() -this.end_ms)
+			) *1000);
+		}
 	}
 
-	fade =(hArg: TArg)=> this.#si.stt.fade(this.#si, hArg);
-	wf =(hArg: TArg)=> this.#si.stt.wf(this.#si, hArg);
-	stopfadese =(hArg: TArg)=> this.#si.stt.stopfadese(this.#si, hArg);
 
+	stopse() {this.stt.stopse()}
+	readonly	ws	= (hArg: TArg)=> this.stt.ws(hArg);	// 戻り値必須
+	readonly	fade= (hArg: TArg)=> this.stt.fade(hArg);
+	readonly	wf	= (hArg: TArg)=> this.stt.wf(hArg);	// 戻り値必須
+
+	get	volume() {return this.#snd.volume()}
+	set volume(v: number) {this.#snd.volume(v)}
 }
 
-
-// =================================================
-function stop2var({loop}: SndInf, buf: string) {
-	if (loop) {SndBuf.delLoopPlay(buf); return}
-
-	const vn = 'const.sn.sound.'+ buf +'.';
-	val.setVal_Nochk('tmp', vn +'playing', false);
-	val.flush();
-}
 
 // =================================================
 
 
 type ISndState = {
 	// type も class に implements できるらしい！ https://qiita.com/tkrkt/items/d01b96363e58a7df830e
-	onLoad(si: SndInf)	: void;
-	stopse(si: SndInf)	: void;
-	ws(si: SndInf, hArg: TArg): boolean;
-	onPlayEnd(buf: string)	: void;
-	fade(si: SndInf, hArg: TArg): void;
-	wf(si: SndInf, hArg: TArg): boolean;
-	compFade(buf: string)	: void;
-	stopfadese(si: SndInf, hArg: TArg): void;
-	isDestroy	: boolean;
+	onend()		: void;
+	onfade()	: void;
+	stopse()	: void;
+	ws(hArg: TArg)	: boolean;
+	fade(hArg: TArg): void;
+	wf(hArg: TArg)	: boolean;
 }
 
-class SsLoading implements ISndState {
-	constructor(readonly si: SndInf) {}
-	onLoad(si: SndInf)	{si.stt = new SsPlaying(si)}
-	stopse(si: SndInf)	{si.stt = new SsStop(si, false)}
-	ws =()=> false;
-	onPlayEnd() {this.si.stt = new SsStop(this.si, false)}	// ok
-	fade() { /* empty */ }			// ok
-	wf =()=> false;					// ok
-	compFade() { /* empty */ }		// ok
-	stopfadese() { /* empty */ }	// ok
-	readonly	isDestroy	= false;
+// [playse系]（ロード未完了）
+class StLoading implements ISndState {
+	constructor(private readonly sb: SndBuf) {}
+	onend()  {this.stopse()}	// ok
+	onfade() { /* empty */ }	// ok
+	stopse() {this.sb.stt = new StStop(this.sb)}	// ok
+	ws =()=> false;				// ok
+	fade()   { /* empty */ }	// ok
+	wf =()=> false;				// ok
 }
 
-class SsPlaying implements ISndState {
-	constructor(readonly si: SndInf) {}
-	onLoad() { /* empty */ }		// ok
-	stopse(si: SndInf)	{si.stt = new SsStop(si)}
-	ws(si: SndInf, hArg: TArg) {
-		if (si.loop) return false;
+// [playse系]（ロード完了）
+class StPlaying implements ISndState {
+	constructor(private readonly sb: SndBuf, private readonly snd: Howl) {}
+	onend()  {this.stopse()}	// ok
+	onfade() { /* empty */ }	// ok
+	stopse() {this.sb.stt = new StStop(this.sb, this.snd)}	// ok
+	ws(hArg: TArg) {			// ok
+		const {sb} = this;
+		if (sb.loop) return false;
 
-		si.stt = new SsWaitingStop(si);
+		sb.stt = new StWaitingStop(sb, this.snd);
 		const canskip = argChk_Boolean(hArg, 'canskip', false);
-		const stop = argChk_Boolean(hArg, 'stop', true);
-		if (canskip && evtMng.isSkipping) {
-			if (stop) si.stt.stopse(si); else si.stt.onPlayEnd = ()=> { /* empty */ };
-			return false;
-		}
+		const fnc = argChk_Boolean(hArg, 'stop', true)
+			? ()=> sb.stt.stopse()
+			: ()=> { /* empty */ };
+		if (canskip && evtMng.isSkipping) {fnc(); return false}
 
-		const {buf = BUF_SE} = hArg;
-		const fin = ()=> {
-			stop2var(si, buf);
-			si.onPlayEnd();	// まず一回やる
-			if (stop) si.stt.stopse(si); else si.stt.onPlayEnd = ()=> { /* empty */ };
-				// else後は SsWaitingStop か SsStop の想定
-		};
-		Reading.beginProc(si.procID +'ws', fin, true, canskip ?fin :undefined);
+		Reading.beginProc(sb.procID +'ws', fnc, true, canskip ?fnc :undefined);
 		return true;
 	}
-	onPlayEnd() {this.si.stt = new SsStop(this.si, false)}	// ok
-	fade(si: SndInf, hArg: TArg) {
+	fade(hArg: TArg) {			// ok
 		const {buf = BUF_SE} = hArg;
-
 		const vn = 'const.sn.sound.'+ buf +'.';
 		const bnV = vn +'volume';
-		const savevol = SndBuf.getVol(hArg, NaN);
+		const savevol = getVol(hArg, NaN);
 		val.setVal_Nochk('save', bnV, savevol);	// 目標音量（save:）
-		const vol = savevol * Number(val.getVal('sys:'+ bnV, 1))
+		const vol = savevol * Number(val.getVal('sys:'+ bnV, 1));
 		const stop = argChk_Boolean(hArg, 'stop', savevol === 0);
-			// this.getVol() により savevol = hArg.volume
-		if (stop) SndBuf.delLoopPlay(buf);	// fade中reloadなど、できるだけ早く情報更新か
+		if (stop) delLoopPlay(buf);	// fade中reloadなど、できるだけ早く情報更新か
+// console.log(`fn:SndBuf.ts fade vol:${String(vol)} savevol:${String(savevol)} stop:${String(stop)}`);
 		val.flush();
 
 		const time = argChk_Num(hArg, 'time', NaN);
 		const delay = argChk_Num(hArg, 'delay', 0);
+		const {sb, snd} = this;
 		if (time === 0 && delay === 0 || evtMng.isSkipping) {
-			si.setVol(vol);
-			si.stt = stop ? new SsStop(si) : new SsPlaying(si);
+			snd.volume(vol);
+			if (stop) sb.stt = new StStop(sb, snd);
 			return;
 		}
 
-		if (! si.snd) return
-// console.log(`fadese start buf:${buf} from:%f to:%f`, si.snd.volume, vol);
-		const tw = si.tw();
-		if (! tw) return;
+		snd.fade(snd.volume(), vol, time)
+		.once('fade', ()=> {
+			sb.stt.onfade();
+			if (stop) sb.stt = new StStop(sb, snd);
+		});
 
-		CmnTween.setTwProp(tw, hArg)
-		.to({volume: vol}, time)
-		.onUpdate((d: {volume: number})=> {
-			if (si.snd?.isPlaying) {si.snd.volume = d.volume; return}
-
-			// レア発生の不具合対応
-			//	以下のエラーの対策。ただ、レア発生ゆえにこれで直ったかが確認できていない
-/*
-pixi-sound.esm.mjs:9 Uncaught TypeError: Cannot read properties of null (reading 'length')
-    at n.refresh (pixi-sound.esm.mjs:9:21344)
-    at n.set (pixi-sound.esm.mjs:9:21627)
-    at e._updateProperties (tween.esm.js:805:37)
-    at e.update (tween.esm.js:731:14)
-    at e.update (tween.esm.js:263:36)
-    at #e [as fn] (CmnTween.ts:40:27)
-    at i.emit (ticker.mjs:98:22)
-    at i.update (ticker.mjs:458:37)
-    at _tick (ticker.mjs:226:23)
-n.refresh @ pixi-sound.esm.mjs:9
-*/
-			tw.stop();
-			tw.onComplete();
-		})
-		.onComplete(()=> {
-			SndInf.grp.remove(tw);
-			si.stt.compFade(buf);
-			si.stt = stop ? new SsStop(si) : new SsPlaying(si);
-		})
-		.start();
-
-		si.stt = new SsFade(tw, si);
+		sb.stt = new StFade(sb, stop, snd);
 	}
-	wf =()=> false;					// ok
-	compFade() { /* empty */ }		// ok
-	stopfadese() { /* empty */ }	// ok
-	readonly	isDestroy	= false;
+	wf =()=> false;				// ok
 }
 
-class SsWaitingStop implements ISndState {
-	constructor(readonly si: SndInf) {}
-	onLoad() { /* empty */ }		// ok
-	stopse(si: SndInf)	{si.stt = new SsStop(si)}
-	ws =()=> false;					// ok
-	onPlayEnd()	{					// ok
-		this.si.stt = new SsStop(this.si, false);
-		Reading.notifyEndProc(this.si.procID +'ws');
+// [ws]
+class StWaitingStop implements ISndState {
+	constructor(private readonly sb: SndBuf, private readonly snd: Howl) {}
+	onend()  {this.stopse()}	// ok
+	onfade() { /* empty */ }	// ok
+	stopse() {					// ok
+		this.sb.stt = new StStop(this.sb, this.snd);
+		Reading.notifyEndProc(this.sb.procID +'ws');
 	}
-	fade() { /* empty */ }			// ok
-	wf =()=> false;					// ok
-	compFade() { /* empty */ }		// ok
-	stopfadese() { /* empty */ }	// ok
-	readonly	isDestroy	= false;
+	ws =()=> false;				// ok
+	fade()   { /* empty */ }	// ok
+	wf =()=> false;				// ok
 }
 
-class SsFade implements ISndState {
-	constructor(readonly tw: Tween<Sound>, private readonly si: SndInf) {}
-	onLoad() { /* empty */ }		// ok
-	stopse(si: SndInf)	{this.stopfadese(); si.stt = new SsStop(si)}	// 順番厳守
-	ws =()=> false;					// ok ?
-	onPlayEnd() {this.stopfadese(); this.si.stt = new SsStop(this.si, false)}	// ok
-	fade() { /* empty */ }			// ok
-	wf(si: SndInf, hArg: TArg) {
-		si.stt = new SsWaitingFade(si);
+// [fade系]
+class StFade implements ISndState {
+	constructor(private readonly sb: SndBuf, private readonly stopOnFade: boolean, private readonly snd: Howl) {}
+	onend()  {this.stopse()}	// ok
+	onfade() {					// ok
+		if (this.stopOnFade) this.stopse();
+		else this.sb.stt = new StPlaying(this.sb, this.snd);
+	}
+	stopse() {this.sb.stt = new StStop(this.sb, this.snd)}
+	ws =()=> false;				// ok
+	fade()   { /* empty */ }	// ok
+	wf(hArg: TArg) {			// ok
+		const {sb} = this;
+		sb.stt = new StWaitingFade(sb, this.stopOnFade, this.snd);
 		const canskip = argChk_Boolean(hArg, 'canskip', false);
-		if (canskip && evtMng.isSkipping) {this.stopfadese(); return false}
+		if (canskip && evtMng.isSkipping) return false
 
-		const fin = ()=> this.stopfadese();
-		Reading.beginProc(si.procID +'wf', fin, true, canskip ?fin :undefined);
+		const fnc = ()=> { /* empty */ };
+		Reading.beginProc(sb.procID +'wf', fnc, true, canskip ?fnc: undefined);
 		return true;
 	}
-	compFade() { /* empty */ }		// ok
-	stopfadese =()=> this.si.stop();
-	readonly	isDestroy	= false;
 }
 
-class SsWaitingFade implements ISndState {
-	constructor(private readonly si: SndInf) {}
-	onLoad() { /* empty */ }		// ok
-	stopse(si: SndInf)	{this.stopfadese(); si.stt = new SsStop(si)}
-	ws =()=> false;					// ok
-	onPlayEnd() {this.stopfadese(); this.si.stt = new SsStop(this.si, false)}	// ok
-	fade() { /* empty */ }			// ok
-	wf =()=> false;					// ok
-	compFade() {Reading.notifyEndProc(this.si.procID +'wf')}
-	stopfadese =()=> this.si.stop();
-	readonly	isDestroy	= false;
-}
+// [wf]
+class StWaitingFade implements ISndState {
+	constructor(private readonly sb: SndBuf, private readonly stopOnFade: boolean, private readonly snd: Howl) {}
+	onend()  {this.stopse()}	// ok
+	onfade() {					// ok
+// console.log(`fn:SndBuf.ts StWaitingFade.onfade() :${String(this.stopOnFade)}`);
+		if (this.stopOnFade) this.stopse();
+		else this.sb.stt = new StPlaying(this.sb, this.snd);
 
-class SsStop implements ISndState {
-	constructor(readonly si: SndInf, readonly stop = true) {
-		if (! stop) return;
-
-		si.stop();
-		if (! si.loop) return;	// destroy がないと再生が残るケースが。効果音だと破棄が激しいのでループモノ(BGM)だけにする
-
-		si.destroy();
-		si.destroy = ()=> { /* empty */ };	// 再度コール時エラー対策
+		Reading.notifyEndProc(this.sb.procID +'wf');
 	}
-	onLoad() { /* empty */ }		// ok
-	stopse() {/* empty */ }			// ok
-	ws =()=> false;					// ok
-	onPlayEnd() {/* empty */ }		// ok
-	fade() { /* empty */ }			// ok
-	wf =()=> false;		// ok
-	compFade() { /* empty */ }		// ok
-	stopfadese() { /* empty */ }	// ok
-	readonly	isDestroy	= true;
+	stopse() {this.sb.stt = new StStop(this.sb, this.snd)}	// ok
+
+	ws =()=> false;				// ok
+	fade()   { /* empty */ }	// ok
+	wf =()=> false;				// ok
+}
+
+// [stopse]
+class StStop implements ISndState {
+	constructor(sb: SndBuf, snd?: Howl) {
+		// セーブデータ系情報更新
+		if (sb.loop) delLoopPlay(sb.buf);
+		const vn = 'const.sn.sound.'+ sb.buf +'.';
+		val.setVal_Nochk('tmp', vn +'playing', false);
+		val.flush();
+
+		snd?.unload();
+
+		if (sb.buf !== BUF_VOICE) return;
+		const b = getSndBuf(BUF_BGM);
+		if (b) {
+			b.volume
+			= Number(val.getVal('save:'+ vn +'volume', 1, true))	// 目標音量
+			* Number(val.getVal('sys:'+ vn +'volume', 1, true));	// 基準音量
+		}
+		vol_mul_talking = 1;
+	}
+	onend()  { /* empty */ }	// ok
+	onfade() { /* empty */ }	// ok
+	stopse() { /* empty */ }	// ok
+	ws =()=> false;				// ok
+	fade()   { /* empty */ }	// ok
+	wf =()=> false;				// ok
 }

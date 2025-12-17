@@ -1,164 +1,132 @@
-import { q as S, l as n, u as f, e as v, O as k, K as m, P as C, z as b, G as g, M as p, y as u } from "./web2.js";
-import { S as _ } from "./SpritesMng.js";
-class r extends S {
-  constructor(t, i, h, a) {
-    if (super(), this.hArg = t, this.evtMng = i, this.resolve = h, this.canFocus = a, this.#t = {
-      type: "pic",
-      enabled: v(t, "enabled", !0),
-      x: this.x = f(t.left ?? 0),
-      y: this.y = f(t.top ?? 0),
-      rotation: this.angle = n(t, "rotation", this.angle),
-      // flash : rotation is in degrees.
-      // pixijs: rotation is in radians, angle is in degrees.
-      pivot_x: this.pivot.x = n(t, "pivot_x", this.pivot.x),
-      pivot_y: this.pivot.y = n(t, "pivot_y", this.pivot.y),
-      scale_x: this.scale.x = n(t, "scale_x", this.scale.x),
-      scale_y: this.scale.y = n(t, "scale_y", this.scale.y),
-      alpha: 1,
-      text: "",
-      b_pic: "",
-      width: 0,
-      height: 0
-    }, this.getBtnBounds = () => (this.#e.x = this.#t.x, this.#e.y = this.#t.y, this.#e), this.#t.enabled && i.button(t, this, () => this.normal(), () => this.#s(), () => this.#h()), t.pic) {
-      this.#t.type = "pic", this.#i = new _(
-        t.pic,
-        this,
-        (e) => {
-          this.#l(e), this.#e.width = e.width * this.#t.scale_x, this.#e.height = e.height * this.#t.scale_y;
-        },
-        (e) => h()
-      );
-      return;
-    }
-    if (!t.text) throw "textまたはpic属性は必須です";
-    const o = n(t, "height", 30), c = new k({
-      align: "center",
-      dropShadow: !0,
-      dropShadowAlpha: 0.7,
-      dropShadowColor: "white",
-      dropShadowBlur: 7,
-      dropShadowDistance: 0,
-      fill: this.#t.enabled ? "black" : "gray",
-      fontFamily: r.fontFamily,
-      fontSize: o,
-      padding: 5
-    });
-    if (t.style) try {
-      const e = JSON.parse(t.style);
-      for (const [w, y] of Object.entries(e)) c[w] = y;
-      this.#t = { ...this.#t, ...e };
-    } catch (e) {
-      throw e instanceof SyntaxError ? new Error(m(t, "style", e.message)) : "fn:Button.ts style";
-    }
-    const s = new C(t.text ?? "", c);
-    s.alpha = n(t, "alpha", s.alpha), s.width = n(t, "width", 100), s.height = t.height = o, this.setText = (e) => {
-      s.text = e;
-    }, this.#t = {
-      ...this.#t,
-      type: "text",
-      // dump用
-      alpha: s.alpha,
-      text: s.text,
-      width: s.width,
-      height: s.height
-    };
-    let d = !1;
-    if (this.#t.width = this.width, this.#t.height = this.height, t.b_pic && (this.#t.b_pic = t.b_pic, this.#i = new _(
-      t.b_pic,
-      this,
-      (e) => {
-        this.#o(e, s), this.#t.width = this.width, this.#t.height = this.height;
-      },
-      (e) => {
-        b.setBlendmode(this, t), e && h();
-      }
-    ), d = this.#i.ret), this.addChild(s), this.#e.width = s.width, this.#e.height = s.height, t.b_pic || b.setBlendmode(this, t), r.#a(this, s), !this.#t.enabled) {
-      d || h();
-      return;
-    }
-    const l = c.clone();
-    if (t.style_hover) try {
-      const e = JSON.parse(t.style_hover);
-      for (const [w, y] of Object.entries(e)) l[w] = y;
-    } catch (e) {
-      throw e instanceof SyntaxError ? new Error(m(t, "style_hover", e.message)) : "fn:Button.ts style_hover";
-    }
-    else l.fill = "white";
-    const x = l.clone();
-    if (t.style_clicked) try {
-      const e = JSON.parse(t.style_clicked);
-      for (const [w, y] of Object.entries(e)) x[w] = y;
-    } catch (e) {
-      throw e instanceof SyntaxError ? new Error(m(t, "style_clicked", e.message)) : "fn:Button.ts style_clicked";
-    }
-    else x.dropShadow = !1;
-    this.normal = () => {
-      s.style = c;
-    }, this.#s = () => a() ? (s.style = l, !0) : !1, this.#h = () => {
-      s.style = x;
-    }, d || h();
-  }
-  static fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
-  static #a = (t, i) => {
-  };
-  static #n = (t, i, h, a) => {
-  };
-  static init(t) {
-    t.oCfg.debug.masume && (r.#a = (i, h) => i.addChild(
-      new g().beginFill(8926088, 0.2).lineStyle(1, 8926088, 1).drawRect(h.x, h.y, h.width, h.height).endFill()
-    ), r.#n = (i, h, a, o) => i.addChild(
-      new g().beginFill(8926088, 0.2).lineStyle(1, 8926088, 1).drawRect(h.x, h.y, a, o).endFill()
-    ));
-  }
-  setText(t) {
-  }
-  getBtnBounds = () => this.#e;
-  // 文字ボタンは背景画像を含まない位置指定なので、その当たり判定用
-  #e = new p();
-  #i = new _();
-  //	#idc		: DesignCast;
-  #t;
-  destroy() {
-    this.normal = () => {
-    }, this.#s = () => !1, this.#h = () => {
-    }, this.evtMng.unButton(this), this.#i.destroy(), super.destroy();
-  }
-  makeDesignCast(t) {
-  }
-  showDesignCast() {
-  }
-  //	showDesignCast() {this.#idc.visible = true}
-  cvsResize() {
-  }
-  #o(t, i) {
-    this.setChildIndex(t, 0), t.alpha = i.alpha, t.setTransform(
-      i.x,
-      i.y,
-      1,
-      1,
-      i.rotation,
-      0,
-      0,
-      (t.width - i.width) / 2,
-      (t.height - i.height) / 2
-    ), t.name = i.name;
-  }
-  normal = () => {
-  };
-  #s = () => !1;
-  #h = () => {
-  };
-  #l(t) {
-    this.#t.alpha = t.alpha = n(this.hArg, "alpha", t.alpha);
-    const i = t.width / 3, h = this.#t.enabled ? i : t.width, a = t.height, o = t.texture.baseTexture, c = new u(o, new p(0, 0, i, a)), s = new u(o, new p(i, 0, i, a)), d = new u(o, new p(i * 2, 0, i, a)), l = () => {
-      t.texture = c;
-    };
-    this.#t.enabled && l(), this.normal = l, this.#s = () => this.canFocus() ? (t.texture = d, !0) : !1, this.#h = () => {
-      t.texture = s;
-    }, "width" in this.hArg ? (this.#t.width = f(this.hArg.width), this.scale.x *= this.#t.width / h) : this.#t.width = h, "height" in this.hArg ? (this.#t.height = f(this.hArg.height), this.scale.y *= this.#t.height / a) : this.#t.height = a, r.#n(this, t, h, a);
-  }
-}
-export {
-  r as Button
+import { g as uint, l as argChk_Num, m as mesErrJSON, s as argChk_Boolean } from "./CmnLib.js";
+import { a as TextStyle, f as Texture, h as Rectangle, i as Text, m as Container, s as Graphics } from "./pixi.js";
+import "./EventListenerCtn.js";
+import "./ConfigBase.js";
+import { t as Layer } from "./Layer.js";
+import "./DebugMng.js";
+import "./Reading.js";
+import { t as SpritesMng } from "./SpritesMng.js";
+var Button = class f extends Container {
+	static fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
+	static #e = (e, t) => {};
+	static #t = (e, t, n, r) => {};
+	static init(e) {
+		e.oCfg.debug.masume && (f.#e = (e, t) => e.addChild(new Graphics().beginFill(8926088, .2).lineStyle(1, 8926088, 1).drawRect(t.x, t.y, t.width, t.height).endFill()), f.#t = (e, t, n, r) => e.addChild(new Graphics().beginFill(8926088, .2).lineStyle(1, 8926088, 1).drawRect(t.x, t.y, n, r).endFill()));
+	}
+	setText(e) {}
+	getBtnBounds = () => this.#n;
+	#n = new Rectangle();
+	#r = new SpritesMng();
+	#i;
+	constructor(a, o, c, l) {
+		if (super(), this.hArg = a, this.evtMng = o, this.resolve = c, this.canFocus = l, this.#i = {
+			type: "pic",
+			enabled: argChk_Boolean(a, "enabled", !0),
+			x: this.x = uint(a.left ?? 0),
+			y: this.y = uint(a.top ?? 0),
+			rotation: this.angle = argChk_Num(a, "rotation", this.angle),
+			pivot_x: this.pivot.x = argChk_Num(a, "pivot_x", this.pivot.x),
+			pivot_y: this.pivot.y = argChk_Num(a, "pivot_y", this.pivot.y),
+			scale_x: this.scale.x = argChk_Num(a, "scale_x", this.scale.x),
+			scale_y: this.scale.y = argChk_Num(a, "scale_y", this.scale.y),
+			alpha: 1,
+			text: "",
+			b_pic: "",
+			width: 0,
+			height: 0
+		}, this.getBtnBounds = () => (this.#n.x = this.#i.x, this.#n.y = this.#i.y, this.#n), this.#i.enabled && o.button(a, this, () => this.normal(), () => this.#o(), () => this.#s()), a.pic) {
+			this.#i.type = "pic", this.#r = new SpritesMng(a.pic, this, (e) => {
+				this.#c(e), this.#n.width = e.width * this.#i.scale_x, this.#n.height = e.height * this.#i.scale_y;
+			}, (e) => c());
+			return;
+		}
+		if (!a.text) throw "textまたはpic属性は必須です";
+		let p = argChk_Num(a, "height", 30), m = new TextStyle({
+			align: "center",
+			dropShadow: !0,
+			dropShadowAlpha: .7,
+			dropShadowColor: "white",
+			dropShadowBlur: 7,
+			dropShadowDistance: 0,
+			fill: this.#i.enabled ? "black" : "gray",
+			fontFamily: f.fontFamily,
+			fontSize: p,
+			padding: 5
+		});
+		if (a.style) try {
+			let e = JSON.parse(a.style);
+			for (let [t, n] of Object.entries(e)) m[t] = n;
+			this.#i = {
+				...this.#i,
+				...e
+			};
+		} catch (e) {
+			throw e instanceof SyntaxError ? Error(mesErrJSON(a, "style", e.message)) : "fn:Button.ts style";
+		}
+		let h = new Text(a.text ?? "", m);
+		h.alpha = argChk_Num(a, "alpha", h.alpha), h.width = argChk_Num(a, "width", 100), h.height = a.height = p, this.setText = (e) => {
+			h.text = e;
+		}, this.#i = {
+			...this.#i,
+			type: "text",
+			alpha: h.alpha,
+			text: h.text,
+			width: h.width,
+			height: h.height
+		};
+		let g = !1;
+		if (this.#i.width = this.width, this.#i.height = this.height, a.b_pic && (this.#i.b_pic = a.b_pic, this.#r = new SpritesMng(a.b_pic, this, (e) => {
+			this.#a(e, h), this.#i.width = this.width, this.#i.height = this.height;
+		}, (e) => {
+			Layer.setBlendmode(this, a), e && c();
+		}), g = this.#r.ret), this.addChild(h), this.#n.width = h.width, this.#n.height = h.height, a.b_pic || Layer.setBlendmode(this, a), f.#e(this, h), !this.#i.enabled) {
+			g || c();
+			return;
+		}
+		let _ = m.clone();
+		if (a.style_hover) try {
+			let e = JSON.parse(a.style_hover);
+			for (let [t, n] of Object.entries(e)) _[t] = n;
+		} catch (e) {
+			throw e instanceof SyntaxError ? Error(mesErrJSON(a, "style_hover", e.message)) : "fn:Button.ts style_hover";
+		}
+		else _.fill = "white";
+		let v = _.clone();
+		if (a.style_clicked) try {
+			let e = JSON.parse(a.style_clicked);
+			for (let [t, n] of Object.entries(e)) v[t] = n;
+		} catch (e) {
+			throw e instanceof SyntaxError ? Error(mesErrJSON(a, "style_clicked", e.message)) : "fn:Button.ts style_clicked";
+		}
+		else v.dropShadow = !1;
+		this.normal = () => {
+			h.style = m;
+		}, this.#o = () => l() ? (h.style = _, !0) : !1, this.#s = () => {
+			h.style = v;
+		}, g || c();
+	}
+	destroy() {
+		this.normal = () => {}, this.#o = () => !1, this.#s = () => {}, this.evtMng.unButton(this), this.#r.destroy(), super.destroy();
+	}
+	makeDesignCast(e) {}
+	showDesignCast() {}
+	cvsResize() {}
+	#a(e, t) {
+		this.setChildIndex(e, 0), e.alpha = t.alpha, e.setTransform(t.x, t.y, 1, 1, t.rotation, 0, 0, (e.width - t.width) / 2, (e.height - t.height) / 2), e.name = t.name;
+	}
+	normal = () => {};
+	#o = () => !1;
+	#s = () => {};
+	#c(n) {
+		this.#i.alpha = n.alpha = argChk_Num(this.hArg, "alpha", n.alpha);
+		let r = n.width / 3, i = this.#i.enabled ? r : n.width, s = n.height, c = n.texture.baseTexture, l = new Texture(c, new Rectangle(0, 0, r, s)), u = new Texture(c, new Rectangle(r, 0, r, s)), d = new Texture(c, new Rectangle(r * 2, 0, r, s)), p = () => {
+			n.texture = l;
+		};
+		this.#i.enabled && p(), this.normal = p, this.#o = () => this.canFocus() ? (n.texture = d, !0) : !1, this.#s = () => {
+			n.texture = u;
+		}, "width" in this.hArg ? (this.#i.width = uint(this.hArg.width), this.scale.x *= this.#i.width / i) : this.#i.width = i, "height" in this.hArg ? (this.#i.height = uint(this.hArg.height), this.scale.y *= this.#i.height / s) : this.#i.height = s, f.#t(this, n, i, s);
+	}
 };
+export { Button };
+
 //# sourceMappingURL=Button.js.map

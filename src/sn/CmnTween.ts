@@ -8,14 +8,13 @@
 import {type IEvtMng, CmnLib, argChk_Boolean, argChk_Num} from './CmnLib';
 import type {TArg} from './Grammar';
 import type {Layer} from './Layer';
-import {Reading} from './Reading';
+import {Reading, ReadingState_wait4Tag} from './Reading';
 
 import {Tween, Easing, Group} from '@tweenjs/tween.js'
 
 
 type ITwInf = {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	tw		: Tween<any> | undefined;
+	tw		: Tween | undefined;
 	onEnd?	: ()=> void;
 }
 
@@ -38,10 +37,10 @@ export class CmnTween {
 			for (const g of CmnTween.#aGroup) g.update(time);
 			CmnTween.#req(loop);
 		}
+		CmnTween.#req = cb=> requestAnimationFrame(cb);
 		CmnTween.#req(loop);
 	}
-	static	#req	: (cb: FrameRequestCallback)=> number
-					= cb=> requestAnimationFrame(cb);
+	static	#req	: (cb: FrameRequestCallback)=> number;
 
 	static	readonly	#grp = new Group;
 
@@ -49,6 +48,7 @@ export class CmnTween {
 	static	addGrp(g: Group) {CmnTween.#aGroup.push(g)}
 
 	static	destroy() {
+		CmnTween.#grp.removeAll();
 		CmnTween.#req = ()=> 0;
 		CmnTween.stopAllTw();
 	}
@@ -61,8 +61,7 @@ export class CmnTween {
 	}
 
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static	setTwProp(tw: Tween<any>, hArg: TArg): Tween<any> {
+	static	setTwProp(tw: Tween, hArg: TArg): Tween {
 		const repeat = argChk_Num(hArg, 'repeat', 1);
 		return tw.delay(argChk_Num(hArg, 'delay', 0))
 		.easing(this.ease(hArg.ease))
@@ -154,7 +153,7 @@ export class CmnTween {
 
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	static	tween(tw_nm: string, hArg: TArg, hNow: any, hTo: any, onUpdate: (d: any)=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween<any> {
+	static	tween(tw_nm: string, hArg: TArg, hNow: any, hTo: any, onUpdate: (d: any)=> void, onComplete: ()=> void, onEnd: ()=> void, start = true): Tween {
 		const time = this.#evtMng.isSkipping ?0 :argChk_Num(hArg, 'time', NaN);
 		const tw = new Tween(hNow)
 		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -163,7 +162,6 @@ export class CmnTween {
 		this.setTwProp(tw, hArg);
 		this.#hTwInf[tw_nm] = {tw, onEnd};
 
-		// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 		CmnTween.#grp.add(tw);
 
 		const {path} = hArg;
@@ -180,9 +178,12 @@ export class CmnTween {
 					continue;
 				}
 				else {
-					if (x ?? x2) hArg2.x = x ?? x2;
-					if (y ?? y2) hArg2.y = y ?? y2;
-					if (o ?? o2) hArg2.alpha = Number(o ?? o2);
+					const xx = x ?? x2;
+					if (xx) hArg2.x = xx;
+					const yy = y ?? y2;
+					if (yy) hArg2.y = yy;
+					const oo = o ?? o2;
+					if (oo) hArg2.alpha = Number(oo);
 				}
 
 				const hTo2 = this.cnvTweenArg(hArg2, hNow);
@@ -245,12 +246,13 @@ export class CmnTween {
 	static	readonly	#REG_TSY_PATH	= /\(\s*(?:(?<x>[-=\d.]+)|(['"])(?<x2>.*?)\2)?(?:\s*,\s*(?:(?<y>[-=\d.]+)|(['"])(?<y2>.*?)\5)?(?:\s*,\s*(?:(?<o>[-=\d.]+)|(['"])(?<o2>.*?)\8))?)?|(?<json>\{[^{}]*})/g;
 
 	// トランス終了待ち
-	static	wt(_hArg: TArg) {
+	static	wt(hArg: TArg) {
 		const ti = this.#hTwInf[TW_NM_TRANS];
 		if (! ti?.tw) return false;
 
 		const fnc = ()=> this.stopEndTrans();
-		Reading.beginProc(TW_NM_TRANS, fnc, true, fnc);
+		Reading.beginProc(TW_NM_TRANS, fnc, true, argChk_Boolean(hArg, 'canskip', true) ?fnc: undefined);
+		// new ReadingState_wait4Tag(hArg);	// ひとまずイベント待ちはしない方向で
 		return true;
 	}
 
@@ -262,11 +264,12 @@ export class CmnTween {
 	// トゥイーン終了待ち
 	static	wait_tsy(hArg: TArg) {
 		const tw_nm = this.#tw_nm(hArg);
-		const ti = this.#hTwInf[tw_nm];
-		if (! ti?.tw) return false;
+		const tw = this.#hTwInf[tw_nm]?.tw
+		if (! tw) return false;
 
-		const fnc = ()=> ti.tw?.end();	// stop()とend()は別
-		Reading.beginProc(PID_HD_TW + tw_nm, fnc, true, fnc);
+		const fnc = ()=> tw.end();	// stop()とend()は別
+		Reading.beginProc(PID_HD_TW + tw_nm, fnc, true, argChk_Boolean(hArg, 'canskip', true) ?fnc: undefined);
+		new ReadingState_wait4Tag(hArg);
 		return true;
 	}
 		static	#tw_nm(hArg: TArg) {

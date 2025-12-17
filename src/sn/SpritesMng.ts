@@ -371,7 +371,7 @@ export class SpritesMng {
 		const RPN_WV = 'wv fn:'+ fn;
 		const stop = argChk_Boolean(hArg, 'stop', true);
 		const fnc = ()=> {if (stop) SpritesMng.stopVideo(fn)};
-		Reading.beginProc(RPN_WV, fnc, true, fnc);
+		Reading.beginProc(RPN_WV, fnc, true, argChk_Boolean(hArg, 'canskip', true) ?fnc: undefined);
 		hve.addEventListener('ended', ()=> Reading.notifyEndProc(RPN_WV), {once: true, passive: true});
 
 		return true;

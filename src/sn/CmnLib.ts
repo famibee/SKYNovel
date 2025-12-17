@@ -13,17 +13,6 @@ export function uint(o: unknown): number {
 	const v = parseInt(String(o), 10);
 	return v < 0 ? -v : v;
 }
-if (! ('toInt' in String.prototype)) {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-	(<any>String.prototype).toInt = function() { return int(this); };
-}
-if (! ('toUint' in String.prototype)) {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
-	(<any>String.prototype).toUint = function() {
-		const v = int(this);
-		return v < 0 ? -v : v;
-	};
-}
 
 export function getDateStr(spl_dd = '/', spl_dt = ' ', spl_tt = ':', spl_ms = ''): string {
 	const now = new Date;

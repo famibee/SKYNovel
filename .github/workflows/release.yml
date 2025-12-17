@@ -16,14 +16,14 @@ jobs:
 
     steps:
     - name: 📥 Checkout
-      uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
 
     - name: 🔧 Setup bun
       uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
 
     - name: 🔧 Get node_modules cache
       id: cache-restore
-      uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
       with:
         path: node_modules
         key: ${{runner.os}}-bun-${{hashFiles('bun.lock')}}
@@ -35,11 +35,14 @@ jobs:
       run: bun test
 
     - name: 🔧 Setup node 4 Semantic Release (内部で使用、削除不可)
-      uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+      uses: actions/setup-node@395ad3262231945c25e8478fd5baf05154b1d79f # v6.1.0
       with:
         node-version: 'lts/*'
 
+    - name: 🔧 Setup lib 4 Semantic Release
+      run: bun i -D --no-save conventional-changelog-conventionalcommits
+
     - name: 📜 Semantic Release
-      run: bunx semantic-release
+      uses: cycjimmy/semantic-release-action@b12c8f6015dc215fe37bc154d4ad456dd3833c90 # v6.0.0
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

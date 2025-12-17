@@ -498,7 +498,7 @@ export class Variable implements T_Variable {
 		const o = PropParser.getValName(arg_name);
 		if (! o) throw `[変数参照] name(${arg_name})が変数名として異常です`;
 
-		const {scope, name} = o;
+		const {scope='tmp', name} = o;
 		const hScope = this.#hScopes[scope];
 		if (name.startsWith('const.') && name in hScope) {
 			throw `[変数に値セット] 変数【${name}】は書き換え不可です`;
@@ -549,7 +549,7 @@ export class Variable implements T_Variable {
 		const o = PropParser.getValName(arg_name);
 		if (! o) throw '[変数参照] name('+ arg_name +')が変数名として異常です';
 
-		const {scope, name, at} = o;
+		const {scope='tmp', name, at} = o;
 		const hScope = this.#hScopes[scope];
 
 		let val = <T_VAL_DATA_FNC>hScope[<keyof typeof hScope>name];

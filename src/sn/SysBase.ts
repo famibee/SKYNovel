@@ -171,7 +171,10 @@ export class SysBase implements T_SysRoots, T_SysBase {
 				searchPath	: (fn, extptn = SEARCH_PATH_ARG_EXT.DEFAULT)=> this.cfg.searchPath(fn, extptn),
 				getVal		: (arg_name, def?)=> val.getVal(arg_name, def),
 				resume		: ()=> this.main?.resume(),
-				render		: (dsp, renderTexture, clear = false)=> appPixi.renderer.render(dsp, {renderTexture, clear}),
+				render		: (dsp, renderTexture, clear = false)=> appPixi.renderer.render(dsp, {
+					...renderTexture ?{renderTexture} :{},
+					clear,
+				}),
 				setDec		: ()=> { /* empty */ },
 				setDecAB	: ()=> { /* empty */ },
 				setEnc		: ()=> { /* empty */ },

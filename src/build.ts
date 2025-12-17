@@ -47,7 +47,7 @@ aP.push(build({
 			fileName: _=> 'web.js',
 			formats	: ['es'],
 		},
-		rollupOptions: {output},
+		rolldownOptions: {output},
 	},
 	plugins: [dts(oDts)],
 }));
@@ -63,7 +63,7 @@ aP.push(build({
 			formats	: ['es'],
 		},
 		outDir	: 'dist_app',
-		rollupOptions: {
+		rolldownOptions: {
 			external: builtinModules.flatMap(p=> [p, `node:${p}`]),
 			output,
 		},
@@ -81,7 +81,7 @@ aP.push(build({
 			formats	: ['cjs'],
 		},
 		outDir	: 'dist_app',
-		rollupOptions: {
+		rolldownOptions: {
 			external: [
 				'electron',
 				'electron-devtools-installer',
@@ -102,7 +102,7 @@ aP.push(build({
 			formats	: ['cjs'],
 		},
 		outDir	: 'dist_app',
-		rollupOptions: {
+		rolldownOptions: {
 			external: [
 				'electron',
 				...builtinModules.flatMap(p=> [p, `node:${p}`]),

@@ -1,6 +1,6 @@
 export type PRM = {
     val: string;
-    def?: string;
+    def: string | undefined;
 };
 export type HPRM = {
     [key: string]: PRM;

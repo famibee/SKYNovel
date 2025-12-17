@@ -154,21 +154,23 @@ export class ReadingState {
 		//if (this.#isDbgBreak) return;
 
 		// 予約実行
+		// meta, ctrl, alt などを除いたキー名
+		const key_name = ReadingState.#REG_KEY_NAME.exec(rawKeY)?.[0] ?? '';
 		const key = rawKeY.toLowerCase();
-// console.log(`👺 fire<(key:\`${key}\` type:${e.type})`);
-
-		switch (key) {
+// console.log(`👺 fire<(nm:\`${key_name}\` key:\`${key}\` type:${e.type})`);
+		switch (key_name) {
 			case 'click':
 			case 'rightclick':	// 右クリックメニューに入って出られない
 			case 'middleclick':	// 〃
 			case 'enter':
 			case 'arrowdown':
+			case 'btn':
 				if (Reading.evtMng.isSkipping) break;
 				if (! ReadingState.isFirstFire()) return;
 				break;
 		}
 
-		if (key === 'enter') {
+		if (key_name === 'enter') {
 			const em = Reading.fcs.getFocus();
 			if (em instanceof Container) {
 				em.emit(EVNM_CLICK, new PointerEvent(EVNM_CLICK));
@@ -186,6 +188,7 @@ export class ReadingState {
 		ke(e);
 		//this.hLocalEvt2Fnc = {};	// ここで消去禁止、Main.resumeByJumpOrCall()が担当
 	}
+	static	#REG_KEY_NAME = /btn|\w+$/;	// https://regex101.com/r/WEPkLH/1
 	get	skip_enabled() {return Reading.skip_enabled}
 	readonly	isWait: boolean	= false;
 	// イベント複数発生回避（ボタンとステージクリックなど）
@@ -254,7 +257,7 @@ export class ReadingState {
 
 	// タグ処理
 	l(hArg: TArg): boolean {
-// console.log(`fn:Reading.ts line:218 [l] isKidoku:${Reading.scrItr.isKidoku} isNextKidoku:${Reading.scrItr.isNextKidoku} A:${Reading.auto_enabled} B:${Reading.skip_enabled} C:${Reading.skip_all}`);
+// console.log(`fn:Reading.ts [l] isKidoku:${Reading.scrItr.isKidoku} isNextKidoku:${Reading.scrItr.isNextKidoku} A:${Reading.auto_enabled} B:${Reading.skip_enabled} C:${Reading.skip_all}`);
 		if (! Reading.tagL_enabled) return false;
 
 		ReadingState.recodePage(true);
@@ -282,7 +285,7 @@ export class ReadingState {
 		return true;
 	}
 	p(hArg: TArg): boolean {
-// console.log(`fn:Reading.ts line:248 [p] isKidoku:${Reading.scrItr.isKidoku} isNextKidoku:${Reading.scrItr.isNextKidoku} A:${Reading.auto_enabled} B:${Reading.skip_enabled} C:${Reading.skip_all}`);
+// console.log(`fn:Reading.ts [p] isKidoku:${Reading.scrItr.isKidoku} isNextKidoku:${Reading.scrItr.isNextKidoku} A:${Reading.auto_enabled} B:${Reading.skip_enabled} C:${Reading.skip_all}`);
 		ReadingState.recodePage();
 
 		if (Reading.auto_enabled) {	// Aスキップ時
@@ -323,17 +326,18 @@ export class ReadingState {
 
 		const tw = new Tween({});
 		const RPN_WAIT = 'wait';
-		const fin = ()=> {
+		const fnc = ()=> {
 			ReadingState.#grp.remove(tw);
 			Reading.notifyEndProc(RPN_WAIT);
 		};
 		tw.to({}, time)
-		.onComplete(fin)
+		.onComplete(fnc)
 		.start();
 		ReadingState.#grp.add(tw);
 
 		const canskip = argChk_Boolean(hArg, 'canskip', true);
-		Reading.beginProc(RPN_WAIT, fin, true, canskip ?fin :undefined);
+		Reading.beginProc(RPN_WAIT, fnc, true, canskip ?fnc :undefined);
+		// new ReadingState_wait4Tag(hArg);	// ひとまずイベント待ちはしない方向で
 		return true;
 	}
 	page(hArg: TArg): boolean {
@@ -363,6 +367,7 @@ export class ReadingState {
 
 
 	static	destroy() {
+		ReadingState.#grp.removeAll();
 		this.#hLocalEvt2Fnc = {};
 		this.#hGlobalEvt2Fnc = {};
 		this.aPage = [];
@@ -396,7 +401,7 @@ class ReadingState_proc extends ReadingState {
 
 // wait 状態
 //	イベント待ちやクリック待ち
-class ReadingState_wait4Tag extends ReadingState {
+export class ReadingState_wait4Tag extends ReadingState {
 	constructor(hArg: TArg) {
 		super();
 		if (CmnLib.debugLog) console.log('📖 => %cReadingState_wait', 'color:#3B0;');
@@ -416,7 +421,6 @@ class ReadingState_wait4Tag extends ReadingState {
 				onUserAct = ()=> {
 					if (argChk_Boolean(hArg, 'er', false)) Reading.hTag.er(hArg);
 
-					Reading.sndMng.clearCache();
 					//scrItr.turnPage();
 
 					new ReadingState_go;
@@ -714,6 +718,7 @@ export class Reading {
 	}
 	static	setFcs(fcs: FocusMng) {this.fcs = fcs}
 
+	static	destroy() {ReadingState.destroy()}
 
 	static	cancelAutoSkip() {
 		if (! this.tagL_enabled) {	// 頁末まで一気に読み進むか(l無視)

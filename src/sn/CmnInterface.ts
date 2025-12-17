@@ -15,8 +15,10 @@ import {CmnLib, getDateStr} from './CmnLib';
 import type {DisplayObject, RenderTexture} from 'pixi.js';
 
 
-export type T_MyTrace = (txt: string, lvl?: string, fnline?: boolean, adjust_line?: number)=> void
-
+// 特定のプロパティだけrequiredにする型を作ってみる #TypeScript - Qiita https://qiita.com/islandryu/items/490414a537c203b151f7
+export type T_PRequired<T,K extends keyof T> = T & {
+	[P in K]-?: T[P]
+}
 
 // =============== PropParser
 export type T_PropParser = {

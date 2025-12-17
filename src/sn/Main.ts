@@ -126,7 +126,7 @@ export class Main implements T_Main {
 		// デバッグ・その他
 		const dbgMng = new DebugMng(this.sys, this.#hTag, this.#scrItr);
 		this.#aDest.unshift(()=> dbgMng.destroy());
-		this.errScript = (mes: string, isThrow = true)=> {
+		this.errScript = (mes, isThrow)=> {
 			this.stop();
 			DebugMng.myTrace(mes);
 			if (CmnLib.debugLog) console.log('🍜 SKYNovel err!');

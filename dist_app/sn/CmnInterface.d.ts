@@ -4,7 +4,9 @@ import { Areas, T_H_Areas } from './Areas';
 import { T_H_VAL_MP } from './CallStack';
 import { Layer, T_RecordPlayBack_lay } from './Layer';
 import { DisplayObject, RenderTexture } from 'pixi.js';
-export type T_MyTrace = (txt: string, lvl?: string, fnline?: boolean, adjust_line?: number) => void;
+export type T_PRequired<T, K extends keyof T> = T & {
+    [P in K]-?: T[P];
+};
 export type T_PropParser = {
     parse(s: string): any;
     getValAmpersand(val: string): string;

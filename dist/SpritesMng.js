@@ -1,233 +1,221 @@
-import { Q as w, L as v, U as N, S as L, n as h, j as x, y as R, b as V, M as A, B as j, x as y, e as k, z as H, l as O } from "./web2.js";
-import { D as C } from "./DebugMng.js";
-import { a as F } from "./CmnTween.js";
-class e {
-  constructor(t = "", a, c = () => {
-  }, n = () => {
-  }) {
-    this.csvFn = t, this.ctn = a, this.fncFirstComp = c, this.fncAllComp = n, t && (this.#i = a ? (o) => {
-      a.addChild(o), this.#d.push(o);
-    } : () => {
-    }, this.ret = e.#E(
-      t,
-      (o) => this.fncFirstComp(o),
-      // 差し替え考慮
-      (o) => this.fncAllComp(o),
-      // 差し替え考慮
-      (o) => this.#i(o)
-      // 差し替え考慮
-    ));
-  }
-  static #n;
-  static #r;
-  static #e;
-  static #f;
-  static init(t, a, c, n, o) {
-    e.#n = t, e.#r = a, e.#e = c, e.#f = n, c.arg.crypto && (e.#l = (d, r, u) => e.#T(d, r, u), e.#h = (d, r, u) => e.#P(d, r, u));
-    const s = () => {
-      const d = e.#o * e.#m;
-      for (const r of Object.values(e.#t)) r.volume = d;
-    };
-    o.setNoticeChgVolume(
-      (d) => {
-        e.#o = d, s();
-      },
-      (d) => {
-        e.#m = d, s();
-      }
-    );
-  }
-  static #m = 1;
-  static #o = 1;
-  static #s;
-  static setEvtMng(t) {
-    e.#s = t;
-  }
-  ret = !1;
-  #i;
-  #d = [];
-  destroy() {
-    this.fncFirstComp = () => {
-    }, this.fncAllComp = () => {
-    }, this.#i = (t) => t.destroy();
-    for (const t of this.#d)
-      e.stopVideo(t.name), t.parent?.removeChild(t), t.destroy();
-    this.#d = [];
-  }
-  static destroy() {
-    e.#c = {}, e.#a = {}, e.#t = {};
-  }
-  //static #ldrHFn: {[fn: string]: 1} = {};
-  static #E(t, a, c, n) {
-    if (!t) return !1;
-    let o = !1;
-    if (t.startsWith("data:")) {
-      const i = () => {
-        const l = y.from(t);
-        n(l), a(l), c(o);
-      };
-      return t in w ? i() : (o = !0, new v().add(t, t).load(i)), o;
-    }
-    const s = [], d = new v();
-    for (const i of t.split(",")) {
-      if (!i) throw "face属性に空要素が含まれます";
-      const { dx: l, dy: f, blendmode: E, fn: m } = e.#c[i] ?? {
-        fn: i,
-        dx: 0,
-        dy: 0,
-        blendmode: N.NORMAL
-      };
-      if (s.push({ fn: m, fnc: (P) => {
-        P.transform && (P.x = l, P.y = f, P.blendMode = E);
-      } }), m in e.#a || m in w || m in v.shared.resources) continue;
-      o = !0;
-      const T = e.#n.searchPath(m, L.SP_GSM), b = this.#e.arg.crypto ? { xhrType: T.endsWith(".json") ? h.XHR_RESPONSE_TYPE.TEXT : h.XHR_RESPONSE_TYPE.BUFFER } : {};
-      d.add({ ...b, name: m, url: T });
-    }
-    const r = s.at(0);
-    r && (r.fnc = a);
-    const u = (i, l) => {
-      for (const { fn: f, fnc: E } of s) {
-        const m = e.#v(f, l);
-        m.name = f, n(m), E(m);
-      }
-      c(o);
-    };
-    return o ? d.use((i, l) => {
-      try {
-        if (i.extension === "json") {
-          this.#e.dec("json", i.data).then((f) => e.#h(f, i, l));
-          return;
-        }
-        this.#e.decAB(i.data).then((f) => e.#l(f, i, l));
-      } catch (f) {
-        const E = `画像/動画ロード失敗です fn:${i.name} ${String(f)}`;
-        e.#s.isSkipping ? console.warn(E) : console.error("%c" + E, "color:#FF3300;");
-      }
-    }).load(u) : queueMicrotask(() => u(0, {})), o;
-  }
-  static #c = {};
-  static #a = {};
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static #l = (t, { type: a, name: c, data: n }, o) => {
-    switch (a) {
-      case h.TYPE.VIDEO: {
-        const s = n;
-        s.volume = e.#o, e.#t[c] = e.#u(s);
-      }
-    }
-    o();
-  };
-  static #y(t) {
-    const a = /([^\d]+)\d+\.(\w+)/.exec(t[0] ?? "");
-    if (!a) return [];
-    const [, c = "", n = ""] = a, o = c.length, s = -n.length - 1;
-    return t.sort((d, r) => x(d.slice(o, s)) > x(r.slice(o, s)) ? 1 : -1);
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static #T(t, a, c) {
-    if (a.data = t, a.extension !== "bin" && c(), t instanceof HTMLImageElement) {
-      R.fromLoader(t, a.url, a.name).then((n) => {
-        a.texture = n, a.type = h.TYPE.IMAGE, c(), URL.revokeObjectURL(t.src);
-      });
-      return;
-    }
-    t instanceof HTMLVideoElement && (t.volume = e.#o, e.#t[a.name] = e.#u(t), a.type = h.TYPE.VIDEO), c();
-  }
-  static #u(t) {
-    return e.#r.getVal("const.sn.needClick2Play") && (C.trace_beforeNew(`[lay系] ${C.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, "W"), t.muted = !0), t.setAttribute("playsinline", ""), t;
-  }
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static #h = (t, { type: a, spritesheet: c, name: n, data: o }, s) => {
-    switch (a) {
-      case h.TYPE.JSON: {
-        const d = c._frameKeys;
-        e.#y(d), e.#a[n] = {
-          aTex: d.map((r) => R.from(r)),
-          meta: o.meta
-        };
-      }
-    }
-    s();
-  };
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  static #P(t, a, c) {
-    const { meta: n, frames: o } = a.data = JSON.parse(t);
-    if (a.type = h.TYPE.JSON, !n?.image) {
-      c();
-      return;
-    }
-    const s = V(n.image), d = e.#n.searchPath(s, L.SP_GSM);
-    new v().use((r, u) => {
-      this.#e.decAB(r.data).then((i) => {
-        if (r.data = i, i instanceof HTMLImageElement) {
-          r.type = h.TYPE.IMAGE, u(), URL.revokeObjectURL(i.src);
-          return;
-        }
-        u();
-      }).catch((i) => this.#f.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${r.name} ${String(i)}`, !1));
-    }).add({ name: s, url: d, xhrType: h.XHR_RESPONSE_TYPE.BUFFER }).load((r, u) => {
-      for (const { data: i } of Object.values(r.resources)) {
-        const { baseTexture: l } = R.from(i), f = Object.values(o);
-        e.#a[a.name] = {
-          aTex: f.map(({ frame: { x: E, y: m, w: T, h: b } }) => new R(
-            l,
-            new A(E, m, T, b)
-          )),
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-          meta: n
-        };
-      }
-      c();
-    });
-  }
-  static #v(t, a) {
-    const c = e.#a[t];
-    if (c) {
-      const s = new j(c.aTex);
-      return s.animationSpeed = c.meta.animationSpeed ?? 1, s.play(), s;
-    }
-    if (t in w) return y.from(t);
-    const n = e.#t[t];
-    if (n) return y.from(n);
-    const o = a[t];
-    return o ? new y(o.texture) : new y();
-  }
-  static #t = {};
-  static getHFn2VElm(t) {
-    return e.#t[t];
-  }
-  static wv(t) {
-    const { fn: a } = t;
-    if (!a) throw "fnは必須です";
-    const c = e.#t[a];
-    if (!c || c.loop) return !1;
-    if (e.#s.isSkipping || c.ended)
-      return e.stopVideo(a), !1;
-    const n = "wv fn:" + a, o = k(t, "stop", !0), s = () => {
-      o && e.stopVideo(a);
-    };
-    return F.beginProc(n, s, !0, s), c.addEventListener("ended", () => F.notifyEndProc(n), { once: !0, passive: !0 }), !0;
-  }
-  static stopVideo(t) {
-    const a = e.#t[t];
-    a && (delete e.#t[t], a.pause(), a.currentTime = a.duration);
-  }
-  static add_face(t) {
-    const { name: a } = t;
-    if (!a) throw "nameは必須です";
-    if (a in e.#c) throw "一つのname（" + a + "）に対して同じ画像を複数割り当てられません";
-    const { fn: c = a } = t;
-    return e.#c[a] = {
-      fn: c,
-      dx: O(t, "dx", 0),
-      dy: O(t, "dy", 0),
-      blendmode: H.getBlendmodeNum(t.blendmode ?? "")
-    }, !1;
-  }
-  //	static	clearFace2Name(): void {SpritesMng.hFace = {}}
-}
-export {
-  e as S
+import { d as getFn, l as argChk_Num, p as int, s as argChk_Boolean } from "./CmnLib.js";
+import { b as BLEND_MODES, c as Loader, f as Texture, g as TextureCache, h as Rectangle, l as LoaderResource, n as AnimatedSprite, o as Sprite } from "./pixi.js";
+import { n as SEARCH_PATH_ARG_EXT } from "./ConfigBase.js";
+import { t as Layer } from "./Layer.js";
+import { t as DebugMng } from "./DebugMng.js";
+import { t as Reading } from "./Reading.js";
+var SpritesMng = class g {
+	static #e;
+	static #t;
+	static #n;
+	static #r;
+	static init(e, i, a, o, s) {
+		g.#e = e, g.#t = i, g.#n = a, g.#r = o, a.arg.crypto && (g.#f = (e, i, a) => g.#m(e, i, a), g.#g = (e, i, a) => g.#_(e, i, a));
+		let c = () => {
+			let e = g.#a * g.#i;
+			for (let i of Object.values(g.#y)) i.volume = e;
+		};
+		s.setNoticeChgVolume((e) => {
+			g.#a = e, c();
+		}, (e) => {
+			g.#i = e, c();
+		});
+	}
+	static #i = 1;
+	static #a = 1;
+	static #o;
+	static setEvtMng(e) {
+		g.#o = e;
+	}
+	constructor(e = "", i, a = () => {}, o = () => {}) {
+		this.csvFn = e, this.ctn = i, this.fncFirstComp = a, this.fncAllComp = o, e && (this.#s = i ? (e) => {
+			i.addChild(e), this.#c.push(e);
+		} : () => {}, this.ret = g.#l(e, (e) => this.fncFirstComp(e), (e) => this.fncAllComp(e), (e) => this.#s(e)));
+	}
+	ret = !1;
+	#s;
+	#c = [];
+	destroy() {
+		this.fncFirstComp = () => {}, this.fncAllComp = () => {}, this.#s = (e) => e.destroy();
+		for (let e of this.#c) g.stopVideo(e.name), e.parent?.removeChild(e), e.destroy();
+		this.#c = [];
+	}
+	static destroy() {
+		g.#u = {}, g.#d = {}, g.#y = {};
+	}
+	static #l(e, i, a, o) {
+		if (!e) return !1;
+		let l = !1;
+		if (e.startsWith("data:")) {
+			let s = () => {
+				let s = Sprite.from(e);
+				o(s), i(s), a(l);
+			};
+			return e in TextureCache ? s() : (l = !0, new Loader().add(e, e).load(s)), l;
+		}
+		let d = [], f = new Loader();
+		for (let i of e.split(",")) {
+			if (!i) throw "face属性に空要素が含まれます";
+			let { dx: e, dy: a, blendmode: o, fn: p } = g.#u[i] ?? {
+				fn: i,
+				dx: 0,
+				dy: 0,
+				blendmode: BLEND_MODES.NORMAL
+			};
+			if (d.push({
+				fn: p,
+				fnc: (i) => {
+					i.transform && (i.x = e, i.y = a, i.blendMode = o);
+				}
+			}), p in g.#d || p in TextureCache || p in Loader.shared.resources) continue;
+			l = !0;
+			let m = g.#e.searchPath(p, SEARCH_PATH_ARG_EXT.SP_GSM), h = this.#n.arg.crypto ? { xhrType: m.endsWith(".json") ? LoaderResource.XHR_RESPONSE_TYPE.TEXT : LoaderResource.XHR_RESPONSE_TYPE.BUFFER } : {};
+			f.add({
+				...h,
+				name: p,
+				url: m
+			});
+		}
+		let m = d.at(0);
+		m && (m.fnc = i);
+		let h = (e, i) => {
+			for (let { fn: e, fnc: a } of d) {
+				let s = g.#v(e, i);
+				s.name = e, o(s), a(s);
+			}
+			a(l);
+		};
+		return l ? f.use((e, i) => {
+			try {
+				if (e.extension === "json") {
+					this.#n.dec("json", e.data).then((a) => g.#g(a, e, i));
+					return;
+				}
+				this.#n.decAB(e.data).then((a) => g.#f(a, e, i));
+			} catch (i) {
+				let a = `画像/動画ロード失敗です fn:${e.name} ${String(i)}`;
+				g.#o.isSkipping ? console.warn(a) : console.error("%c" + a, "color:#FF3300;");
+			}
+		}).load(h) : queueMicrotask(() => h(0, {})), l;
+	}
+	static #u = {};
+	static #d = {};
+	static #f = (e, { type: i, name: a, data: o }, s) => {
+		switch (i) {
+			case LoaderResource.TYPE.VIDEO: {
+				let e = o;
+				e.volume = g.#a, g.#y[a] = g.#h(e);
+			}
+		}
+		s();
+	};
+	static #p(e) {
+		let i = /([^\d]+)\d+\.(\w+)/.exec(e[0] ?? "");
+		if (!i) return [];
+		let [, o = "", s = ""] = i, c = o.length, l = -s.length - 1;
+		return e.sort((e, i) => int(e.slice(c, l)) > int(i.slice(c, l)) ? 1 : -1);
+	}
+	static #m(e, i, a) {
+		if (i.data = e, i.extension !== "bin" && a(), e instanceof HTMLImageElement) {
+			Texture.fromLoader(e, i.url, i.name).then((o) => {
+				i.texture = o, i.type = LoaderResource.TYPE.IMAGE, a(), URL.revokeObjectURL(e.src);
+			});
+			return;
+		}
+		e instanceof HTMLVideoElement && (e.volume = g.#a, g.#y[i.name] = g.#h(e), i.type = LoaderResource.TYPE.VIDEO), a();
+	}
+	static #h(e) {
+		return g.#t.getVal("const.sn.needClick2Play") && (DebugMng.trace_beforeNew(`[lay系] ${DebugMng.strPos()}未クリック状態で動画を自動再生します。音声はミュートされます`, "W"), e.muted = !0), e.setAttribute("playsinline", ""), e;
+	}
+	static #g = (e, { type: i, spritesheet: a, name: o, data: s }, c) => {
+		switch (i) {
+			case LoaderResource.TYPE.JSON: {
+				let e = a._frameKeys;
+				g.#p(e), g.#d[o] = {
+					aTex: e.map((e) => Texture.from(e)),
+					meta: s.meta
+				};
+			}
+		}
+		c();
+	};
+	static #_(i, a, o) {
+		let { meta: s, frames: u } = a.data = JSON.parse(i);
+		if (a.type = LoaderResource.TYPE.JSON, !s?.image) {
+			o();
+			return;
+		}
+		let f = getFn(s.image), p = g.#e.searchPath(f, SEARCH_PATH_ARG_EXT.SP_GSM);
+		new Loader().use((e, i) => {
+			this.#n.decAB(e.data).then((a) => {
+				if (e.data = a, a instanceof HTMLImageElement) {
+					e.type = LoaderResource.TYPE.IMAGE, i(), URL.revokeObjectURL(a.src);
+					return;
+				}
+				i();
+			}).catch((i) => this.#r.errScript(`画像/動画ロード失敗です dec2res4Cripto fn:${e.name} ${String(i)}`, !1));
+		}).add({
+			name: f,
+			url: p,
+			xhrType: LoaderResource.XHR_RESPONSE_TYPE.BUFFER
+		}).load((e, i) => {
+			for (let { data: i } of Object.values(e.resources)) {
+				let { baseTexture: e } = Texture.from(i), o = Object.values(u);
+				g.#d[a.name] = {
+					aTex: o.map(({ frame: { x: i, y: a, w: o, h: s } }) => new Texture(e, new Rectangle(i, a, o, s))),
+					meta: s
+				};
+			}
+			o();
+		});
+	}
+	static #v(e, i) {
+		let a = g.#d[e];
+		if (a) {
+			let e = new AnimatedSprite(a.aTex);
+			return e.animationSpeed = a.meta.animationSpeed ?? 1, e.play(), e;
+		}
+		if (e in TextureCache) return Sprite.from(e);
+		let o = g.#y[e];
+		if (o) return Sprite.from(o);
+		let s = i[e];
+		return s ? new Sprite(s.texture) : new Sprite();
+	}
+	static #y = {};
+	static getHFn2VElm(e) {
+		return g.#y[e];
+	}
+	static wv(e) {
+		let { fn: i } = e;
+		if (!i) throw "fnは必須です";
+		let a = g.#y[i];
+		if (!a || a.loop) return !1;
+		if (g.#o.isSkipping || a.ended) return g.stopVideo(i), !1;
+		let s = "wv fn:" + i, c = argChk_Boolean(e, "stop", !0), l = () => {
+			c && g.stopVideo(i);
+		};
+		return Reading.beginProc(s, l, !0, argChk_Boolean(e, "canskip", !0) ? l : void 0), a.addEventListener("ended", () => Reading.notifyEndProc(s), {
+			once: !0,
+			passive: !0
+		}), !0;
+	}
+	static stopVideo(e) {
+		let i = g.#y[e];
+		i && (delete g.#y[e], i.pause(), i.currentTime = i.duration);
+	}
+	static add_face(e) {
+		let { name: a } = e;
+		if (!a) throw "nameは必須です";
+		if (a in g.#u) throw "一つのname（" + a + "）に対して同じ画像を複数割り当てられません";
+		let { fn: o = a } = e;
+		return g.#u[a] = {
+			fn: o,
+			dx: argChk_Num(e, "dx", 0),
+			dy: argChk_Num(e, "dy", 0),
+			blendmode: Layer.getBlendmodeNum(e.blendmode ?? "")
+		}, !1;
+	}
 };
+export { SpritesMng as t };
+
 //# sourceMappingURL=SpritesMng.js.map

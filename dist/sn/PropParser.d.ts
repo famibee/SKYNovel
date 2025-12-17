@@ -1,8 +1,8 @@
 import { T_PropParser, T_Variable, T_VAL_DATA, Scope } from './CmnInterface';
 export type T_RET_getValName = {
-    scope: Scope;
+    scope?: Scope;
     name: string;
-    at: string;
+    at?: string;
 };
 export declare class PropParser implements T_PropParser {
     #private;

@@ -273,7 +273,7 @@ export declare function tagToken2Name(token: string): string;
 export declare function splitAmpersand(token: string): {
     name: string;
     text: string;
-    cast: string | undefined;
+    cast?: string;
 };
 export declare class Grammar {
     #private;

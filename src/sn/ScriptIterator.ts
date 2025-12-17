@@ -962,7 +962,7 @@ export class ScriptIterator {
 	#callSub(hArg: TArg, hEvt1Time?: T_HEvt2Fnc) {
 		const csa: ICallStackArg = {
 			...hArg,
-			':hEvt1Time': hEvt1Time,
+			...hEvt1Time ?{':hEvt1Time': hEvt1Time} :{},
 			':hMp'		: this.val.cloneMp(),
 			':lenIfStk'	: this.#aIfStk.length,
 		};
@@ -1372,7 +1372,7 @@ export class ScriptIterator {
 		// (new RegExp("~")) の場合は、バックスラッシュは２つ必要
 		this.#REGSTEPIN = new RegExp(`\\[(${this.#strStepin})\\b`);
 		this.hTag[<keyof T_HTag>name] = hArgM=> {
-			hArgM.design_unit = hArg.design_unit;
+			// hArgM.design_unit = hArg.design_unit;
 			this.#callSub(hArgM);
 
 			// AIRNovelの仕様：親マクロが子マクロコール時、*がないのに値を引き継ぐ
@@ -1471,7 +1471,10 @@ export class ScriptIterator {
 		p.then(label ?()=> {
 			this.#scriptFn = fn2;
 			this.#idxToken = idx;
-			if (! this.hTag.call({fn, label})) this.main.resume();
+			if (! this.hTag.call({
+				...fn ?{fn} :{},
+				label,
+			})) this.main.resume();
 		}
 		: ()=> {
 			if (! this.#jumpWork(fn2, '', idx)) this.main.resume();
@@ -1548,7 +1551,7 @@ export class ScriptIterator {
 	//MARK: しおりの保存
 	#save(hArg: TArg) {
 		if (! ('place' in hArg)) throw 'placeは必須です';
-		const place = Number(hArg.place);
+		const place = hArg.place;
 
 		delete hArg[':タグ名'];
 		delete hArg.place;
@@ -1586,7 +1589,7 @@ export class ScriptIterator {
 		hArg[':col_e']	= lc.col_e;
 		const idx_1 = idx -1;
 		hArg[':idx_tkn']= idx_1;
-		hArg[':token']	= scr.aToken[idx_1];
+		hArg[':token']	= scr.aToken[idx_1] ?? '';
 
 		this.sys.send2Dbg('_recodeDesign', hArg);
 	}

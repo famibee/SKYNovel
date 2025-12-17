@@ -5,6 +5,7 @@ import { IMakeDesignCast } from './LayerMng';
 import { SysBase } from './SysBase';
 import { T_RP_Hyphenation } from './Hyphenation';
 import { ScriptIterator } from './ScriptIterator';
+import { T_cmdTxt_JSON } from './TxtLayer';
 import { Container, Sprite, Renderer, Application } from 'pixi.js';
 import { Group } from '@tweenjs/tween.js';
 export type T_InfTxLay = {
@@ -66,7 +67,7 @@ export declare class TxtStage extends Container {
     static ch_in_style(hArg: TArg): T_ChInOutStyle;
     static getChOutStyle(name: string): T_ChInOutStyle | undefined;
     static ch_out_style(hArg: TArg): T_ChInOutStyle;
-    dispBreak(o: TArg): void;
+    dispBreak(o: T_cmdTxt_JSON): void;
     static delBreak(): void;
     reNew(): TxtStage;
     record(): {

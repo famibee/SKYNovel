@@ -3,10 +3,10 @@
 	"compilerOptions": {
 		"target": "esnext",
 		"lib": ["esnext","DOM"],
-		"module": "commonjs",
+		"module": "esnext",
 
 		/* Bundler mode */
-		"moduleResolution": "node",
+		"moduleResolution": "bundler",
 		"esModuleInterop": true,	// CommonJS/AMD/UMD モジュールを ES6 モジュールと同様に扱う
 			// pixi.js 6.1.0以降必須
 		"resolveJsonModule": true,	// JSON ファイルの型検証、json をインポートできるように
@@ -43,6 +43,7 @@
 		"noUnusedLocals": true,		// 使っていないローカル変数をエラーに
 		"noUnusedParameters": true,	// 使っていない仮引数をエラーに
 								// ただし引数名の先頭にアンダースコアを付けると回避できる
+		"exactOptionalPropertyTypes": true,	// オプションプロパティにundefined 禁止
 
 		"forceConsistentCasingInFileNames": true,	// import時にファイルパスの文字列で大文字小文字を区別するか
 		//"isolatedDeclarations": true,	// 変数や関数をエクスポート時、ユーザーに明示的な型注釈を求める（トランスパイラ向け）

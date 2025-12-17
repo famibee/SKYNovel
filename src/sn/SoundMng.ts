@@ -10,13 +10,17 @@ import type {T_HTag, TArg} from './Grammar';
 import type {T_Variable, T_Main, T_NoticeChgVolume} from './CmnInterface';
 import type {Config} from './Config';
 import type {SysBase} from './SysBase';
-import {BUF_BGM, BUF_SE, type HSndBuf, SndBuf} from './SndBuf';
+import {BUF_BGM, BUF_SE, SndBuf, xchgbuf} from './SndBuf';
 
-import {sound, utils} from '@pixi/sound';
+import {Howler} from 'howler';
+
+
+export type HSndBuf = {[buf: string]: SndBuf}
 
 
 export class SoundMng {
 	#hSndBuf	: HSndBuf	= {};
+	#getSndBuf(buf: string) {return this.#hSndBuf[buf]}
 
 	constructor(cfg: Config, hTag: T_HTag, private readonly val: T_Variable, main: T_Main, sys: SysBase) {
 		hTag.volume		= o=> this.#volume(o);		// 音量設定（独自拡張）
@@ -31,23 +35,32 @@ export class SoundMng {
 		hTag.stopse		= o=> this.#stopse(o);		// 効果音再生の停止
 		hTag.wb			= o=> this.#wb(o);			// BGM フェードの終了待ち
 		hTag.wf			= o=> this.#wf(o);			// 効果音フェードの終了待ち
-		hTag.stopfadese	= o=> this.#stopfadese(o);	// 音声フェードの停止
+		hTag.stopfadese	= ()=> false;				// 音声フェードの停止（廃止）
 		hTag.wl			= o=> this.#wl(o);			// BGM 再生の終了待ち
 		hTag.ws			= o=> this.#ws(o);			// 効果音再生の終了待ち
 		hTag.xchgbuf	= o=> this.#xchgbuf(o);		// 再生トラックの交換
 
 		val.setVal_Nochk('save', 'const.sn.loopPlaying', '{}');
 
-		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(utils.supported));
+		const codecs: {[ext: string]: boolean} = {};
+		for (const ext of 'aac,caf,dolby,flac,m4a,m4b,mp3,mp4,mpeg,oga,ogg,opus,wav,weba,webm'.split(',')) codecs[ext] = Howler.codecs(ext);
+		val.setVal_Nochk('tmp', 'const.sn.sound.codecs', JSON.stringify(codecs));
+		// - PixiJS Sound
+		// aiff,caf,mid,mp3,mpeg,oga,ogg,opus,wav,wma
+		// - Howl
+		// aac,caf,dolby,flac,m4a,m4b,mp3,mp4,mpeg,oga,ogg,opus,wav,weba,webm
 
-		SndBuf.init(cfg, val, main, sys, this.#hSndBuf);
-		sound.disableAutoPause = true;
+		SndBuf.init(cfg, val, main, sys, buf=> this.#getSndBuf(buf));
 	}
 
 	#evtMng	: IEvtMng;
 	setEvtMng(evtMng: IEvtMng) {this.#evtMng = evtMng; SndBuf.setEvtMng(evtMng)}
 	setNoticeChgVolume(setGlbVol: T_NoticeChgVolume, setMovVol: T_NoticeChgVolume) {
-		this.val.defValTrg('sys:sn.sound.global_volume', (_, val)=> setGlbVol(sound.volumeAll = Number(val)));
+		this.val.defValTrg('sys:sn.sound.global_volume', (_, val)=> {
+			const v = Number(val);
+			Howler.volume(v);
+			setGlbVol(v);
+		});
 		this.val.defValTrg('sys:sn.sound.movie_volume', (_, val)=> setMovVol(Number(val)));
 
 		// 起動時初期値セット
@@ -86,7 +99,6 @@ export class SoundMng {
 	//MARK: 効果音のフェード
 	#fadese(hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
-		this.#stopfadese(hArg);
 		this.#hSndBuf[buf]?.fade(hArg);
 
 		return false;
@@ -102,25 +114,32 @@ export class SoundMng {
 
 	//MARK: 効果音の再生
 	#playse(hArg: TArg) {
-		const {buf = BUF_SE, fn} = hArg;
+		const {buf = BUF_SE} = hArg;
 		this.#stopse({buf});
-		if (! fn) throw `fnは必須です buf:${buf}`;
 
 		// isSkipping()は此処のみとする。タイミングによって変わる
 		if (argChk_Boolean(hArg, 'canskip', true) && this.#evtMng.isSkipping) return false;
 
-		const sb = this.#hSndBuf[buf] = new SndBuf(hArg, buf, fn);
-		return sb.needLoad;
-	}
+		this.#initVol();
 
-	clearCache() {sound.removeAll()}
+		const join = argChk_Boolean(hArg, 'join', true);
+			// an時代・瀬戸愛羅さんより https://famibee.blog.fc2.com/blog-entry-106.html
+			// デフォルトでjoin=trueの方が初心者に優しい
+		this.#hSndBuf[buf] = SndBuf.generate(hArg, buf, join);
+
+		return join;
+	}
+	#initVol = ()=> {
+		Howler.volume(Number(this.val.getVal('sys:sn.sound.global_volume', 1)));
+		this.#initVol = ()=> { /* empty */ };
+	};
 
 	//MARK: 全効果音再生の停止
 	#stop_allse() {
 		for (const buf of Object.keys(this.#hSndBuf)) this.#stopse({buf});
 		this.#hSndBuf = {};
 
-		sound.stopAll();	// 念のため
+		Howler.unload();
 
 		return false;
 	}
@@ -129,7 +148,7 @@ export class SoundMng {
 	//MARK: 効果音再生の停止
 	#stopse(hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
-		this.#hSndBuf[buf]?.stopse(hArg);
+		this.#hSndBuf[buf]?.stopse();
 
 		return false;
 	}
@@ -141,14 +160,6 @@ export class SoundMng {
 	#wf(hArg: TArg) {
 		const {buf = BUF_SE} = hArg;
 		return this.#hSndBuf[buf]?.wf(hArg) ?? false;
-	}
-
-	//MARK: 音声フェードの停止
-	#stopfadese(hArg: TArg) {
-		const {buf = BUF_SE} = hArg;
-		this.#hSndBuf[buf]?.stopfadese(hArg);
-
-		return false;
 	}
 
 	//MARK: BGM 再生の終了待ち
@@ -171,7 +182,7 @@ export class SoundMng {
 		// eslint-disable-next-line @typescript-eslint/no-dynamic-delete
 		if (b) this.#hSndBuf[buf1] = b; else delete this.#hSndBuf[buf1];
 
-		SndBuf.xchgbuf(hArg);
+		xchgbuf(hArg);
 
 		return false;
 	}
@@ -179,7 +190,7 @@ export class SoundMng {
 	//MARK: しおりの読込（BGM状態復元）
 	playLoopFromSaveObj(all_stop_and_play: boolean): Promise<void>[] {
 		const lp = String(this.val.getVal('save:const.sn.loopPlaying', '{}'));
-		if (lp === '{}') {this.#stop_allse(); this.clearCache(); return []}
+		if (lp === '{}') {this.#stop_allse(); return []}
 /*
 					(Now)#hSndBuf
 					stop	play
@@ -188,10 +199,10 @@ export class SoundMng {
 			eq play	play	-			--[2]
 */
 		const hSaveLP = <{[buf: string]: string}>JSON.parse(lp);
-		if (all_stop_and_play) {this.#stop_allse(); this.clearCache()}
+		if (all_stop_and_play) this.#stop_allse();
 		else for (const [buf, sb] of Object.entries(this.#hSndBuf)) {
 			// [1] #hSndBuf（再生中）だが hSaveLP（再生予定） にない buf -> stop
-			if (! (buf in hSaveLP)) sb.stopse({buf});
+			if (! (buf in hSaveLP)) sb.stopse();
 		}
 
 		// [2] hSaveLP（再生予定）を再生。だが#hSndBuf（再生中）の状況で処理変更
@@ -220,6 +231,6 @@ export class SoundMng {
 		}));
 	}
 
-	destroy() {this.#stop_allse(); this.clearCache()}
+	destroy() {this.#stop_allse()}
 
 }

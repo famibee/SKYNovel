@@ -54,6 +54,11 @@ export declare class ReadingState {
     page(hArg: TArg): boolean;
     static destroy(): void;
 }
+export declare class ReadingState_wait4Tag extends ReadingState {
+    constructor(hArg: TArg);
+    readonly isWait = true;
+    page(hArg: TArg): boolean;
+}
 export declare class Reading {
     #private;
     static beginProc(proc_id: string, onNotify?: () => void, endProc?: boolean, onClickSkip?: () => void): void;
@@ -81,6 +86,7 @@ export declare class Reading {
     static fcs: FocusMng;
     static init(cfg: Config, hTag: T_HTag, main: T_Main, val: T_Variable, scrItr: ScriptIterator, layMng: LayerMng, evtMng: EventMng, sndMng: SoundMng, procWheel4wle: (elc: EventListenerCtn, onIntr: () => void) => void): void;
     static setFcs(fcs: FocusMng): void;
+    static destroy(): void;
     static cancelAutoSkip(): void;
 }
 export {};

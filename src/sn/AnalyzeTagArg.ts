@@ -7,7 +7,7 @@
 
 export type PRM = {
 	val		: string;
-	def?	: string;
+	def		: string | undefined;
 }
 export type HPRM = {
 	[key: string]: PRM,
@@ -62,7 +62,7 @@ export class AnalyzeTagArg {
 			};
 			else if (literal) {
 				if (literal === '*') this.#isKomeParam = true;
-				else this.#hPrm[literal] = {val: '1'};
+				else this.#hPrm[literal] = {val: '1', def: undefined};
 			}
 		}
 	}

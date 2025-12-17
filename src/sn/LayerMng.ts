@@ -160,13 +160,13 @@ export class LayerMng implements T_GetFrm {
 			delete hArg.visible;
 			hArg.id = 'break';
 			hArg.pic= 'breakline';
-			this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON>hArg));
+			this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON><unknown>hArg));
 		};
 		if (cfg.existsBreakpage) this.breakPage = (hArg: TArg)=> {
 			delete hArg.visible;
 			hArg.id = 'break';
 			hArg.pic= 'breakpage';
-			this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON>hArg));
+			this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON><unknown>hArg));
 		};
 
 		this.#bg_color = parseColor(String(cfg.oCfg.init.bg_color));
@@ -915,7 +915,7 @@ void main() {
 		if (this.#evtMng.isSkipping) hArg.wait = 0;
 		else if ('wait' in hArg) argChk_Num(hArg, 'wait', NaN);
 
-		this.#cmdTxt('add｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), tl);
+		this.#cmdTxt('add｜'+ cnvSArg(<T_cmdTxt_JSON><unknown>hArg), tl);
 			// [ch style]用
 
 		const record = argChk_Boolean(hArg, 'record', true);
@@ -1017,7 +1017,7 @@ void main() {
 	#graph(hArg: TArg) {
 		if (! hArg.pic) throw '[graph] picは必須です';
 
-		this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
+		this.#cmdTxt('grp｜'+ cnvSArg(<T_cmdTxt_JSON><unknown>hArg), this.#getTxtLayer(hArg));
 		return false;
 	}
 
@@ -1029,7 +1029,7 @@ void main() {
 		hArg.style ??= 'background-color: rgba(255,0,0,0.5);';
 		hArg.style_hover ??= 'background-color: rgba(255,0,0,0.9);';
 		hArg.style_clicked ??= hArg.style;
-		this.#cmdTxt('link｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
+		this.#cmdTxt('link｜'+ cnvSArg(<T_cmdTxt_JSON><unknown>hArg), this.#getTxtLayer(hArg));
 		return false;
 	}
 
@@ -1051,7 +1051,7 @@ void main() {
 
 	//MARK: インラインスタイル設定
 	#span(hArg: TArg) {
-		this.#cmdTxt('span｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
+		this.#cmdTxt('span｜'+ cnvSArg(<T_cmdTxt_JSON><unknown>hArg), this.#getTxtLayer(hArg));
 		return false;
 	}
 
@@ -1059,7 +1059,7 @@ void main() {
 	#tcy(hArg: TArg) {
 		if (! hArg.t) throw '[tcy] tは必須です';
 
-		this.#cmdTxt('tcy｜'+ cnvSArg(<T_cmdTxt_JSON>hArg), this.#getTxtLayer(hArg));
+		this.#cmdTxt('tcy｜'+ cnvSArg(<T_cmdTxt_JSON><unknown>hArg), this.#getTxtLayer(hArg));
 		return false;
 	}
 

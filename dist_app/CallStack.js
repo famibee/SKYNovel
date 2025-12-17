@@ -1,25 +1,22 @@
-function r() {
-  return {
-    "const.sn.macro": "{}",
-    "const.sn.me_call_scriptFn": ""
-  };
+function creMP() {
+	return {
+		"const.sn.macro": "{}",
+		"const.sn.me_call_scriptFn": ""
+	};
 }
-function c() {
-  return {
-    ":hEvt1Time": {},
-    ":hMp": r(),
-    ":lenIfStk": 1
-  };
+function creCSArg() {
+	return {
+		":hEvt1Time": {},
+		":hMp": creMP(),
+		":lenIfStk": 1
+	};
 }
-class a {
-  constructor(t = "", s = 0, n = c()) {
-    this.fn = t, this.idx = s, this.csArg = n;
-  }
-  toString = () => `[fn:${this.fn}, idx:${String(this.idx)}, csArg:${JSON.stringify(this.csArg)}]`;
-}
-export {
-  a as C,
-  r as a,
-  c
+var CallStack = class {
+	constructor(e = "", n = 0, r = creCSArg()) {
+		this.fn = e, this.idx = n, this.csArg = r;
+	}
+	toString = () => `[fn:${this.fn}, idx:${String(this.idx)}, csArg:${JSON.stringify(this.csArg)}]`;
 };
+export { creCSArg as n, creMP as r, CallStack as t };
+
 //# sourceMappingURL=CallStack.js.map
