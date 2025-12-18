@@ -713,8 +713,8 @@ void main() {
 			uniforms.rule = sp.texture;
 			sp.destroy();
 
-			tw.start();
 			ticker.add(fncRender);
+			tw.start();		// start = false にしたので必要
 		}, isStop=> {if (isStop) this.main.resume()});
 		return sm.ret;
 	}

@@ -51,13 +51,13 @@ export class CmnTween {
 		CmnTween.#grp.removeAll();
 		CmnTween.#req = ()=> 0;
 		CmnTween.stopAllTw();
+		CmnTween.#aGroup = [];
 	}
 
 	// トゥイーン全停止
 	static	stopAllTw() {
 		CmnTween.#hTwInf = {};
 		for (const g of CmnTween.#aGroup) g.removeAll();
-		CmnTween.#aGroup = [];
 	}
 
 

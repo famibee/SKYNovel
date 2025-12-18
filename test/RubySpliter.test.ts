@@ -491,9 +491,9 @@ r: '..ゆめまぼろし'},
 		r: '.[& ]'},
 
 
-		{i: '｜　《link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}》',
+		{i: '｜　《link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}》',
 		t: '.　',
-		r: '.link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","hint":"西九条vs奴ら","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}'},
+		r: '.link｜{":タグ名":"link","fn":"sf_Opening","style":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;","style_hover":"outline: thick dashed red;","wait":"0","style_clicked":"background-color: black; background-image: linear-gradient(45deg, black 0%, #ffb4b4 14%, white 28%, #b4b4ff 42%, yellow 56%, #ffb4b4 70%, #b4ffb4 84%, white 100%); border-radius: 8px; padding: 0 1rem;"}'},
 
 
 	{i: '｜剃刀《かみそり》',
@@ -969,10 +969,15 @@ r: '..ゆめまぼろし'},
 	t: '.彼.は.豈﫿.を',
 	r: '...ひげこがし.'},
 
+	// 20251218_不具合ケース
+	{i: '　｜龍 《りゅう》吟《ぎん》ずれば雲起《くも お》こり',
+	t: '.　.龍 .吟.ず.れ.ば.雲.起.こ.り',
+	r: '..りゅう.ぎん....くも.お..'},
+
 
 ])('$i', ({i, t, r, ir, sesame, esc})=> {
-	if (sesame) RubySpliter.setting({sesame});
-	if (esc) RubySpliter.setEscape(esc);
+	RubySpliter.setting(sesame ?{sesame} :{sesame: 'ヽ'});
+	RubySpliter.setEscape(esc ?? '');
 
 	if (ir !== undefined) rbSpl.putTxtRb(i, ir);
 	else rbSpl.putTxt(i);

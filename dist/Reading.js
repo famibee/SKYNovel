@@ -387,12 +387,11 @@ var PID_HD_TW = "tsy nm:", CmnTween = class e {
 		e.#i.push(s);
 	}
 	static destroy() {
-		e.#r.removeAll(), e.#n = () => 0, e.stopAllTw();
+		e.#r.removeAll(), e.#n = () => 0, e.stopAllTw(), e.#i = [];
 	}
 	static stopAllTw() {
 		e.#e = {};
 		for (let s of e.#i) s.removeAll();
-		e.#i = [];
 	}
 	static setTwProp(e, c) {
 		let u = argChk_Num(c, "repeat", 1);

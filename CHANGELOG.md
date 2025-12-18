@@ -1,3 +1,7 @@
+- fix(src/sn/CmnTween.ts): ロード直後にトゥイーン管理情報までクリアしていた件
+- update: ライブラリ更新（vite@8.0.0-beta.3）
+
+
 ## [2.0.0](https://github.com/famibee/SKYNovel/compare/v1.65.0...v2.0.0) (2025-12-17)
 
 ### ⚠ BREAKING CHANGES
@@ -27,7 +31,7 @@
 	- 情報をすべて持つ SndBuf と、ストラテジーパターンの ISndState に
 - chore: tsconfig.json の exactOptionalPropertyTypes を true に
 	- それにより発現したエラー・警告を解消
-- update(package.json): vite を 8.0.0-beta.1 に
+- update(package.json): vite を 8.0.0-beta.2 に
 - build(src/build.ts): vite v8 対応に
 - chore(.github/workflows/release.yml): github actions 更新
 - chore(.github/workflows/codeql-analysis.yml): github actions 更新
