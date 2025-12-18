@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/famibee/SKYNovel/compare/v2.0.0...v2.0.1) (2025-12-18)
+
+### Bug Fixes
+
+* **src/sn/CmnTween.ts:** ロード直後にトゥイーン管理情報までクリアしていた件 ([49cbbe6](https://github.com/famibee/SKYNovel/commit/49cbbe6b97ec28759ca99f59ec55572c701a6f13))
+
 - fix(src/sn/CmnTween.ts): ロード直後にトゥイーン管理情報までクリアしていた件
 - update: ライブラリ更新（vite@8.0.0-beta.3）
 
