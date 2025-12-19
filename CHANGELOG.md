@@ -1,3 +1,9 @@
+## [2.0.2](https://github.com/famibee/SKYNovel/compare/v2.0.1...v2.0.2) (2025-12-19)
+
+### Bug Fixes
+
+* **src/sn/RubySpliter.ts:** ルビ解析正規表現リテラルが出力jsで壊れていた件 ([f53b74e](https://github.com/famibee/SKYNovel/commit/f53b74e10c1878c32bde8cfd27298c1c3469f680))
+
 - fix(src/sn/RubySpliter.ts): ルビ解析正規表現リテラルが出力jsで壊れていた件
 
 
