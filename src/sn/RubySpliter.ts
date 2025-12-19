@@ -1,4 +1,3 @@
-/* eslint-disable no-irregular-whitespace */
 /* ***** BEGIN LICENSE BLOCK *****
 	Copyright (c) 2018-2025 Famibee (famibee.blog38.fc2.com)
 
@@ -48,34 +47,25 @@ export class RubySpliter {
 	static	#REG_RUBY	: RegExp;
 	static	setEscape(ce: string) {
 		// 830 match 11293 step(1.7ms) PCRE2 https://regex101.com/r/BBrQtC/1
-		/*
-(?<txt4>\\\S)
-|	｜(?<str>[^《\n]+)《(?<ruby>[^》\n]+)》
-|	(?: (?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+ [ぁ-ヿ]* | [^　｜《》\n])
-		《(?<kan_ruby>[^》\n]+)》)
-|	(?<txt>
-	[\xD800-\xDBFF][\xDC00-\xDFFF]
-|	[^｜《》]+?
-|	.)
-		*/
 		// (new RegExp("~")) の場合は、バックスラッシュは２つ必要
 		RubySpliter.#REG_RUBY = new RegExp(
-			(ce ?`(?<ce>\\${ce}\\S)|` :'')+
-			'｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》'+
-			'|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])'+
-			'《(?<kan_ruby>[^》\\n]+)》)'+
-			'|(?<txt>'+
-			'[\uD800-\uDBFF][\uDC00-\uDFFF]'+	// 上位 + 下位サロゲート
-			'|[^｜《》]+?'+		// 不要だが細切れにしないほうが後々効率で有利
-			'|.)',
-			'gs'
+			(ce ?`(?<ce>\\${ce}\\S)|` :'') +
+			RubySpliter.#REGTXT_RUBY_BASE, 'gs'
 		);
 	}
+	static	readonly	#REGTXT_RUBY_BASE =
+		'｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》'+
+		'|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])'+
+		'《(?<kan_ruby>[^》\\n]+)》)'+
+		'|(?<txt>'+
+		'[\\uD800-\\uDBFF][\\uDC00-\\uDFFF]'+	// 上位 + 下位サロゲート
+		'|[^｜《》]+?'+		// 不要だが細切れにしないほうが後々効率で有利
+		'|.)';
 
 	putTxt(text: string) {
 		for (const {groups} of text.matchAll(RubySpliter.#REG_RUBY)) {
-			if (! groups) break;
-			const {ruby, kan_ruby, kan='', ce, txt='', str=''} = groups;
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+			const {ruby, kan_ruby, kan='', ce, txt='', str=''} = groups!;
 			if (ruby) {this.putTxtRb(decodeURIComponent(str), ruby); continue}
 
 			if (kan_ruby) {this.putTxtRb(kan, kan_ruby); continue}

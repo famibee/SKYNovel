@@ -27,7 +27,7 @@
 		"adm-zip": "^0.5.16",
 		"devtools-detect": "^4.0.2",
 		"electron-store": "^11.0.2",
-		"fs-extra": "^11.3.2",
+		"fs-extra": "^11.3.3",
 		"gamepad.js": "^2.1.0",
 		"howler": "^2.2.4",
 		"parsimmon": "^1.18.1",

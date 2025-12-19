@@ -15,11 +15,11 @@ var RubySpliter = class e {
 	}
 	static #n;
 	static setEscape(t) {
-		e.#n = RegExp((t ? `(?<ce>\\${t}\\S)|` : "") + "｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])《(?<kan_ruby>[^》\\n]+)》)|(?<txt>[�d800-�dbff][�dc00-�dfff]|[^｜《》]+?|.)", "gs");
+		e.#n = RegExp((t ? `(?<ce>\\${t}\\S)|` : "") + e.#r, "gs");
 	}
+	static #r = "｜(?<str>[^《\\n]+)《(?<ruby>[^》\\n]+)》|(?:(?<kan>[⺀-⿟々〇〻㐀-鿿豈-﫿]+[ぁ-ヿ]*|[^　｜《》\\n])《(?<kan_ruby>[^》\\n]+)》)|(?<txt>[\\uD800-\\uDBFF][\\uDC00-\\uDFFF]|[^｜《》]+?|.)";
 	putTxt(t) {
 		for (let { groups: n } of t.matchAll(e.#n)) {
-			if (!n) break;
 			let { ruby: e, kan_ruby: t, kan: r = "", ce: i, txt: a = "", str: o = "" } = n;
 			if (e) {
 				this.putTxtRb(decodeURIComponent(o), e);
