@@ -11,7 +11,7 @@ import type {T_HTag, TTag} from './Grammar';
 import type {T_Variable, T_Data4Vari, T_SysBaseParams, T_SysBaseLoadedParams, T_H_TMP_DATA, T_H_VAL_KIDOKU, T_H_VAL_MARK, T_H_SYS_DATA} from './CmnInterface';
 
 import type {Application} from 'pixi.js';
-import store from 'store';
+import store from './localStore';
 import type {DevToolsEvent} from 'devtools-detect';
 import 'devtools-detect';
 
