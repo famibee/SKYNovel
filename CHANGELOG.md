@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 	- test2
 
 
+## [2.0.3](https://github.com/famibee/SKYNovel/compare/v2.0.2...v2.0.3) (2026-07-18)
+
+
+### Bug Fixes
+
+* **.github/workflows:** skynovel_esmと同じrelease-please+タグ発火publishへ移行 ([9ee2880](https://github.com/famibee/SKYNovel/commit/9ee2880af2d7f98930c80f05fa8ac6f9b7e91fe8))
+
 ## [2.0.2](https://github.com/famibee/SKYNovel/compare/v2.0.1...v2.0.2) (2025-12-19)
 
 ### Bug Fixes
