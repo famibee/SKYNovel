@@ -1,0 +1,12 @@
+{
+	"$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+	"bootstrap-sha": "90f5406d49fa72ad4bf77134b0e8da760fff2ac7",
+	"last-release-sha": "90f5406d49fa72ad4bf77134b0e8da760fff2ac7",
+	"release-type": "node",
+	"packages": {
+		".": {
+			"package-name": "@famibee/skynovel",
+			"include-component-in-tag": false
+		}
+	}
+}

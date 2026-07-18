@@ -1,8 +1,9 @@
-import { v as import_eventemitter3 } from "./pixi.js";
-var EventListenerCtn = class {
+import { v as e } from "./pixi.js";
+//#region src/sn/EventListenerCtn.ts
+var t = class {
 	#e = [];
 	add(t, n, r, i = {}) {
-		if (t instanceof import_eventemitter3.default) {
+		if (t instanceof e.default) {
 			t.on(n, r, i), this.#e.push(() => t.off(n, r, i));
 			return;
 		}
@@ -16,6 +17,7 @@ var EventListenerCtn = class {
 		return this.#e.length === 0;
 	}
 };
-export { EventListenerCtn as t };
+//#endregion
+export { t };
 
 //# sourceMappingURL=EventListenerCtn.js.map

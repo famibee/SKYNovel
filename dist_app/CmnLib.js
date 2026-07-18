@@ -1,74 +1,75 @@
-import { r as __toDynamicImportESM } from "./chunk.js";
-function int(e) {
+import { r as e } from "./rolldown-runtime.js";
+//#region src/sn/CmnLib.ts
+function t(e) {
 	return parseInt(String(e), 10);
 }
-function uint(e) {
-	let g = parseInt(String(e), 10);
-	return g < 0 ? -g : g;
+function n(e) {
+	let t = parseInt(String(e), 10);
+	return t < 0 ? -t : t;
 }
-function getDateStr(e = "/", g = " ", _ = ":", v = "") {
-	let y = /* @__PURE__ */ new Date();
-	return String(y.getFullYear()) + e + String(100 + y.getMonth() + 1).slice(1, 3) + e + String(100 + y.getDate()).slice(1, 3) + g + String(100 + y.getHours()).slice(1, 3) + _ + String(100 + y.getMinutes()).slice(1, 3) + (v === "" ? "" : v + String(y.getMilliseconds()));
+function r(e = "/", t = " ", n = ":", r = "") {
+	let i = /* @__PURE__ */ new Date();
+	return String(i.getFullYear()) + e + String(100 + i.getMonth() + 1).slice(1, 3) + e + String(100 + i.getDate()).slice(1, 3) + t + String(100 + i.getHours()).slice(1, 3) + n + String(100 + i.getMinutes()).slice(1, 3) + (r === "" ? "" : r + String(i.getMilliseconds()));
 }
-var css_key4del = "/* SKYNovel */";
-function initStyle() {
-	let e = document.getElementsByTagName("head")[0], g = e.children.length;
-	for (let _ = g - 1; _ >= 0; --_) {
-		let g = e.children[_];
-		g instanceof HTMLStyleElement && g.innerText.startsWith(css_key4del) && e.removeChild(g);
+var i = "/* SKYNovel */";
+function a() {
+	let e = document.getElementsByTagName("head")[0], t = e.children.length;
+	for (let n = t - 1; n >= 0; --n) {
+		let t = e.children[n];
+		t instanceof HTMLStyleElement && t.innerText.startsWith(i) && e.removeChild(t);
 	}
 }
-function addStyle(e) {
-	let g = document.createElement("style");
-	g.innerHTML = css_key4del + e, document.getElementsByTagName("head")[0].appendChild(g);
+function o(e) {
+	let t = document.createElement("style");
+	t.innerHTML = i + e, document.getElementsByTagName("head")[0].appendChild(t);
 }
-const EVNM_BUTTON = "pointerdown", EVNM_CLICK = "pointerdown", EVNM_KEY = "keydown", RPN_COMP_CHIN = "compChIn";
-function argChk_Num(e, g, _) {
-	let v = e[g];
-	if (!(g in e)) {
-		if (isNaN(_)) throw `[${e[":タグ名"] ?? ""}]属性 ${g} は必須です`;
-		return e[g] = _, _;
+var s = "pointerdown", c = "pointerdown", l = "keydown", u = "compChIn";
+function d(e, t, n) {
+	let r = e[t];
+	if (!(t in e)) {
+		if (isNaN(n)) throw `[${e[":タグ名"] ?? ""}]属性 ${t} は必須です`;
+		return e[t] = n, n;
 	}
-	let y = String(v).startsWith("0x") ? parseInt(v) : parseFloat(v);
-	if (isNaN(y)) throw `[${e[":タグ名"] ?? ""}]属性 ${g} の値【${String(v)}】が数値ではありません`;
-	return e[g] = y, y;
+	let i = String(r).startsWith("0x") ? parseInt(r) : parseFloat(r);
+	if (isNaN(i)) throw `[${e[":タグ名"] ?? ""}]属性 ${t} の値【${String(r)}】が数値ではありません`;
+	return e[t] = i, i;
 }
-function argChk_Boolean(e, g, _) {
-	if (!(g in e)) return e[g] = _, _;
-	let v = e[g];
-	if (v === null) return !1;
-	let y = String(v);
-	return e[g] = y === "false" ? !1 : !!y;
+function f(e, t, n) {
+	if (!(t in e)) return e[t] = n, n;
+	let r = e[t];
+	if (r === null) return !1;
+	let i = String(r);
+	return e[t] = i !== "false" && !!i;
 }
-function parseColor(e) {
+function p(e) {
 	if (e.startsWith("#")) return parseInt(e.slice(1), 16);
-	let g = Number(e);
-	if (!isNaN(g)) return g;
+	let t = Number(e);
+	if (!isNaN(t)) return t;
 	if (e === "black") return 0;
-	CmnLib.cc4ColorName.fillStyle = e;
-	let _ = CmnLib.cc4ColorName.fillStyle;
-	if (_ === "#000000") throw `色名前 ${e} が異常です`;
-	return parseInt(_.slice(1), 16);
+	y.cc4ColorName.fillStyle = e;
+	let n = y.cc4ColorName.fillStyle;
+	if (n === "#000000") throw `色名前 ${e} が異常です`;
+	return parseInt(n.slice(1), 16);
 }
-function argChk_Color(e, g, _) {
-	let v = e[g];
-	return v ? e[g] = parseColor(String(v)) : (e[g] = _, _);
+function m(e, t, n) {
+	let r = e[t];
+	return r ? e[t] = p(String(r)) : (e[t] = n, n);
 }
-var REG_ERRMES_JSON = /JSON at position (\d+)$/;
-function mesErrJSON(e, g = "", _ = "") {
-	let v = (REG_ERRMES_JSON.exec(_) ?? ["", ""])[1];
-	return `[${e[":タグ名"] ?? ""}] ${g} 属性の解析エラー : ${_}
-${String(e[g])}${v ? `
-${"^".padStart(Number(v))}` : ""}`;
+var h = /JSON at position (\d+)$/;
+function g(e, t = "", n = "") {
+	let r = (h.exec(n) ?? ["", ""])[1];
+	return `[${e[":タグ名"] ?? ""}] ${t} 属性の解析エラー : ${n}
+${String(e[t])}${r ? `
+${"^".padStart(Number(r))}` : ""}`;
 }
-var REG_FN = /^[^/.]+$|[^/]+(?=\.)/;
-function getFn(e) {
-	return (REG_FN.exec(e) ?? [""])[0];
+var _ = /^[^/.]+$|[^/]+(?=\.)/;
+function v(e) {
+	return (_.exec(e) ?? [""])[0];
 }
-var CmnLib = class g {
+var y = class t {
 	static async init() {
-		let g = await import("./platform.js").then(__toDynamicImportESM());
-		this.platform = JSON.stringify(g), this.plat_desc = g.description ?? "", this.isSafari = g.name === "Safari", this.isFirefox = g.name === "Firefox", this.isMac = (g.os?.family ?? "").includes("OS X"), this.isMobile = !/(Windows|OS X)/.test(g.os?.family ?? "");
+		let t = await import("./platform.js").then((t) => /* @__PURE__ */ e(t.default));
+		this.platform = JSON.stringify(t), this.plat_desc = t.description ?? "", this.isSafari = t.name === "Safari", this.isFirefox = t.name === "Firefox", this.isMac = (t.os?.family ?? "").includes("OS X"), this.isMobile = !/(Windows|OS X)/.test(t.os?.family ?? "");
 	}
 	static stageW = 0;
 	static stageH = 0;
@@ -83,12 +84,13 @@ var CmnLib = class g {
 	static isDbg = !1;
 	static isPackaged = !1;
 	static needClick2Play() {
-		return "AudioContext" in globalThis ? (g.#e = new globalThis.AudioContext(), g.needClick2Play = () => g.#e.state === "suspended") : g.needClick2Play = () => !1, g.needClick2Play();
+		return "AudioContext" in globalThis ? (t.#e = new globalThis.AudioContext(), t.needClick2Play = () => t.#e.state === "suspended") : t.needClick2Play = () => !1, t.needClick2Play();
 	}
 	static #e;
 	static isDarkMode = !1;
 	static cc4ColorName;
 };
-export { RPN_COMP_CHIN as a, argChk_Color as c, getFn as d, initStyle as f, uint as g, parseColor as h, EVNM_KEY as i, argChk_Num as l, mesErrJSON as m, EVNM_BUTTON as n, addStyle as o, int as p, EVNM_CLICK as r, argChk_Boolean as s, CmnLib as t, getDateStr as u };
+//#endregion
+export { u as a, m as c, v as d, a as f, n as g, p as h, l as i, d as l, g as m, s as n, o, t as p, c as r, f as s, y as t, r as u };
 
 //# sourceMappingURL=CmnLib.js.map

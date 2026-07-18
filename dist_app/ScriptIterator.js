@@ -1,19 +1,22 @@
-import { a as RPN_COMP_CHIN, d as getFn, l as argChk_Num, s as argChk_Boolean, t as CmnLib } from "./CmnLib.js";
-import { t as creSAVEDATA } from "./CmnInterface.js";
-import { c as Loader } from "./pixi.js";
-import "./EventListenerCtn.js";
-import { n as SEARCH_PATH_ARG_EXT } from "./ConfigBase.js";
-import { t as DebugMng } from "./DebugMng.js";
-import { n as ReadingState, r as CmnTween, t as Reading } from "./Reading.js";
-import { t as RubySpliter } from "./RubySpliter.js";
-import { a as AnalyzeTagArg, i as tagToken2Name_Args, r as tagToken2Name, t as Grammar } from "./Grammar.js";
-import { n as creCSArg, r as creMP, t as CallStack } from "./CallStack.js";
-import { t as BUF_BGM } from "./SndBuf.js";
-var BreakState = /* @__PURE__ */ function(e) {
-	return e[e.Running = 0] = "Running", e[e.Wait = 1] = "Wait", e[e.Break = 2] = "Break", e[e.Breaking = 3] = "Breaking", e[e.Step = 4] = "Step", e[e.Stepping = 5] = "Stepping", e[e.StepOuting = 6] = "StepOuting", e[e.StepOut = 7] = "StepOut", e;
-}(BreakState || {}), SndProcOnLoad = /* @__PURE__ */ function(e) {
-	return e[e.MINIMAL_STOP = 0] = "MINIMAL_STOP", e[e.NO_TOUCH = 1] = "NO_TOUCH", e[e.ALL_STOP_AND_PLAY = 2] = "ALL_STOP_AND_PLAY", e;
-}(SndProcOnLoad || {}), ScriptIterator = class C {
+import { a as e, d as t, l as n, s as r, t as i } from "./CmnLib.js";
+import { t as a } from "./CmnInterface.js";
+import { c as o } from "./pixi.js";
+import { n as s } from "./ConfigBase.js";
+import { t as c } from "./DebugMng.js";
+import { n as l, r as u, t as d } from "./Reading.js";
+import { t as f } from "./RubySpliter.js";
+import { a as p, i as m, r as h, t as g } from "./Grammar.js";
+import { n as _, r as v, t as y } from "./CallStack.js";
+import "./SndBuf.js";
+//#region src/sn/ScriptIterator.ts
+var b = class b {
+	cfg;
+	hTag;
+	main;
+	val;
+	prpPrs;
+	sndMng;
+	sys;
 	#e = {
 		aToken: [""],
 		len: 1,
@@ -42,28 +45,28 @@ var BreakState = /* @__PURE__ */ function(e) {
 	}
 	#i = [];
 	#a;
-	#o = new AnalyzeTagArg();
-	constructor(e, u, d, f, m, h, g) {
-		this.cfg = e, this.hTag = u, this.main = d, this.val = f, this.prpPrs = m, this.sndMng = h, this.sys = g, u.let_ml = (e) => this.#k(e), u.endlet_ml = () => !1, u.dump_stack = () => this.#A(), u.dump_script = (e) => this.#M(e), u.else = u.elsif = u.endif = () => this.#z(), u.if = (e) => this.#B(e), u.call = (e) => this.#V(e), u.jump = (e) => this.#U(e), u.pop_stack = (e) => this.#W(e), u.return = (e) => this.#G(e), u.bracket2macro = (e) => this.#fe(e), u.char2macro = (e) => this.#pe(e), u.endmacro = (e) => this.#G(e), u.macro = (e) => this.#he(e), u.load = (e) => this.#ve(e), u.reload_script = (e) => this.#ye(e), u.record_place = () => this.#xe(), u.save = (e) => this.#Se(e), e.oCfg.debug.token && (this.#Z = (e) => {
+	#o = new p();
+	constructor(e, t, n, r, a, o, s) {
+		this.cfg = e, this.hTag = t, this.main = n, this.val = r, this.prpPrs = a, this.sndMng = o, this.sys = s, t.let_ml = (e) => this.#k(e), t.endlet_ml = () => !1, t.dump_stack = () => this.#A(), t.dump_script = (e) => this.#M(e), t.else = t.elsif = t.endif = () => this.#z(), t.if = (e) => this.#B(e), t.call = (e) => this.#V(e), t.jump = (e) => this.#U(e), t.pop_stack = (e) => this.#W(e), t.return = (e) => this.#G(e), t.bracket2macro = (e) => this.#fe(e), t.char2macro = (e) => this.#pe(e), t.endmacro = (e) => this.#G(e), t.macro = (e) => this.#he(e), t.load = (e) => this.#ve(e), t.reload_script = (e) => this.#ye(e), t.record_place = () => this.#xe(), t.save = (e) => this.#Se(e), e.oCfg.debug.token && (this.#Z = (e) => {
 			e.trim() !== "" && console.log(`🌱 トークン ${this.#t}:${String(this.#r)} (i:${String(this.#n)} cs:${String(this.#i.length)}) %c【${e}】`, "background-color:#350;");
-		}), e.oCfg.debug.tag && (this.#S = (e) => console.log(`🌲 タグ解析 ${this.#t}:${String(this.#r)} (i:${String(this.#n)} cs:${String(this.#i.length)}) %c[${e} %o]`, "background-color:#30B;", this.#o.hPrm)), f.defTmp("const.sn.aIfStk.length", () => this.#R.length), f.defTmp("const.sn.vctCallStk.length", () => this.#i.length), this.#a = new Grammar(e);
-		let _ = e.oCfg.init.escape;
-		if (this.#a.setEscape(_), RubySpliter.setEscape(_), CmnLib.isDbg) {
-			this.#c, g.addHook((e, u) => this.#c[e]?.(u)), this.isBreak = (e) => this.#y(e);
+		}), e.oCfg.debug.tag && (this.#S = (e) => console.log(`🌲 タグ解析 ${this.#t}:${String(this.#r)} (i:${String(this.#n)} cs:${String(this.#i.length)}) %c[${e} %o]`, "background-color:#30B;", this.#o.hPrm)), r.defTmp("const.sn.aIfStk.length", () => this.#R.length), r.defTmp("const.sn.vctCallStk.length", () => this.#i.length), this.#a = new g(e);
+		let c = e.oCfg.init.escape;
+		if (this.#a.setEscape(c), f.setEscape(c), i.isDbg) {
+			this.#c, s.addHook((e, t) => this.#c[e]?.(t)), this.isBreak = (e) => this.#y(e);
 			let e = () => this.analyzeInit();
 			this.analyzeInit = () => {
 				this.analyzeInit = () => {}, this.sys.send2Dbg("hi", {});
-			}, this.#c.auth = (u) => {
-				let d = u.hBreakpoint.hFn2hLineBP;
-				for (let [e, u] of Object.entries(d)) this.#s(e, u);
-				C.#_ = {};
-				for (let e of u.hBreakpoint.aFunc) C.#_[e.name] = 1;
-				if (u.stopOnEntry) {
-					let u;
-					for (; u = this.nextToken();) {
-						let e = u.charCodeAt(0);
-						if (e === 91 || e === 38 || e === 42 && u.length === 1) break;
-						e === 10 && (this.#r += u.length);
+			}, this.#c.auth = (t) => {
+				let n = t.hBreakpoint.hFn2hLineBP;
+				for (let [e, t] of Object.entries(n)) this.#s(e, t);
+				b.#_ = {};
+				for (let e of t.hBreakpoint.aFunc) b.#_[e.name] = 1;
+				if (t.stopOnEntry) {
+					let t;
+					for (; t = this.nextToken();) {
+						let e = t.charCodeAt(0);
+						if (e === 91 || e === 38 || e === 42 && t.length === 1) break;
+						e === 10 && (this.#r += t.length);
 					}
 					this.sys.callHook("stopOnEntry", {}), this.analyzeInit = e, this.analyzeInit();
 				} else this.noticeWait = () => {
@@ -73,8 +76,8 @@ var BreakState = /* @__PURE__ */ function(e) {
 		} else this.recodeDesign = () => {};
 	}
 	noticeWait = () => {};
-	#s(e, u) {
-		C.#g[this.#u(e)] = u;
+	#s(e, t) {
+		b.#g[this.#u(e)] = t;
 	}
 	destroy() {
 		this.isBreak = this.#xe = () => !1;
@@ -82,18 +85,18 @@ var BreakState = /* @__PURE__ */ function(e) {
 	#c = {
 		auth: () => {},
 		disconnect: () => {
-			C.#g = {}, C.#_ = {}, this.isBreak = () => !1, this.#c.continue({}), this.#v = BreakState.Running;
+			b.#g = {}, b.#_ = {}, this.isBreak = () => !1, this.#c.continue({}), this.#v = 0;
 		},
 		restart: () => {
 			this.isBreak = () => !1;
 		},
 		add_break: (e) => this.#s(e.fn, e.o),
 		data_break: (e) => {
-			this.#v === BreakState.Running && (this.#v = BreakState.Wait, this.main.setLoop(!1, `変数 ${String(e.dataId)}【${String(e.old_v)}】→【${String(e.new_v)}】データブレーク`), this.sys.callHook("stopOnDataBreakpoint", {}), this.sys.send2Dbg("stopOnDataBreakpoint", {}));
+			this.#v === 0 && (this.#v = 1, this.main.setLoop(!1, `変数 ${String(e.dataId)}【${String(e.old_v)}】→【${String(e.new_v)}】データブレーク`), this.sys.callHook("stopOnDataBreakpoint", {}), this.sys.send2Dbg("stopOnDataBreakpoint", {}));
 		},
 		set_func_break: (e) => {
-			C.#_ = {};
-			for (let u of e.a) C.#_[u.name] = 1;
+			b.#_ = {};
+			for (let t of e.a) b.#_[t.name] = 1;
 			this.sys.send2Dbg(e.ri, {});
 		},
 		stack: (e) => this.sys.send2Dbg(e.ri, { a: this.#x() }),
@@ -101,161 +104,161 @@ var BreakState = /* @__PURE__ */ function(e) {
 			this.sys.send2Dbg(e.ri, { v: this.prpPrs.parse(e.txt) });
 		},
 		continue: () => {
-			this.#h() || (this.#n -= this.#m, this.#v = BreakState.Breaking, this.main.setLoop(!0), this.main.resume());
+			this.#h() || (this.#n -= this.#m, this.#v = 3, this.main.setLoop(!0), this.main.resume());
 		},
 		stepover: (e) => this.#d(e),
 		stepin: () => {
 			if (this.#h()) return;
 			let e = this.#e.aToken[this.#n - this.#m];
-			this.sys.callHook(`stopOnStep${this.#_e.test(e ?? "") ? "In" : ""}`, {}), this.#n -= this.#m, this.#v = this.#v === BreakState.Wait ? BreakState.Step : BreakState.Stepping, this.main.setLoop(!0), this.main.resume();
+			this.sys.callHook(`stopOnStep${this.#_e.test(e ?? "") ? "In" : ""}`, {}), this.#n -= this.#m, this.#v = this.#v === 1 ? 4 : 5, this.main.setLoop(!0), this.main.resume();
 		},
 		stepout: (e) => {
 			this.#h() || (this.#i.length > 0 ? this.#f(!0) : this.#d(e));
 		},
 		pause: () => {
-			this.#v = BreakState.Step, this.main.setLoop(!1, "一時停止"), this.sys.send2Dbg("stopOnStep", {});
+			this.#v = 4, this.main.setLoop(!1, "一時停止"), this.sys.send2Dbg("stopOnStep", {});
 		},
 		stopOnEntry: () => {
-			this.#v = BreakState.Step, this.main.setLoop(!1, "一時停止"), this.sys.send2Dbg("stopOnEntry", {});
+			this.#v = 4, this.main.setLoop(!1, "一時停止"), this.sys.send2Dbg("stopOnEntry", {});
 		}
 	};
-	#l = (e) => this.cfg.searchPath(e, SEARCH_PATH_ARG_EXT.SCRIPT);
+	#l = (e) => this.cfg.searchPath(e, s.SCRIPT);
 	#u = (e) => this.sys.pathBaseCnvSnPath4Dbg + this.#l(e);
 	#d(e) {
 		if (this.#h()) return;
-		let u = this.#e.aToken[this.#n - this.#m];
-		this.#_e.test(u ?? "") ? this.#f(!1) : (this.sys.callHook("stopOnStep", {}), this.#c.stepin(e));
+		let t = this.#e.aToken[this.#n - this.#m];
+		this.#_e.test(t ?? "") ? this.#f(!1) : (this.sys.callHook("stopOnStep", {}), this.#c.stepin(e));
 	}
 	#f(e) {
-		this.sys.callHook(`stopOnStep${e ? "Out" : ""}`, {}), this.#p = this.#i.length - (e ? 1 : 0), this.#n -= this.#m, this.#v = e ? BreakState.StepOut : BreakState.StepOuting, this.main.setLoop(!0), this.main.resume();
+		this.sys.callHook(`stopOnStep${e ? "Out" : ""}`, {}), this.#p = this.#i.length - +!!e, this.#n -= this.#m, this.#v = e ? 7 : 6, this.main.setLoop(!0), this.main.resume();
 	}
 	#p = 0;
 	get #m() {
-		return this.#v === BreakState.Break || this.#v === BreakState.Step ? 1 : 0;
+		return +(this.#v === 2 || this.#v === 4);
 	}
 	#h() {
 		return this.#n < this.#e.len ? !1 : (this.sys.callHook("stopOnEntry", {}), this.main.setLoop(!1, "スクリプト終端です isIdxOverLast"), !0);
 	}
 	static #g = {};
 	static #_ = {};
-	#v = BreakState.Running;
+	#v = 0;
 	isBreak = (e) => !1;
 	#y(e) {
 		switch (this.#v) {
-			case BreakState.StepOuting:
-				this.#b(), this.#v = BreakState.StepOut;
+			case 6:
+				this.#b(), this.#v = 7;
 				break;
-			case BreakState.StepOut:
+			case 7:
 				if (this.#i.length !== this.#p) break;
-				return this.#v = BreakState.Step, this.main.setLoop(!1, "ステップ実行"), this.sys.send2Dbg("stopOnStep", {}), !0;
-			case BreakState.Stepping:
-				this.#b(), this.#v = BreakState.Step;
+				return this.#v = 4, this.main.setLoop(!1, "ステップ実行"), this.sys.send2Dbg("stopOnStep", {}), !0;
+			case 5:
+				this.#b(), this.#v = 4;
 				break;
-			case BreakState.Step: return this.#b(), this.main.setLoop(!1, "ステップ実行"), this.sys.send2Dbg("stopOnStep", {}), !0;
-			case BreakState.Breaking:
-				this.#b(), this.#v = BreakState.Running;
+			case 4: return this.#b(), this.main.setLoop(!1, "ステップ実行"), this.sys.send2Dbg("stopOnStep", {}), !0;
+			case 3:
+				this.#b(), this.#v = 0;
 				break;
 			default:
-				if (tagToken2Name(e) in C.#_) return this.#v = BreakState.Break, this.main.setLoop(!1, `関数 ${e} ブレーク`), this.sys.callHook("stopOnBreakpoint", {}), this.sys.send2Dbg("stopOnBreakpoint", {}), !0;
+				if (h(e) in b.#_) return this.#v = 2, this.main.setLoop(!1, `関数 ${e} ブレーク`), this.sys.callHook("stopOnBreakpoint", {}), this.sys.send2Dbg("stopOnBreakpoint", {}), !0;
 				{
-					let e = C.#g[this.#u(this.#t)];
+					let e = b.#g[this.#u(this.#t)];
 					if (!e) break;
-					let u = e[this.#r];
-					if (!u) break;
-					if (u.condition) {
-						if (!this.prpPrs.parse(u.condition)) break;
-					} else if ("hitCondition" in u && --u.hitCondition > 0) break;
-					let d = this.#v === BreakState.Running;
-					this.#v = BreakState.Break, this.main.setLoop(!1, d ? (u.condition ? "条件" : "ヒットカウント") + "ブレーク" : "ステップ実行");
-					let f = d ? "stopOnBreakpoint" : "stopOnStep";
-					this.sys.callHook(f, {}), this.sys.send2Dbg(f, {});
+					let t = e[this.#r];
+					if (!t) break;
+					if (t.condition) {
+						if (!this.prpPrs.parse(t.condition)) break;
+					} else if ("hitCondition" in t && --t.hitCondition > 0) break;
+					let n = this.#v === 0;
+					this.#v = 2, this.main.setLoop(!1, n ? (t.condition ? "条件" : "ヒットカウント") + "ブレーク" : "ステップ実行");
+					let r = n ? "stopOnBreakpoint" : "stopOnStep";
+					this.sys.callHook(r, {}), this.sys.send2Dbg(r, {});
 				}
 				return !0;
 		}
 		return !1;
 	}
 	#b() {
-		let e = C.#g[getFn(this.#t)]?.[this.#r];
+		let e = b.#g[t(this.#t)]?.[this.#r];
 		e?.hitCondition && --e.hitCondition;
 	}
 	#x() {
-		let e = this.#v === BreakState.Breaking ? 1 : 0, u = this.#e.aToken[this.#n - 1 + e], d = this.#u(this.#t), f = tagToken2Name(u), p = f ? `[${f}]` : u, m = String(this.val.getVal("mp:const.sn.macro") ?? "{}");
+		let e = +(this.#v === 3), t = this.#e.aToken[this.#n - 1 + e], n = this.#u(this.#t), r = h(t), i = r ? `[${r}]` : t, a = String(this.val.getVal("mp:const.sn.macro") ?? "{}");
 		if (this.#n === 0) return [{
-			fn: d,
+			fn: n,
 			ln: 1,
 			col: 1,
-			nm: p,
-			ma: m
+			nm: i,
+			ma: a
 		}];
-		let h = this.#j(this.#e, this.#n), g = [{
-			fn: d,
-			ln: h.ln,
-			col: h.col_s + 1,
-			nm: p,
-			ma: m
-		}], _ = this.#i.length;
-		if (_ === 0) return g;
-		for (let e = _ - 1; e >= 0; --e) {
-			let u = this.#i[e], d = this.#re[u.fn];
-			if (!d) continue;
-			let f = d.aToken[u.idx - 1];
-			if (!f) continue;
-			let p = this.#j(d, u.idx), m = tagToken2Name(f);
-			g.push({
-				fn: this.#u(u.fn),
-				ln: p.ln,
-				col: p.col_s + 1,
-				nm: m ? `[${m}]` : f,
-				ma: u.csArg[":hMp"]["const.sn.macro"]
+		let o = this.#j(this.#e, this.#n), s = [{
+			fn: n,
+			ln: o.ln,
+			col: o.col_s + 1,
+			nm: i,
+			ma: a
+		}], c = this.#i.length;
+		if (c === 0) return s;
+		for (let e = c - 1; e >= 0; --e) {
+			let t = this.#i[e], n = this.#re[t.fn];
+			if (!n) continue;
+			let r = n.aToken[t.idx - 1];
+			if (!r) continue;
+			let i = this.#j(n, t.idx), a = h(r);
+			s.push({
+				fn: this.#u(t.fn),
+				ln: i.ln,
+				col: i.col_s + 1,
+				nm: a ? `[${a}]` : r,
+				ma: t.csArg[":hMp"]["const.sn.macro"]
 			});
 		}
-		return g;
+		return s;
 	}
 	#S = (e) => {};
-	async タグ解析(u, d) {
-		let p = this.hTag[u];
-		if (!p) throw `未定義のタグ【${u}】です`;
-		this.#o.parse(d), this.#S(u);
-		let m = this.#o.hPrm;
-		if (m.cond) {
-			let e = m.cond.val;
+	async タグ解析(t, n) {
+		let i = this.hTag[t];
+		if (!i) throw `未定義のタグ【${t}】です`;
+		this.#o.parse(n), this.#S(t);
+		let a = this.#o.hPrm;
+		if (a.cond) {
+			let e = a.cond.val;
 			if (!e || e.startsWith("&")) throw "属性condは「&」が不要です";
-			let u = this.prpPrs.parse(e), d = String(u);
-			if (d === "null" || d === "undefined" || !u) return !1;
+			let t = this.prpPrs.parse(e), n = String(t);
+			if (n === "null" || n === "undefined" || !t) return !1;
 		}
-		let h = {}, g = this.#i.at(-1)?.csArg ?? creCSArg(), _ = this.#i.length;
+		let o = {}, s = this.#i.at(-1)?.csArg ?? _(), c = this.#i.length;
 		if (this.#o.isKomeParam) {
-			if (_ === 0) throw "属性「*」はマクロのみ有効です";
-			h = { ...g };
+			if (c === 0) throw "属性「*」はマクロのみ有効です";
+			o = { ...s };
 		}
-		h[":タグ名"] = u;
-		for (let [e, { val: u, def: d }] of Object.entries(m)) {
-			let f = u;
-			if (u.startsWith("%")) {
-				if (_ === 0) throw "属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）";
-				let u = g[f.slice(1)];
-				if (u) {
-					h[e] = u;
+		o[":タグ名"] = t;
+		for (let [e, { val: t, def: n }] of Object.entries(a)) {
+			let r = t;
+			if (t.startsWith("%")) {
+				if (c === 0) throw "属性「%」はマクロ定義内でのみ使用できます（そのマクロの引数を示す簡略文法であるため）";
+				let t = s[r.slice(1)];
+				if (t) {
+					o[e] = t;
 					continue;
 				}
-				if (d === void 0 || d === "null") continue;
-				f = d;
+				if (n === void 0 || n === "null") continue;
+				r = n;
 			}
-			if (f = this.prpPrs.getValAmpersand(f ?? ""), f !== "undefined") {
-				h[e] = f;
+			if (r = this.prpPrs.getValAmpersand(r ?? ""), r !== "undefined") {
+				o[e] = r;
 				continue;
 			}
-			d !== void 0 && (f = this.prpPrs.getValAmpersand(d), f !== "undefined" && (h[e] = f));
+			n !== void 0 && (r = this.prpPrs.getValAmpersand(n), r !== "undefined" && (o[e] = r));
 		}
-		if (Reading.needGoTxt && this.#C.has(u)) {
-			let { promise: u, resolve: d } = Promise.withResolvers();
-			Reading.beginProc(RPN_COMP_CHIN, () => d(0), !1, () => d(0)), Reading.goTxt(), this.val.saveKidoku(), await u;
+		if (d.needGoTxt && this.#C.has(t)) {
+			let { promise: t, resolve: n } = Promise.withResolvers();
+			d.beginProc(e, () => n(0), !1, () => n(0)), d.goTxt(), this.val.saveKidoku(), await t;
 		}
-		this.#w.has(u) && (this.#D.hideHint(), CmnTween.stopEndTrans());
-		let v = this.#T[u];
-		return v && argChk_Boolean(h, "canskip", this.#E[u] ?? !0) && this.#D.isSkipping ? v(h) : p(h);
+		this.#w.has(t) && (this.#D.hideHint(), u.stopEndTrans());
+		let l = this.#T[t];
+		return l && r(o, "canskip", this.#E[t] ?? !0) && this.#D.isSkipping ? l(o) : i(o);
 	}
-	#C = new Set([
+	#C = /* @__PURE__ */ new Set([
 		"trans",
 		"wt",
 		"wait_tsy",
@@ -272,7 +275,7 @@ var BreakState = /* @__PURE__ */ function(e) {
 		"quake",
 		"wq"
 	]);
-	#w = new Set([
+	#w = /* @__PURE__ */ new Set([
 		"finish_trans",
 		"trans",
 		"quake",
@@ -280,7 +283,7 @@ var BreakState = /* @__PURE__ */ function(e) {
 		"add_filter"
 	]);
 	#T = {
-		wt: () => (CmnTween.stopEndTrans(), !1),
+		wt: () => (u.stopEndTrans(), !1),
 		wait_tsy: (e) => this.hTag.stop_tsy(e),
 		wait: () => !1,
 		wb: () => this.hTag.stopfadese({ buf: "BGM" }),
@@ -302,60 +305,60 @@ var BreakState = /* @__PURE__ */ function(e) {
 	};
 	#D;
 	#O;
-	setOtherObj(e, u) {
-		this.#D = e, this.#O = u;
+	setOtherObj(e, t) {
+		this.#D = e, this.#O = t;
 	}
 	#k(e) {
-		let { name: u } = e;
-		if (!u) throw "nameは必須です";
-		let d = "", f = this.#e.len;
-		for (; this.#n < f && (d = this.#e.aToken[this.#n], d === ""); ++this.#n);
-		return e.text = d, e.cast = "str", this.hTag.let(e), this.#n += 2, this.#r += (d.match(/\n/g) ?? []).length, !1;
+		let { name: t } = e;
+		if (!t) throw "nameは必須です";
+		let n = "", r = this.#e.len;
+		for (; this.#n < r && (n = this.#e.aToken[this.#n], n === ""); ++this.#n);
+		return e.text = n, e.cast = "str", this.hTag.let(e), this.#n += 2, this.#r += (n.match(/\n/g) ?? []).length, !1;
 	}
 	#A() {
 		if (this.#n === 0) return console.group(`🥟 [dump_stack] スクリプト現在地 fn:${this.#t} line:1 col:0`), console.groupEnd(), !1;
-		let e = this.#j(this.#e, this.#n), u = `スクリプト現在地 fn:${this.#t} line:${String(e.ln)} col:${String(e.col_s + 1)}`;
-		console.group(`🥟 [dump_stack] ${u}`);
-		let d = this.#i.length;
-		if (d > 0) {
-			console.info(u);
-			for (let e = d - 1; e >= 0; --e) {
-				let u = this.#i[e], f = u.csArg[":hMp"], p = f ? f[":タグ名"] : void 0, m = u.csArg[":タグ名"] ?? "", h = this.#j(this.#re[u.fn], u.idx);
-				console.info(`${String(d - e)}つ前のコール元 fn:${u.fn} line:${String(h.ln)} col:${String(h.col_s + 1)}${p ? "（[" + p + "]マクロ内）" : " "}で [${m} ...]をコール`);
+		let e = this.#j(this.#e, this.#n), t = `スクリプト現在地 fn:${this.#t} line:${String(e.ln)} col:${String(e.col_s + 1)}`;
+		console.group(`🥟 [dump_stack] ${t}`);
+		let n = this.#i.length;
+		if (n > 0) {
+			console.info(t);
+			for (let e = n - 1; e >= 0; --e) {
+				let t = this.#i[e], r = t.csArg[":hMp"], i = r ? r[":タグ名"] : void 0, a = t.csArg[":タグ名"] ?? "", o = this.#j(this.#re[t.fn], t.idx);
+				console.info(`${String(n - e)}つ前のコール元 fn:${t.fn} line:${String(o.ln)} col:${String(o.col_s + 1)}${i ? "（[" + i + "]マクロ内）" : " "}で [${a} ...]をコール`);
 			}
 		}
 		return console.groupEnd(), !1;
 	}
-	#j(e, u) {
-		let d = {
+	#j(e, t) {
+		let n = {
 			ln: 1,
 			col_s: 0,
 			col_e: 0
 		};
-		if (!e) return d;
-		let f = u - 1, p = d.ln = e.aLNum[f];
-		for (; e.aLNum[f] === p;) {
-			let u = e.aToken[f];
-			if (!u.startsWith("\n")) {
-				let e = u.length;
-				d.col_e > 0 && (d.col_s += e), d.col_e += e;
+		if (!e) return n;
+		let r = t - 1, i = n.ln = e.aLNum[r];
+		for (; e.aLNum[r] === i;) {
+			let t = e.aToken[r];
+			if (!t.startsWith("\n")) {
+				let e = t.length;
+				n.col_e > 0 && (n.col_s += e), n.col_e += e;
 			}
-			if (--f < 0) break;
+			if (--r < 0) break;
 		}
-		return d;
+		return n;
 	}
 	#M(e) {
-		let { set_fnc: u, break_fnc: d } = e;
-		if (!u) throw "set_fncは必須です";
-		if (this.#N = globalThis[u], !this.#N) {
-			if (argChk_Boolean(e, "need_err", !0)) throw `HTML内に関数${u}が見つかりません`;
+		let { set_fnc: t, break_fnc: n } = e;
+		if (!t) throw "set_fncは必須です";
+		if (this.#N = globalThis[t], !this.#N) {
+			if (r(e, "need_err", !0)) throw `HTML内に関数${t}が見つかりません`;
 			return this.#N = () => {}, !1;
 		}
 		if (this.noticeBreak = (e) => {
 			this.#F !== this.#t && (this.#F = this.#t, this.#N(this.#I[this.#t] ??= this.#e.aToken.join(""))), this.#P(this.#r, e);
-		}, this.noticeBreak(!0), !d) return !1;
-		if (this.#P = globalThis[d], !this.#P) {
-			if (argChk_Boolean(e, "need_err", !0)) throw `HTML内に関数${d}が見つかりません`;
+		}, this.noticeBreak(!0), !n) return !1;
+		if (this.#P = globalThis[n], !this.#P) {
+			if (r(e, "need_err", !0)) throw `HTML内に関数${n}が見つかりません`;
 			this.#P = () => {};
 		}
 		return !1;
@@ -372,13 +375,13 @@ var BreakState = /* @__PURE__ */ function(e) {
 			return;
 		}
 		let e = "";
-		for (let u = this.#n - 1; u >= 0 && (e = String(this.#e.aToken[u]) + e, !((e.match(/\n/g) ?? []).length >= this.#L)); --u);
-		let u = e.split("\n").slice(-this.#L), d = u.length;
-		console.group(`🥟 Error line (from ${String(d)} rows before) fn:${this.#t}`);
-		let f = String(this.#r).length, p = this.#j(this.#e, this.#n);
-		for (let e = 0; e < d; ++e) {
-			let m = this.#r - d + e + 1, h = `${String(m).padStart(f, " ")}: %c`, g = u[e], _ = g.length > 75 ? g.slice(0, 75) + "…" : g;
-			e === d - 1 ? console.info(h + _.slice(0, p.col_s) + "%c" + _.slice(p.col_s), "color: black; background-color: skyblue;", "color: black; background-color: pink;") : console.info(h + _, "color: black; background-color: skyblue;");
+		for (let t = this.#n - 1; t >= 0 && (e = String(this.#e.aToken[t]) + e, !((e.match(/\n/g) ?? []).length >= this.#L)); --t);
+		let t = e.split("\n").slice(-this.#L), n = t.length;
+		console.group(`🥟 Error line (from ${String(n)} rows before) fn:${this.#t}`);
+		let r = String(this.#r).length, i = this.#j(this.#e, this.#n);
+		for (let e = 0; e < n; ++e) {
+			let a = this.#r - n + e + 1, o = `${String(a).padStart(r, " ")}: %c`, s = t[e], c = s.length > 75 ? s.slice(0, 75) + "…" : s;
+			e === n - 1 ? console.info(o + c.slice(0, i.col_s) + "%c" + c.slice(i.col_s), "color: black; background-color: skyblue;", "color: black; background-color: pink;") : console.info(o + c, "color: black; background-color: skyblue;");
 		}
 		console.groupEnd();
 	}
@@ -390,131 +393,131 @@ var BreakState = /* @__PURE__ */ function(e) {
 		return this.#n = e, this.#R.shift(), !1;
 	}
 	#B(e) {
-		let { exp: u } = e;
-		if (!u) throw "expは必須です";
-		if (u.startsWith("&")) throw "属性expは「&」が不要です";
-		let d = 0, f = this.prpPrs.parse(u) ? this.#n : -1, p = this.#e.aLNum[this.#n], m = this.#r - ((p ?? 0) || 0), h = this.#e.len;
-		for (; this.#n < h; ++this.#n) {
+		let { exp: t } = e;
+		if (!t) throw "expは必須です";
+		if (t.startsWith("&")) throw "属性expは「&」が不要です";
+		let n = 0, r = this.prpPrs.parse(t) ? this.#n : -1, i = this.#e.aLNum[this.#n], a = this.#r - ((i ?? 0) || 0), o = this.#e.len;
+		for (; this.#n < o; ++this.#n) {
 			let e = this.#e.aLNum[this.#n];
-			this.#e.aLNum[this.#n] = ((e ?? 0) || 0) + m;
-			let u = this.#e.aToken[this.#n];
-			if (!u) continue;
-			let p = u.charCodeAt(0);
-			if (p === 10) {
-				this.#r += u.length;
+			this.#e.aLNum[this.#n] = ((e ?? 0) || 0) + a;
+			let t = this.#e.aToken[this.#n];
+			if (!t) continue;
+			let i = t.charCodeAt(0);
+			if (i === 10) {
+				this.#r += t.length;
 				continue;
 			}
-			if (p !== 91) continue;
-			let [h, g] = tagToken2Name_Args(u);
-			if (!(h in this.hTag)) throw `未定義のタグ[${h}]です`;
-			switch (this.#o.parse(g), h) {
+			if (i !== 91) continue;
+			let [o, s] = m(t);
+			if (!(o in this.hTag)) throw `未定義のタグ[${o}]です`;
+			switch (this.#o.parse(s), o) {
 				case "if":
-					++d;
+					++n;
 					break;
 				case "elsif":
 					{
-						if (d > 0 || f > -1) break;
+						if (n > 0 || r > -1) break;
 						let e = this.#o.hPrm.exp?.val;
 						if (!e) throw "expは必須です";
 						if (e.startsWith("&")) throw "属性expは「&」が不要です";
-						this.prpPrs.parse(e) && (f = this.#n + 1);
+						this.prpPrs.parse(e) && (r = this.#n + 1);
 					}
 					break;
 				case "else":
-					if (d > 0) break;
-					f === -1 && (f = this.#n + 1);
+					if (n > 0) break;
+					r === -1 && (r = this.#n + 1);
 					break;
 				case "endif":
-					if (d > 0) {
-						--d;
+					if (n > 0) {
+						--n;
 						break;
 					}
-					return f === -1 ? (++this.#n, this.#e.aLNum[this.#n] += m) : (this.#R.unshift(this.#n + 1), this.#n = f, this.#r = this.#e.aLNum[this.#n]), !1;
+					return r === -1 ? (++this.#n, this.#e.aLNum[this.#n] += a) : (this.#R.unshift(this.#n + 1), this.#n = r, this.#r = this.#e.aLNum[this.#n]), !1;
 			}
 		}
 		throw "[endif]がないままスクリプト終端です";
 	}
 	#V(e) {
-		argChk_Boolean(e, "count", !1) || this.#de();
-		let { fn: u } = e;
-		return u && this.#l(u), this.#H({ ...e }, ReadingState.popLocalEvts()), argChk_Boolean(e, "clear_local_event", !1) && this.hTag.clear_event({}), this.#Y(u, e.label);
+		r(e, "count", !1) || this.#de();
+		let { fn: t } = e;
+		return t && this.#l(t), this.#H({ ...e }, l.popLocalEvts()), r(e, "clear_local_event", !1) && this.hTag.clear_event({}), this.#Y(t, e.label);
 	}
-	#H(e, u) {
-		let d = {
+	#H(e, t) {
+		let n = {
 			...e,
-			...u ? { ":hEvt1Time": u } : {},
+			...t ? { ":hEvt1Time": t } : {},
 			":hMp": this.val.cloneMp(),
 			":lenIfStk": this.#R.length
 		};
-		this.#e.aLNum[this.#n] = this.#r, this.#K || (d[":resvToken"] = "", this.#q()), this.#i.push(new CallStack(this.#t, this.#n, d)), this.#R.unshift(-1);
+		this.#e.aLNum[this.#n] = this.#r, this.#K || (n[":resvToken"] = "", this.#q()), this.#i.push(new y(this.#t, this.#n, n)), this.#R.unshift(-1);
 	}
 	#U(e) {
-		return argChk_Boolean(e, "count", !0) || this.#de(), this.#R[0] = -1, this.#Y(e.fn, e.label);
+		return r(e, "count", !0) || this.#de(), this.#R[0] = -1, this.#Y(e.fn, e.label);
 	}
 	#W(e) {
-		if (argChk_Boolean(e, "clear", !1)) this.#i = [];
+		if (r(e, "clear", !1)) this.#i = [];
 		else if (!this.#i.pop()) throw "スタックが空です";
-		return this.#q(), this.#R = [-1], this.val.setMp(creMP()), !1;
+		return this.#q(), this.#R = [-1], this.val.setMp(v()), !1;
 	}
 	#G(e) {
-		let u = this.#i.pop();
-		if (!u) throw "スタックが空です";
-		let d = u.csArg;
-		this.#R = this.#R.slice(-d[":lenIfStk"]);
-		let f = d[":hMp"];
-		f && this.val.setMp(f);
-		let p = d[":resvToken"];
-		p ? this.nextToken = () => (this.#q(), p) : this.#q(), d[":hEvt1Time"] && ReadingState.pushLocalEvts(d[":hEvt1Time"]);
-		let { fn: m, label: h } = e;
-		return m || h ? this.#Y(m, h) : u.fn in this.#re ? (this.#ae(u), !1) : this.#Y(u.fn, "", u.idx);
+		let t = this.#i.pop();
+		if (!t) throw "スタックが空です";
+		let n = t.csArg;
+		this.#R = this.#R.slice(-n[":lenIfStk"]);
+		let r = n[":hMp"];
+		r && this.val.setMp(r);
+		let i = n[":resvToken"];
+		i ? this.nextToken = () => (this.#q(), i) : this.#q(), n[":hEvt1Time"] && l.pushLocalEvts(n[":hEvt1Time"]);
+		let { fn: a, label: o } = e;
+		return a || o ? this.#Y(a, o) : t.fn in this.#re ? (this.#ae(t), !1) : this.#Y(t.fn, "", t.idx);
 	}
 	#K = "";
 	#q() {
 		this.#K = "", this.nextToken = () => this.#X();
 	}
 	#J = "";
-	#Y(e = "", u = "", d = 0) {
-		if (CmnLib.debugLog && console.log(`📜 %c1:jumpWork%c fn:${e} lbl:${u} idx:${String(d)}`, "color:#3B0;", ""), !e && !u && this.main.errScript("[jump系] fnまたはlabelは必須です"), u ? (u.startsWith("*") || this.main.errScript("[jump系] labelは*で始まります"), this.#J = u, this.#J.startsWith("**") || (this.#n = d)) : (this.#J = "", this.#n = d), !e) return this.analyzeInit(), !1;
+	#Y(e = "", t = "", n = 0) {
+		if (i.debugLog && console.log(`📜 %c1:jumpWork%c fn:${e} lbl:${t} idx:${String(n)}`, "color:#3B0;", ""), !e && !t && this.main.errScript("[jump系] fnまたはlabelは必須です"), t ? (t.startsWith("*") || this.main.errScript("[jump系] labelは*で始まります"), this.#J = t, this.#J.startsWith("**") || (this.#n = n)) : (this.#J = "", this.#n = n), !e) return this.analyzeInit(), !1;
 		if (e.includes("@")) throw "[jump系] fn には文字「@」は禁止です";
-		let f = this.#l(e);
+		let r = this.#l(e);
 		if (e === this.#t) return this.analyzeInit(), !1;
 		this.#t = e;
-		let m = this.#re[e];
-		if (m) return this.#e = m, this.analyzeInit(), !1;
-		let g = `jumpWork fn:${e}`;
-		Reading.beginProc(g);
-		let _ = "", v = new Loader();
+		let a = this.#re[e];
+		if (a) return this.#e = a, this.analyzeInit(), !1;
+		let s = `jumpWork fn:${e}`;
+		d.beginProc(s);
+		let c = "", l = new o();
 		try {
-			_ = this.#l(e + "@"), v.add({
+			c = this.#l(e + "@"), l.add({
 				name: e + ":base",
-				url: f
-			}), v.add({
+				url: r
+			}), l.add({
 				name: e,
-				url: _
+				url: c
 			});
 		} catch {
-			v.add({
+			l.add({
 				name: e,
-				url: f
+				url: r
 			});
 		}
-		return v.use((e, u) => {
-			this.sys.dec(e.extension, e.data).then((d) => {
-				e.data = d, u();
-			}).catch((d) => {
-				this.main.errScript(`[jump系]snロード失敗です fn:${e.name} ${String(d)}`, !1), u();
+		return l.use((e, t) => {
+			this.sys.dec(e.extension, e.data).then((n) => {
+				e.data = n, t();
+			}).catch((n) => {
+				this.main.errScript(`[jump系]snロード失敗です fn:${e.name} ${String(n)}`, !1), t();
 			});
-		}).load((u, d) => {
-			if (Reading.endProc(g), _) {
-				let u = d[e + ":base"].data, f = d[e].data, p = u.split("\n"), m = f.split("\n"), h = p.length, g = m.length;
-				for (let e = 0; e < g && e < h; ++e) m[e] ||= p[e] ?? "";
-				d[e].data = m.join("\n"), delete d[e + ":base"];
+		}).load((t, n) => {
+			if (d.endProc(s), c) {
+				let t = n[e + ":base"].data, r = n[e].data, i = t.split("\n"), a = r.split("\n"), o = i.length, s = a.length;
+				for (let e = 0; e < s && e < o; ++e) a[e] ||= i[e] ?? "";
+				n[e].data = a.join("\n"), delete n[e + ":base"];
 			}
-			this.nextToken = this.#X, this.#r = 1, this.#ie(d[e].data), this.hTag.record_place({}), this.analyzeInit();
+			this.nextToken = this.#X, this.#r = 1, this.#ie(n[e].data), this.hTag.record_place({}), this.analyzeInit();
 		}), !0;
 	}
 	analyzeInit() {
-		CmnLib.debugLog && console.log(`📜 %c9:analyzeInit%c fn:${this.#t} lbl:${this.#J} idx:${String(this.#n)}`, "color:#3B0;", "");
+		i.debugLog && console.log(`📜 %c9:analyzeInit%c fn:${this.#t} lbl:${this.#J} idx:${String(this.#n)}`, "color:#3B0;", "");
 		let e = this.#ne(this.#e, !!this.val.getVal("mp:const.sn.macro.name"), this.#r, this.#J, this.#n);
 		this.#n = e.idx, this.#r = e.ln;
 	}
@@ -532,109 +535,109 @@ var BreakState = /* @__PURE__ */ function(e) {
 	#$ = /(\*{2,})([^|]*)/;
 	#ee = /^\[macro\s/;
 	#te = /^\[endmacro[\s\]]/;
-	#ne(e, u, d, f, p) {
-		let m = e.aToken.length, h = d, g = f;
-		if (!g) {
+	#ne(e, t, n, r, i) {
+		let a = e.aToken.length, o = n, s = r;
+		if (!s) {
 			if (this.#Q()) return {
-				idx: p,
-				ln: h
+				idx: i,
+				ln: o
 			};
-			if (e.aLNum[p]) h = e.aLNum[p];
+			if (e.aLNum[i]) o = e.aLNum[i];
 			else {
-				h = 1;
-				for (let u = 0; u < p; ++u) {
-					e.aLNum[u] ||= h;
-					let d = e.aToken[u];
-					d.startsWith("\n") ? h += d.length : h += (d.match(/\n/g) ?? []).length;
+				o = 1;
+				for (let t = 0; t < i; ++t) {
+					e.aLNum[t] ||= o;
+					let n = e.aToken[t];
+					n.startsWith("\n") ? o += n.length : o += (n.match(/\n/g) ?? []).length;
 				}
-				e.aLNum[p] = h;
+				e.aLNum[i] = o;
 			}
 			return {
-				idx: p,
-				ln: h
+				idx: i,
+				ln: o
 			};
 		}
 		e.aLNum[0] = 1;
-		let v = g.match(this.#$);
-		if (v) {
-			g = v[1];
-			let d = p;
-			switch (v[2]) {
+		let l = s.match(this.#$);
+		if (l) {
+			s = l[1];
+			let n = i;
+			switch (l[2]) {
 				case "before":
-					for (; e.aToken[--d] !== g;) d === 0 && DebugMng.myTrace(`[jump系 無名ラベルbefore] 
-						${String(h)} 行目以前で ${u ? "マクロ内に" : ""} ラベル【 ${g} 】がありません`, "ET"), u && e.aToken[d].search(this.#ee) > -1 && DebugMng.myTrace("[jump系 無名ラベルbefore] マクロ内にラベル【" + g + "】がありません", "ET");
+					for (; e.aToken[--n] !== s;) n === 0 && c.myTrace(`[jump系 無名ラベルbefore] 
+						${String(o)} 行目以前で ${t ? "マクロ内に" : ""} ラベル【 ${s} 】がありません`, "ET"), t && e.aToken[n].search(this.#ee) > -1 && c.myTrace("[jump系 無名ラベルbefore] マクロ内にラベル【" + s + "】がありません", "ET");
 					return {
-						idx: d + 1,
-						ln: e.aLNum[d]
+						idx: n + 1,
+						ln: e.aLNum[n]
 					};
 				case "after":
-					for (; e.aToken[++d] !== g;) d === m && DebugMng.myTrace(`[jump系 無名ラベルafter] ${String(h)} 行目以後でマクロ内にラベル【${g}】がありません`, "ET"), e.aToken[d].search(this.#te) > -1 && DebugMng.myTrace(`[jump系 無名ラベルafter] ${String(h)} 行目以後でマクロ内にラベル【 ${g} 】がありません`, "ET");
+					for (; e.aToken[++n] !== s;) n === a && c.myTrace(`[jump系 無名ラベルafter] ${String(o)} 行目以後でマクロ内にラベル【${s}】がありません`, "ET"), e.aToken[n].search(this.#te) > -1 && c.myTrace(`[jump系 無名ラベルafter] ${String(o)} 行目以後でマクロ内にラベル【 ${s} 】がありません`, "ET");
 					return {
-						idx: d + 1,
-						ln: e.aLNum[d]
+						idx: n + 1,
+						ln: e.aLNum[n]
 					};
-				default: DebugMng.myTrace("[jump系] 無名ラベル指定【label=" + g + "】が間違っています", "ET");
+				default: c.myTrace("[jump系] 無名ラベル指定【label=" + s + "】が間違っています", "ET");
 			}
 		}
-		h = 1;
-		let y = /* @__PURE__ */ RegExp("^" + g.replaceAll("*", "\\*") + "(?=\\s|;|\\[|\\||$)"), b = !1;
-		for (let u = 0; u < m; ++u) {
-			e.aLNum[u] ||= h;
-			let d = e.aToken[u];
-			if (b) {
-				this.#a.testTagEndLetml(d) ? b = !1 : h += (d.match(/\n/g) ?? []).length;
+		o = 1;
+		let u = RegExp("^" + s.replaceAll("*", "\\*") + "(?=\\s|;|\\[|\\||$)"), d = !1;
+		for (let t = 0; t < a; ++t) {
+			e.aLNum[t] ||= o;
+			let n = e.aToken[t];
+			if (d) {
+				this.#a.testTagEndLetml(n) ? d = !1 : o += (n.match(/\n/g) ?? []).length;
 				continue;
 			}
-			let f = d.charCodeAt(0);
-			if (f === 10) {
-				h += d.length;
+			let r = n.charCodeAt(0);
+			if (r === 10) {
+				o += n.length;
 				continue;
 			}
-			if (f === 42) {
-				if (d.search(y) > -1) return {
-					idx: u + 1,
-					ln: h
+			if (r === 42) {
+				if (n.search(u) > -1) return {
+					idx: t + 1,
+					ln: o
 				};
 				continue;
 			}
-			f === 91 && (h += (d.match(/\n/g) ?? []).length, this.#a.testTagLetml(d) && (b = !0));
+			r === 91 && (o += (n.match(/\n/g) ?? []).length, this.#a.testTagLetml(n) && (d = !0));
 		}
-		throw b ? "[let_ml]の終端・[endlet_ml]がありません" : (DebugMng.myTrace(`[jump系] ラベル【${g}】がありません`, "ET"), "Dummy");
+		throw d ? "[let_ml]の終端・[endlet_ml]がありません" : (c.myTrace(`[jump系] ラベル【${s}】がありません`, "ET"), "Dummy");
 	}
 	#re = Object.create(null);
 	#ie(e) {
-		let u = "";
+		let t = "";
 		try {
-			u = "ScriptIterator.resolveScript";
-			let d = this.#a.resolveScript(e);
-			u = "ScriptIterator.replaceScript_Wildcard", this.#ce(d), this.#re[this.#t] = this.#e = d;
+			t = "ScriptIterator.resolveScript";
+			let n = this.#a.resolveScript(e);
+			t = "ScriptIterator.replaceScript_Wildcard", this.#ce(n), this.#re[this.#t] = this.#e = n;
 		} catch (e) {
-			e instanceof Error ? u += `例外 mes=${e.message}(${e.name})` : u = String(e), this.main.errScript(u, !1);
+			e instanceof Error ? t += `例外 mes=${e.message}(${e.name})` : t = String(e), this.main.errScript(t, !1);
 		}
 		this.val.touchAreaKidoku(this.#t);
 	}
 	#ae(e) {
 		this.#t = e.fn, this.#n = e.idx;
-		let u = this.#re[this.#t];
-		u && (this.#e = u), this.#r = this.#e.aLNum[e.idx];
+		let t = this.#re[this.#t];
+		t && (this.#e = t), this.#r = this.#e.aLNum[e.idx];
 	}
 	#oe = /^\[(call|loadplugin)\s/;
 	#se = /\bfn\s*=\s*[^\s\]]+/;
 	#ce(e) {
-		for (let d = e.len - 1; d >= 0; --d) {
-			let f = e.aToken[d];
-			if (!this.#oe.test(f)) continue;
-			let [p, m] = tagToken2Name_Args(f);
-			this.#o.parse(m);
-			let h = this.#o.hPrm.fn;
-			if (!h) continue;
-			let { val: _ } = h;
-			if (!_.endsWith("*")) continue;
-			e.aToken.splice(d, 1, "	", "; " + f), e.aLNum.splice(d, 1, NaN, NaN);
-			let v = p === "loadplugin" ? SEARCH_PATH_ARG_EXT.CSS : SEARCH_PATH_ARG_EXT.SN, y = this.cfg.matchPath("^" + _.slice(0, -1) + ".*", v);
-			for (let p of y) {
-				let m = f.replace(this.#se, "fn=" + decodeURIComponent(getFn(p[v])));
-				e.aToken.splice(d, 0, m), e.aLNum.splice(d, 0, NaN);
+		for (let n = e.len - 1; n >= 0; --n) {
+			let r = e.aToken[n];
+			if (!this.#oe.test(r)) continue;
+			let [i, a] = m(r);
+			this.#o.parse(a);
+			let o = this.#o.hPrm.fn;
+			if (!o) continue;
+			let { val: c } = o;
+			if (!c.endsWith("*")) continue;
+			e.aToken.splice(n, 1, "	", "; " + r), e.aLNum.splice(n, 1, NaN, NaN);
+			let l = i === "loadplugin" ? s.CSS : s.SN, u = this.cfg.matchPath("^" + c.slice(0, -1) + ".*", l);
+			for (let i of u) {
+				let a = r.replace(this.#se, "fn=" + decodeURIComponent(t(i[l])));
+				e.aToken.splice(n, 0, a), e.aLNum.splice(n, 0, NaN);
 			}
 		}
 		e.len = e.aToken.length;
@@ -655,14 +658,14 @@ var BreakState = /* @__PURE__ */ function(e) {
 		this.val.getAreaKidoku(this.#t)?.erase(this.#n), this.#ue = !1;
 	}
 	get isNextKidoku() {
-		let e = this.#t, u = this.#n, d = this.#e.len;
+		let e = this.#t, t = this.#n, n = this.#e.len;
 		if (this.#i.length > 0) {
-			let f = this.#i[0];
-			e = f.fn, u = f.idx;
-			let p = this.#re[e];
-			p && (d = p.len);
+			let r = this.#i[0];
+			e = r.fn, t = r.idx;
+			let i = this.#re[e];
+			i && (n = i.len);
 		}
-		return u === d ? !1 : this.val.getAreaKidoku(e)?.search(u) ?? !1;
+		return t === n ? !1 : this.val.getAreaKidoku(e)?.search(t) ?? !1;
 	}
 	get normalWait() {
 		return this.#ue ? this.val.tagCh_doWait_Kidoku ? this.val.tagCh_msecWait_Kidoku : 0 : this.val.tagCh_doWait ? this.val.tagCh_msecWait : 0;
@@ -675,83 +678,83 @@ var BreakState = /* @__PURE__ */ function(e) {
 	}
 	#me = /["'#;\\]　]+/;
 	#he(e) {
-		let { name: u } = e;
-		if (!u) throw "nameは必須です";
-		if (u in this.hTag) throw `[${u}]はタグかすでに定義済みのマクロです`;
-		if (this.#me.test(u)) throw `[${u}]はマクロ名として異常です`;
-		let d = this.#r, f = new CallStack(this.#t, this.#n);
-		for (this.#ge += "|" + u, this.#_e = /* @__PURE__ */ RegExp(`\\[(${this.#ge})\\b`), this.hTag[u] = (u) => (this.#H(u), this.val.setMp({
-			...u,
+		let { name: t } = e;
+		if (!t) throw "nameは必須です";
+		if (t in this.hTag) throw `[${t}]はタグかすでに定義済みのマクロです`;
+		if (this.#me.test(t)) throw `[${t}]はマクロ名として異常です`;
+		let n = this.#r, r = new y(this.#t, this.#n);
+		for (this.#ge += "|" + t, this.#_e = RegExp(`\\[(${this.#ge})\\b`), this.hTag[t] = (t) => (this.#H(t), this.val.setMp({
+			...t,
 			"const.sn.macro": JSON.stringify({ name: e.name }),
 			"const.sn.me_call_scriptFn": this.#t
-		}), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", this.#t), this.#r = d, this.#ae(f), !1); this.#n < this.#e.len; ++this.#n) {
+		}), this.val.setVal_Nochk("mp", "const.sn.me_call_scriptFn", this.#t), this.#r = n, this.#ae(r), !1); this.#n < this.#e.len; ++this.#n) {
 			this.#e.aLNum[this.#n] ||= this.#r;
 			let e = this.#e.aToken[this.#n];
 			if (e.search(this.#te) > -1) return ++this.#n, !1;
-			let u = e.charCodeAt(0);
-			u === 10 ? this.#r += e.length : u === 91 && (this.#r += (e.match(/\n/g) ?? []).length);
+			let t = e.charCodeAt(0);
+			t === 10 ? this.#r += e.length : t === 91 && (this.#r += (e.match(/\n/g) ?? []).length);
 		}
-		throw `マクロ[${u}]定義の終端・[endmacro]がありません`;
+		throw `マクロ[${t}]定義の終端・[endmacro]がありません`;
 	}
 	#ge = "call";
 	#_e = /\[(call)\b/;
 	#ve(e) {
 		if ("fn" in e != "label" in e) throw "fnとlabelはセットで指定して下さい";
-		let u = argChk_Num(e, "place", 0), f = this.val.getMark(u);
-		if (!f) throw `place=${String(u)} は存在しません`;
-		return this.loadFromMark(e, f, SndProcOnLoad.ALL_STOP_AND_PLAY);
+		let t = n(e, "place", 0), r = this.val.getMark(t);
+		if (!r) throw `place=${String(t)} は存在しません`;
+		return this.loadFromMark(e, r, 2);
 	}
-	loadFromMark(e, u, d = SndProcOnLoad.MINIMAL_STOP) {
-		this.hTag.clear_event({}), this.val.mark2save(u), this.val.setMp(creMP()), this.#O.recPagebreak();
-		let m = [];
-		d !== SndProcOnLoad.NO_TOUCH && (m = this.sndMng.playLoopFromSaveObj(d === SndProcOnLoad.ALL_STOP_AND_PLAY)), argChk_Boolean(e, "do_rec", !0) && (this.#be = {
+	loadFromMark(e, t, n = 0) {
+		this.hTag.clear_event({}), this.val.mark2save(t), this.val.setMp(v()), this.#O.recPagebreak();
+		let a = [];
+		n !== 1 && (a = this.sndMng.playLoopFromSaveObj(n === 2)), r(e, "do_rec", !0) && (this.#be = {
 			hSave: this.val.cloneSave(),
-			hPages: { ...u.hPages },
-			aIfStk: [...u.aIfStk]
+			hPages: { ...t.hPages },
+			aIfStk: [...t.aIfStk]
 		});
-		let h = {
+		let o = {
 			enabled: !!this.val.getVal("save:const.sn.autowc.enabled"),
 			text: String(this.val.getVal("save:const.sn.autowc.text")),
 			time: Number(this.val.getVal("save:const.sn.autowc.time"))
 		};
-		this.hTag.autowc(h), this.#R = [...this.#be.aIfStk], this.#i = [], CmnTween.stopAllTw();
-		let g = Promise.allSettled([...m, ...this.#O.playback(this.#be.hPages)]).then(() => this.#O.cover(!1)), { index: _, fn: v } = e;
-		if (_) return CmnLib.debugLog && console.log(`📜 %cloadFromMark index:${String(_)} move!%c fn:${v ?? ""}`, "color:#3B0;", ""), g.then(() => {
-			this.#Y(v, "", _) || this.main.resume();
+		this.hTag.autowc(o), this.#R = [...this.#be.aIfStk], this.#i = [], u.stopAllTw();
+		let s = Promise.allSettled([...a, ...this.#O.playback(this.#be.hPages)]).then(() => this.#O.cover(!1)), { index: c, fn: l } = e;
+		if (c) return i.debugLog && console.log(`📜 %cloadFromMark index:${String(c)} move!%c fn:${l ?? ""}`, "color:#3B0;", ""), s.then(() => {
+			this.#Y(l, "", c) || this.main.resume();
 		}).catch((e) => console.error("loadFromMark e:%o", e)), !0;
 		this.#O.cover(!0);
-		let b = String(this.val.getVal("save:const.sn.scriptFn")), x = Number(this.val.getVal("save:const.sn.scriptIdx"));
-		delete this.#re[b];
-		let { label: S } = e;
-		return g.then(S ? () => {
-			this.#t = b, this.#n = x, this.hTag.call({
-				...v ? { fn: v } : {},
-				label: S
+		let d = String(this.val.getVal("save:const.sn.scriptFn")), f = Number(this.val.getVal("save:const.sn.scriptIdx"));
+		delete this.#re[d];
+		let { label: p } = e;
+		return s.then(p ? () => {
+			this.#t = d, this.#n = f, this.hTag.call({
+				...l ? { fn: l } : {},
+				label: p
 			}) || this.main.resume();
 		} : () => {
-			this.#Y(b, "", x) || this.main.resume();
+			this.#Y(d, "", f) || this.main.resume();
 		}).catch((e) => console.error("loadFromMark e:%o", e)), !0;
 	}
 	#ye(e) {
-		let d = this.val.getMark(0);
-		if (!d) return !1;
-		delete this.#re[getFn(d.hSave["const.sn.scriptFn"])];
-		let f = {};
+		let n = this.val.getMark(0);
+		if (!n) return !1;
+		delete this.#re[t(n.hSave["const.sn.scriptFn"])];
+		let r = {};
 		for (let e in this.#re) try {
 			this.#l(e + "@");
 		} catch {
-			f[e] = this.#re[e];
+			r[e] = this.#re[e];
 		}
-		return this.#re = f, e.do_rec = !1, this.loadFromMark(e, d, SndProcOnLoad.NO_TOUCH);
+		return this.#re = r, e.do_rec = !1, this.loadFromMark(e, n, 1);
 	}
 	#be = {
-		hSave: creSAVEDATA(),
+		hSave: a(),
 		hPages: {},
 		aIfStk: [-1]
 	};
 	#xe = () => {
-		let { fn: e, idx: u } = this.nowScrIdx();
-		return this.val.setVal_Nochk("save", "const.sn.scriptFn", e), this.val.setVal_Nochk("save", "const.sn.scriptIdx", u), this.#be = {
+		let { fn: e, idx: t } = this.nowScrIdx();
+		return this.val.setVal_Nochk("save", "const.sn.scriptFn", e), this.val.setVal_Nochk("save", "const.sn.scriptIdx", t), this.#be = {
 			hSave: this.val.cloneSave(),
 			hPages: this.#O.record(),
 			aIfStk: this.#R.slice(this.#i.length)
@@ -772,35 +775,36 @@ var BreakState = /* @__PURE__ */ function(e) {
 		return { ...this.#be };
 	}
 	nowScrFnLn() {
-		let { fn: e, idx: u } = this.nowScrIdx(), d = this.#re[e];
+		let { fn: e, idx: t } = this.nowScrIdx(), n = this.#re[e];
 		return {
 			fn: e,
-			...this.#j(d, u)
+			...this.#j(n, t)
 		};
 	}
 	#Se(e) {
 		if (!("place" in e)) throw "placeは必須です";
-		let u = e.place;
-		delete e[":タグ名"], delete e.place, e.text = e.text ?? "", this.#be.json = e, this.val.setMark(u, this.#be);
-		let d = Number(this.val.getVal("sys:const.sn.save.place"));
-		return u === d && this.val.setVal_Nochk("sys", "const.sn.save.place", d + 1), !1;
+		let t = e.place;
+		delete e[":タグ名"], delete e.place, e.text = e.text ?? "", this.#be.json = e, this.val.setMark(t, this.#be);
+		let n = Number(this.val.getVal("sys:const.sn.save.place"));
+		return t === n && this.val.setVal_Nochk("sys", "const.sn.save.place", n + 1), !1;
 	}
 	recodeDesign(e) {
-		let u = "", d = 0, f = this.#i.length;
-		if (e.design_unit && f > 0) {
+		let t = "", n = 0, r = this.#i.length;
+		if (e.design_unit && r > 0) {
 			let e = this.#i[0];
-			u = e.fn, d = e.idx;
-		} else u = this.#t, d = this.#n;
-		e[":path"] = this.#u(u);
-		let p = this.#re[u], m = this.#j(p, d);
-		e[":ln"] = m.ln, e[":col_s"] = m.col_s, e[":col_e"] = m.col_e;
-		let h = d - 1;
-		e[":idx_tkn"] = h, e[":token"] = p.aToken[h] ?? "", this.sys.send2Dbg("_recodeDesign", e);
+			t = e.fn, n = e.idx;
+		} else t = this.#t, n = this.#n;
+		e[":path"] = this.#u(t);
+		let i = this.#re[t], a = this.#j(i, n);
+		e[":ln"] = a.ln, e[":col_s"] = a.col_s, e[":col_e"] = a.col_e;
+		let o = n - 1;
+		e[":idx_tkn"] = o, e[":token"] = i.aToken[o] ?? "", this.sys.send2Dbg("_recodeDesign", e);
 	}
-	replace(e, u) {
-		this.#e.aToken[e] = u;
+	replace(e, t) {
+		this.#e.aToken[e] = t;
 	}
 };
-export { ScriptIterator };
+//#endregion
+export { b as ScriptIterator };
 
 //# sourceMappingURL=ScriptIterator.js.map

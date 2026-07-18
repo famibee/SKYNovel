@@ -66,7 +66,7 @@ export class SysBase implements T_SysRoots, T_SysBase {
 
 		this.run = async ()=> {
 			this.main?.destroy();
-			this.main = await Main.generate(this);	// 末端で this.loadPath() を呼ぶ
+			this.main = await Main.generate(this);
 		};
 		await this.run();
 	}

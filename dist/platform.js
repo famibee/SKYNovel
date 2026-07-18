@@ -1,5 +1,6 @@
-import { t as __commonJSMin } from "./chunk.js";
-var require_platform = /* @__PURE__ */ __commonJSMin(((e, t) => {
+import { t as e } from "./rolldown-runtime.js";
+//#region node_modules/platform/platform.js
+var t = /* @__PURE__ */ e(((e, t) => {
 	(function() {
 		var n = {
 			function: !0,
@@ -43,7 +44,7 @@ var require_platform = /* @__PURE__ */ __commonJSMin(((e, t) => {
 		}
 		function v(e, t) {
 			var n = e == null ? "number" : typeof e[t];
-			return !/^(?:boolean|number|string|undefined)$/.test(n) && (n == "object" ? !!e[t] : !0);
+			return !/^(?:boolean|number|string|undefined)$/.test(n) && (n != "object" || !!e[t]);
 		}
 		function y(e) {
 			return String(e).replace(/([ -])(?!$)/g, "$1?");
@@ -419,6 +420,7 @@ var require_platform = /* @__PURE__ */ __commonJSMin(((e, t) => {
 		}) : r.platform = C;
 	}).call(e);
 }));
-export default require_platform();
+//#endregion
+export default t();
 
 //# sourceMappingURL=platform.js.map

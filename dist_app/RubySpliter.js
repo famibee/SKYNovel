@@ -1,4 +1,5 @@
-var RubySpliter = class e {
+//#region src/sn/RubySpliter.ts
+var e = class e {
 	static #e = "ヽ";
 	static setting(t) {
 		t.sesame && (e.#e = t.sesame);
@@ -55,6 +56,7 @@ var RubySpliter = class e {
 		for (let e = 0; e < s; ++e) this.#t(e < i ? r[e] : "", e < o ? decodeURIComponent(a[e]) : "");
 	}
 };
-export { RubySpliter as t };
+//#endregion
+export { e as t };
 
 //# sourceMappingURL=RubySpliter.js.map

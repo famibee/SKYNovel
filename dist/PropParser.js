@@ -1,6 +1,8 @@
-import { t as __commonJSMin } from "./chunk.js";
-import { p as int } from "./CmnLib.js";
-var import_parsimmon_umd_min = (/* @__PURE__ */ __commonJSMin(((e, t) => {
+import { t as e } from "./rolldown-runtime.js";
+import { p as t } from "./CmnLib.js";
+//#endregion
+//#region src/sn/PropParser.ts
+var n = (/* @__PURE__ */ e(((e, t) => {
 	(function(n, r) {
 		typeof e == "object" && typeof t == "object" ? t.exports = r() : typeof define == "function" && define.amd ? define([], r) : typeof e == "object" ? e.Parsimmon = r() : n.Parsimmon = r();
 	})(typeof self < "u" ? self : e, function() {
@@ -683,41 +685,41 @@ var import_parsimmon_umd_min = (/* @__PURE__ */ __commonJSMin(((e, t) => {
 			}, e.exports = r;
 		}]);
 	});
-})))(), PropParser = class e {
+})))(), r = class e {
+	val;
 	#e = null;
 	constructor(e, r = "\\") {
 		this.val = e;
 		function i(e) {
 			let t = [];
-			for (let r of e) t.push((typeof r == "string" ? (0, import_parsimmon_umd_min.string)(r) : (0, import_parsimmon_umd_min.regex)(r)).trim(import_parsimmon_umd_min.optWhitespace));
-			return (0, import_parsimmon_umd_min.alt)(...t);
+			for (let r of e) t.push((typeof r == "string" ? (0, n.string)(r) : (0, n.regex)(r)).trim(n.optWhitespace));
+			return (0, n.alt)(...t);
 		}
 		function a(e) {
-			return (0, import_parsimmon_umd_min.alt)(...Object.keys(e).sort().map((t) => (typeof e[t] == "string" ? (0, import_parsimmon_umd_min.string)(e[t]) : (0, import_parsimmon_umd_min.regex)(e[t])).trim(import_parsimmon_umd_min.optWhitespace).result(t)));
+			return (0, n.alt)(...Object.keys(e).sort().map((t) => (typeof e[t] == "string" ? (0, n.string)(e[t]) : (0, n.regex)(e[t])).trim(n.optWhitespace).result(t)));
 		}
 		function o(e, t) {
-			let r = (0, import_parsimmon_umd_min.lazy)(() => (0, import_parsimmon_umd_min.seq)(e, r).or(t));
+			let r = (0, n.lazy)(() => (0, n.seq)(e, r).or(t));
 			return r;
 		}
 		function s(e, t) {
-			return (0, import_parsimmon_umd_min.seqMap)(t, e.many(), (e, t) => t.reduce((e, t) => [t, e], e));
+			return (0, n.seqMap)(t, e.many(), (e, t) => t.reduce((e, t) => [t, e], e));
 		}
 		function c(e, t) {
-			let r = (0, import_parsimmon_umd_min.lazy)(() => t.chain((t) => (0, import_parsimmon_umd_min.seq)(e, (0, import_parsimmon_umd_min.of)(t), r).or((0, import_parsimmon_umd_min.of)(t))));
+			let r = (0, n.lazy)(() => t.chain((t) => (0, n.seq)(e, (0, n.of)(t), r).or((0, n.of)(t))));
 			return r;
 		}
 		function l(e, t) {
-			return (0, import_parsimmon_umd_min.seqMap)(t, (0, import_parsimmon_umd_min.seq)(e, t).many(), (e, t) => t.reduce((e, t) => [
+			return (0, n.seqMap)(t, (0, n.seq)(e, t).many(), (e, t) => t.reduce((e, t) => [
 				t[0],
 				e,
 				t[1]
 			], e));
 		}
-		let u = (0, import_parsimmon_umd_min.alt)((0, import_parsimmon_umd_min.alt)((0, import_parsimmon_umd_min.regex)(/-?(0|[1-9][0-9]*)\.[0-9]+/), (0, import_parsimmon_umd_min.regex)(/0x[0-9a-fA-F]+/)).map(Number), (0, import_parsimmon_umd_min.alt)((0, import_parsimmon_umd_min.regex)(/-?(0|[1-9][0-9]*)/)).map((e) => int(e))).map((e) => ["!num!", e]).desc("number"), d = (0, import_parsimmon_umd_min.string)("null").map(() => ["!str!", null]), f = (0, import_parsimmon_umd_min.regex)(/(true|false)/).map((e) => ["!bool!", e === "true"]).desc("boolean"), p = (0, import_parsimmon_umd_min.regex)(/* @__PURE__ */ RegExp(`(?:"(?:\\${r}["'#\\n]|[^"])*"|'(?:\\${r}["'#\\n]|[^'])*'|\\#(?:\\${r}["'#\\n]|[^#])*\\#)`)).map((e) => ["!str!", e.slice(1, -1).replaceAll(r, "")]).desc("string"), m = /\[[^\]]+\]/g, h = (0, import_parsimmon_umd_min.regex)(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-/:-@[-^`{-~]+(?:\.[^\s!-/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/).map((e) => {
+		let u = (0, n.alt)((0, n.alt)((0, n.regex)(/-?(0|[1-9][0-9]*)\.[0-9]+/), (0, n.regex)(/0x[0-9a-fA-F]+/)).map(Number), (0, n.alt)((0, n.regex)(/-?(0|[1-9][0-9]*)/)).map((e) => t(e))).map((e) => ["!num!", e]).desc("number"), d = (0, n.string)("null").map(() => ["!str!", null]), f = (0, n.regex)(/(true|false)/).map((e) => ["!bool!", e === "true"]).desc("boolean"), p = (0, n.regex)(RegExp(`(?:"(?:\\${r}["'#\\n]|[^"])*"|'(?:\\${r}["'#\\n]|[^'])*'|\\#(?:\\${r}["'#\\n]|[^#])*\\#)`)).map((e) => ["!str!", e.slice(1, -1).replaceAll(r, "")]).desc("string"), m = /\[[^\]]+\]/g, h = (0, n.regex)(/-?(?:(?:tmp|sys|save|mp):)?[^\s!-/:-@[-^`{-~]+(?:\.[^\s!-/:-@[-^`{-~]+|\[[^\]]+\])*(?:@str)?/).map((e) => {
 			let t = e.replaceAll(m, (e) => "." + this.parse(e.slice(1, -1))), n = this.val.getVal(t);
 			return n == null ? ["!str!", n] : typeof n == "boolean" ? ["!bool!", n] : Object.prototype.toString.call(n) === "[object String]" ? ["!str!", String(n)] : ["!num!", Number(n)];
-		}).desc("string"), g = (0, import_parsimmon_umd_min.lazy)(() => (0, import_parsimmon_umd_min.string)("(").then(this.#e).skip((0, import_parsimmon_umd_min.string)(")")).or(u).or(d).or(f).or(p).or(h));
-		this.#e = [
+		}).desc("string"), g = (0, n.lazy)(() => (0, n.string)("(").then(this.#e).skip((0, n.string)(")")).or(u).or(d).or(f).or(p).or(h)), _ = [
 			{
 				type: o,
 				ops: i([/[A-Za-z_][A-Za-z0-9_]*(?=\()/])
@@ -803,7 +805,8 @@ var import_parsimmon_umd_min = (/* @__PURE__ */ __commonJSMin(((e, t) => {
 				type: c,
 				ops: i(["?"])
 			}
-		].reduce((e, t) => t.type(t.ops, e), g).trim(import_parsimmon_umd_min.optWhitespace);
+		].reduce((e, t) => t.type(t.ops, e), g);
+		this.#e = _.trim(n.optWhitespace);
 	}
 	parse(e) {
 		let t = this.#e.parse(e);
@@ -846,8 +849,8 @@ var import_parsimmon_umd_min = (/* @__PURE__ */ __commonJSMin(((e, t) => {
 			return Object.prototype.toString.call(t) === "[object String]" || Object.prototype.toString.call(n) === "[object String]" ? String(t) + String(n) : Number(t) + Number(n);
 		},
 		"-": (e) => Number(this.#t(e.shift())) - Number(this.#t(e.shift())),
-		int: (e) => int(this.#r(e.shift())),
-		parseInt: (e) => int(this.#n.Number(e)),
+		int: (e) => t(this.#r(e.shift())),
+		parseInt: (e) => t(this.#n.Number(e)),
 		Number: (e) => {
 			let t = this.#t(e.shift());
 			return Object.prototype.toString.call(t) === "[object String]" ? this.#r(this.#e.parse(String(t)).value) : Number(t);
@@ -874,7 +877,7 @@ var import_parsimmon_umd_min = (/* @__PURE__ */ __commonJSMin(((e, t) => {
 		"!=": (e) => !this.#n["=="](e),
 		"===": (e) => {
 			let t = this.#t(e.shift()), n = this.#t(e.shift());
-			return Object.prototype.toString.call(t) == Object.prototype.toString.call(n) ? String(t) === String(n) : !1;
+			return Object.prototype.toString.call(t) == Object.prototype.toString.call(n) && String(t) === String(n);
 		},
 		"!==": (e) => !this.#n["==="](e),
 		"&": (e) => Number(this.#t(e.shift())) & Number(this.#t(e.shift())),
@@ -932,6 +935,7 @@ var import_parsimmon_umd_min = (/* @__PURE__ */ __commonJSMin(((e, t) => {
 		return r;
 	}
 };
-export { PropParser };
+//#endregion
+export { r as PropParser };
 
 //# sourceMappingURL=PropParser.js.map

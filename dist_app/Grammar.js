@@ -1,13 +1,14 @@
-import { d as getFn } from "./CmnLib.js";
-import { n as SEARCH_PATH_ARG_EXT } from "./ConfigBase.js";
-function idx2LnCol(e, t, n = 0, r = 0, i = 0) {
+import { d as e } from "./CmnLib.js";
+import { n as t } from "./ConfigBase.js";
+//#region src/sn/AnalyzeTagArg.ts
+function n(e, t, n = 0, r = 0, i = 0) {
 	let a = e.slice(0, t).split("\n"), o = a.length;
 	return {
 		ln: r + o - 1,
 		ch: o < 2 ? i + 1 + n + t : a.at(-1)?.length ?? 0
 	};
 }
-var AnalyzeTagArg = class {
+var r = class {
 	#e = /;[^\n]*|(?<key>[^\s="'#|;]+)(?:\s|;[^\n]*\n)*=(?:\s|;[^\n]*\n)*(?:(?<val>[^\s"'#|;]+)|(["'#])(?<val2>.*?)\3)(?:\|(?:(?<def>[^\s"'#;]+)|(["'#])(?<def2>.*?)\6))?|(?<literal>[^\s;]+)/g;
 	parse(e) {
 		this.#t = {}, this.#n = !1;
@@ -29,7 +30,7 @@ var AnalyzeTagArg = class {
 			let { key: l, val: u, val2: d = "", literal: f } = e;
 			if (f) {
 				if (f.endsWith("=")) {
-					let e = f.length - 1, { ch: c } = idx2LnCol(o, s + e, t, r, i);
+					let e = f.length - 1, { ch: c } = n(o, s + e, t, r, i);
 					a[f.slice(0, -1)] = {
 						k_ln: r,
 						k_ch: c - e,
@@ -41,7 +42,7 @@ var AnalyzeTagArg = class {
 				continue;
 			}
 			if (!l) continue;
-			let { ln: p, ch: m } = idx2LnCol(o, s, t, r, i), { ln: h, ch: g } = idx2LnCol(o, s + c.lastIndexOf(u ?? d) - (u ? 0 : 1), t, r, i);
+			let { ln: p, ch: m } = n(o, s, t, r, i), { ln: h, ch: g } = n(o, s + c.lastIndexOf(u ?? d) - +!u, t, r, i);
 			a[l] = {
 				k_ln: p,
 				k_ch: m,
@@ -60,20 +61,19 @@ var AnalyzeTagArg = class {
 	get isKomeParam() {
 		return this.#n;
 	}
-};
-const REG_TAG = /(?<name>[^\s;\]]+)/;
-function tagToken2Name_Args(e) {
-	let t = REG_TAG.exec(e.slice(1, -1))?.groups;
+}, i = /(?<name>[^\s;\]]+)/;
+function a(e) {
+	let t = i.exec(e.slice(1, -1))?.groups;
 	if (!t) throw `タグ記述【${e}】異常です(タグ解析)`;
 	let n = t.name;
 	return [n, e.slice(1 + n.length, -1)];
 }
-function tagToken2Name(e) {
-	let t = REG_TAG.exec(e.slice(1))?.groups;
+function o(e) {
+	let t = i.exec(e.slice(1))?.groups;
 	if (!t) throw `タグ記述【${e}】異常です(タグ解析)`;
 	return t.name;
 }
-function splitAmpersand(e) {
+function s(e) {
 	let t = e.replaceAll("==", "＝").replaceAll("!=", "≠").split("="), n = t.length;
 	if (n < 2 || n > 3) throw "「&計算」書式では「=」指定が一つか二つ必要です";
 	let [r, i, a] = t;
@@ -84,14 +84,15 @@ function splitAmpersand(e) {
 		...n === 3 ? { cast: a.trim() } : {}
 	};
 }
-var Grammar = class {
+var c = class {
+	cfg;
 	constructor(e) {
 		this.cfg = e, this.setEscape("");
 	}
 	#e;
 	setEscape(e) {
 		if (this.#l && e in this.#l) throw "[エスケープ文字] char【" + e + "】が登録済みの括弧マクロまたは一文字マクロです";
-		this.#e = RegExp((e ? `\\${e}\\S|` : "") + `\\n+|\\t+|\\[let_ml\\s+[^\\]]+\\].+?(?=\\[endlet_ml[\\]\\s])|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]|;[^\\n]*|&[^&\\n]+&|&&?(?:[^"'#;\\n&]+|(["'#]).*?\\2)+|^\\*[^\\s\\[&;\\\\]+|[^\\n\\t\\[;${e ? `\\${e}` : ""}]+`, "gs"), this.#t = /* @__PURE__ */ RegExp(`[\\w\\s;[\\]*=&｜《》${e ? `\\${e}` : ""}]`), this.#u = /* @__PURE__ */ RegExp(`[\\n\\t;\\[*&${e ? `\\${e}` : ""}]`);
+		this.#e = RegExp((e ? `\\${e}\\S|` : "") + `\\n+|\\t+|\\[let_ml\\s+[^\\]]+\\].+?(?=\\[endlet_ml[\\]\\s])|\\[(?:[^"'#;\\]]+|(["'#]).*?\\1|;[^\\n]*)*?]|;[^\\n]*|&[^&\\n]+&|&&?(?:[^"'#;\\n&]+|(["'#]).*?\\2)+|^\\*[^\\s\\[&;\\\\]+|[^\\n\\t\\[;${e ? `\\${e}` : ""}]+`, "gs"), this.#t = RegExp(`[\\w\\s;[\\]*=&｜《》${e ? `\\${e}` : ""}]`), this.#u = RegExp(`[\\n\\t;\\[*&${e ? `\\${e}` : ""}]`);
 	}
 	bracket2macro(e, t, n, r) {
 		let { name: i, text: a } = e;
@@ -145,22 +146,22 @@ var Grammar = class {
 		for (let r = n.len - 1; r >= 0; --r) {
 			let i = n.aToken[r];
 			if (!this.#a.test(i)) continue;
-			let [o, s] = tagToken2Name_Args(i);
+			let [o, s] = a(i);
 			this.#c.parse(s);
 			let c = this.#c.hPrm.fn;
 			if (!c) continue;
 			let { val: l } = c;
 			if (!l.endsWith("*")) continue;
 			n.aToken.splice(r, 1, "	", "; " + i), n.aLNum.splice(r, 1, NaN, NaN);
-			let u = o === "loadplugin" ? SEARCH_PATH_ARG_EXT.CSS : SEARCH_PATH_ARG_EXT.SN, d = this.cfg.matchPath("^" + l.slice(0, -1) + ".*", u);
+			let u = o === "loadplugin" ? t.CSS : t.SN, d = this.cfg.matchPath("^" + l.slice(0, -1) + ".*", u);
 			for (let t of d) {
-				let a = i.replace(this.#o, "fn=" + decodeURIComponent(getFn(t[u])));
+				let a = i.replace(this.#o, "fn=" + decodeURIComponent(e(t[u])));
 				n.aToken.splice(r, 0, a), n.aLNum.splice(r, 0, NaN);
 			}
 		}
 		n.len = n.aToken.length;
 	}
-	#c = new AnalyzeTagArg();
+	#c = new r();
 	testTagLetml(e) {
 		return /^\[let_ml\s/.test(e);
 	}
@@ -189,6 +190,7 @@ var Grammar = class {
 		return this.#u.test(e);
 	}
 };
-export { AnalyzeTagArg as a, tagToken2Name_Args as i, splitAmpersand as n, tagToken2Name as r, Grammar as t };
+//#endregion
+export { r as a, a as i, s as n, o as r, c as t };
 
 //# sourceMappingURL=Grammar.js.map

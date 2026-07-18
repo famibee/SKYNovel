@@ -1,6 +1,7 @@
-import { g as uint, l as argChk_Num, p as int, s as argChk_Boolean, t as CmnLib } from "./CmnLib.js";
-import { b as BLEND_MODES, f as Texture, o as Sprite, t as filters } from "./pixi.js";
-var { BlurFilter, ColorMatrixFilter, NoiseFilter } = filters, Layer = class c {
+import { g as e, l as t, p as n, s as r, t as i } from "./CmnLib.js";
+import { b as a, f as o, o as s, t as c } from "./pixi.js";
+//#region src/sn/Layer.ts
+var { BlurFilter: l, ColorMatrixFilter: u, NoiseFilter: d } = c, f = class c {
 	layname = "";
 	name_ = "";
 	set name(e) {
@@ -9,7 +10,7 @@ var { BlurFilter, ColorMatrixFilter, NoiseFilter } = filters, Layer = class c {
 	get name() {
 		return this.name_;
 	}
-	ctn = new Sprite(Texture.EMPTY);
+	ctn = new s(o.EMPTY);
 	get alpha() {
 		return this.ctn.alpha;
 	}
@@ -57,129 +58,129 @@ var { BlurFilter, ColorMatrixFilter, NoiseFilter } = filters, Layer = class c {
 	destroy() {}
 	lay(e) {
 		let n = this.ctn;
-		return "alpha" in e && (n.alpha = argChk_Num(e, "alpha", 1)), c.setBlendmode(n, e), ("pivot_x" in e || "pivot_y" in e) && n.pivot.set(argChk_Num(e, "pivot_x", n.pivot.x), argChk_Num(e, "pivot_y", n.pivot.y)), "rotation" in e && (n.angle = argChk_Num(e, "rotation", 0)), ("scale_x" in e || "scale_y" in e) && n.scale.set(argChk_Num(e, "scale_x", n.scale.x), argChk_Num(e, "scale_y", n.scale.y)), "visible" in e && (n.visible = argChk_Boolean(e, "visible", !0)), "filter" in e && (n.filters = [c.bldFilters(e)], this.aFltHArg = [e]), !1;
+		return "alpha" in e && (n.alpha = t(e, "alpha", 1)), c.setBlendmode(n, e), ("pivot_x" in e || "pivot_y" in e) && n.pivot.set(t(e, "pivot_x", n.pivot.x), t(e, "pivot_y", n.pivot.y)), "rotation" in e && (n.angle = t(e, "rotation", 0)), ("scale_x" in e || "scale_y" in e) && n.scale.set(t(e, "scale_x", n.scale.x), t(e, "scale_y", n.scale.y)), "visible" in e && (n.visible = r(e, "visible", !0)), "filter" in e && (n.filters = [c.bldFilters(e)], this.aFltHArg = [e]), !1;
 	}
 	aFltHArg = [];
 	static bldFilters(e) {
 		let { filter: t = "" } = e, n = c.hBldFilter[t];
 		if (!n) throw "filter が異常です";
 		let i = n(e);
-		i.enabled = argChk_Boolean(e, "enable_filter", !0);
+		i.enabled = r(e, "enable_filter", !0);
 		let { blendmode: a } = e;
 		return a && (i.blendMode = c.getBlendmodeNum(a)), i;
 	}
 	static hBldFilter = {
 		blur: (n) => {
-			let i = new BlurFilter(argChk_Num(n, "strength", 8), argChk_Num(n, "quality", 4), "resolution" in n ? argChk_Num(n, "resolution", 0) : void 0, argChk_Num(n, "kernel_size", 5));
-			return i.blurX = uint(argChk_Num(n, "blur_x", 2)), i.blurY = uint(argChk_Num(n, "blur_y", 2)), i.repeatEdgePixels = argChk_Boolean(n, "repeat_edge_pixels", !1), i;
+			let i = new l(t(n, "strength", 8), t(n, "quality", 4), "resolution" in n ? t(n, "resolution", 0) : void 0, t(n, "kernel_size", 5));
+			return i.blurX = e(t(n, "blur_x", 2)), i.blurY = e(t(n, "blur_y", 2)), i.repeatEdgePixels = r(n, "repeat_edge_pixels", !1), i;
 		},
-		noise: (e) => new NoiseFilter(argChk_Num(e, "noise", .5), "seed" in e ? argChk_Num(e, "seed", 0) : void 0),
+		noise: (e) => new d(t(e, "noise", .5), "seed" in e ? t(e, "seed", 0) : void 0),
 		color_matrix: (n) => {
-			let r = new ColorMatrixFilter();
-			r.alpha = uint(argChk_Num(n, "alpha", 1));
+			let r = new u();
+			r.alpha = e(t(n, "alpha", 1));
 			let { matrix: i = "" } = n;
 			if (i) {
 				let t = i.split(","), n = t.length;
 				if (n !== 20) throw `matrix の個数（${String(n)}）が 20 ではありません`;
-				for (let i = 0; i < n; ++i) r.matrix[i] = uint(t[i]);
-			} else r.matrix[0] = uint(argChk_Num(n, "rtor", 1)), r.matrix[1] = uint(argChk_Num(n, "gtor", 0)), r.matrix[2] = uint(argChk_Num(n, "btor", 0)), r.matrix[3] = uint(argChk_Num(n, "ator", 0)), r.matrix[4] = uint(argChk_Num(n, "pr", 0)), r.matrix[5] = uint(argChk_Num(n, "rtog", 0)), r.matrix[6] = uint(argChk_Num(n, "gtog", 1)), r.matrix[7] = uint(argChk_Num(n, "btog", 0)), r.matrix[8] = uint(argChk_Num(n, "atog", 0)), r.matrix[9] = uint(argChk_Num(n, "pg", 0)), r.matrix[10] = uint(argChk_Num(n, "rtob", 0)), r.matrix[11] = uint(argChk_Num(n, "gtob", 0)), r.matrix[12] = uint(argChk_Num(n, "btob", 1)), r.matrix[13] = uint(argChk_Num(n, "atob", 0)), r.matrix[14] = uint(argChk_Num(n, "pb", 0)), r.matrix[15] = uint(argChk_Num(n, "rtoa", 0)), r.matrix[16] = uint(argChk_Num(n, "gtoa", 0)), r.matrix[17] = uint(argChk_Num(n, "btoa", 0)), r.matrix[18] = uint(argChk_Num(n, "atoa", 1)), r.matrix[19] = uint(argChk_Num(n, "pa", 0));
+				for (let i = 0; i < n; ++i) r.matrix[i] = e(t[i]);
+			} else r.matrix[0] = e(t(n, "rtor", 1)), r.matrix[1] = e(t(n, "gtor", 0)), r.matrix[2] = e(t(n, "btor", 0)), r.matrix[3] = e(t(n, "ator", 0)), r.matrix[4] = e(t(n, "pr", 0)), r.matrix[5] = e(t(n, "rtog", 0)), r.matrix[6] = e(t(n, "gtog", 1)), r.matrix[7] = e(t(n, "btog", 0)), r.matrix[8] = e(t(n, "atog", 0)), r.matrix[9] = e(t(n, "pg", 0)), r.matrix[10] = e(t(n, "rtob", 0)), r.matrix[11] = e(t(n, "gtob", 0)), r.matrix[12] = e(t(n, "btob", 1)), r.matrix[13] = e(t(n, "atob", 0)), r.matrix[14] = e(t(n, "pb", 0)), r.matrix[15] = e(t(n, "rtoa", 0)), r.matrix[16] = e(t(n, "gtoa", 0)), r.matrix[17] = e(t(n, "btoa", 0)), r.matrix[18] = e(t(n, "atoa", 1)), r.matrix[19] = e(t(n, "pa", 0));
 			return r;
 		},
 		black_and_white: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.blackAndWhite(argChk_Boolean(e, "multiply", !1)), t;
+			let t = new u();
+			return t.blackAndWhite(r(e, "multiply", !1)), t;
 		},
 		brightness: (e) => {
-			let n = new ColorMatrixFilter();
-			return n.brightness(argChk_Num(e, "b", .5), argChk_Boolean(e, "multiply", !1)), n;
+			let n = new u();
+			return n.brightness(t(e, "b", .5), r(e, "multiply", !1)), n;
 		},
 		browni: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.browni(argChk_Boolean(e, "multiply", !0)), t;
+			let t = new u();
+			return t.browni(r(e, "multiply", !0)), t;
 		},
 		color_tone: (e) => {
-			let n = new ColorMatrixFilter();
-			return n.colorTone(argChk_Num(e, "desaturation", .5), argChk_Num(e, "toned", .5), argChk_Num(e, "light_color", 16770432), argChk_Num(e, "dark_color", 16770432), argChk_Boolean(e, "multiply", !1)), n;
+			let n = new u();
+			return n.colorTone(t(e, "desaturation", .5), t(e, "toned", .5), t(e, "light_color", 16770432), t(e, "dark_color", 16770432), r(e, "multiply", !1)), n;
 		},
 		contrast: (e) => {
-			let n = new ColorMatrixFilter();
-			return n.contrast(argChk_Num(e, "amount", .5), argChk_Boolean(e, "multiply", !1)), n;
+			let n = new u();
+			return n.contrast(t(e, "amount", .5), r(e, "multiply", !1)), n;
 		},
 		grayscale: (e) => {
-			let n = new ColorMatrixFilter();
-			return n.grayscale(argChk_Num(e, "scale", .5), argChk_Boolean(e, "multiply", !1)), n;
+			let n = new u();
+			return n.grayscale(t(e, "scale", .5), r(e, "multiply", !1)), n;
 		},
 		hue: (e) => {
-			let n = new ColorMatrixFilter();
-			return n.hue(argChk_Num(e, "f_rotation", 90), argChk_Boolean(e, "multiply", !1)), n;
+			let n = new u();
+			return n.hue(t(e, "f_rotation", 90), r(e, "multiply", !1)), n;
 		},
 		kodachrome: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.kodachrome(argChk_Boolean(e, "multiply", !0)), t;
+			let t = new u();
+			return t.kodachrome(r(e, "multiply", !0)), t;
 		},
 		lsd: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.lsd(argChk_Boolean(e, "multiply", !1)), t;
+			let t = new u();
+			return t.lsd(r(e, "multiply", !1)), t;
 		},
 		negative: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.negative(argChk_Boolean(e, "multiply", !1)), t;
+			let t = new u();
+			return t.negative(r(e, "multiply", !1)), t;
 		},
 		night: (e) => {
-			let n = new ColorMatrixFilter();
-			return n.night(argChk_Num(e, "intensity", .5), argChk_Boolean(e, "multiply", !1)), n;
+			let n = new u();
+			return n.night(t(e, "intensity", .5), r(e, "multiply", !1)), n;
 		},
 		polaroid: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.polaroid(argChk_Boolean(e, "multiply", !1)), t;
+			let t = new u();
+			return t.polaroid(r(e, "multiply", !1)), t;
 		},
 		predator: (e) => {
-			let n = new ColorMatrixFilter();
-			return n.predator(argChk_Num(e, "amount", .5), argChk_Boolean(e, "multiply", !1)), n;
+			let n = new u();
+			return n.predator(t(e, "amount", .5), r(e, "multiply", !1)), n;
 		},
 		saturate: (e) => {
-			let n = new ColorMatrixFilter();
-			return n.saturate(argChk_Num(e, "amount", .5), argChk_Boolean(e, "multiply", !1)), n;
+			let n = new u();
+			return n.saturate(t(e, "amount", .5), r(e, "multiply", !1)), n;
 		},
 		sepia: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.sepia(argChk_Boolean(e, "multiply", !1)), t;
+			let t = new u();
+			return t.sepia(r(e, "multiply", !1)), t;
 		},
 		technicolor: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.technicolor(argChk_Boolean(e, "multiply", !0)), t;
+			let t = new u();
+			return t.technicolor(r(e, "multiply", !0)), t;
 		},
 		tint: (e) => {
-			let n = new ColorMatrixFilter();
-			return n.tint(argChk_Num(e, "f_color", 8947848), argChk_Boolean(e, "multiply", !1)), n;
+			let n = new u();
+			return n.tint(t(e, "f_color", 8947848), r(e, "multiply", !1)), n;
 		},
 		to_bgr: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.toBGR(argChk_Boolean(e, "multiply", !1)), t;
+			let t = new u();
+			return t.toBGR(r(e, "multiply", !1)), t;
 		},
 		vintage: (e) => {
-			let t = new ColorMatrixFilter();
-			return t.vintage(argChk_Boolean(e, "multiply", !0)), t;
+			let t = new u();
+			return t.vintage(r(e, "multiply", !0)), t;
 		}
 	};
 	static setBlendmode(e, t) {
 		let { blendmode: n } = t;
 		if (!n) return;
 		let r = c.getBlendmodeNum(n);
-		e instanceof Sprite && (e.blendMode = r);
-		for (let t of e.children) t instanceof Sprite && (t.blendMode = r);
+		e instanceof s && (e.blendMode = r);
+		for (let t of e.children) t instanceof s && (t.blendMode = r);
 	}
 	static getBlendmodeNum(e) {
-		if (!e) return BLEND_MODES.NORMAL;
+		if (!e) return a.NORMAL;
 		let t = c.#e[e];
 		if (t !== void 0) return t;
 		throw `${e} はサポートされない blendmode です`;
 	}
 	static #e = {
-		normal: BLEND_MODES.NORMAL,
-		add: BLEND_MODES.ADD,
-		multiply: BLEND_MODES.MULTIPLY,
-		screen: BLEND_MODES.SCREEN
+		normal: a.NORMAL,
+		add: a.ADD,
+		multiply: a.MULTIPLY,
+		screen: a.SCREEN
 	};
 	static getNum2Blendmode(e) {
 		return c.#t[e] ?? "normal";
@@ -196,7 +197,7 @@ var { BlurFilter, ColorMatrixFilter, NoiseFilter } = filters, Layer = class c {
 	renderStart(e) {}
 	renderEnd() {}
 	clearLay(e) {
-		this.ctn.alpha = 1, this.ctn.blendMode = BLEND_MODES.NORMAL, this.ctn.pivot.set(0, 0), this.ctn.angle = 0, this.ctn.scale.set(1, 1), argChk_Boolean(e, "clear_filter", !1) && (this.ctn.filters = null, this.aFltHArg = []);
+		this.ctn.alpha = 1, this.ctn.blendMode = a.NORMAL, this.ctn.pivot.set(0, 0), this.ctn.angle = 0, this.ctn.scale.set(1, 1), r(e, "clear_filter", !1) && (this.ctn.filters = null, this.aFltHArg = []);
 	}
 	copy(e, t) {
 		let n = this.name_;
@@ -241,20 +242,21 @@ var { BlurFilter, ColorMatrixFilter, NoiseFilter } = filters, Layer = class c {
 			return;
 		}
 		let l = e.getBounds(), u = a.scale.x < 0 ? -a.scale.x : a.scale.x, d = u === 1 ? l.width : l.width * u, f = a.scale.y < 0 ? -a.scale.y : a.scale.y, p = f === 1 ? l.height : l.height * f, m = a.x;
-		"left" in r ? (m = argChk_Num(r, "left", 0), m > -1 && m < 1 && (m *= CmnLib.stageW)) : "center" in r ? (m = argChk_Num(r, "center", 0), m > -1 && m < 1 && (m *= CmnLib.stageW), m -= (s ? d / 3 : d) / 2) : "right" in r ? (m = argChk_Num(r, "right", 0), m > -1 && m < 1 && (m *= CmnLib.stageW), m -= s ? d / 3 : d) : "s_right" in r && (m = argChk_Num(r, "s_right", 0), m > -1 && m < 1 && (m *= CmnLib.stageW), m = CmnLib.stageW - m - (s ? d / 3 : d)), a.x = int(a.scale.x < 0 ? m + (s ? d / 3 : d) : m);
+		"left" in r ? (m = t(r, "left", 0), m > -1 && m < 1 && (m *= i.stageW)) : "center" in r ? (m = t(r, "center", 0), m > -1 && m < 1 && (m *= i.stageW), m -= (s ? d / 3 : d) / 2) : "right" in r ? (m = t(r, "right", 0), m > -1 && m < 1 && (m *= i.stageW), m -= s ? d / 3 : d) : "s_right" in r && (m = t(r, "s_right", 0), m > -1 && m < 1 && (m *= i.stageW), m = i.stageW - m - (s ? d / 3 : d)), a.x = n(a.scale.x < 0 ? m + (s ? d / 3 : d) : m);
 		let h = a.y;
-		"top" in r ? (h = argChk_Num(r, "top", 0), h > -1 && h < 1 && (h *= CmnLib.stageH)) : "middle" in r ? (h = argChk_Num(r, "middle", 0), h > -1 && h < 1 && (h *= CmnLib.stageH), h -= p / 2) : "bottom" in r ? (h = argChk_Num(r, "bottom", 0), h > -1 && h < 1 && (h *= CmnLib.stageH), h -= p) : "s_bottom" in r && (h = argChk_Num(r, "s_bottom", 0), h > -1 && h < 1 && (h *= CmnLib.stageH), h = CmnLib.stageH - h - p), a.y = int(a.scale.y < 0 ? h + p : h), o && !("left" in r) && !("center" in r) && !("right" in r) && !("s_right" in r) && !("top" in r) && !("middle" in r) && !("bottom" in r) && !("s_bottom" in r) && c.setXYByPos(e, "c", a);
+		"top" in r ? (h = t(r, "top", 0), h > -1 && h < 1 && (h *= i.stageH)) : "middle" in r ? (h = t(r, "middle", 0), h > -1 && h < 1 && (h *= i.stageH), h -= p / 2) : "bottom" in r ? (h = t(r, "bottom", 0), h > -1 && h < 1 && (h *= i.stageH), h -= p) : "s_bottom" in r && (h = t(r, "s_bottom", 0), h > -1 && h < 1 && (h *= i.stageH), h = i.stageH - h - p), a.y = n(a.scale.y < 0 ? h + p : h), o && !("left" in r) && !("center" in r) && !("right" in r) && !("s_right" in r) && !("top" in r) && !("middle" in r) && !("bottom" in r) && !("s_bottom" in r) && c.setXYByPos(e, "c", a);
 	}
 	static setXYByPos(e, t, r) {
 		if (t === "stay") return;
 		let a = e.getBounds(), o = r.scale.x < 0 ? -r.scale.x : r.scale.x, s = o === 1 ? a.width : a.width * o, c = r.scale.y < 0 ? -r.scale.y : r.scale.y, l = c === 1 ? a.height : a.height * c, u = 0;
-		u = !t || t === "c" ? CmnLib.stageW * .5 : t === "r" ? CmnLib.stageW - s * .5 : t === "l" ? s * .5 : int(t), r.x = int(u - s * .5), r.y = CmnLib.stageH - l, r.scale.x < 0 && (r.x += s), r.scale.y < 0 && (r.y += l);
+		u = !t || t === "c" ? i.stageW * .5 : t === "r" ? i.stageW - s * .5 : t === "l" ? s * .5 : n(t), r.x = n(u - s * .5), r.y = i.stageH - l, r.scale.x < 0 && (r.x += s), r.scale.y < 0 && (r.y += l);
 	}
 	static setXYCenter(e) {
 		let t = e.getBounds();
-		e.x = (CmnLib.stageW - t.width) * .5, e.y = (CmnLib.stageH - t.height) * .5;
+		e.x = (i.stageW - t.width) * .5, e.y = (i.stageH - t.height) * .5;
 	}
 };
-export { Layer as t };
+//#endregion
+export { f as t };
 
 //# sourceMappingURL=Layer.js.map

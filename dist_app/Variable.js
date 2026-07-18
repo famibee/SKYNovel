@@ -1,11 +1,10 @@
-import { g as uint, l as argChk_Num, p as int, s as argChk_Boolean } from "./CmnLib.js";
-import { n as creSYS_DATA, r as creTMP_DATA, t as creSAVEDATA } from "./CmnInterface.js";
-import "./pixi.js";
-import "./EventListenerCtn.js";
-import { n as ReadingState } from "./Reading.js";
-import { PropParser } from "./PropParser.js";
-import { n as creCSArg } from "./CallStack.js";
-var Areas = class e {
+import { g as e, l as t, p as n, s as r } from "./CmnLib.js";
+import { n as i, r as a, t as o } from "./CmnInterface.js";
+import { n as s } from "./Reading.js";
+import { PropParser as c } from "./PropParser.js";
+import { n as l } from "./CallStack.js";
+//#region src/sn/Areas.ts
+var u = class e {
 	#e = {};
 	clear() {
 		this.#e = {};
@@ -57,9 +56,11 @@ var Areas = class e {
 		for (let t of Object.keys(this.#e).map((e) => parseInt(e)).sort((e, t) => e - t)) e += t === this.#e[t] ? "," + String(t) : "," + String(t) + "~" + String(this.#e[String(t)]);
 		return e;
 	}
-}, Variable = class d {
-	#e = creSAVEDATA();
-	#t = creTMP_DATA();
+}, d = class d {
+	sys;
+	cfg;
+	#e = o();
+	#t = a();
 	#n = {
 		sys: {},
 		save: this.#e,
@@ -72,7 +73,7 @@ var Areas = class e {
 			let t = [];
 			for (let [n, r] of Object.entries(this.#r.mark)) {
 				let i = { ...r.json };
-				i.place = uint(n), t.push(i);
+				i.place = e(n), t.push(i);
 			}
 			return JSON.stringify(t);
 		}), this.#t["const.sn.config.window.width"] = n.oCfg.window.width, this.#t["const.sn.config.window.height"] = n.oCfg.window.height, this.#t["const.sn.config.book.title"] = n.oCfg.book.title, this.#t["const.sn.config.book.version"] = n.oCfg.book.version;
@@ -87,32 +88,32 @@ var Areas = class e {
 	#o;
 	async init() {
 		return this.sys.initVal(this.#t, (e) => {
-			this.updateData(e), this.cfg.oCfg.debug.variable ? this.#s(this.sys) : this.flush = () => this.sys.flush(), this.flush(), this.#o = (e, t) => this.sys.callHook(e, t), this.sys.addHook((e, t) => this.#l[e]?.(e, t)), int(this.getVal("sys:sn.tagCh.msecWait", -1)) === -1 && this.#C(!0), this.#j = !!this.getVal("sys:sn.tagCh.doWait"), this.#M = !!this.getVal("sys:sn.tagCh.doWait_Kidoku"), this.#N = int(this.getVal("sys:sn.tagCh.msecWait")), this.#P = int(this.getVal("sys:sn.tagCh.msecWait_Kidoku")), this.#c();
+			this.updateData(e), this.cfg.oCfg.debug.variable ? this.#s(this.sys) : this.flush = () => this.sys.flush(), this.flush(), this.#o = (e, t) => this.sys.callHook(e, t), this.sys.addHook((e, t) => this.#l[e]?.(e, t)), n(this.getVal("sys:sn.tagCh.msecWait", -1)) === -1 && this.#C(!0), this.#j = !!this.getVal("sys:sn.tagCh.doWait"), this.#M = !!this.getVal("sys:sn.tagCh.doWait_Kidoku"), this.#N = n(this.getVal("sys:sn.tagCh.msecWait")), this.#P = n(this.getVal("sys:sn.tagCh.msecWait_Kidoku")), this.#c();
 		});
 	}
 	#s(e) {
 		sessionStorage.clear();
 		let t = this.cfg.headNs;
 		this.flush = () => {
-			let r = creSYS_DATA();
+			let r = i();
 			for (let [e, t] of Object.entries(this.#i)) t instanceof Function || (r[e] = t);
 			sessionStorage[t + "sys"] = JSON.stringify(r);
-			let s = creSAVEDATA();
+			let s = o();
 			for (let [e, t] of Object.entries(this.#e)) s[e] = t;
 			sessionStorage[t + "save"] = JSON.stringify(s);
-			let c = creTMP_DATA();
+			let c = a();
 			for (let [e, t] of Object.entries(this.#t)) c[e] = t instanceof Function ? t() : t;
 			sessionStorage[t + "tmp"] = JSON.stringify(c);
-			let u = creCSArg();
+			let u = l();
 			for (let [e, t] of Object.entries(this.#n.mp)) u[e] = t;
 			sessionStorage[t + "mp"] = JSON.stringify(u);
 			let d = {};
-			for (let [e, t] of Object.entries(this.#r.mark)) d[int(e)] = t instanceof Function ? t() : t;
+			for (let [e, t] of Object.entries(this.#r.mark)) d[n(e)] = t instanceof Function ? t() : t;
 			sessionStorage[t + "mark"] = JSON.stringify(d), sessionStorage[t + "kidoku"] = structuredClone(this.#r.kidoku), e.flush();
 		};
 	}
 	#c() {
-		ReadingState.playbackPage(String(this.getVal("sys:const.sn.aPageLog", "[]")), String(this.getVal("save:const.sn.styPaging", ReadingState.INI_STYPAGE)));
+		s.playbackPage(String(this.getVal("sys:const.sn.aPageLog", "[]")), String(this.getVal("save:const.sn.styPaging", s.INI_STYPAGE)));
 	}
 	#l = {
 		auth: (e, t) => this.#u(t.hBreakpoint.aData),
@@ -135,7 +136,7 @@ var Areas = class e {
 	}
 	updateData(e) {
 		this.#r = e, this.#i = this.#n.sys = e.sys, this.#a = {};
-		for (let [t, n] of Object.entries(e.kidoku)) this.#a[t] = Areas.from(n);
+		for (let [t, n] of Object.entries(e.kidoku)) this.#a[t] = u.from(n);
 	}
 	flush = () => {};
 	setDoRecProc(e) {
@@ -166,7 +167,7 @@ var Areas = class e {
 		this.#e = this.#n.save = { ...e.hSave }, this.#A = this.#e["sn.doRecLog"];
 	}
 	touchAreaKidoku(e) {
-		return this.#a[e] || (this.#r.kidoku[e] = {}, this.#a[e] = new Areas());
+		return this.#a[e] || (this.#r.kidoku[e] = {}, this.#a[e] = new u());
 	}
 	getAreaKidoku(e) {
 		let t = this.#a[e];
@@ -178,14 +179,14 @@ var Areas = class e {
 		this.flush();
 	}
 	#f(e) {
-		let n = argChk_Num(e, "from", NaN), r = argChk_Num(e, "to", NaN);
+		let n = t(e, "from", NaN), r = t(e, "to", NaN);
 		if (n === r) return !1;
 		let i = this.#r.mark[n];
 		if (!i) throw `from:${String(n)} のセーブデータは存在しません`;
 		return this.setMark(r, { ...i }), this.sys.copyBMFolder(n, r), !1;
 	}
 	#p(e) {
-		let n = argChk_Num(e, "place", NaN);
+		let n = t(e, "place", NaN);
 		return delete this.#r.mark[n], this.flush(), this.sys.eraseBMFolder(n), !1;
 	}
 	#m(i) {
@@ -193,16 +194,16 @@ var Areas = class e {
 		let a = !0;
 		if (i.cast) switch (i.cast) {
 			case "num":
-				argChk_Num(i, "text", NaN);
+				t(i, "text", NaN);
 				break;
 			case "int":
-				i.text = String(int(argChk_Num(i, "text", NaN)));
+				i.text = String(n(t(i, "text", NaN)));
 				break;
 			case "uint":
-				i.text = String(uint(argChk_Num(i, "text", NaN)));
+				i.text = String(e(t(i, "text", NaN)));
 				break;
 			case "bool":
-				argChk_Boolean(i, "text", !1);
+				r(i, "text", !1);
 				break;
 			case "str":
 				a = !1;
@@ -212,16 +213,16 @@ var Areas = class e {
 		return this.#T(i.name, i.text, a), !1;
 	}
 	#h(e) {
-		let n = argChk_Num(e, "text", 0);
+		let n = t(e, "text", 0);
 		return e.text = String(n < 0 ? -n : n), this.#m(e), !1;
 	}
 	#g(e) {
-		return e.text = (e.text ?? "").charAt(argChk_Num(e, "pos", 0)), this.#m(e), !1;
+		return e.text = (e.text ?? "").charAt(t(e, "pos", 0)), this.#m(e), !1;
 	}
 	#_(e) {
 		let { val: n } = e;
 		if (!n) throw "valは必須です";
-		let r = argChk_Num(e, "start", 0);
+		let r = t(e, "start", 0);
 		return e.text = String((e.text ?? "").indexOf(n, r)), this.#m(e), !1;
 	}
 	#v(e) {
@@ -233,7 +234,7 @@ var Areas = class e {
 		return e.text = (e.text ?? "").replace(n, String(e.val)), this.#m(e), !1;
 	}
 	#b(e) {
-		let n = argChk_Num(e, "text", 0);
+		let n = t(e, "text", 0);
 		return e.text = String(Math.round(n)), this.#m(e), !1;
 	}
 	#x(e) {
@@ -242,23 +243,23 @@ var Areas = class e {
 		return e.text = String((e.text ?? "").search(n)), this.#m(e), !1;
 	}
 	#S(e) {
-		let r = argChk_Num(e, "pos", 0);
-		return e.text = e.len === "all" ? (e.text ?? "").slice(r) : (e.text ?? "").slice(r, r + int(argChk_Num(e, "len", 1))), this.#m(e), !1;
+		let r = t(e, "pos", 0);
+		return e.text = e.len === "all" ? (e.text ?? "").slice(r) : (e.text ?? "").slice(r, r + n(t(e, "len", 1))), this.#m(e), !1;
 	}
 	#C(e = !1) {
-		let n = this.#i = this.#n.sys = this.#r.sys = creSYS_DATA();
-		typeof process < "u" || (this.setVal_Nochk("sys", "const.sn.window.x", 0), this.setVal_Nochk("sys", "const.sn.window.y", 0)), this.setVal_Nochk("sys", "sn.tagCh.msecWait", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.tagCh.msecWait_Kidoku", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.auto.msecPageWait", argChk_Num(n, "sn.auto.msecPageWait", this.cfg.oCfg.init.auto_msecpagewait)), this.setVal_Nochk("sys", "sn.auto.msecPageWait_Kidoku", argChk_Num(n, "sn.auto.msecPageWait", this.cfg.oCfg.init.auto_msecpagewait));
+		let n = this.#i = this.#n.sys = this.#r.sys = i();
+		typeof process < "u" || (this.setVal_Nochk("sys", "const.sn.window.x", 0), this.setVal_Nochk("sys", "const.sn.window.y", 0)), this.setVal_Nochk("sys", "sn.tagCh.msecWait", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.tagCh.msecWait_Kidoku", this.cfg.oCfg.init.tagch_msecwait), this.setVal_Nochk("sys", "sn.auto.msecPageWait", t(n, "sn.auto.msecPageWait", this.cfg.oCfg.init.auto_msecpagewait)), this.setVal_Nochk("sys", "sn.auto.msecPageWait_Kidoku", t(n, "sn.auto.msecPageWait", this.cfg.oCfg.init.auto_msecpagewait));
 		for (let e of Object.values(this.#a)) e.clear();
 		return this.#n.mark = this.#r.mark = {}, e || this.#c(), this.flush(), !1;
 	}
 	#w() {
 		let e = this.#e["const.sn.mesLayer"], t = this.#e["sn.doRecLog"], n = this.#e["const.sn.sLog"], r = this.#e["const.sn.styPaging"];
-		return this.#e = this.#n.save = creSAVEDATA(), this.setVal_Nochk("save", "const.sn.mesLayer", e), this.setVal_Nochk("save", "sn.doRecLog", t), this.setVal_Nochk("save", "const.sn.sLog", n), this.setVal_Nochk("save", "const.sn.styPaging", r), !1;
+		return this.#e = this.#n.save = o(), this.setVal_Nochk("save", "const.sn.mesLayer", e), this.setVal_Nochk("save", "sn.doRecLog", t), this.setVal_Nochk("save", "const.sn.sLog", n), this.setVal_Nochk("save", "const.sn.styPaging", r), !1;
 	}
 	#T(e, t, n = !0) {
 		if (!e) throw "[変数に値セット] nameは必須です";
 		if (t === void 0) throw "[変数に値セット] textは必須です（空文字はOK）";
-		let r = PropParser.getValName(e);
+		let r = c.getValName(e);
 		if (!r) throw `[変数参照] name(${e})が変数名として異常です`;
 		let { scope: i = "tmp", name: a } = r, o = this.#n[i];
 		if (a.startsWith("const.") && a in o) throw `[変数に値セット] 変数【${a}】は書き換え不可です`;
@@ -279,7 +280,7 @@ var Areas = class e {
 	static #E = {};
 	getVal(e, t, n = !1) {
 		if (!e) throw "[変数参照] nameは必須です";
-		let r = PropParser.getValName(e);
+		let r = c.getValName(e);
 		if (!r) throw "[変数参照] name(" + e + ")が変数名として異常です";
 		let { scope: i = "tmp", name: a, at: o } = r, s = this.#n[i], l = s[a];
 		if (!(a in s)) {
@@ -385,15 +386,16 @@ var Areas = class e {
 	defValTrg(e, t) {
 		this.#F[e] = t;
 	}
-	#I = (e) => argChk_Boolean(this.#i, e, !0);
-	#L = (e) => argChk_Num(this.#i, e, 10);
-	#R = (e) => argChk_Num(this.#i, e, this.cfg.oCfg.init.tagch_msecwait ?? 10);
-	#z = (e) => argChk_Num(this.#i, e, this.cfg.oCfg.init.auto_msecpagewait ?? 3500);
-	#B = (e) => argChk_Num(this.#i, e, 500);
+	#I = (e) => r(this.#i, e, !0);
+	#L = (e) => t(this.#i, e, 10);
+	#R = (e) => t(this.#i, e, this.cfg.oCfg.init.tagch_msecwait ?? 10);
+	#z = (e) => t(this.#i, e, this.cfg.oCfg.init.auto_msecpagewait ?? 3500);
+	#B = (e) => t(this.#i, e, 500);
 	#V(e) {
-		return argChk_Boolean(this.#e, e, !0);
+		return r(this.#e, e, !0);
 	}
 };
-export { Variable };
+//#endregion
+export { d as Variable };
 
 //# sourceMappingURL=Variable.js.map

@@ -1,5 +1,7 @@
-import { t as CmnLib, u as getDateStr } from "./CmnLib.js";
-var DebugMng = class n {
+import { t as e, u as t } from "./CmnLib.js";
+//#region src/sn/DebugMng.ts
+var n = class n {
+	sys;
 	static #e;
 	static #t;
 	static #n;
@@ -16,7 +18,7 @@ var DebugMng = class n {
 	#i = !0;
 	#a(r) {
 		let i = "";
-		return this.#i && (this.#i = !1, i = `== ${CmnLib.plat_desc} ==\n`), this.sys.appendFile(this.sys.path_downloads + "log.txt", `${i}--- ${getDateStr("-", "_", "")} [fn:${n.#e.scriptFn} line:${String(n.#e.lineNum)}] prj:${this.sys.arg.cur}\n${r.text || `(text is ${String(r.text)})`}\n`), !1;
+		return this.#i && (this.#i = !1, i = `== ${e.plat_desc} ==\n`), this.sys.appendFile(this.sys.path_downloads + "log.txt", `${i}--- ${t("-", "_", "")} [fn:${n.#e.scriptFn} line:${String(n.#e.lineNum)}] prj:${this.sys.arg.cur}\n${r.text || `(text is ${String(r.text)})`}\n`), !1;
 	}
 	#o(e) {
 		return n.myTrace(e.text || `(text is ${String(e.text)})`, "I"), !1;
@@ -25,7 +27,7 @@ var DebugMng = class n {
 		let r = `{${n}} ` + t, i = "";
 		switch (n) {
 			case "D":
-				i = `color:#${CmnLib.isDarkMode ? "49F" : "05A"};`;
+				i = `color:#${e.isDarkMode ? "49F" : "05A"};`;
 				break;
 			case "W":
 				i = "color:#FF8800;";
@@ -49,7 +51,7 @@ var DebugMng = class n {
 		let a = "";
 		switch (r) {
 			case "D":
-				a = `color:#${CmnLib.isDarkMode ? "49F" : "05A"};`;
+				a = `color:#${e.isDarkMode ? "49F" : "05A"};`;
 				break;
 			case "W":
 				a = "color:#F80;";
@@ -87,6 +89,7 @@ var DebugMng = class n {
 		n.#r.innerHTML += `<span style='${r}'>${e}</span><br/>`, n.#r.hidden = !1;
 	};
 };
-export { DebugMng as t };
+//#endregion
+export { n as t };
 
 //# sourceMappingURL=DebugMng.js.map

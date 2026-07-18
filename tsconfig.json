@@ -57,7 +57,10 @@
 
 		/* Other */
 		// experimentalDecorators
-		"incremental": true
+		"incremental": true,
+
+		/* types */
+		"types": ["jest", "node"]
 	},
 	"include": ["src", "test"]
 }

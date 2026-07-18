@@ -1,47 +1,48 @@
-import { g as uint, l as argChk_Num, m as mesErrJSON, s as argChk_Boolean } from "./CmnLib.js";
-import { a as TextStyle, f as Texture, h as Rectangle, i as Text, m as Container, s as Graphics } from "./pixi.js";
-import "./EventListenerCtn.js";
-import "./ConfigBase.js";
-import "./DebugMng.js";
-import { t as Layer } from "./Layer.js";
-import "./Reading.js";
-import { t as SpritesMng } from "./SpritesMng.js";
-var Button = class f extends Container {
+import { g as e, l as t, m as n, s as r } from "./CmnLib.js";
+import { a as i, f as a, h as o, i as s, m as c, s as l } from "./pixi.js";
+import { t as u } from "./Layer.js";
+import { t as d } from "./SpritesMng.js";
+//#region src/sn/Button.ts
+var f = class f extends c {
+	hArg;
+	evtMng;
+	resolve;
+	canFocus;
 	static fontFamily = "'Hiragino Sans', 'Hiragino Kaku Gothic ProN', '游ゴシック Medium', meiryo, sans-serif";
 	static #e = (e, t) => {};
 	static #t = (e, t, n, r) => {};
 	static init(e) {
-		e.oCfg.debug.masume && (f.#e = (e, t) => e.addChild(new Graphics().beginFill(8926088, .2).lineStyle(1, 8926088, 1).drawRect(t.x, t.y, t.width, t.height).endFill()), f.#t = (e, t, n, r) => e.addChild(new Graphics().beginFill(8926088, .2).lineStyle(1, 8926088, 1).drawRect(t.x, t.y, n, r).endFill()));
+		e.oCfg.debug.masume && (f.#e = (e, t) => e.addChild(new l().beginFill(8926088, .2).lineStyle(1, 8926088, 1).drawRect(t.x, t.y, t.width, t.height).endFill()), f.#t = (e, t, n, r) => e.addChild(new l().beginFill(8926088, .2).lineStyle(1, 8926088, 1).drawRect(t.x, t.y, n, r).endFill()));
 	}
 	setText(e) {}
 	getBtnBounds = () => this.#n;
-	#n = new Rectangle();
-	#r = new SpritesMng();
+	#n = new o();
+	#r = new d();
 	#i;
 	constructor(a, o, c, l) {
 		if (super(), this.hArg = a, this.evtMng = o, this.resolve = c, this.canFocus = l, this.#i = {
 			type: "pic",
-			enabled: argChk_Boolean(a, "enabled", !0),
-			x: this.x = uint(a.left ?? 0),
-			y: this.y = uint(a.top ?? 0),
-			rotation: this.angle = argChk_Num(a, "rotation", this.angle),
-			pivot_x: this.pivot.x = argChk_Num(a, "pivot_x", this.pivot.x),
-			pivot_y: this.pivot.y = argChk_Num(a, "pivot_y", this.pivot.y),
-			scale_x: this.scale.x = argChk_Num(a, "scale_x", this.scale.x),
-			scale_y: this.scale.y = argChk_Num(a, "scale_y", this.scale.y),
+			enabled: r(a, "enabled", !0),
+			x: this.x = e(a.left ?? 0),
+			y: this.y = e(a.top ?? 0),
+			rotation: this.angle = t(a, "rotation", this.angle),
+			pivot_x: this.pivot.x = t(a, "pivot_x", this.pivot.x),
+			pivot_y: this.pivot.y = t(a, "pivot_y", this.pivot.y),
+			scale_x: this.scale.x = t(a, "scale_x", this.scale.x),
+			scale_y: this.scale.y = t(a, "scale_y", this.scale.y),
 			alpha: 1,
 			text: "",
 			b_pic: "",
 			width: 0,
 			height: 0
 		}, this.getBtnBounds = () => (this.#n.x = this.#i.x, this.#n.y = this.#i.y, this.#n), this.#i.enabled && o.button(a, this, () => this.normal(), () => this.#o(), () => this.#s()), a.pic) {
-			this.#i.type = "pic", this.#r = new SpritesMng(a.pic, this, (e) => {
+			this.#i.type = "pic", this.#r = new d(a.pic, this, (e) => {
 				this.#c(e), this.#n.width = e.width * this.#i.scale_x, this.#n.height = e.height * this.#i.scale_y;
 			}, (e) => c());
 			return;
 		}
 		if (!a.text) throw "textまたはpic属性は必須です";
-		let p = argChk_Num(a, "height", 30), m = new TextStyle({
+		let p = t(a, "height", 30), m = new i({
 			align: "center",
 			dropShadow: !0,
 			dropShadowAlpha: .7,
@@ -61,10 +62,10 @@ var Button = class f extends Container {
 				...e
 			};
 		} catch (e) {
-			throw e instanceof SyntaxError ? Error(mesErrJSON(a, "style", e.message)) : "fn:Button.ts style";
+			throw e instanceof SyntaxError ? Error(n(a, "style", e.message)) : "fn:Button.ts style";
 		}
-		let h = new Text(a.text ?? "", m);
-		h.alpha = argChk_Num(a, "alpha", h.alpha), h.width = argChk_Num(a, "width", 100), h.height = a.height = p, this.setText = (e) => {
+		let h = new s(a.text ?? "", m);
+		h.alpha = t(a, "alpha", h.alpha), h.width = t(a, "width", 100), h.height = a.height = p, this.setText = (e) => {
 			h.text = e;
 		}, this.#i = {
 			...this.#i,
@@ -75,11 +76,11 @@ var Button = class f extends Container {
 			height: h.height
 		};
 		let g = !1;
-		if (this.#i.width = this.width, this.#i.height = this.height, a.b_pic && (this.#i.b_pic = a.b_pic, this.#r = new SpritesMng(a.b_pic, this, (e) => {
+		if (this.#i.width = this.width, this.#i.height = this.height, a.b_pic && (this.#i.b_pic = a.b_pic, this.#r = new d(a.b_pic, this, (e) => {
 			this.#a(e, h), this.#i.width = this.width, this.#i.height = this.height;
 		}, (e) => {
-			Layer.setBlendmode(this, a), e && c();
-		}), g = this.#r.ret), this.addChild(h), this.#n.width = h.width, this.#n.height = h.height, a.b_pic || Layer.setBlendmode(this, a), f.#e(this, h), !this.#i.enabled) {
+			u.setBlendmode(this, a), e && c();
+		}), g = this.#r.ret), this.addChild(h), this.#n.width = h.width, this.#n.height = h.height, a.b_pic || u.setBlendmode(this, a), f.#e(this, h), !this.#i.enabled) {
 			g || c();
 			return;
 		}
@@ -88,7 +89,7 @@ var Button = class f extends Container {
 			let e = JSON.parse(a.style_hover);
 			for (let [t, n] of Object.entries(e)) _[t] = n;
 		} catch (e) {
-			throw e instanceof SyntaxError ? Error(mesErrJSON(a, "style_hover", e.message)) : "fn:Button.ts style_hover";
+			throw e instanceof SyntaxError ? Error(n(a, "style_hover", e.message)) : "fn:Button.ts style_hover";
 		}
 		else _.fill = "white";
 		let v = _.clone();
@@ -96,7 +97,7 @@ var Button = class f extends Container {
 			let e = JSON.parse(a.style_clicked);
 			for (let [t, n] of Object.entries(e)) v[t] = n;
 		} catch (e) {
-			throw e instanceof SyntaxError ? Error(mesErrJSON(a, "style_clicked", e.message)) : "fn:Button.ts style_clicked";
+			throw e instanceof SyntaxError ? Error(n(a, "style_clicked", e.message)) : "fn:Button.ts style_clicked";
 		}
 		else v.dropShadow = !1;
 		this.normal = () => {
@@ -118,15 +119,16 @@ var Button = class f extends Container {
 	#o = () => !1;
 	#s = () => {};
 	#c(n) {
-		this.#i.alpha = n.alpha = argChk_Num(this.hArg, "alpha", n.alpha);
-		let r = n.width / 3, i = this.#i.enabled ? r : n.width, s = n.height, c = n.texture.baseTexture, l = new Texture(c, new Rectangle(0, 0, r, s)), u = new Texture(c, new Rectangle(r, 0, r, s)), d = new Texture(c, new Rectangle(r * 2, 0, r, s)), p = () => {
+		this.#i.alpha = n.alpha = t(this.hArg, "alpha", n.alpha);
+		let r = n.width / 3, i = this.#i.enabled ? r : n.width, s = n.height, c = n.texture.baseTexture, l = new a(c, new o(0, 0, r, s)), u = new a(c, new o(r, 0, r, s)), d = new a(c, new o(r * 2, 0, r, s)), p = () => {
 			n.texture = l;
 		};
 		this.#i.enabled && p(), this.normal = p, this.#o = () => this.canFocus() ? (n.texture = d, !0) : !1, this.#s = () => {
 			n.texture = u;
-		}, "width" in this.hArg ? (this.#i.width = uint(this.hArg.width), this.scale.x *= this.#i.width / i) : this.#i.width = i, "height" in this.hArg ? (this.#i.height = uint(this.hArg.height), this.scale.y *= this.#i.height / s) : this.#i.height = s, f.#t(this, n, i, s);
+		}, "width" in this.hArg ? (this.#i.width = e(this.hArg.width), this.scale.x *= this.#i.width / i) : this.#i.width = i, "height" in this.hArg ? (this.#i.height = e(this.hArg.height), this.scale.y *= this.#i.height / s) : this.#i.height = s, f.#t(this, n, i, s);
 	}
 };
-export { Button };
+//#endregion
+export { f as Button };
 
 //# sourceMappingURL=Button.js.map
