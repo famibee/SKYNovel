@@ -11,6 +11,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 	- test2
 
 
+## [2.0.5](https://github.com/famibee/SKYNovel/compare/v2.0.4...v2.0.5) (2026-07-19)
+
+
+### Bug Fixes
+
+* **net:** DEP0169警告解消のためsocket.io-clientを標準WebSocketに置き換え ([c8689f9](https://github.com/famibee/SKYNovel/commit/c8689f9a946adb522da02182da33ee4fdb8571e8))
+
 ## [2.0.4](https://github.com/famibee/SKYNovel/compare/v2.0.3...v2.0.4) (2026-07-18)
 
 
