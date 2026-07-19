@@ -15,7 +15,8 @@ import {SEARCH_PATH_ARG_EXT} from './ConfigBase';
 import type {Main} from './Main';
 
 import type {Application, Loader} from 'pixi.js';
-import {io, type Socket} from 'socket.io-client';
+// socket.io-client から ブラウザの標準 WebSocket に置き換え
+// (Debugger.ts 側も ws に合わせて変更済み)
 
 
 export class SysBase implements T_SysRoots, T_SysBase {
@@ -334,15 +335,13 @@ export class SysBase implements T_SysRoots, T_SysBase {
 
 		this.addHook((type, o)=> this.#hHook[type]?.(o));
 
-		this.#sk = io(`http://localhost:${String(this.extPort)}`);
-		this.#sk
-		.on('data', (type: string, o: unknown)=> {
+		this.#sk = new WebSocket(`ws://localhost:${String(this.extPort)}`);
+		this.#sk.onmessage = ev=> {
+			const [type, o] = <[string, unknown]>JSON.parse(String(ev.data));
 //console.log(`fn:SysBase.ts RSV dbg -> sn type:${type} o:${JSON.stringify(o).slice(0, 150)}`);
 			this.callHook(type, o);
-		})
-		.on('disconnect', ()=> main.setLoop(true));
-			// reasonという引数で理由が分かる
-			// https://socket.io/docs/v3/client-socket-instance/
+		};
+		this.#sk.onclose = ()=> main.setLoop(true);
 
 		this.callHook = (type, o)=> {
 			for (const fnc of this.#aFncHook) fnc(type, o);
@@ -351,10 +350,10 @@ export class SysBase implements T_SysRoots, T_SysBase {
 	protected	extPort = 3776;
 
 	end() {
-		this.#sk?.disconnect();
+		this.#sk?.close();
 		this.#sk = undefined;
 	}
-	#sk: Socket | undefined = undefined;
+	#sk: WebSocket | undefined = undefined;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	readonly	#hHook: {[type: string]: (o: any)=> void}	= {
 		auth		: o=> {
@@ -436,7 +435,7 @@ top: ${String(
 
 	send2Dbg: T_FncHook = (type, o)=> {
 //console.log(`fn:SysBase.ts 新SND isBuf:${!(this.sk)} type:${type} o:${JSON.stringify(o)}`);
-		this.#sk?.emit('data', type, o);
+		if (this.#sk?.readyState === WebSocket.OPEN) this.#sk.send(JSON.stringify([type, o]));
 	}
 
 
